@@ -1,0 +1,14 @@
+name: SMPEvents
+version: '1.0-SNAPSHOT'
+main: me.devvy.smpevents.SMPEvents
+api-version: '1.20'
+softdepend:
+  - DeathDrops
+  - SMPDuels
+  - Dodgebolt
+  - SMPParkour
+  - Stimmys
+
+commands:
+  event:
+    description: Teleport to the event hub!

@@ -1,0 +1,8 @@
+name: SMPBuildWorld
+version: '${project.version}'
+main: me.devvy.smpbuildworld.SMPBuildWorld
+api-version: '1.20'
+
+commands:
+  buildworld:
+    description: Set of commands used to interact with build world!

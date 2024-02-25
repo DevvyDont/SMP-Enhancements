@@ -1,0 +1,4 @@
+name: SMPEnhancements
+version: '1.0-SNAPSHOT'
+main: me.devvy.smpenhancements.SMPEnhancements
+api-version: '1.20'

@@ -1,0 +1,14 @@
+name: CustomItems
+version: '1.0-SNAPSHOT'
+main: me.devvy.customitems.CustomItems
+api-version: '1.20'
+commands:
+  treasure:
+    description: View custom items
+    usage: /treasure
+
+  givetreasure:
+    description: Give yourself a custom item
+    usage: /givetreasure <item> <amount>
+    permission: op
+

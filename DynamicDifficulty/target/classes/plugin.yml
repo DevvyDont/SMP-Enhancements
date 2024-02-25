@@ -1,0 +1,8 @@
+name: DynamicDifficulty
+version: '1.0-SNAPSHOT'
+main: me.devvy.dynamicdifficulty.DynamicDifficulty
+api-version: '1.20'
+commands:
+  difficulty:
+    description: Sets difficulty preference for the player
+    usage: /<command> <difficulty>

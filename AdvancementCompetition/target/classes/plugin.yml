@@ -1,0 +1,8 @@
+name: AdvancementCompetition
+version: '1.0-SNAPSHOT'
+main: me.devvy.advancementcompetition.AdvancementCompetition
+api-version: '1.20'
+
+commands:
+  togglescoreboard:
+    description: Toggles display mode of advancement scoreboard

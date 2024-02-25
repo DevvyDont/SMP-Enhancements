@@ -1,0 +1,16 @@
+name: SMPDuels
+version: '1.0-SNAPSHOT'
+main: me.devvy.smpduels.SMPDuels
+api-version: '1.20'
+
+commands:
+  duel:
+    description: Start a duel with another player!
+
+  forceduel:
+    description: OP command to force a duel between two players
+    permission: op
+
+  duellocation:
+    description: OP command to set arena location
+    permission: op

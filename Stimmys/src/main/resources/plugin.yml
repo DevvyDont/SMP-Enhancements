@@ -1,0 +1,8 @@
+name: Stimmys
+version: '${project.version}'
+main: me.devvy.stimmys.Stimmys
+api-version: '1.20'
+commands:
+  stimmy:
+    description: Use/redeem stimmies from participating in events
+    usage: /stimmy < redeem | shop >

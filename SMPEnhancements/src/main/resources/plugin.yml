@@ -1,0 +1,4 @@
+name: SMPEnhancements
+version: '${project.version}'
+main: me.devvy.smpenhancements.SMPEnhancements
+api-version: '1.20'

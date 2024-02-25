@@ -1,0 +1,7 @@
+name: SMPParkour
+version: '${project.version}'
+main: me.devvy.smpparkour.SMPParkour
+api-version: '1.20'
+commands:
+  parkour:
+    description: Used to access parkour world

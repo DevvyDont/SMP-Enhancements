@@ -1,0 +1,4 @@
+name: DeathDrops
+version: '${project.version}'
+main: me.devvy.deathdrops.DeathDrops
+api-version: '1.20'

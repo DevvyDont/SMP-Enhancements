@@ -1,0 +1,7 @@
+name: WhatAmIHolding
+version: '1.0-SNAPSHOT'
+main: me.devvy.whatamiholding.WhatAmIHolding
+api-version: '1.20'
+commands:
+  whatamiholding:
+    description: Announce what you are holding
