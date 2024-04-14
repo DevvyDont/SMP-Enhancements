@@ -19,7 +19,7 @@ public final class SMPParkour extends JavaPlugin {
         return INSTANCE;
     }
 
-    private final String PARKOUR_WORLD_FOLDER_NAME = "world_parkour";
+    public static final String PARKOUR_WORLD_FOLDER_NAME = "pk_infinity";
     private World parkourWorld;
 
     public World getParkourWorld() {
