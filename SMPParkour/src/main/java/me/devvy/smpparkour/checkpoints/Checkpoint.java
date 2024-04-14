@@ -3,7 +3,9 @@ package me.devvy.smpparkour.checkpoints;
 import me.devvy.smpparkour.SMPParkour;
 import me.devvy.smpparkour.events.PlayerEnteredCheckpointEvent;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Location;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.HandlerList;
@@ -18,6 +20,8 @@ public class Checkpoint implements Listener {
     private final int index;
 
     private final String name;
+
+    private ArmorStand spawnMarkerEntity = null;
 
     public Checkpoint(Location spawn, CheckpointRegion region, int index, String name) {
         this.spawn = spawn;
@@ -48,6 +52,38 @@ public class Checkpoint implements Listener {
 
     public String getName() {
         return name;
+    }
+
+    /**
+     * Call to show an armor stand that represents the respawn location of this checkpoint
+     */
+    public void visualizeSpawnLocation() {
+        if (spawnMarkerEntity != null)
+            return;
+
+        spawnMarkerEntity = getSpawn().getWorld().spawn(getSpawn(), ArmorStand.class);
+        spawnMarkerEntity.setCustomNameVisible(true);
+
+        Component name = Component.text(getName(), SMPParkour.getInstance().getMapManager().getMap().getPercentageColor(getIndex()));
+        name = name.append(Component.text(String.format(" [%s]", getIndex()+1), NamedTextColor.GRAY));
+        spawnMarkerEntity.customName(name);
+
+        spawnMarkerEntity.setInvulnerable(true);
+        spawnMarkerEntity.setMarker(true);
+        spawnMarkerEntity.setInvisible(true);
+
+        spawnMarkerEntity.teleport(getSpawn().add(0, 2, 0));
+    }
+
+    /**
+     * Call to stop showing an armor stand that represents the respawn location of this checkpoint
+     */
+    public void stopVisualizingSpawnLocation() {
+        if (spawnMarkerEntity == null)
+            return;
+
+        spawnMarkerEntity.remove();
+        spawnMarkerEntity = null;
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)

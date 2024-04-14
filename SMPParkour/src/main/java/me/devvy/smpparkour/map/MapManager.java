@@ -105,8 +105,17 @@ public class MapManager implements Listener {
         if (isVisualizingCheckpoints()) {
             checkpointVisualizationTask.cancel();
             checkpointVisualizationTask = null;
+
+            // Loop through the checkpoints and stop visualizing them
+            for (Checkpoint cp : map.getCheckpoints())
+                cp.stopVisualizingSpawnLocation();
+
             return;
         }
+
+        // Loop through the checkpoints and start visualizing them
+        for (Checkpoint cp : map.getCheckpoints())
+            cp.visualizeSpawnLocation();
 
         checkpointVisualizationTask = new BukkitRunnable() {
             @Override
@@ -117,8 +126,8 @@ public class MapManager implements Listener {
                     cp.getRegion().visualize();
             }
         };
-        // Run every second
-        checkpointVisualizationTask.runTaskTimer(SMPParkour.getInstance(), 0, 20);
+        // Run a few times a second
+        checkpointVisualizationTask.runTaskTimer(SMPParkour.getInstance(), 0, 2);
     }
 
     public boolean isVisualizingCheckpoints() {
@@ -126,6 +135,10 @@ public class MapManager implements Listener {
     }
 
     public void cleanup() {
+
+        if (isVisualizingCheckpoints())
+            toggleCheckpointVisualization();
+
         updateTask.cancel();
         this.leaderboard.delete();
     }
