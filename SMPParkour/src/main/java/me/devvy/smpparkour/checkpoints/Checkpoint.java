@@ -17,9 +17,9 @@ public class Checkpoint implements Listener {
     private final CheckpointRegion region;
     private final int index;
 
-    private final Component name;
+    private final String name;
 
-    public Checkpoint(Location spawn, CheckpointRegion region, int index, Component name) {
+    public Checkpoint(Location spawn, CheckpointRegion region, int index, String name) {
         this.spawn = spawn;
         this.region = region;
         this.index = index;
@@ -46,7 +46,7 @@ public class Checkpoint implements Listener {
         return index;
     }
 
-    public Component getName() {
+    public String getName() {
         return name;
     }
 

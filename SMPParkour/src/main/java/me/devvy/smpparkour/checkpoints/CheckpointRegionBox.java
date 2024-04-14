@@ -18,6 +18,14 @@ public class CheckpointRegionBox extends CheckpointRegion {
             throw new IllegalArgumentException("Worlds must be equal for both corners!");
     }
 
+    public Location getCorner1() {
+        return corner1;
+    }
+
+    public Location getCorner2() {
+        return corner2;
+    }
+
     @Override
     public World getResidingWorld() {
         return corner1.getWorld();

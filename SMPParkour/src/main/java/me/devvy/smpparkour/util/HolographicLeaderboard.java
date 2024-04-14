@@ -1,6 +1,7 @@
 package me.devvy.smpparkour.util;
 
 import me.devvy.smpparkour.config.ConfigManager;
+import me.devvy.smpparkour.map.ParkourMapBase;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -22,27 +23,27 @@ public class HolographicLeaderboard {
     private final float Y_PADDING = .3F;
 
     private List<ArmorStand> entities = new ArrayList<>();
-    private final Location location;
+    private final ParkourMapBase map;
 
-    public HolographicLeaderboard(Location location) {
-        this.location = location;
+    public HolographicLeaderboard(ParkourMapBase map) {
+        this.map = map;
     }
 
     private ArmorStand spawnArmorStand(Component name, int index) {
         float yOffset = index * Y_PADDING;
 
-        ArmorStand as = location.getWorld().spawn(location.clone().add(0, 200, 0), ArmorStand.class);
+        ArmorStand as = map.getLeaderboardLocation().getWorld().spawn(map.getLeaderboardLocation().clone().add(0, 200, 0), ArmorStand.class);
         as.setVisible(false);
         as.setMarker(true);
         as.customName(name);
         as.setCustomNameVisible(true);
-        as.teleport(location.clone().subtract(0, yOffset, 0));
+        as.teleport(map.getLeaderboardLocation().clone().subtract(0, yOffset, 0));
         return as;
     }
 
     public void update() {
 
-        List<ConfigManager.TimeEntry> entries = new ArrayList<>(ConfigManager.getAllTimesOnRecord().values());
+        List<ConfigManager.TimeEntry> entries = new ArrayList<>(ConfigManager.getAllTimesForMap(map.getMapPath()));
         entries.sort(Comparator.comparing(ConfigManager.TimeEntry::getTimeMs));
 
         List<ArmorStand> newArmorStands = new ArrayList<>();

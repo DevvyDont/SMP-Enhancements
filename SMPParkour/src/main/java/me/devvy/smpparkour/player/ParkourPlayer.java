@@ -143,9 +143,10 @@ public class ParkourPlayer {
         setCurrentCheckpoint(start);
         player.teleport(getCurrentCheckpoint().getSpawn());
 
+        Component sub = Component.text(start.getName(), SMPParkour.getInstance().getMapManager().getMap().getPercentageColor(0));
         player.showTitle(Title.title(
                 Component.empty(),
-                start.getName().append(Component.text(String.format(" [%s]", start.getIndex()+1), NamedTextColor.GRAY))
+                sub.append(Component.text(String.format(" [%s]", start.getIndex()+1), NamedTextColor.GRAY))
         ));
 
         player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1.5f);
@@ -187,10 +188,15 @@ public class ParkourPlayer {
                         .append(Component.text("!", NamedTextColor.GRAY).decoration(TextDecoration.BOLD, false))
         );
 
-        // Test for a PB. but first, first time?
-        if (!ConfigManager.playerHasTime(player.getUniqueId())) {
+        // Retrieve the map's key to test for and a few variables that will help us with condition checking.
+        String mapKey = SMPParkour.getInstance().getMapManager().getMap().getMapPath();
+        ConfigManager.TimeEntry previousRecord = ConfigManager.queryPlayerTime(player.getUniqueId(), mapKey);
+        boolean hasPreviousRecord = previousRecord != null;
 
-            ConfigManager.savePlayerTime(player, timer.elapsedTimeMs());
+        // Test for a PB. but first, first time?
+        if (!hasPreviousRecord) {
+
+            ConfigManager.savePlayerTime(player, SMPParkour.getInstance().getMapManager().getMap().getMapPath(), timer.elapsedTimeMs());
             Fireworks.spawnFireworksInstantly(player.getEyeLocation().subtract(0, .5, 0), Color.AQUA);
             Bukkit.broadcast(
                     Announcer.PREFIX
@@ -203,7 +209,7 @@ public class ParkourPlayer {
         }
 
         // Now actually test, was this a PB?
-        long recordTimeMS = ConfigManager.getPlayerTime(player.getUniqueId());
+        long recordTimeMS = previousRecord.getTimeMs();
         float diff = (recordTimeMS - timer.elapsedTimeMs()) / 1000f;
         diff = Math.abs(diff);
         if (recordTimeMS <= timer.elapsedTimeMs()) {
@@ -217,7 +223,7 @@ public class ParkourPlayer {
         }
 
         // We have a PB
-        ConfigManager.savePlayerTime(player, timer.elapsedTimeMs());
+        ConfigManager.savePlayerTime(player, SMPParkour.getInstance().getMapManager().getMap().getMapPath(), timer.elapsedTimeMs());
         Fireworks.spawnFireworksInstantly(player.getEyeLocation().subtract(0, .5, 0), Color.FUCHSIA);
         Bukkit.broadcast(
                 Announcer.PREFIX

@@ -7,12 +7,20 @@ import java.util.Random;
 
 public class CheckpointRegionSphere extends CheckpointRegion {
 
-    private Location origin;
-    private double radius;
+    private final Location origin;
+    private final double radius;
 
     public CheckpointRegionSphere(Location origin, double radius) {
         this.origin = origin;
         this.radius = radius;
+    }
+
+    public Location getOrigin() {
+        return origin;
+    }
+
+    public double getRadius() {
+        return radius;
     }
 
     @Override

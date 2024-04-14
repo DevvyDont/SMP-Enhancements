@@ -23,7 +23,7 @@ public class TablistDisplay extends BukkitRunnable {
 
             Component timeComponent = Component.text(pp.getTimer().getTimeFormattedString() + " ", pp.getTimer().getTimerColor());
             Checkpoint checkpoint = pp.getCurrentCheckpoint() != null ? pp.getCurrentCheckpoint() : SMPParkour.getInstance().getMapManager().getMap().getCheckpoints()[0];
-            Component cpComponent = Component.text("[" + practiceTag + (checkpoint.getIndex()+1) + "] ", checkpoint.getName().color());
+            Component cpComponent = Component.text("[" + practiceTag + (checkpoint.getIndex()+1) + "] ", SMPParkour.getInstance().getMapManager().getMap().getPercentageColor(checkpoint.getIndex()));
             Component name = Component.text(pp.getPlayer().getName(), NamedTextColor.GRAY);
 
             pp.getPlayer().playerListName(

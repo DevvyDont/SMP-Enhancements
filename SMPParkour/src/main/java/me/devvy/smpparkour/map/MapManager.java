@@ -7,6 +7,7 @@ import me.devvy.smpparkour.events.PlayerEnteredCheckpointEvent;
 import me.devvy.smpparkour.player.ParkourPlayer;
 import me.devvy.smpparkour.util.Fireworks;
 import me.devvy.smpparkour.util.HolographicLeaderboard;
+import me.devvy.smpparkour.util.MapYamlUtil;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.title.Title;
@@ -21,9 +22,11 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.io.File;
+
 public class MapManager implements Listener {
 
-    private final ParkourMap map;
+    private final ParkourMapBase map;
     private final HolographicLeaderboard leaderboard;
 
     private final BukkitRunnable updateTask;
@@ -32,7 +35,8 @@ public class MapManager implements Listener {
 
     public MapManager() {
 
-        map = new InfinityMap();
+        map = MapYamlUtil.loadFromYaml(new File(Bukkit.getWorldContainer() + "/world_parkour", "parkour.yml"));
+        MapYamlUtil.saveToYaml(map);
 
         SMPParkour.getInstance().getServer().getPluginManager().registerEvents(this, SMPParkour.getInstance());
 
@@ -42,7 +46,7 @@ public class MapManager implements Listener {
 
         map.getFinish().enable();
 
-        this.leaderboard = new HolographicLeaderboard(new Location(SMPParkour.getInstance().getParkourWorld(), -94.30, 139.7, -141.58));
+        this.leaderboard = new HolographicLeaderboard(map);
         this.leaderboard.update();
 
         // Run a task every minute to update the scoreboard
@@ -55,7 +59,7 @@ public class MapManager implements Listener {
         updateTask.runTaskTimer(SMPParkour.getInstance(), 20*60*5, 20*60*5);
     }
 
-    public ParkourMap getMap() {
+    public ParkourMapBase getMap() {
         return map;
     }
 
@@ -74,9 +78,10 @@ public class MapManager implements Listener {
             return;
 
         // At this point we have progressed in the course
+        Component checkpointName = Component.text(section.getName(), getMap().getPercentageColor(section.getIndex()));
         player.showTitle(Title.title(
-                        Component.empty(),
-                        section.getName().append(Component.text(String.format(" [%s]", section.getIndex()+1), NamedTextColor.GRAY))
+                Component.empty(),
+                checkpointName.append(Component.text(String.format(" [%s]", section.getIndex()+1), NamedTextColor.GRAY))
         ));
 
         // Spawn fireworks if this is not spawn
@@ -146,7 +151,7 @@ public class MapManager implements Listener {
     @EventHandler
     public void onPlace(BlockPlaceEvent event) {
 
-        if (!event.getPlayer().isOp() && event.getPlayer().getWorld() == map.getStart().getWorld())
+        if (!event.getPlayer().isOp() && event.getPlayer().getWorld() == map.getStart().getSpawn().getWorld())
             event.setCancelled(true);
 
     }
@@ -154,7 +159,7 @@ public class MapManager implements Listener {
     @EventHandler
     public void onBreak(BlockBreakEvent event) {
 
-        if (!event.getPlayer().isOp() && event.getPlayer().getWorld() == map.getStart().getWorld())
+        if (!event.getPlayer().isOp() && event.getPlayer().getWorld() == map.getStart().getSpawn().getWorld())
             event.setCancelled(true);
     }
 
