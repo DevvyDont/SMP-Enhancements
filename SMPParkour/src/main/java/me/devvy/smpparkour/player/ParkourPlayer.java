@@ -103,8 +103,6 @@ public class ParkourPlayer {
         timer.cancel();
         player.playerListName(player.displayName());
 
-
-
         // Tell them what happened and play a cute sound
         player.sendMessage(Component.text("Leaving parkour world, inventory restored", NamedTextColor.YELLOW));
         player.playSound(player.getPlayer().getLocation(), Sound.ENTITY_CHICKEN_EGG, 1, 1);
@@ -166,71 +164,17 @@ public class ParkourPlayer {
      * Call to end a parkour attempt as a finish
      */
     public void finishParkour() {
-        player.clearTitle();
+
         timer.stop();
         setLobbyLoadout();
-
         player.teleport(SMPParkour.getInstance().getParkourWorld().getSpawnLocation());
-        Fireworks.spawnFireworksInstantly(player.getEyeLocation(), Color.YELLOW);
-        player.playSound(player.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 1, 1);
+        new PlayerCompletedParkourEvent(this).callEvent();
 
         if (practicing) {
             player.setAllowFlight(false);
             setPracticeCheckpointOverride(null);
             return;
         }
-
-        Bukkit.broadcast(
-                Announcer.PREFIX
-                        .append(player.displayName().color(NamedTextColor.AQUA))
-                        .append(Component.text(" has finished the parkour with a time of ", NamedTextColor.GRAY))
-                        .append(Component.text(timer.getTimeFormattedString(), NamedTextColor.GOLD, TextDecoration.BOLD))
-                        .append(Component.text("!", NamedTextColor.GRAY).decoration(TextDecoration.BOLD, false))
-        );
-
-        // Retrieve the map's key to test for and a few variables that will help us with condition checking.
-        String mapKey = SMPParkour.getInstance().getMapManager().getMap().getMapPath();
-        ConfigManager.TimeEntry previousRecord = ConfigManager.queryPlayerTime(player.getUniqueId(), mapKey);
-        boolean hasPreviousRecord = previousRecord != null;
-
-        // Test for a PB. but first, first time?
-        if (!hasPreviousRecord) {
-
-            ConfigManager.savePlayerTime(player, SMPParkour.getInstance().getMapManager().getMap().getMapPath(), timer.elapsedTimeMs());
-            Fireworks.spawnFireworksInstantly(player.getEyeLocation().subtract(0, .5, 0), Color.AQUA);
-            Bukkit.broadcast(
-                    Announcer.PREFIX
-                            .append(Component.text("This was their ", NamedTextColor.GRAY))
-                            .append(Component.text("first attempt", NamedTextColor.GOLD, TextDecoration.BOLD))
-                            .append(Component.text("!", NamedTextColor.GRAY).decoration(TextDecoration.BOLD, false))
-            );
-            new PlayerCompletedParkourEvent(this).callEvent();
-            return;
-        }
-
-        // Now actually test, was this a PB?
-        long recordTimeMS = previousRecord.getTimeMs();
-        float diff = (recordTimeMS - timer.elapsedTimeMs()) / 1000f;
-        diff = Math.abs(diff);
-        if (recordTimeMS <= timer.elapsedTimeMs()) {
-            player.sendMessage(
-                    Component.text("You missed your personal best by ", NamedTextColor.GRAY)
-                            .append(Component.text(String.format("+" + "%d:%s", (int)diff / 60, PLAYER_TIMER_DECIMAL_FORMAT.format(diff % 60)), NamedTextColor.RED, TextDecoration.BOLD))
-                            .append(Component.text("!", NamedTextColor.GRAY).decoration(TextDecoration.BOLD, false))
-            );
-            new PlayerCompletedParkourEvent(this).callEvent();
-            return;
-        }
-
-        // We have a PB
-        ConfigManager.savePlayerTime(player, SMPParkour.getInstance().getMapManager().getMap().getMapPath(), timer.elapsedTimeMs());
-        Fireworks.spawnFireworksInstantly(player.getEyeLocation().subtract(0, .5, 0), Color.FUCHSIA);
-        Bukkit.broadcast(
-                Announcer.PREFIX
-                        .append(Component.text("They beat their personal best by ", NamedTextColor.GRAY))
-                        .append(Component.text(String.format("-" + "%d:%s", (int)diff / 60, PLAYER_TIMER_DECIMAL_FORMAT.format(diff % 60)), NamedTextColor.GREEN, TextDecoration.BOLD))
-                        .append(Component.text("!", NamedTextColor.GRAY).decoration(TextDecoration.BOLD, false))
-        );
 
         new PlayerCompletedParkourEvent(this).callEvent();
     }

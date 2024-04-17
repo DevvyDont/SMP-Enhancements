@@ -3,6 +3,7 @@ package me.devvy.smpparkour;
 import me.devvy.smpparkour.commands.ParkourWorldCommand;
 import me.devvy.smpparkour.config.ConfigManager;
 import me.devvy.smpparkour.items.ItemManager;
+import me.devvy.smpparkour.listeners.ParkourCompletedListener;
 import me.devvy.smpparkour.map.MapManager;
 import me.devvy.smpparkour.player.PlayerManager;
 import me.devvy.smpparkour.util.Announcer;
@@ -68,6 +69,9 @@ public final class SMPParkour extends JavaPlugin {
         scoreboardUtil = new MinecraftScoreboardUtil();
         announcer = new Announcer();
 
+        new ParkourCompletedListener();
+
+        // Setup commands
         ParkourWorldCommand parkourWorldCommand = new ParkourWorldCommand();
         getCommand("parkour").setExecutor(parkourWorldCommand);
         getCommand("parkour").setTabCompleter(parkourWorldCommand);
