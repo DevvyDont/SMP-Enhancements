@@ -1,0 +1,43 @@
+name: SMPRPG
+version: '${version}'
+main: xyz.devvydont.smprpg.SMPRPG
+bootstrapper: xyz.devvydont.smprpg.SMPRPGBootstrapper
+api-version: '1.21'
+
+dependencies:
+  server:
+    Vault:
+      load: BEFORE
+      required: true
+
+#commands:
+#  balance:
+#    aliases:
+#      - bal
+#    description: Check your coin balance
+#    usage: /balance <playername>
+#  balancetop:
+#    aliases:
+#      - baltop
+#      - topbal
+#    description: Check the leaderboard for player balances
+#    usage: /balancetop
+#  customitem:
+#    aliases:
+#      - givecustom
+#      - gci
+#    description: Cheat in a custom item
+#    usage: /customitem <item key>
+#  deposit:
+#    description: Deposit coins into your bank account
+#    aliases:
+#      - dep
+#  withdrawal:
+#    description: Withdrawal coins from your bank account
+#    aliases:
+#      - withdraw
+#      - atm
+#  statistics:
+#    description: View your statistics (or another player's)
+#    aliases:
+#      - stats

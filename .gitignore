@@ -23,5 +23,10 @@
 hs_err_pid*
 replay_pid*
 
-.idea/
+**/.idea/
+**/build/
+**/run/
+**/target/
+**/.gradle/
 *.iml
+

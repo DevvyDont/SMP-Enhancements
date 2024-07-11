@@ -1,0 +1,208 @@
+package xyz.devvydont.smprpg.enchantments;
+
+import io.papermc.paper.registry.RegistryAccess;
+import io.papermc.paper.registry.RegistryKey;
+import io.papermc.paper.registry.TypedKey;
+import io.papermc.paper.registry.keys.EnchantmentKeys;
+import org.bukkit.Registry;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.event.Listener;
+import org.bukkit.inventory.meta.ItemMeta;
+import xyz.devvydont.smprpg.SMPRPG;
+import xyz.devvydont.smprpg.enchantments.definitions.GrowthEnchantment;
+import xyz.devvydont.smprpg.enchantments.definitions.LeechEnchantment;
+import xyz.devvydont.smprpg.enchantments.definitions.SpeedsterEnchantment;
+import xyz.devvydont.smprpg.enchantments.definitions.vanilla.overrides.*;
+import xyz.devvydont.smprpg.enchantments.definitions.vanilla.UnknownEnchantment;
+import xyz.devvydont.smprpg.enchantments.definitions.vanilla.unchanged.*;
+import xyz.devvydont.smprpg.services.BaseService;
+
+import java.util.*;
+
+public class EnchantmentService implements BaseService {
+
+    // Vanilla overrides
+    public final static CustomEnchantment AQUA_AFFINITY = new AquaAffinityEnchantment(EnchantmentKeys.AQUA_AFFINITY);
+    public final static CustomEnchantment BANE_OF_ARTHROPODS = new BaneOfArthropodsEnchantment(EnchantmentKeys.BANE_OF_ARTHROPODS);
+    public final static CustomEnchantment BLAST_PROTECTION = new BlastProtectionEnchantment(EnchantmentKeys.BLAST_PROTECTION);
+    public final static CustomEnchantment BREACH = new BreachEnchantment(EnchantmentKeys.BREACH);
+    public final static CustomEnchantment CHANNELING = new ChannelingEnchantment(EnchantmentKeys.CHANNELING);
+    public final static CustomEnchantment BINDING_CURSE = new BindingCurseEnchantment(EnchantmentKeys.BINDING_CURSE);
+    public final static CustomEnchantment VANISHING_CURSE = new VanishingCurseEnchantment(EnchantmentKeys.VANISHING_CURSE);
+    public final static CustomEnchantment DENSITY = new DensityEnchantment(EnchantmentKeys.DENSITY);
+    public final static CustomEnchantment DEPTH_STRIDER = new DepthStriderEnchantment(EnchantmentKeys.DEPTH_STRIDER);
+    public final static CustomEnchantment EFFICIENCY = new EfficiencyEnchantment(EnchantmentKeys.EFFICIENCY);
+    public final static CustomEnchantment FEATHER_FALLING = new FeatherFallingEnchantment(EnchantmentKeys.FEATHER_FALLING);
+    public final static CustomEnchantment FIRE_ASPECT = new FireAspectEnchantment(EnchantmentKeys.FIRE_ASPECT);
+    public final static CustomEnchantment FIRE_PROTECTION = new FireProtectionEnchantment(EnchantmentKeys.FIRE_PROTECTION);
+    public final static CustomEnchantment FLAME = new FlameEnchantment(EnchantmentKeys.FLAME);
+    public final static CustomEnchantment FORTUNE = new FortuneEnchantment(EnchantmentKeys.FORTUNE);
+    public final static CustomEnchantment FROST_WALKER = new FrostWalkerEnchantment(EnchantmentKeys.FROST_WALKER);
+    public final static CustomEnchantment IMPALING = new ImpalingEnchantment(EnchantmentKeys.IMPALING);
+    public final static CustomEnchantment INFINITY = new InfinityEnchantment(EnchantmentKeys.INFINITY);
+    public final static CustomEnchantment KNOCKBACK = new KnockbackEnchantment(EnchantmentKeys.KNOCKBACK);
+    public final static CustomEnchantment LOOTING = new LootingEnchantment(EnchantmentKeys.LOOTING);
+    public final static CustomEnchantment LOYALTY = new LoyaltyEnchantment(EnchantmentKeys.LOYALTY);
+    public final static CustomEnchantment LUCK_OF_THE_SEA = new LuckOfTheSeaEnchantment(EnchantmentKeys.LUCK_OF_THE_SEA);
+    public final static CustomEnchantment LURE = new LureEnchantment(EnchantmentKeys.LURE);
+    public final static CustomEnchantment MENDING = new MendingEnchantment(EnchantmentKeys.MENDING);
+    public final static CustomEnchantment MULTISHOT = new MultishotEnchantment(EnchantmentKeys.MULTISHOT);
+    public final static CustomEnchantment PIERCING = new PiercingEnchantment(EnchantmentKeys.PIERCING);
+    public final static CustomEnchantment POWER = new PowerEnchantment(EnchantmentKeys.POWER);
+    public final static CustomEnchantment PROJECTILE_PROTECTION = new ProjectileProtectionEnchantment(EnchantmentKeys.PROJECTILE_PROTECTION);
+    public final static CustomEnchantment PROTECTION = new ProtectionEnchantment(EnchantmentKeys.PROTECTION);
+    public final static CustomEnchantment PUNCH = new PunchEnchantment(EnchantmentKeys.PUNCH);
+    public final static CustomEnchantment QUICK_CHARGE = new QuickChargeEnchantment(EnchantmentKeys.QUICK_CHARGE);
+    public final static CustomEnchantment RESPIRATION = new RespirationEnchantment(EnchantmentKeys.RESPIRATION);
+    public final static CustomEnchantment RIPTIDE = new RiptideEnchantment(EnchantmentKeys.RIPTIDE);
+    public final static CustomEnchantment SHARPNESS = new SharpnessEnchantment(EnchantmentKeys.SHARPNESS);
+    public final static CustomEnchantment SILK_TOUCH = new SilkTouchEnchantment(EnchantmentKeys.SILK_TOUCH);
+    public final static CustomEnchantment SMITE = new SmiteEnchantment(EnchantmentKeys.SMITE);
+    public final static CustomEnchantment SOUL_SPEED = new SoulSpeedEnchantment(EnchantmentKeys.SOUL_SPEED);
+    public final static CustomEnchantment SWEEPING_EDGE = new SweepingEdgeEnchantment(EnchantmentKeys.SWEEPING_EDGE);
+    public final static CustomEnchantment SWIFT_SNEAK = new SwiftSneakEnchantment(EnchantmentKeys.SWIFT_SNEAK);
+    public final static CustomEnchantment THORNS = new ThornsEnchantment(EnchantmentKeys.THORNS);
+    public final static CustomEnchantment UNBREAKING = new UnbreakingEnchantment(EnchantmentKeys.UNBREAKING);
+    public final static CustomEnchantment WIND_BURST = new WindBurstEnchantment(EnchantmentKeys.WIND_BURST);
+
+    // Custom enchantments
+    public final static CustomEnchantment GROWTH = new GrowthEnchantment("growth");
+    public final static CustomEnchantment SPEEDSTER = new SpeedsterEnchantment("speedster");
+    public final static CustomEnchantment LEECH = new LeechEnchantment("leech");
+
+    public final static CustomEnchantment[] CUSTOM_ENCHANTMENTS = {
+
+            AQUA_AFFINITY,
+            BANE_OF_ARTHROPODS,
+            BLAST_PROTECTION,
+            BREACH,
+            CHANNELING,
+            BINDING_CURSE,
+            VANISHING_CURSE,
+            DENSITY,
+            DEPTH_STRIDER,
+            EFFICIENCY,
+            FEATHER_FALLING,
+            FIRE_ASPECT,
+            FIRE_PROTECTION,
+            FLAME,
+            FORTUNE,
+            FROST_WALKER,
+            IMPALING,
+            INFINITY,
+            KNOCKBACK,
+            LOOTING,
+            LOYALTY,
+            LUCK_OF_THE_SEA,
+            LURE,
+            MENDING,
+            MULTISHOT,
+            PIERCING,
+            POWER,
+            PROJECTILE_PROTECTION,
+            PROTECTION,
+            PUNCH,
+            QUICK_CHARGE,
+            RESPIRATION,
+            RIPTIDE,
+            SHARPNESS,
+            SILK_TOUCH,
+            SMITE,
+            SOUL_SPEED,
+            SWEEPING_EDGE,
+            SWIFT_SNEAK,
+            THORNS,
+            UNBREAKING,
+            WIND_BURST,
+
+            GROWTH,
+            SPEEDSTER,
+            LEECH,
+    };
+
+    public final Map<Enchantment, CustomEnchantment> enchantments = new HashMap<>();
+
+    @Override
+    public boolean setup() {
+
+        for (CustomEnchantment enchantment : CUSTOM_ENCHANTMENTS) {
+            enchantments.put(getEnchantment(enchantment), enchantment);
+
+            if (enchantment instanceof Listener)
+                SMPRPG.getInstance().getServer().getPluginManager().registerEvents((Listener) enchantment, SMPRPG.getInstance());
+        }
+
+        return true;
+    }
+
+    @Override
+    public void cleanup() {
+
+    }
+
+    @Override
+    public boolean required() {
+        return true;
+    }
+
+    private Registry<Enchantment> getEnchantmentRegistry() {
+        return RegistryAccess.registryAccess().getRegistry(RegistryKey.ENCHANTMENT);
+    }
+
+    /**
+     * Given an enchantment key, return the vanilla representation of the enchantment
+     *
+     * @param key
+     * @return
+     */
+    public Enchantment getEnchantment(TypedKey<Enchantment> key) {
+        return getEnchantmentRegistry().getOrThrow(key);
+    }
+
+    /**
+     * Given a custom enchant wrapper, return the vanilla representation of the enchantment
+     *
+     * @param enchantment
+     * @return
+     */
+    public Enchantment getEnchantment(CustomEnchantment enchantment) {
+        return getEnchantment(TypedKey.create(RegistryKey.ENCHANTMENT, enchantment.getKey()));
+    }
+
+    /**
+     * Given a vanilla enchantment, return the custom wrapped version of the enchant
+     *
+     * @param enchantment
+     * @return
+     */
+    public CustomEnchantment getEnchantment(Enchantment enchantment) {
+        if (!enchantments.containsKey(enchantment))
+            return new UnknownEnchantment(TypedKey.create(RegistryKey.ENCHANTMENT, enchantment.getKey()));
+        return enchantments.get(enchantment);
+    }
+
+    /**
+     * Returns all registered custom enchantments
+     *
+     * @return
+     */
+    public Collection<CustomEnchantment> getCustomEnchantments() {
+        return enchantments.values();
+    }
+
+    /**
+     * Given an item, return a collection of custom enchantments stored on the item
+     *
+     * @param meta
+     * @return
+     */
+    public Collection<CustomEnchantment> getCustomEnchantments(ItemMeta meta) {
+
+        List<CustomEnchantment> enchants = new ArrayList<>();
+
+        for (Map.Entry<Enchantment, Integer> entry : meta.getEnchants().entrySet())
+            enchants.add(getEnchantment(entry.getKey()).build(entry.getValue()));
+
+        return enchants;
+    }
+}
