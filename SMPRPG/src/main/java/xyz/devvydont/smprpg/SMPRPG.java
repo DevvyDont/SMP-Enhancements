@@ -1,47 +1,16 @@
 package xyz.devvydont.smprpg;
 
-import com.destroystokyo.paper.event.player.PlayerJumpEvent;
-import io.papermc.paper.registry.RegistryAccess;
-import io.papermc.paper.registry.RegistryKey;
-import io.papermc.paper.registry.set.RegistryKeySet;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
-import net.minecraft.core.component.DataComponentType;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
-import org.bukkit.Registry;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.craftbukkit.inventory.components.CraftToolComponent;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.EntitySnapshot;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.inventory.CraftingRecipe;
-import org.bukkit.inventory.EquipmentSlotGroup;
-import org.bukkit.inventory.ItemRarity;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.Damageable;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.components.FoodComponent;
-import org.bukkit.inventory.meta.components.ToolComponent;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
-import xyz.devvydont.smprpg.commands.economy.CommandBalance;
-import xyz.devvydont.smprpg.commands.economy.CommandBalanceTop;
-import xyz.devvydont.smprpg.commands.economy.CommandDeposit;
-import xyz.devvydont.smprpg.commands.economy.CommandWithdrawal;
-import xyz.devvydont.smprpg.commands.items.CommandGiveItem;
-import xyz.devvydont.smprpg.commands.player.CommandStatistics;
-import xyz.devvydont.smprpg.enchantments.EnchantmentService;
+import xyz.devvydont.smprpg.services.EnchantmentService;
 import xyz.devvydont.smprpg.listeners.*;
 import xyz.devvydont.smprpg.services.EntityService;
 import xyz.devvydont.smprpg.services.BaseService;
 import xyz.devvydont.smprpg.services.ChatService;
 import xyz.devvydont.smprpg.services.EconomyService;
 import xyz.devvydont.smprpg.services.ItemService;
+import xyz.devvydont.smprpg.services.SkillService;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -66,6 +35,7 @@ public final class SMPRPG extends JavaPlugin implements Listener {
     ItemService itemService;
     EnchantmentService enchantmentService;
     EntityService entityService;
+    SkillService skillService;
 
     List<BaseService> services;
 
@@ -87,6 +57,10 @@ public final class SMPRPG extends JavaPlugin implements Listener {
 
     public EntityService getEntityService() {
         return entityService;
+    }
+
+    public SkillService getSkillService() {
+        return skillService;
     }
 
     public void checkServerSettings() {
@@ -126,12 +100,16 @@ public final class SMPRPG extends JavaPlugin implements Listener {
         entityService = new EntityService(this);
         registerService(entityService);
 
+        skillService = new SkillService(this);
+        registerService(skillService);
+
         getServer().getPluginManager().registerEvents(this, this);
 
         new DamageOverrideListener(this);
         new EnvironmentalDamageListener(this);
         new AbsorptionDamageFix(this);
         new HealthRegenerationListener(this);
+        new HealthScaleListener(this);
 
         new StructureEntitySpawnListener(this);
     }
@@ -152,21 +130,6 @@ public final class SMPRPG extends JavaPlugin implements Listener {
         for (BaseService service : services)
             service.cleanup();
 
-    }
-
-    // DEBUG EVENTS
-    @EventHandler
-    public void onJump(PlayerJumpEvent event) {
-
-//        ItemStack pick = new ItemStack(Material.DIAMOND_SWORD);
-//        ItemMeta meta = pick.getItemMeta();
-//        meta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier(new NamespacedKey("test", "test2"), 5, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlotGroup.HAND));
-//        pick.setItemMeta(meta);
-//        event.getPlayer().getInventory().addItem(pick);
-//
-//        ItemStack item = event.getPlayer().getInventory().getItemInMainHand();
-//        if (!item.hasItemMeta())
-//            return;
     }
 
 }

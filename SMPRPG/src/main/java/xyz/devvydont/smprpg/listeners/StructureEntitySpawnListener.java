@@ -92,8 +92,14 @@ public class StructureEntitySpawnListener implements Listener {
         event.getEntity().updateAttributes();
     }
 
+    // todo move this to a runnable instead of a player move event
     @EventHandler(priority = EventPriority.MONITOR)
     public void onEnterStructure(PlayerMoveEvent event) {
+
+
+        // Only do this every 40 ticks (2 seconds)
+        if (SMPRPG.getInstance().getServer().getCurrentTick() % 40 != 0)
+            return;
 
         Chunk chunk = event.getTo().getChunk();
 

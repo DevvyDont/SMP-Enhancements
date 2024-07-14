@@ -23,10 +23,6 @@ public class HealthRegenerationListener implements Listener {
         };
     }
 
-    public double getRegenerationAmount(LeveledEntity entity) {
-        return entity.getMaxHp() * .05;
-    }
-
     @EventHandler
     public void onNaturalRegeneration(EntityRegainHealthEvent event) {
 
@@ -37,6 +33,6 @@ public class HealthRegenerationListener implements Listener {
             return;
 
         LeveledEntity entity = plugin.getEntityService().getEntityInstance((LivingEntity) event.getEntity());
-        event.setAmount(getRegenerationAmount(entity));
+        event.setAmount(entity.getRegenerationAmount(event.getRegainReason()));
     }
 }

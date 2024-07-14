@@ -10,6 +10,7 @@ import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomFakeHelmetBlueprint;
 import xyz.devvydont.smprpg.items.interfaces.Wearable;
 import xyz.devvydont.smprpg.services.ItemService;
+import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
 
 import java.util.Collection;
 import java.util.List;
@@ -39,16 +40,12 @@ public class SpaceHelmet extends CustomFakeHelmetBlueprint implements Wearable {
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE.getAttribute(), 200),
                 new AdditiveAttributeEntry(Attribute.GENERIC_SAFE_FALL_DISTANCE, 50),
                 new MultiplicativeAttributeEntry(Attribute.GENERIC_FALL_DAMAGE_MULTIPLIER, -.50),
                 new MultiplicativeAttributeEntry(Attribute.GENERIC_GRAVITY, -.9),
                 new MultiplicativeAttributeEntry(Attribute.GENERIC_JUMP_STRENGTH, 2)
         );
-    }
-
-    @Override
-    public int getDefense() {
-        return 200;
     }
 
     @Override

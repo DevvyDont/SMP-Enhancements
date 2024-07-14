@@ -14,6 +14,7 @@ import org.bukkit.entity.Villager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.enchantment.EnchantItemEvent;
 import org.bukkit.event.entity.ItemMergeEvent;
 import org.bukkit.event.entity.ItemSpawnEvent;
 import org.bukkit.event.inventory.PrepareItemCraftEvent;
@@ -23,6 +24,7 @@ import org.bukkit.event.world.LootGenerateEvent;
 import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
@@ -45,6 +47,7 @@ import xyz.devvydont.smprpg.items.blueprints.bow.IronBow;
 import xyz.devvydont.smprpg.items.blueprints.debug.EntityAnalyzer;
 import xyz.devvydont.smprpg.items.blueprints.economy.CustomItemCoin;
 import xyz.devvydont.smprpg.items.blueprints.misc.SpiderRepellentBlueprint;
+import xyz.devvydont.smprpg.items.blueprints.resources.EmptyBlueprint;
 import xyz.devvydont.smprpg.items.blueprints.resources.mining.*;
 import xyz.devvydont.smprpg.items.blueprints.resources.mob.*;
 import xyz.devvydont.smprpg.items.blueprints.sword.InfinitySword;
@@ -405,6 +408,7 @@ public class ItemService implements BaseService, Listener {
 
         // Debug items
         registerCustomItem(new EntityAnalyzer(this));
+        registerCustomItem(new EmptyBlueprint(this, CustomItemType.ENTITY_ANALYZER_REPORT, ItemClassification.ITEM));
 
     }
 
@@ -776,6 +780,12 @@ public class ItemService implements BaseService, Listener {
      */
     public ItemStack ensureItemStackUpdated(ItemStack itemStack) {
 
+        if (itemStack == null)
+            return null;
+
+        if (itemStack.getType().equals(Material.AIR))
+            return itemStack;
+
         if (shouldIgnoreMetaUpdate(itemStack))
             return itemStack;
 
@@ -1005,6 +1015,22 @@ public class ItemService implements BaseService, Listener {
         // So now we know we are using a vanilla recipe, and custom items are in the input.
         // This is probably undesirable as custom items yielding vanilla items should be defined by us.
         event.getInventory().setResult(null);
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onEnchant(EnchantItemEvent e) {
+
+        if (e.isCancelled())
+            return;
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                ensureItemStackUpdated(e.getItem());
+            }
+        }.runTaskLater(plugin, 0L);
+
+
     }
 
 

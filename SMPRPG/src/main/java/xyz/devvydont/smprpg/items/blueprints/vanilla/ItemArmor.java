@@ -2,7 +2,6 @@ package xyz.devvydont.smprpg.items.blueprints.vanilla;
 
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemStack;
 import xyz.devvydont.smprpg.items.ItemClassification;
@@ -20,7 +19,7 @@ public class ItemArmor extends VanillaAttributeItem implements Wearable {
         super(itemService, item);
     }
 
-    public static int getArmorFromMaterial(Material material) {
+    public static int getDefenseFromMaterial(Material material) {
 
         return switch (material) {
 
@@ -109,20 +108,6 @@ public class ItemArmor extends VanillaAttributeItem implements Wearable {
 
     }
 
-    public static double getArmorToughnessFromMaterial(Material material) {
-
-        return switch (material) {
-
-            case DIAMOND_HORSE_ARMOR -> 2;
-
-            case DIAMOND_HELMET, DIAMOND_CHESTPLATE, DIAMOND_LEGGINGS, DIAMOND_BOOTS -> 2;
-            case NETHERITE_HELMET, NETHERITE_CHESTPLATE, NETHERITE_LEGGINGS, NETHERITE_BOOTS -> 3;
-
-            default -> 0;
-        };
-
-    }
-
     public static double getKnockbackResistanceFromMaterial(Material material) {
         return switch (material) {
             case NETHERITE_HELMET, NETHERITE_CHESTPLATE, NETHERITE_LEGGINGS, NETHERITE_BOOTS -> .1;
@@ -172,10 +157,10 @@ public class ItemArmor extends VanillaAttributeItem implements Wearable {
         if (health > 0)
             modifiers.add(new AdditiveAttributeEntry(Attribute.GENERIC_MAX_HEALTH, health));
 
-        // If we have armor toughness...
-        double toughness = getArmorToughnessFromMaterial(getItem().getType());
-        if (toughness > 0)
-            modifiers.add(new AdditiveAttributeEntry(Attribute.GENERIC_ARMOR_TOUGHNESS, toughness));
+        // If we have defense...
+        double defense = getDefenseFromMaterial(getItem().getType());
+        if (defense > 0)
+            modifiers.add(new AdditiveAttributeEntry(Attribute.GENERIC_ARMOR_TOUGHNESS, defense));
 
         // If we have knockback resist...
         double kbResist = getKnockbackResistanceFromMaterial(getItem().getType());
@@ -188,11 +173,6 @@ public class ItemArmor extends VanillaAttributeItem implements Wearable {
             modifiers.add(new AdditiveAttributeEntry(Attribute.GENERIC_ARMOR, 0));
 
         return modifiers;
-    }
-
-    @Override
-    public int getDefense() {
-        return getArmorFromMaterial(getItem().getType());
     }
 
     @Override

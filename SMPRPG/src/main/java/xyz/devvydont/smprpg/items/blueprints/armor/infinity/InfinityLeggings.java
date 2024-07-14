@@ -48,15 +48,10 @@ public class InfinityLeggings extends CustomAttributeItem implements Wearable {
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
                 new AdditiveAttributeEntry(Attribute.GENERIC_ARMOR, 30),
-                new AdditiveAttributeEntry(Attribute.GENERIC_ARMOR_TOUGHNESS, 20),
+                new AdditiveAttributeEntry(Attribute.GENERIC_ARMOR_TOUGHNESS, 20000),
                 new AdditiveAttributeEntry(Attribute.GENERIC_MAX_HEALTH, 2000),
                 new AdditiveAttributeEntry(Attribute.GENERIC_KNOCKBACK_RESISTANCE, 2)
         );
-    }
-
-    @Override
-    public int getDefense() {
-        return 20000;
     }
 
     @Override

@@ -11,15 +11,88 @@ import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.base.LeveledEntity;
 import xyz.devvydont.smprpg.items.interfaces.Attributeable;
 import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
+import xyz.devvydont.smprpg.skills.SkillInstance;
+import xyz.devvydont.smprpg.skills.SkillType;
 import xyz.devvydont.smprpg.util.formatting.Symbols;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.Random;
 
 public class LeveledPlayer extends LeveledEntity {
 
-
     private TextDisplay info;
 
-    public LeveledPlayer(SMPRPG plugin, LivingEntity entity) {
+    private int seed;
+
+    // Used as a shortcut for skill modification
+    private final SkillInstance combatSkill;
+    private final SkillInstance miningSkill;
+    private final SkillInstance fishingSkill;
+    private final SkillInstance farmingSkill;
+    private final SkillInstance woodcuttingSkill;
+    private final SkillInstance magicSkill;
+
+    public LeveledPlayer(SMPRPG plugin, Player entity) {
         super(plugin, entity);
+
+        // Skill shortcuts
+        this.combatSkill = plugin.getSkillService().getNewSkillInstance(entity, SkillType.COMBAT);
+        this.miningSkill = plugin.getSkillService().getNewSkillInstance(entity, SkillType.MINING);
+        this.fishingSkill = plugin.getSkillService().getNewSkillInstance(entity, SkillType.FISHING);
+        this.farmingSkill = plugin.getSkillService().getNewSkillInstance(entity, SkillType.FARMING);
+        this.woodcuttingSkill = plugin.getSkillService().getNewSkillInstance(entity, SkillType.WOODCUTTING);
+        this.magicSkill = plugin.getSkillService().getNewSkillInstance(entity, SkillType.MAGIC);
+
+        shuffleSeed();
+    }
+
+    /**
+     * Used for various random elements, such as the enchanting table
+     *
+     * @return
+     */
+    public int getSeed() {
+        return seed;
+    }
+
+    public void shuffleSeed() {
+        seed = new Random().nextInt();
+    }
+
+    public SkillInstance getCombatSkill() {
+        return combatSkill;
+    }
+
+    public SkillInstance getMiningSkill() {
+        return miningSkill;
+    }
+
+    public SkillInstance getFishingSkill() {
+        return fishingSkill;
+    }
+
+    public SkillInstance getFarmingSkill() {
+        return farmingSkill;
+    }
+
+    public SkillInstance getWoodcuttingSkill() {
+        return woodcuttingSkill;
+    }
+
+    public SkillInstance getMagicSkill() {
+        return magicSkill;
+    }
+
+    public Collection<SkillInstance> getSkills() {
+        return List.of(
+                getCombatSkill(),
+                getMiningSkill(),
+                getFishingSkill(),
+                getFarmingSkill(),
+                getWoodcuttingSkill(),
+                getMagicSkill()
+        );
     }
 
     @Override
@@ -86,7 +159,30 @@ public class LeveledPlayer extends LeveledEntity {
      * @return
      */
     public int getHealthScale() {
-        return 20;
+
+        // When someone achieves max HP of 1000, they should have 4 rows of hearts (displays as 80 hp)
+        // When someone is at starting HP of 100, they should only have 5 hearts (displays as 10 hp)
+
+        // Divide by 10 and round up to the nearest whole number, and if the number isn't even increase it by another
+        // 1 so that we don't ever display half hearts as max hp
+        int scale = 10;
+
+        // For every 10 HP we have above 100, we add another health scale point
+        scale += (int) (Math.max(0, getMaxHp()-100) / 10.0);
+        if (scale % 2 != 0)
+            scale++;
+        return Math.min(Math.max(10, scale), 80);
+    }
+
+    /**
+     * The current value of HP this player's half of heart is HP wise
+     * This amount of HP is used a lot for damage such as fall damage, burning, and regeneration values
+     *
+     * @return
+     */
+    @Override
+    public double getHalfHeartValue() {
+        return getMaxHp() / getHealthScale();
     }
 
     @Override

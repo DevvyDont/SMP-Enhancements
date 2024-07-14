@@ -56,11 +56,6 @@ public class PowerEnchantment extends VanillaEnchantment implements AttributeEnc
     }
 
     @Override
-    public int getDefense() {
-        return 0;
-    }
-
-    @Override
     public int getPowerRating() {
         return getLevel();
     }
@@ -94,7 +89,7 @@ public class PowerEnchantment extends VanillaEnchantment implements AttributeEnc
 
     @Override
     public int getWeight() {
-        return 2;
+        return 4;
     }
 
     @Override
@@ -110,5 +105,10 @@ public class PowerEnchantment extends VanillaEnchantment implements AttributeEnc
     @Override
     public EquipmentSlotGroup getEquipmentSlotGroup() {
         return EquipmentSlotGroup.MAINHAND;
+    }
+
+    @Override
+    public int getSkillRequirement() {
+        return 10;
     }
 }

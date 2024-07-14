@@ -12,8 +12,10 @@ import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemType;
 import xyz.devvydont.smprpg.enchantments.base.AttributeEnchantment;
 import xyz.devvydont.smprpg.enchantments.definitions.vanilla.VanillaEnchantment;
+import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeModifierType;
+import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
 
 import java.util.Collection;
 import java.util.List;
@@ -64,7 +66,7 @@ public class ProtectionEnchantment extends VanillaEnchantment implements Attribu
 
     @Override
     public int getWeight() {
-        return 2;
+        return 4;
     }
 
     @Override
@@ -83,18 +85,20 @@ public class ProtectionEnchantment extends VanillaEnchantment implements Attribu
     }
 
     @Override
+    public int getSkillRequirement() {
+        return 18;
+    }
+
+    @Override
     public AttributeModifierType getAttributeModifierType() {
         return AttributeModifierType.ENCHANTMENT;
     }
 
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
-        return List.of();
-    }
-
-    @Override
-    public int getDefense() {
-        return getProtection(getLevel());
+        return List.of(
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE.getAttribute(), getProtection(getLevel()))
+        );
     }
 
     @Override

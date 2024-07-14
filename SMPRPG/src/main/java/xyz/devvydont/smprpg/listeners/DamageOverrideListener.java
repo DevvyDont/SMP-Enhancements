@@ -17,6 +17,7 @@ import org.bukkit.persistence.PersistentDataType;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.base.LeveledEntity;
 import xyz.devvydont.smprpg.events.CustomEntityDamageByEntityEvent;
+import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
 
 /**
  * Overrides all instances of vanilla damage that is desired to fit our new attribute logic
@@ -248,16 +249,9 @@ public class DamageOverrideListener implements Listener {
             newDamage *= calculateDefenseDamageMultiplier(leveledEntity.getDefense());
 
             // Apply the entity's true defense attribute
-            AttributeInstance armor = receiver.getAttribute(Attribute.GENERIC_ARMOR);
+            AttributeInstance armor = receiver.getAttribute(AttributeWrapper.ARMOR.getAttribute());
             if (armor != null)
-                newDamage -= calculateDefenseDamageMultiplier(leveledEntity.getDefense());
-
-            // Check for evasion attribute, if they have it and successfully roll for an evade, then cancel damage
-            AttributeInstance evasion = receiver.getAttribute(Attribute.GENERIC_ARMOR_TOUGHNESS);
-            if (evasion != null && evasion.getValue() / 100 > Math.random()) {
-                newDamage = 0;
-                event.getDamaged().getWorld().playEffect(event.getDamaged().getLocation(), Effect.EXTINGUISH, 1);
-            }
+                newDamage -= armor.getValue();
         }
 
         event.setFinalDamage(newDamage);

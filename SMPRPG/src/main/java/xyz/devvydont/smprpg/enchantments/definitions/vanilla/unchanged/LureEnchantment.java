@@ -21,4 +21,9 @@ public class LureEnchantment extends UnchangedEnchantment {
         return Component.text("Decreases catch time by ").color(NamedTextColor.GRAY)
                 .append(Component.text("-" + getDecreaseTime(getLevel()) + "s").color(NamedTextColor.GREEN));
     }
+
+    @Override
+    public int getSkillRequirement() {
+        return 10;
+    }
 }

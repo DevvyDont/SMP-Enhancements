@@ -21,4 +21,9 @@ public class QuickChargeEnchantment extends UnchangedEnchantment {
         return Component.text("Sets loading time to ").color(NamedTextColor.GRAY)
                 .append(Component.text("-" + getChargePercentageReduction(getLevel()) + "%").color(getLevel() >= 5 ? NamedTextColor.LIGHT_PURPLE : NamedTextColor.GREEN));
     }
+
+    @Override
+    public int getSkillRequirement() {
+        return 44;
+    }
 }

@@ -21,4 +21,9 @@ public class RespirationEnchantment extends UnchangedEnchantment {
         return Component.text("Increases lung capacity by ").color(NamedTextColor.GRAY)
                 .append(Component.text("+" + getAdditionalBreath(getLevel()) + "s").color(NamedTextColor.GREEN));
     }
+
+    @Override
+    public int getSkillRequirement() {
+        return 40;
+    }
 }

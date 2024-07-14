@@ -13,17 +13,17 @@ public class LeveledWither extends VanillaEntity implements Listener {
 
     @Override
     public int getDefaultLevel() {
-        return 50;
+        return 40;
     }
 
     @Override
     public double calculateBaseAttackDamage() {
-        return 450;
+        return 600;
     }
 
     @Override
     public double calculateBaseHealth() {
-        return 40000;
+        return 50000;
     }
 
     @Override

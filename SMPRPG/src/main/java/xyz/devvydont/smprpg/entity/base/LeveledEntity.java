@@ -3,10 +3,13 @@ package xyz.devvydont.smprpg.entity.base;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
+import net.minecraft.world.entity.NeutralMob;
+import net.minecraft.world.entity.animal.Animal;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.*;
+import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -14,6 +17,8 @@ import org.bukkit.persistence.PersistentDataType;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
 import xyz.devvydont.smprpg.items.interfaces.Wearable;
+import xyz.devvydont.smprpg.util.attributes.AttributeUtil;
+import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
 import xyz.devvydont.smprpg.util.formatting.Symbols;
 
 public abstract class LeveledEntity {
@@ -101,7 +106,7 @@ public abstract class LeveledEntity {
      * @return
      */
     public double getAbsorptionHealth() {
-        return entity.getAbsorptionAmount() * 0.05 * getMaxHp();
+        return entity.getAbsorptionAmount() * getHalfHeartValue();
     }
 
     /**
@@ -110,7 +115,7 @@ public abstract class LeveledEntity {
      * @return
      */
     public void setAbsorptionHealth(double amount) {
-        entity.setAbsorptionAmount(amount / .05 / getMaxHp());
+        entity.setAbsorptionAmount(amount / getHalfHeartValue());
     }
 
     public void updateAbsorptionHealth(double amount) {
@@ -127,6 +132,20 @@ public abstract class LeveledEntity {
 
     public double getMaxHp() {
         return entity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
+    }
+
+    /**
+     * The current value of HP this player's half of heart is HP wise
+     * This amount of HP is used a lot for damage such as fall damage, burning, and regeneration values
+     *
+     * @return
+     */
+    public double getHalfHeartValue() {
+        return getMaxHp() / 20.0;
+    }
+
+    public double getRegenerationAmount(EntityRegainHealthEvent.RegainReason reason) {
+        return getHalfHeartValue();
     }
 
     public abstract double calculateBaseAttackDamage();
@@ -219,31 +238,11 @@ public abstract class LeveledEntity {
      * @return
      */
     public int getDefense() {
-        if (!(entity instanceof InventoryHolder holder))
+
+        if (!(getEntity() instanceof LivingEntity living))
             return 0;
 
-        if (!(holder.getInventory() instanceof PlayerInventory inventory))
-            return 0;
-
-        int defense = 0;
-
-        ItemStack[] potentialDefensiveItems = {inventory.getHelmet(), inventory.getChestplate(), inventory.getLeggings(), inventory.getBoots()};
-
-        // Loop through the items this entity is wearing. Add together the defense of all the items if they have it
-        for (ItemStack itemStack : potentialDefensiveItems) {
-
-            if (itemStack == null || itemStack.getType().equals(Material.AIR))
-                continue;
-
-            SMPItemBlueprint blueprint = plugin.getItemService().getBlueprint(itemStack);
-            if (!(blueprint instanceof Wearable wearable))
-                continue;
-
-            defense += wearable.getDefense();
-        }
-
-
-        return defense;
+        return (int) AttributeUtil.getAttributeValue(AttributeWrapper.DEFENSE.getAttribute(), living);
     }
 
     public double getHealthPercentage() {
@@ -252,5 +251,23 @@ public abstract class LeveledEntity {
 
     public void setHealthPercentage(double percentage) {
         entity.setHealth(getMaxHp() * Math.max(0, Math.min(1.0, percentage)));
+    }
+
+    public double getCombatExperienceMultiplier() {
+
+        if (entity instanceof Boss)
+            return 50;
+
+        else if (entity instanceof Animals)
+            return 1;
+
+        else if (entity instanceof Creature)
+            return 5;
+
+        return 0;
+    }
+
+    public int getCombatExperienceDropped() {
+        return (int) (getLevel() * getCombatExperienceMultiplier());
     }
 }

@@ -67,7 +67,7 @@ public class SmiteEnchantment extends VanillaEnchantment implements Listener {
 
     @Override
     public int getWeight() {
-        return 1;
+        return 2;
     }
 
     @Override
@@ -83,6 +83,11 @@ public class SmiteEnchantment extends VanillaEnchantment implements Listener {
     @Override
     public EquipmentSlotGroup getEquipmentSlotGroup() {
         return EquipmentSlotGroup.MAINHAND;
+    }
+
+    @Override
+    public int getSkillRequirement() {
+        return 2;
     }
 
     @EventHandler(priority = EventPriority.HIGH)

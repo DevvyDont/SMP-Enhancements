@@ -65,7 +65,7 @@ public class FeatherFallingEnchantment extends VanillaEnchantment implements Att
 
     @Override
     public int getWeight() {
-        return 1;
+        return 4;
     }
 
     @Override
@@ -84,6 +84,11 @@ public class FeatherFallingEnchantment extends VanillaEnchantment implements Att
     }
 
     @Override
+    public int getSkillRequirement() {
+        return 46;
+    }
+
+    @Override
     public AttributeModifierType getAttributeModifierType() {
         return null;
     }
@@ -93,11 +98,6 @@ public class FeatherFallingEnchantment extends VanillaEnchantment implements Att
         return List.of(
                 new MultiplicativeAttributeEntry(Attribute.GENERIC_FALL_DAMAGE_MULTIPLIER, -getFallResistPercent(getLevel()) / 100.0)
         );
-    }
-
-    @Override
-    public int getDefense() {
-        return 0;
     }
 
     @Override

@@ -19,4 +19,9 @@ public class ChannelingEnchantment extends UnchangedEnchantment {
                 .append(Component.text(" during ").color(NamedTextColor.GRAY))
                 .append(Component.text("thunderstorms").color(NamedTextColor.AQUA));
     }
+
+    @Override
+    public int getSkillRequirement() {
+        return 42;
+    }
 }

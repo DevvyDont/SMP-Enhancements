@@ -47,7 +47,7 @@ public abstract class UnchangedEnchantment extends VanillaEnchantment {
 
     @Override
     public int getWeight() {
-        return 0; // unused
+        return 2;
     }
 
     @Override

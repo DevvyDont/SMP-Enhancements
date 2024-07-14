@@ -59,7 +59,7 @@ public class LootingEnchantment extends VanillaEnchantment {
 
     @Override
     public int getWeight() {
-        return 1;
+        return 4;
     }
 
     @Override
@@ -75,5 +75,10 @@ public class LootingEnchantment extends VanillaEnchantment {
     @Override
     public EquipmentSlotGroup getEquipmentSlotGroup() {
         return EquipmentSlotGroup.MAINHAND;
+    }
+
+    @Override
+    public int getSkillRequirement() {
+        return 20;
     }
 }

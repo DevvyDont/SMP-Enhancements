@@ -23,4 +23,14 @@ public class VanishingCurseEnchantment extends UnchangedEnchantment {
         return Component.text("Vanishes when ").color(NamedTextColor.GRAY)
                 .append(Component.text("dropped from death").color(NamedTextColor.DARK_RED));
     }
+
+    @Override
+    public int getSkillRequirement() {
+        return 0;
+    }
+
+    @Override
+    public int getSkillRequirementToAvoid() {
+        return 10;
+    }
 }

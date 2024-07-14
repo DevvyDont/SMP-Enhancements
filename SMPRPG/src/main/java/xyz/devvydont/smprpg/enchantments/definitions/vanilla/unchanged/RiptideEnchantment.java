@@ -23,4 +23,9 @@ public class RiptideEnchantment extends UnchangedEnchantment {
                 .append(Component.text(getBlocksThrown(getLevel())).color(NamedTextColor.GREEN))
                 .append(Component.text(" blocks when used").color(NamedTextColor.GRAY));
     }
+
+    @Override
+    public int getSkillRequirement() {
+        return 58;
+    }
 }

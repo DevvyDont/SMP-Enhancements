@@ -29,4 +29,8 @@ public class LeveledEnderman extends VanillaEntity implements Listener {
         return Math.min(level, 99);
     }
 
+    @Override
+    public double calculateBaseHealthMultiplier() {
+        return 2.0;
+    }
 }

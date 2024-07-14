@@ -48,15 +48,10 @@ public class InfinityHelmet extends CustomAttributeItem implements Wearable {
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
                 new AdditiveAttributeEntry(Attribute.GENERIC_ARMOR, 30),
-                new AdditiveAttributeEntry(Attribute.GENERIC_ARMOR_TOUGHNESS, 20),
+                new AdditiveAttributeEntry(Attribute.GENERIC_ARMOR_TOUGHNESS, 15000),
                 new AdditiveAttributeEntry(Attribute.GENERIC_MAX_HEALTH, 1500),
                 new AdditiveAttributeEntry(Attribute.GENERIC_KNOCKBACK_RESISTANCE, 2)
         );
-    }
-
-    @Override
-    public int getDefense() {
-        return 15000;
     }
 
     @Override

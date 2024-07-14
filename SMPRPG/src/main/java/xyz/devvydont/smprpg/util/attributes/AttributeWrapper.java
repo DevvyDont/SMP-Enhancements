@@ -2,7 +2,6 @@ package xyz.devvydont.smprpg.util.attributes;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
 
 /**
@@ -15,15 +14,15 @@ public enum AttributeWrapper {
                     .append(Component.text("health").color(NamedTextColor.GREEN))
                     .append(Component.text(" you have in half hearts.")).color(NamedTextColor.GRAY)),
 
-    ARMOR(Attribute.GENERIC_ARMOR, "True Defense", AttributeType.POSITIVE,
+    DEFENSE(Attribute.GENERIC_ARMOR_TOUGHNESS, "Defense", AttributeType.POSITIVE,
+            Component.text("Amount of general ").color(NamedTextColor.GRAY)
+                    .append(Component.text("damage reduction").color(NamedTextColor.RED))
+                    .append(Component.text(" from all sources.").color(NamedTextColor.GRAY))),
+
+    ARMOR(Attribute.GENERIC_ARMOR, "Armor", AttributeType.POSITIVE,
             Component.text("Amount of ").color(NamedTextColor.GRAY)
                     .append(Component.text("flat damage reduction").color(NamedTextColor.AQUA))
                     .append(Component.text(" applied after all damage calculations.")).color(NamedTextColor.GRAY)),
-
-    ARMOR_TOUGHNESS(Attribute.GENERIC_ARMOR_TOUGHNESS, "Evasion", AttributeType.POSITIVE,
-            Component.text("Percent chance to ").color(NamedTextColor.GRAY)
-                    .append(Component.text("completely dodge damage").color(NamedTextColor.LIGHT_PURPLE))
-                    .append(Component.text(" from all sources.").color(NamedTextColor.GRAY))),
 
     ABSORPTION(Attribute.GENERIC_MAX_ABSORPTION, "Absorption", AttributeType.POSITIVE,
             Component.text("Amount of ").color(NamedTextColor.GRAY)

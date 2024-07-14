@@ -42,12 +42,8 @@ public abstract class CustomAttributeItem extends CustomItemBlueprint implements
     public List<Component> getDescriptionComponent(ItemMeta meta) {
         // Append the attribute data just before the description of the item.
         List<Component> lore = new ArrayList<>();
-        lore.add(Component.text("Power Rating: ").color(NamedTextColor.GRAY).append(Component.text(Symbols.POWER + getPowerRating()).color(NamedTextColor.YELLOW)));
+        lore.add(Component.text("Power Rating: ").color(NamedTextColor.GRAY).append(Component.text(Symbols.POWER + getTotalPower(meta)).color(NamedTextColor.YELLOW)));
         lore.add(Component.empty());
-
-        // If this item is armor, we need defense line
-        if (this instanceof Wearable)
-            lore.add(Component.text("Defense: ").color(NamedTextColor.GRAY).append(Component.text("+" + ((Wearable) this).getDefense()).color(NamedTextColor.GREEN)));
 
         lore.addAll(AttributeUtil.getAttributeLore(this, meta));
         lore.addAll(super.getDescriptionComponent(meta));
@@ -73,13 +69,18 @@ public abstract class CustomAttributeItem extends CustomItemBlueprint implements
     }
 
     @Override
-    public int getDefense() {
-        return 0;
-    }
-
-    @Override
     public AttributeModifierType getAttributeModifierType() {
         return AttributeModifierType.BASE;
+    }
+
+    /**
+     * Sums the power rating of the item with any additional bonuses on it
+     *
+     * @param meta
+     * @return
+     */
+    public int getTotalPower(ItemMeta meta) {
+        return getPowerRating() + AttributeUtil.getPowerBonus(meta);
     }
 
 

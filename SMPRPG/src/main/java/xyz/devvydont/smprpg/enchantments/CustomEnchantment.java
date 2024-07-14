@@ -134,7 +134,33 @@ public abstract class CustomEnchantment implements Cloneable {
 
     public abstract EquipmentSlotGroup getEquipmentSlotGroup();
 
+    public abstract int getSkillRequirement();
+
+    /**
+     * The skill level required to stop rolling this enchantment. This is mainly used so that players can stop
+     * rolling curse enchantments on gear at a certain level
+     *
+     * @return
+     */
+    public int getSkillRequirementToAvoid() {
+        return 1000;
+    }
+
     public Enchantment getEnchantment() {
         return SMPRPG.getInstance().getEnchantmentService().getEnchantment(getTypedKey());
+    }
+
+    public int getMagicExperience() {
+        // 20-50 XP for level bonus
+        int levelBonus = (int) (getLevel()/(double)getMaxLevel() * 80 + 20);
+        // Rarity multiplier, rarer enchants provide better bonuses
+        int rarityBonus = (int) (1.0 / (getWeight() + 1.0)) * 50;
+
+        return levelBonus + rarityBonus;
+    }
+
+    @Override
+    public String toString() {
+        return getKey().toString() + " " + getLevel();
     }
 }

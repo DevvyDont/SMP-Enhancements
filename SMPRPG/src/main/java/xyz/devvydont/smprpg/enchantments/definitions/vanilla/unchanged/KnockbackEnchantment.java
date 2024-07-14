@@ -26,4 +26,9 @@ public class KnockbackEnchantment extends UnchangedEnchantment {
         return Component.text("Increases knockback by ").color(NamedTextColor.GRAY)
                 .append(Component.text("+" + getKnockbackPower(getLevel()) + "%").color(NamedTextColor.GREEN));
     }
+
+    @Override
+    public int getSkillRequirement() {
+        return 6;
+    }
 }

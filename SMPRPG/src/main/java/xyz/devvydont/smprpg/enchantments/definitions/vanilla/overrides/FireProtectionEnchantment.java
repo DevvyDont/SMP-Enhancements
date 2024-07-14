@@ -81,6 +81,11 @@ public class FireProtectionEnchantment extends VanillaEnchantment implements Lis
         return EquipmentSlotGroup.ARMOR;
     }
 
+    @Override
+    public int getSkillRequirement() {
+        return 22;
+    }
+
     @EventHandler(priority = EventPriority.HIGH)
     public void onFireDamage(EntityDamageEvent event) {
 

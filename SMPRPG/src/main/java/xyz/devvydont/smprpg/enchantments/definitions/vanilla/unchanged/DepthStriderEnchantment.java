@@ -27,4 +27,9 @@ public class DepthStriderEnchantment extends UnchangedEnchantment {
                 .append(Component.text(getMovementPercentage(getLevel()) + "%").color(NamedTextColor.GREEN))
                 .append(Component.text(" speed").color(NamedTextColor.GRAY));
     }
+
+    @Override
+    public int getSkillRequirement() {
+        return 34;
+    }
 }

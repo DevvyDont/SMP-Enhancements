@@ -1,0 +1,63 @@
+package xyz.devvydont.smprpg.skills;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class SkillGlobals {
+
+    public static int MAX_LEVEL = 99;
+
+    private static Map<Integer, Integer> cumulativeExperienceCache = new HashMap<>();
+
+    public static int getCumulativeExperienceForLevel(int level) {
+
+        // If we are attempting to find experience for a level that is not valid (base case also)
+        if (level <= 0)
+            return 0;
+
+        // If we previously cached the answer for this level use that
+        if (cumulativeExperienceCache.containsKey(level))
+            return cumulativeExperienceCache.get(level);
+
+        // Recursively add the experience from previous levels to this one
+        int experience = getExperienceForLevel(level) + getCumulativeExperienceForLevel(level-1);
+        cumulativeExperienceCache.put(level, experience);
+        return experience;
+    }
+
+    /**
+     * Returns the amount of experience required to level up when starting at a certain level
+     *
+     * @param level
+     * @return
+     */
+    public static int getExperienceForLevel(int level) {
+        return 10 * (level * level) + 90;
+    }
+
+    /**
+     * Returns the total amount of experience required to reach the next level
+     *
+     * @param level
+     * @return
+     */
+    public static int getTotalExperienceForNextLevel(int level) {
+        return getCumulativeExperienceForLevel(level + 1);
+    }
+
+    public static int getExperienceForNextLevel(int level) {
+        return getExperienceForNextLevel(level + 1);
+    }
+
+    public static int getLevelForExperience(int experience) {
+
+        // Loop through the experience cumulative values until we haven't hit a threshold yet
+        for (int i = 0; i <= MAX_LEVEL; i++)
+            if (experience < getCumulativeExperienceForLevel(i+1))
+                return i;
+
+        // Our experience was never lower than the max level cumulative experience requirement, we must be max level
+        return MAX_LEVEL;
+    }
+
+}

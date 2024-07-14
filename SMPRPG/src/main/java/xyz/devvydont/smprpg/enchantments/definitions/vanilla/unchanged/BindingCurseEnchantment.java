@@ -24,4 +24,14 @@ public class BindingCurseEnchantment extends UnchangedEnchantment {
                 .append(Component.text("removed").color(NamedTextColor.DARK_RED))
                 .append(Component.text(" once worn").color(NamedTextColor.GRAY));
     }
+
+    @Override
+    public int getSkillRequirement() {
+        return 0;
+    }
+
+    @Override
+    public int getSkillRequirementToAvoid() {
+        return 10;
+    }
 }

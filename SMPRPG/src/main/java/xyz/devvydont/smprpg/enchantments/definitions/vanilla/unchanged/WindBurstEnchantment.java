@@ -18,4 +18,9 @@ public class WindBurstEnchantment extends UnchangedEnchantment {
                 .append(Component.text(getLevel() * 5)).color(NamedTextColor.GREEN)
                 .append(Component.text(" blocks when dealing damage").color(NamedTextColor.GRAY));
     }
+
+    @Override
+    public int getSkillRequirement() {
+        return 78;
+    }
 }

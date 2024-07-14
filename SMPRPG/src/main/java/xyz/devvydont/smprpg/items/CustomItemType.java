@@ -216,7 +216,8 @@ public enum CustomItemType {
     SPIDER_REPELLENT("Spider Repellent", Material.POTION, ItemRarity.SPECIAL, true),
 
     // DEBUG
-    ENTITY_ANALYZER("Entity Analyzer", Material.CLOCK, ItemRarity.SPECIAL, true)
+    ENTITY_ANALYZER("Entity Analyzer", Material.CLOCK, ItemRarity.SPECIAL, true),
+    ENTITY_ANALYZER_REPORT("Entity Analyzer Report", Material.PAPER, ItemRarity.SPECIAL, true),
     ;
 
     public final String name;

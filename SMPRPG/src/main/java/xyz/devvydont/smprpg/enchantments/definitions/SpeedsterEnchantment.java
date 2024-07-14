@@ -22,7 +22,7 @@ import java.util.List;
 public class SpeedsterEnchantment extends CustomEnchantment implements AttributeEnchantment {
 
     public static int getSpeedPercentageIncrease(int level) {
-        return level * 5;
+        return level * 10;
     }
 
     public SpeedsterEnchantment(String id) {
@@ -42,7 +42,7 @@ public class SpeedsterEnchantment extends CustomEnchantment implements Attribute
 
     @Override
     public RegistryKeySet<ItemType> getSupportedItems(RegistryFreezeEvent<Enchantment, EnchantmentRegistryEntry.Builder> event) {
-        return event.getOrCreateTag(ItemTypeTagKeys.ENCHANTABLE_ARMOR);
+        return event.getOrCreateTag(ItemTypeTagKeys.ENCHANTABLE_FOOT_ARMOR);
     }
 
 
@@ -58,7 +58,7 @@ public class SpeedsterEnchantment extends CustomEnchantment implements Attribute
 
     @Override
     public int getWeight() {
-        return 4;
+        return 2;
     }
 
     @Override
@@ -73,7 +73,12 @@ public class SpeedsterEnchantment extends CustomEnchantment implements Attribute
 
     @Override
     public EquipmentSlotGroup getEquipmentSlotGroup() {
-        return EquipmentSlotGroup.ARMOR;
+        return EquipmentSlotGroup.FEET;
+    }
+
+    @Override
+    public int getSkillRequirement() {
+        return 56;
     }
 
     @Override
@@ -88,10 +93,6 @@ public class SpeedsterEnchantment extends CustomEnchantment implements Attribute
         );
     }
 
-    @Override
-    public int getDefense() {
-        return 0;
-    }
 
     @Override
     public int getPowerRating() {

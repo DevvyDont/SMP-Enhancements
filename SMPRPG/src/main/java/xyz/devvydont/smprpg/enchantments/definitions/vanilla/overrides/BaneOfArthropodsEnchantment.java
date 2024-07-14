@@ -84,6 +84,11 @@ public class BaneOfArthropodsEnchantment extends VanillaEnchantment implements L
         return EquipmentSlotGroup.MAINHAND;
     }
 
+    @Override
+    public int getSkillRequirement() {
+        return 12;
+    }
+
     @EventHandler(priority = EventPriority.HIGH)
     public void onDamageArthropod(CustomEntityDamageByEntityEvent event) {
 

@@ -18,4 +18,9 @@ public class MendingEnchantment extends UnchangedEnchantment {
         return Component.text("Repaired when ").color(NamedTextColor.GRAY)
                 .append(Component.text("earning experience").color(NamedTextColor.LIGHT_PURPLE));
     }
+
+    @Override
+    public int getSkillRequirement() {
+        return 60;
+    }
 }

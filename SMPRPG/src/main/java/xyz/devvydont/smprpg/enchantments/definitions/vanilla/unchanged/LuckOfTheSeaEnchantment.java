@@ -18,4 +18,9 @@ public class LuckOfTheSeaEnchantment extends UnchangedEnchantment {
         return Component.text("Increases chance of treasure by ").color(NamedTextColor.GRAY)
                 .append(Component.text((2*getLevel()) + "%").color(NamedTextColor.GREEN));
     }
+
+    @Override
+    public int getSkillRequirement() {
+        return 50;
+    }
 }

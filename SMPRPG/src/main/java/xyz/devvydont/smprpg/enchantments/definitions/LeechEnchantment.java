@@ -78,6 +78,11 @@ public class LeechEnchantment extends CustomEnchantment implements Listener {
         return EquipmentSlotGroup.MAINHAND;
     }
 
+    @Override
+    public int getSkillRequirement() {
+        return 60;
+    }
+
     @EventHandler
     public void onPlayerLeechedEntity(EntityDeathEvent event) {
 

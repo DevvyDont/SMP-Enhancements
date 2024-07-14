@@ -3,6 +3,7 @@ package xyz.devvydont.smprpg.entity.vanilla;
 import org.bukkit.entity.AreaEffectCloud;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -22,7 +23,7 @@ public class LeveledDragon extends VanillaEntity implements Listener {
 
     @Override
     public double calculateBaseAttackDamage() {
-        return 500;
+        return 1100;
     }
 
     @Override
@@ -37,10 +38,10 @@ public class LeveledDragon extends VanillaEntity implements Listener {
 
     @Override
     public double calculateBaseHealth() {
-        return 50000;
+        return 100_000;
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onDragonBreathDamage(EntityDamageByEntityEvent e) {
 
         // Dragon breath damage is treated as a normal attack

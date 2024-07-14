@@ -21,7 +21,7 @@ public class LeveledWarden extends VanillaEntity implements Listener {
 
     @Override
     public double calculateBaseHealth() {
-        return 250000;
+        return 1_000_000;
     }
 
     @Override
@@ -36,7 +36,7 @@ public class LeveledWarden extends VanillaEntity implements Listener {
 
     @Override
     public double calculateBaseAttackDamage() {
-        return 2000;
+        return 6000;
     }
 
     @Override

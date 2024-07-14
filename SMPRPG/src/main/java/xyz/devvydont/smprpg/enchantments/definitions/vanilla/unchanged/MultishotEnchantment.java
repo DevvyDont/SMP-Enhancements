@@ -19,4 +19,9 @@ public class MultishotEnchantment extends UnchangedEnchantment {
                 .append(Component.text("multiple arrows").color(NamedTextColor.GOLD))
                 .append(Component.text(" when shot").color(NamedTextColor.GRAY));
     }
+
+    @Override
+    public int getSkillRequirement() {
+        return 62;
+    }
 }

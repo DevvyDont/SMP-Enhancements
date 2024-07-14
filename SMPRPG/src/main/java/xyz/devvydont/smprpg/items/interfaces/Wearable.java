@@ -6,6 +6,4 @@ package xyz.devvydont.smprpg.items.interfaces;
  */
 public interface Wearable {
 
-    int getDefense();
-
 }

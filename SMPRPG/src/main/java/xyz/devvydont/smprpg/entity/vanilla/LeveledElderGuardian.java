@@ -25,12 +25,12 @@ public class LeveledElderGuardian extends VanillaEntity implements Listener {
 
     @Override
     public double calculateBaseHealth() {
-        return 15000;
+        return 25000;
     }
 
     @Override
     public double calculateBaseAttackDamage() {
-        return 150;
+        return 400;
     }
 
     @Override

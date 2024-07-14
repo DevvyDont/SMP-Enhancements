@@ -15,42 +15,45 @@ import xyz.devvydont.smprpg.enchantments.base.AttributeEnchantment;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeModifierType;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
+import xyz.devvydont.smprpg.util.formatting.Symbols;
 
 import java.util.Collection;
 import java.util.List;
 
-public class GrowthEnchantment extends CustomEnchantment implements AttributeEnchantment {
+public class HeartyEnchantment extends CustomEnchantment implements AttributeEnchantment {
 
     public static int getHealthIncrease(int level) {
         return switch (level) {
           case 0 -> 0;
-          case 1 -> 10;
-          case 2 -> 20;
-          case 3 -> 30;
-          case 4 -> 40;
+          case 1 -> 5;
+          case 2 -> 10;
+          case 3 -> 20;
+          case 4 -> 35;
           case 5 -> 50;
-          case 6 -> 65;
+          case 6 -> 60;
           case 7 -> 80;
-          case 8 -> 110;
-          case 9 -> 130;
+          case 8 -> 100;
+          case 9 -> 125;
           case 10 -> 150;
           default -> getHealthIncrease(10) + 25*(level - 10);
         };
     }
 
-    public GrowthEnchantment(String id) {
+    public HeartyEnchantment(String id) {
         super(id);
     }
 
     @Override
     public Component getDisplayName() {
-        return Component.text("Growth");
+        return Component.text("Hearty");
     }
 
     @Override
     public Component getDescription() {
-        return Component.text("Increases maximum health by ").color(NamedTextColor.GRAY)
-                .append(Component.text("+" + getHealthIncrease(getLevel())).color(NamedTextColor.GREEN));
+        return Component.text("Increases max HP by ").color(NamedTextColor.GRAY)
+                .append(Component.text("+" + getHealthIncrease(getLevel())).color(NamedTextColor.GREEN))
+                .append(ComponentUtil.getColoredComponent(Symbols.HEART, NamedTextColor.RED));
     }
 
     @Override
@@ -76,17 +79,22 @@ public class GrowthEnchantment extends CustomEnchantment implements AttributeEnc
 
     @Override
     public EnchantmentRegistryEntry.EnchantmentCost getMinimumCost() {
-        return EnchantmentRegistryEntry.EnchantmentCost.of(1, 3);
+        return EnchantmentRegistryEntry.EnchantmentCost.of(1, 1);
     }
 
     @Override
     public EnchantmentRegistryEntry.EnchantmentCost getMaximumCost() {
-        return EnchantmentRegistryEntry.EnchantmentCost.of(1, 1);
+        return EnchantmentRegistryEntry.EnchantmentCost.of(1, 3);
     }
 
     @Override
     public EquipmentSlotGroup getEquipmentSlotGroup() {
         return EquipmentSlotGroup.ARMOR;
+    }
+
+    @Override
+    public int getSkillRequirement() {
+        return 30;
     }
 
     @Override
@@ -99,11 +107,6 @@ public class GrowthEnchantment extends CustomEnchantment implements AttributeEnc
         return List.of(
                 new AdditiveAttributeEntry(Attribute.GENERIC_MAX_HEALTH, getHealthIncrease(getLevel()))
         );
-    }
-
-    @Override
-    public int getDefense() {
-        return 0;
     }
 
     @Override

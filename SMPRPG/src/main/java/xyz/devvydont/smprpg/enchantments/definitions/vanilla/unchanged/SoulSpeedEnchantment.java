@@ -24,4 +24,9 @@ public class SoulSpeedEnchantment extends UnchangedEnchantment {
                 .append(Component.text(" on ").color(NamedTextColor.GRAY))
                 .append(Component.text("soul sand/soil").color(NamedTextColor.GOLD));
     }
+
+    @Override
+    public int getSkillRequirement() {
+        return 50;
+    }
 }

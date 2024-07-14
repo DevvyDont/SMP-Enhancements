@@ -19,4 +19,9 @@ public class FrostWalkerEnchantment extends UnchangedEnchantment {
                 .append(Component.text(" blocks away when walked on").color(NamedTextColor.GRAY));
     }
 
+    @Override
+    public int getSkillRequirement() {
+        return 38;
+    }
+
 }

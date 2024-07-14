@@ -22,4 +22,9 @@ public class SwiftSneakEnchantment extends UnchangedEnchantment {
                 .append(Component.text(getSneakPercent(getLevel()) + "%").color(NamedTextColor.GREEN))
                 .append(Component.text(" of walk speed").color(NamedTextColor.GRAY));
     }
+
+    @Override
+    public int getSkillRequirement() {
+        return 90;
+    }
 }

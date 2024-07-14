@@ -27,4 +27,9 @@ public class LoyaltyEnchantment extends UnchangedEnchantment {
         return Component.text("Returns when thrown ").color(NamedTextColor.GRAY)
                 .append(getSpeedModifier(getLevel()));
     }
+
+    @Override
+    public int getSkillRequirement() {
+        return 48;
+    }
 }

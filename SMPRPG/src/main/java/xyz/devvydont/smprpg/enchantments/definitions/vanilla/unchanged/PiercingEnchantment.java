@@ -18,4 +18,9 @@ public class PiercingEnchantment extends UnchangedEnchantment {
                 .append(Component.text(getLevel()).color(NamedTextColor.GREEN))
                 .append(Component.text(" enemy(s)").color(NamedTextColor.GRAY));
     }
+
+    @Override
+    public int getSkillRequirement() {
+        return 52;
+    }
 }

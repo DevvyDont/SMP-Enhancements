@@ -57,7 +57,7 @@ public class InfinityEnchantment extends VanillaEnchantment implements Listener 
 
     @Override
     public int getWeight() {
-        return 1;
+        return 4;
     }
 
     @Override
@@ -73,6 +73,11 @@ public class InfinityEnchantment extends VanillaEnchantment implements Listener 
     @Override
     public EquipmentSlotGroup getEquipmentSlotGroup() {
         return EquipmentSlotGroup.HAND;
+    }
+
+    @Override
+    public int getSkillRequirement() {
+        return 54;
     }
 
     @EventHandler

@@ -14,6 +14,7 @@ public class EnvironmentalDamageListener implements Listener {
 
     /**
      * Environmental damage causes % damage to health since health can get out of control
+     * This multiplier is a multiplier on top of the half heart percentage
      *
      * @param cause
      * @return
@@ -22,11 +23,11 @@ public class EnvironmentalDamageListener implements Listener {
 
         return switch (cause) {
 
-            case FIRE, FIRE_TICK, DROWNING, CAMPFIRE, HOT_FLOOR, STARVATION, FREEZE -> .05;
-            case LAVA, DRAGON_BREATH -> .15;
-            case VOID -> .2;
-            case POISON, WORLD_BORDER, SUFFOCATION, CRAMMING -> .1;
-            case WITHER -> .12;
+            case FIRE, FIRE_TICK, DROWNING, CAMPFIRE, HOT_FLOOR, STARVATION, FREEZE -> 1.0;
+            case LAVA, DRAGON_BREATH -> 3.0;
+            case VOID -> 5.0;
+            case POISON, WORLD_BORDER, SUFFOCATION, CRAMMING -> 2.0;
+            case WITHER -> 2.5;
 
             default -> -1;
         };
@@ -58,7 +59,7 @@ public class EnvironmentalDamageListener implements Listener {
             return;
 
         LeveledEntity entity = plugin.getEntityService().getEntityInstance((LivingEntity) event.getEntity());
-        event.setDamage(entity.getMaxHp() * getEnvironmentalDamagePercentage(event.getCause()));
+        event.setDamage(entity.getHalfHeartValue() * getEnvironmentalDamagePercentage(event.getCause()));
     }
 
     @EventHandler

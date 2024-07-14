@@ -37,6 +37,11 @@ public class ThornsEnchantment extends UnchangedEnchantment implements Listener 
                 .append(Component.text(" damage when hurt").color(NamedTextColor.GRAY));
     }
 
+    @Override
+    public int getSkillRequirement() {
+        return 36;
+    }
+
     @EventHandler(priority = EventPriority.LOW)
     public void onThornsDamage(EntityDamageByEntityEvent event) {
 

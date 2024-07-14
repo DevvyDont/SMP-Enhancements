@@ -16,6 +16,7 @@ import xyz.devvydont.smprpg.enchantments.definitions.vanilla.VanillaEnchantment;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeModifierType;
+import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
 
 import java.util.Collection;
 import java.util.List;
@@ -58,7 +59,7 @@ public class SweepingEdgeEnchantment extends VanillaEnchantment implements Attri
 
     @Override
     public int getWeight() {
-        return 1;
+        return 2;
     }
 
     @Override
@@ -77,6 +78,11 @@ public class SweepingEdgeEnchantment extends VanillaEnchantment implements Attri
     }
 
     @Override
+    public int getSkillRequirement() {
+        return 66;
+    }
+
+    @Override
     public AttributeModifierType getAttributeModifierType() {
         return AttributeModifierType.ENCHANTMENT;
     }
@@ -84,13 +90,8 @@ public class SweepingEdgeEnchantment extends VanillaEnchantment implements Attri
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(Attribute.PLAYER_SWEEPING_DAMAGE_RATIO, getSweepingEdgeEfficiency(getLevel())/100.0)
+                new MultiplicativeAttributeEntry(Attribute.PLAYER_SWEEPING_DAMAGE_RATIO, getSweepingEdgeEfficiency(getLevel())/100.0)
         );
-    }
-
-    @Override
-    public int getDefense() {
-        return 0;
     }
 
     @Override

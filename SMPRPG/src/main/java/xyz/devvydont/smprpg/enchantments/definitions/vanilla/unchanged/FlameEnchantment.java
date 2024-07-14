@@ -21,4 +21,9 @@ public class FlameEnchantment extends UnchangedEnchantment {
         return Component.text("Ignites enemies for ").color(NamedTextColor.GRAY)
                 .append(Component.text(getSecondsOfBurn(getLevel()) + "s").color(NamedTextColor.GOLD));
     }
+
+    @Override
+    public int getSkillRequirement() {
+        return 24;
+    }
 }

@@ -1,4 +1,4 @@
-package xyz.devvydont.smprpg.enchantments;
+package xyz.devvydont.smprpg.services;
 
 import io.papermc.paper.registry.RegistryAccess;
 import io.papermc.paper.registry.RegistryKey;
@@ -6,20 +6,27 @@ import io.papermc.paper.registry.TypedKey;
 import io.papermc.paper.registry.keys.EnchantmentKeys;
 import org.bukkit.Registry;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.enchantments.EnchantmentOffer;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.enchantment.EnchantItemEvent;
+import org.bukkit.event.enchantment.PrepareItemEnchantEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import xyz.devvydont.smprpg.SMPRPG;
-import xyz.devvydont.smprpg.enchantments.definitions.GrowthEnchantment;
+import xyz.devvydont.smprpg.enchantments.CustomEnchantment;
+import xyz.devvydont.smprpg.enchantments.calculator.EnchantmentCalculator;
+import xyz.devvydont.smprpg.enchantments.definitions.HeartyEnchantment;
 import xyz.devvydont.smprpg.enchantments.definitions.LeechEnchantment;
 import xyz.devvydont.smprpg.enchantments.definitions.SpeedsterEnchantment;
 import xyz.devvydont.smprpg.enchantments.definitions.vanilla.overrides.*;
 import xyz.devvydont.smprpg.enchantments.definitions.vanilla.UnknownEnchantment;
 import xyz.devvydont.smprpg.enchantments.definitions.vanilla.unchanged.*;
-import xyz.devvydont.smprpg.services.BaseService;
+import xyz.devvydont.smprpg.entity.LeveledPlayer;
 
 import java.util.*;
 
-public class EnchantmentService implements BaseService {
+public class EnchantmentService implements BaseService, Listener {
 
     // Vanilla overrides
     public final static CustomEnchantment AQUA_AFFINITY = new AquaAffinityEnchantment(EnchantmentKeys.AQUA_AFFINITY);
@@ -66,7 +73,7 @@ public class EnchantmentService implements BaseService {
     public final static CustomEnchantment WIND_BURST = new WindBurstEnchantment(EnchantmentKeys.WIND_BURST);
 
     // Custom enchantments
-    public final static CustomEnchantment GROWTH = new GrowthEnchantment("growth");
+    public final static CustomEnchantment HEARTY = new HeartyEnchantment("hearty");
     public final static CustomEnchantment SPEEDSTER = new SpeedsterEnchantment("speedster");
     public final static CustomEnchantment LEECH = new LeechEnchantment("leech");
 
@@ -115,7 +122,7 @@ public class EnchantmentService implements BaseService {
             UNBREAKING,
             WIND_BURST,
 
-            GROWTH,
+            HEARTY,
             SPEEDSTER,
             LEECH,
     };
@@ -124,6 +131,8 @@ public class EnchantmentService implements BaseService {
 
     @Override
     public boolean setup() {
+
+        SMPRPG.getInstance().getServer().getPluginManager().registerEvents(this, SMPRPG.getInstance());
 
         for (CustomEnchantment enchantment : CUSTOM_ENCHANTMENTS) {
             enchantments.put(getEnchantment(enchantment), enchantment);
@@ -197,12 +206,49 @@ public class EnchantmentService implements BaseService {
      * @return
      */
     public Collection<CustomEnchantment> getCustomEnchantments(ItemMeta meta) {
+        return getCustomEnchantments(meta.getEnchants());
+    }
 
-        List<CustomEnchantment> enchants = new ArrayList<>();
+    public Collection<CustomEnchantment> getCustomEnchantments(Map<Enchantment, Integer> enchants) {
+        List<CustomEnchantment> enchantList = new ArrayList<>();
+        for (Map.Entry<Enchantment, Integer> entry : enchants.entrySet())
+            enchantList.add(getEnchantment(entry.getKey()).build(entry.getValue()));
+        return enchantList;
+    }
 
-        for (Map.Entry<Enchantment, Integer> entry : meta.getEnchants().entrySet())
-            enchants.add(getEnchantment(entry.getKey()).build(entry.getValue()));
+    public EnchantmentCalculator getCalculator(ItemStack item, int bookshelfBonus, int magicLevel, int seed) {
+        return new EnchantmentCalculator(item, bookshelfBonus, magicLevel, seed);
+    }
 
-        return enchants;
+    // Caches calculator queries so that the EnchantItemEvent can use results from PrepareItemEnchantEvent
+    public static Map<UUID, Map<EnchantmentCalculator.EnchantmentSlot, List<EnchantmentOffer>>> calculatorCache = new HashMap<>();
+
+    @EventHandler
+    public void onEnchantPrepare(PrepareItemEnchantEvent event) {
+
+        LeveledPlayer player = SMPRPG.getInstance().getEntityService().getPlayerInstance(event.getEnchanter());
+        EnchantmentCalculator calculator = getCalculator(event.getItem(), event.getEnchantmentBonus(), player.getMagicSkill().getLevel(), player.getSeed());
+
+        // Calculate enchantments to give and update costs and previews
+        Map<EnchantmentCalculator.EnchantmentSlot, List<EnchantmentOffer>> offers = calculator.calculate();
+        calculatorCache.put(event.getEnchanter().getUniqueId(), offers);
+
+        for (Map.Entry<EnchantmentCalculator.EnchantmentSlot, List<EnchantmentOffer>> entry : offers.entrySet())
+            event.getOffers()[entry.getKey().ordinal()] = !entry.getValue().isEmpty() ? entry.getValue().getFirst() : null;
+    }
+
+    @EventHandler
+    public void onEnchant(EnchantItemEvent event) {
+
+        Map<EnchantmentCalculator.EnchantmentSlot, List<EnchantmentOffer>> allOffers = calculatorCache.get(event.getEnchanter().getUniqueId());
+        if (allOffers == null)
+            return;
+
+        List<EnchantmentOffer> clickedOffers = allOffers.get(EnchantmentCalculator.EnchantmentSlot.fromButton(event.whichButton()));
+        event.getEnchantsToAdd().clear();
+        for (EnchantmentOffer offer : clickedOffers)
+            event.getEnchantsToAdd().put(offer.getEnchantment(), offer.getEnchantmentLevel());
+
+        SMPRPG.getInstance().getEntityService().getPlayerInstance(event.getEnchanter()).shuffleSeed();
     }
 }

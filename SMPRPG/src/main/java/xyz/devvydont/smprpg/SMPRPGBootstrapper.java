@@ -5,9 +5,6 @@ import io.papermc.paper.plugin.bootstrap.BootstrapContext;
 import io.papermc.paper.plugin.bootstrap.PluginBootstrap;
 import io.papermc.paper.plugin.lifecycle.event.LifecycleEventManager;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
-import io.papermc.paper.registry.RegistryKey;
-import io.papermc.paper.registry.TypedKey;
-import io.papermc.paper.registry.event.RegistryEvents;
 import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.commands.CommandBase;
 import xyz.devvydont.smprpg.commands.economy.CommandBalance;
@@ -16,9 +13,10 @@ import xyz.devvydont.smprpg.commands.economy.CommandDeposit;
 import xyz.devvydont.smprpg.commands.economy.CommandWithdrawal;
 import xyz.devvydont.smprpg.commands.items.CommandGiveItem;
 import xyz.devvydont.smprpg.commands.items.CommandSearchItem;
+import xyz.devvydont.smprpg.commands.player.CommandSkill;
 import xyz.devvydont.smprpg.commands.player.CommandStatistics;
 import xyz.devvydont.smprpg.enchantments.CustomEnchantment;
-import xyz.devvydont.smprpg.enchantments.EnchantmentService;
+import xyz.devvydont.smprpg.services.EnchantmentService;
 
 public class SMPRPGBootstrapper implements PluginBootstrap {
 
@@ -30,7 +28,8 @@ public class SMPRPGBootstrapper implements PluginBootstrap {
                 new CommandWithdrawal("withdrawal"),
                 new CommandGiveItem("givecustom"),
                 new CommandSearchItem("search"),
-                new CommandStatistics("statistics")
+                new CommandStatistics("statistics"),
+                new CommandSkill("skill")
         };
 
         LifecycleEventManager<BootstrapContext> manager = context.getLifecycleManager();

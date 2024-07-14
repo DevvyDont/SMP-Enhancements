@@ -42,7 +42,8 @@ public class BreachEnchantment extends VanillaEnchantment implements Listener {
     public Component getDescription() {
         return Component.text("Attacks pierce through ").color(NamedTextColor.GRAY)
                 .append(Component.text(getDefensePiercing(getLevel())).color(NamedTextColor.GREEN))
-                .append(Component.text(" defense").color(NamedTextColor.GRAY));
+                .append(Component.text(" defense").color(NamedTextColor.GRAY))
+                .append(Component.text(" **NOT IMPLEMENTED").color(NamedTextColor.DARK_RED));
     }
 
     @Override
@@ -62,7 +63,7 @@ public class BreachEnchantment extends VanillaEnchantment implements Listener {
 
     @Override
     public int getWeight() {
-        return 1;
+        return 2;
     }
 
     @Override
@@ -78,6 +79,11 @@ public class BreachEnchantment extends VanillaEnchantment implements Listener {
     @Override
     public EquipmentSlotGroup getEquipmentSlotGroup() {
         return EquipmentSlotGroup.MAINHAND;
+    }
+
+    @Override
+    public int getSkillRequirement() {
+        return 68;
     }
 
     @EventHandler

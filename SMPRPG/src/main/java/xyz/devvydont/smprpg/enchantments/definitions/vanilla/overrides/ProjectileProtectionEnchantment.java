@@ -74,6 +74,11 @@ public class ProjectileProtectionEnchantment extends VanillaEnchantment implemen
         return EquipmentSlotGroup.ARMOR;
     }
 
+    @Override
+    public int getSkillRequirement() {
+        return 14;
+    }
+
     @EventHandler(priority = EventPriority.HIGH)
     public void onFireDamage(EntityDamageEvent event) {
 

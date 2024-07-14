@@ -5,9 +5,13 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.attribute.AttributeModifier;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemFlag;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.w3c.dom.Attr;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.enchantments.CustomEnchantment;
 import xyz.devvydont.smprpg.enchantments.base.AttributeEnchantment;
@@ -19,6 +23,56 @@ import xyz.devvydont.smprpg.util.formatting.MinecraftStringUtils;
 import java.util.*;
 
 public class AttributeUtil {
+
+    public static Collection<AttributeModifier> getAllModifiers(Attribute attribute, ItemMeta meta) {
+
+        if (meta == null || meta.getAttributeModifiers() == null)
+            return Collections.emptyList();
+
+        return meta.getAttributeModifiers(attribute);
+    }
+
+    /**
+     * Given an entity returns the total of a certain attribute on an entity
+     *
+     * @param attribute
+     * @param entity
+     * @return
+     */
+    public static int getTotalArmorAttributes(Attribute attribute, LivingEntity entity) {
+
+        if (entity.getEquipment() == null)
+            return 0;
+
+        ItemStack[] armor = entity.getEquipment().getArmorContents();
+        int sum = 0;
+        for (ItemStack stack : armor)
+            if (stack != null && stack.getType() != Material.AIR)
+                sum += calculateAttributeBonus(getAllModifiers(attribute, stack.getItemMeta()), 0).getTotal();
+
+        return sum;
+    }
+
+    /**
+     * Used to properly retrieve the value of an attribute of an entity. Some attributes are weird and require us
+     * to manually check for them because of limitations in the base game
+     *
+     * @param entity
+     * @return
+     */
+    public static double getAttributeValue(Attribute attribute, LivingEntity entity) {
+
+        // Armor toughness is capped at 20, so we need to actually manually check for it by analyzing armor
+        if (attribute.equals(Attribute.GENERIC_ARMOR_TOUGHNESS))
+            return getTotalArmorAttributes(attribute, entity);
+
+        // Otherwise just return the normal value
+        AttributeInstance instance = entity.getAttribute(attribute);
+        if (instance == null)
+            return 0;
+
+        return instance.getValue();
+    }
 
 
     /**
@@ -228,6 +282,27 @@ public class AttributeUtil {
             if (enchantment instanceof AttributeEnchantment attributeEnchantment)
                 for (AttributeEntry entry : attributeEnchantment.getAttributeModifiers())
                     enchantAttributes.addAttributeModifier(entry, blueprint.getActiveSlot());
+    }
+
+    /**
+     * Given item meta, determine how much of a power bonus there is from enchantments and reforging
+     *
+     * @return
+     */
+    public static int getPowerBonus(ItemMeta meta) {
+
+        int sum = 0;
+
+        // This can happen when something tries to update too fast
+        if (SMPRPG.getInstance() == null || SMPRPG.getInstance().getEnchantmentService() == null)
+            return sum;
+
+        // Loop through all the enchantments on the item and determine if it has a power rating
+        for (CustomEnchantment enchantment : SMPRPG.getInstance().getEnchantmentService().getCustomEnchantments(meta))
+            if (enchantment instanceof AttributeEnchantment attribute)
+                sum += attribute.getPowerRating();
+
+        return sum;
     }
 
 

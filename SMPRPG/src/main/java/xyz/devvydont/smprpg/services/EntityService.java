@@ -9,6 +9,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Color;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -19,6 +20,8 @@ import org.bukkit.event.entity.*;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.inventory.EntityEquipment;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -154,8 +157,8 @@ public class EntityService implements BaseService, Listener {
             return entityInstances.get(entity.getUniqueId());
 
         // Is this a player? We use a pretty barebones instance for players for least amount of interference possible
-        if (entity instanceof Player) {
-            LeveledPlayer leveledPlayer = new LeveledPlayer(plugin, entity);
+        if (entity instanceof Player player) {
+            LeveledPlayer leveledPlayer = new LeveledPlayer(plugin, player);
             trackEntity(leveledPlayer);
             return leveledPlayer;
         }
@@ -246,6 +249,18 @@ public class EntityService implements BaseService, Listener {
 
         entity.updateAttributes();
         entity.updateNametag();
+
+        // If this entity is holding/wearing anything, we need to fix their items to have proper stats
+        EntityEquipment equipment = event.getEntity().getEquipment();
+        if (equipment != null) {
+            equipment.setHelmet(plugin.getItemService().ensureItemStackUpdated(equipment.getHelmet()));
+            equipment.setChestplate(plugin.getItemService().ensureItemStackUpdated(equipment.getChestplate()));
+            equipment.setLeggings(plugin.getItemService().ensureItemStackUpdated(equipment.getLeggings()));
+            equipment.setBoots(plugin.getItemService().ensureItemStackUpdated(equipment.getBoots()));
+
+            equipment.setItemInMainHand(plugin.getItemService().ensureItemStackUpdated(equipment.getItemInMainHand()));
+            equipment.setItemInOffHand(plugin.getItemService().ensureItemStackUpdated(equipment.getItemInOffHand()));
+        }
     }
 
     /**
@@ -277,7 +292,7 @@ public class EntityService implements BaseService, Listener {
         trackEntity(leveled);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onEntityDespawn(EntityRemoveFromWorldEvent event) {
         removeEntity(event.getEntity().getUniqueId());
     }
@@ -352,8 +367,6 @@ public class EntityService implements BaseService, Listener {
 
         if (!(event.getEntity() instanceof LivingEntity))
             return;
-
-
 
         LeveledEntity leveled = getEntityInstance((LivingEntity) event.getEntity());
 

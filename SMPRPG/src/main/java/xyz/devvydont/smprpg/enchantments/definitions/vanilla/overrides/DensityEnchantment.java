@@ -64,7 +64,7 @@ public class DensityEnchantment extends VanillaEnchantment implements Listener {
 
     @Override
     public int getWeight() {
-        return 1;
+        return 2;
     }
 
     @Override
@@ -80,6 +80,11 @@ public class DensityEnchantment extends VanillaEnchantment implements Listener {
     @Override
     public EquipmentSlotGroup getEquipmentSlotGroup() {
         return EquipmentSlotGroup.MAINHAND;
+    }
+
+    @Override
+    public int getSkillRequirement() {
+        return 72;
     }
 
     @EventHandler(priority = EventPriority.NORMAL)

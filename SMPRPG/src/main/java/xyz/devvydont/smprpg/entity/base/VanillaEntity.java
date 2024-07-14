@@ -69,11 +69,11 @@ public class VanillaEntity extends EnemyEntity {
     }
 
     public double calculateBaseHealthMultiplier() {
-        return entity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getDefaultValue() / 20.0;
+        return 1.0;
     }
 
     public double calculateBaseHealth() {
-        double hp = calculateBaseHealthMultiplier() * Math.pow(getLevel(), 2) + 20.0;
+        double hp = calculateBaseHealthMultiplier() * Math.pow(getLevel(), 2.2) + 20.0;
 
         // If the HP is less than 30 leave it be
         if (hp < 20)
@@ -103,6 +103,11 @@ public class VanillaEntity extends EnemyEntity {
             return averageDamage;
 
         return attack.getDefaultValue() / averageDamage;
+    }
+
+    @Override
+    public double getCombatExperienceMultiplier() {
+        return calculateBaseHealthMultiplier() * super.getCombatExperienceMultiplier();
     }
 
     @Override

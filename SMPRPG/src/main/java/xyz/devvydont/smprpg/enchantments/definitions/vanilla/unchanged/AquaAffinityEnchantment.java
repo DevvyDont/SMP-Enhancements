@@ -18,4 +18,9 @@ public class AquaAffinityEnchantment extends UnchangedEnchantment {
                 .append(Component.text("underwater").color(NamedTextColor.AQUA))
                 .append(Component.text(" mining speed").color(NamedTextColor.GRAY));
     }
+
+    @Override
+    public int getSkillRequirement() {
+        return 26;
+    }
 }

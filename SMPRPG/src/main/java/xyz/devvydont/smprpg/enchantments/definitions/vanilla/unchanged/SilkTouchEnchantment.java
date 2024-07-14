@@ -18,4 +18,9 @@ public class SilkTouchEnchantment extends UnchangedEnchantment {
                 .append(Component.text("pure").color(NamedTextColor.LIGHT_PURPLE))
                 .append(Component.text(" form").color(NamedTextColor.GRAY));
     }
+
+    @Override
+    public int getSkillRequirement() {
+        return 8;
+    }
 }

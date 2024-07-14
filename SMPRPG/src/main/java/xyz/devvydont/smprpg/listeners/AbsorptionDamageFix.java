@@ -45,7 +45,7 @@ public class AbsorptionDamageFix implements Listener {
         entity.updateAbsorptionHealth(-event.getFinalDamage());
         if (entity.getAbsorptionHealth() <= 0)
             crackEntityArmor(living);
-        event.setDamage(0);
+        event.setDamage(0.01);
     }
 
 }

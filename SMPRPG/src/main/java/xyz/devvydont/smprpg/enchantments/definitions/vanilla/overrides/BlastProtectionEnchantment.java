@@ -83,6 +83,11 @@ public class BlastProtectionEnchantment extends VanillaEnchantment implements At
     }
 
     @Override
+    public int getSkillRequirement() {
+        return 4;
+    }
+
+    @Override
     public AttributeModifierType getAttributeModifierType() {
         return AttributeModifierType.ENCHANTMENT;
     }
@@ -92,11 +97,6 @@ public class BlastProtectionEnchantment extends VanillaEnchantment implements At
         return List.of(
                 new ScalarAttributeEntry(Attribute.GENERIC_EXPLOSION_KNOCKBACK_RESISTANCE, getExplosiveProtectionPercent(getLevel())/100.0)
         );
-    }
-
-    @Override
-    public int getDefense() {
-        return 0;
     }
 
     @Override

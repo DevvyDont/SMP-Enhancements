@@ -60,4 +60,9 @@ public class UnknownEnchantment extends VanillaEnchantment {
     public EquipmentSlotGroup getEquipmentSlotGroup() {
         return EquipmentSlotGroup.ANY;
     }
+
+    @Override
+    public int getSkillRequirement() {
+        return 0;
+    }
 }
