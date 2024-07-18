@@ -127,12 +127,12 @@ public class MagicExperienceListener implements Listener {
         if (event.isCancelled())
             return;
 
-        int exp = event.getExpLevelCost();
+        int exp = event.getExpLevelCost() + 10;
         for (CustomEnchantment enchantment : plugin.getEnchantmentService().getCustomEnchantments(event.getEnchantsToAdd()))
             exp += enchantment.getMagicExperience();
 
         // Multiply it by a fifth of the exp cost
-        exp *= (int) (event.getExpLevelCost() / 5.0);
+        exp *= (int) (event.getExpLevelCost() / 5.0 + 1.0);
 
         LeveledPlayer player = plugin.getEntityService().getPlayerInstance(event.getEnchanter());
         player.getMagicSkill().addExperience(exp, SkillExperienceGainEvent.ExperienceSource.ENCHANT);

@@ -50,6 +50,9 @@ public class AttributeUtil {
             if (stack != null && stack.getType() != Material.AIR)
                 sum += calculateAttributeBonus(getAllModifiers(attribute, stack.getItemMeta()), 0).getTotal();
 
+        // Also take into consideration their attributes on the player
+        sum += calculateAttributeBonus(entity.getAttribute(attribute).getModifiers(), 0).getTotal();
+
         return sum;
     }
 

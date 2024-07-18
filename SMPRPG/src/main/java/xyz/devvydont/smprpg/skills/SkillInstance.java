@@ -5,9 +5,9 @@ import org.bukkit.persistence.PersistentDataType;
 import xyz.devvydont.smprpg.events.skills.SkillExperienceGainEvent;
 import xyz.devvydont.smprpg.events.skills.SkillExperiencePostGainEvent;
 import xyz.devvydont.smprpg.events.skills.SkillLevelUpEvent;
+import xyz.devvydont.smprpg.skills.rewards.SkillReward;
 
 import java.util.Collection;
-import java.util.List;
 
 public class SkillInstance {
 
@@ -139,10 +139,7 @@ public class SkillInstance {
     }
 
     public Collection<SkillReward> getRewards(int level) {
-        return List.of(new SkillReward(level), new SkillReward(level));  // todo implement
+        return getType().getRewards().getRewardsForLevel(level);
     }
-
-
-
 
 }
