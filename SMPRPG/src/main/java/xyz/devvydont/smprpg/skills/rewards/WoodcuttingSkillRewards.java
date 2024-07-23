@@ -1,5 +1,6 @@
 package xyz.devvydont.smprpg.skills.rewards;
 
+import org.bukkit.attribute.AttributeModifier;
 import xyz.devvydont.smprpg.skills.SkillRewardContainer;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
 
@@ -7,13 +8,18 @@ public class WoodcuttingSkillRewards extends SkillRewardContainer {
     @Override
     public void initializeRewards() {
 
-        // Loop from 1-99 and add 2 defense per level
+        // Loop from 1-99 and add 2% STR per level
         for (int i = 1; i < 99; i++)
-            addReward(new ProgressiveAttributeReward(i, AttributeWrapper.STRENGTH, 5));
+            addReward(new ProgressiveAttributeReward(i, AttributeWrapper.STRENGTH, 2, AttributeModifier.Operation.ADD_SCALAR));
 
-        // Loop every 5 levels and add 2 health
-        for (int i = 5; i < 100; i = i + 5)
-            addReward(new StaticRewardAttribute(i, AttributeWrapper.HEALTH, (i/5*2), (i/10*2)));
+        // Loop every 4 levels and add 5 HP
+        for (int i = 1; i < 100/4; i++)
+            addReward(new StaticRewardAttribute(i*4, AttributeWrapper.HEALTH, (i-1)*5, i*5));
+
+        // Add the maxed reward
+        addReward(new StaticRewardAttribute(99, AttributeWrapper.STRENGTH, 200, 196, AttributeModifier.Operation.ADD_SCALAR));
+        addReward(new StaticRewardAttribute(99, AttributeWrapper.HEALTH, 125, 120));
+
     }
 
 }

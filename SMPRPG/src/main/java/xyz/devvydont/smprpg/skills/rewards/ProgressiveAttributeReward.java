@@ -14,11 +14,20 @@ public class ProgressiveAttributeReward extends SkillReward {
 
     protected AttributeWrapper attribute;
     private int perLevelAddition;
+    protected AttributeModifier.Operation operation;
 
     public ProgressiveAttributeReward(int level, AttributeWrapper attribute, int perLevelAddition) {
         super(level);
         this.attribute = attribute;
         this.perLevelAddition = perLevelAddition;
+        this.operation = AttributeModifier.Operation.ADD_NUMBER;
+    }
+
+    public ProgressiveAttributeReward(int level, AttributeWrapper attribute, int perLevelAddition, AttributeModifier.Operation operation) {
+        super(level);
+        this.attribute = attribute;
+        this.perLevelAddition = perLevelAddition;
+        this.operation = operation;
     }
 
     public AttributeWrapper getAttribute() {
@@ -35,8 +44,9 @@ public class ProgressiveAttributeReward extends SkillReward {
 
     @Override
     public Component getDisplayName() {
-        String old = "+" + (getTotalAddition() - getPerLevelAddition());
-        String _new = "+" + getTotalAddition();
+        String perc = operation == AttributeModifier.Operation.ADD_NUMBER ? "" : "%";
+        String old = "+" + (getTotalAddition() - getPerLevelAddition()) + perc;
+        String _new = "+" + getTotalAddition() + perc;
         return ComponentUtil.getDefaultText(attribute.getCleanName() + " ").append(ComponentUtil.getUpgradeComponent(old, _new, NamedTextColor.GREEN));
     }
 
@@ -62,8 +72,9 @@ public class ProgressiveAttributeReward extends SkillReward {
      * @param player
      */
     public void apply(Player player, SkillType skill) {
+        double amount = operation == AttributeModifier.Operation.ADD_NUMBER ? getTotalAddition() : getTotalAddition() / 100.0;
         remove(player, skill);
-        AttributeModifier modifier = new AttributeModifier(getModifierKey(skill), getTotalAddition(), AttributeModifier.Operation.ADD_NUMBER, EquipmentSlotGroup.ANY);
+        AttributeModifier modifier = new AttributeModifier(getModifierKey(skill), amount, operation, EquipmentSlotGroup.ANY);
         player.getAttribute(attribute.getAttribute()).addModifier(modifier);
     }
 }

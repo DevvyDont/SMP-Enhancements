@@ -3,7 +3,6 @@ package xyz.devvydont.smprpg.skills.rewards;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.enchantments.CustomEnchantment;
 import xyz.devvydont.smprpg.skills.SkillRewardContainer;
-import xyz.devvydont.smprpg.skills.SkillType;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
 
 public class MagicSkillRewards extends SkillRewardContainer {
@@ -20,9 +19,12 @@ public class MagicSkillRewards extends SkillRewardContainer {
         for (int i = 1; i < 99; i++)
             addReward(new ProgressiveAttributeReward(i, AttributeWrapper.DEFENSE, 2));
 
-        // Loop every 5 levels and add 1 luck
-        for (int i = 5; i < 100; i = i + 5)
-            addReward(new StaticRewardAttribute(i, AttributeWrapper.LUCK, (i/5), (i/10)));
+        // Loop every 4 levels and add 2 luck
+        for (int i = 1; i < 100/4; i++)
+            addReward(new StaticRewardAttribute(i*4, AttributeWrapper.LUCK, i*2, (i-1)*2));
+
+        addReward(new StaticRewardAttribute(99, AttributeWrapper.DEFENSE, 200, 196));
+        addReward(new StaticRewardAttribute(99, AttributeWrapper.LUCK, 50, 48));
     }
 
 }

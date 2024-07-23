@@ -7,12 +7,12 @@ import xyz.devvydont.smprpg.util.formatting.MinecraftStringUtils;
 
 public enum SkillType {
 
-    COMBAT,       // strength, defense
-    WOODCUTTING,  // strength, health
-    MINING,       //  ,  strength
-    MAGIC,        // defense,  luck
-    FARMING,      // health,   strength
-    FISHING,      // health,   luck
+    COMBAT,       // STR, HP (+200%, +125)
+    WOODCUTTING,  // STR, HP (+200%, +125)
+    MINING,       // HP,  DEF (+200, +125)
+    MAGIC,        // DEF, LUCK(+200, +50)
+    FARMING,      // HP,  STR (+200, +100%)
+    FISHING,      // DEF, LUCK(+200, +50)
 
     ;
 
