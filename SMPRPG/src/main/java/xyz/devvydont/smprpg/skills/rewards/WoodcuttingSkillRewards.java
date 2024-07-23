@@ -14,7 +14,7 @@ public class WoodcuttingSkillRewards extends SkillRewardContainer {
 
         // Loop every 4 levels and add 5 HP
         for (int i = 1; i < 100/4; i++)
-            addReward(new StaticRewardAttribute(i*4, AttributeWrapper.HEALTH, (i-1)*5, i*5));
+            addReward(new StaticRewardAttribute(i*4, AttributeWrapper.HEALTH, i*5, (i-1)*5));
 
         // Add the maxed reward
         addReward(new StaticRewardAttribute(99, AttributeWrapper.STRENGTH, 200, 196, AttributeModifier.Operation.ADD_SCALAR));
