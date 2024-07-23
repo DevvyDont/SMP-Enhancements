@@ -15,13 +15,15 @@ import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.interfaces.Craftable;
 import xyz.devvydont.smprpg.items.base.CustomAttributeItem;
+import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
 import xyz.devvydont.smprpg.services.ItemService;
+import xyz.devvydont.smprpg.util.items.ToolsUtil;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-public class DiamondBow extends CustomAttributeItem implements Craftable {
+public class DiamondBow extends CustomAttributeItem implements Craftable, ToolBreakable {
 
 
     public DiamondBow(ItemService itemService) {
@@ -31,7 +33,7 @@ public class DiamondBow extends CustomAttributeItem implements Craftable {
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(Attribute.GENERIC_ATTACK_DAMAGE, 75.0)
+                new AdditiveAttributeEntry(Attribute.GENERIC_ATTACK_DAMAGE, 110.0)
         );
     }
 
@@ -72,5 +74,10 @@ public class DiamondBow extends CustomAttributeItem implements Craftable {
     @Override
     public EquipmentSlotGroup getActiveSlot() {
         return EquipmentSlotGroup.HAND;
+    }
+
+    @Override
+    public int getMaxDurability() {
+        return ToolsUtil.DIAMOND_TOOL_DURABILITY;
     }
 }

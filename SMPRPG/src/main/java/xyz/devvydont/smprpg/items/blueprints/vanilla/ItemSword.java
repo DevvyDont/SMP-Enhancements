@@ -11,24 +11,26 @@ import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
 import xyz.devvydont.smprpg.items.base.VanillaAttributeItem;
+import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
 import xyz.devvydont.smprpg.services.ItemService;
+import xyz.devvydont.smprpg.util.items.ToolsUtil;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
 
-public class ItemSword extends VanillaAttributeItem {
+public class ItemSword extends VanillaAttributeItem implements ToolBreakable {
 
     public static double getSwordDamage(Material material) {
         return switch (material) {
-            case NETHERITE_SWORD -> 320.0;
-            case TRIDENT -> 115.0;
-            case DIAMOND_SWORD -> 90.0;
-            case GOLDEN_SWORD -> 25.0;
-            case IRON_SWORD -> 10.0;
-            case STONE_SWORD -> 7.0;
-            case WOODEN_SWORD -> 4.0;
+            case NETHERITE_SWORD -> 325.0;
+            case TRIDENT -> 150.0;
+            case DIAMOND_SWORD -> 140.0;
+            case GOLDEN_SWORD -> 55.0;
+            case IRON_SWORD -> 25.0;
+            case STONE_SWORD -> 12.0;
+            case WOODEN_SWORD -> 7.0;
             default -> 0;
         };
     }
@@ -73,5 +75,18 @@ public class ItemSword extends VanillaAttributeItem {
     @Override
     public EquipmentSlotGroup getActiveSlot() {
         return EquipmentSlotGroup.MAINHAND;
+    }
+
+    @Override
+    public int getMaxDurability() {
+        return switch (getItem().getType()) {
+            case NETHERITE_SWORD -> ToolsUtil.NETHERITE_TOOL_DURABILITY;
+            case DIAMOND_SWORD -> ToolsUtil.DIAMOND_TOOL_DURABILITY;
+            case GOLDEN_SWORD -> ToolsUtil.GOLD_TOOL_DURABILITY;
+            case IRON_SWORD -> ToolsUtil.IRON_TOOL_DURABILITY;
+            case STONE_SWORD -> ToolsUtil.STONE_TOOL_DURABILITY;
+            case WOODEN_SWORD -> ToolsUtil.WOOD_TOOL_DURABILITY;
+            default -> 50_000;
+        };
     }
 }

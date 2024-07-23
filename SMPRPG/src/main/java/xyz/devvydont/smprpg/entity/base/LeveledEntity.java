@@ -14,14 +14,20 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
 import xyz.devvydont.smprpg.items.interfaces.Wearable;
 import xyz.devvydont.smprpg.util.attributes.AttributeUtil;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
 import xyz.devvydont.smprpg.util.formatting.Symbols;
+import xyz.devvydont.smprpg.util.items.LootDrop;
+import xyz.devvydont.smprpg.util.items.LootSource;
 
-public abstract class LeveledEntity {
+import java.util.Collection;
+
+public abstract class LeveledEntity implements LootSource {
 
     protected final SMPRPG plugin;
     protected final LivingEntity entity;
@@ -269,5 +275,34 @@ public abstract class LeveledEntity {
 
     public int getCombatExperienceDropped() {
         return (int) (getLevel() * getCombatExperienceMultiplier());
+    }
+
+    /**
+     * Whether or not to consider vanilla drops on death
+     *
+     * @return
+     */
+    public boolean hasVanillaDrops() {
+        return false;
+    }
+
+    /**
+     * Returns a collection of loot drops for this entity. If null, assumes vanilla drop behavior.
+     *
+     * @return
+     */
+    @Nullable
+    public Collection<LootDrop> getItemDrops() {
+        return null;
+    }
+
+    /**
+     * Component that displays in chat when a rare drop is obtained
+     *
+     * @return
+     */
+    @Override
+    public Component getAsComponent() {
+        return ComponentUtil.getDefaultText("defeating a(n) ").append(ComponentUtil.getColoredComponent(getDefaultName(), NamedTextColor.RED));
     }
 }

@@ -6,6 +6,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.scheduler.BukkitRunnable;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.LeveledPlayer;
+import xyz.devvydont.smprpg.events.skills.SkillLevelUpEvent;
 
 public class HealthScaleListener implements Listener {
 
@@ -24,5 +25,11 @@ public class HealthScaleListener implements Listener {
                 event.getPlayer().setHealthScale(player.getHealthScale());
             }
         }.runTaskLater(plugin, 0);
+    }
+
+    @EventHandler
+    public void onSkillLevelUp(SkillLevelUpEvent event) {
+        LeveledPlayer player = plugin.getEntityService().getPlayerInstance(event.getPlayer());
+        event.getPlayer().setHealthScale(player.getHealthScale());
     }
 }

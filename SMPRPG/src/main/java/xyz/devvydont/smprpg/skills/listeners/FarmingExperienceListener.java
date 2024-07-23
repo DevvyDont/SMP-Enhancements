@@ -1,13 +1,19 @@
 package xyz.devvydont.smprpg.skills.listeners;
 
+import io.papermc.paper.event.block.BlockBreakBlockEvent;
+import org.bukkit.block.data.Ageable;
+import org.bukkit.craftbukkit.block.impl.CraftReed;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerHarvestBlockEvent;
 import org.bukkit.inventory.ItemStack;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.LeveledPlayer;
 import xyz.devvydont.smprpg.events.skills.SkillExperienceGainEvent;
+import xyz.devvydont.smprpg.skills.SkillGlobals;
+import xyz.devvydont.smprpg.util.world.ChunkUtil;
 
 public class FarmingExperienceListener implements Listener {
 
@@ -88,4 +94,27 @@ public class FarmingExperienceListener implements Listener {
         LeveledPlayer player = plugin.getEntityService().getPlayerInstance(event.getPlayer());
         player.getFarmingSkill().addExperience(exp, SkillExperienceGainEvent.ExperienceSource.HARVEST);
     }
+
+    @EventHandler
+    public void onHarvestBlock(BlockBreakEvent event) {
+
+        if (event.isCancelled())
+            return;
+
+        int exp = 0;
+        for (ItemStack item : event.getBlock().getDrops())
+            exp += getExperienceValue(item);
+
+        if (exp <= 0)
+            return;
+
+        // If the block is ageable don't give xp unless it is fully matured
+        if (event.getBlock().getBlockData() instanceof Ageable ageable)
+            if (ageable.getMaximumAge() != ageable.getAge())
+                return;
+
+        LeveledPlayer player = plugin.getEntityService().getPlayerInstance(event.getPlayer());
+        player.getFarmingSkill().addExperience(exp, SkillExperienceGainEvent.ExperienceSource.HARVEST);
+    }
+
 }

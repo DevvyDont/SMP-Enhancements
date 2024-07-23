@@ -24,7 +24,7 @@ public class SpaceHelmet extends CustomFakeHelmetBlueprint implements Wearable {
 
     @Override
     public int getPowerRating() {
-        return 100;
+        return 1;
     }
 
     @Override
@@ -40,7 +40,6 @@ public class SpaceHelmet extends CustomFakeHelmetBlueprint implements Wearable {
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE.getAttribute(), 200),
                 new AdditiveAttributeEntry(Attribute.GENERIC_SAFE_FALL_DISTANCE, 50),
                 new MultiplicativeAttributeEntry(Attribute.GENERIC_FALL_DAMAGE_MULTIPLIER, -.50),
                 new MultiplicativeAttributeEntry(Attribute.GENERIC_GRAVITY, -.9),

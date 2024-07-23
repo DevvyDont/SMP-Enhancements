@@ -6,6 +6,7 @@ import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
+import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomAttributeItem;
 import xyz.devvydont.smprpg.services.ItemService;
 
@@ -22,7 +23,9 @@ public class InfinitySword extends CustomAttributeItem {
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(Attribute.GENERIC_ATTACK_DAMAGE, 100000)
+                new AdditiveAttributeEntry(Attribute.GENERIC_ATTACK_DAMAGE, 25000),
+                new AdditiveAttributeEntry(Attribute.PLAYER_ENTITY_INTERACTION_RANGE, 20),
+                new ScalarAttributeEntry(Attribute.GENERIC_ATTACK_SPEED, 10)
         );
     }
 

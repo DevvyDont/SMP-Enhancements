@@ -5,6 +5,7 @@ import org.bukkit.Material;
 public enum ItemClassification {
 
     SWORD,
+    MACE,
     BOW,         // Both bows and crossbows
     AXE,         // Some combat focused, some harvest focused
     ARMOR,       // Anything that can be worn
@@ -12,6 +13,7 @@ public enum ItemClassification {
     TOOL,        // Pickaxes, Hoes, Shovels
     MATERIAL,    // Stuff used for crafting mainly, like ores and stuff
     ITEM,        // Literally everything else
+
     ;
 
     /**

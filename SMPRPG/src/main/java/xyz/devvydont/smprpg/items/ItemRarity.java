@@ -19,9 +19,9 @@ public enum ItemRarity {
     SPECIAL(NamedTextColor.DARK_RED)
     ;
 
-    public final TextColor color;
+    public final NamedTextColor color;
 
-    ItemRarity(TextColor color) {
+    ItemRarity(NamedTextColor color) {
         this.color = color;
     }
 
@@ -38,13 +38,14 @@ public enum ItemRarity {
                  EMERALD, EMERALD_BLOCK, EMERALD_ORE,
                  GOLDEN_APPLE,
                  DIAMOND, DIAMOND_ORE, DIAMOND_BLOCK, DIAMOND_HORSE_ARMOR,
-                 NETHERITE_SCRAP, ANCIENT_DEBRIS, HEART_OF_THE_SEA, END_CRYSTAL, NAUTILUS_SHELL -> UNCOMMON;
+                 NETHERITE_SCRAP, ANCIENT_DEBRIS, HEART_OF_THE_SEA, END_CRYSTAL, NAUTILUS_SHELL,
+                 TRIAL_KEY, BREEZE_ROD -> UNCOMMON;
 
             case NETHERITE_SWORD, NETHERITE_HOE, NETHERITE_PICKAXE, NETHERITE_SHOVEL, NETHERITE_AXE,
                  NETHERITE_BOOTS, NETHERITE_CHESTPLATE, NETHERITE_HELMET, NETHERITE_LEGGINGS,
                  NETHERITE_INGOT, NETHERITE_BLOCK, NETHERITE_UPGRADE_SMITHING_TEMPLATE,
                  TOTEM_OF_UNDYING, ELYTRA, TRIDENT, ENCHANTED_GOLDEN_APPLE, WITHER_SKELETON_SKULL,
-                 ECHO_SHARD -> RARE;
+                 ECHO_SHARD, HEAVY_CORE, OMINOUS_BOTTLE, OMINOUS_TRIAL_KEY -> RARE;
 
             case NETHER_STAR -> EPIC;
 

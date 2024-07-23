@@ -8,12 +8,13 @@ import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.base.VanillaAttributeItem;
+import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
 import xyz.devvydont.smprpg.items.interfaces.Wearable;
 import xyz.devvydont.smprpg.services.ItemService;
 
 import java.util.*;
 
-public class ItemArmor extends VanillaAttributeItem implements Wearable {
+public class ItemArmor extends VanillaAttributeItem implements Wearable, ToolBreakable {
 
     public ItemArmor(ItemService itemService, ItemStack item) {
         super(itemService, item);
@@ -133,6 +134,47 @@ public class ItemArmor extends VanillaAttributeItem implements Wearable {
 
     }
 
+    public static int getMaxDurability(Material material) {
+        return switch (material) {
+
+            case ELYTRA -> 10_000;
+
+            case NETHERITE_HELMET -> 928_000;
+            case NETHERITE_CHESTPLATE -> 1_000_000;
+            case NETHERITE_LEGGINGS -> 944_000;
+            case NETHERITE_BOOTS -> 916_000;
+
+            case DIAMOND_HELMET -> 464_000;
+            case DIAMOND_CHESTPLATE -> 500_000;
+            case DIAMOND_LEGGINGS -> 472_000;
+            case DIAMOND_BOOTS -> 458_000;
+
+            case GOLDEN_HELMET -> 125_000;
+            case GOLDEN_CHESTPLATE -> 165_000;
+            case GOLDEN_LEGGINGS -> 140_000;
+            case GOLDEN_BOOTS -> 119_000;
+
+            case IRON_HELMET -> 90_000;
+            case IRON_CHESTPLATE -> 124_000;
+            case IRON_LEGGINGS -> 101_000;
+            case IRON_BOOTS -> 86_000;
+
+            case CHAINMAIL_HELMET -> 65_000;
+            case CHAINMAIL_CHESTPLATE -> 110_000;
+            case CHAINMAIL_LEGGINGS -> 72_000;
+            case CHAINMAIL_BOOTS -> 61_000;
+
+            case LEATHER_HELMET -> 32_000;
+            case LEATHER_CHESTPLATE -> 64_000;
+            case LEATHER_LEGGINGS -> 52_000;
+            case LEATHER_BOOTS -> 29_000;
+
+            case TURTLE_HELMET -> 20_000;
+
+            default -> material.getMaxDurability() * 100;
+        };
+    }
+
     @Override
     public ItemClassification getItemClassification() {
         return ItemClassification.ARMOR;
@@ -178,5 +220,10 @@ public class ItemArmor extends VanillaAttributeItem implements Wearable {
     @Override
     public EquipmentSlotGroup getActiveSlot() {
         return EquipmentSlotGroup.ARMOR;
+    }
+
+    @Override
+    public int getMaxDurability() {
+        return getMaxDurability(getItem().getType());
     }
 }

@@ -44,6 +44,8 @@ public class LeveledPlayer extends LeveledEntity {
         this.woodcuttingSkill = plugin.getSkillService().getNewSkillInstance(entity, SkillType.WOODCUTTING);
         this.magicSkill = plugin.getSkillService().getNewSkillInstance(entity, SkillType.MAGIC);
 
+        plugin.getSkillService().syncSkillAttributes(this);
+
         shuffleSeed();
     }
 
@@ -95,6 +97,13 @@ public class LeveledPlayer extends LeveledEntity {
         );
     }
 
+    public double getAverageSkillLevel() {
+        double sum = 0;
+        for (SkillInstance skill : getSkills())
+            sum += skill.getLevel();
+        return sum / getSkills().size();
+    }
+
     @Override
     public String getClassKey() {
         return "player";
@@ -117,13 +126,26 @@ public class LeveledPlayer extends LeveledEntity {
 
     @Override
     public int getLevel() {
-        // Check out the gear that is on this player and figure out an average power level
 
-        Player p = (Player) entity;
+        // If we haven't fully initialized yet we cannot get a good calculation yet
+        if (getCombatSkill() == null)
+            return 0;
 
-        double averageGearLevel = 0;
-        int gearConsiderations = 0;
-        ItemStack[] gear = {p.getInventory().getHelmet(), p.getInventory().getChestplate(), p.getInventory().getLeggings(), p.getInventory().getBoots(), p.getInventory().getItemInMainHand(), p.getInventory().getItemInOffHand()};
+        // Using average level of gear and skills on this player determine how strong they are
+        int factor = 0;
+        double total = 0;
+
+        // First skills
+        for (SkillInstance skill : getSkills())
+            total += skill.getLevel();
+        factor += getSkills().size();
+
+        // Now gear
+        Player p = getPlayer();
+        ItemStack[] gear = {p.getInventory().getHelmet(), p.getInventory().getChestplate(),
+                p.getInventory().getLeggings(), p.getInventory().getBoots(), p.getInventory().getItemInMainHand(),
+                p.getInventory().getItemInOffHand()};
+
         for (ItemStack item : gear) {
 
             if (item == null || item.getType().equals(Material.AIR))
@@ -133,15 +155,13 @@ public class LeveledPlayer extends LeveledEntity {
             if (!(blueprint instanceof Attributeable attributeable))
                 continue;
 
-            averageGearLevel += attributeable.getPowerRating();
-            gearConsiderations++;
+            total += attributeable.getPowerRating();
+            factor += 1;
         }
 
-        // If we are not wearing a full set of armor, pretend we are (missing armor = worse power rating)
-        gearConsiderations = Math.max(4, gearConsiderations);
-        averageGearLevel = averageGearLevel / gearConsiderations;
-
-        return Math.max(1, (int)averageGearLevel);
+        // The factor cannot be any less than all the skills we have + 4 pieces of armor (exclude holding nothing in our hands)
+        factor = Math.max(factor, getSkills().size() + 4);
+        return (int) (total / factor);
     }
 
     /**
@@ -287,5 +307,10 @@ public class LeveledPlayer extends LeveledEntity {
     @Override
     public double calculateBaseAttackDamage() {
         return 1.0;
+    }
+
+    @Override
+    public boolean hasVanillaDrops() {
+        return true;
     }
 }

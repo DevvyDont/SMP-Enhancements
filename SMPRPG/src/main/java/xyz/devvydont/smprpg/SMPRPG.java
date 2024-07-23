@@ -3,14 +3,8 @@ package xyz.devvydont.smprpg;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
-import xyz.devvydont.smprpg.services.EnchantmentService;
+import xyz.devvydont.smprpg.services.*;
 import xyz.devvydont.smprpg.listeners.*;
-import xyz.devvydont.smprpg.services.EntityService;
-import xyz.devvydont.smprpg.services.BaseService;
-import xyz.devvydont.smprpg.services.ChatService;
-import xyz.devvydont.smprpg.services.EconomyService;
-import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.services.SkillService;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -36,6 +30,8 @@ public final class SMPRPG extends JavaPlugin implements Listener {
     EnchantmentService enchantmentService;
     EntityService entityService;
     SkillService skillService;
+    DropsService dropsService;
+    UnstableListenersService unstableListenersService;
 
     List<BaseService> services;
 
@@ -61,6 +57,14 @@ public final class SMPRPG extends JavaPlugin implements Listener {
 
     public SkillService getSkillService() {
         return skillService;
+    }
+
+    public DropsService getDropsService() {
+        return dropsService;
+    }
+
+    public UnstableListenersService getUnstableListenersService() {
+        return unstableListenersService;
     }
 
     public void checkServerSettings() {
@@ -102,6 +106,12 @@ public final class SMPRPG extends JavaPlugin implements Listener {
 
         skillService = new SkillService(this);
         registerService(skillService);
+
+        dropsService = new DropsService(this);
+        registerService(dropsService);
+
+        unstableListenersService =  new UnstableListenersService(this);
+        registerService(unstableListenersService);
 
         getServer().getPluginManager().registerEvents(this, this);
 

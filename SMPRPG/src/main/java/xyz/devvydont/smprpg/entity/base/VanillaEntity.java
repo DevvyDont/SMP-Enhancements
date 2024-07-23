@@ -123,4 +123,8 @@ public class VanillaEntity extends EnemyEntity {
         updateBaseAttribute(Attribute.GENERIC_ATTACK_DAMAGE, calculateBaseAttackDamage());
     }
 
+    @Override
+    public boolean hasVanillaDrops() {
+        return true;
+    }
 }

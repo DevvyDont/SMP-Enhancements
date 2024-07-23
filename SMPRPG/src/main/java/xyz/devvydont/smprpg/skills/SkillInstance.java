@@ -86,7 +86,7 @@ public class SkillInstance {
 
         // If we happened to increase our level, call another event for listeners to react to
         if (leveledUp)
-            new SkillLevelUpEvent(this).callEvent();
+            new SkillLevelUpEvent(this, oldLevel).callEvent();
     }
 
     public void addExperience(int experience) {

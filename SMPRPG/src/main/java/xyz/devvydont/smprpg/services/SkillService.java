@@ -3,9 +3,12 @@ package xyz.devvydont.smprpg.services;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import xyz.devvydont.smprpg.SMPRPG;
+import xyz.devvydont.smprpg.entity.LeveledPlayer;
 import xyz.devvydont.smprpg.skills.SkillInstance;
 import xyz.devvydont.smprpg.skills.SkillType;
 import xyz.devvydont.smprpg.skills.listeners.*;
+import xyz.devvydont.smprpg.skills.rewards.ProgressiveAttributeReward;
+import xyz.devvydont.smprpg.skills.rewards.SkillReward;
 
 public class SkillService implements BaseService, Listener {
 
@@ -43,4 +46,14 @@ public class SkillService implements BaseService, Listener {
         return new SkillInstance(player, type);
     }
 
+    public void syncSkillAttributes(LeveledPlayer player) {
+
+        // Loop through every skill, then every level they have in that skill, and all the rewards per level and re-apply it if it is an attribute reward
+        for (SkillInstance skill : player.getSkills())
+            for (int level = 0; level <= skill.getLevel(); level++)
+                for (SkillReward reward : skill.getRewards(level))
+                    if (reward instanceof ProgressiveAttributeReward)
+                        reward.apply(player.getPlayer(), skill.getType());
+
+    }
 }

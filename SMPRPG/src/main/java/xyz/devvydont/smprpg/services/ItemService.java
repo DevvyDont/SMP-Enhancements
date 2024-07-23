@@ -10,16 +10,22 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Villager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.enchantment.EnchantItemEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.ItemMergeEvent;
 import org.bukkit.event.entity.ItemSpawnEvent;
+import org.bukkit.event.inventory.InventoryOpenEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.event.inventory.PrepareSmithingEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.world.LootGenerateEvent;
 import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -235,6 +241,8 @@ public class ItemService implements BaseService, Listener {
         registerVanillaMaterialResolver(Material.IRON_HORSE_ARMOR, ItemArmor.class);
         registerVanillaMaterialResolver(Material.DIAMOND_HORSE_ARMOR, ItemArmor.class);
         registerVanillaMaterialResolver(Material.WOLF_ARMOR, ItemArmor.class);
+
+        registerVanillaMaterialResolver(Material.MACE, ItemMace.class);
 
         registerCustomItem(new CustomItemCoin(this, CustomItemType.COPPER_COIN,   1));
         registerCustomItem(new CustomItemCoin(this, CustomItemType.SILVER_COIN,   10));
@@ -1031,6 +1039,61 @@ public class ItemService implements BaseService, Listener {
         }.runTaskLater(plugin, 0L);
 
 
+    }
+
+    /**
+     * Schedules item update for next tick so we can catch things like interacting with buckets
+     *
+     * @param event
+     */
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onInteract(PlayerInteractEvent event) {
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                ensureItemStackUpdated(event.getPlayer().getInventory().getItemInMainHand());
+                ensureItemStackUpdated(event.getPlayer().getInventory().getItemInOffHand());
+            }
+        }.runTaskLater(plugin, 0L);
+    }
+
+    /**
+     * Mainly used for keeping durability in sync when breaking blocks
+     *
+     * @param event
+     */
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onBreakBlock(BlockBreakEvent event) {
+        if (event.isCancelled())
+            return;
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                ensureItemStackUpdated(event.getPlayer().getInventory().getItemInMainHand());
+            }
+        }.runTaskLater(plugin, 0L);
+    }
+
+    @EventHandler
+    public void onArmorTakeDamage(EntityDamageEvent event) {
+
+        if (!(event.getEntity() instanceof LivingEntity living))
+            return;
+
+        if (living.getEquipment() == null)
+            return;
+
+        ItemStack[] gear = {living.getEquipment().getHelmet(), living.getEquipment().getChestplate(),
+                living.getEquipment().getLeggings(), living.getEquipment().getBoots()};
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                for (ItemStack item : gear)
+                    ensureItemStackUpdated(item);
+            }
+        }.runTaskLater(plugin, 0L);
     }
 
 

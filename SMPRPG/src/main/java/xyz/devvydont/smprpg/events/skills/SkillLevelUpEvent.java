@@ -17,10 +17,12 @@ public class SkillLevelUpEvent extends Event {
 
     private SkillExperienceGainEvent.ExperienceSource source;
     private final SkillInstance skill;
+    private final int oldLevel;
 
-    public SkillLevelUpEvent(SkillInstance skill) {
+    public SkillLevelUpEvent(SkillInstance skill, int oldLevel) {
         this.source = source;
         this.skill = skill;
+        this.oldLevel = oldLevel;
     }
 
     public Player getPlayer() {
@@ -40,7 +42,7 @@ public class SkillLevelUpEvent extends Event {
     }
 
     public int getOldLevel() {
-        return skill.getLevel()-1;
+        return oldLevel;
     }
 
     @Override

@@ -8,12 +8,13 @@ import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.base.VanillaAttributeItem;
+import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
 import xyz.devvydont.smprpg.services.ItemService;
 
 import java.util.Collection;
 import java.util.List;
 
-public class ItemCrossbow extends VanillaAttributeItem {
+public class ItemCrossbow extends VanillaAttributeItem implements ToolBreakable {
 
     public ItemCrossbow(ItemService itemService, ItemStack item) {
         super(itemService, item);
@@ -27,7 +28,7 @@ public class ItemCrossbow extends VanillaAttributeItem {
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(Attribute.GENERIC_ATTACK_DAMAGE, 15.0)
+                new AdditiveAttributeEntry(Attribute.GENERIC_ATTACK_DAMAGE, 50.0)
         );
     }
 
@@ -39,5 +40,10 @@ public class ItemCrossbow extends VanillaAttributeItem {
     @Override
     public EquipmentSlotGroup getActiveSlot() {
         return EquipmentSlotGroup.HAND;
+    }
+
+    @Override
+    public int getMaxDurability() {
+        return 35_000;
     }
 }

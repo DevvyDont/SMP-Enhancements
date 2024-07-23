@@ -5,8 +5,15 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.base.VanillaEntity;
+import xyz.devvydont.smprpg.items.CustomItemType;
+import xyz.devvydont.smprpg.util.items.ChancedItemDrop;
+import xyz.devvydont.smprpg.util.items.LootDrop;
+
+import java.util.Collection;
+import java.util.List;
 
 public class LeveledEnderman extends VanillaEntity implements Listener {
 
@@ -33,4 +40,5 @@ public class LeveledEnderman extends VanillaEntity implements Listener {
     public double calculateBaseHealthMultiplier() {
         return 2.0;
     }
+
 }

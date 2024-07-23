@@ -24,38 +24,6 @@ import java.util.*;
 
 public class AttributeUtil {
 
-    public static Collection<AttributeModifier> getAllModifiers(Attribute attribute, ItemMeta meta) {
-
-        if (meta == null || meta.getAttributeModifiers() == null)
-            return Collections.emptyList();
-
-        return meta.getAttributeModifiers(attribute);
-    }
-
-    /**
-     * Given an entity returns the total of a certain attribute on an entity
-     *
-     * @param attribute
-     * @param entity
-     * @return
-     */
-    public static int getTotalArmorAttributes(Attribute attribute, LivingEntity entity) {
-
-        if (entity.getEquipment() == null)
-            return 0;
-
-        ItemStack[] armor = entity.getEquipment().getArmorContents();
-        int sum = 0;
-        for (ItemStack stack : armor)
-            if (stack != null && stack.getType() != Material.AIR)
-                sum += calculateAttributeBonus(getAllModifiers(attribute, stack.getItemMeta()), 0).getTotal();
-
-        // Also take into consideration their attributes on the player
-        sum += calculateAttributeBonus(entity.getAttribute(attribute).getModifiers(), 0).getTotal();
-
-        return sum;
-    }
-
     /**
      * Used to properly retrieve the value of an attribute of an entity. Some attributes are weird and require us
      * to manually check for them because of limitations in the base game
@@ -65,14 +33,14 @@ public class AttributeUtil {
      */
     public static double getAttributeValue(Attribute attribute, LivingEntity entity) {
 
-        // Armor toughness is capped at 20, so we need to actually manually check for it by analyzing armor
-        if (attribute.equals(Attribute.GENERIC_ARMOR_TOUGHNESS))
-            return getTotalArmorAttributes(attribute, entity);
-
         // Otherwise just return the normal value
         AttributeInstance instance = entity.getAttribute(attribute);
         if (instance == null)
             return 0;
+
+        // Armor toughness is capped at 20, so we need to actually manually check for it by analyzing armor
+        if (attribute.equals(Attribute.GENERIC_ARMOR_TOUGHNESS))
+            return calculateAttributeBonus(instance.getModifiers(), 0).getTotal();
 
         return instance.getValue();
     }

@@ -64,4 +64,9 @@ public abstract class CustomEntityInstance extends EnemyEntity {
     public boolean isEntity(Entity entity) {
         return entity.equals(this.entity);
     }
+
+    @Override
+    public boolean hasVanillaDrops() {
+        return false;
+    }
 }

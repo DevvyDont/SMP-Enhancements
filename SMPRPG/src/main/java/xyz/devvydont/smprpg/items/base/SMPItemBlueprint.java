@@ -6,13 +6,19 @@ import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.Repairable;
+import org.bukkit.inventory.meta.components.ToolComponent;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.enchantments.CustomEnchantment;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.ItemRarity;
+import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.formatting.ChatUtil;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
+import xyz.devvydont.smprpg.util.formatting.MinecraftStringUtils;
 import xyz.devvydont.smprpg.util.formatting.Symbols;
 
 import java.util.ArrayList;
@@ -138,6 +144,16 @@ public abstract class SMPItemBlueprint {
         if (meta.hasEnchants())
             lore.addAll(getEnchantsComponent(meta));
 
+        // Durability if the item has it
+        if (meta instanceof Damageable damageable && damageable.hasMaxDamage()) {
+            lore.add(Component.empty());
+            lore.add(
+                    ComponentUtil.getDefaultText("Durability: ")
+                            .append(ComponentUtil.getColoredComponent(MinecraftStringUtils.formatNumber(damageable.getMaxDamage()-damageable.getDamage()), NamedTextColor.RED))
+                            .append(ComponentUtil.getColoredComponent("/" + MinecraftStringUtils.formatNumber(damageable.getMaxDamage()), NamedTextColor.DARK_GRAY))
+            );
+        }
+
         // Now, rarity
         lore.add(Component.empty());
         lore.add(getRarity(meta).applyDecoration(Component.text(getRarity(meta).name() + " " + getItemClassification().name())).decoration(TextDecoration.BOLD, true));
@@ -157,7 +173,14 @@ public abstract class SMPItemBlueprint {
         if (wantFakeEnchantGlow())
             meta.setEnchantmentGlintOverride(true);
 
-        meta.setUnbreakable(true);
+        // Set durability if desired, handle case where we set durability and the tool can support it
+        if (this instanceof ToolBreakable breakable && meta instanceof Damageable damageable) {
+            damageable.setMaxDamage(breakable.getMaxDurability());
+        }
+        // Handle case where we didn't define a durability (unbreakable)
+        else if (meta instanceof Damageable) {
+            meta.setUnbreakable(true);
+        }
 
         // Update the lore to display
         updateLore(meta);
