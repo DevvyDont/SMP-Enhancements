@@ -18,6 +18,10 @@ public class UnbreakingEnchantment extends VanillaEnchantment {
         super(key);
     }
 
+    public static int getDurabilityIgnoreChance(int level) {
+        return (int) ((1-(1.0/(level+1)))*100);
+    }
+
     @Override
     public Component getDisplayName() {
         return Component.text("Unbreaking");
@@ -25,9 +29,8 @@ public class UnbreakingEnchantment extends VanillaEnchantment {
 
     @Override
     public Component getDescription() {
-        int chance = (int) ((1-(1.0/(getLevel()+1)))*100);
         return Component.text("Durability is ignored ").color(NamedTextColor.GRAY)
-                .append(Component.text(chance + "%").color(NamedTextColor.GREEN))
+                .append(Component.text(getDurabilityIgnoreChance(getLevel()) + "%").color(NamedTextColor.GREEN))
                 .append(Component.text(" of the time when used").color(NamedTextColor.GRAY));
     }
 

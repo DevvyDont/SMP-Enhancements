@@ -35,6 +35,11 @@ public enum CustomItemType {
     COPPER_SWORD(  "Copper Sword",    Material.WOODEN_SWORD,   CopperSword.class),
     COPPER_BOW(    "Copper Bow",      Material.BOW,            CopperBow.class),
 
+    COPPER_HELMET(    "Copper Helmet",     Material.HONEY_BLOCK,        CopperHelmet.class),
+    COPPER_CHESTPLATE("Copper Chestplate", Material.LEATHER_CHESTPLATE, CopperChestplate.class),
+    COPPER_LEGGINGS(  "Copper Leggings",   Material.LEATHER_LEGGINGS,   CopperLeggings.class),
+    COPPER_BOOTS(     "Copper Boots",      Material.LEATHER_BOOTS,      CopperBoots.class),
+
     // BOWS
     DIAMOND_BOW("Diamond Bow", Material.BOW, ItemRarity.RARE,  DiamondBow.class),
     IRON_BOW(   "Iron Bow",    Material.BOW, ItemRarity.RARE,  IronBow.class),

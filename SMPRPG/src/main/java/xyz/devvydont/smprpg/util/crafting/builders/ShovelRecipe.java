@@ -4,7 +4,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import xyz.devvydont.smprpg.items.interfaces.Craftable;
 
-public class ShovelRecipe extends BaseRecipe {
+public class ShovelRecipe extends ToolRecipe {
 
     public ShovelRecipe(Craftable blueprint, ItemStack material, ItemStack handle, ItemStack result) {
         super(blueprint, material, handle, result);
