@@ -16,15 +16,10 @@ import java.util.Collection;
 import java.util.List;
 
 public class SingularityChestplate extends CustomAttributeItem implements Wearable, ToolBreakable {
-    
-    
-    public SingularityChestplate(ItemService itemService) {
-        super(itemService);
-    }
 
-    @Override
-    public CustomItemType getCustomItemType() {
-        return CustomItemType.SINGULARITY_CHESTPLATE;
+
+    public SingularityChestplate(ItemService itemService, CustomItemType type) {
+        super(itemService, type);
     }
 
     @Override

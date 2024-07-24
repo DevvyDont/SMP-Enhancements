@@ -7,22 +7,12 @@ import xyz.devvydont.smprpg.services.ItemService;
 
 public class EmptyBlueprint extends CustomItemBlueprint {
 
-    private final CustomItemType type;
-    private final ItemClassification classification;
-
-    public EmptyBlueprint(ItemService itemService, CustomItemType type, ItemClassification classification) {
-        super(itemService);
-        this.type = type;
-        this.classification = classification;
-    }
-
-    @Override
-    public CustomItemType getCustomItemType() {
-        return type;
+    public EmptyBlueprint(ItemService itemService, CustomItemType type) {
+        super(itemService, type);
     }
 
     @Override
     public ItemClassification getItemClassification() {
-        return classification;
+        return ItemClassification.ITEM;
     }
 }

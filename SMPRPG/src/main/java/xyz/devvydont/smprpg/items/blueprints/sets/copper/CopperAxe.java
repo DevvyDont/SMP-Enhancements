@@ -27,8 +27,8 @@ import static xyz.devvydont.smprpg.items.blueprints.vanilla.ItemAxe.AXE_ATTACK_S
 
 public class CopperAxe extends CustomAttributeItem implements Craftable, ToolBreakable {
 
-    public CopperAxe(ItemService itemService) {
-        super(itemService);
+    public CopperAxe(ItemService itemService, CustomItemType type) {
+        super(itemService, type);
     }
 
     @Override
@@ -42,11 +42,6 @@ public class CopperAxe extends CustomAttributeItem implements Craftable, ToolBre
     @Override
     public int getPowerRating() {
         return 5;
-    }
-
-    @Override
-    public CustomItemType getCustomItemType() {
-        return CustomItemType.COPPER_AXE;
     }
 
     @Override

@@ -17,26 +17,13 @@ public class FeatherFamilyBlueprint extends CustomCompressableBlueprint {
             new CompressionRecipeMember(new MaterialWrapper(CustomItemType.ENCHANTED_FEATHER))
     );
 
-    public static final CustomItemType[] CUSTOM_FEATHER_MATERIALS = {
-            CustomItemType.PREMIUM_FEATHER,
-            CustomItemType.ENCHANTED_FEATHER
-    };
-
-    private final CustomItemType type;
-
     public FeatherFamilyBlueprint(ItemService itemService, CustomItemType type) {
-        super(itemService);
-        this.type = type;
+        super(itemService, type);
     }
 
     @Override
     public List<CompressionRecipeMember> getCompressionFlow() {
         return COMPRESSION_FLOW;
-    }
-
-    @Override
-    public CustomItemType getCustomItemType() {
-        return type;
     }
     
 }

@@ -17,14 +17,8 @@ import java.util.List;
 
 public class SingularityHelmet extends CustomAttributeItem implements Wearable, ToolBreakable {
 
-
-    public SingularityHelmet(ItemService itemService) {
-        super(itemService);
-    }
-
-    @Override
-    public CustomItemType getCustomItemType() {
-        return CustomItemType.SINGULARITY_HELMET;
+    public SingularityHelmet(ItemService itemService, CustomItemType type) {
+        super(itemService, type);
     }
 
     @Override

@@ -17,26 +17,13 @@ public class MagmaCreamFamilyBlueprint extends CustomCompressableBlueprint {
             new CompressionRecipeMember(new MaterialWrapper(CustomItemType.ENCHANTED_MAGMA_CREAM))
     );
 
-    public static final CustomItemType[] CUSTOM_MAGMA_CREAM_MATERIALS = {
-            CustomItemType.PREMIUM_MAGMA_CREAM,
-            CustomItemType.ENCHANTED_MAGMA_CREAM
-    };
-
-    private final CustomItemType type;
-
     public MagmaCreamFamilyBlueprint(ItemService itemService, CustomItemType type) {
-        super(itemService);
-        this.type = type;
+        super(itemService, type);
     }
 
     @Override
     public List<CompressionRecipeMember> getCompressionFlow() {
         return COMPRESSION_FLOW;
-    }
-
-    @Override
-    public CustomItemType getCustomItemType() {
-        return type;
     }
     
 }

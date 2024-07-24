@@ -17,26 +17,13 @@ public class EchoShardFamilyBlueprint extends CustomCompressableBlueprint {
             new CompressionRecipeMember(new MaterialWrapper(CustomItemType.ENCHANTED_ECHO_SHARD))
     );
 
-    public static final CustomItemType[] CUSTOM_ECHO_SHARD_MATERIALS = {
-            CustomItemType.PREMIUM_ECHO_SHARD,
-            CustomItemType.ENCHANTED_ECHO_SHARD
-    };
-
-    private final CustomItemType type;
-
     public EchoShardFamilyBlueprint(ItemService itemService, CustomItemType type) {
-        super(itemService);
-        this.type = type;
+        super(itemService, type);
     }
 
     @Override
     public List<CompressionRecipeMember> getCompressionFlow() {
         return COMPRESSION_FLOW;
-    }
-
-    @Override
-    public CustomItemType getCustomItemType() {
-        return type;
     }
     
 }

@@ -17,18 +17,13 @@ import java.util.List;
 public class SpaceHelmet extends CustomFakeHelmetBlueprint implements Wearable {
 
 
-    public SpaceHelmet(ItemService itemService) {
-        super(itemService);
+    public SpaceHelmet(ItemService itemService, CustomItemType type) {
+        super(itemService, type);
     }
 
     @Override
     public int getPowerRating() {
         return 1;
-    }
-
-    @Override
-    public CustomItemType getCustomItemType() {
-        return CustomItemType.SPACE_HELMET;
     }
 
     @Override

@@ -18,18 +18,13 @@ import java.util.List;
 public class SingularityBoots extends CustomAttributeItem implements Wearable, ToolBreakable {
 
 
-    public SingularityBoots(ItemService itemService) {
-        super(itemService);
+    public SingularityBoots(ItemService itemService, CustomItemType type) {
+        super(itemService, type);
     }
 
     @Override
     public int getPowerRating() {
         return 100;
-    }
-
-    @Override
-    public CustomItemType getCustomItemType() {
-        return CustomItemType.SINGULARITY_BOOTS;
     }
 
     @Override

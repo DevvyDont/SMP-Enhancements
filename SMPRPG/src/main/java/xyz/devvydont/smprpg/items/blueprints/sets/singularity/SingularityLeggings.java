@@ -17,14 +17,8 @@ import java.util.List;
 
 public class SingularityLeggings extends CustomAttributeItem implements Wearable, ToolBreakable {
 
-
-    public SingularityLeggings(ItemService itemService) {
-        super(itemService);
-    }
-
-    @Override
-    public CustomItemType getCustomItemType() {
-        return CustomItemType.SINGULARITY_LEGGINGS;
+    public SingularityLeggings(ItemService itemService, CustomItemType type) {
+        super(itemService, type);
     }
 
     @Override

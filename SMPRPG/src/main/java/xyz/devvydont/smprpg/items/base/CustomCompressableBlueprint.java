@@ -9,6 +9,7 @@ import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
 import xyz.devvydont.smprpg.SMPRPG;
+import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.interfaces.Compressable;
 import xyz.devvydont.smprpg.services.ItemService;
@@ -21,8 +22,8 @@ import java.util.List;
 
 public abstract class CustomCompressableBlueprint extends CustomItemBlueprint implements Compressable {
 
-    public CustomCompressableBlueprint(ItemService itemService) {
-        super(itemService);
+    public CustomCompressableBlueprint(ItemService itemService, CustomItemType type) {
+        super(itemService, type);
     }
 
     @Override

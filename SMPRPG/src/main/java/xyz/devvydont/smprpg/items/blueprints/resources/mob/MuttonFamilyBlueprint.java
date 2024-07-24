@@ -17,26 +17,13 @@ public class MuttonFamilyBlueprint extends CustomCompressableBlueprint {
             new CompressionRecipeMember(new MaterialWrapper(CustomItemType.ENCHANTED_MUTTON))
     );
 
-    public static final CustomItemType[] CUSTOM_MUTTON_MATERIALS = {
-            CustomItemType.PREMIUM_MUTTON,
-            CustomItemType.ENCHANTED_MUTTON
-    };
-
-    private final CustomItemType type;
-
     public MuttonFamilyBlueprint(ItemService itemService, CustomItemType type) {
-        super(itemService);
-        this.type = type;
+        super(itemService, type);
     }
 
     @Override
     public List<CompressionRecipeMember> getCompressionFlow() {
         return COMPRESSION_FLOW;
-    }
-
-    @Override
-    public CustomItemType getCustomItemType() {
-        return type;
     }
     
 }

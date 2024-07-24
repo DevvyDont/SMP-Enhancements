@@ -17,19 +17,14 @@ import java.util.List;
 public class InfinityChestplate extends CustomAttributeItem implements Wearable {
 
 
-    public InfinityChestplate(ItemService itemService) {
-        super(itemService);
+    public InfinityChestplate(ItemService itemService, CustomItemType type) {
+        super(itemService, type);
     }
 
     @Override
     public void updateMeta(ItemMeta meta) {
         super.updateMeta(meta);
         meta.setUnbreakable(true);
-    }
-
-    @Override
-    public CustomItemType getCustomItemType() {
-        return CustomItemType.INFINITY_CHESTPLATE;
     }
 
     @Override

@@ -17,16 +17,8 @@ public class NautilisShellFamilyBlueprint extends CustomCompressableBlueprint {
             new CompressionRecipeMember(new MaterialWrapper(CustomItemType.ENCHANTED_NAUTILUS_SHELL))
     );
 
-    public static final CustomItemType[] CUSTOM_NAUTILUS_SHELL_MATERIALS = {
-            CustomItemType.PREMIUM_NAUTILUS_SHELL,
-            CustomItemType.ENCHANTED_NAUTILUS_SHELL
-    };
-
-    private final CustomItemType type;
-
     public NautilisShellFamilyBlueprint(ItemService itemService, CustomItemType type) {
-        super(itemService);
-        this.type = type;
+        super(itemService, type);
     }
 
     @Override
@@ -34,9 +26,4 @@ public class NautilisShellFamilyBlueprint extends CustomCompressableBlueprint {
         return COMPRESSION_FLOW;
     }
 
-    @Override
-    public CustomItemType getCustomItemType() {
-        return type;
-    }
-    
 }

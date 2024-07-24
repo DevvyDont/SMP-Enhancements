@@ -17,26 +17,13 @@ public class StringFamilyBlueprint extends CustomCompressableBlueprint {
             new CompressionRecipeMember(new MaterialWrapper(CustomItemType.ENCHANTED_STRING))
     );
 
-    public static final CustomItemType[] CUSTOM_STRING_MATERIALS = {
-            CustomItemType.PREMIUM_STRING,
-            CustomItemType.ENCHANTED_STRING
-    };
-
-    private final CustomItemType type;
-
     public StringFamilyBlueprint(ItemService itemService, CustomItemType type) {
-        super(itemService);
-        this.type = type;
+        super(itemService, type);
     }
 
     @Override
     public List<CompressionRecipeMember> getCompressionFlow() {
         return COMPRESSION_FLOW;
-    }
-
-    @Override
-    public CustomItemType getCustomItemType() {
-        return type;
     }
     
 }

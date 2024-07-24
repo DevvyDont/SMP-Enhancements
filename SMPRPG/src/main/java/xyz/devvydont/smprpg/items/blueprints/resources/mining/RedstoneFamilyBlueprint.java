@@ -14,36 +14,18 @@ public class RedstoneFamilyBlueprint extends CustomCompressableBlueprint {
     public static final List<CompressionRecipeMember> COMPRESSION_FLOW = List.of(
             new CompressionRecipeMember(new MaterialWrapper(Material.REDSTONE)),
             new CompressionRecipeMember(new MaterialWrapper(Material.REDSTONE_BLOCK)),
-//            new CompressionRecipeMember(new MaterialWrapper(CustomItemType.COMPRESSED_REDSTONE)),
-//            new CompressionRecipeMember(new MaterialWrapper(CustomItemType.COMPRESSED_REDSTONE_BLOCK)),
             new CompressionRecipeMember(new MaterialWrapper(CustomItemType.ENCHANTED_REDSTONE)),
             new CompressionRecipeMember(new MaterialWrapper(CustomItemType.ENCHANTED_REDSTONE_BLOCK)),
             new CompressionRecipeMember(new MaterialWrapper(CustomItemType.REDSTONE_SINGULARITY))
     );
 
-    public static final CustomItemType[] CUSTOM_REDSTONE_MATERIALS = {
-//            CustomItemType.COMPRESSED_REDSTONE,
-//            CustomItemType.COMPRESSED_REDSTONE_BLOCK,
-            CustomItemType.ENCHANTED_REDSTONE,
-            CustomItemType.ENCHANTED_REDSTONE_BLOCK,
-            CustomItemType.REDSTONE_SINGULARITY
-    };
-
-    private final CustomItemType type;
-
     public RedstoneFamilyBlueprint(ItemService itemService, CustomItemType type) {
-        super(itemService);
-        this.type = type;
+        super(itemService, type);
     }
 
     @Override
     public List<CompressionRecipeMember> getCompressionFlow() {
         return COMPRESSION_FLOW;
-    }
-
-    @Override
-    public CustomItemType getCustomItemType() {
-        return type;
     }
 
 }

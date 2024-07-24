@@ -17,26 +17,13 @@ public class PrismarineShardFamilyBlueprint extends CustomCompressableBlueprint 
             new CompressionRecipeMember(new MaterialWrapper(CustomItemType.ENCHANTED_PRISMARINE_SHARD))
     );
 
-    public static final CustomItemType[] CUSTOM_PRISMARINE_SHARD_MATERIALS = {
-            CustomItemType.PREMIUM_PRISMARINE_SHARD,
-            CustomItemType.ENCHANTED_PRISMARINE_SHARD
-    };
-
-    private final CustomItemType type;
-
     public PrismarineShardFamilyBlueprint(ItemService itemService, CustomItemType type) {
-        super(itemService);
-        this.type = type;
+        super(itemService, type);
     }
 
     @Override
     public List<CompressionRecipeMember> getCompressionFlow() {
         return COMPRESSION_FLOW;
-    }
-
-    @Override
-    public CustomItemType getCustomItemType() {
-        return type;
     }
     
 }

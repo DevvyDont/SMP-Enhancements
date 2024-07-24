@@ -14,36 +14,18 @@ public class QuartzFamilyBlueprint extends CustomCompressableBlueprint {
     public static final List<CompressionRecipeMember> COMPRESSION_FLOW = List.of(
             new CompressionRecipeMember(new MaterialWrapper(Material.QUARTZ)),
             new CompressionRecipeMember(new MaterialWrapper(Material.QUARTZ_BLOCK)),
-//            new CompressionRecipeMember(new MaterialWrapper(CustomItemType.COMPRESSED_QUARTZ)),
-//            new CompressionRecipeMember(new MaterialWrapper(CustomItemType.COMPRESSED_QUARTZ_BLOCK)),
             new CompressionRecipeMember(new MaterialWrapper(CustomItemType.ENCHANTED_QUARTZ)),
             new CompressionRecipeMember(new MaterialWrapper(CustomItemType.ENCHANTED_QUARTZ_BLOCK)),
             new CompressionRecipeMember(new MaterialWrapper(CustomItemType.QUARTZ_SINGULARITY))
     );
 
-    public static final CustomItemType[] CUSTOM_QUARTZ_MATERIALS = {
-//            CustomItemType.COMPRESSED_QUARTZ,
-//            CustomItemType.COMPRESSED_QUARTZ_BLOCK,
-            CustomItemType.ENCHANTED_QUARTZ,
-            CustomItemType.ENCHANTED_QUARTZ_BLOCK,
-            CustomItemType.QUARTZ_SINGULARITY
-    };
-
-    private final CustomItemType type;
-
     public QuartzFamilyBlueprint(ItemService itemService, CustomItemType type) {
-        super(itemService);
-        this.type = type;
+        super(itemService, type);
     }
 
     @Override
     public List<CompressionRecipeMember> getCompressionFlow() {
         return COMPRESSION_FLOW;
-    }
-
-    @Override
-    public CustomItemType getCustomItemType() {
-        return type;
     }
     
 }

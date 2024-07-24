@@ -17,26 +17,13 @@ public class FlintFamilyBlueprint extends CustomCompressableBlueprint {
             new CompressionRecipeMember(new MaterialWrapper(CustomItemType.ENCHANTED_FLINT))
     );
 
-    public static final CustomItemType[] CUSTOM_FLINT_MATERIALS = {
-            CustomItemType.COMPRESSED_FLINT,
-            CustomItemType.ENCHANTED_FLINT,
-    };
-
-    private final CustomItemType type;
-
     public FlintFamilyBlueprint(ItemService itemService, CustomItemType type) {
-        super(itemService);
-        this.type = type;
+        super(itemService, type);
     }
 
     @Override
     public List<CompressionRecipeMember> getCompressionFlow() {
         return COMPRESSION_FLOW;
-    }
-
-    @Override
-    public CustomItemType getCustomItemType() {
-        return type;
     }
     
 }

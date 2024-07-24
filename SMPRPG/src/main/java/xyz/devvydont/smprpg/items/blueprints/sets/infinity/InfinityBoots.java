@@ -16,20 +16,14 @@ import java.util.List;
 
 public class InfinityBoots extends CustomAttributeItem implements Wearable {
 
-
-    public InfinityBoots(ItemService itemService) {
-        super(itemService);
+    public InfinityBoots(ItemService itemService, CustomItemType type) {
+        super(itemService, type);
     }
 
     @Override
     public void updateMeta(ItemMeta meta) {
         super.updateMeta(meta);
         meta.setUnbreakable(true);
-    }
-
-    @Override
-    public CustomItemType getCustomItemType() {
-        return CustomItemType.INFINITY_BOOTS;
     }
 
     @Override

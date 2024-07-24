@@ -17,16 +17,8 @@ public class CharcoalFamilyBlueprint extends CustomCompressableBlueprint {
             new CompressionRecipeMember(new MaterialWrapper(CustomItemType.ENCHANTED_CHARCOAL))
     );
 
-    public static final CustomItemType[] CUSTOM_CHARCOAL_MATERIALS = {
-            CustomItemType.COMPRESSED_CHARCOAL,
-            CustomItemType.ENCHANTED_CHARCOAL,
-    };
-
-    private final CustomItemType type;
-
     public CharcoalFamilyBlueprint(ItemService itemService, CustomItemType type) {
-        super(itemService);
-        this.type = type;
+        super(itemService, type);
     }
 
     @Override
@@ -34,8 +26,4 @@ public class CharcoalFamilyBlueprint extends CustomCompressableBlueprint {
         return COMPRESSION_FLOW;
     }
 
-    @Override
-    public CustomItemType getCustomItemType() {
-        return type;
-    }
 }

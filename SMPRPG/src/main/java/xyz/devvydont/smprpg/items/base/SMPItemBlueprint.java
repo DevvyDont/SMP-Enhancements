@@ -180,6 +180,7 @@ public abstract class SMPItemBlueprint {
         // Handle case where we didn't define a durability (unbreakable)
         else if (meta instanceof Damageable) {
             meta.setUnbreakable(true);
+            meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
         }
 
         // Update the lore to display

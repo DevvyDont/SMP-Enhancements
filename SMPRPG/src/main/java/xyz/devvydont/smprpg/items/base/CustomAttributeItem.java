@@ -12,6 +12,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.enchantments.CustomEnchantment;
 import xyz.devvydont.smprpg.enchantments.base.AttributeEnchantment;
+import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeModifierType;
 import xyz.devvydont.smprpg.items.interfaces.Attributeable;
@@ -34,8 +35,9 @@ import java.util.Map;
  */
 public abstract class CustomAttributeItem extends CustomItemBlueprint implements Attributeable {
 
-    public CustomAttributeItem(ItemService itemService) {
-        super(itemService);
+
+    public CustomAttributeItem(ItemService itemService, CustomItemType type) {
+        super(itemService, type);
     }
 
     @Override

@@ -17,26 +17,13 @@ public class NetherStarFamilyBlueprint extends CustomCompressableBlueprint {
             new CompressionRecipeMember(new MaterialWrapper(CustomItemType.ENCHANTED_NETHER_STAR))
     );
 
-    public static final CustomItemType[] CUSTOM_NETHER_STAR_MATERIALS = {
-            CustomItemType.PREMIUM_NETHER_STAR,
-            CustomItemType.ENCHANTED_NETHER_STAR
-    };
-
-    private final CustomItemType type;
-
     public NetherStarFamilyBlueprint(ItemService itemService, CustomItemType type) {
-        super(itemService);
-        this.type = type;
+        super(itemService, type);
     }
 
     @Override
     public List<CompressionRecipeMember> getCompressionFlow() {
         return COMPRESSION_FLOW;
-    }
-
-    @Override
-    public CustomItemType getCustomItemType() {
-        return type;
     }
     
 }

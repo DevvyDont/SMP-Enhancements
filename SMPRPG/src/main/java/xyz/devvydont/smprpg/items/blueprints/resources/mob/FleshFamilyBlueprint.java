@@ -17,26 +17,13 @@ public class FleshFamilyBlueprint extends CustomCompressableBlueprint {
             new CompressionRecipeMember(new MaterialWrapper(CustomItemType.ENCHANTED_FLESH))
     );
 
-    public static final CustomItemType[] CUSTOM_FLESH_MATERIALS = {
-            CustomItemType.PREMIUM_FLESH,
-            CustomItemType.ENCHANTED_FLESH
-    };
-
-    private final CustomItemType type;
-
     public FleshFamilyBlueprint(ItemService itemService, CustomItemType type) {
-        super(itemService);
-        this.type = type;
+        super(itemService, type);
     }
 
     @Override
     public List<CompressionRecipeMember> getCompressionFlow() {
         return COMPRESSION_FLOW;
-    }
-
-    @Override
-    public CustomItemType getCustomItemType() {
-        return type;
     }
 
 }

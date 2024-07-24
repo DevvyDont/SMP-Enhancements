@@ -17,26 +17,13 @@ public class BlazeRodFamilyBlueprint extends CustomCompressableBlueprint {
             new CompressionRecipeMember(new MaterialWrapper(CustomItemType.ENCHANTED_BLAZE_ROD))
     );
 
-    public static final CustomItemType[] CUSTOM_BLAZE_ROD_MATERIALS = {
-            CustomItemType.PREMIUM_BLAZE_ROD,
-            CustomItemType.ENCHANTED_BLAZE_ROD
-    };
-
-    private final CustomItemType type;
-
     public BlazeRodFamilyBlueprint(ItemService itemService, CustomItemType type) {
-        super(itemService);
-        this.type = type;
+        super(itemService, type);
     }
 
     @Override
     public List<CompressionRecipeMember> getCompressionFlow() {
         return COMPRESSION_FLOW;
-    }
-
-    @Override
-    public CustomItemType getCustomItemType() {
-        return type;
     }
     
 }

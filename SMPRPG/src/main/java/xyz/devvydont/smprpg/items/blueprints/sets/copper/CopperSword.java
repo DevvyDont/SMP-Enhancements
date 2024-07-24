@@ -27,8 +27,8 @@ import java.util.List;
 
 public class CopperSword extends CustomAttributeItem implements Craftable, ToolBreakable {
 
-    public CopperSword(ItemService itemService) {
-        super(itemService);
+    public CopperSword(ItemService itemService, CustomItemType type) {
+        super(itemService, type);
     }
 
     @Override
@@ -42,11 +42,6 @@ public class CopperSword extends CustomAttributeItem implements Craftable, ToolB
     @Override
     public int getPowerRating() {
         return 5;
-    }
-
-    @Override
-    public CustomItemType getCustomItemType() {
-        return CustomItemType.COPPER_SWORD;
     }
 
     @Override

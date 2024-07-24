@@ -27,8 +27,8 @@ import static xyz.devvydont.smprpg.items.blueprints.vanilla.ItemPickaxe.PICKAXE_
 
 public class CopperPickaxe extends CustomAttributeItem implements ToolBreakable, Craftable {
 
-    public CopperPickaxe(ItemService itemService) {
-        super(itemService);
+    public CopperPickaxe(ItemService itemService, CustomItemType type) {
+        super(itemService, type);
     }
 
     @Override
@@ -42,11 +42,6 @@ public class CopperPickaxe extends CustomAttributeItem implements ToolBreakable,
     @Override
     public int getPowerRating() {
         return 5;
-    }
-
-    @Override
-    public CustomItemType getCustomItemType() {
-        return CustomItemType.COPPER_PICKAXE;
     }
 
     @Override

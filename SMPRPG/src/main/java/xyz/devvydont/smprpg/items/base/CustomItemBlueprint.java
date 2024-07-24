@@ -12,16 +12,20 @@ import xyz.devvydont.smprpg.services.ItemService;
 public abstract class CustomItemBlueprint extends SMPItemBlueprint {
 
     protected ItemService itemService;
+    protected final CustomItemType type;
 
-    public CustomItemBlueprint(ItemService itemService) {
+    public CustomItemBlueprint(ItemService itemService, CustomItemType type) {
         super(itemService);
         this.itemService = itemService;
+        this.type = type;
     }
 
     /**
      * Since this item is custom, return the CustomItem enum that this item is linked to.
      */
-    public abstract CustomItemType getCustomItemType();
+    public CustomItemType getCustomItemType() {
+        return type;
+    }
 
     @Override
     public ItemRarity getRarity(ItemStack item) {

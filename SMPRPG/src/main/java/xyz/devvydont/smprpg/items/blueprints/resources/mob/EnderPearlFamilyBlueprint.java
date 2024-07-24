@@ -17,26 +17,13 @@ public class EnderPearlFamilyBlueprint extends CustomCompressableBlueprint {
             new CompressionRecipeMember(new MaterialWrapper(CustomItemType.ENCHANTED_ENDER_PEARL))
     );
 
-    public static final CustomItemType[] CUSTOM_ENDER_PEARL_MATERIALS = {
-            CustomItemType.PREMIUM_ENDER_PEARL,
-            CustomItemType.ENCHANTED_ENDER_PEARL
-    };
-
-    private final CustomItemType type;
-
     public EnderPearlFamilyBlueprint(ItemService itemService, CustomItemType type) {
-        super(itemService);
-        this.type = type;
+        super(itemService, type);
     }
 
     @Override
     public List<CompressionRecipeMember> getCompressionFlow() {
         return COMPRESSION_FLOW;
-    }
-
-    @Override
-    public CustomItemType getCustomItemType() {
-        return type;
     }
     
 }

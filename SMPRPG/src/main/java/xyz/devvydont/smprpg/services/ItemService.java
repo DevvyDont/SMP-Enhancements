@@ -244,186 +244,19 @@ public class ItemService implements BaseService, Listener {
 
         registerVanillaMaterialResolver(Material.MACE, ItemMace.class);
 
-        registerCustomItem(new CustomItemCoin(this, CustomItemType.COPPER_COIN,   1));
-        registerCustomItem(new CustomItemCoin(this, CustomItemType.SILVER_COIN,   10));
-        registerCustomItem(new CustomItemCoin(this, CustomItemType.GOLD_COIN,     100));
-        registerCustomItem(new CustomItemCoin(this, CustomItemType.PLATINUM_COIN, 1000));
-        registerCustomItem(new CustomItemCoin(this, CustomItemType.EMERALD_COIN,  10000));
-        registerCustomItem(new CustomItemCoin(this, CustomItemType.AMETHYST_COIN, 100000));
-        registerCustomItem(new CustomItemCoin(this, CustomItemType.ENCHANTED_COIN,1000000));
+        // Loop through all the custom items and use reflection to register a handler
+        for (CustomItemType customItemType : CustomItemType.values()) {
 
-        registerCustomItem(new CopperPickaxe(this));
-        registerCustomItem(new CopperHoe(this));
-        registerCustomItem(new CopperAxe(this));
-        registerCustomItem(new CopperSword(this));
-        registerCustomItem(new CopperShovel(this));
-        registerCustomItem(new CopperBow(this));
+            CustomItemBlueprint blueprint;
+            try {
+                blueprint = customItemType.getHandler().getConstructor(ItemService.class, CustomItemType.class).newInstance(this, customItemType);
+            } catch (InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException e) {
+                plugin.getLogger().severe("Failed to register custom item: " + customItemType);
+                throw new RuntimeException(e);
+            }
 
-        registerCustomItem(new InfinityHelmet(this));
-        registerCustomItem(new InfinityChestplate(this));
-        registerCustomItem(new InfinityLeggings(this));
-        registerCustomItem(new InfinityBoots(this));
-
-        registerCustomItem(new SingularityHelmet(this));
-        registerCustomItem(new SingularityChestplate(this));
-        registerCustomItem(new SingularityLeggings(this));
-        registerCustomItem(new SingularityBoots(this));
-        registerCustomItem(new InfinitySword(this));
-
-        registerCustomItem(new SpaceHelmet(this));
-
-        registerCustomItem(new IronBow(this));
-        registerCustomItem(new DiamondBow(this));
-
-        registerCustomItem(new SpiderRepellentBlueprint(this));
-
-        // Register all coal family members
-        for (CustomItemType coal : CoalFamilyBlueprint.CUSTOM_COAL_MATERIALS)
-            registerCustomItem(new CoalFamilyBlueprint(this, coal));
-
-        // Register all charcoal family members
-        for (CustomItemType coal : CharcoalFamilyBlueprint.CUSTOM_CHARCOAL_MATERIALS)
-            registerCustomItem(new CharcoalFamilyBlueprint(this, coal));
-
-        // Register all flint family members
-        for (CustomItemType flint : FlintFamilyBlueprint.CUSTOM_FLINT_MATERIALS)
-            registerCustomItem(new FlintFamilyBlueprint(this, flint));
-
-        // Register all the copper family members
-        for (CustomItemType copper : CopperFamilyBlueprint.CUSTOM_COPPER_MATERIALS)
-            registerCustomItem(new CopperFamilyBlueprint(this, copper));
-
-        // Register all the iron family members
-        for (CustomItemType iron : IronFamilyBlueprint.CUSTOM_IRON_MATERIALS)
-            registerCustomItem(new IronFamilyBlueprint(this, iron));
-
-        // Register all the lapis family members
-        for (CustomItemType lapis : LapisFamilyBlueprint.CUSTOM_LAPIS_MATERIALS)
-            registerCustomItem(new LapisFamilyBlueprint(this, lapis));
-
-        // Register all the amethyst family members
-        for (CustomItemType amethyst : AmethystFamilyBlueprint.CUSTOM_AMETHYST_MATERIALS)
-            registerCustomItem(new AmethystFamilyBlueprint(this, amethyst));
-
-        // Register all the gold family members
-        for (CustomItemType gold : GoldFamilyBlueprint.CUSTOM_GOLD_MATERIALS)
-            registerCustomItem(new GoldFamilyBlueprint(this, gold));
-
-        // Register all the diamond family members
-        for (CustomItemType diamond : DiamondFamilyBlueprint.CUSTOM_DIAMOND_MATERIALS)
-            registerCustomItem(new DiamondFamilyBlueprint(this, diamond));
-
-        // Register all the emerald family members
-        for (CustomItemType emerald : EmeraldFamilyBlueprint.CUSTOM_EMERALD_MATERIALS)
-            registerCustomItem(new EmeraldFamilyBlueprint(this, emerald));
-
-        // Register all the quartz family members
-        for (CustomItemType quartz : QuartzFamilyBlueprint.CUSTOM_QUARTZ_MATERIALS)
-            registerCustomItem(new QuartzFamilyBlueprint(this, quartz));
-
-        // Register all the redstone family members
-        for (CustomItemType redstone : RedstoneFamilyBlueprint.CUSTOM_REDSTONE_MATERIALS)
-            registerCustomItem(new RedstoneFamilyBlueprint(this, redstone));
-
-        // Register all the glowstone family members
-        for (CustomItemType glowstone : GlowstoneFamilyBlueprint.CUSTOM_GLOWSTONE_MATERIALS)
-            registerCustomItem(new GlowstoneFamilyBlueprint(this, glowstone));
-
-        // Register all the netherite family members
-        for (CustomItemType netherite : NetheriteFamilyBlueprint.CUSTOM_NETHERITE_MATERIALS)
-            registerCustomItem(new NetheriteFamilyBlueprint(this, netherite));
-
-        // Register all the flesh family members
-        for (CustomItemType flesh : FleshFamilyBlueprint.CUSTOM_FLESH_MATERIALS)
-            registerCustomItem(new FleshFamilyBlueprint(this, flesh));
-
-        // Register all the bone family members
-        for (CustomItemType bone : BoneFamilyBlueprint.CUSTOM_BONE_MATERIALS)
-            registerCustomItem(new BoneFamilyBlueprint(this, bone));
-
-        // Register all the string family members
-        for (CustomItemType string : StringFamilyBlueprint.CUSTOM_STRING_MATERIALS)
-            registerCustomItem(new StringFamilyBlueprint(this, string));
-
-        // Register all the spider eye family members
-        for (CustomItemType spidereye : SpiderEyeFamilyBlueprint.CUSTOM_SPIDER_EYE_MATERIALS)
-            registerCustomItem(new SpiderEyeFamilyBlueprint(this, spidereye));
-
-        // Register all the slime family members
-        for (CustomItemType slime : SlimeFamilyBlueprint.CUSTOM_SLIME_MATERIALS)
-            registerCustomItem(new SlimeFamilyBlueprint(this, slime));
-
-        // Register all the gunpowder family members
-        for (CustomItemType gunpowder : GunpowderFamilyBlueprint.CUSTOM_GUNPOWDER_MATERIALS)
-            registerCustomItem(new GunpowderFamilyBlueprint(this, gunpowder));
-
-        // Register all the pris shard family members
-        for (CustomItemType shard : PrismarineShardFamilyBlueprint.CUSTOM_PRISMARINE_SHARD_MATERIALS)
-            registerCustomItem(new PrismarineShardFamilyBlueprint(this, shard));
-
-        // Register all the pris crystal family members
-        for (CustomItemType crystal : PrismarineCrystalsFamilyBlueprint.CUSTOM_PRISMARINE_CRYSTALS_MATERIALS)
-            registerCustomItem(new PrismarineCrystalsFamilyBlueprint(this, crystal));
-
-        // Register all the nautilus shell family members
-        for (CustomItemType shell : NautilisShellFamilyBlueprint.CUSTOM_NAUTILUS_SHELL_MATERIALS)
-            registerCustomItem(new NautilisShellFamilyBlueprint(this, shell));
-
-        // Register all the echo shard family members
-        for (CustomItemType echo : EchoShardFamilyBlueprint.CUSTOM_ECHO_SHARD_MATERIALS)
-            registerCustomItem(new EchoShardFamilyBlueprint(this, echo));
-
-        // Register all the blaze rod family members
-        for (CustomItemType rod : BlazeRodFamilyBlueprint.CUSTOM_BLAZE_ROD_MATERIALS)
-            registerCustomItem(new BlazeRodFamilyBlueprint(this, rod));
-
-        // Register all the nether star family members
-        for (CustomItemType star : NetherStarFamilyBlueprint.CUSTOM_NETHER_STAR_MATERIALS)
-            registerCustomItem(new NetherStarFamilyBlueprint(this, star));
-
-        // Register all the magma cream family members
-        for (CustomItemType cream : MagmaCreamFamilyBlueprint.CUSTOM_MAGMA_CREAM_MATERIALS)
-            registerCustomItem(new MagmaCreamFamilyBlueprint(this, cream));
-
-        // Register all the ender pearl family members
-        for (CustomItemType pearl : EnderPearlFamilyBlueprint.CUSTOM_ENDER_PEARL_MATERIALS)
-            registerCustomItem(new EnderPearlFamilyBlueprint(this, pearl));
-
-        // Register all the shulker family members
-        for (CustomItemType shell : ShulkerFamilyBlueprint.CUSTOM_SHULKER_SHELL_MATERIALS)
-            registerCustomItem(new ShulkerFamilyBlueprint(this, shell));
-
-        // Register all the porkchop family members
-        for (CustomItemType porkchop : PorkchopFamilyBlueprint.CUSTOM_PORKCHOP_MATERIALS)
-            registerCustomItem(new PorkchopFamilyBlueprint(this, porkchop));
-
-        // Register all the steak family members
-        for (CustomItemType steak : SteakFamilyBlueprint.CUSTOM_STEAK_MATERIALS)
-            registerCustomItem(new SteakFamilyBlueprint(this, steak));
-
-        // Register all the leather family members
-        for (CustomItemType leather : LeatherFamilyBlueprint.CUSTOM_LEATHER_MATERIALS)
-            registerCustomItem(new LeatherFamilyBlueprint(this, leather));
-
-        // Register all the rabbit hide family members
-        for (CustomItemType rabbitHide : RabbitHideFamilyBlueprint.CUSTOM_RABBIT_HIDE_MATERIALS)
-            registerCustomItem(new RabbitHideFamilyBlueprint(this, rabbitHide));
-
-        // Register all the mutton family members
-        for (CustomItemType mutton : MuttonFamilyBlueprint.CUSTOM_MUTTON_MATERIALS)
-            registerCustomItem(new MuttonFamilyBlueprint(this, mutton));
-
-        // Register all the chicken family members
-        for (CustomItemType chicken : ChickenFamilyBlueprint.CUSTOM_CHICKEN_MATERIALS)
-            registerCustomItem(new ChickenFamilyBlueprint(this, chicken));
-
-        // Register all the feather family members
-        for (CustomItemType feather : FeatherFamilyBlueprint.CUSTOM_FEATHER_MATERIALS)
-            registerCustomItem(new FeatherFamilyBlueprint(this, feather));
-
-        // Debug items
-        registerCustomItem(new EntityAnalyzer(this));
-        registerCustomItem(new EmptyBlueprint(this, CustomItemType.ENTITY_ANALYZER_REPORT, ItemClassification.ITEM));
+            registerCustomItem(blueprint);
+        }
 
         // Go back through all items and find recipe links, kind of ugly but this will save us computation time
         for (SMPItemBlueprint blueprint : getCustomBlueprints()) {

@@ -16,8 +16,8 @@ import java.util.List;
 public class InfinitySword extends CustomAttributeItem {
 
 
-    public InfinitySword(ItemService itemService) {
-        super(itemService);
+    public InfinitySword(ItemService itemService, CustomItemType type) {
+        super(itemService, type);
     }
 
     @Override
@@ -33,12 +33,6 @@ public class InfinitySword extends CustomAttributeItem {
     public int getPowerRating() {
         return 1000;
     }
-
-    @Override
-    public CustomItemType getCustomItemType() {
-        return CustomItemType.INFINITY_SWORD;
-    }
-
     @Override
     public ItemClassification getItemClassification() {
         return ItemClassification.SWORD;

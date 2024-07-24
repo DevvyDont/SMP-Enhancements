@@ -12,14 +12,8 @@ import xyz.devvydont.smprpg.services.ItemService;
 
 public class SpiderRepellentBlueprint extends CustomItemBlueprint implements Listener {
 
-
-    public SpiderRepellentBlueprint(ItemService itemService) {
-        super(itemService);
-    }
-
-    @Override
-    public CustomItemType getCustomItemType() {
-        return CustomItemType.SPIDER_REPELLENT;
+    public SpiderRepellentBlueprint(ItemService itemService, CustomItemType type) {
+        super(itemService, type);
     }
 
     @Override

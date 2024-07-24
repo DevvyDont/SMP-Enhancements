@@ -17,16 +17,8 @@ public class ShulkerFamilyBlueprint extends CustomCompressableBlueprint {
             new CompressionRecipeMember(new MaterialWrapper(CustomItemType.ENCHANTED_SHULKER_SHELL))
     );
 
-    public static final CustomItemType[] CUSTOM_SHULKER_SHELL_MATERIALS = {
-            CustomItemType.PREMIUM_SHULKER_SHELL,
-            CustomItemType.ENCHANTED_SHULKER_SHELL
-    };
-
-    private final CustomItemType type;
-
     public ShulkerFamilyBlueprint(ItemService itemService, CustomItemType type) {
-        super(itemService);
-        this.type = type;
+        super(itemService, type);
     }
 
     @Override
@@ -34,9 +26,5 @@ public class ShulkerFamilyBlueprint extends CustomCompressableBlueprint {
         return COMPRESSION_FLOW;
     }
 
-    @Override
-    public CustomItemType getCustomItemType() {
-        return type;
-    }
     
 }

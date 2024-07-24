@@ -17,26 +17,13 @@ public class PorkchopFamilyBlueprint extends CustomCompressableBlueprint {
             new CompressionRecipeMember(new MaterialWrapper(CustomItemType.ENCHANTED_PORKCHOP))
     );
 
-    public static final CustomItemType[] CUSTOM_PORKCHOP_MATERIALS = {
-            CustomItemType.PREMIUM_PORKCHOP,
-            CustomItemType.ENCHANTED_PORKCHOP
-    };
-
-    private final CustomItemType type;
-
     public PorkchopFamilyBlueprint(ItemService itemService, CustomItemType type) {
-        super(itemService);
-        this.type = type;
+        super(itemService, type);
     }
 
     @Override
     public List<CompressionRecipeMember> getCompressionFlow() {
         return COMPRESSION_FLOW;
-    }
-
-    @Override
-    public CustomItemType getCustomItemType() {
-        return type;
     }
     
 }

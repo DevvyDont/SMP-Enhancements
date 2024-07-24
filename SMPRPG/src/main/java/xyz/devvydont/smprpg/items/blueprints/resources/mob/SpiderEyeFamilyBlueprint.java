@@ -22,21 +22,14 @@ public class SpiderEyeFamilyBlueprint extends CustomCompressableBlueprint {
             CustomItemType.ENCHANTED_SPIDER_EYE
     };
 
-    private final CustomItemType type;
-
     public SpiderEyeFamilyBlueprint(ItemService itemService, CustomItemType type) {
-        super(itemService);
-        this.type = type;
+        super(itemService, type);
     }
+
 
     @Override
     public List<CompressionRecipeMember> getCompressionFlow() {
         return COMPRESSION_FLOW;
-    }
-
-    @Override
-    public CustomItemType getCustomItemType() {
-        return type;
     }
     
 }

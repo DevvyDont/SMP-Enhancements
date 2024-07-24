@@ -24,8 +24,8 @@ import java.util.List;
 
 public class IronBow extends CustomAttributeItem implements Craftable, ToolBreakable {
 
-    public IronBow(ItemService itemService) {
-        super(itemService);
+    public IronBow(ItemService itemService, CustomItemType type) {
+        super(itemService, type);
     }
 
     @Override
@@ -38,11 +38,6 @@ public class IronBow extends CustomAttributeItem implements Craftable, ToolBreak
     @Override
     public int getPowerRating() {
         return 10;
-    }
-
-    @Override
-    public CustomItemType getCustomItemType() {
-        return CustomItemType.IRON_BOW;
     }
 
     @Override

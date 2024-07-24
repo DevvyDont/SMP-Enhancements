@@ -17,26 +17,13 @@ public class RabbitHideFamilyBlueprint extends CustomCompressableBlueprint {
             new CompressionRecipeMember(new MaterialWrapper(CustomItemType.ENCHANTED_RABBIT_HIDE))
     );
 
-    public static final CustomItemType[] CUSTOM_RABBIT_HIDE_MATERIALS = {
-            CustomItemType.PREMIUM_RABBIT_HIDE,
-            CustomItemType.ENCHANTED_RABBIT_HIDE
-    };
-
-    private final CustomItemType type;
-
     public RabbitHideFamilyBlueprint(ItemService itemService, CustomItemType type) {
-        super(itemService);
-        this.type = type;
+        super(itemService, type);
     }
 
     @Override
     public List<CompressionRecipeMember> getCompressionFlow() {
         return COMPRESSION_FLOW;
-    }
-
-    @Override
-    public CustomItemType getCustomItemType() {
-        return type;
     }
     
 }

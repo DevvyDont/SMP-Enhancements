@@ -25,8 +25,8 @@ import java.util.List;
 public class DiamondBow extends CustomAttributeItem implements Craftable, ToolBreakable {
 
 
-    public DiamondBow(ItemService itemService) {
-        super(itemService);
+    public DiamondBow(ItemService itemService, CustomItemType type) {
+        super(itemService, type);
     }
 
     @Override
@@ -39,11 +39,6 @@ public class DiamondBow extends CustomAttributeItem implements Craftable, ToolBr
     @Override
     public int getPowerRating() {
         return 25;
-    }
-
-    @Override
-    public CustomItemType getCustomItemType() {
-        return CustomItemType.DIAMOND_BOW;
     }
 
     @Override

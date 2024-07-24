@@ -17,16 +17,8 @@ public class PrismarineCrystalsFamilyBlueprint extends CustomCompressableBluepri
             new CompressionRecipeMember(new MaterialWrapper(CustomItemType.ENCHANTED_PRISMARINE_CRYSTAL))
     );
 
-    public static final CustomItemType[] CUSTOM_PRISMARINE_CRYSTALS_MATERIALS = {
-            CustomItemType.PREMIUM_PRISMARINE_CRYSTAL,
-            CustomItemType.ENCHANTED_PRISMARINE_CRYSTAL
-    };
-
-    private final CustomItemType type;
-
     public PrismarineCrystalsFamilyBlueprint(ItemService itemService, CustomItemType type) {
-        super(itemService);
-        this.type = type;
+        super(itemService, type);
     }
 
     @Override
@@ -34,9 +26,5 @@ public class PrismarineCrystalsFamilyBlueprint extends CustomCompressableBluepri
         return COMPRESSION_FLOW;
     }
 
-    @Override
-    public CustomItemType getCustomItemType() {
-        return type;
-    }
     
 }

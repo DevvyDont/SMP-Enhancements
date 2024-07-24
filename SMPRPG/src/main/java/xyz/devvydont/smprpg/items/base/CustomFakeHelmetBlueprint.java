@@ -10,6 +10,7 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.services.ItemService;
 
 /**
@@ -20,9 +21,10 @@ public abstract class CustomFakeHelmetBlueprint extends CustomAttributeItem impl
 
     public static final int HELMET_SLOT = 39;  // The slot that corresponds to the helmet slot.
 
-    public CustomFakeHelmetBlueprint(ItemService itemService) {
-        super(itemService);
+    public CustomFakeHelmetBlueprint(ItemService itemService, CustomItemType type) {
+        super(itemService, type);
     }
+
 
     @Override
     public void updateMeta(ItemMeta meta) {

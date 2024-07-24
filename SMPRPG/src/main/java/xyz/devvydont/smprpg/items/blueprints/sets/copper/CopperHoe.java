@@ -19,7 +19,6 @@ import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
 import xyz.devvydont.smprpg.util.crafting.builders.HoeRecipe;
-import xyz.devvydont.smprpg.util.crafting.builders.ShovelRecipe;
 import xyz.devvydont.smprpg.util.items.ToolsUtil;
 
 import java.util.Collection;
@@ -27,8 +26,8 @@ import java.util.List;
 
 public class CopperHoe extends CustomAttributeItem implements Craftable, ToolBreakable {
 
-    public CopperHoe(ItemService itemService) {
-        super(itemService);
+    public CopperHoe(ItemService itemService, CustomItemType type) {
+        super(itemService, type);
     }
 
     @Override
@@ -42,11 +41,6 @@ public class CopperHoe extends CustomAttributeItem implements Craftable, ToolBre
     @Override
     public int getPowerRating() {
         return 5;
-    }
-
-    @Override
-    public CustomItemType getCustomItemType() {
-        return CustomItemType.COPPER_HOE;
     }
 
     @Override

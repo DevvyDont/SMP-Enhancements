@@ -17,26 +17,13 @@ public class GunpowderFamilyBlueprint extends CustomCompressableBlueprint {
             new CompressionRecipeMember(new MaterialWrapper(CustomItemType.ENCHANTED_GUNPOWDER))
     );
 
-    public static final CustomItemType[] CUSTOM_GUNPOWDER_MATERIALS = {
-            CustomItemType.PREMIUM_GUNPOWDER,
-            CustomItemType.ENCHANTED_GUNPOWDER
-    };
-
-    private final CustomItemType type;
-
     public GunpowderFamilyBlueprint(ItemService itemService, CustomItemType type) {
-        super(itemService);
-        this.type = type;
+        super(itemService, type);
     }
 
     @Override
     public List<CompressionRecipeMember> getCompressionFlow() {
         return COMPRESSION_FLOW;
-    }
-
-    @Override
-    public CustomItemType getCustomItemType() {
-        return type;
     }
     
 }

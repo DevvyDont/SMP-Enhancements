@@ -29,8 +29,8 @@ import java.util.List;
 public class EntityAnalyzer extends CustomItemBlueprint implements Listener {
 
 
-    public EntityAnalyzer(ItemService itemService) {
-        super(itemService);
+    public EntityAnalyzer(ItemService itemService, CustomItemType type) {
+        super(itemService, type);
     }
 
     @Override
@@ -40,11 +40,6 @@ public class EntityAnalyzer extends CustomItemBlueprint implements Listener {
                 Component.text("and ").color(NamedTextColor.GRAY).append(Component.text("right click", NamedTextColor.GOLD)).append(Component.text(" to analyze").color(NamedTextColor.GRAY)),
                 Component.text("its attributes!").color(NamedTextColor.GRAY)
         );
-    }
-
-    @Override
-    public CustomItemType getCustomItemType() {
-        return CustomItemType.ENTITY_ANALYZER;
     }
 
     @Override

@@ -17,26 +17,13 @@ public class SteakFamilyBlueprint extends CustomCompressableBlueprint {
             new CompressionRecipeMember(new MaterialWrapper(CustomItemType.ENCHANTED_STEAK))
     );
 
-    public static final CustomItemType[] CUSTOM_STEAK_MATERIALS = {
-            CustomItemType.PREMIUM_STEAK,
-            CustomItemType.ENCHANTED_STEAK
-    };
-
-    private final CustomItemType type;
-
     public SteakFamilyBlueprint(ItemService itemService, CustomItemType type) {
-        super(itemService);
-        this.type = type;
+        super(itemService, type);
     }
 
     @Override
     public List<CompressionRecipeMember> getCompressionFlow() {
         return COMPRESSION_FLOW;
-    }
-
-    @Override
-    public CustomItemType getCustomItemType() {
-        return type;
     }
     
 }

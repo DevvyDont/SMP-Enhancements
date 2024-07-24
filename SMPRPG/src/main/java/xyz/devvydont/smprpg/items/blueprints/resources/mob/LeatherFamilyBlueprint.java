@@ -17,16 +17,8 @@ public class LeatherFamilyBlueprint extends CustomCompressableBlueprint {
             new CompressionRecipeMember(new MaterialWrapper(CustomItemType.ENCHANTED_LEATHER))
     );
 
-    public static final CustomItemType[] CUSTOM_LEATHER_MATERIALS = {
-            CustomItemType.PREMIUM_LEATHER,
-            CustomItemType.ENCHANTED_LEATHER
-    };
-
-    private final CustomItemType type;
-
     public LeatherFamilyBlueprint(ItemService itemService, CustomItemType type) {
-        super(itemService);
-        this.type = type;
+        super(itemService, type);
     }
 
     @Override
@@ -34,9 +26,5 @@ public class LeatherFamilyBlueprint extends CustomCompressableBlueprint {
         return COMPRESSION_FLOW;
     }
 
-    @Override
-    public CustomItemType getCustomItemType() {
-        return type;
-    }
     
 }

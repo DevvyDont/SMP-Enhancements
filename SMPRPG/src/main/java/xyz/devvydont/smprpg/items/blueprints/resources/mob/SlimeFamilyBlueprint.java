@@ -18,26 +18,13 @@ public class SlimeFamilyBlueprint extends CustomCompressableBlueprint {
             new CompressionRecipeMember(new MaterialWrapper(CustomItemType.ENCHANTED_SLIME))
     );
 
-    public static final CustomItemType[] CUSTOM_SLIME_MATERIALS = {
-            CustomItemType.PREMIUM_SLIME,
-            CustomItemType.ENCHANTED_SLIME
-    };
-
-    private final CustomItemType type;
-
     public SlimeFamilyBlueprint(ItemService itemService, CustomItemType type) {
-        super(itemService);
-        this.type = type;
+        super(itemService, type);
     }
 
     @Override
     public List<CompressionRecipeMember> getCompressionFlow() {
         return COMPRESSION_FLOW;
-    }
-
-    @Override
-    public CustomItemType getCustomItemType() {
-        return type;
     }
     
     

@@ -23,13 +23,26 @@ import java.util.List;
 
 public class CustomItemCoin extends CustomItemBlueprint implements Listener {
 
-    private final CustomItemType coin;
     private final int value;
 
-    public CustomItemCoin(ItemService itemService, CustomItemType coin, int value) {
-        super(itemService);
-        this.coin = coin;
-        this.value = value;
+    public static int getCoinValue(CustomItemType type) {
+
+        return switch (type) {
+            case COPPER_COIN -> 1;
+            case SILVER_COIN -> 10;
+            case GOLD_COIN -> 100;
+            case PLATINUM_COIN -> 1_000;
+            case EMERALD_COIN -> 10_000;
+            case AMETHYST_COIN -> 100_000;
+            case ENCHANTED_COIN -> 1_000_000;
+            default -> 0;
+        };
+
+    }
+
+    public CustomItemCoin(ItemService itemService, CustomItemType coin) {
+        super(itemService, coin);
+        this.value = getCoinValue(coin);
     }
 
     public int getValue() {
@@ -82,11 +95,6 @@ public class CustomItemCoin extends CustomItemBlueprint implements Listener {
         );
 
         return lines;
-    }
-
-    @Override
-    public CustomItemType getCustomItemType() {
-        return coin;
     }
 
     // When the player picks up a coin, play a cute noise
