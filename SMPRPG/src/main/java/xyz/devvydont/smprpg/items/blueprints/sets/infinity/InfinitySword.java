@@ -1,4 +1,4 @@
-package xyz.devvydont.smprpg.items.blueprints.sword;
+package xyz.devvydont.smprpg.items.blueprints.sets.infinity;
 
 import org.bukkit.attribute.Attribute;
 import org.bukkit.inventory.EquipmentSlotGroup;

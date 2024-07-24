@@ -174,7 +174,7 @@ public abstract class SMPItemBlueprint {
             meta.setEnchantmentGlintOverride(true);
 
         // Set durability if desired, handle case where we set durability and the tool can support it
-        if (this instanceof ToolBreakable breakable && meta instanceof Damageable damageable) {
+        if (this instanceof ToolBreakable breakable && meta instanceof Damageable damageable && breakable.getMaxDurability() > 0) {
             damageable.setMaxDamage(breakable.getMaxDurability());
         }
         // Handle case where we didn't define a durability (unbreakable)

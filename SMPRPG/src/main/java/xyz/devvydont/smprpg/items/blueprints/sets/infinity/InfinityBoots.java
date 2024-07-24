@@ -1,7 +1,6 @@
-package xyz.devvydont.smprpg.items.blueprints.armor.infinity;
+package xyz.devvydont.smprpg.items.blueprints.sets.infinity;
 
 import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.meta.ItemMeta;
 import xyz.devvydont.smprpg.items.CustomItemType;
@@ -14,12 +13,11 @@ import xyz.devvydont.smprpg.services.ItemService;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
-public class InfinityHelmet extends CustomAttributeItem implements Wearable {
+public class InfinityBoots extends CustomAttributeItem implements Wearable {
 
 
-    public InfinityHelmet(ItemService itemService) {
+    public InfinityBoots(ItemService itemService) {
         super(itemService);
     }
 
@@ -31,7 +29,7 @@ public class InfinityHelmet extends CustomAttributeItem implements Wearable {
 
     @Override
     public CustomItemType getCustomItemType() {
-        return CustomItemType.INFINITY_HELMET;
+        return CustomItemType.INFINITY_BOOTS;
     }
 
     @Override
@@ -48,8 +46,8 @@ public class InfinityHelmet extends CustomAttributeItem implements Wearable {
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
                 new AdditiveAttributeEntry(Attribute.GENERIC_ARMOR, 30),
-                new AdditiveAttributeEntry(Attribute.GENERIC_ARMOR_TOUGHNESS, 15000),
-                new AdditiveAttributeEntry(Attribute.GENERIC_MAX_HEALTH, 1500),
+                new AdditiveAttributeEntry(Attribute.GENERIC_ARMOR_TOUGHNESS, 10000),
+                new AdditiveAttributeEntry(Attribute.GENERIC_MAX_HEALTH, 1000),
                 new AdditiveAttributeEntry(Attribute.GENERIC_KNOCKBACK_RESISTANCE, 2)
         );
     }

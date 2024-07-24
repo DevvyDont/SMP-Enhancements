@@ -28,13 +28,13 @@ public class ItemBow extends VanillaAttributeItem implements ToolBreakable {
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(Attribute.GENERIC_ATTACK_DAMAGE, 10.0)
+                new AdditiveAttributeEntry(Attribute.GENERIC_ATTACK_DAMAGE, 6.0)
         );
     }
 
     @Override
     public int getPowerRating() {
-        return 5;
+        return 3;
     }
 
 
@@ -45,6 +45,6 @@ public class ItemBow extends VanillaAttributeItem implements ToolBreakable {
 
     @Override
     public int getMaxDurability() {
-        return 25_000;
+        return 1_000;
     }
 }

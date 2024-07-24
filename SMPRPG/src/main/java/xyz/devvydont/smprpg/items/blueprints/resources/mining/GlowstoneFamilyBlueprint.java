@@ -14,16 +14,16 @@ public class GlowstoneFamilyBlueprint extends CustomCompressableBlueprint {
     public static final List<CompressionRecipeMember> COMPRESSION_FLOW = List.of(
             new CompressionRecipeMember(new MaterialWrapper(Material.GLOWSTONE_DUST)),
             new CompressionRecipeMember(new MaterialWrapper(Material.GLOWSTONE)),
-            new CompressionRecipeMember(new MaterialWrapper(CustomItemType.COMPRESSED_GLOWSTONE)),
-            new CompressionRecipeMember(new MaterialWrapper(CustomItemType.COMPRESSED_GLOWSTONE_BLOCK)),
+//            new CompressionRecipeMember(new MaterialWrapper(CustomItemType.COMPRESSED_GLOWSTONE)),
+//            new CompressionRecipeMember(new MaterialWrapper(CustomItemType.COMPRESSED_GLOWSTONE_BLOCK)),
             new CompressionRecipeMember(new MaterialWrapper(CustomItemType.ENCHANTED_GLOWSTONE)),
             new CompressionRecipeMember(new MaterialWrapper(CustomItemType.ENCHANTED_GLOWSTONE_BLOCK)),
             new CompressionRecipeMember(new MaterialWrapper(CustomItemType.GLOWSTONE_SINGULARITY))
     );
 
     public static final CustomItemType[] CUSTOM_GLOWSTONE_MATERIALS = {
-            CustomItemType.COMPRESSED_GLOWSTONE,
-            CustomItemType.COMPRESSED_GLOWSTONE_BLOCK,
+//            CustomItemType.COMPRESSED_GLOWSTONE,
+//            CustomItemType.COMPRESSED_GLOWSTONE_BLOCK,
             CustomItemType.ENCHANTED_GLOWSTONE,
             CustomItemType.ENCHANTED_GLOWSTONE_BLOCK,
             CustomItemType.GLOWSTONE_SINGULARITY

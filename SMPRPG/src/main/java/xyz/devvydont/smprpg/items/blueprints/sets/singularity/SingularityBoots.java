@@ -1,4 +1,4 @@
-package xyz.devvydont.smprpg.items.blueprints.armor;
+package xyz.devvydont.smprpg.items.blueprints.sets.singularity;
 
 import org.bukkit.attribute.Attribute;
 import org.bukkit.inventory.EquipmentSlotGroup;
@@ -6,30 +6,30 @@ import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
-import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
-import xyz.devvydont.smprpg.items.base.CustomFakeHelmetBlueprint;
+import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
+import xyz.devvydont.smprpg.items.base.CustomAttributeItem;
+import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
 import xyz.devvydont.smprpg.items.interfaces.Wearable;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
 
 import java.util.Collection;
 import java.util.List;
 
-public class SpaceHelmet extends CustomFakeHelmetBlueprint implements Wearable {
+public class SingularityBoots extends CustomAttributeItem implements Wearable, ToolBreakable {
 
 
-    public SpaceHelmet(ItemService itemService) {
+    public SingularityBoots(ItemService itemService) {
         super(itemService);
     }
 
     @Override
     public int getPowerRating() {
-        return 1;
+        return 100;
     }
 
     @Override
     public CustomItemType getCustomItemType() {
-        return CustomItemType.SPACE_HELMET;
+        return CustomItemType.SINGULARITY_BOOTS;
     }
 
     @Override
@@ -40,15 +40,22 @@ public class SpaceHelmet extends CustomFakeHelmetBlueprint implements Wearable {
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(Attribute.GENERIC_SAFE_FALL_DISTANCE, 50),
-                new MultiplicativeAttributeEntry(Attribute.GENERIC_FALL_DAMAGE_MULTIPLIER, -.50),
-                new MultiplicativeAttributeEntry(Attribute.GENERIC_GRAVITY, -.9),
-                new MultiplicativeAttributeEntry(Attribute.GENERIC_JUMP_STRENGTH, 2)
+                new AdditiveAttributeEntry(Attribute.GENERIC_ARMOR, 6),
+                new AdditiveAttributeEntry(Attribute.GENERIC_ARMOR_TOUGHNESS, 180),
+                new AdditiveAttributeEntry(Attribute.GENERIC_MAX_HEALTH, 150),
+                new AdditiveAttributeEntry(Attribute.GENERIC_KNOCKBACK_RESISTANCE, 2),
+                new ScalarAttributeEntry(Attribute.GENERIC_MOVEMENT_SPEED, .25)
         );
     }
+
 
     @Override
     public EquipmentSlotGroup getActiveSlot() {
         return EquipmentSlotGroup.ARMOR;
+    }
+
+    @Override
+    public int getMaxDurability() {
+        return 100_000_000;
     }
 }

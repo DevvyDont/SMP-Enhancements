@@ -1,4 +1,4 @@
-package xyz.devvydont.smprpg.items.blueprints.misc;
+package xyz.devvydont.smprpg.items.blueprints.debug;
 
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Spider;

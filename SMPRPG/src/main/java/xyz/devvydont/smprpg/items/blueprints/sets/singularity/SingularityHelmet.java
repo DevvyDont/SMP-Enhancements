@@ -1,7 +1,6 @@
-package xyz.devvydont.smprpg.items.blueprints.armor.singularity;
+package xyz.devvydont.smprpg.items.blueprints.sets.singularity;
 
 import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
@@ -15,18 +14,17 @@ import xyz.devvydont.smprpg.services.ItemService;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
-public class SingularityChestplate extends CustomAttributeItem implements Wearable, ToolBreakable {
-    
-    
-    public SingularityChestplate(ItemService itemService) {
+public class SingularityHelmet extends CustomAttributeItem implements Wearable, ToolBreakable {
+
+
+    public SingularityHelmet(ItemService itemService) {
         super(itemService);
     }
 
     @Override
     public CustomItemType getCustomItemType() {
-        return CustomItemType.SINGULARITY_CHESTPLATE;
+        return CustomItemType.SINGULARITY_HELMET;
     }
 
     @Override
@@ -43,8 +41,8 @@ public class SingularityChestplate extends CustomAttributeItem implements Wearab
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
                 new AdditiveAttributeEntry(Attribute.GENERIC_ARMOR, 6),
-                new AdditiveAttributeEntry(Attribute.GENERIC_ARMOR_TOUGHNESS, 310),
-                new AdditiveAttributeEntry(Attribute.GENERIC_MAX_HEALTH, 400),
+                new AdditiveAttributeEntry(Attribute.GENERIC_ARMOR_TOUGHNESS, 250),
+                new AdditiveAttributeEntry(Attribute.GENERIC_MAX_HEALTH, 200),
                 new AdditiveAttributeEntry(Attribute.GENERIC_KNOCKBACK_RESISTANCE, 2),
                 new ScalarAttributeEntry(Attribute.GENERIC_MOVEMENT_SPEED, .25)
         );

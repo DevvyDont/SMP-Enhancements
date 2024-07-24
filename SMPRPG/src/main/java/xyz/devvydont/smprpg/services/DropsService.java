@@ -301,6 +301,7 @@ public class DropsService implements BaseService, Listener {
         if (event.getChance() > ALERT_PLAYER)
             return;
 
+
         Component prefix = ComponentUtil.getAlertMessage(Component.text("RARE DROP!!! ").decorate(TextDecoration.BOLD), NamedTextColor.YELLOW, NamedTextColor.GOLD);
         Component player = ComponentUtil.getColoredComponent(event.getPlayer().getName(), NamedTextColor.AQUA);
         Component item = event.getItem().displayName().hoverEvent(event.getItem().asHoverEvent());

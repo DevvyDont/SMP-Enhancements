@@ -14,16 +14,16 @@ public class EmeraldFamilyBlueprint extends CustomCompressableBlueprint {
     public static final List<CompressionRecipeMember> COMPRESSION_FLOW = List.of(
             new CompressionRecipeMember(new MaterialWrapper(Material.EMERALD)),
             new CompressionRecipeMember(new MaterialWrapper(Material.EMERALD_BLOCK)),
-            new CompressionRecipeMember(new MaterialWrapper(CustomItemType.COMPRESSED_EMERALD)),
-            new CompressionRecipeMember(new MaterialWrapper(CustomItemType.COMPRESSED_EMERALD_BLOCK)),
+//            new CompressionRecipeMember(new MaterialWrapper(CustomItemType.COMPRESSED_EMERALD)),
+//            new CompressionRecipeMember(new MaterialWrapper(CustomItemType.COMPRESSED_EMERALD_BLOCK)),
             new CompressionRecipeMember(new MaterialWrapper(CustomItemType.ENCHANTED_EMERALD)),
             new CompressionRecipeMember(new MaterialWrapper(CustomItemType.ENCHANTED_EMERALD_BLOCK)),
             new CompressionRecipeMember(new MaterialWrapper(CustomItemType.EMERALD_SINGULARITY))
     );
 
     public static final CustomItemType[] CUSTOM_EMERALD_MATERIALS = {
-            CustomItemType.COMPRESSED_EMERALD,
-            CustomItemType.COMPRESSED_EMERALD_BLOCK,
+//            CustomItemType.COMPRESSED_EMERALD,
+//            CustomItemType.COMPRESSED_EMERALD_BLOCK,
             CustomItemType.ENCHANTED_EMERALD,
             CustomItemType.ENCHANTED_EMERALD_BLOCK,
             CustomItemType.EMERALD_SINGULARITY

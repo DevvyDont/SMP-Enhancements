@@ -14,16 +14,16 @@ public class GoldFamilyBlueprint extends CustomCompressableBlueprint {
     public static final List<CompressionRecipeMember> COMPRESSION_FLOW = List.of(
             new CompressionRecipeMember(new MaterialWrapper(Material.GOLD_INGOT)),
             new CompressionRecipeMember(new MaterialWrapper(Material.GOLD_BLOCK)),
-            new CompressionRecipeMember(new MaterialWrapper(CustomItemType.COMPRESSED_GOLD)),
-            new CompressionRecipeMember(new MaterialWrapper(CustomItemType.COMPRESSED_GOLD_BLOCK)),
+//            new CompressionRecipeMember(new MaterialWrapper(CustomItemType.COMPRESSED_GOLD)),
+//            new CompressionRecipeMember(new MaterialWrapper(CustomItemType.COMPRESSED_GOLD_BLOCK)),
             new CompressionRecipeMember(new MaterialWrapper(CustomItemType.ENCHANTED_GOLD)),
             new CompressionRecipeMember(new MaterialWrapper(CustomItemType.ENCHANTED_GOLD_BLOCK)),
             new CompressionRecipeMember(new MaterialWrapper(CustomItemType.GOLD_SINGULARITY))
     );
 
     public static final CustomItemType[] CUSTOM_GOLD_MATERIALS = {
-            CustomItemType.COMPRESSED_GOLD,
-            CustomItemType.COMPRESSED_GOLD_BLOCK,
+//            CustomItemType.COMPRESSED_GOLD,
+//            CustomItemType.COMPRESSED_GOLD_BLOCK,
             CustomItemType.ENCHANTED_GOLD,
             CustomItemType.ENCHANTED_GOLD_BLOCK,
             CustomItemType.GOLD_SINGULARITY

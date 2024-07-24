@@ -14,16 +14,16 @@ public class IronFamilyBlueprint extends CustomCompressableBlueprint {
     public static final List<CompressionRecipeMember> COMPRESSION_FLOW = List.of(
             new CompressionRecipeMember(new MaterialWrapper(Material.IRON_INGOT)),
             new CompressionRecipeMember(new MaterialWrapper(Material.IRON_BLOCK)),
-            new CompressionRecipeMember(new MaterialWrapper(CustomItemType.COMPRESSED_IRON)),
-            new CompressionRecipeMember(new MaterialWrapper(CustomItemType.COMPRESSED_IRON_BLOCK)),
+//            new CompressionRecipeMember(new MaterialWrapper(CustomItemType.COMPRESSED_IRON)),
+//            new CompressionRecipeMember(new MaterialWrapper(CustomItemType.COMPRESSED_IRON_BLOCK)),
             new CompressionRecipeMember(new MaterialWrapper(CustomItemType.ENCHANTED_IRON)),
             new CompressionRecipeMember(new MaterialWrapper(CustomItemType.ENCHANTED_IRON_BLOCK)),
             new CompressionRecipeMember(new MaterialWrapper(CustomItemType.IRON_SINGULARITY))
     );
 
     public static final CustomItemType[] CUSTOM_IRON_MATERIALS = {
-            CustomItemType.COMPRESSED_IRON,
-            CustomItemType.COMPRESSED_IRON_BLOCK,
+//            CustomItemType.COMPRESSED_IRON,
+//            CustomItemType.COMPRESSED_IRON_BLOCK,
             CustomItemType.ENCHANTED_IRON,
             CustomItemType.ENCHANTED_IRON_BLOCK,
             CustomItemType.IRON_SINGULARITY

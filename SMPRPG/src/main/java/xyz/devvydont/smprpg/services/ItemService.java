@@ -11,6 +11,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -20,10 +21,8 @@ import org.bukkit.event.enchantment.EnchantItemEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.ItemMergeEvent;
 import org.bukkit.event.entity.ItemSpawnEvent;
-import org.bukkit.event.inventory.InventoryOpenEvent;
-import org.bukkit.event.inventory.InventoryType;
-import org.bukkit.event.inventory.PrepareItemCraftEvent;
-import org.bukkit.event.inventory.PrepareSmithingEvent;
+import org.bukkit.event.inventory.*;
+import org.bukkit.event.player.PlayerAttemptPickupItemEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.world.LootGenerateEvent;
@@ -39,24 +38,25 @@ import xyz.devvydont.smprpg.items.ItemRarity;
 import xyz.devvydont.smprpg.items.base.CustomItemBlueprint;
 import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
 import xyz.devvydont.smprpg.items.base.VanillaItemBlueprint;
-import xyz.devvydont.smprpg.items.blueprints.armor.SpaceHelmet;
-import xyz.devvydont.smprpg.items.blueprints.armor.infinity.InfinityBoots;
-import xyz.devvydont.smprpg.items.blueprints.armor.infinity.InfinityChestplate;
-import xyz.devvydont.smprpg.items.blueprints.armor.infinity.InfinityHelmet;
-import xyz.devvydont.smprpg.items.blueprints.armor.infinity.InfinityLeggings;
-import xyz.devvydont.smprpg.items.blueprints.armor.singularity.SingularityBoots;
-import xyz.devvydont.smprpg.items.blueprints.armor.singularity.SingularityChestplate;
-import xyz.devvydont.smprpg.items.blueprints.armor.singularity.SingularityHelmet;
-import xyz.devvydont.smprpg.items.blueprints.armor.singularity.SingularityLeggings;
-import xyz.devvydont.smprpg.items.blueprints.bow.DiamondBow;
-import xyz.devvydont.smprpg.items.blueprints.bow.IronBow;
+import xyz.devvydont.smprpg.items.blueprints.sets.copper.*;
+import xyz.devvydont.smprpg.items.blueprints.sets.special.SpaceHelmet;
+import xyz.devvydont.smprpg.items.blueprints.sets.infinity.InfinityBoots;
+import xyz.devvydont.smprpg.items.blueprints.sets.infinity.InfinityChestplate;
+import xyz.devvydont.smprpg.items.blueprints.sets.infinity.InfinityHelmet;
+import xyz.devvydont.smprpg.items.blueprints.sets.infinity.InfinityLeggings;
+import xyz.devvydont.smprpg.items.blueprints.sets.singularity.SingularityBoots;
+import xyz.devvydont.smprpg.items.blueprints.sets.singularity.SingularityChestplate;
+import xyz.devvydont.smprpg.items.blueprints.sets.singularity.SingularityHelmet;
+import xyz.devvydont.smprpg.items.blueprints.sets.singularity.SingularityLeggings;
+import xyz.devvydont.smprpg.items.blueprints.sets.diamond.DiamondBow;
+import xyz.devvydont.smprpg.items.blueprints.sets.iron.IronBow;
 import xyz.devvydont.smprpg.items.blueprints.debug.EntityAnalyzer;
 import xyz.devvydont.smprpg.items.blueprints.economy.CustomItemCoin;
-import xyz.devvydont.smprpg.items.blueprints.misc.SpiderRepellentBlueprint;
+import xyz.devvydont.smprpg.items.blueprints.debug.SpiderRepellentBlueprint;
 import xyz.devvydont.smprpg.items.blueprints.resources.EmptyBlueprint;
 import xyz.devvydont.smprpg.items.blueprints.resources.mining.*;
 import xyz.devvydont.smprpg.items.blueprints.resources.mob.*;
-import xyz.devvydont.smprpg.items.blueprints.sword.InfinitySword;
+import xyz.devvydont.smprpg.items.blueprints.sets.infinity.InfinitySword;
 import xyz.devvydont.smprpg.items.blueprints.vanilla.*;
 import xyz.devvydont.smprpg.items.interfaces.*;
 import xyz.devvydont.smprpg.items.reforges.ReforgeBase;
@@ -252,6 +252,13 @@ public class ItemService implements BaseService, Listener {
         registerCustomItem(new CustomItemCoin(this, CustomItemType.AMETHYST_COIN, 100000));
         registerCustomItem(new CustomItemCoin(this, CustomItemType.ENCHANTED_COIN,1000000));
 
+        registerCustomItem(new CopperPickaxe(this));
+        registerCustomItem(new CopperHoe(this));
+        registerCustomItem(new CopperAxe(this));
+        registerCustomItem(new CopperSword(this));
+        registerCustomItem(new CopperShovel(this));
+        registerCustomItem(new CopperBow(this));
+
         registerCustomItem(new InfinityHelmet(this));
         registerCustomItem(new InfinityChestplate(this));
         registerCustomItem(new InfinityLeggings(this));
@@ -417,6 +424,26 @@ public class ItemService implements BaseService, Listener {
         // Debug items
         registerCustomItem(new EntityAnalyzer(this));
         registerCustomItem(new EmptyBlueprint(this, CustomItemType.ENTITY_ANALYZER_REPORT, ItemClassification.ITEM));
+
+        // Go back through all items and find recipe links, kind of ugly but this will save us computation time
+        for (SMPItemBlueprint blueprint : getCustomBlueprints()) {
+            if (blueprint instanceof Craftable craftable) {
+                for (ItemStack unlockedBy : craftable.unlockedBy()) {
+                    SMPItemBlueprint unlockBlueprint = getBlueprint(unlockedBy);
+                    if (unlockBlueprint instanceof CustomItemBlueprint custom) {
+                        List<NamespacedKey> recipes = customItemToRecipeUnlocks.getOrDefault(custom.getCustomItemType(), new ArrayList<>());
+                        recipes.add(craftable.getRecipeKey());
+                        customItemToRecipeUnlocks.put(custom.getCustomItemType(), recipes);
+                    } else if (unlockBlueprint instanceof  VanillaItemBlueprint vanilla) {
+                        List<NamespacedKey> recipes = materialToRecipeUnlocks.getOrDefault(vanilla.getItem().getType(), new ArrayList<>());
+                        recipes.add(craftable.getRecipeKey());
+                        materialToRecipeUnlocks.put(vanilla.getItem().getType(), recipes);
+                    }
+
+                }
+            }
+        }
+
 
     }
 
@@ -664,6 +691,18 @@ public class ItemService implements BaseService, Listener {
      */
     public ItemStack getCustomItem(CustomItemType type) {
         return getBlueprint(type).generate();
+    }
+
+    /**
+     * Get a vanilla item and make sure it is up to the standard of our SMP items.
+     *
+     * @param material
+     * @return
+     */
+    public ItemStack getCustomItem(Material material) {
+        ItemStack item = new ItemStack(material);
+        ensureItemStackUpdated(item);
+        return item;
     }
 
     /**
@@ -1094,6 +1133,48 @@ public class ItemService implements BaseService, Listener {
                     ensureItemStackUpdated(item);
             }
         }.runTaskLater(plugin, 0L);
+    }
+
+    private final Map<Material, List<NamespacedKey>> materialToRecipeUnlocks = new HashMap<>();
+    private final Map<CustomItemType, List<NamespacedKey>> customItemToRecipeUnlocks = new HashMap<>();
+
+    private void discoverRecipesForItem(Player player, ItemStack item) {
+        SMPItemBlueprint blueprint = getBlueprint(item);
+
+        // If this blueprint is a compression member, discover the recipes for this item
+        if (blueprint instanceof Compressable compressable) {
+            player.discoverRecipes(compressable.getAllRecipeKeys());
+        }
+
+        // If this is a vanilla item, see if recipes are discovered by the material
+        if (blueprint instanceof VanillaItemBlueprint vanilla)
+            if (materialToRecipeUnlocks.containsKey(vanilla.getItem().getType()))
+                player.discoverRecipes(materialToRecipeUnlocks.get(vanilla.getItem().getType()));
+
+        // If this is a custom item, see if recipes are discovered by the type
+        if (blueprint instanceof CustomItemBlueprint custom)
+            if (customItemToRecipeUnlocks.containsKey(custom.getCustomItemType()))
+                player.discoverRecipes(customItemToRecipeUnlocks.get(custom.getCustomItemType()));
+    }
+
+    @EventHandler
+    public void onClickItem(InventoryClickEvent event) {
+
+        if (event.getCurrentItem() == null || event.getCurrentItem().getType() == Material.AIR)
+            return;
+
+        discoverRecipesForItem((Player) event.getWhoClicked(), event.getCurrentItem());
+    }
+
+
+    @EventHandler
+    public void onPickupItem(PlayerAttemptPickupItemEvent event) {
+
+        if (event.isCancelled() || !event.getFlyAtPlayer())
+            return;
+
+        discoverRecipesForItem(event.getPlayer(), event.getItem().getItemStack());
+
     }
 
 

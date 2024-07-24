@@ -23,7 +23,7 @@ public class ItemPickaxe extends VanillaAttributeItem implements ToolBreakable {
             case NETHERITE_PICKAXE -> 120.0;
             case DIAMOND_PICKAXE -> 40.0;
             case GOLDEN_PICKAXE -> 12.0;
-            case IRON_PICKAXE -> 4.0;
+            case IRON_PICKAXE -> 6.0;
             case STONE_PICKAXE -> 3.0;
             case WOODEN_PICKAXE -> 2.0;
             default -> 0;
@@ -80,7 +80,7 @@ public class ItemPickaxe extends VanillaAttributeItem implements ToolBreakable {
             case IRON_PICKAXE -> ToolsUtil.IRON_TOOL_DURABILITY;
             case STONE_PICKAXE -> ToolsUtil.STONE_TOOL_DURABILITY;
             case WOODEN_PICKAXE -> ToolsUtil.WOOD_TOOL_DURABILITY;
-            default -> 50_000;
+            default -> 1_000;
         };
     }
 }

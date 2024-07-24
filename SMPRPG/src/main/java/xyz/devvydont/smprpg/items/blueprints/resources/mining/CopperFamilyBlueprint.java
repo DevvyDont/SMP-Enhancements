@@ -14,16 +14,16 @@ public class CopperFamilyBlueprint extends CustomCompressableBlueprint {
     public static final List<CompressionRecipeMember> COMPRESSION_FLOW = List.of(
             new CompressionRecipeMember(new MaterialWrapper(Material.COPPER_INGOT)),
             new CompressionRecipeMember(new MaterialWrapper(Material.COPPER_BLOCK)),
-            new CompressionRecipeMember(new MaterialWrapper(CustomItemType.COMPRESSED_COPPER)),
-            new CompressionRecipeMember(new MaterialWrapper(CustomItemType.COMPRESSED_COPPER_BLOCK)),
+//            new CompressionRecipeMember(new MaterialWrapper(CustomItemType.COMPRESSED_COPPER)),
+//            new CompressionRecipeMember(new MaterialWrapper(CustomItemType.COMPRESSED_COPPER_BLOCK)),
             new CompressionRecipeMember(new MaterialWrapper(CustomItemType.ENCHANTED_COPPER)),
             new CompressionRecipeMember(new MaterialWrapper(CustomItemType.ENCHANTED_COPPER_BLOCK)),
             new CompressionRecipeMember(new MaterialWrapper(CustomItemType.COPPER_SINGULARITY))
     );
 
     public static final CustomItemType[] CUSTOM_COPPER_MATERIALS = {
-            CustomItemType.COMPRESSED_COPPER,
-            CustomItemType.COMPRESSED_COPPER_BLOCK,
+//            CustomItemType.COMPRESSED_COPPER,
+//            CustomItemType.COMPRESSED_COPPER_BLOCK,
             CustomItemType.ENCHANTED_COPPER,
             CustomItemType.ENCHANTED_COPPER_BLOCK,
             CustomItemType.COPPER_SINGULARITY

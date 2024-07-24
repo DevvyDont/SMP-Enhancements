@@ -14,16 +14,16 @@ public class LapisFamilyBlueprint extends CustomCompressableBlueprint {
     public static final List<CompressionRecipeMember> COMPRESSION_FLOW = List.of(
             new CompressionRecipeMember(new MaterialWrapper(Material.LAPIS_LAZULI)),
             new CompressionRecipeMember(new MaterialWrapper(Material.LAPIS_BLOCK)),
-            new CompressionRecipeMember(new MaterialWrapper(CustomItemType.COMPRESSED_LAPIS)),
-            new CompressionRecipeMember(new MaterialWrapper(CustomItemType.COMPRESSED_LAPIS_BLOCK)),
+//            new CompressionRecipeMember(new MaterialWrapper(CustomItemType.COMPRESSED_LAPIS)),
+//            new CompressionRecipeMember(new MaterialWrapper(CustomItemType.COMPRESSED_LAPIS_BLOCK)),
             new CompressionRecipeMember(new MaterialWrapper(CustomItemType.ENCHANTED_LAPIS)),
             new CompressionRecipeMember(new MaterialWrapper(CustomItemType.ENCHANTED_LAPIS_BLOCK)),
             new CompressionRecipeMember(new MaterialWrapper(CustomItemType.LAPIS_SINGULARITY))
     );
 
     public static final CustomItemType[] CUSTOM_LAPIS_MATERIALS = {
-            CustomItemType.COMPRESSED_LAPIS,
-            CustomItemType.COMPRESSED_LAPIS_BLOCK,
+//            CustomItemType.COMPRESSED_LAPIS,
+//            CustomItemType.COMPRESSED_LAPIS_BLOCK,
             CustomItemType.ENCHANTED_LAPIS,
             CustomItemType.ENCHANTED_LAPIS_BLOCK,
             CustomItemType.LAPIS_SINGULARITY

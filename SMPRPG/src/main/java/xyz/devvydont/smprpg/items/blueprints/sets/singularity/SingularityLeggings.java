@@ -1,37 +1,30 @@
-package xyz.devvydont.smprpg.items.blueprints.armor.infinity;
+package xyz.devvydont.smprpg.items.blueprints.sets.singularity;
 
 import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.inventory.EquipmentSlotGroup;
-import org.bukkit.inventory.meta.ItemMeta;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
+import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomAttributeItem;
+import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
 import xyz.devvydont.smprpg.items.interfaces.Wearable;
 import xyz.devvydont.smprpg.services.ItemService;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
-public class InfinityLeggings extends CustomAttributeItem implements Wearable {
+public class SingularityLeggings extends CustomAttributeItem implements Wearable, ToolBreakable {
 
 
-    public InfinityLeggings(ItemService itemService) {
+    public SingularityLeggings(ItemService itemService) {
         super(itemService);
     }
 
     @Override
-    public void updateMeta(ItemMeta meta) {
-        super.updateMeta(meta);
-        meta.setUnbreakable(true);
-    }
-
-    @Override
     public CustomItemType getCustomItemType() {
-        return CustomItemType.INFINITY_LEGGINGS;
+        return CustomItemType.SINGULARITY_LEGGINGS;
     }
 
     @Override
@@ -41,21 +34,27 @@ public class InfinityLeggings extends CustomAttributeItem implements Wearable {
 
     @Override
     public int getPowerRating() {
-        return 1000;
+        return 100;
     }
 
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(Attribute.GENERIC_ARMOR, 30),
-                new AdditiveAttributeEntry(Attribute.GENERIC_ARMOR_TOUGHNESS, 20000),
-                new AdditiveAttributeEntry(Attribute.GENERIC_MAX_HEALTH, 2000),
-                new AdditiveAttributeEntry(Attribute.GENERIC_KNOCKBACK_RESISTANCE, 2)
+                new AdditiveAttributeEntry(Attribute.GENERIC_ARMOR, 6),
+                new AdditiveAttributeEntry(Attribute.GENERIC_ARMOR_TOUGHNESS, 260),
+                new AdditiveAttributeEntry(Attribute.GENERIC_MAX_HEALTH, 250),
+                new AdditiveAttributeEntry(Attribute.GENERIC_KNOCKBACK_RESISTANCE, 2),
+                new ScalarAttributeEntry(Attribute.GENERIC_MOVEMENT_SPEED, .25)
         );
     }
 
     @Override
     public EquipmentSlotGroup getActiveSlot() {
         return EquipmentSlotGroup.ARMOR;
+    }
+
+    @Override
+    public int getMaxDurability() {
+        return 100_000_000;
     }
 }

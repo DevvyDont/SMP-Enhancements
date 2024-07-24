@@ -13,18 +13,13 @@ public enum CustomItemType {
     AMETHYST_COIN( "Amethyst Coin",  Material.FIREWORK_STAR, ItemRarity.MYTHIC),             // 100k coins
     ENCHANTED_COIN("Enchanted Coin", Material.FIREWORK_STAR, ItemRarity.DIVINE, true), // 1M coins
 
-    // Admin armor, makes you invincible basically
-    INFINITY_HELMET(    "Infinity Helmet",     Material.NETHERITE_HELMET,     ItemRarity.TRANSCENDENT),
-    INFINITY_CHESTPLATE("Infinity Chestplate", Material.NETHERITE_CHESTPLATE, ItemRarity.TRANSCENDENT),
-    INFINITY_LEGGINGS(  "Infinity Leggings",   Material.NETHERITE_LEGGINGS,   ItemRarity.TRANSCENDENT),
-    INFINITY_BOOTS(     "Infinity Boots",      Material.NETHERITE_BOOTS,      ItemRarity.TRANSCENDENT),
-    INFINITY_SWORD(     "Infinity Sword",      Material.NETHERITE_SWORD,      ItemRarity.TRANSCENDENT),
-
-    // SINGULARITY SET
-    SINGULARITY_HELMET(    "Singularity Helmet",     Material.NETHERITE_HELMET,     ItemRarity.MYTHIC),
-    SINGULARITY_CHESTPLATE("Singularity Chestplate", Material.NETHERITE_CHESTPLATE, ItemRarity.MYTHIC),
-    SINGULARITY_LEGGINGS(  "Singularity Leggings",   Material.NETHERITE_LEGGINGS,   ItemRarity.MYTHIC),
-    SINGULARITY_BOOTS(     "Singularity Boots",      Material.NETHERITE_BOOTS,      ItemRarity.MYTHIC),
+    // COPPER SET
+    COPPER_PICKAXE("Copper Pickaxe",  Material.WOODEN_PICKAXE),
+    COPPER_AXE(    "Copper Axe",      Material.WOODEN_AXE),
+    COPPER_HOE(    "Copper Hoe",      Material.WOODEN_HOE),
+    COPPER_SHOVEL( "Copper Shovel",   Material.WOODEN_SHOVEL),
+    COPPER_SWORD(  "Copper Sword",    Material.WOODEN_SWORD),
+    COPPER_BOW(    "Copper Bow",      Material.BOW),
 
     // BOWS
     DIAMOND_BOW("Diamond Bow", Material.BOW, ItemRarity.RARE),
@@ -33,11 +28,11 @@ public enum CustomItemType {
     // COMPRESSED MINING MATERIALS
 
     // COAL
-    COMPRESSED_COAL("Compressed Coal", Material.COAL, ItemRarity.UNCOMMON, true),
-    COMPRESSED_COAL_BLOCK("Compressed Block of Coal", Material.COAL_BLOCK, ItemRarity.RARE, true),
-    ENCHANTED_COAL("Enchanted Coal", Material.COAL, ItemRarity.EPIC, true),
-    ENCHANTED_COAL_BLOCK("Enchanted Block of Coal", Material.COAL_BLOCK, ItemRarity.LEGENDARY, true),
-    COAL_SINGULARITY("Coal Singularity", Material.COAL, ItemRarity.MYTHIC, true),
+//    COMPRESSED_COAL("Compressed Coal", Material.COAL, ItemRarity.UNCOMMON, true),
+//    COMPRESSED_COAL_BLOCK("Compressed Block of Coal", Material.COAL_BLOCK, ItemRarity.RARE, true),
+    ENCHANTED_COAL("Enchanted Coal", Material.COAL, ItemRarity.RARE, true),
+    ENCHANTED_COAL_BLOCK("Enchanted Block of Coal", Material.COAL_BLOCK, ItemRarity.EPIC, true),
+    COAL_SINGULARITY("Coal Singularity", Material.COAL, ItemRarity.LEGENDARY, true),
 
     // CHARCOAL
     COMPRESSED_CHARCOAL("Compressed Charcoal", Material.CHARCOAL, ItemRarity.UNCOMMON, true),
@@ -48,81 +43,81 @@ public enum CustomItemType {
     ENCHANTED_FLINT("Enchanted Flint", Material.FLINT, ItemRarity.RARE, true),
 
     // COPPER
-    COMPRESSED_COPPER("Compressed Copper", Material.COPPER_INGOT, ItemRarity.UNCOMMON, true),
-    COMPRESSED_COPPER_BLOCK("Compressed Block of Copper", Material.COPPER_BLOCK, ItemRarity.RARE, true),
-    ENCHANTED_COPPER("Enchanted Copper", Material.COPPER_INGOT, ItemRarity.EPIC, true),
-    ENCHANTED_COPPER_BLOCK("Enchanted Block of Copper", Material.COPPER_BLOCK, ItemRarity.LEGENDARY, true),
-    COPPER_SINGULARITY("Copper Singularity", Material.COPPER_INGOT, ItemRarity.MYTHIC, true),
+//    COMPRESSED_COPPER("Compressed Copper", Material.COPPER_INGOT, ItemRarity.UNCOMMON, true),
+//    COMPRESSED_COPPER_BLOCK("Compressed Block of Copper", Material.COPPER_BLOCK, ItemRarity.RARE, true),
+    ENCHANTED_COPPER("Enchanted Copper", Material.COPPER_INGOT, ItemRarity.RARE, true),
+    ENCHANTED_COPPER_BLOCK("Enchanted Block of Copper", Material.COPPER_BLOCK, ItemRarity.EPIC, true),
+    COPPER_SINGULARITY("Copper Singularity", Material.COPPER_INGOT, ItemRarity.LEGENDARY, true),
 
     // IRON
-    COMPRESSED_IRON("Compressed Iron", Material.IRON_INGOT, ItemRarity.UNCOMMON, true),
-    COMPRESSED_IRON_BLOCK("Compressed Block of Iron", Material.IRON_BLOCK, ItemRarity.RARE, true),
-    ENCHANTED_IRON("Enchanted Iron", Material.IRON_INGOT, ItemRarity.EPIC, true),
-    ENCHANTED_IRON_BLOCK("Enchanted Block of Iron", Material.IRON_BLOCK, ItemRarity.LEGENDARY, true),
-    IRON_SINGULARITY("Iron Singularity", Material.IRON_INGOT, ItemRarity.MYTHIC, true),
+//    COMPRESSED_IRON("Compressed Iron", Material.IRON_INGOT, ItemRarity.UNCOMMON, true),
+//    COMPRESSED_IRON_BLOCK("Compressed Block of Iron", Material.IRON_BLOCK, ItemRarity.RARE, true),
+    ENCHANTED_IRON("Enchanted Iron", Material.IRON_INGOT, ItemRarity.RARE, true),
+    ENCHANTED_IRON_BLOCK("Enchanted Block of Iron", Material.IRON_BLOCK, ItemRarity.EPIC, true),
+    IRON_SINGULARITY("Iron Singularity", Material.IRON_INGOT, ItemRarity.LEGENDARY, true),
 
     // LAPIS
-    COMPRESSED_LAPIS("Compressed Lapis Lazuli", Material.LAPIS_LAZULI, ItemRarity.UNCOMMON, true),
-    COMPRESSED_LAPIS_BLOCK("Compressed Block of Lapis Lazuli", Material.LAPIS_BLOCK, ItemRarity.RARE, true),
-    ENCHANTED_LAPIS("Enchanted Lapis Lazuli", Material.LAPIS_LAZULI, ItemRarity.EPIC, true),
-    ENCHANTED_LAPIS_BLOCK("Enchanted Block of Lapis Lazuli", Material.LAPIS_BLOCK, ItemRarity.LEGENDARY, true),
-    LAPIS_SINGULARITY("Lapis Lazuli Singularity", Material.LAPIS_LAZULI, ItemRarity.MYTHIC, true),
+//    COMPRESSED_LAPIS("Compressed Lapis Lazuli", Material.LAPIS_LAZULI, ItemRarity.UNCOMMON, true),
+//    COMPRESSED_LAPIS_BLOCK("Compressed Block of Lapis Lazuli", Material.LAPIS_BLOCK, ItemRarity.RARE, true),
+    ENCHANTED_LAPIS("Enchanted Lapis Lazuli", Material.LAPIS_LAZULI, ItemRarity.RARE, true),
+    ENCHANTED_LAPIS_BLOCK("Enchanted Block of Lapis Lazuli", Material.LAPIS_BLOCK, ItemRarity.EPIC, true),
+    LAPIS_SINGULARITY("Lapis Lazuli Singularity", Material.LAPIS_LAZULI, ItemRarity.LEGENDARY, true),
 
     // REDSTONE
-    COMPRESSED_REDSTONE("Compressed Redstone", Material.REDSTONE, ItemRarity.UNCOMMON, true),
-    COMPRESSED_REDSTONE_BLOCK("Compressed Block of Redstone", Material.REDSTONE_BLOCK, ItemRarity.RARE, true),
+//    COMPRESSED_REDSTONE("Compressed Redstone", Material.REDSTONE, ItemRarity.UNCOMMON, true),
+//    COMPRESSED_REDSTONE_BLOCK("Compressed Block of Redstone", Material.REDSTONE_BLOCK, ItemRarity.RARE, true),
     ENCHANTED_REDSTONE("Enchanted Redstone", Material.REDSTONE, ItemRarity.EPIC, true),
     ENCHANTED_REDSTONE_BLOCK("Enchanted Block of Redstone", Material.REDSTONE_BLOCK, ItemRarity.LEGENDARY, true),
     REDSTONE_SINGULARITY("Redstone Singularity", Material.REDSTONE, ItemRarity.MYTHIC, true),
 
     // GLOWSTONE
-    COMPRESSED_GLOWSTONE("Compressed Glowstone", Material.GLOWSTONE_DUST, ItemRarity.UNCOMMON, true),
-    COMPRESSED_GLOWSTONE_BLOCK("Compressed Block of Glowstone", Material.GLOWSTONE, ItemRarity.RARE, true),
-    ENCHANTED_GLOWSTONE("Enchanted Glowstone", Material.GLOWSTONE_DUST, ItemRarity.EPIC, true),
-    ENCHANTED_GLOWSTONE_BLOCK("Enchanted Block of Glowstone", Material.GLOWSTONE, ItemRarity.LEGENDARY, true),
-    GLOWSTONE_SINGULARITY("Glowstone Singularity", Material.GLOWSTONE_DUST, ItemRarity.MYTHIC, true),
+//    COMPRESSED_GLOWSTONE("Compressed Glowstone", Material.GLOWSTONE_DUST, ItemRarity.UNCOMMON, true),
+//    COMPRESSED_GLOWSTONE_BLOCK("Compressed Block of Glowstone", Material.GLOWSTONE, ItemRarity.RARE, true),
+    ENCHANTED_GLOWSTONE("Enchanted Glowstone", Material.GLOWSTONE_DUST, ItemRarity.RARE, true),
+    ENCHANTED_GLOWSTONE_BLOCK("Enchanted Block of Glowstone", Material.GLOWSTONE, ItemRarity.EPIC, true),
+    GLOWSTONE_SINGULARITY("Glowstone Singularity", Material.GLOWSTONE_DUST, ItemRarity.LEGENDARY, true),
 
     // AMETHYST
-    COMPRESSED_AMETHYST("Compressed Amethyst", Material.AMETHYST_SHARD, ItemRarity.UNCOMMON, true),
-    COMPRESSED_AMETHYST_BLOCK("Compressed Block of Amethyst", Material.AMETHYST_BLOCK, ItemRarity.RARE, true),
-    ENCHANTED_AMETHYST("Enchanted Amethyst", Material.AMETHYST_SHARD, ItemRarity.EPIC, true),
-    ENCHANTED_AMETHYST_BLOCK("Enchanted Block of Amethyst", Material.AMETHYST_BLOCK, ItemRarity.LEGENDARY, true),
-    AMETHYST_SINGULARITY("Amethyst Singularity", Material.AMETHYST_SHARD, ItemRarity.MYTHIC, true),
+//    COMPRESSED_AMETHYST("Compressed Amethyst", Material.AMETHYST_SHARD, ItemRarity.UNCOMMON, true),
+//    COMPRESSED_AMETHYST_BLOCK("Compressed Block of Amethyst", Material.AMETHYST_BLOCK, ItemRarity.RARE, true),
+    ENCHANTED_AMETHYST("Enchanted Amethyst", Material.AMETHYST_SHARD, ItemRarity.RARE, true),
+    ENCHANTED_AMETHYST_BLOCK("Enchanted Block of Amethyst", Material.AMETHYST_BLOCK, ItemRarity.EPIC, true),
+    AMETHYST_SINGULARITY("Amethyst Singularity", Material.AMETHYST_SHARD, ItemRarity.LEGENDARY, true),
 
     // GOLD
-    COMPRESSED_GOLD("Compressed Gold", Material.GOLD_INGOT, ItemRarity.UNCOMMON, true),
-    COMPRESSED_GOLD_BLOCK("Compressed Block of Gold", Material.GOLD_BLOCK, ItemRarity.RARE, true),
-    ENCHANTED_GOLD("Enchanted Gold", Material.GOLD_INGOT, ItemRarity.EPIC, true),
-    ENCHANTED_GOLD_BLOCK("Enchanted Block of Gold", Material.GOLD_BLOCK, ItemRarity.LEGENDARY, true),
-    GOLD_SINGULARITY("Gold Singularity", Material.GOLD_INGOT, ItemRarity.MYTHIC, true),
+//    COMPRESSED_GOLD("Compressed Gold", Material.GOLD_INGOT, ItemRarity.UNCOMMON, true),
+//    COMPRESSED_GOLD_BLOCK("Compressed Block of Gold", Material.GOLD_BLOCK, ItemRarity.RARE, true),
+    ENCHANTED_GOLD("Enchanted Gold", Material.GOLD_INGOT, ItemRarity.RARE, true),
+    ENCHANTED_GOLD_BLOCK("Enchanted Block of Gold", Material.GOLD_BLOCK, ItemRarity.EPIC, true),
+    GOLD_SINGULARITY("Gold Singularity", Material.GOLD_INGOT, ItemRarity.LEGENDARY, true),
 
     // DIAMOND
-    COMPRESSED_DIAMOND("Compressed Diamond", Material.DIAMOND, ItemRarity.RARE, true),
-    COMPRESSED_DIAMOND_BLOCK("Compressed Block of Diamond", Material.DIAMOND_BLOCK, ItemRarity.EPIC, true),
-    ENCHANTED_DIAMOND("Enchanted Diamond", Material.DIAMOND, ItemRarity.LEGENDARY, true),
-    ENCHANTED_DIAMOND_BLOCK("Enchanted Block of Diamond", Material.DIAMOND_BLOCK, ItemRarity.MYTHIC, true),
-    DIAMOND_SINGULARITY("Diamond Singularity", Material.DIAMOND, ItemRarity.DIVINE, true),
+//    COMPRESSED_DIAMOND("Compressed Diamond", Material.DIAMOND, ItemRarity.RARE, true),
+//    COMPRESSED_DIAMOND_BLOCK("Compressed Block of Diamond", Material.DIAMOND_BLOCK, ItemRarity.EPIC, true),
+    ENCHANTED_DIAMOND("Enchanted Diamond", Material.DIAMOND, ItemRarity.EPIC, true),
+    ENCHANTED_DIAMOND_BLOCK("Enchanted Block of Diamond", Material.DIAMOND_BLOCK, ItemRarity.LEGENDARY, true),
+    DIAMOND_SINGULARITY("Diamond Singularity", Material.DIAMOND, ItemRarity.MYTHIC, true),
 
     // EMERALD
-    COMPRESSED_EMERALD("Compressed Emerald", Material.EMERALD, ItemRarity.RARE, true),
-    COMPRESSED_EMERALD_BLOCK("Compressed Block of Emerald", Material.EMERALD_BLOCK, ItemRarity.EPIC, true),
-    ENCHANTED_EMERALD("Enchanted Emerald", Material.EMERALD, ItemRarity.LEGENDARY, true),
-    ENCHANTED_EMERALD_BLOCK("Enchanted Block of Emerald", Material.EMERALD_BLOCK, ItemRarity.MYTHIC, true),
-    EMERALD_SINGULARITY("Emerald Singularity", Material.EMERALD, ItemRarity.DIVINE, true),
+//    COMPRESSED_EMERALD("Compressed Emerald", Material.EMERALD, ItemRarity.RARE, true),
+//    COMPRESSED_EMERALD_BLOCK("Compressed Block of Emerald", Material.EMERALD_BLOCK, ItemRarity.EPIC, true),
+    ENCHANTED_EMERALD("Enchanted Emerald", Material.EMERALD, ItemRarity.EPIC, true),
+    ENCHANTED_EMERALD_BLOCK("Enchanted Block of Emerald", Material.EMERALD_BLOCK, ItemRarity.LEGENDARY, true),
+    EMERALD_SINGULARITY("Emerald Singularity", Material.EMERALD, ItemRarity.MYTHIC, true),
 
     // QUARTZ
-    COMPRESSED_QUARTZ("Compressed Quartz", Material.QUARTZ, ItemRarity.UNCOMMON, true),
-    COMPRESSED_QUARTZ_BLOCK("Compressed Block of Quartz", Material.QUARTZ_BLOCK, ItemRarity.RARE, true),
-    ENCHANTED_QUARTZ("Enchanted Quartz", Material.QUARTZ, ItemRarity.EPIC, true),
-    ENCHANTED_QUARTZ_BLOCK("Enchanted Block of Quartz", Material.QUARTZ_BLOCK, ItemRarity.LEGENDARY, true),
-    QUARTZ_SINGULARITY("Quartz Singularity", Material.QUARTZ, ItemRarity.MYTHIC, true),
+//    COMPRESSED_QUARTZ("Compressed Quartz", Material.QUARTZ, ItemRarity.UNCOMMON, true),
+//    COMPRESSED_QUARTZ_BLOCK("Compressed Block of Quartz", Material.QUARTZ_BLOCK, ItemRarity.RARE, true),
+    ENCHANTED_QUARTZ("Enchanted Quartz", Material.QUARTZ, ItemRarity.RARE, true),
+    ENCHANTED_QUARTZ_BLOCK("Enchanted Block of Quartz", Material.QUARTZ_BLOCK, ItemRarity.EPIC, true),
+    QUARTZ_SINGULARITY("Quartz Singularity", Material.QUARTZ, ItemRarity.LEGENDARY, true),
 
     // NETHERITE
-    COMPRESSED_NETHERITE("Compressed Netherite", Material.NETHERITE_INGOT, ItemRarity.EPIC, true),
-    COMPRESSED_NETHERITE_BLOCK("Compressed Block of Netherite", Material.NETHERITE_BLOCK, ItemRarity.LEGENDARY, true),
-    ENCHANTED_NETHERITE("Enchanted Netherite", Material.NETHERITE_INGOT, ItemRarity.MYTHIC, true),
-    ENCHANTED_NETHERITE_BLOCK("Enchanted Block of Netherite", Material.NETHERITE_BLOCK, ItemRarity.DIVINE, true),
-    NETHERITE_SINGULARITY("Netherite Singularity", Material.NETHERITE_INGOT, ItemRarity.TRANSCENDENT, true),
+//    COMPRESSED_NETHERITE("Compressed Netherite", Material.NETHERITE_INGOT, ItemRarity.EPIC, true),
+//    COMPRESSED_NETHERITE_BLOCK("Compressed Block of Netherite", Material.NETHERITE_BLOCK, ItemRarity.LEGENDARY, true),
+    ENCHANTED_NETHERITE("Enchanted Netherite", Material.NETHERITE_INGOT, ItemRarity.LEGENDARY, true),
+    ENCHANTED_NETHERITE_BLOCK("Enchanted Block of Netherite", Material.NETHERITE_BLOCK, ItemRarity.MYTHIC, true),
+    NETHERITE_SINGULARITY("Netherite Singularity", Material.NETHERITE_INGOT, ItemRarity.DIVINE, true),
 
     // MOB DROPS (OVERWORLD)
 
@@ -216,6 +211,19 @@ public enum CustomItemType {
     SPIDER_REPELLENT("Spider Repellent", Material.POTION, ItemRarity.SPECIAL, true),
 
     // DEBUG
+    // Admin armor, makes you invincible basically
+    INFINITY_HELMET(    "Infinity Helmet",     Material.NETHERITE_HELMET,     ItemRarity.TRANSCENDENT),
+    INFINITY_CHESTPLATE("Infinity Chestplate", Material.NETHERITE_CHESTPLATE, ItemRarity.TRANSCENDENT),
+    INFINITY_LEGGINGS(  "Infinity Leggings",   Material.NETHERITE_LEGGINGS,   ItemRarity.TRANSCENDENT),
+    INFINITY_BOOTS(     "Infinity Boots",      Material.NETHERITE_BOOTS,      ItemRarity.TRANSCENDENT),
+    INFINITY_SWORD(     "Infinity Sword",      Material.NETHERITE_SWORD,      ItemRarity.TRANSCENDENT),
+
+    // SINGULARITY SET
+    SINGULARITY_HELMET(    "Singularity Helmet",     Material.NETHERITE_HELMET,     ItemRarity.MYTHIC),
+    SINGULARITY_CHESTPLATE("Singularity Chestplate", Material.NETHERITE_CHESTPLATE, ItemRarity.MYTHIC),
+    SINGULARITY_LEGGINGS(  "Singularity Leggings",   Material.NETHERITE_LEGGINGS,   ItemRarity.MYTHIC),
+    SINGULARITY_BOOTS(     "Singularity Boots",      Material.NETHERITE_BOOTS,      ItemRarity.MYTHIC),
+
     ENTITY_ANALYZER("Entity Analyzer", Material.CLOCK, ItemRarity.SPECIAL, true),
     ENTITY_ANALYZER_REPORT("Entity Analyzer Report", Material.PAPER, ItemRarity.SPECIAL, true),
     ;
