@@ -1,5 +1,8 @@
 package xyz.devvydont.smprpg.listeners;
 
+import org.bukkit.attribute.Attributable;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -72,7 +75,20 @@ public class EnvironmentalDamageListener implements Listener {
 
         float distance = event.getEntity().getFallDistance();
         LeveledEntity entity = plugin.getEntityService().getEntityInstance((LivingEntity) event.getEntity());
-        double damage = entity.getMaxHp() * (distance - 3) / 40;
+
+        double safeFall = 3;
+        if (entity.getEntity() instanceof Attributable attributable) {
+            AttributeInstance safeFallAttribute = attributable.getAttribute(Attribute.GENERIC_SAFE_FALL_DISTANCE);
+            if (safeFallAttribute != null)
+                safeFall = safeFallAttribute.getValue();
+        }
+
+        // Add a half heart of fall damage per block fallen past the safe fall distance
+        double damage = entity.getHalfHeartValue() * (distance - safeFall);
+        if (damage <= 0) {
+            event.setCancelled(true);
+            return;
+        }
         event.setDamage(damage);
     }
 
