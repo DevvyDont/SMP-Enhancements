@@ -12,11 +12,11 @@ import java.util.List;
 public class AmethystFamilyBlueprint extends CustomCompressableBlueprint {
 
     public static final List<CompressionRecipeMember> COMPRESSION_FLOW = List.of(
-            new CompressionRecipeMember(new MaterialWrapper(Material.AMETHYST_SHARD)),
-            new CompressionRecipeMember(new MaterialWrapper(Material.AMETHYST_BLOCK)),
-            new CompressionRecipeMember(new MaterialWrapper(CustomItemType.ENCHANTED_AMETHYST)),
-            new CompressionRecipeMember(new MaterialWrapper(CustomItemType.ENCHANTED_AMETHYST_BLOCK)),
-            new CompressionRecipeMember(new MaterialWrapper(CustomItemType.AMETHYST_SINGULARITY))
+            new CompressionRecipeMember(new MaterialWrapper(Material.AMETHYST_SHARD), 4),
+            new CompressionRecipeMember(new MaterialWrapper(Material.AMETHYST_BLOCK), 9),
+            new CompressionRecipeMember(new MaterialWrapper(CustomItemType.ENCHANTED_AMETHYST), 9),
+            new CompressionRecipeMember(new MaterialWrapper(CustomItemType.ENCHANTED_AMETHYST_BLOCK), 9),
+            new CompressionRecipeMember(new MaterialWrapper(CustomItemType.AMETHYST_SINGULARITY), 9)
     );
 
     public AmethystFamilyBlueprint(ItemService itemService, CustomItemType type) {
@@ -27,5 +27,4 @@ public class AmethystFamilyBlueprint extends CustomCompressableBlueprint {
     public List<CompressionRecipeMember> getCompressionFlow() {
         return COMPRESSION_FLOW;
     }
-    
 }
