@@ -48,7 +48,7 @@ public class MinecraftStringUtils {
 
     public static String getTitledString(String string) {
         String regex = "\\b(.)(.*?)\\b";
-        String result = Pattern.compile(regex).matcher(string).replaceAll(
+        String result = Pattern.compile(regex).matcher(string.replace("_", " ").toLowerCase()).replaceAll(
                 matche -> matche.group(1).toUpperCase() + matche.group(2)
         );
 

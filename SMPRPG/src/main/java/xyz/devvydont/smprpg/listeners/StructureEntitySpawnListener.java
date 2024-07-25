@@ -123,7 +123,7 @@ public class StructureEntitySpawnListener implements Listener {
             return;
 
         Component send = Component.text("Currently in").color(NamedTextColor.GRAY)
-                .append(Component.text(" " + MinecraftStringUtils.getTitledString(mostDangerousStructure.getStructure().key().toString().replace("minecraft:", "").replace('_', ' ').toLowerCase() + " ")).color(NamedTextColor.AQUA)
+                .append(Component.text(" " + MinecraftStringUtils.getTitledString(mostDangerousStructure.getStructure().key().value() + " ")).color(NamedTextColor.AQUA)
                 .append(ChatUtil.getBracketedPowerComponent(highestLevel)));
 
         if (highestLevel > plugin.getEntityService().getPlayerInstance(event.getPlayer()).getLevel())

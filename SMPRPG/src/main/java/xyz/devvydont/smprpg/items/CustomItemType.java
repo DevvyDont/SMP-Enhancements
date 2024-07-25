@@ -121,8 +121,8 @@ public enum CustomItemType {
     // MOB DROPS (OVERWORLD)
 
     // ROTTEN FLESH
-    PREMIUM_FLESH("Premium Flesh", Material.ROTTEN_FLESH, ItemRarity.UNCOMMON, true, FlintFamilyBlueprint.class),
-    ENCHANTED_FLESH("Premium Flesh", Material.ROTTEN_FLESH, ItemRarity.RARE, true, FlintFamilyBlueprint.class),
+    PREMIUM_FLESH("Premium Flesh", Material.ROTTEN_FLESH, ItemRarity.UNCOMMON, true, FleshFamilyBlueprint.class),
+    ENCHANTED_FLESH("Enchanted Flesh", Material.ROTTEN_FLESH, ItemRarity.RARE, true, FleshFamilyBlueprint.class),
 
     // BONE
     PREMIUM_BONE("Premium Bone", Material.BONE, ItemRarity.UNCOMMON, true, BoneFamilyBlueprint.class),

@@ -39,7 +39,7 @@ public enum SkillType {
     }
 
     public String getDisplayName() {
-        return MinecraftStringUtils.getTitledString(this.name().toLowerCase());
+        return MinecraftStringUtils.getTitledString(this.name());
     }
     
     private static SkillRewardContainer generateRewardContainer(SkillType type) {

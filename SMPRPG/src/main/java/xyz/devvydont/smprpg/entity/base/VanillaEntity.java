@@ -30,7 +30,7 @@ public class VanillaEntity extends EnemyEntity {
 
     @Override
     public String getDefaultName() {
-        return MinecraftStringUtils.getTitledString(entity.getType().name().toLowerCase().replace('_', ' '));
+        return MinecraftStringUtils.getTitledString(entity.getType().name());
     }
 
     public int getLevelDistanceBoost() {

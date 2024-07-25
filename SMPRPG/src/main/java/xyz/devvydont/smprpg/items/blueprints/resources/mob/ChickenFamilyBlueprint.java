@@ -45,6 +45,7 @@ public class ChickenFamilyBlueprint extends CustomCompressableBlueprint implemen
             food.setSaturation(food.getSaturation()+6);
             food.setEatSeconds(food.getEatSeconds()+1);
             food.addEffect(new PotionEffect(PotionEffectType.ABSORPTION, 20*60, 0), 1);
+            food.addEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, 20*60, 0), 1);
             return food;
         }
 
@@ -52,8 +53,10 @@ public class ChickenFamilyBlueprint extends CustomCompressableBlueprint implemen
             food.setNutrition(food.getNutrition()+12);
             food.setSaturation(food.getSaturation()+12);
             food.setEatSeconds(food.getEatSeconds()+2);
-            food.addEffect(new PotionEffect(PotionEffectType.ABSORPTION, 20*600, 4), 1);
-            food.addEffect(new PotionEffect(PotionEffectType.REGENERATION, 20*600, 2), 1);
+            food.addEffect(new PotionEffect(PotionEffectType.ABSORPTION, 20*600, 2), 1);
+            food.addEffect(new PotionEffect(PotionEffectType.REGENERATION, 20*600, 0), 1);
+            food.addEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, 20*120, 0), 1);
+            food.addEffect(new PotionEffect(PotionEffectType.SPEED, 20*120, 0), 1);
         }
 
         return food;

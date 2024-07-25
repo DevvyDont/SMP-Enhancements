@@ -49,7 +49,7 @@ public class VanillaItemBlueprint extends SMPItemBlueprint {
 
     @Override
     public Component getNameComponent(ItemMeta meta) {
-        Component name = meta.displayName() != null ? meta.displayName() : Component.text(MinecraftStringUtils.getTitledString(item.getType().name().toLowerCase().replace('_', ' ')));
+        Component name = meta.displayName() != null ? meta.displayName() : Component.text(MinecraftStringUtils.getTitledString(item.getType().name()));
         return getRarity(meta).applyDecoration(name).decoration(TextDecoration.ITALIC, false);
     }
 

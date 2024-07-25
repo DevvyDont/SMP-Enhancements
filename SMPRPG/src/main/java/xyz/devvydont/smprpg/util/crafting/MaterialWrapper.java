@@ -51,7 +51,7 @@ public class MaterialWrapper {
         if (isCustom())
             return custom.name;
 
-        return MinecraftStringUtils.getTitledString(vanilla.name().toLowerCase().replace('_', ' '));
+        return MinecraftStringUtils.getTitledString(vanilla.name());
     }
 
     /**
