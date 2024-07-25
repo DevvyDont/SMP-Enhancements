@@ -4,6 +4,7 @@ import org.bukkit.Material;
 import xyz.devvydont.smprpg.items.base.CustomItemBlueprint;
 import xyz.devvydont.smprpg.items.blueprints.debug.EntityAnalyzer;
 import xyz.devvydont.smprpg.items.blueprints.economy.CustomItemCoin;
+import xyz.devvydont.smprpg.items.blueprints.equipment.GrapplingHook;
 import xyz.devvydont.smprpg.items.blueprints.resources.EmptyBlueprint;
 import xyz.devvydont.smprpg.items.blueprints.resources.mining.*;
 import xyz.devvydont.smprpg.items.blueprints.resources.mob.*;
@@ -43,6 +44,9 @@ public enum CustomItemType {
     // BOWS
     DIAMOND_BOW("Diamond Bow", Material.BOW, ItemRarity.RARE,  DiamondBow.class),
     IRON_BOW(   "Iron Bow",    Material.BOW, ItemRarity.RARE,  IronBow.class),
+
+    // MISC TOOLS
+    GRAPPLING_HOOK("Grappling Hook", Material.FISHING_ROD, ItemRarity.RARE, GrapplingHook.class),
 
     // COMPRESSED MINING MATERIALS
 
