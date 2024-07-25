@@ -1,6 +1,8 @@
 package xyz.devvydont.smprpg.items;
 
 import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 public enum ItemClassification {
 
@@ -12,6 +14,7 @@ public enum ItemClassification {
     EQUIPMENT,   // Misc stuff, shields, totems, things meant to be held and not worn
     TOOL,        // Pickaxes, Hoes, Shovels
     MATERIAL,    // Stuff used for crafting mainly, like ores and stuff
+    CONSUMABLE,  // Stuff that can be eaten
     ITEM,        // Literally everything else
 
     ;
@@ -22,7 +25,10 @@ public enum ItemClassification {
      * @param material
      * @return
      */
-    public static ItemClassification resolveVanillaMaterial(Material material) {
+    public static ItemClassification resolveVanillaMaterial(@NotNull Material material) {
+
+        if (material.asItemType() != null && material.asItemType().isEdible())
+            return CONSUMABLE;
 
         return switch (material) {
             case IRON_SWORD, STONE_SWORD, DIAMOND_SWORD, GOLDEN_SWORD, NETHERITE_SWORD, WOODEN_SWORD -> SWORD;
@@ -53,6 +59,8 @@ public enum ItemClassification {
                  PRISMARINE_CRYSTALS, PRISMARINE_SHARD,
                  FLINT, STICK
                   -> MATERIAL;
+
+            case POTION, MILK_BUCKET, HONEY_BOTTLE, OMINOUS_BOTTLE -> CONSUMABLE;
 
             default -> ITEM;
         };

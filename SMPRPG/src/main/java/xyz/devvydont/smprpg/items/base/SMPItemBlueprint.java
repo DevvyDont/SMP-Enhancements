@@ -2,24 +2,32 @@ package xyz.devvydont.smprpg.items.base;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
+import org.bukkit.Color;
+import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.ItemType;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.Repairable;
+import org.bukkit.inventory.meta.components.FoodComponent;
 import org.bukkit.inventory.meta.components.ToolComponent;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.enchantments.CustomEnchantment;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.ItemRarity;
+import xyz.devvydont.smprpg.items.interfaces.Edible;
 import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.formatting.ChatUtil;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
 import xyz.devvydont.smprpg.util.formatting.MinecraftStringUtils;
 import xyz.devvydont.smprpg.util.formatting.Symbols;
+import xyz.devvydont.smprpg.util.items.FoodUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -98,6 +106,41 @@ public abstract class SMPItemBlueprint {
         return lines;
     }
 
+    public List<Component> getEdibilityComponent(ItemMeta meta) {
+
+        List<Component> lines = new ArrayList<>();
+        lines.add(Component.empty());
+
+        FoodComponent food = meta.getFood();
+
+        // Consume header + time to eat
+        lines.add(ComponentUtil.getColoredComponent("When consumed: ", NamedTextColor.GOLD).decorate(TextDecoration.BOLD)
+                .append(ComponentUtil.getColoredComponent(String.format("(%.1fs)", food.getEatSeconds()), NamedTextColor.DARK_GRAY).decoration(TextDecoration.BOLD, false)));
+
+        // Nutrition
+        int saturation = (int) food.getSaturation();
+        lines.add(ComponentUtil.getDefaultText(" - Nutrition: ").append(ComponentUtil.getColoredComponent("+" + food.getNutrition(), NamedTextColor.GREEN)));
+        lines.add(ComponentUtil.getDefaultText(" - Saturation: ").append(ComponentUtil.getColoredComponent("+" + saturation, NamedTextColor.GREEN)));
+
+        // Potion effects
+        for (FoodComponent.FoodEffect effect : food.getEffects()) {
+            String name = MinecraftStringUtils.getTitledString(effect.getEffect().getType().getKey().value());
+            Color rawColor = effect.getEffect().getType().getColor();
+            TextColor color = TextColor.color(rawColor.getRed(), rawColor.getGreen(), rawColor.getBlue());
+            int level = effect.getEffect().getAmplifier()+1;
+            int sec = effect.getEffect().getDuration() / 20;
+            String time = String.format(" (%d:%02d)", sec / 60, sec % 60);
+            String probability = String.format(" (%d%%)", (int)(effect.getProbability() * 100));
+            lines.add(ComponentUtil.getDefaultText(" - Effect: ")
+                    .append(ComponentUtil.getColoredComponent(name + " " + level, color))
+                    .append(ComponentUtil.getColoredComponent(time, NamedTextColor.DARK_GRAY))
+                    .append(ComponentUtil.getColoredComponent(probability, NamedTextColor.DARK_GRAY)));
+        }
+
+        return lines;
+
+    }
+
     /**
      * Extract rarity from an ItemStack. By default, we just grab the rarity from ItemMeta. This can be overridden
      * for altered behavior.
@@ -144,6 +187,10 @@ public abstract class SMPItemBlueprint {
         if (meta.hasEnchants())
             lore.addAll(getEnchantsComponent(meta));
 
+        // Edibility if this item has it
+        if (meta.hasFood())
+            lore.addAll(getEdibilityComponent(meta));
+
         // Durability if the item has it
         if (meta instanceof Damageable damageable && damageable.hasMaxDamage()) {
             lore.add(Component.empty());
@@ -183,14 +230,31 @@ public abstract class SMPItemBlueprint {
             meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
         }
 
+        if (this instanceof Edible edible)
+            meta.setFood(edible.getFoodComponent());
+
         // Update the lore to display
         updateLore(meta);
+    }
+
+    public void updateVanillaFoodComponent(ItemStack item) {
+        if (!item.getType().asItemType().isEdible())
+            return;
+
+        FoodComponent food = FoodUtil.getVanillaFoodComponent(item.getType());
+        if (food == null)
+            return;
+
+        item.editMeta(meta -> {
+            meta.setFood(food);
+        });
     }
 
     /**
      * Called to retrieve item meta off of an item stack, apply new updated item meta to it, and apply it
      */
     public void updateMeta(ItemStack itemStack) {
+        updateVanillaFoodComponent(itemStack);
         ItemMeta meta = itemStack.getItemMeta();
         updateMeta(meta);
         itemStack.setItemMeta(meta);
