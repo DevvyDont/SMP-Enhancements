@@ -42,8 +42,8 @@ public enum CustomItemType {
     COPPER_BOOTS(     "Copper Boots",      Material.LEATHER_BOOTS,      CopperBoots.class),
 
     // BOWS
-    DIAMOND_BOW("Diamond Bow", Material.BOW, ItemRarity.RARE,  DiamondBow.class),
-    IRON_BOW(   "Iron Bow",    Material.BOW, ItemRarity.RARE,  IronBow.class),
+    DIAMOND_BOW("Diamond Bow", Material.BOW, ItemRarity.UNCOMMON,  DiamondBow.class),
+    IRON_BOW(   "Iron Bow",    Material.BOW, ItemRarity.COMMON,  IronBow.class),
 
     // MISC TOOLS
     GRAPPLING_HOOK("Grappling Hook", Material.FISHING_ROD, ItemRarity.RARE, GrapplingHook.class),

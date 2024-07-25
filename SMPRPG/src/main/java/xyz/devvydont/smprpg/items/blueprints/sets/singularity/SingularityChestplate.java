@@ -50,6 +50,6 @@ public class SingularityChestplate extends CustomAttributeItem implements Wearab
 
     @Override
     public int getMaxDurability() {
-        return 100_000_000;
+        return 1_000_000;
     }
 }

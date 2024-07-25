@@ -51,6 +51,6 @@ public class SingularityBoots extends CustomAttributeItem implements Wearable, T
 
     @Override
     public int getMaxDurability() {
-        return 100_000_000;
+        return 1_000_000;
     }
 }

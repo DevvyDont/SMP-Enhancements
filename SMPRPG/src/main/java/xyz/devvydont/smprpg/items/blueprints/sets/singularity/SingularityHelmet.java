@@ -49,6 +49,6 @@ public class SingularityHelmet extends CustomAttributeItem implements Wearable, 
 
     @Override
     public int getMaxDurability() {
-        return 100_000_000;
+        return 1_000_000;
     }
 }
