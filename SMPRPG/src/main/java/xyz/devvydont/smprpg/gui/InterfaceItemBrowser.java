@@ -5,6 +5,7 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.ShapelessRecipe;
 import xyz.devvydont.smprpg.SMPRPG;
@@ -91,7 +92,16 @@ public class InterfaceItemBrowser extends PrivateInterface {
                 continue;
             }
 
-            inventory.setItem(invIndex, plugin.getItemService().getCustomItem(toDisplay.get(itemIndex)));
+            SMPItemBlueprint blueprint = plugin.getItemService().getBlueprint(toDisplay.get(itemIndex));
+            ItemStack item = blueprint.generate();
+            if (blueprint instanceof Craftable)
+                item.editMeta(meta -> {
+                    List<Component> lore = meta.lore();
+                    lore.addFirst(Component.text("Click to view recipe!").color(NamedTextColor.YELLOW));
+                    lore.addFirst(Component.empty());
+                    meta.lore(lore);
+                });
+            inventory.setItem(invIndex, item);
             invIndex++;
             itemIndex++;
         }
@@ -158,9 +168,14 @@ public class InterfaceItemBrowser extends PrivateInterface {
         // Handle the item click, for things that can be crafted we should show the recipe
         SMPItemBlueprint potentialItemClick = plugin.getItemService().getBlueprint(event.getCurrentItem());
 
-        // If the player is in creative mode give it to them
+        // If the player is in creative mode give it to them, otherwise attempt to find the recipe and display it
         if (event.getWhoClicked().getGameMode().equals(GameMode.CREATIVE))
             event.getWhoClicked().getInventory().addItem(potentialItemClick.generate());
+        else if (potentialItemClick instanceof Craftable craftable) {
+            InterfaceRecipe recipeViewer = new InterfaceRecipe(plugin, owner);
+            recipeViewer.open();
+            recipeViewer.showRecipe(craftable);
+        }
 
         owner.playSound(owner.getEyeLocation(), Sound.BLOCK_AMETHYST_BLOCK_BREAK, 1, 1f);
     }

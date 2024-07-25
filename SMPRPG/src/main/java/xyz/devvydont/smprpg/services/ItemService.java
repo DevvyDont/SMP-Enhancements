@@ -25,6 +25,7 @@ import org.bukkit.event.inventory.*;
 import org.bukkit.event.player.PlayerAttemptPickupItemEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerItemDamageEvent;
 import org.bukkit.event.world.LootGenerateEvent;
 import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -258,6 +259,18 @@ public class ItemService implements BaseService, Listener {
             registerCustomItem(blueprint);
         }
 
+        // Now go back through and register item recipes since every item is generated
+        for (SMPItemBlueprint blueprint : getCustomBlueprints()) {
+            if (blueprint instanceof Craftable craftable) {
+
+                // Only register it if it is not registered already
+                if (plugin.getServer().getRecipe(craftable.getRecipeKey()) == null)
+                    plugin.getServer().addRecipe(craftable.getCustomRecipe());
+
+                registeredRecipes.add(craftable.getCustomRecipe());
+            }
+        }
+
         // Go back through all items and find recipe links, kind of ugly but this will save us computation time
         for (SMPItemBlueprint blueprint : getCustomBlueprints()) {
             if (blueprint instanceof Craftable craftable) {
@@ -298,18 +311,6 @@ public class ItemService implements BaseService, Listener {
         // If this blueprint needs to hook into events register them.
         if (blueprint instanceof Listener)
             plugin.getServer().getPluginManager().registerEvents((Listener) blueprint, plugin);
-
-        // If this blueprint has a crafting recipe, register it.
-        if (blueprint instanceof Craftable) {
-            Craftable craftable = (Craftable) blueprint;
-
-            // Only register it if it is not registered already
-            if (plugin.getServer().getRecipe(craftable.getRecipeKey()) == null)
-                plugin.getServer().addRecipe(craftable.getCustomRecipe());
-
-            registeredRecipes.add(craftable.getCustomRecipe());
-        }
-
     }
 
     private void registerReforge(ReforgeBase reforge) {
@@ -990,7 +991,7 @@ public class ItemService implements BaseService, Listener {
                 player.discoverRecipes(customItemToRecipeUnlocks.get(custom.getCustomItemType()));
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onClickItem(InventoryClickEvent event) {
 
         if (event.getCurrentItem() == null || event.getCurrentItem().getType() == Material.AIR)
@@ -1000,10 +1001,10 @@ public class ItemService implements BaseService, Listener {
     }
 
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onPickupItem(PlayerAttemptPickupItemEvent event) {
 
-        if (event.isCancelled() || !event.getFlyAtPlayer())
+        if (!event.getFlyAtPlayer())
             return;
 
         discoverRecipesForItem(event.getPlayer(), event.getItem().getItemStack());

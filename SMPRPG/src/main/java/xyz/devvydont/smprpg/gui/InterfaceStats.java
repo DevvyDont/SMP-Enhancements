@@ -120,7 +120,7 @@ public class InterfaceStats extends PrivateInterface {
             if (attributeWrapper.equals(AttributeWrapper.DEFENSE)) {
                 lore.add(Component.text("- Effective Health: ").color(NamedTextColor.YELLOW)
                         .append(Component.text(String.format("%d ", (int)ehp)).color(NamedTextColor.GREEN))
-                        .append(Component.text(String.format("EHP=%dHP/%.2fDEF%%", (int)hp, DamageOverrideListener.calculateDefenseDamageMultiplier(def)*100)).color(NamedTextColor.DARK_GRAY))
+                        .append(Component.text(String.format("EHP=%dHP/%.2fDEF%%", (int)hp, DamageOverrideListener.calculateResistancePercentage(def)*100)).color(NamedTextColor.DARK_GRAY))
                 );
             }
 

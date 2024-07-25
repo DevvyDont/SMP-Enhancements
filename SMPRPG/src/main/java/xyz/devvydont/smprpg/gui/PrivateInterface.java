@@ -31,8 +31,12 @@ public abstract class PrivateInterface implements Listener {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
+    public int getNumRows() {
+        return 6;
+    }
+
     public Inventory createInventory() {
-        return Bukkit.createInventory(owner, 9*6);
+        return Bukkit.createInventory(owner, 9*getNumRows());
     }
 
     /**
