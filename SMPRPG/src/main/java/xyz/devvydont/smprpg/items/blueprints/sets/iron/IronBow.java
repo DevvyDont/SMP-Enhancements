@@ -58,8 +58,8 @@ public class IronBow extends CustomAttributeItem implements Craftable, ToolBreak
                 "I S",
                 " IS"
         );
-        recipe.setIngredient('I', Material.DIAMOND);
-        recipe.setIngredient('S', Material.STRING);
+        recipe.setIngredient('I', itemService.getCustomItem(Material.IRON_INGOT));
+        recipe.setIngredient('S', itemService.getCustomItem(Material.STRING));
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
         return recipe;
     }

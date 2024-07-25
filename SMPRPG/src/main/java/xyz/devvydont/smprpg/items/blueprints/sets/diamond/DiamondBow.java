@@ -59,8 +59,8 @@ public class DiamondBow extends CustomAttributeItem implements Craftable, ToolBr
                 "D S",
                 " DS"
         );
-        recipe.setIngredient('D', Material.DIAMOND);
-        recipe.setIngredient('S', Material.STRING);
+        recipe.setIngredient('D', itemService.getCustomItem(Material.DIAMOND));
+        recipe.setIngredient('S', itemService.getCustomItem(Material.STRING));
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
         return recipe;
     }
