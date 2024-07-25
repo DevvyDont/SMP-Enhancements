@@ -1008,6 +1008,14 @@ public class ItemService implements BaseService, Listener {
             return;
 
         discoverRecipesForItem(event.getPlayer(), event.getItem().getItemStack());
+    }
+
+    @EventHandler
+    public void onPlayerDamageItem(PlayerItemDamageEvent event) {
+
+        // Durability changes are always 1
+        if (event.getDamage() > 0)
+            event.setDamage(1);
 
     }
 
