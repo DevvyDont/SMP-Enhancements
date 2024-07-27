@@ -40,7 +40,7 @@ public class LeveledEnderman extends VanillaEntity implements Listener {
 
     @Override
     public double calculateBaseHealthMultiplier() {
-        return 2.0;
+        return 1.2;
     }
 
     public boolean canDropCrystal() {

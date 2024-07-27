@@ -180,18 +180,26 @@ public class LeveledPlayer extends LeveledEntity {
      */
     public int getHealthScale() {
 
-        // When someone achieves max HP of 1000, they should have 4 rows of hearts (displays as 80 hp)
+        // When someone achieves max HP of 1000, they should have 3 rows of hearts (displays as 60 hp)
         // When someone is at starting HP of 100, they should only have 5 hearts (displays as 10 hp)
 
-        // Divide by 10 and round up to the nearest whole number, and if the number isn't even increase it by another
-        // 1 so that we don't ever display half hearts as max hp
+        // If we are under 200 HP, we achieve 1 scale point for every 10 HP (200HP = 20 scale points)
         int scale = 10;
+        if (getMaxHp() < 200)
+            scale = (int) (getMaxHp() / 10);
 
-        // For every 10 HP we have above 100, we add another health scale point
-        scale += (int) (Math.max(0, getMaxHp()-100) / 10.0);
+        // If we are under 500 HP, we achieve 1 scale point for every 15 HP (500HP = 40 scale points)
+        else if (getMaxHp() < 500)
+            scale = (int) (20 + ((getMaxHp() - 200) / 15));
+
+        // If we are at anything else, we achieve 1 scale point for every 25 HP (1000HP = 60 scale points)
+        else
+            scale = (int) (40 + ((getMaxHp() - 500) / 25));
+
+        // Never allow half hearts to show, only full hearts
         if (scale % 2 != 0)
             scale++;
-        return Math.min(Math.max(10, scale), 80);
+        return Math.min(Math.max(10, scale), 60);
     }
 
     /**

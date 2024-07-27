@@ -6,8 +6,10 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -42,6 +44,29 @@ public class EntityAnalyzer extends CustomItemBlueprint implements Listener {
         );
     }
 
+    public void execute(Player player, LivingEntity entity) {
+
+        InterfaceStats gui = new InterfaceStats(SMPRPG.getInstance(), player, entity);
+        gui.open();
+
+        if (player.isSneaking()) {
+            ItemStack report = itemService.getCustomItem(CustomItemType.ENTITY_ANALYZER_REPORT);
+
+            // Inject the statistics into the meta and tell the plugin to never update this item again
+            report.editMeta(meta -> {
+                List<Component> components = new ArrayList<>();
+                components.addAll(gui.getStats().lore());
+                components.addAll(report.lore());
+                meta.lore(components);
+                meta.setEnchantmentGlintOverride(true);
+            });
+            itemService.setIgnoreMetaUpdate(report);
+            entity.getWorld().dropItemNaturally(entity.getEyeLocation(), report);
+            entity.getWorld().playSound(entity.getEyeLocation(), Sound.ENTITY_CHICKEN_EGG, 1, 1);
+        }
+
+    }
+
     @Override
     public ItemClassification getItemClassification() {
         return ItemClassification.TOOL;
@@ -61,24 +86,27 @@ public class EntityAnalyzer extends CustomItemBlueprint implements Listener {
         if (!isItemOfType(item))
             return;
 
-        InterfaceStats gui = new InterfaceStats(SMPRPG.getInstance(), event.getPlayer(), living);
-        gui.open();
+        execute(event.getPlayer(), living);
+    }
 
-        if (event.getPlayer().isSneaking()) {
-            ItemStack report = itemService.getCustomItem(CustomItemType.ENTITY_ANALYZER_REPORT);
+    @EventHandler
+    public void onPunch(EntityDamageByEntityEvent event) {
 
-            // Inject the statistics into the meta and tell the plugin to never update this item again
-            report.editMeta(meta -> {
-                List<Component> components = new ArrayList<>();
-                components.addAll(gui.getStats().lore());
-                components.addAll(report.lore());
-                meta.lore(components);
-                meta.setEnchantmentGlintOverride(true);
-            });
-            itemService.setIgnoreMetaUpdate(report);
-            event.getRightClicked().getWorld().dropItemNaturally(((LivingEntity) event.getRightClicked()).getEyeLocation(), report);
-            event.getRightClicked().getWorld().playSound(((LivingEntity) event.getRightClicked()).getEyeLocation(), Sound.ENTITY_CHICKEN_EGG, 1, 1);
-        }
+        if (!(event.getEntity() instanceof LivingEntity living))
+            return;
+
+        if (!(event.getDamager() instanceof Player player))
+            return;
+
+        ItemStack item = player.getInventory().getItemInMainHand();
+
+        if (item.getType().equals(Material.AIR))
+            return;
+
+        if (!isItemOfType(item))
+            return;
+
+        execute(player, living);
     }
 
 }

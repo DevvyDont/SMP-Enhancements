@@ -34,7 +34,7 @@ public class CopperSword extends CustomAttributeItem implements Craftable, ToolB
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, 16),
+                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, 24),
                 new MultiplicativeAttributeEntry(Attribute.GENERIC_ATTACK_SPEED, ItemSword.SWORD_ATTACK_SPEED_DEBUFF)
         );
     }

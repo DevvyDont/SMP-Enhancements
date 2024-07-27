@@ -23,12 +23,12 @@ public class ItemShovel extends VanillaAttributeItem implements ToolBreakable {
 
     public static double getShovelDamage(Material material) {
         return switch (material) {
-            case NETHERITE_SHOVEL -> 160.0;
-            case DIAMOND_SHOVEL -> 35.0;
-            case GOLDEN_SHOVEL -> 15.0;
-            case IRON_SHOVEL -> 5.0;
-            case STONE_SHOVEL -> 3.0;
-            case WOODEN_SHOVEL -> 2.0;
+            case NETHERITE_SHOVEL -> 200.0;
+            case DIAMOND_SHOVEL -> 90.0;
+            case GOLDEN_SHOVEL -> 25.0;
+            case IRON_SHOVEL -> 12.0;
+            case STONE_SHOVEL -> 6.0;
+            case WOODEN_SHOVEL -> 4.0;
             default -> 0;
         };
     }

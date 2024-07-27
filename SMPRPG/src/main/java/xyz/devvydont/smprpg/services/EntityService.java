@@ -25,6 +25,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.*;
 import xyz.devvydont.smprpg.entity.base.CustomEntityInstance;
@@ -36,9 +37,7 @@ import xyz.devvydont.smprpg.events.LeveledEntitySpawnEvent;
 import xyz.devvydont.smprpg.util.formatting.DamagePopupUtil;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class EntityService implements BaseService, Listener {
 
@@ -190,6 +189,7 @@ public class EntityService implements BaseService, Listener {
         return (LeveledPlayer) getEntityInstance(player);
     }
 
+    @Nullable
     public CustomEntityInstance spawnCustomEntity(CustomEntityType type, Location location) {
 
         Entity entity = location.getWorld().spawnEntity(location, type.entityType, CreatureSpawnEvent.SpawnReason.CUSTOM, e -> {
@@ -208,6 +208,7 @@ public class EntityService implements BaseService, Listener {
             trackEntity(customEntity);
             return customEntity;
         } catch (InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException e) {
+            e.printStackTrace();
             plugin.getLogger().severe(String.format("Failed to instantiate class handler %s for entity type %s. Method signatures are probably incorrect", type.entityHandler.getName(), type.name));
             entity.remove();
             return null;
@@ -220,7 +221,7 @@ public class EntityService implements BaseService, Listener {
         entityInstances.put(entity.getEntity().getUniqueId(), entity);
         if (entity instanceof Listener)
             plugin.getServer().getPluginManager().registerEvents((Listener) entity, plugin);
-        entity.updateNametag();
+        entity.setup();
     }
 
     public void removeEntity(UUID uuid) {
@@ -444,5 +445,35 @@ public class EntityService implements BaseService, Listener {
             enemy.addDamageDealtByEntity(player, (int)event.getFinalDamage());
 
         leveled.brightenNametag();
+    }
+
+    @EventHandler
+    public void onSpawn(CreatureSpawnEvent event) {
+
+        // Ignore non natural spawns
+        List<CreatureSpawnEvent.SpawnReason> NATURAL_REASONS = List.of(CreatureSpawnEvent.SpawnReason.NATURAL, CreatureSpawnEvent.SpawnReason.DEFAULT);
+        if (!NATURAL_REASONS.contains(event.getSpawnReason()))
+            return;
+
+        // Determine eligible creatures that can spawn in its place
+        List<CustomEntityType> choices = new ArrayList<>();
+        for (CustomEntityType type : CustomEntityType.values())
+            // Check if this location is suitable for this custom entity
+            if (type.testNaturalSpawn(event.getLocation()))
+                // Random roll on whether this entity makes it in
+                if (type.rollRandomSpawnChance())
+                    choices.add(type);
+
+        // Did we find a custom entity type?
+        if (choices.isEmpty())
+            return;
+
+        // Pick a random entity to make
+        CustomEntityType newEntity = choices.get((int) (Math.random()*choices.size()));
+        CustomEntityInstance entity = this.spawnCustomEntity(newEntity, event.getLocation());
+        if (entity == null)
+            return;
+        entity.setup();
+        event.setCancelled(true);
     }
 }

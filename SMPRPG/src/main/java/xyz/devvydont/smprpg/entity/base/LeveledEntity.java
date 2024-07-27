@@ -35,12 +35,18 @@ public abstract class LeveledEntity implements LootSource {
     public LeveledEntity(SMPRPG plugin, LivingEntity entity) {
         this.plugin =  plugin;
         this.entity = entity;
+    }
 
-        // Tag this entity with its class key so it can be found later
-        entity.getPersistentDataContainer().set(plugin.getEntityService().getClassNamespacedKey(), PersistentDataType.STRING, getClassKey());
-
+    public void setup() {
+        addPersistentEntityClassTag();
+        updateAttributes();
         dimNametag();
         updateNametag();
+    }
+
+    public void addPersistentEntityClassTag() {
+        // Tag this entity with its class key so it can be found later
+        entity.getPersistentDataContainer().set(plugin.getEntityService().getClassNamespacedKey(), PersistentDataType.STRING, getClassKey());
     }
 
     public void dimNametag() {

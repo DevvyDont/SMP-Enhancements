@@ -1,9 +1,17 @@
 package xyz.devvydont.smprpg.entity.base;
 
+import net.kyori.adventure.key.Key;
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.inventory.EntityEquipment;
+import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.EquipmentSlotGroup;
+import org.bukkit.inventory.ItemStack;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.CustomEntityType;
 
@@ -12,7 +20,7 @@ import xyz.devvydont.smprpg.entity.CustomEntityType;
  * If a custom entity needs to listen and react to events, make a child class that extends this and implement
  * Listener
  */
-public abstract class CustomEntityInstance extends EnemyEntity {
+public class CustomEntityInstance extends EnemyEntity {
 
     private final CustomEntityType entityType;
 
@@ -68,5 +76,28 @@ public abstract class CustomEntityInstance extends EnemyEntity {
     @Override
     public boolean hasVanillaDrops() {
         return false;
+    }
+
+    protected ItemStack getAttributelessItem(Material material) {
+        ItemStack item = new ItemStack(material);
+        item.editMeta(meta -> {
+            meta.setAttributeModifiers(null);
+            meta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier(new NamespacedKey("smprpg", "dummy-attribute"), 0.01, AttributeModifier.Operation.ADD_SCALAR, EquipmentSlotGroup.ANY));
+            meta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier(new NamespacedKey("smprpg", "dummy-attribute"), 0.01, AttributeModifier.Operation.ADD_SCALAR, EquipmentSlotGroup.ANY));
+        });
+        plugin.getItemService().setIgnoreMetaUpdate(item);
+        return item;
+    }
+
+    /**
+     * Sets it so that this entity will never drop equipment.
+     */
+    protected void setNoDropEquipment() {
+        EntityEquipment equipment = entity.getEquipment();
+        if (equipment == null)
+            return;
+
+        for (EquipmentSlot slot : EquipmentSlot.values())
+            equipment.setDropChance(slot, 0f);
     }
 }

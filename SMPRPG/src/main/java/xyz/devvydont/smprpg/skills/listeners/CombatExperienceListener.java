@@ -1,14 +1,18 @@
 package xyz.devvydont.smprpg.skills.listeners;
 
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.LeveledPlayer;
+import xyz.devvydont.smprpg.entity.base.EnemyEntity;
 import xyz.devvydont.smprpg.entity.base.LeveledEntity;
 import xyz.devvydont.smprpg.events.skills.SkillExperienceGainEvent;
 import xyz.devvydont.smprpg.skills.SkillInstance;
 import xyz.devvydont.smprpg.skills.SkillType;
+
+import java.util.Map;
 
 public class CombatExperienceListener implements Listener {
 
@@ -30,15 +34,25 @@ public class CombatExperienceListener implements Listener {
             return;
 
         LeveledEntity dead = plugin.getEntityService().getEntityInstance(event.getEntity());
-        LeveledPlayer killer = plugin.getEntityService().getPlayerInstance(event.getEntity().getKiller());
-        SkillInstance combat = killer.getCombatSkill();
+        if (!(dead instanceof EnemyEntity enemy))
+            return;
 
         // Calculate how much base experience to drop, if there is none don't do anything
         int experience = dead.getCombatExperienceDropped();
         if (experience <= 0)
             return;
 
-        // Add the experience
-        combat.addExperience(experience, SkillExperienceGainEvent.ExperienceSource.KILL);
+        // Loop through everyone who helped kill this entity
+        for (Map.Entry<Player, Integer> entry : enemy.getPlayerDamageTracker().entrySet()) {
+
+            // Calculate a percentage of how much damage the player did to the entity
+            float percentage = (float) Math.min(1.0f, entry.getValue() / dead.getMaxHp());
+            // Take that percentage and multiply it by 5 for generosity
+            int experienceCut = (int) Math.min(experience, experience * percentage * 5);
+
+            LeveledPlayer player = plugin.getEntityService().getPlayerInstance(entry.getKey());
+            player.getCombatSkill().addExperience(experienceCut, SkillExperienceGainEvent.ExperienceSource.KILL);
+        }
+
     }
 }
