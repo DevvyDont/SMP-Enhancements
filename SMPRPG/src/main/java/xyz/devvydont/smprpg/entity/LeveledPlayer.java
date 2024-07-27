@@ -1,25 +1,42 @@
 package xyz.devvydont.smprpg.entity;
 
+import com.destroystokyo.paper.event.entity.EntityAddToWorldEvent;
+import com.destroystokyo.paper.event.entity.EntityRemoveFromWorldEvent;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.*;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDismountEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataType;
+import org.joml.Vector3f;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.base.LeveledEntity;
 import xyz.devvydont.smprpg.items.interfaces.Attributeable;
 import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
 import xyz.devvydont.smprpg.skills.SkillInstance;
 import xyz.devvydont.smprpg.skills.SkillType;
+import xyz.devvydont.smprpg.util.formatting.PlayerChatInformation;
 import xyz.devvydont.smprpg.util.formatting.Symbols;
+import xyz.devvydont.smprpg.util.world.TransformationUtil;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 
-public class LeveledPlayer extends LeveledEntity {
+public class LeveledPlayer extends LeveledEntity implements Listener {
 
     private TextDisplay info;
 
@@ -45,6 +62,10 @@ public class LeveledPlayer extends LeveledEntity {
         this.magicSkill = plugin.getSkillService().getNewSkillInstance(entity, SkillType.MAGIC);
 
         shuffleSeed();
+    }
+
+    private NamespacedKey getInvalidTextDisplayKey() {
+        return new NamespacedKey(plugin, "invalid-textdisplay");
     }
 
     /**
@@ -277,28 +298,78 @@ public class LeveledPlayer extends LeveledEntity {
         // does nothing
     }
 
+    public List<TextDisplay> getTextDisplayPassengers() {
+        List<TextDisplay> passengers = new ArrayList<>();
+        for (Entity passenger : entity.getPassengers())
+            if (passenger instanceof TextDisplay text)
+                passengers.add(text);
+
+        return passengers;
+    }
+
+    public void hideNametag() {
+
+        updateNametag();
+
+        for (Player player : Bukkit.getOnlinePlayers())
+            for (TextDisplay textDisplay : getTextDisplayPassengers())
+                player.hideEntity(SMPRPG.getInstance(), textDisplay);
+
+    }
+
+    public void showNametag() {
+
+        updateNametag();
+
+        for (Player player : Bukkit.getOnlinePlayers())
+            for (TextDisplay textDisplay : getTextDisplayPassengers())
+                player.showEntity(SMPRPG.getInstance(), textDisplay);
+
+    }
+
+    private Component getPrimaryNametagComponent() {
+        PlayerChatInformation information = SMPRPG.getInstance().getChatService().getPlayerInfo((Player) entity);
+        String legacyName = ChatColor.translateAlternateColorCodes('&', (information.prefix() + entity.getName() + information.suffix()));
+        return Component.text(legacyName);
+    }
+
     public TextDisplay spawnSecondaryNametag() {
 
         // Kill the old one if it exists
         killSecondaryNametag();
 
         // Spawn a new TextDisplay and mount it on the player
-        info = entity.getWorld().spawn(entity.getLocation(), TextDisplay.class, e -> {
-            e.setSeeThrough(true);
+        info = entity.getWorld().spawn(entity.getEyeLocation(), TextDisplay.class, e -> {
+            e.setSeeThrough(false);
             e.setPersistent(false);
             e.setBillboard(Display.Billboard.CENTER);
         });
+        TextDisplay nametag = entity.getWorld().spawn(entity.getEyeLocation(), TextDisplay.class, e -> {
+            e.setSeeThrough(false);
+            e.setPersistent(false);
+            e.setBillboard(Display.Billboard.CENTER);
+            e.text(getPrimaryNametagComponent());
+        });
+        entity.addPassenger(nametag);
         entity.addPassenger(info);
+        info.setTransformation(TransformationUtil.getTranslation(new Vector3f(0, .25f, 0)));
+        nametag.setTransformation(TransformationUtil.getTranslation(new Vector3f(0, .5f, 0)));
+        info.getPersistentDataContainer().set(getInvalidTextDisplayKey(), PersistentDataType.BOOLEAN, true);
+        nametag.getPersistentDataContainer().set(getInvalidTextDisplayKey(), PersistentDataType.BOOLEAN, true);
         return info;
     }
 
-    public void killSecondaryNametag() {
-        if (!hasSecondaryNametag()) {
-            info = null;
-            return;
-        }
+    public void killTextDisplayPassengers() {
 
-        info.remove();
+        System.out.println(getTextDisplayPassengers());
+        for (TextDisplay textDisplay : getTextDisplayPassengers())
+            textDisplay.remove();
+
+        info = null;
+    }
+
+    public void killSecondaryNametag() {
+        killTextDisplayPassengers();
         info = null;
     }
 
@@ -318,5 +389,47 @@ public class LeveledPlayer extends LeveledEntity {
     @Override
     public boolean hasVanillaDrops() {
         return true;
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onEntityAddToWorld(EntityAddToWorldEvent event) {
+
+        if (event.getEntity().equals(entity))
+            updateNametag();
+
+    }
+
+    @EventHandler
+    public void onDismount(EntityDismountEvent event) {
+
+        if (!event.getDismounted().equals(entity))
+            return;
+
+        if (!event.getEntityType().equals(EntityType.TEXT_DISPLAY))
+            return;
+
+        event.getEntity().remove();
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onJoin(PlayerJoinEvent event) {
+
+        if (!event.getPlayer().equals(getPlayer()))
+            return;
+
+        updateNametag();
+    }
+
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
+    public void onSneak(PlayerToggleSneakEvent event) {
+
+        if (!event.getPlayer().equals(entity))
+            return;
+
+        // When sneak is toggled, decide what to do about nametags on a player
+        if (event.isSneaking())
+            hideNametag();
+        else
+            showNametag();
     }
 }
