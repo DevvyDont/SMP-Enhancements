@@ -44,8 +44,6 @@ public class LeveledPlayer extends LeveledEntity {
         this.woodcuttingSkill = plugin.getSkillService().getNewSkillInstance(entity, SkillType.WOODCUTTING);
         this.magicSkill = plugin.getSkillService().getNewSkillInstance(entity, SkillType.MAGIC);
 
-        plugin.getSkillService().syncSkillAttributes(this);
-
         shuffleSeed();
     }
 

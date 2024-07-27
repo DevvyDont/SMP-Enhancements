@@ -1,12 +1,15 @@
 package xyz.devvydont.smprpg.commands.items;
 
 import io.papermc.paper.command.brigadier.CommandSourceStack;
+import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.ItemType;
 import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.commands.CommandBase;
+import xyz.devvydont.smprpg.items.SMPItemQuery;
 import xyz.devvydont.smprpg.items.base.CustomItemBlueprint;
 import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
 import xyz.devvydont.smprpg.util.formatting.ChatUtil;
@@ -19,6 +22,11 @@ public class CommandGiveItem extends CommandBase {
 
     public CommandGiveItem(String name) {
         super(name);
+    }
+
+    @Override
+    public Collection<String> getAliases() {
+        return List.of("i", "item");
     }
 
     @Override
@@ -46,14 +54,26 @@ public class CommandGiveItem extends CommandBase {
             return;
         }
 
-        ItemStack item = SMPRPG.getInstance().getItemService().getCustomItem(strings[0]);
+        ItemStack item = SMPRPG.getInstance().getItemService().getCustomItem(strings[0].replace("smprpg:", ""));
         if (item == null) {
-            commandSender.sendMessage(ChatUtil.getErrorMessage("Unknown item with key: " + strings[0]));
-            return;
+
+            Material vanillaMaterial = Material.matchMaterial(strings[0].replace("minecraft:", "").toLowerCase());
+            if (vanillaMaterial == null) {
+                commandSender.sendMessage(ChatUtil.getErrorMessage("Unknown item with key: " + strings[0]));
+                return;
+            }
+            item = SMPRPG.getInstance().getItemService().getCustomItem(vanillaMaterial);
+
         }
 
+        int amount = 1;
+        try {
+            amount = Integer.parseInt(strings[1]);
+        } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {}
+        amount = Math.min(Math.max(0, amount), 99);
+        item.setAmount(amount);
         player.getInventory().addItem(item);
-        commandSender.sendMessage(ChatUtil.getSuccessMessage("Gave you a " + strings[0]));
+        commandSender.sendMessage(ChatUtil.getSuccessMessage("Gave you: " + strings[0] + " x" + amount));
     }
 
     @Override
@@ -68,7 +88,13 @@ public class CommandGiveItem extends CommandBase {
         keys.add("all");
         for (SMPItemBlueprint blueprint : SMPRPG.getInstance().getItemService().getCustomBlueprints())
             if (blueprint instanceof CustomItemBlueprint)
-                keys.add(((CustomItemBlueprint) blueprint).getCustomItemType().getKey().toLowerCase());
+                keys.add("smprpg:" + ((CustomItemBlueprint) blueprint).getCustomItemType().getKey().toLowerCase());
+
+        for (Material material : Material.values())
+            if (!material.isLegacy())
+                if (material.isItem())
+                    if (material.name().toLowerCase().contains(args[0].toLowerCase()))
+                        keys.add(material.key().asString());
 
         for (String key : keys)
             if (key.contains(args[0].toLowerCase()))

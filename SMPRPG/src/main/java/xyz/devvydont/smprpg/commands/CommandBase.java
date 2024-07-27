@@ -26,6 +26,10 @@ public abstract class CommandBase implements BasicCommand {
         return "No description was provided for this command";
     }
 
+    public Collection<String> getAliases() {
+        return List.of();
+    }
+
     @Override
     public @NotNull Collection<String> suggest(@NotNull CommandSourceStack commandSourceStack, @NotNull String[] args) {
         return BasicCommand.super.suggest(commandSourceStack, args);

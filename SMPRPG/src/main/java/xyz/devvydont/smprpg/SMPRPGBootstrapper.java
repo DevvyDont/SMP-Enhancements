@@ -11,6 +11,7 @@ import xyz.devvydont.smprpg.commands.economy.CommandBalance;
 import xyz.devvydont.smprpg.commands.economy.CommandBalanceTop;
 import xyz.devvydont.smprpg.commands.economy.CommandDeposit;
 import xyz.devvydont.smprpg.commands.economy.CommandWithdrawal;
+import xyz.devvydont.smprpg.commands.entity.CommandSummon;
 import xyz.devvydont.smprpg.commands.items.CommandGiveItem;
 import xyz.devvydont.smprpg.commands.items.CommandSearchItem;
 import xyz.devvydont.smprpg.commands.player.CommandSkill;
@@ -26,10 +27,11 @@ public class SMPRPGBootstrapper implements PluginBootstrap {
                 new CommandBalanceTop("balancetop"),
                 new CommandDeposit("deposit"),
                 new CommandWithdrawal("withdrawal"),
-                new CommandGiveItem("givecustom"),
+                new CommandGiveItem("give"),
                 new CommandSearchItem("search"),
                 new CommandStatistics("statistics"),
-                new CommandSkill("skill")
+                new CommandSkill("skill"),
+                new CommandSummon("summon")
         };
 
         LifecycleEventManager<BootstrapContext> manager = context.getLifecycleManager();
@@ -37,7 +39,7 @@ public class SMPRPGBootstrapper implements PluginBootstrap {
             final Commands commands = event.registrar();
 
             for (CommandBase command : commandsToRegister)
-                commands.register(command.getName(), command.getDescription(), command);
+                commands.register(command.getName(), command.getDescription(), command.getAliases(), command);
         });
     }
 

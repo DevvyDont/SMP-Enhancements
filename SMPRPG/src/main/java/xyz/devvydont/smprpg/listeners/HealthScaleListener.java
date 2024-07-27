@@ -32,4 +32,5 @@ public class HealthScaleListener implements Listener {
         LeveledPlayer player = plugin.getEntityService().getPlayerInstance(event.getPlayer());
         event.getPlayer().setHealthScale(player.getHealthScale());
     }
+
 }

@@ -20,7 +20,7 @@ public enum CustomEntityType {
     // Wither skeletons that spawn on the end island
     WITHERED_SERAPH(EntityType.WITHER_SKELETON, "Withered Seraph",
             45, 5_000, 900,
-            new BiomeSpawnCondition[]{new BiomeSpawnCondition(Biome.THE_END)}, 25,
+            new BiomeSpawnCondition[]{new BiomeSpawnCondition(Biome.THE_END)}, 15,
             WitheredSeraph.class
     ),
 

@@ -47,8 +47,10 @@ public class CommandSkill extends CommandBase {
                 int targetExp = SkillGlobals.getCumulativeExperienceForLevel(level);
                 if (targetExp > inst.getExperience())
                     inst.addExperience(targetExp - inst.getExperience(), SkillExperienceGainEvent.ExperienceSource.UNKNOWN);
-                else
+                else {
                     inst.setExperience(targetExp);
+                    SMPRPG.getInstance().getSkillService().syncSkillAttributes(player);
+                }
                 p.sendMessage(ChatUtil.getSuccessMessage("Set your " + type.getDisplayName() + " skill to level " + inst.getLevel()));
             } catch (NumberFormatException ignored) {
                 p.sendMessage(ChatUtil.getErrorMessage("Invalid level provided. Please provide an actual number"));
