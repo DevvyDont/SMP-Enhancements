@@ -16,6 +16,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.*;
+import org.bukkit.event.player.PlayerAttemptPickupItemEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataHolder;
 import org.bukkit.persistence.PersistentDataType;
@@ -23,6 +24,7 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
+import xyz.devvydont.smprpg.entity.base.EnemyEntity;
 import xyz.devvydont.smprpg.entity.base.LeveledEntity;
 import xyz.devvydont.smprpg.events.CustomChancedItemDropSuccessEvent;
 import xyz.devvydont.smprpg.items.ItemRarity;
@@ -32,10 +34,7 @@ import xyz.devvydont.smprpg.util.items.DropFireworkTask;
 import xyz.devvydont.smprpg.util.items.LootDrop;
 import xyz.devvydont.smprpg.util.persistence.UUIDPersistentDataType;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * In charge of managing item drops in the world.
@@ -158,6 +157,10 @@ public class DropsService implements BaseService, Listener {
         removeFlag(holder);
     }
 
+    public void removeAllTags(ItemStack itemStack) {
+        itemStack.editMeta(this::removeAllTags);
+    }
+
     @Override
     public boolean setup() {
         return true;
@@ -230,6 +233,9 @@ public class DropsService implements BaseService, Listener {
         // If this is a drop and the rarity is above rare, add the firework task
         if (getFlag(item).equals(DropFlag.LOOT) && rarity.ordinal() >= ItemRarity.RARE.ordinal())
             DropFireworkTask.start(event.getEntity());
+
+        // Now that we successfully transferred ItemStack -> Item entity data, we can clear the flags on the itemstack
+        removeAllTags(event.getEntity().getItemStack());
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
@@ -269,25 +275,43 @@ public class DropsService implements BaseService, Listener {
         if (!entity.hasVanillaDrops())
             event.getDrops().clear();
 
-        // Loop through all the droppable items from the entity
-        for (LootDrop drop : entity.getItemDrops()) {
+        // Loop through all players that helped kill this entity and did at least some meaningful damage
+        int damageRequirement = 1;  // todo maybe make this a percent?
+        List<Player> involvedPlayers = new ArrayList<>();
+        involvedPlayers.add(killer);
 
-            // Test for items to drop
-            Collection<ItemStack> roll = drop.roll(killer, killer.getInventory().getItemInMainHand());
-            // If we didn't roll anything skip
-            if (roll == null || roll.isEmpty())
-                continue;
+        // If this entity has a damage map go through all participants and add them to the involved players
+        if (entity instanceof EnemyEntity enemy)
+            for (Map.Entry<Player, Integer> entry : enemy.getPlayerDamageTracker().entrySet())
+                if (!entry.getKey().equals(killer))
+                    if (entry.getValue() >= damageRequirement)
+                        involvedPlayers.add(entry.getKey());
 
-            // Extend the list of items
-            event.getDrops().addAll(roll);
-        }
+        // Loop through every involved player
+        for (Player player : involvedPlayers) {
 
-        // Tag all the drops as loot drops
-        for (ItemStack item : event.getDrops()) {
-            item.editMeta( meta -> {
-                setOwner(meta, killer);
-                setFlag(meta, DropFlag.LOOT);
-            });
+            // Loop through all the droppable items from the entity
+            for (LootDrop drop : entity.getItemDrops()) {
+
+                // Test for items to drop
+                Collection<ItemStack> roll = drop.roll(player, player.getInventory().getItemInMainHand());
+                // If we didn't roll anything skip
+                if (roll == null || roll.isEmpty())
+                    continue;
+
+                // Tag all the drops as loot drops
+                for (ItemStack item : roll) {
+                    item.editMeta(meta -> {
+                        setOwner(meta, player);
+                        setFlag(meta, DropFlag.LOOT);
+                    });
+                }
+
+                // Extend the list of items
+                event.getDrops().addAll(roll);
+            }
+
+
         }
 
     }

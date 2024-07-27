@@ -1,6 +1,8 @@
 package xyz.devvydont.smprpg.entity.vanilla;
 
+import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.Biome;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -41,4 +43,23 @@ public class LeveledEnderman extends VanillaEntity implements Listener {
         return 2.0;
     }
 
+    public boolean canDropCrystal() {
+        return getEntity().getWorld().getBiome(getEntity().getLocation()).equals(Biome.THE_END) &&
+                Math.abs(getEntity().getLocation().getX()) <= 156 &&
+                Math.abs(getEntity().getLocation().getZ()) <= 156;
+    }
+
+    @Override
+    public @Nullable Collection<LootDrop> getItemDrops() {
+        List<LootDrop> drops = new java.util.ArrayList<>(List.of(
+                new ChancedItemDrop(SMPRPG.getInstance().getItemService().getCustomItem(CustomItemType.PREMIUM_ENDER_PEARL), 25, this),
+                new ChancedItemDrop(SMPRPG.getInstance().getItemService().getCustomItem(CustomItemType.ENCHANTED_ENDER_PEARL), 150, this)
+        ));
+
+        if (canDropCrystal())
+            drops.add(new ChancedItemDrop(SMPRPG.getInstance().getItemService().getCustomItem(Material.END_CRYSTAL), 50, this));
+
+        return drops;
+
+    }
 }

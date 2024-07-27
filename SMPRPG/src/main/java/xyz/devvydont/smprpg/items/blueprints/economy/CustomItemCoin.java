@@ -105,13 +105,17 @@ public class CustomItemCoin extends CustomItemBlueprint implements Listener {
         if (event.isCancelled())
             return;
 
+        // If this coin is owned by someone and we are trying to pick it up don't play the noise
+        if (event.getItem().getOwner() != null && !event.getItem().getOwner().equals(event.getPlayer().getUniqueId()))
+            return;
+
         // Ignore this item pickup event if the type of the item is not a coin
         ItemStack item = event.getItem().getItemStack();
         if (!isItemOfType(item))
             return;
 
-        // Ignore this event if the player's inventory is full
-        if (event.getPlayer().getInventory().firstEmpty() < 0)
+        // Ignore this event if the item stack count isn't changing
+        if (event.getRemaining() == event.getItem().getItemStack().getAmount())
             return;
 
         // Play cute noise :3

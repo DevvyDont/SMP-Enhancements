@@ -32,7 +32,7 @@ public class DropFireworkTask extends BukkitRunnable {
         ItemRarity rarity = SMPRPG.getInstance().getItemService().getBlueprint(itemStack).getRarity(itemStack);
         meta.addEffect(
                 FireworkEffect.builder()
-                        .with(FireworkEffect.Type.BALL_LARGE)
+                        .with(FireworkEffect.Type.BALL)
                         .withColor(Color.fromRGB(rarity.color.value()))
                         .build()
         );

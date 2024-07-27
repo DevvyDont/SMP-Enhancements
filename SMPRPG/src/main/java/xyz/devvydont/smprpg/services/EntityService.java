@@ -28,6 +28,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.*;
 import xyz.devvydont.smprpg.entity.base.CustomEntityInstance;
+import xyz.devvydont.smprpg.entity.base.EnemyEntity;
 import xyz.devvydont.smprpg.entity.base.LeveledEntity;
 import xyz.devvydont.smprpg.entity.base.VanillaEntity;
 import xyz.devvydont.smprpg.entity.vanilla.*;
@@ -419,15 +420,29 @@ public class EntityService implements BaseService, Listener {
 
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onDamageEntity(EntityDamageByEntityEvent event) {
 
-        // Only players can make the nametags show up
-        if (!(event.getDamager() instanceof Player))
+        if (!(event.getEntity() instanceof LivingEntity living))
             return;
 
-        // If the entity that was damaged was not a player show the nametag
-        if (!(event.getEntity() instanceof Player) && event.getEntity() instanceof LivingEntity)
-            getEntityInstance((LivingEntity) event.getEntity()).brightenNametag();
+        LeveledEntity leveled = getEntityInstance(living);
+        Entity dealer = event.getDamageSource().getCausingEntity();
+        if (dealer == null)
+            dealer = event.getDamager();
+
+        // Only consider players that dealt damage
+        if (!(dealer instanceof Player player))
+            return;
+
+        // Don't "brighten" a player's nametag or track damage dealt to them
+        if (living instanceof Player)
+            return;
+
+        // Show the nametag and track the damage dealt if it is a monster
+        if (leveled instanceof EnemyEntity enemy)
+            enemy.addDamageDealtByEntity(player, (int)event.getFinalDamage());
+
+        leveled.brightenNametag();
     }
 }
