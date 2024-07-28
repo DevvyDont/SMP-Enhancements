@@ -7,19 +7,21 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.inventory.ItemStack;
 import xyz.devvydont.smprpg.SMPRPG;
+import xyz.devvydont.smprpg.events.skills.SkillExperienceGainEvent;
 import xyz.devvydont.smprpg.skills.SkillInstance;
 import xyz.devvydont.smprpg.util.world.ChunkUtil;
 
 public class MiningExperienceListener implements Listener {
 
 
-    public static int getBaseExperienceForBlock(Block block) {
+    public static int getBaseExperienceForDrop(ItemStack item, World.Environment environment) {
 
-        int dimensionMultiplier = block.getWorld().getEnvironment().equals(World.Environment.THE_END) ? 3 :
-                block.getWorld().getEnvironment().equals(World.Environment.NETHER) ? 2 : 1;
+        int dimensionMultiplier = environment.equals(World.Environment.THE_END) ? 3 :
+                environment.equals(World.Environment.NETHER) ? 2 : 1;
 
-        return switch (block.getType()) {
+        return switch (item.getType()) {
 
             case END_STONE, STONE, COBBLESTONE, SAND, RED_SAND, SANDSTONE, RED_SANDSTONE, CLAY, MYCELIUM, GRASS_BLOCK, DIRT, GRAVEL, DEEPSLATE, TUFF, NETHERRACK, BLACKSTONE, BASALT, SMOOTH_BASALT, CRIMSON_NYLIUM, WARPED_NYLIUM -> 1;
             case ANDESITE, DIORITE, GRANITE, CALCITE, QUARTZ_BLOCK, BONE_BLOCK, SOUL_SAND, SOUL_SOIL, ICE, PACKED_ICE -> 2;
@@ -31,33 +33,39 @@ public class MiningExperienceListener implements Listener {
 
             case BLUE_ICE -> 4;
 
-            case COAL_ORE -> 8;
+            case COAL_ORE, COAL -> 8;
             case DEEPSLATE_COAL_ORE -> 15;
 
-            case COPPER_ORE -> 10;
+            case COPPER_ORE, RAW_COPPER, COPPER_INGOT -> 10;
             case DEEPSLATE_COPPER_ORE -> 20;
 
-            case IRON_ORE -> 15;
+            case IRON_ORE, RAW_IRON, IRON_INGOT -> 15;
+            case IRON_BLOCK -> 25;
             case DEEPSLATE_IRON_ORE -> 28;
 
-            case GOLD_ORE -> 24;
+            case GOLD_ORE, RAW_GOLD, GOLD_INGOT -> 24;
             case DEEPSLATE_GOLD_ORE -> 45;
 
             case OBSIDIAN -> 80;
             case CRYING_OBSIDIAN -> 150;
 
-            case AMETHYST_BLOCK -> 12;
-            case LARGE_AMETHYST_BUD -> 55;
-            case MEDIUM_AMETHYST_BUD -> 40;
-            case SMALL_AMETHYST_BUD -> 22;
+            case AMETHYST_BLOCK -> 7;
+            case LARGE_AMETHYST_BUD -> 15;
+            case MEDIUM_AMETHYST_BUD -> 25;
+            case SMALL_AMETHYST_BUD -> 35;
+
+            case LAPIS_LAZULI -> 15;
+            case REDSTONE -> 15;
+
+            case REDSTONE_BLOCK -> 35;
 
             case LAPIS_ORE, REDSTONE_ORE -> 45;
             case DEEPSLATE_LAPIS_ORE, DEEPSLATE_REDSTONE_ORE -> 70;
 
-            case DIAMOND_ORE -> 100;
+            case DIAMOND_ORE, DIAMOND -> 100;
             case DEEPSLATE_DIAMOND_ORE -> 180;
 
-            case EMERALD_ORE -> 500;
+            case EMERALD_ORE, EMERALD -> 500;
             case DEEPSLATE_EMERALD_ORE -> 850;
 
             case GOLD_BLOCK -> 110;
@@ -71,7 +79,7 @@ public class MiningExperienceListener implements Listener {
 
 
             default -> 0;
-        } * dimensionMultiplier;
+        } * dimensionMultiplier * item.getAmount();
 
     }
 
@@ -108,8 +116,17 @@ public class MiningExperienceListener implements Listener {
         if (ChunkUtil.isBlockSkillInvalid(event.getBlock()))
             return;
 
+        ChunkUtil.markBlockSkillValid(event.getBlock());
+
         SkillInstance skill = plugin.getEntityService().getPlayerInstance(event.getPlayer()).getMiningSkill();
-        skill.addExperience(getBaseExperienceForBlock(event.getBlock()));
+
+        int exp = 0;
+        for (ItemStack drop : event.getBlock().getDrops())
+            exp += getBaseExperienceForDrop(drop, event.getPlayer().getWorld().getEnvironment());
+        if (exp <= 0)
+            return;
+
+        skill.addExperience(exp, SkillExperienceGainEvent.ExperienceSource.ORE);
         ChunkUtil.markBlockSkillValid(event.getBlock());
     }
 }

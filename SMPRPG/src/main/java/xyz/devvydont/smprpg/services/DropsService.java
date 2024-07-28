@@ -10,8 +10,10 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
 import org.bukkit.damage.DamageSource;
 import org.bukkit.damage.DamageType;
+import org.bukkit.entity.Enemy;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Warden;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -27,6 +29,7 @@ import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.base.EnemyEntity;
 import xyz.devvydont.smprpg.entity.base.LeveledEntity;
 import xyz.devvydont.smprpg.events.CustomChancedItemDropSuccessEvent;
+import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemRarity;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
 import xyz.devvydont.smprpg.util.items.ChancedItemDrop;
@@ -257,7 +260,24 @@ public class DropsService implements BaseService, Listener {
         event.setCancelled(true);
     }
 
-    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onDropCoins(EntityDeathEvent event) {
+
+        // Add some coins to the drop depending on the level of entity that was killed if the mob was hostile
+        if (!(event.getEntity() instanceof Enemy))
+            return;
+
+        // Only every other mob will drop coins
+        if (Math.random() < .5)
+            return;
+
+        LeveledEntity leveled = SMPRPG.getInstance().getEntityService().getEntityInstance(event.getEntity());
+        ItemStack money = plugin.getItemService().getCustomItem(CustomItemType.COPPER_COIN);
+        money.setAmount(leveled.getLevel() / 10 + 1 + (int)(Math.random()*2));
+        event.getDrops().add(money);
+    }
+
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void onEntityHasDrops(EntityDeathEvent event) {
 
         // Is there a killer involved?
