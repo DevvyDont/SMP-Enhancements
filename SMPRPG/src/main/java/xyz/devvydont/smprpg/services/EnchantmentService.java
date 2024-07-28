@@ -8,11 +8,20 @@ import org.bukkit.Registry;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentOffer;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.enchantment.EnchantItemEvent;
 import org.bukkit.event.enchantment.PrepareItemEnchantEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryOpenEvent;
+import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.inventory.EnchantingInventory;
+import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.ItemType;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.scheduler.BukkitScheduler;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.enchantments.CustomEnchantment;
 import xyz.devvydont.smprpg.enchantments.calculator.EnchantmentCalculator;
@@ -223,6 +232,51 @@ public class EnchantmentService implements BaseService, Listener {
     // Caches calculator queries so that the EnchantItemEvent can use results from PrepareItemEnchantEvent
     public static Map<UUID, Map<EnchantmentCalculator.EnchantmentSlot, List<EnchantmentOffer>>> calculatorCache = new HashMap<>();
 
+    /**
+     * When opening an enchanting GUI, the lapis lazuli slot should always be filled.
+     *
+     * @param event
+     */
+    @EventHandler
+    public void onOpenEnchantInterface(InventoryOpenEvent event) {
+
+        if (!(event.getInventory() instanceof EnchantingInventory inventory))
+            return;
+
+        inventory.setSecondary(ItemType.LAPIS_LAZULI.createItemStack(64));
+    }
+
+    /**
+     * When closing an enchanting GUI, get rid of the lapis lazuli so we don't duplicate it
+     *
+     * @param event
+     */
+    @EventHandler
+    public void onCloseEnchantInterface(InventoryCloseEvent event) {
+
+        if (!(event.getInventory() instanceof EnchantingInventory inventory))
+            return;
+
+        inventory.setSecondary(null);
+    }
+
+    /**
+     * When clicking the lapis in the enchant GUI, don't allow any interactions with it
+     *
+     * @param event
+     */
+    @EventHandler
+    public void onClickLapisEnchantInterface(InventoryClickEvent event) {
+
+        if (event.getClickedInventory() == null || !event.getClickedInventory().getType().equals(InventoryType.ENCHANTING))
+            return;
+
+        if (event.getSlot() != 1)
+            return;
+
+        event.setCancelled(true);
+    }
+
     @EventHandler
     public void onEnchantPrepare(PrepareItemEnchantEvent event) {
 
@@ -237,7 +291,7 @@ public class EnchantmentService implements BaseService, Listener {
             event.getOffers()[entry.getKey().ordinal()] = !entry.getValue().isEmpty() ? entry.getValue().getFirst() : null;
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onEnchant(EnchantItemEvent event) {
 
         Map<EnchantmentCalculator.EnchantmentSlot, List<EnchantmentOffer>> allOffers = calculatorCache.get(event.getEnchanter().getUniqueId());
@@ -250,5 +304,13 @@ public class EnchantmentService implements BaseService, Listener {
             event.getEnchantsToAdd().put(offer.getEnchantment(), offer.getEnchantmentLevel());
 
         SMPRPG.getInstance().getEntityService().getPlayerInstance(event.getEnchanter()).shuffleSeed();
+
+        BukkitScheduler scheduler = SMPRPG.getInstance().getServer().getScheduler();
+        scheduler.runTaskLater(SMPRPG.getInstance(), () -> {
+           InventoryView view = event.getEnchanter().getOpenInventory();
+           if (!(view.getTopInventory() instanceof EnchantingInventory inv))
+            return;
+           inv.setSecondary(ItemType.LAPIS_LAZULI.createItemStack(64));
+        }, 0L);
     }
 }
