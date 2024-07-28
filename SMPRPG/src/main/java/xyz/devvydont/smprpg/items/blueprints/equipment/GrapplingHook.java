@@ -28,6 +28,13 @@ public class GrapplingHook extends CustomItemBlueprint implements Listener, Craf
 
     public static final int COOLDOWN = 2;
 
+    public static final float VELOCITY_DAMPENING_FACTOR = .25f;
+
+    public static final float MAX_HORIZONTAL_VELOCITY = 3f;
+
+    public static final float MIN_VERTICAL_VELOCITY = 1f;
+    public static final float MAX_VERTICAL_VELOCITY = 2f;
+
     @Override
     public List<Component> getDescriptionComponent(ItemMeta meta) {
         return List.of(
@@ -88,10 +95,15 @@ public class GrapplingHook extends CustomItemBlueprint implements Listener, Craf
 
         // Handle the case where we are reeling
         Vector dir = event.getHook().getLocation().toVector().subtract(event.getPlayer().getLocation().toVector());
-        dir.multiply(new Vector(.35, .25, .35));
-        dir.setX(Math.min(2.5, dir.getX()));
-        dir.setY(Math.min(1.5, dir.getY()));
-        dir.setZ(Math.min(2.5, dir.getZ()));
+
+        // Dampen the velocity
+        dir.multiply(VELOCITY_DAMPENING_FACTOR);
+
+        // Make sure we didn't hit a limit
+        dir.setX(Math.min(Math.max(-MAX_HORIZONTAL_VELOCITY, dir.getX()), MAX_HORIZONTAL_VELOCITY));
+        dir.setY(Math.min(Math.max(MIN_VERTICAL_VELOCITY, dir.getY()), MAX_VERTICAL_VELOCITY));
+        dir.setZ(Math.min(Math.max(-MAX_HORIZONTAL_VELOCITY, dir.getZ()), MAX_HORIZONTAL_VELOCITY));
+
         event.getPlayer().setVelocity(dir);
         event.getPlayer().setFallDistance(-30);
         event.getPlayer().setCooldown(Material.FISHING_ROD, COOLDOWN*20);
