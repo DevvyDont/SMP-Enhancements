@@ -44,9 +44,9 @@ public class EntityHelpers {
             case ILLUSIONER -> 15;
             case EVOKER -> 15;
 
-            case HUSK -> 10;
-            case STRAY -> 10;
-            case DROWNED -> 10;
+            case HUSK -> 5;
+            case STRAY -> 5;
+            case DROWNED -> 5;
 
             case ELDER_GUARDIAN -> 30;
             case GUARDIAN -> 25;
