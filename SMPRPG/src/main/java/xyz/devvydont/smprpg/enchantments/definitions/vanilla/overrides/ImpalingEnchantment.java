@@ -5,6 +5,7 @@ import io.papermc.paper.registry.data.EnchantmentRegistryEntry;
 import io.papermc.paper.registry.event.RegistryFreezeEvent;
 import io.papermc.paper.registry.keys.tags.ItemTypeTagKeys;
 import io.papermc.paper.registry.set.RegistryKeySet;
+import io.papermc.paper.registry.tag.TagKey;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.attribute.Attribute;
@@ -44,20 +45,20 @@ public class ImpalingEnchantment extends VanillaEnchantment implements Listener 
 
     @Override
     public Component getDisplayName() {
-        return Component.text("Sharpness");
+        return Component.text("Impaling");
     }
 
     @Override
     public Component getDescription() {
         return Component.text("Increases base damage by ").color(NamedTextColor.GRAY)
                 .append(Component.text("+" + getDamagePercentageMultiplier(getLevel()) + "%").color(NamedTextColor.GREEN)
-                .append(Component.text("against wet enemies").color(NamedTextColor.GRAY))
+                .append(Component.text(" against wet enemies").color(NamedTextColor.GRAY))
                 );
     }
 
     @Override
-    public RegistryKeySet<ItemType> getSupportedItems(RegistryFreezeEvent<Enchantment, EnchantmentRegistryEntry.Builder> event) {
-        return event.getOrCreateTag(ItemTypeTagKeys.ENCHANTABLE_WEAPON);
+    public TagKey<ItemType> getItemTypeTag() {
+        return ItemTypeTagKeys.ENCHANTABLE_WEAPON;
     }
 
     @Override

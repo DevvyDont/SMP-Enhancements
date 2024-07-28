@@ -1,6 +1,8 @@
 package xyz.devvydont.smprpg.enchantments.definitions.vanilla.unchanged;
 
 import io.papermc.paper.registry.TypedKey;
+import io.papermc.paper.registry.keys.tags.ItemTypeTagKeys;
+import io.papermc.paper.registry.tag.TagKey;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.enchantments.Enchantment;
@@ -10,6 +12,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.inventory.ItemType;
 import xyz.devvydont.smprpg.enchantments.EnchantmentUtil;
 import xyz.devvydont.smprpg.enchantments.definitions.vanilla.UnchangedEnchantment;
 
@@ -29,12 +32,22 @@ public class ThornsEnchantment extends UnchangedEnchantment implements Listener 
     }
 
     @Override
+    public Component getDisplayName() {
+        return Component.text("Thorns");
+    }
+
+    @Override
     public Component getDescription() {
         return Component.text("Provides a ").color(NamedTextColor.GRAY)
                 .append(Component.text(getReflectChance(getLevel()) + "%").color(NamedTextColor.GREEN))
                 .append(Component.text(" chance to reflect ").color(NamedTextColor.GRAY))
                 .append(Component.text(getReflectDamage(getLevel())).color(NamedTextColor.RED))
                 .append(Component.text(" damage when hurt").color(NamedTextColor.GRAY));
+    }
+
+    @Override
+    public TagKey<ItemType> getItemTypeTag() {
+        return ItemTypeTagKeys.ENCHANTABLE_ARMOR;
     }
 
     @Override

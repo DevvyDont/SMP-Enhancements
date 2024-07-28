@@ -6,7 +6,9 @@ import io.papermc.paper.registry.TypedKey;
 import io.papermc.paper.registry.data.EnchantmentRegistryEntry;
 import io.papermc.paper.registry.event.RegistryEvents;
 import io.papermc.paper.registry.event.RegistryFreezeEvent;
+import io.papermc.paper.registry.keys.tags.ItemTypeTagKeys;
 import io.papermc.paper.registry.set.RegistryKeySet;
+import io.papermc.paper.registry.tag.TagKey;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -108,7 +110,11 @@ public abstract class CustomEnchantment implements Cloneable {
 
     public abstract Component getDescription();
 
-    public abstract RegistryKeySet<ItemType> getSupportedItems(RegistryFreezeEvent<Enchantment, EnchantmentRegistryEntry.Builder> event);
+    public RegistryKeySet<ItemType> getSupportedItems(RegistryFreezeEvent<Enchantment, EnchantmentRegistryEntry.Builder> event) {
+        return event.getOrCreateTag(getItemTypeTag());
+    }
+
+    public abstract TagKey<ItemType> getItemTypeTag();
 
     public abstract int getAnvilCost();
 

@@ -5,6 +5,7 @@ import io.papermc.paper.registry.data.EnchantmentRegistryEntry;
 import io.papermc.paper.registry.event.RegistryFreezeEvent;
 import io.papermc.paper.registry.keys.tags.ItemTypeTagKeys;
 import io.papermc.paper.registry.set.RegistryKeySet;
+import io.papermc.paper.registry.tag.TagKey;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.enchantments.Enchantment;
@@ -34,8 +35,8 @@ public class EfficiencyEnchantment extends VanillaEnchantment {
     }
 
     @Override
-    public RegistryKeySet<ItemType> getSupportedItems(RegistryFreezeEvent<Enchantment, EnchantmentRegistryEntry.Builder> event) {
-        return event.getOrCreateTag(ItemTypeTagKeys.ENCHANTABLE_MINING);
+    public TagKey<ItemType> getItemTypeTag() {
+        return ItemTypeTagKeys.ENCHANTABLE_MINING;
     }
 
     @Override

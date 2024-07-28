@@ -2,10 +2,14 @@ package xyz.devvydont.smprpg.enchantments.definitions.vanilla;
 
 
 import io.papermc.paper.plugin.bootstrap.BootstrapContext;
+import io.papermc.paper.registry.RegistryKey;
 import io.papermc.paper.registry.TypedKey;
 import io.papermc.paper.registry.data.EnchantmentRegistryEntry;
+import io.papermc.paper.registry.event.RegistryEvents;
 import io.papermc.paper.registry.event.RegistryFreezeEvent;
+import io.papermc.paper.registry.keys.tags.ItemTypeTagKeys;
 import io.papermc.paper.registry.set.RegistryKeySet;
+import io.papermc.paper.registry.set.RegistrySet;
 import net.kyori.adventure.text.Component;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.EquipmentSlotGroup;
@@ -22,17 +26,19 @@ public abstract class UnchangedEnchantment extends VanillaEnchantment {
 
     @Override
     public void bootstrap(BootstrapContext context) {
-        // Do nothing, we don't need to bootstrap an enchantment we are not changing
-    }
+//        System.out.println("Attempting to bootstrap " + getClass().getName() + " enchantment");
 
-    @Override
-    public Component getDisplayName() {
-        return getEnchantment().displayName(0);
-    }
+        if (isBootstrapped())
+            throw new IllegalStateException("Enchantment " + getClass().getName() + " is already bootstrapped!");
 
-    @Override
-    public RegistryKeySet<ItemType> getSupportedItems(RegistryFreezeEvent<Enchantment, EnchantmentRegistryEntry.Builder> event) {
-        return null;  // unused
+        context.getLifecycleManager().registerEventHandler(RegistryEvents.ENCHANTMENT.entryAdd()
+                .newHandler(event -> event.builder()
+                        .description(getDisplayName()))
+                // Configure the handled to only be called for the Vanilla sharpness enchantment.
+                .filter(getTypedKey())
+        );
+
+        bootstrapCompleted();
     }
 
     @Override

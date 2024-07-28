@@ -48,4 +48,6 @@ public abstract class VanillaEnchantment extends CustomEnchantment {
     public Key getKey() {
         return getTypedKey().key();
     }
+
+
 }

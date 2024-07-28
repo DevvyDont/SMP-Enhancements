@@ -1,9 +1,12 @@
 package xyz.devvydont.smprpg.enchantments.definitions.vanilla.unchanged;
 
 import io.papermc.paper.registry.TypedKey;
+import io.papermc.paper.registry.keys.tags.ItemTypeTagKeys;
+import io.papermc.paper.registry.tag.TagKey;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.ItemType;
 import xyz.devvydont.smprpg.enchantments.definitions.vanilla.UnchangedEnchantment;
 
 public class PunchEnchantment extends UnchangedEnchantment {
@@ -22,9 +25,19 @@ public class PunchEnchantment extends UnchangedEnchantment {
     }
 
     @Override
+    public Component getDisplayName() {
+        return Component.text("Punch");
+    }
+
+    @Override
     public Component getDescription() {
         return Component.text("Increases knockback by ").color(NamedTextColor.GRAY)
                 .append(Component.text("+" + getKnockbackPower(getLevel()) + "%").color(NamedTextColor.GREEN));
+    }
+
+    @Override
+    public TagKey<ItemType> getItemTypeTag() {
+        return ItemTypeTagKeys.ENCHANTABLE_BOW;
     }
 
     @Override
