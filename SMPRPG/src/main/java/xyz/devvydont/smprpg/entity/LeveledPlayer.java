@@ -361,7 +361,6 @@ public class LeveledPlayer extends LeveledEntity implements Listener {
 
     public void killTextDisplayPassengers() {
 
-        System.out.println(getTextDisplayPassengers());
         for (TextDisplay textDisplay : getTextDisplayPassengers())
             textDisplay.remove();
 

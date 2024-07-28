@@ -1,11 +1,25 @@
 package xyz.devvydont.smprpg.skills;
 
+import xyz.devvydont.smprpg.SMPRPG;
+import xyz.devvydont.smprpg.config.ConfigManager;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class SkillGlobals {
 
-    public static int MAX_LEVEL = 99;
+    public static int getMaxSkillLevel() {
+        return SMPRPG.getInstance().getConfig().getInt(ConfigManager.OPTION_MAX_LEVEL, 99);
+    }
+
+    /**
+     * Returns the total experience needed to hit the current skill experience cap
+     *
+     * @return
+     */
+    public static int getTotalExperienceCap() {
+        return getCumulativeExperienceForLevel(getMaxSkillLevel());
+    }
 
     private static Map<Integer, Integer> cumulativeExperienceCache = new HashMap<>();
 
@@ -52,12 +66,12 @@ public class SkillGlobals {
     public static int getLevelForExperience(int experience) {
 
         // Loop through the experience cumulative values until we haven't hit a threshold yet
-        for (int i = 0; i <= MAX_LEVEL; i++)
+        for (int i = 0; i <= getMaxSkillLevel(); i++)
             if (experience < getCumulativeExperienceForLevel(i+1))
                 return i;
 
         // Our experience was never lower than the max level cumulative experience requirement, we must be max level
-        return MAX_LEVEL;
+        return getMaxSkillLevel();
     }
 
 }

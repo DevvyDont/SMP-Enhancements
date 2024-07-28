@@ -3,6 +3,7 @@ package xyz.devvydont.smprpg;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
+import xyz.devvydont.smprpg.config.ConfigManager;
 import xyz.devvydont.smprpg.services.*;
 import xyz.devvydont.smprpg.listeners.*;
 
@@ -83,9 +84,10 @@ public final class SMPRPG extends JavaPlugin implements Listener {
     @Override
     public void onEnable() {
 
-        checkServerSettings();
-
         INSTANCE = this;
+
+        ConfigManager.init();  // Enable config.yml defaults
+        checkServerSettings();  // Make sure HP and DMG values are good
 
         services = new ArrayList<>();
 

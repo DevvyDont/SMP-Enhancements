@@ -73,7 +73,9 @@ public class SkillInstance {
 
         // Add the experience and take note of what level we are before and after
         int oldLevel = getLevel();
-        setExperience(getExperience() + event.getExperienceEarned());
+        int expCap = SkillGlobals.getTotalExperienceCap();
+        int newExp = getExperience() + event.getExperienceEarned();
+        setExperience(Math.min(expCap, newExp));
         int newLevel = getLevel();
 
         // Combo increasing
