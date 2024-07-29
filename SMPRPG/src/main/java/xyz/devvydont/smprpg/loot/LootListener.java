@@ -4,6 +4,7 @@ import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Chest;
 import org.bukkit.enchantments.EnchantmentOffer;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.world.LootGenerateEvent;
@@ -48,6 +49,8 @@ public class LootListener implements Listener {
     @EventHandler
     public void onLootChestGenerate(LootGenerateEvent event) {
 
+        if (!(event.getEntity() instanceof Player player))
+            return;
 
         // Attempt to find a structure this chest is contained in
         GeneratedStructure containedStructure = null;
@@ -86,7 +89,7 @@ public class LootListener implements Listener {
         int emptySlots = 9*3 - event.getLoot().size();
 
         // Roll items and add them to the empty slots
-        Collection<ItemStack> extras = customLootTable.rollItems(event.getLootContext().getLuck(), emptySlots);
+        Collection<ItemStack> extras = customLootTable.rollItems(player, emptySlots);
         event.getLoot().addAll(extras);
         Collections.shuffle(event.getLoot());
     }

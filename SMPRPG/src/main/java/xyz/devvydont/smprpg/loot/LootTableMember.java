@@ -7,6 +7,7 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.enchantments.EnchantmentOffer;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.enchantments.calculator.EnchantmentCalculator;
@@ -114,7 +115,9 @@ public class LootTableMember implements LootSource {
     }
 
     @Nullable
-    public ItemStack roll(float luck) {
+    public ItemStack roll(Player player) {
+
+        float luck = (float) player.getAttribute(Attribute.GENERIC_LUCK).getValue();
         float chance = getChance();
         if (isInfluencedByLuck())
             chance *= (luck) / 100.0f + 1.0f;
@@ -125,10 +128,14 @@ public class LootTableMember implements LootSource {
         if (isWantEnchants())
             enchantItem(reward);
 
-        boolean success = Math.random() < chance;
+        CustomItemDropRollEvent rollEvent = new CustomItemDropRollEvent(player, player.getInventory().getItemInMainHand(), chance, reward);
+        rollEvent.callEvent();
+
+        boolean success = Math.random() < rollEvent.getChance();
         if (!success)
             return null;
 
+        new CustomChancedItemDropSuccessEvent(player, rollEvent.getChance(), reward, this).callEvent();
         return reward;
     }
 
