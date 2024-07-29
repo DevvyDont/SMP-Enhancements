@@ -121,7 +121,7 @@ public class MiningExperienceListener implements Listener {
         SkillInstance skill = plugin.getEntityService().getPlayerInstance(event.getPlayer()).getMiningSkill();
 
         int exp = 0;
-        for (ItemStack drop : event.getBlock().getDrops())
+        for (ItemStack drop : event.getBlock().getDrops(event.getPlayer().getInventory().getItemInMainHand(), event.getPlayer()))
             exp += getBaseExperienceForDrop(drop, event.getPlayer().getWorld().getEnvironment());
         if (exp <= 0)
             return;
