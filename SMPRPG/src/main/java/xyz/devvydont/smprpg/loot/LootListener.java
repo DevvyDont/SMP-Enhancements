@@ -1,5 +1,6 @@
 package xyz.devvydont.smprpg.loot;
 
+import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Chest;
 import org.bukkit.enchantments.EnchantmentOffer;
@@ -47,14 +48,12 @@ public class LootListener implements Listener {
     @EventHandler
     public void onLootChestGenerate(LootGenerateEvent event) {
 
-        // If this isn't a chest return
-        if (!(event.getInventoryHolder() instanceof Chest chest))
-            return;
 
         // Attempt to find a structure this chest is contained in
         GeneratedStructure containedStructure = null;
-        for (GeneratedStructure structure : chest.getChunk().getStructures())
-            if (structure.getBoundingBox().contains(chest.getX(), chest.getY(), chest.getZ()))
+        Location location = event.getLootContext().getLocation();
+        for (GeneratedStructure structure : event.getLootContext().getLocation().getChunk().getStructures())
+            if (structure.getBoundingBox().contains(location.getX(), location.getY(), location.getZ()))
                 containedStructure = structure;
 
         // If the structure is null, we can't properly override loot
@@ -84,16 +83,12 @@ public class LootListener implements Listener {
             return;
 
         // Count how many empty slots we have to work with
-        int emptySlots = 0;
-        for (int i = 0; i < chest.getBlockInventory().getSize(); i++)
-            if (chest.getBlockInventory().getItem(i) == null)
-                emptySlots++;
+        int emptySlots = 9*3 - event.getLoot().size();
 
         // Roll items and add them to the empty slots
         Collection<ItemStack> extras = customLootTable.rollItems(event.getLootContext().getLuck(), emptySlots);
         event.getLoot().addAll(extras);
         Collections.shuffle(event.getLoot());
-
     }
 
 

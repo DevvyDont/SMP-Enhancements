@@ -117,7 +117,7 @@ public class LootTableMember implements LootSource {
     public ItemStack roll(float luck) {
         float chance = getChance();
         if (isInfluencedByLuck())
-            chance *= (luck + 1) / 100.0f;
+            chance *= (luck) / 100.0f + 1.0f;
 
         ItemStack reward = getItem().clone();
         reward.setAmount((int)(Math.random() * getMax()) + getMin());
