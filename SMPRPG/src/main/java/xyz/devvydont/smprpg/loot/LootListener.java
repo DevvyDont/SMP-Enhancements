@@ -1,5 +1,6 @@
 package xyz.devvydont.smprpg.loot;
 
+import org.bukkit.NamespacedKey;
 import org.bukkit.block.Chest;
 import org.bukkit.enchantments.EnchantmentOffer;
 import org.bukkit.event.EventHandler;
@@ -25,13 +26,13 @@ public class LootListener implements Listener {
     private final SMPRPG plugin;
 
     // Our plugin injects custom loot tables into existing ones for extra items
-    private final Map<LootTables, CustomLootTable> lootTableAdditions = new HashMap<>();
+    private final Map<NamespacedKey, CustomLootTable> lootTableAdditions = new HashMap<>();
 
     public LootListener(SMPRPG plugin) {
         this.plugin = plugin;
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
 
-        lootTableAdditions.put(LootTables.ABANDONED_MINESHAFT, new CustomLootTable(
+        lootTableAdditions.put(LootTables.ABANDONED_MINESHAFT.getKey(), new CustomLootTable(
                 new LootTableMember(plugin.getItemService().getCustomItem(CustomItemType.COPPER_HELMET)).withChance(.1f).withEnchants(true, 20),
                 new LootTableMember(plugin.getItemService().getCustomItem(CustomItemType.COPPER_CHESTPLATE)).withChance(.1f).withEnchants(true, 20),
                 new LootTableMember(plugin.getItemService().getCustomItem(CustomItemType.COPPER_LEGGINGS)).withChance(.1f).withEnchants(true, 20),
@@ -78,7 +79,7 @@ public class LootListener implements Listener {
         }
 
         // Now handle custom item injections if the loot tables desires it.
-        CustomLootTable customLootTable = lootTableAdditions.get(LootTables.ABANDONED_MINESHAFT);
+        CustomLootTable customLootTable = lootTableAdditions.get(event.getLootTable().getKey());
         if (customLootTable == null)
             return;
 
