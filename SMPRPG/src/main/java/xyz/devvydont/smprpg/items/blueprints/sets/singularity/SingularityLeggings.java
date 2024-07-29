@@ -11,6 +11,7 @@ import xyz.devvydont.smprpg.items.base.CustomAttributeItem;
 import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
 import xyz.devvydont.smprpg.items.interfaces.Wearable;
 import xyz.devvydont.smprpg.services.ItemService;
+import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
 
 import java.util.Collection;
 import java.util.List;
@@ -34,11 +35,11 @@ public class SingularityLeggings extends CustomAttributeItem implements Wearable
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(Attribute.GENERIC_ARMOR, 6),
-                new AdditiveAttributeEntry(Attribute.GENERIC_ARMOR_TOUGHNESS, 260),
-                new AdditiveAttributeEntry(Attribute.GENERIC_MAX_HEALTH, 250),
-                new AdditiveAttributeEntry(Attribute.GENERIC_KNOCKBACK_RESISTANCE, 2),
-                new ScalarAttributeEntry(Attribute.GENERIC_MOVEMENT_SPEED, .25)
+                new AdditiveAttributeEntry(AttributeWrapper.ARMOR, 6),
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 480),
+                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 300),
+                new AdditiveAttributeEntry(AttributeWrapper.KNOCKBACK_RESISTANCE, 2),
+                new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, .25)
         );
     }
 
