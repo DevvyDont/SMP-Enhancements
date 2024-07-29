@@ -4,6 +4,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import xyz.devvydont.smprpg.config.ConfigManager;
+import xyz.devvydont.smprpg.loot.LootListener;
 import xyz.devvydont.smprpg.services.*;
 import xyz.devvydont.smprpg.listeners.*;
 
@@ -125,6 +126,7 @@ public final class SMPRPG extends JavaPlugin implements Listener {
         new AnvilEnchantmentCombinationFixListener(this);
 
         new StructureEntitySpawnListener(this);
+        new LootListener(this);
     }
 
     public void registerService(BaseService service) {

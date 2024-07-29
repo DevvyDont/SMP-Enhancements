@@ -23,6 +23,7 @@ public class CustomItemDropRollEvent extends Event {
 
     @NotNull private final Player player;
     @Nullable private final ItemStack tool;
+    @Nullable private final ItemStack offhand;
     private final ItemStack drop;
     private final double initialChance;
     private double chance;
@@ -30,6 +31,7 @@ public class CustomItemDropRollEvent extends Event {
     public CustomItemDropRollEvent(@NotNull Player player, @Nullable ItemStack tool, double initialChance, ItemStack drop) {
         this.player = player;
         this.tool = tool;
+        this.offhand = player.getInventory().getItemInOffHand();
         this.initialChance = initialChance;
         this.chance = initialChance;
         this.drop = drop;
@@ -51,6 +53,15 @@ public class CustomItemDropRollEvent extends Event {
      */
     public @Nullable ItemStack getTool() {
         return tool;
+    }
+
+    /**
+     * Returns the item currently held in the offhand
+     *
+     * @return
+     */
+    public @Nullable ItemStack getOffhand() {
+        return offhand;
     }
 
     /**
