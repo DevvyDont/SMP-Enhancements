@@ -9,10 +9,10 @@ public enum SkillType {
 
     COMBAT,       // STR, HP (+200%, +125)
     WOODCUTTING,  // STR, HP (+200%, +125)
-    MINING,       // HP,  DEF (+200, +125)
-    MAGIC,        // DEF, LUCK(+200, +50)
+    MINING,       // HP,  DEF (+200, +200)
+    MAGIC,        // DEF, LUCK(+400, +50)
     FARMING,      // HP,  STR (+200, +100%)
-    FISHING,      // DEF, LUCK(+200, +50)
+    FISHING,      // DEF, LUCK(+400, +50)
 
     ;
 
