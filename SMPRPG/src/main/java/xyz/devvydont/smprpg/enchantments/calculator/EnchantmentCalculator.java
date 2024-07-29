@@ -1,5 +1,6 @@
 package xyz.devvydont.smprpg.enchantments.calculator;
 
+import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentOffer;
 import org.bukkit.inventory.ItemStack;
@@ -69,6 +70,18 @@ public class EnchantmentCalculator {
     }
 
     /**
+     * Books use different enchanting logic. Only one enchantment can be applied to a book
+     *
+     * @return
+     */
+    public boolean isBook() {
+        SMPItemBlueprint blueprint = SMPRPG.getInstance().getItemService().getBlueprint(getItem());
+        if (blueprint instanceof VanillaItemBlueprint && getItem().getType().equals(Material.BOOK))
+            return true;
+        return false;
+    }
+
+    /**
      * The number of allowed enchantments on an item depends on the rarity of it.
      * Common = 1
      * Uncommon = 3
@@ -83,11 +96,16 @@ public class EnchantmentCalculator {
      * @return
      */
     public int getMaxAllowedEnchantments() {
+
+        // An enchanted book can only have one.
+        if (isBook())
+            return 1;
+
         int rarityScore = SMPRPG.getInstance().getItemService().getBlueprint(item).getRarity(item).ordinal();
         return rarityScore * 2 + 1;
     }
 
-    public boolean enchantmentIsAllowed(CustomEnchantment enchantment, List<Enchantment> previous) {
+    public boolean enchantmentIsAllowed(CustomEnchantment enchantment, Collection<Enchantment> previous) {
 
         // Is the enchantment a low enough skill requirement to apply?
         if (enchantment.getSkillRequirement() > getMagicLevel())
@@ -97,6 +115,9 @@ public class EnchantmentCalculator {
         if (getMagicLevel() >= enchantment.getSkillRequirementToAvoid())
             return false;
 
+        // Do we have a book? Any enchantment is allowed...
+        if (isBook())
+            return true;
 
         SMPItemBlueprint blueprint = SMPRPG.getInstance().getItemService().getBlueprint(item);
         // Can this enchantment apply to this item according to minecraft's vanilla logic (if vanilla item)?

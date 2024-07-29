@@ -31,8 +31,7 @@ public abstract class VanillaEnchantment extends CustomEnchantment {
                         .maxLevel(getMaxLevel())
                         .weight(getWeight())
                         .minimumCost(getMinimumCost())
-                        .maximumCost(getMaximumCost())
-                        .activeSlots(getEquipmentSlotGroup()))
+                        .maximumCost(getMaximumCost()))
                 // Configure the handled to only be called for the Vanilla sharpness enchantment.
                 .filter(getTypedKey())
         );
