@@ -1,15 +1,14 @@
 package xyz.devvydont.smprpg.loot;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.block.Chest;
 import org.bukkit.enchantments.EnchantmentOffer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.world.LootGenerateEvent;
 import org.bukkit.generator.structure.GeneratedStructure;
-import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.loot.LootTables;
 import xyz.devvydont.smprpg.SMPRPG;
@@ -42,13 +41,38 @@ public class LootListener implements Listener {
                 new LootTableMember(plugin.getItemService().getCustomItem(CustomItemType.GRAPPLING_HOOK)).withChance(.005f),
                 new LootTableMember(plugin.getItemService().getCustomItem(CustomItemType.SILVER_COIN)).withChance(.2f).withMax(5)
         ));
+
+        lootTableAdditions.put(LootTables.SIMPLE_DUNGEON.getKey(), new CustomLootTable(
+                new LootTableMember(plugin.getItemService().getCustomItem(CustomItemType.GRAPPLING_HOOK)).withChance(.005f),
+                new LootTableMember(plugin.getItemService().getCustomItem(CustomItemType.SILVER_COIN)).withChance(.2f).withMax(5)
+        ));
+
+        lootTableAdditions.put(LootTables.END_CITY_TREASURE.getKey(), new CustomLootTable(
+                new LootTableMember(plugin.getItemService().getCustomItem(Material.NETHERITE_HELMET)).withChance(.04f).withEnchants(true, 70),
+                new LootTableMember(plugin.getItemService().getCustomItem(Material.NETHERITE_CHESTPLATE)).withChance(.04f).withEnchants(true, 70),
+                new LootTableMember(plugin.getItemService().getCustomItem(Material.NETHERITE_LEGGINGS)).withChance(.04f).withEnchants(true, 70),
+                new LootTableMember(plugin.getItemService().getCustomItem(Material.NETHERITE_BOOTS)).withChance(.04f).withEnchants(true, 70),
+                new LootTableMember(plugin.getItemService().getCustomItem(Material.NETHERITE_SWORD)).withChance(.04f).withEnchants(true, 70),
+                new LootTableMember(plugin.getItemService().getCustomItem(Material.NETHERITE_PICKAXE)).withChance(.04f).withEnchants(true, 70),
+                new LootTableMember(plugin.getItemService().getCustomItem(Material.NETHERITE_SHOVEL)).withChance(.04f).withEnchants(true, 70),
+                new LootTableMember(plugin.getItemService().getCustomItem(Material.NETHERITE_AXE)).withChance(.04f).withEnchants(true, 70),
+                new LootTableMember(plugin.getItemService().getCustomItem(CustomItemType.ENCHANTED_DIAMOND)).withChance(.01f),
+                new LootTableMember(plugin.getItemService().getCustomItem(CustomItemType.PREMIUM_SHULKER_SHELL)).withChance(.05f).withMax(2),
+                new LootTableMember(plugin.getItemService().getCustomItem(CustomItemType.PLATINUM_COIN)).withChance(.3f).withMax(5)
+        ));
     }
 
-
-
+    /**
+     * Analyzes loot generation events that occur in structures and are caused by players.
+     * Enchants are then re-rolled to match the level of the structure, and custom loot tables are then
+     * injected on top of the loot from the vanilla loot table.
+     *
+     * @param event
+     */
     @EventHandler
     public void onLootChestGenerate(LootGenerateEvent event) {
 
+        // If the entity involved in this loot generation isn't a player ignore
         if (!(event.getEntity() instanceof Player player))
             return;
 
