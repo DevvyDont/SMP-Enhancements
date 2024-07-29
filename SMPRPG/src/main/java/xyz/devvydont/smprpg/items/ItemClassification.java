@@ -1,23 +1,46 @@
 package xyz.devvydont.smprpg.items;
 
+import io.papermc.paper.registry.keys.tags.ItemTypeTagKeys;
+import io.papermc.paper.registry.tag.TagKey;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.ItemType;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Collection;
+import java.util.List;
 
 public enum ItemClassification {
 
-    SWORD,
-    MACE,
-    BOW,         // Both bows and crossbows
-    AXE,         // Some combat focused, some harvest focused
-    ARMOR,       // Anything that can be worn
-    EQUIPMENT,   // Misc stuff, shields, totems, things meant to be held and not worn
-    TOOL,        // Pickaxes, Hoes, Shovels
-    MATERIAL,    // Stuff used for crafting mainly, like ores and stuff
-    CONSUMABLE,  // Stuff that can be eaten
-    ITEM,        // Literally everything else
-
+    SWORD(ItemTypeTagKeys.ENCHANTABLE_WEAPON, ItemTypeTagKeys.ENCHANTABLE_SHARP_WEAPON, ItemTypeTagKeys.ENCHANTABLE_DURABILITY, ItemTypeTagKeys.ENCHANTABLE_VANISHING),
+    MACE(ItemTypeTagKeys.ENCHANTABLE_MACE, ItemTypeTagKeys.ENCHANTABLE_WEAPON, ItemTypeTagKeys.ENCHANTABLE_DURABILITY, ItemTypeTagKeys.ENCHANTABLE_VANISHING),
+    // Both bows and crossbows
+    BOW(ItemTypeTagKeys.ENCHANTABLE_DURABILITY, ItemTypeTagKeys.ENCHANTABLE_VANISHING),
+    // Some combat focused, some harvest focused
+    AXE(ItemTypeTagKeys.ENCHANTABLE_WEAPON, ItemTypeTagKeys.ENCHANTABLE_SHARP_WEAPON, ItemTypeTagKeys.ENCHANTABLE_MINING, ItemTypeTagKeys.ENCHANTABLE_DURABILITY, ItemTypeTagKeys.ENCHANTABLE_VANISHING),
+    // Anything that can be worn
+    ARMOR(ItemTypeTagKeys.ENCHANTABLE_ARMOR, ItemTypeTagKeys.ENCHANTABLE_HEAD_ARMOR, ItemTypeTagKeys.ENCHANTABLE_CHEST_ARMOR, ItemTypeTagKeys.ENCHANTABLE_LEG_ARMOR, ItemTypeTagKeys.ENCHANTABLE_FOOT_ARMOR, ItemTypeTagKeys.ENCHANTABLE_DURABILITY, ItemTypeTagKeys.ENCHANTABLE_VANISHING),
+    // Various fishing rods
+    FISHING_ROD(ItemTypeTagKeys.ENCHANTABLE_DURABILITY, ItemTypeTagKeys.ENCHANTABLE_FISHING, ItemTypeTagKeys.ENCHANTABLE_VANISHING),
+    // Pickaxes, Hoes, Shovels
+    TOOL(ItemTypeTagKeys.ENCHANTABLE_DURABILITY, ItemTypeTagKeys.ENCHANTABLE_VANISHING, ItemTypeTagKeys.ENCHANTABLE_MINING, ItemTypeTagKeys.ENCHANTABLE_MINING_LOOT),
+    // Misc stuff, shields, totems, things meant to be held and not worn
+    EQUIPMENT(ItemTypeTagKeys.ENCHANTABLE_VANISHING),
+    // Stuff used for crafting mainly, like ores and stuff
+    MATERIAL,
+    // Stuff that can be eaten
+    CONSUMABLE,
+    // Literally everything else
+    ITEM,
     ;
+
+    private final Collection<TagKey<ItemType>> keys;
+
+    @SafeVarargs
+    ItemClassification(TagKey<ItemType>...keys) {
+        this.keys = List.of(keys);
+    }
+
 
     /**
      * Given a vanilla minecraft item, determine its classification (so we can allow reforges on vanilla items)
@@ -41,7 +64,8 @@ public enum ItemClassification {
                  LEATHER_HELMET, LEATHER_CHESTPLATE, LEATHER_BOOTS, LEATHER_LEGGINGS,
                  NETHERITE_HELMET, NETHERITE_BOOTS, NETHERITE_LEGGINGS, NETHERITE_CHESTPLATE,
                  TURTLE_HELMET-> ARMOR;
-            case SHIELD, TOTEM_OF_UNDYING, FISHING_ROD -> EQUIPMENT;
+            case FISHING_ROD -> FISHING_ROD;
+            case SHIELD, TOTEM_OF_UNDYING -> EQUIPMENT;
             case DIAMOND_PICKAXE, GOLDEN_PICKAXE, IRON_PICKAXE, NETHERITE_PICKAXE, STONE_PICKAXE, WOODEN_PICKAXE,
                  DIAMOND_SHOVEL, GOLDEN_SHOVEL, IRON_SHOVEL, NETHERITE_SHOVEL, STONE_SHOVEL, WOODEN_SHOVEL,
                  DIAMOND_HOE, WOODEN_HOE, STONE_HOE, NETHERITE_HOE, GOLDEN_HOE, IRON_HOE -> TOOL;
@@ -73,4 +97,7 @@ public enum ItemClassification {
         };
     }
 
+    public Collection<TagKey<ItemType>> getItemTagKeys() {
+        return keys;
+    }
 }

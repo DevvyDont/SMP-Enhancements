@@ -5,6 +5,9 @@ import org.bukkit.enchantments.EnchantmentOffer;
 import org.bukkit.inventory.ItemStack;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.enchantments.CustomEnchantment;
+import xyz.devvydont.smprpg.items.base.CustomItemBlueprint;
+import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
+import xyz.devvydont.smprpg.items.base.VanillaItemBlueprint;
 
 import java.util.*;
 
@@ -86,15 +89,25 @@ public class EnchantmentCalculator {
 
     public boolean enchantmentIsAllowed(CustomEnchantment enchantment, List<Enchantment> previous) {
 
+        // Is the enchantment a low enough skill requirement to apply?
         if (enchantment.getSkillRequirement() > getMagicLevel())
             return false;
 
+        // Are we ignoring this enchantment? (Curse)
         if (getMagicLevel() >= enchantment.getSkillRequirementToAvoid())
             return false;
 
-        if (!enchantment.getEnchantment().canEnchantItem(getItem()))
+
+        SMPItemBlueprint blueprint = SMPRPG.getInstance().getItemService().getBlueprint(item);
+        // Can this enchantment apply to this item according to minecraft's vanilla logic (if vanilla item)?
+        if (blueprint instanceof VanillaItemBlueprint && !enchantment.getEnchantment().canEnchantItem(getItem()))
             return false;
 
+        // Can this enchantment apply to this item according to our logic (if custom item?
+        if (blueprint instanceof CustomItemBlueprint && !blueprint.getItemClassification().getItemTagKeys().contains(enchantment.getItemTypeTag()))
+            return false;
+
+        // Is there already a conflicting enchant?
         for (Enchantment prev : previous)
             if (enchantment.getEnchantment().conflictsWith(prev))
                 return false;
