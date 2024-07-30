@@ -3,6 +3,7 @@ package xyz.devvydont.smprpg.commands.entity;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.SMPRPG;
@@ -35,6 +36,14 @@ public class CommandSummon extends CommandBase {
             return;
         }
 
+        int level = -1;
+        // Attempt to find a level
+        if (args.length >= 2) {
+            try {
+                level = Integer.parseInt(args[1]);
+            } catch (NumberFormatException ignored) {}
+        }
+
         String toSpawn = args[0].toLowerCase();
         // First look for a custom mob
         for (CustomEntityType type : CustomEntityType.values()) {
@@ -44,8 +53,10 @@ public class CommandSummon extends CommandBase {
                     executor.sendMessage(ChatUtil.getErrorMessage("Failed to spawn a " + toSpawn + ". Check console for details"));
                     return;
                 }
+                if (level >= 0)
+                    entity.setLevel(level);
                 entity.setup();
-                executor.sendMessage(ChatUtil.getSuccessMessage("Successfully spawned a " + toSpawn));
+                executor.sendMessage(ChatUtil.getSuccessMessage("Successfully spawned a " + toSpawn + " (lv. " + level + ")"));
                 return;
             }
         }
@@ -53,8 +64,13 @@ public class CommandSummon extends CommandBase {
         // Look for a vanilla mob
         for (EntityType type : EntityType.values()) {
             if (type.name().equalsIgnoreCase(toSpawn)) {
-                commandSourceStack.getLocation().getWorld().spawnEntity(commandSourceStack.getLocation(), type, CreatureSpawnEvent.SpawnReason.CUSTOM);
-                executor.sendMessage("Successfully spawned a " + toSpawn);
+                Entity entity = commandSourceStack.getLocation().getWorld().spawnEntity(commandSourceStack.getLocation(), type, CreatureSpawnEvent.SpawnReason.CUSTOM);
+                if (level >= 0 && entity instanceof LivingEntity living) {
+                    LeveledEntity leveled = SMPRPG.getInstance().getEntityService().getEntityInstance(living);
+                    leveled.setLevel(level);
+                    leveled.setup();
+                }
+                executor.sendMessage(ChatUtil.getSuccessMessage("Successfully spawned a " + toSpawn + " (lv. " + level + ")"));
                 return;
             }
         }
