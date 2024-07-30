@@ -83,9 +83,9 @@ public class DamageOverrideListener implements Listener {
      */
     private double getDifficultyAdjustedDamage(World world, double damage) {
         return switch (world.getDifficulty()) {
-            case PEACEFUL -> 0.5 * damage;
+            case PEACEFUL -> 0.25 * damage;
             case EASY -> 0.5 * damage;
-            case HARD -> 1.5 * damage;
+            case NORMAL -> 0.75 * damage;
             default -> damage;
         };
     }

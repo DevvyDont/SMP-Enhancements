@@ -33,7 +33,7 @@ public class CobblestoneChestplate extends CustomArmorBlueprint implements ToolB
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 65),
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 250),
                 new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, -0.1)
         );
     }

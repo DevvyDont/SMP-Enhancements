@@ -34,7 +34,7 @@ public class CobblestoneLeggings extends CustomArmorBlueprint implements Craftab
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 55),
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 190),
                 new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, -0.1)
         );
     }

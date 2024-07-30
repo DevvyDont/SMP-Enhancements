@@ -16,6 +16,7 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemDamageEvent;
 import org.bukkit.inventory.EquipmentSlotGroup;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -50,6 +51,14 @@ public abstract class CustomFakeHelmetBlueprint extends CustomAttributeItem impl
     @Override
     public EquipmentSlotGroup getActiveSlot() {
         return EquipmentSlotGroup.ARMOR;
+    }
+
+    @Override
+    public void updateMeta(ItemStack itemStack) {
+        super.updateMeta(itemStack);
+        itemStack.editMeta(meta -> {
+            meta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
+        });
     }
 
     /**

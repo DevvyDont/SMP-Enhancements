@@ -20,7 +20,6 @@ import xyz.devvydont.smprpg.items.interfaces.Trimmable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
 import xyz.devvydont.smprpg.util.crafting.builders.BootsRecipe;
-import xyz.devvydont.smprpg.util.crafting.builders.ChestplateRecipe;
 
 import java.util.Collection;
 import java.util.List;
@@ -35,7 +34,7 @@ public class CobblestoneBoots extends CustomArmorBlueprint implements ToolBreaka
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 40),
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 120),
                 new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, -0.15)
         );
     }
