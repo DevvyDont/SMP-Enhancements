@@ -137,39 +137,39 @@ public class ItemArmor extends VanillaAttributeItem implements Wearable, ToolBre
     public static int getMaxDurability(Material material) {
         return switch (material) {
 
-            case ELYTRA -> 10_000;
+            case ELYTRA -> 42_000;
 
-            case NETHERITE_HELMET -> 928_000;
-            case NETHERITE_CHESTPLATE -> 1_000_000;
-            case NETHERITE_LEGGINGS -> 944_000;
-            case NETHERITE_BOOTS -> 916_000;
+            case NETHERITE_HELMET -> 30_600;
+            case NETHERITE_CHESTPLATE -> 32_000;
+            case NETHERITE_LEGGINGS -> 31_100;
+            case NETHERITE_BOOTS -> 29_500;
 
-            case DIAMOND_HELMET -> 464_000;
-            case DIAMOND_CHESTPLATE -> 500_000;
-            case DIAMOND_LEGGINGS -> 472_000;
-            case DIAMOND_BOOTS -> 458_000;
+            case DIAMOND_HELMET -> 10_200;
+            case DIAMOND_CHESTPLATE -> 11_000;
+            case DIAMOND_LEGGINGS -> 10_500;
+            case DIAMOND_BOOTS -> 9_990;
 
-            case GOLDEN_HELMET -> 125_000;
-            case GOLDEN_CHESTPLATE -> 165_000;
-            case GOLDEN_LEGGINGS -> 140_000;
-            case GOLDEN_BOOTS -> 119_000;
+            case GOLDEN_HELMET -> 3100;
+            case GOLDEN_CHESTPLATE -> 3500;
+            case GOLDEN_LEGGINGS -> 3200;
+            case GOLDEN_BOOTS -> 2900;
 
-            case IRON_HELMET -> 90_000;
-            case IRON_CHESTPLATE -> 124_000;
-            case IRON_LEGGINGS -> 101_000;
-            case IRON_BOOTS -> 86_000;
+            case IRON_HELMET -> 1800;
+            case IRON_CHESTPLATE -> 2200;
+            case IRON_LEGGINGS -> 1900;
+            case IRON_BOOTS -> 1600;
 
-            case CHAINMAIL_HELMET -> 65_000;
-            case CHAINMAIL_CHESTPLATE -> 110_000;
-            case CHAINMAIL_LEGGINGS -> 72_000;
-            case CHAINMAIL_BOOTS -> 61_000;
+            case CHAINMAIL_HELMET -> 730;
+            case CHAINMAIL_CHESTPLATE -> 990;
+            case CHAINMAIL_LEGGINGS -> 880;
+            case CHAINMAIL_BOOTS -> 610;
 
-            case LEATHER_HELMET -> 32_000;
-            case LEATHER_CHESTPLATE -> 64_000;
-            case LEATHER_LEGGINGS -> 52_000;
-            case LEATHER_BOOTS -> 29_000;
+            case LEATHER_HELMET -> 390;
+            case LEATHER_CHESTPLATE -> 500;
+            case LEATHER_LEGGINGS -> 440;
+            case LEATHER_BOOTS -> 350;
 
-            case TURTLE_HELMET -> 20_000;
+            case TURTLE_HELMET -> 500;
 
             default -> material.getMaxDurability() * 100;
         };
