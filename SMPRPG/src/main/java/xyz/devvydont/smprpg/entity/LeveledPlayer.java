@@ -20,6 +20,8 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.Team;
 import org.joml.Vector3f;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.base.LeveledEntity;
@@ -27,6 +29,7 @@ import xyz.devvydont.smprpg.items.interfaces.Attributeable;
 import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
 import xyz.devvydont.smprpg.skills.SkillInstance;
 import xyz.devvydont.smprpg.skills.SkillType;
+import xyz.devvydont.smprpg.util.formatting.ChatUtil;
 import xyz.devvydont.smprpg.util.formatting.PlayerChatInformation;
 import xyz.devvydont.smprpg.util.formatting.Symbols;
 import xyz.devvydont.smprpg.util.world.TransformationUtil;
@@ -64,9 +67,6 @@ public class LeveledPlayer extends LeveledEntity implements Listener {
         shuffleSeed();
     }
 
-    private NamespacedKey getInvalidTextDisplayKey() {
-        return new NamespacedKey(plugin, "invalid-textdisplay");
-    }
 
     /**
      * Used for various random elements, such as the enchanting table
@@ -245,37 +245,30 @@ public class LeveledPlayer extends LeveledEntity implements Listener {
         getPlayer().setHealthScaled(true);
     }
 
+    private Team getNametagTeam() {
+        Scoreboard scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
+        Player player = getPlayer();
+        String teamKey = player.getUniqueId().toString();
+        Team team = scoreboard.getTeam(teamKey);
+        if (team == null)
+            team = scoreboard.registerNewTeam(teamKey);
+        team.addPlayer(player);
+        return team;
+    }
+
     @Override
     public void updateNametag() {
-
-        // Players will use the text display thingies
-        if (!hasSecondaryNametag())
-            spawnSecondaryNametag();
-
-        int hp;
-        if (getHp() <= 0)
-            hp = 0;
-        else if (getHp() > 0 && getHp() < 1)
-            hp = 1;
-        else
-            hp = (int)getHp();
-        int maxHp = (int)Math.round(getMaxHp());
-
-        TextColor hpTextColor = getChatColorFromHealth(getHp(), maxHp);
-        info.text(Component.text("[").color(NamedTextColor.GRAY)
-                .append(Component.text(Symbols.POWER + getLevel()).color(NamedTextColor.YELLOW))
-                .append(Component.text("]").color(NamedTextColor.GRAY))
-                .append(Component.text(" " + hp).color(hpTextColor))
-                .append(Component.text("/").color(NamedTextColor.GRAY))
-                .append(Component.text(maxHp).color(NamedTextColor.GREEN))
-                .append(Component.text(Symbols.HEART).color(NamedTextColor.DARK_RED)));
+        Team team = getNametagTeam();
+        PlayerChatInformation chatInformation = plugin.getChatService().getPlayerInfo(getPlayer());
+        Component newPrefix = ChatUtil.getBracketedPowerComponent(getLevel())
+                .append(Component.text(" " + ChatColor.translateAlternateColorCodes('&', chatInformation.prefix())));
+        team.prefix(newPrefix);
+        team.suffix(Component.text(ChatColor.translateAlternateColorCodes('&', chatInformation.suffix())));
     }
 
     @Override
     public void cleanup() {
         super.cleanup();
-        if (hasSecondaryNametag())
-            killSecondaryNametag();
     }
 
     @Override
@@ -296,84 +289,6 @@ public class LeveledPlayer extends LeveledEntity implements Listener {
     @Override
     public void brightenNametag() {
         // does nothing
-    }
-
-    public List<TextDisplay> getTextDisplayPassengers() {
-        List<TextDisplay> passengers = new ArrayList<>();
-        for (Entity passenger : entity.getPassengers())
-            if (passenger instanceof TextDisplay text)
-                passengers.add(text);
-
-        return passengers;
-    }
-
-    public void hideNametag() {
-
-        updateNametag();
-
-        for (Player player : Bukkit.getOnlinePlayers())
-            for (TextDisplay textDisplay : getTextDisplayPassengers())
-                player.hideEntity(SMPRPG.getInstance(), textDisplay);
-
-    }
-
-    public void showNametag() {
-
-        updateNametag();
-
-        for (Player player : Bukkit.getOnlinePlayers())
-            for (TextDisplay textDisplay : getTextDisplayPassengers())
-                player.showEntity(SMPRPG.getInstance(), textDisplay);
-
-    }
-
-    private Component getPrimaryNametagComponent() {
-        PlayerChatInformation information = SMPRPG.getInstance().getChatService().getPlayerInfo((Player) entity);
-        String legacyName = ChatColor.translateAlternateColorCodes('&', (information.prefix() + entity.getName() + information.suffix()));
-        return Component.text(legacyName);
-    }
-
-    public TextDisplay spawnSecondaryNametag() {
-
-        // Kill the old one if it exists
-        killSecondaryNametag();
-
-        // Spawn a new TextDisplay and mount it on the player
-        info = entity.getWorld().spawn(entity.getEyeLocation(), TextDisplay.class, e -> {
-            e.setSeeThrough(false);
-            e.setPersistent(false);
-            e.setBillboard(Display.Billboard.CENTER);
-        });
-        TextDisplay nametag = entity.getWorld().spawn(entity.getEyeLocation(), TextDisplay.class, e -> {
-            e.setSeeThrough(false);
-            e.setPersistent(false);
-            e.setBillboard(Display.Billboard.CENTER);
-            e.text(getPrimaryNametagComponent());
-        });
-        entity.addPassenger(nametag);
-        entity.addPassenger(info);
-        info.setTransformation(TransformationUtil.getTranslation(new Vector3f(0, .3f, 0)));
-        nametag.setTransformation(TransformationUtil.getTranslation(new Vector3f(0, .575f, 0)));
-        info.getPersistentDataContainer().set(getInvalidTextDisplayKey(), PersistentDataType.BOOLEAN, true);
-        nametag.getPersistentDataContainer().set(getInvalidTextDisplayKey(), PersistentDataType.BOOLEAN, true);
-        return info;
-    }
-
-    public void killTextDisplayPassengers() {
-
-        for (TextDisplay textDisplay : getTextDisplayPassengers())
-            textDisplay.remove();
-
-        info = null;
-    }
-
-    public void killSecondaryNametag() {
-        killTextDisplayPassengers();
-        info = null;
-    }
-
-    public boolean hasSecondaryNametag() {
-        return info != null && info.isValid();
     }
 
     public Player getPlayer() {
@@ -398,18 +313,6 @@ public class LeveledPlayer extends LeveledEntity implements Listener {
 
     }
 
-    @EventHandler
-    public void onDismount(EntityDismountEvent event) {
-
-        if (!event.getDismounted().equals(entity))
-            return;
-
-        if (!event.getEntityType().equals(EntityType.TEXT_DISPLAY))
-            return;
-
-        event.getEntity().remove();
-    }
-
     @EventHandler(priority = EventPriority.MONITOR)
     public void onJoin(PlayerJoinEvent event) {
 
@@ -419,16 +322,4 @@ public class LeveledPlayer extends LeveledEntity implements Listener {
         updateNametag();
     }
 
-    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
-    public void onSneak(PlayerToggleSneakEvent event) {
-
-        if (!event.getPlayer().equals(entity))
-            return;
-
-        // When sneak is toggled, decide what to do about nametags on a player
-        if (event.isSneaking())
-            hideNametag();
-        else
-            showNametag();
-    }
 }

@@ -37,7 +37,7 @@ public class ChatService implements BaseService {
         }
 
         this.chat = provider.getProvider();
-        plugin.getLogger().info("Successfully hooked into Vault Economy service");
+        plugin.getLogger().info("Successfully hooked into Vault Chat service");
         return true;
     }
 

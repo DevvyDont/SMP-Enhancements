@@ -7,10 +7,7 @@ import com.destroystokyo.paper.event.player.PlayerPostRespawnEvent;
 import io.papermc.paper.event.player.PlayerInventorySlotChangeEvent;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import org.bukkit.Color;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
+import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -25,6 +22,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scoreboard.*;
 import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.*;
@@ -35,6 +33,7 @@ import xyz.devvydont.smprpg.entity.base.VanillaEntity;
 import xyz.devvydont.smprpg.entity.vanilla.*;
 import xyz.devvydont.smprpg.events.LeveledEntitySpawnEvent;
 import xyz.devvydont.smprpg.util.formatting.DamagePopupUtil;
+import xyz.devvydont.smprpg.util.formatting.Symbols;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
@@ -88,6 +87,14 @@ public class EntityService implements BaseService, Listener {
         vanillaEntityHandlers.put(EntityType.WARDEN, LeveledWarden.class);
 
         plugin.getLogger().info(String.format("Associated %s vanilla entities with custom handlers", vanillaEntityHandlers.size()));
+
+        // Setting up default scoreboard options
+        Scoreboard scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
+        Objective hpObjective = scoreboard.getObjective("hp_objective");
+        if (hpObjective == null)
+            hpObjective = scoreboard.registerNewObjective("hp_objective", Criteria.HEALTH, Component.text(Symbols.HEART).color(NamedTextColor.RED));
+        hpObjective.setDisplaySlot(DisplaySlot.BELOW_NAME);
+        hpObjective.setAutoUpdateDisplay(true);
 
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
         return true;
@@ -297,13 +304,6 @@ public class EntityService implements BaseService, Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onEntityDespawn(EntityRemoveFromWorldEvent event) {
         removeEntity(event.getEntity().getUniqueId());
-    }
-
-    // Handle cleaning up the secondary name tag on players when they die
-    @EventHandler(priority = EventPriority.MONITOR)
-    public void onDeath(PlayerDeathEvent event) {
-        LeveledPlayer p = getPlayerInstance(event.getPlayer());
-        p.killSecondaryNametag();
     }
 
     // Handle spawning in the secondary name tags on players when they respawn
