@@ -112,8 +112,8 @@ public class VanillaEntity extends EnemyEntity {
 
     @Override
     public double calculateBaseAttackDamage() {
-        // Return the value that would make this mob 6 shot another mob of the same level with default stats
-        return calculateBaseHealth() / 6.0 * calculateBaseDamageMultiplier();
+        // Return the value that would make this mob 10 shot another mob of the same level with default stats
+        return calculateBaseHealth() / 10.0 * calculateBaseDamageMultiplier();
     }
 
     @Override
