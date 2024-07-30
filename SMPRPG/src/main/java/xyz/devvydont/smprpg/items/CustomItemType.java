@@ -21,6 +21,10 @@ import xyz.devvydont.smprpg.items.blueprints.sets.copper.*;
 import xyz.devvydont.smprpg.items.blueprints.sets.diamond.DiamondBow;
 import xyz.devvydont.smprpg.items.blueprints.sets.infinity.*;
 import xyz.devvydont.smprpg.items.blueprints.sets.iron.IronBow;
+import xyz.devvydont.smprpg.items.blueprints.sets.mystic.MysticBoots;
+import xyz.devvydont.smprpg.items.blueprints.sets.mystic.MysticChestplate;
+import xyz.devvydont.smprpg.items.blueprints.sets.mystic.MysticHelmet;
+import xyz.devvydont.smprpg.items.blueprints.sets.mystic.MysticLeggings;
 import xyz.devvydont.smprpg.items.blueprints.sets.neptune.NeptuneBoots;
 import xyz.devvydont.smprpg.items.blueprints.sets.neptune.NeptuneChestplate;
 import xyz.devvydont.smprpg.items.blueprints.sets.neptune.NeptuneHelmet;
@@ -65,10 +69,16 @@ public enum CustomItemType {
     COPPER_BOOTS(     "Copper Boots",      Material.LEATHER_BOOTS,      CopperBoots.class),
 
     // SLIMY SET
-    SLIMY_HELMET("Slimy Helmet",         Material.DIAMOND_HELMET,     ItemRarity.RARE, SlimyHelmet.class),
+    SLIMY_HELMET("Slimy Helmet",         Material.SLIME_BLOCK   ,     ItemRarity.RARE, SlimyHelmet.class),
     SLIMY_CHESTPLATE("Slimy Chestplate", Material.LEATHER_CHESTPLATE, ItemRarity.RARE, SlimyChestplate.class),
     SLIMY_LEGGINGS("Slimy Leggings",     Material.DIAMOND_LEGGINGS,   ItemRarity.RARE, SlimyLeggings.class),
     SLIMY_BOOTS("Slimy Boots",           Material.LEATHER_BOOTS,      ItemRarity.RARE, SlimyBoots.class),
+
+    // MYSTIC
+    MYSTIC_HELMET("Mystic Helmet",         Material.IRON_HELMET   ,     ItemRarity.RARE, MysticHelmet.class),
+    MYSTIC_CHESTPLATE("Mystic Chestplate", Material.LEATHER_CHESTPLATE, ItemRarity.RARE, MysticChestplate.class),
+    MYSTIC_LEGGINGS("Mystic Leggings",     Material.IRON_LEGGINGS,      ItemRarity.RARE, MysticLeggings.class),
+    MYSTIC_BOOTS("Mystic Boots",           Material.LEATHER_BOOTS,      ItemRarity.RARE, MysticBoots.class),
 
     // BOWS
     DIAMOND_BOW("Diamond Bow", Material.BOW, ItemRarity.UNCOMMON,  DiamondBow.class),
