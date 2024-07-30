@@ -26,7 +26,7 @@ public abstract class NeptuneArmorSet extends CustomArmorBlueprint implements To
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, getDefense()),
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, getHealth()),
-                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, getStrength()),
+                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, getStrength()/100.0),
                 new ScalarAttributeEntry(AttributeWrapper.OXYGEN_BONUS, .5f)
         );
     }

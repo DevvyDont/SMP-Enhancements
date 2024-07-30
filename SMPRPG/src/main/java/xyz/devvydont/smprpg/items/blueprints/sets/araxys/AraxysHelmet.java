@@ -8,6 +8,7 @@ import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
+import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomFakeHelmetBlueprint;
 import xyz.devvydont.smprpg.items.interfaces.Craftable;
 import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
@@ -29,7 +30,7 @@ public class AraxysHelmet extends CustomFakeHelmetBlueprint implements Craftable
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 125),
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 20),
-                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, 10)
+                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .05)
         );
     }
 

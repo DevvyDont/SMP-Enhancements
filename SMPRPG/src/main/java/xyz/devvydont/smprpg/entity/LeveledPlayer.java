@@ -352,8 +352,8 @@ public class LeveledPlayer extends LeveledEntity implements Listener {
         });
         entity.addPassenger(nametag);
         entity.addPassenger(info);
-        info.setTransformation(TransformationUtil.getTranslation(new Vector3f(0, .25f, 0)));
-        nametag.setTransformation(TransformationUtil.getTranslation(new Vector3f(0, .5f, 0)));
+        info.setTransformation(TransformationUtil.getTranslation(new Vector3f(0, .3f, 0)));
+        nametag.setTransformation(TransformationUtil.getTranslation(new Vector3f(0, .575f, 0)));
         info.getPersistentDataContainer().set(getInvalidTextDisplayKey(), PersistentDataType.BOOLEAN, true);
         nametag.getPersistentDataContainer().set(getInvalidTextDisplayKey(), PersistentDataType.BOOLEAN, true);
         return info;
