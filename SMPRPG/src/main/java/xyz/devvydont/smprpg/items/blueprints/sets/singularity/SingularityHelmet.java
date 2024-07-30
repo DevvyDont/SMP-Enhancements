@@ -24,7 +24,7 @@ public class SingularityHelmet extends CustomAttributeItem implements Wearable, 
 
     @Override
     public ItemClassification getItemClassification() {
-        return ItemClassification.ARMOR;
+        return ItemClassification.HELMET;
     }
 
     @Override

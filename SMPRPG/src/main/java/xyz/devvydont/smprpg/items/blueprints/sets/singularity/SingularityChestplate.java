@@ -25,7 +25,7 @@ public class SingularityChestplate extends CustomAttributeItem implements Wearab
 
     @Override
     public ItemClassification getItemClassification() {
-        return ItemClassification.ARMOR;
+        return ItemClassification.CHESTPLATE;
     }
 
     @Override

@@ -177,7 +177,7 @@ public class ItemArmor extends VanillaAttributeItem implements Wearable, ToolBre
 
     @Override
     public ItemClassification getItemClassification() {
-        return ItemClassification.ARMOR;
+        return ItemClassification.resolveVanillaMaterial(getItem().getType());
     }
 
     @Override

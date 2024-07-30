@@ -28,7 +28,7 @@ public class InfinityBoots extends CustomAttributeItem implements Wearable {
 
     @Override
     public ItemClassification getItemClassification() {
-        return ItemClassification.ARMOR;
+        return ItemClassification.BOOTS;
     }
 
     @Override

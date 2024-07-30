@@ -593,7 +593,7 @@ public class ItemService implements BaseService, Listener {
             return ((MeleeReforgeable) reforge).getMeleeModifiers(rarity);
 
         // If this item is armor and we have a wearable reforge
-        if (itemClassification.equals(ItemClassification.ARMOR) && reforge instanceof ArmorReforgeable)
+        if (itemClassification.isArmor() && reforge instanceof ArmorReforgeable)
             return ((ArmorReforgeable) reforge).getArmorModifiers(rarity);
 
         // If this item is something that is held and we have a holding reforge

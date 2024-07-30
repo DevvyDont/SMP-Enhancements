@@ -27,11 +27,6 @@ public abstract class CustomArmorBlueprint extends CustomAttributeItem {
     }
 
     @Override
-    public ItemClassification getItemClassification() {
-        return ItemClassification.ARMOR;
-    }
-
-    @Override
     public EquipmentSlotGroup getActiveSlot() {
         return EquipmentSlotGroup.ARMOR;
     }

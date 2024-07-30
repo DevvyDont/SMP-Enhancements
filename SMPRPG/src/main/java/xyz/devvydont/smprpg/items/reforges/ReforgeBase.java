@@ -87,7 +87,7 @@ public abstract class ReforgeBase {
             return ReforgeResult.UNFORGEABLE;
 
         // Can this item class be reforged?
-        if (!ItemClassification.reforgable(blueprint.getItemClassification()))
+        if (!blueprint.getItemClassification().reforgeable())
             return ReforgeResult.UNFORGEABLE;
 
         // If this item type will end up not having any reforge buffs applied to the item, it is an invalid combination.

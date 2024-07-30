@@ -29,7 +29,7 @@ public class InfinityChestplate extends CustomAttributeItem implements Wearable 
 
     @Override
     public ItemClassification getItemClassification() {
-        return ItemClassification.ARMOR;
+        return ItemClassification.CHESTPLATE;
     }
 
     @Override

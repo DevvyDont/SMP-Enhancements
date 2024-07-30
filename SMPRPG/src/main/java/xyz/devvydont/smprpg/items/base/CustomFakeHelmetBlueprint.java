@@ -45,7 +45,7 @@ public abstract class CustomFakeHelmetBlueprint extends CustomAttributeItem impl
 
     @Override
     public ItemClassification getItemClassification() {
-        return ItemClassification.ARMOR;
+        return ItemClassification.HELMET;
     }
 
     @Override

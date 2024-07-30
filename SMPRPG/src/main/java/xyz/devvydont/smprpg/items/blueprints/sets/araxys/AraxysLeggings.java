@@ -2,6 +2,7 @@ package xyz.devvydont.smprpg.items.blueprints.sets.araxys;
 
 import org.bukkit.inventory.CraftingRecipe;
 import xyz.devvydont.smprpg.items.CustomItemType;
+import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.services.ItemService;
@@ -31,4 +32,8 @@ public class AraxysLeggings extends AraxysArmorPiece {
         return new LeggingsRecipe(this, itemService.getCustomItem(CustomItemType.ENCHANTED_STRING), generate()).build();
     }
 
+    @Override
+    public ItemClassification getItemClassification() {
+        return ItemClassification.LEGGINGS;
+    }
 }

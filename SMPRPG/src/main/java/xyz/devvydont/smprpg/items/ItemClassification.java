@@ -3,7 +3,6 @@ package xyz.devvydont.smprpg.items;
 import io.papermc.paper.registry.keys.tags.ItemTypeTagKeys;
 import io.papermc.paper.registry.tag.TagKey;
 import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ItemType;
 import org.jetbrains.annotations.NotNull;
 
@@ -19,7 +18,10 @@ public enum ItemClassification {
     // Some combat focused, some harvest focused
     AXE(ItemTypeTagKeys.ENCHANTABLE_WEAPON, ItemTypeTagKeys.ENCHANTABLE_SHARP_WEAPON, ItemTypeTagKeys.ENCHANTABLE_MINING, ItemTypeTagKeys.ENCHANTABLE_DURABILITY, ItemTypeTagKeys.ENCHANTABLE_VANISHING),
     // Anything that can be worn
-    ARMOR(ItemTypeTagKeys.ENCHANTABLE_ARMOR, ItemTypeTagKeys.ENCHANTABLE_HEAD_ARMOR, ItemTypeTagKeys.ENCHANTABLE_CHEST_ARMOR, ItemTypeTagKeys.ENCHANTABLE_LEG_ARMOR, ItemTypeTagKeys.ENCHANTABLE_FOOT_ARMOR, ItemTypeTagKeys.ENCHANTABLE_DURABILITY, ItemTypeTagKeys.ENCHANTABLE_VANISHING),
+    HELMET(ItemTypeTagKeys.ENCHANTABLE_HEAD_ARMOR, ItemTypeTagKeys.ENCHANTABLE_ARMOR, ItemTypeTagKeys.ENCHANTABLE_DURABILITY, ItemTypeTagKeys.ENCHANTABLE_VANISHING),
+    CHESTPLATE(ItemTypeTagKeys.ENCHANTABLE_CHEST_ARMOR, ItemTypeTagKeys.ENCHANTABLE_ARMOR, ItemTypeTagKeys.ENCHANTABLE_DURABILITY, ItemTypeTagKeys.ENCHANTABLE_VANISHING),
+    LEGGINGS(ItemTypeTagKeys.ENCHANTABLE_LEG_ARMOR, ItemTypeTagKeys.ENCHANTABLE_ARMOR, ItemTypeTagKeys.ENCHANTABLE_DURABILITY, ItemTypeTagKeys.ENCHANTABLE_VANISHING),
+    BOOTS(ItemTypeTagKeys.ENCHANTABLE_FOOT_ARMOR, ItemTypeTagKeys.ENCHANTABLE_DURABILITY, ItemTypeTagKeys.ENCHANTABLE_VANISHING, ItemTypeTagKeys.ENCHANTABLE_ARMOR),
     // Various fishing rods
     FISHING_ROD(ItemTypeTagKeys.ENCHANTABLE_DURABILITY, ItemTypeTagKeys.ENCHANTABLE_FISHING, ItemTypeTagKeys.ENCHANTABLE_VANISHING),
     // Pickaxes, Hoes, Shovels
@@ -57,13 +59,10 @@ public enum ItemClassification {
             case IRON_SWORD, STONE_SWORD, DIAMOND_SWORD, GOLDEN_SWORD, NETHERITE_SWORD, WOODEN_SWORD -> SWORD;
             case BOW, CROSSBOW -> BOW;
             case DIAMOND_AXE, GOLDEN_AXE, IRON_AXE, NETHERITE_AXE, WOODEN_AXE, STONE_AXE -> AXE;
-            case CHAINMAIL_HELMET, CHAINMAIL_BOOTS, CHAINMAIL_CHESTPLATE, CHAINMAIL_LEGGINGS,
-                 DIAMOND_HELMET, DIAMOND_CHESTPLATE, DIAMOND_LEGGINGS, DIAMOND_BOOTS,
-                 GOLDEN_HELMET, GOLDEN_BOOTS, GOLDEN_CHESTPLATE, GOLDEN_LEGGINGS,
-                 IRON_HELMET, IRON_CHESTPLATE, IRON_LEGGINGS, IRON_BOOTS,
-                 LEATHER_HELMET, LEATHER_CHESTPLATE, LEATHER_BOOTS, LEATHER_LEGGINGS,
-                 NETHERITE_HELMET, NETHERITE_BOOTS, NETHERITE_LEGGINGS, NETHERITE_CHESTPLATE,
-                 TURTLE_HELMET-> ARMOR;
+            case CHAINMAIL_HELMET, NETHERITE_HELMET, DIAMOND_HELMET, GOLDEN_HELMET, IRON_HELMET, LEATHER_HELMET, TURTLE_HELMET -> HELMET;
+            case DIAMOND_CHESTPLATE, CHAINMAIL_CHESTPLATE, NETHERITE_CHESTPLATE, GOLDEN_CHESTPLATE, IRON_CHESTPLATE, LEATHER_CHESTPLATE, ELYTRA -> CHESTPLATE;
+            case LEATHER_LEGGINGS, NETHERITE_LEGGINGS, DIAMOND_LEGGINGS, CHAINMAIL_LEGGINGS, GOLDEN_LEGGINGS, IRON_LEGGINGS -> LEGGINGS;
+            case NETHERITE_BOOTS, DIAMOND_BOOTS, CHAINMAIL_BOOTS, GOLDEN_BOOTS, IRON_BOOTS, LEATHER_BOOTS -> BOOTS;
             case FISHING_ROD -> FISHING_ROD;
             case SHIELD, TOTEM_OF_UNDYING -> EQUIPMENT;
             case DIAMOND_PICKAXE, GOLDEN_PICKAXE, IRON_PICKAXE, NETHERITE_PICKAXE, STONE_PICKAXE, WOODEN_PICKAXE,
@@ -90,9 +89,16 @@ public enum ItemClassification {
         };
     }
 
-    public static boolean reforgable(ItemClassification classification) {
-        return switch (classification) {
-            case SWORD, BOW, AXE, ARMOR, EQUIPMENT, TOOL -> true;
+    public boolean reforgeable() {
+        return switch (this) {
+            case SWORD, BOW, AXE, HELMET, CHESTPLATE, LEGGINGS, BOOTS, EQUIPMENT, TOOL -> true;
+            default -> false;
+        };
+    }
+
+    public boolean isArmor() {
+        return switch (this) {
+            case HELMET, CHESTPLATE, LEGGINGS, BOOTS -> true;
             default -> false;
         };
     }

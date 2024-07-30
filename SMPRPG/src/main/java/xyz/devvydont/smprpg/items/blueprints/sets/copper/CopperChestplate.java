@@ -79,4 +79,9 @@ public class CopperChestplate extends CustomArmorBlueprint implements ToolBreaka
     public TrimPattern getTrimPattern() {
         return TrimPattern.RAISER;
     }
+
+    @Override
+    public ItemClassification getItemClassification() {
+        return ItemClassification.CHESTPLATE;
+    }
 }

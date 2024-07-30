@@ -30,7 +30,7 @@ public class SingularityBoots extends CustomAttributeItem implements Wearable, T
 
     @Override
     public ItemClassification getItemClassification() {
-        return ItemClassification.ARMOR;
+        return ItemClassification.BOOTS;
     }
 
     @Override

@@ -28,7 +28,7 @@ public class SpaceHelmet extends CustomFakeHelmetBlueprint implements Wearable {
 
     @Override
     public ItemClassification getItemClassification() {
-        return ItemClassification.ARMOR;
+        return ItemClassification.HELMET;
     }
 
     @Override

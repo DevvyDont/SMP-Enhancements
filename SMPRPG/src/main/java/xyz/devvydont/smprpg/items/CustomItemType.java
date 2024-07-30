@@ -21,6 +21,10 @@ import xyz.devvydont.smprpg.items.blueprints.sets.copper.*;
 import xyz.devvydont.smprpg.items.blueprints.sets.diamond.DiamondBow;
 import xyz.devvydont.smprpg.items.blueprints.sets.infinity.*;
 import xyz.devvydont.smprpg.items.blueprints.sets.iron.IronBow;
+import xyz.devvydont.smprpg.items.blueprints.sets.neptune.NeptuneBoots;
+import xyz.devvydont.smprpg.items.blueprints.sets.neptune.NeptuneChestplate;
+import xyz.devvydont.smprpg.items.blueprints.sets.neptune.NeptuneHelmet;
+import xyz.devvydont.smprpg.items.blueprints.sets.neptune.NeptuneLeggings;
 import xyz.devvydont.smprpg.items.blueprints.sets.singularity.SingularityChestplate;
 import xyz.devvydont.smprpg.items.blueprints.sets.singularity.SingularityHelmet;
 import xyz.devvydont.smprpg.items.blueprints.sets.singularity.SingularityLeggings;
@@ -38,16 +42,10 @@ public enum CustomItemType {
     ENCHANTED_COIN("Enchanted Coin", Material.FIREWORK_STAR, ItemRarity.DIVINE, true, CustomItemCoin.class), // 1M coins
 
     // COBBLESTONE SET
-    COBBLESTONE_HELMET("Cobblestone Helmet", Material.COBBLESTONE, ItemRarity.UNCOMMON, CobblestoneHelmet.class),
+    COBBLESTONE_HELMET("Cobblestone Helmet",         Material.COBBLESTONE,        ItemRarity.UNCOMMON, CobblestoneHelmet.class),
     COBBLESTONE_CHESTPLATE("Cobblestone Chestplate", Material.LEATHER_CHESTPLATE, ItemRarity.UNCOMMON, CobblestoneChestplate.class),
-    COBBLESTONE_LEGGINGS("Cobblestone Leggings", Material.LEATHER_LEGGINGS, ItemRarity.UNCOMMON, CobblestoneLeggings.class),
-    COBBLESTONE_BOOTS("Cobblestone Boots", Material.LEATHER_BOOTS, ItemRarity.UNCOMMON, CobblestoneBoots.class),
-
-    // ARAXYS SET
-    ARAXYS_HELMET("Araxys Helmet", Material.SPAWNER, ItemRarity.EPIC, AraxysHelmet.class),
-    ARAXYS_CHESTPLATE("Araxys Chestplate", Material.CHAINMAIL_CHESTPLATE, ItemRarity.EPIC, AraxysChestplate.class),
-    ARAXYS_LEGGINGS("Araxys Leggings", Material.CHAINMAIL_LEGGINGS, ItemRarity.EPIC, AraxysLeggings.class),
-    ARAXYS_BOOTS("Araxys Boots", Material.CHAINMAIL_BOOTS, ItemRarity.EPIC, AraxysBoots.class),
+    COBBLESTONE_LEGGINGS("Cobblestone Leggings",     Material.LEATHER_LEGGINGS,   ItemRarity.UNCOMMON, CobblestoneLeggings.class),
+    COBBLESTONE_BOOTS("Cobblestone Boots",           Material.LEATHER_BOOTS,      ItemRarity.UNCOMMON, CobblestoneBoots.class),
 
     // COPPER SET
     COPPER_PICKAXE("Copper Pickaxe",  Material.WOODEN_PICKAXE, CopperPickaxe.class),
@@ -65,6 +63,18 @@ public enum CustomItemType {
     // BOWS
     DIAMOND_BOW("Diamond Bow", Material.BOW, ItemRarity.UNCOMMON,  DiamondBow.class),
     IRON_BOW(   "Iron Bow",    Material.BOW, ItemRarity.COMMON,  IronBow.class),
+
+    // ARAXYS SET
+    ARAXYS_HELMET("Araxys Helmet",         Material.SPAWNER,              ItemRarity.EPIC, AraxysHelmet.class),
+    ARAXYS_CHESTPLATE("Araxys Chestplate", Material.CHAINMAIL_CHESTPLATE, ItemRarity.EPIC, AraxysChestplate.class),
+    ARAXYS_LEGGINGS("Araxys Leggings",     Material.CHAINMAIL_LEGGINGS,   ItemRarity.EPIC, AraxysLeggings.class),
+    ARAXYS_BOOTS("Araxys Boots",           Material.CHAINMAIL_BOOTS,      ItemRarity.EPIC, AraxysBoots.class),
+
+    // NEPTUNE SET
+    NEPTUNE_HELMET("Neptune Helmet",         Material.LEATHER_HELMET,     ItemRarity.LEGENDARY, NeptuneHelmet.class),
+    NEPTUNE_CHESTPLATE("Neptune Chestplate", Material.LEATHER_CHESTPLATE, ItemRarity.LEGENDARY, NeptuneChestplate.class),
+    NEPTUNE_LEGGINGS("Neptune Leggings",     Material.LEATHER_LEGGINGS,   ItemRarity.LEGENDARY, NeptuneLeggings.class),
+    NEPTUNE_BOOTS("Neptune Boots",           Material.LEATHER_BOOTS,      ItemRarity.LEGENDARY, NeptuneBoots.class),
 
     // MISC TOOLS
     GRAPPLING_HOOK("Grappling Hook", Material.FISHING_ROD, ItemRarity.RARE, GrapplingHook.class),
