@@ -24,7 +24,8 @@ public class AraxysBoots extends AraxysArmorPiece {
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 100),
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 15),
-                new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, .10)
+                new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, .10),
+                new AdditiveAttributeEntry(AttributeWrapper.STEP, 1)
         );
     }
 

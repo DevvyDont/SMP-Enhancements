@@ -28,6 +28,10 @@ import xyz.devvydont.smprpg.items.blueprints.sets.neptune.NeptuneLeggings;
 import xyz.devvydont.smprpg.items.blueprints.sets.singularity.SingularityChestplate;
 import xyz.devvydont.smprpg.items.blueprints.sets.singularity.SingularityHelmet;
 import xyz.devvydont.smprpg.items.blueprints.sets.singularity.SingularityLeggings;
+import xyz.devvydont.smprpg.items.blueprints.sets.slimy.SlimyBoots;
+import xyz.devvydont.smprpg.items.blueprints.sets.slimy.SlimyChestplate;
+import xyz.devvydont.smprpg.items.blueprints.sets.slimy.SlimyHelmet;
+import xyz.devvydont.smprpg.items.blueprints.sets.slimy.SlimyLeggings;
 import xyz.devvydont.smprpg.items.blueprints.sets.special.SpaceHelmet;
 
 public enum CustomItemType {
@@ -59,6 +63,12 @@ public enum CustomItemType {
     COPPER_CHESTPLATE("Copper Chestplate", Material.LEATHER_CHESTPLATE, CopperChestplate.class),
     COPPER_LEGGINGS(  "Copper Leggings",   Material.LEATHER_LEGGINGS,   CopperLeggings.class),
     COPPER_BOOTS(     "Copper Boots",      Material.LEATHER_BOOTS,      CopperBoots.class),
+
+    // SLIMY SET
+    SLIMY_HELMET("Slimy Helmet",         Material.DIAMOND_HELMET,     ItemRarity.RARE, SlimyHelmet.class),
+    SLIMY_CHESTPLATE("Slimy Chestplate", Material.LEATHER_CHESTPLATE, ItemRarity.RARE, SlimyChestplate.class),
+    SLIMY_LEGGINGS("Slimy Leggings",     Material.DIAMOND_LEGGINGS,   ItemRarity.RARE, SlimyLeggings.class),
+    SLIMY_BOOTS("Slimy Boots",           Material.LEATHER_BOOTS,      ItemRarity.RARE, SlimyBoots.class),
 
     // BOWS
     DIAMOND_BOW("Diamond Bow", Material.BOW, ItemRarity.UNCOMMON,  DiamondBow.class),
