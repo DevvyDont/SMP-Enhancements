@@ -9,6 +9,14 @@ import xyz.devvydont.smprpg.items.blueprints.equipment.GrapplingHook;
 import xyz.devvydont.smprpg.items.blueprints.resources.EmptyBlueprint;
 import xyz.devvydont.smprpg.items.blueprints.resources.mining.*;
 import xyz.devvydont.smprpg.items.blueprints.resources.mob.*;
+import xyz.devvydont.smprpg.items.blueprints.sets.araxys.AraxysBoots;
+import xyz.devvydont.smprpg.items.blueprints.sets.araxys.AraxysChestplate;
+import xyz.devvydont.smprpg.items.blueprints.sets.araxys.AraxysHelmet;
+import xyz.devvydont.smprpg.items.blueprints.sets.araxys.AraxysLeggings;
+import xyz.devvydont.smprpg.items.blueprints.sets.cobblestone.CobblestoneBoots;
+import xyz.devvydont.smprpg.items.blueprints.sets.cobblestone.CobblestoneChestplate;
+import xyz.devvydont.smprpg.items.blueprints.sets.cobblestone.CobblestoneHelmet;
+import xyz.devvydont.smprpg.items.blueprints.sets.cobblestone.CobblestoneLeggings;
 import xyz.devvydont.smprpg.items.blueprints.sets.copper.*;
 import xyz.devvydont.smprpg.items.blueprints.sets.diamond.DiamondBow;
 import xyz.devvydont.smprpg.items.blueprints.sets.infinity.*;
@@ -28,6 +36,18 @@ public enum CustomItemType {
     EMERALD_COIN(  "Emerald Coin",   Material.FIREWORK_STAR, ItemRarity.LEGENDARY,    CustomItemCoin.class),       // 10k coins
     AMETHYST_COIN( "Amethyst Coin",  Material.FIREWORK_STAR, ItemRarity.MYTHIC,       CustomItemCoin.class),       // 100k coins
     ENCHANTED_COIN("Enchanted Coin", Material.FIREWORK_STAR, ItemRarity.DIVINE, true, CustomItemCoin.class), // 1M coins
+
+    // COBBLESTONE SET
+    COBBLESTONE_HELMET("Cobblestone Helmet", Material.COBBLESTONE, ItemRarity.UNCOMMON, CobblestoneHelmet.class),
+    COBBLESTONE_CHESTPLATE("Cobblestone Chestplate", Material.LEATHER_CHESTPLATE, ItemRarity.UNCOMMON, CobblestoneChestplate.class),
+    COBBLESTONE_LEGGINGS("Cobblestone Leggings", Material.LEATHER_LEGGINGS, ItemRarity.UNCOMMON, CobblestoneLeggings.class),
+    COBBLESTONE_BOOTS("Cobblestone Boots", Material.LEATHER_BOOTS, ItemRarity.UNCOMMON, CobblestoneBoots.class),
+
+    // ARAXYS SET
+    ARAXYS_HELMET("Araxys Helmet", Material.SPAWNER, ItemRarity.EPIC, AraxysHelmet.class),
+    ARAXYS_CHESTPLATE("Araxys Chestplate", Material.CHAINMAIL_CHESTPLATE, ItemRarity.EPIC, AraxysChestplate.class),
+    ARAXYS_LEGGINGS("Araxys Leggings", Material.CHAINMAIL_LEGGINGS, ItemRarity.EPIC, AraxysLeggings.class),
+    ARAXYS_BOOTS("Araxys Boots", Material.CHAINMAIL_BOOTS, ItemRarity.EPIC, AraxysBoots.class),
 
     // COPPER SET
     COPPER_PICKAXE("Copper Pickaxe",  Material.WOODEN_PICKAXE, CopperPickaxe.class),
@@ -50,6 +70,11 @@ public enum CustomItemType {
     GRAPPLING_HOOK("Grappling Hook", Material.FISHING_ROD, ItemRarity.RARE, GrapplingHook.class),
 
     // COMPRESSED MINING MATERIALS
+
+    // Cobblestone
+    COMPRESSED_COBBLESTONE("Compressed Cobblestone", Material.COBBLESTONE, ItemRarity.UNCOMMON, true, CobblestoneFamilyBlueprint.class),
+    ENCHANTED_COBBLESTONE("Enchanted Cobblestone", Material.COBBLESTONE, ItemRarity.RARE, true, CobblestoneFamilyBlueprint.class),
+    COBBLESTONE_SINGULARITY("Cobblestone Singularity", Material.COBBLESTONE, ItemRarity.EPIC, true, CobblestoneFamilyBlueprint.class),
 
     // COAL
     ENCHANTED_COAL("Enchanted Coal",                Material.COAL,       ItemRarity.RARE,      true, CoalFamilyBlueprint.class),
