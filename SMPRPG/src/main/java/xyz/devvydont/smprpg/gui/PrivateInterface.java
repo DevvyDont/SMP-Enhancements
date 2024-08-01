@@ -10,7 +10,10 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
+
+import java.util.Collection;
 
 /**
  * Interface used that only the viewer can view and interact with.
@@ -87,6 +90,30 @@ public abstract class PrivateInterface implements Listener {
     public void fill(ItemStack itemStack) {
         for (int slot = 0; slot < inventory.getSize(); slot++)
             inventory.setItem(slot, itemStack);
+    }
+
+    public void setSlot(int i, ItemStack itemStack) {
+        inventory.setItem(i, itemStack);
+    }
+
+    @Nullable
+    public ItemStack getItem(int i) {
+        return inventory.getItem(i);
+    }
+
+    public void clearSlot(int i) {
+        inventory.setItem(i, null);
+    }
+
+    public void transferItemToPlayer(int i) {
+
+        ItemStack itemStack = inventory.getItem(i);
+        if (itemStack == null)
+            return;
+
+        Collection<ItemStack> overflow = owner.getInventory().addItem(itemStack).values();
+        for (ItemStack drop : overflow)
+            owner.getWorld().dropItemNaturally(owner.getLocation(), drop);
     }
 
     public void open() {

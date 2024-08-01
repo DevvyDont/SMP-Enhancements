@@ -4,11 +4,12 @@ import net.milkbowl.vault.chat.Chat;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.util.formatting.PlayerChatInformation;
 
-public class ChatService implements BaseService {
+public class ChatService implements BaseService, Listener {
 
 
     private SMPRPG plugin;
@@ -37,6 +38,7 @@ public class ChatService implements BaseService {
         }
 
         this.chat = provider.getProvider();
+        plugin.getServer().getPluginManager().registerEvents(this, plugin);
         plugin.getLogger().info("Successfully hooked into Vault Chat service");
         return true;
     }

@@ -16,12 +16,14 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.Repairable;
 import org.bukkit.inventory.meta.components.FoodComponent;
 import org.bukkit.inventory.meta.components.ToolComponent;
+import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.enchantments.CustomEnchantment;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.ItemRarity;
 import xyz.devvydont.smprpg.items.interfaces.Edible;
 import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
+import xyz.devvydont.smprpg.reforge.ReforgeBase;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.formatting.ChatUtil;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
@@ -67,7 +69,41 @@ public abstract class SMPItemBlueprint {
     /**
      * Given item meta, determine how this item's display name should look
      */
-    public abstract Component getNameComponent(ItemMeta meta);
+    public Component getNameComponent(ItemMeta meta) {
+        return getRarity(meta).applyDecoration(Component.text(getReforgePrefix(meta) + getItemName(meta))).decoration(TextDecoration.ITALIC, false);
+    }
+
+    @Nullable
+    public ReforgeBase getReforge(ItemMeta meta) {
+        return itemService.getReforge(meta);
+    }
+
+    public boolean isReforged(ItemMeta meta) {
+        return getReforge(meta) != null;
+    }
+
+    /**
+     * Gets the name of this item
+     *
+     * @param meta
+     * @return
+     */
+    public abstract String getItemName(ItemMeta meta);
+
+    /**
+     * Gets the prefix to inject before the name of the item. Returns an empty string if no reforge is applied.
+     *
+     * @param meta
+     * @return
+     */
+    public String getReforgePrefix(ItemMeta meta) {
+
+        ReforgeBase reforge = getReforge(meta);
+        if (reforge == null)
+            return "";
+
+        return reforge.getType().display() + " ";
+    }
 
     /**
      * Set the fake glow status of this item. If an item is enchantable, you should make this false.
@@ -156,6 +192,31 @@ public abstract class SMPItemBlueprint {
         return new ArrayList<>();
     }
 
+    private List<Component> getReforgeComponent(ItemMeta meta) {
+        ReforgeBase reforge = getReforge(meta);
+        if (reforge == null)
+            return List.of();
+
+        List<Component> lines = new ArrayList<>();
+        lines.add(Component.empty());
+        lines.add(Component.text(reforge.getType().display() + " Reforge").color(NamedTextColor.BLUE));
+        lines.addAll(reforge.getDescription());
+        return lines;
+    }
+
+    /**
+     * Additional info about an item that may not be as important.
+     *
+     * @param meta
+     * @return
+     */
+    public List<Component> getFooterComponent(ItemMeta meta) {
+        if (!isReforged(meta))
+            return List.of();
+
+        return getReforgeComponent(meta);
+    }
+
     /**
      * Applies this blueprint's lore when we have a given itemstack.
      * For most items, the structure of lore will be like so:
@@ -190,6 +251,10 @@ public abstract class SMPItemBlueprint {
         // Edibility if this item has it
         if (meta.hasFood())
             lore.addAll(getEdibilityComponent(meta));
+
+        // Footer description (if present)
+        if (!getFooterComponent(meta).isEmpty())
+            lore.addAll(getFooterComponent(meta));
 
         // Durability if the item has it
         if (meta instanceof Damageable damageable && damageable.hasMaxDamage()) {

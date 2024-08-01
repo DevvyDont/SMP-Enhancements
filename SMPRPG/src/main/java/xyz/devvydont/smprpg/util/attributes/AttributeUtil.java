@@ -15,9 +15,12 @@ import org.w3c.dom.Attr;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.enchantments.CustomEnchantment;
 import xyz.devvydont.smprpg.enchantments.base.AttributeEnchantment;
+import xyz.devvydont.smprpg.items.ItemRarity;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeModifierType;
+import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
 import xyz.devvydont.smprpg.items.interfaces.Attributeable;
+import xyz.devvydont.smprpg.reforge.ReforgeBase;
 import xyz.devvydont.smprpg.util.formatting.MinecraftStringUtils;
 
 import java.util.*;
@@ -113,6 +116,12 @@ public class AttributeUtil {
             // Perform a total calculation to display on the stat
             AttributeUtil.AttributeCalculationResult result = AttributeUtil.calculateAttributeBonus(modifers, 0);
             Component line = AttributeUtil.formatAttribute(wrapper, result);
+
+            // Perform a calculation on only reforge attribute modifiers
+            AttributeModifierType.AttributeSession reforge = blueprint.getAttributeSession(AttributeModifierType.REFORGE, meta);
+            AttributeCalculationResult reforgeResult = AttributeUtil.calculateAttributeBonus(reforge.getAttributeModifiers(wrapper.getAttribute()), 0);
+            if (!reforgeResult.empty())
+                line = line.append(formatBonus(NamedTextColor.BLUE, reforgeResult));
 
             // Perform a calculation on only enchantment attribute modifiers
             AttributeModifierType.AttributeSession enchants = blueprint.getAttributeSession(AttributeModifierType.ENCHANTMENT, meta);
@@ -233,26 +242,37 @@ public class AttributeUtil {
         return new AttributeCalculationResult(base, sum - base, sum, operationToModifier.keySet());
     }
 
-    public static void applyModifiers(Attributeable blueprint, ItemMeta meta) {
+    public static void applyModifiers(SMPItemBlueprint blueprint, ItemMeta meta) {
+
+        if (!(blueprint instanceof Attributeable attributeable))
+            return;
+
+        ItemRarity rarity = blueprint.getRarity(meta);
 
         // First base modifiers...
-        AttributeModifierType.AttributeSession baseAttributes = blueprint.getAttributeSession(blueprint.getAttributeModifierType(), meta);
+        AttributeModifierType.AttributeSession baseAttributes = attributeable.getAttributeSession(attributeable.getAttributeModifierType(), meta);
         baseAttributes.removeAttributeModifiers();
-        for (AttributeEntry entry : blueprint.getAttributeModifiers())
-            baseAttributes.addAttributeModifier(entry, blueprint.getActiveSlot());
+        for (AttributeEntry entry : attributeable.getAttributeModifiers())
+            baseAttributes.addAttributeModifier(entry, attributeable.getActiveSlot());
 
-        // Todo reforge....
+        // reforge....
+        AttributeModifierType.AttributeSession reforgeAttributes = attributeable.getAttributeSession(AttributeModifierType.REFORGE, meta);
+        reforgeAttributes.removeAttributeModifiers();
+        ReforgeBase reforge = SMPRPG.getInstance().getItemService().getReforge(meta);
+        if (reforge != null)
+            for (AttributeEntry entry : reforge.getAttributeModifiersWithRarity(rarity))
+                reforgeAttributes.addAttributeModifier(entry, attributeable.getActiveSlot());
 
         // enchantments....
         if (SMPRPG.getInstance().getEnchantmentService() == null)
             return;
 
-        AttributeModifierType.AttributeSession enchantAttributes = blueprint.getAttributeSession(AttributeModifierType.ENCHANTMENT, meta);
+        AttributeModifierType.AttributeSession enchantAttributes = attributeable.getAttributeSession(AttributeModifierType.ENCHANTMENT, meta);
         enchantAttributes.removeAttributeModifiers();
         for (CustomEnchantment enchantment : SMPRPG.getInstance().getEnchantmentService().getCustomEnchantments(meta))
             if (enchantment instanceof AttributeEnchantment attributeEnchantment)
                 for (AttributeEntry entry : attributeEnchantment.getAttributeModifiers())
-                    enchantAttributes.addAttributeModifier(entry, blueprint.getActiveSlot());
+                    enchantAttributes.addAttributeModifier(entry, attributeable.getActiveSlot());
     }
 
     /**
@@ -267,6 +287,11 @@ public class AttributeUtil {
         // This can happen when something tries to update too fast
         if (SMPRPG.getInstance() == null || SMPRPG.getInstance().getEnchantmentService() == null)
             return sum;
+
+        // Get the reforge on the item and see if it has a power rating
+        ReforgeBase reforge = SMPRPG.getInstance().getItemService().getReforge(meta);
+        if (reforge != null)
+            sum += reforge.getPowerRating();
 
         // Loop through all the enchantments on the item and determine if it has a power rating
         for (CustomEnchantment enchantment : SMPRPG.getInstance().getEnchantmentService().getCustomEnchantments(meta))

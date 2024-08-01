@@ -42,15 +42,9 @@ public abstract class CustomItemBlueprint extends SMPItemBlueprint {
         return getCustomItemType().rarity;
     }
 
-    /**
-     * Given item meta, determine how this item's display name should look
-     *
-     * @param meta
-     * @return
-     */
     @Override
-    public Component getNameComponent(ItemMeta meta) {
-        return getRarity(meta).applyDecoration(Component.text(getCustomItemType().name)).decoration(TextDecoration.ITALIC, false);
+    public String getItemName(ItemMeta meta) {
+        return getCustomItemType().name;
     }
 
     /**

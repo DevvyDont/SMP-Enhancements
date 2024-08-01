@@ -8,8 +8,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Keyed;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
@@ -35,16 +33,13 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.items.*;
-import xyz.devvydont.smprpg.items.ItemRarity;
 import xyz.devvydont.smprpg.items.base.CustomItemBlueprint;
 import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
 import xyz.devvydont.smprpg.items.base.VanillaItemBlueprint;
 import xyz.devvydont.smprpg.items.blueprints.vanilla.*;
 import xyz.devvydont.smprpg.items.interfaces.*;
-import xyz.devvydont.smprpg.items.reforges.ReforgeBase;
-import xyz.devvydont.smprpg.items.reforges.ReforgeType;
-import xyz.devvydont.smprpg.items.reforges.definitions.ReforgeAccelerated;
-import xyz.devvydont.smprpg.items.reforges.interfaces.*;
+import xyz.devvydont.smprpg.reforge.ReforgeBase;
+import xyz.devvydont.smprpg.reforge.ReforgeType;
 import xyz.devvydont.smprpg.util.crafting.ItemUtil;
 
 import java.lang.reflect.InvocationTargetException;
@@ -67,7 +62,7 @@ public class ItemService implements BaseService, Listener {
     private final Map<CustomItemType, SMPItemBlueprint> blueprints;
     private final Map<String, CustomItemType> keyMappings;
 
-    private final Map<ReforgeType, ReforgeBase> reforges;
+    private final Map<String, ReforgeBase> reforges;
 
     private final List<CraftingRecipe> registeredRecipes;
 
@@ -275,7 +270,12 @@ public class ItemService implements BaseService, Listener {
     }
 
     private void registerReforges() {
-        registerReforge(new ReforgeAccelerated(this));
+        for (ReforgeType reforgeType : ReforgeType.values()) {
+            ReforgeBase handler = reforgeType.createHandler();
+            if (handler instanceof Listener)
+                plugin.getServer().getPluginManager().registerEvents((Listener) handler, plugin);
+            reforges.put(reforgeType.key(), handler);
+        }
     }
 
     private void registerVanillaMaterialResolver(Material material, Class<? extends VanillaItemBlueprint> wrapper) {
@@ -292,11 +292,6 @@ public class ItemService implements BaseService, Listener {
         // If this blueprint needs to hook into events register them.
         if (blueprint instanceof Listener)
             plugin.getServer().getPluginManager().registerEvents((Listener) blueprint, plugin);
-    }
-
-    private void registerReforge(ReforgeBase reforge) {
-        plugin.getLogger().finest(String.format("Registering reforge %s", reforge.getReforgeType()));
-        reforges.put(reforge.getReforgeType(), reforge);
     }
 
     /**
@@ -547,66 +542,30 @@ public class ItemService implements BaseService, Listener {
         return reforges.values();
     }
 
-    /**
-     * Returns a collection of all registered reforges for the server by reforge type enum
-     *
-     * @return
-     */
-    public Collection<ReforgeType> getRegisteredReforgeTypes() {
-        return reforges.keySet();
-    }
-
     public ReforgeBase getReforge(ReforgeType type) {
-        return reforges.get(type);
+        return reforges.get(type.key());
     }
 
     /**
-     * Given an equipment type, return the modifiers that are assigned to a specific reforge's equipment type.
-     * It is possible that this will return an empty listen under the circumstance a reforge type was provided that
-     * is not compatible with a specific equipment type. If this is the case, a warning message will be printed in
-     * the console as this is most likely a developer error.
+     * Get the reforge that is contained on the item. Null if not reforged.
      *
-     * @param reforgeType
-     * @param rarity
-     * @param itemClassification
+     * @param meta
      * @return
      */
-    public Map<Attribute, AttributeModifier> getModifiersForReforge(ReforgeType reforgeType, ItemRarity rarity, ItemClassification itemClassification) {
+    @Nullable
+    public ReforgeBase getReforge(ItemMeta meta) {
+        if (!meta.getPersistentDataContainer().has(REFORGE_TYPE_KEY))
+            return null;
 
-        if (!getRegisteredReforgeTypes().contains(reforgeType))
-            throw new IllegalArgumentException("Reforge " + reforgeType + " was not registered");
+        String appliedReforgeKey = meta.getPersistentDataContainer().get(REFORGE_TYPE_KEY, PersistentDataType.STRING);
+        if (!reforges.containsKey(appliedReforgeKey))
+            return null;
 
-        ReforgeBase reforge = getReforge(reforgeType);
+        return reforges.get(appliedReforgeKey);
+    }
 
-        // Essentially analyze the equipment type we received and see if there's valid attributes for it
-
-        // If this type is a sword and we have a melee reforge
-        if (itemClassification.equals(ItemClassification.SWORD) && reforge instanceof MeleeReforgeable)
-            return ((MeleeReforgeable) reforge).getMeleeModifiers(rarity);
-
-        // If this type is a bow and we have a ranged reforge
-        if (itemClassification.equals(ItemClassification.BOW) && reforge instanceof RangedReforgeable)
-            return ((RangedReforgeable) reforge).getRangedModifiers(rarity);
-
-        // If this item is an axe and we have a ranged reforge
-        if (itemClassification.equals(ItemClassification.AXE) && reforge instanceof MeleeReforgeable)
-            return ((MeleeReforgeable) reforge).getMeleeModifiers(rarity);
-
-        // If this item is armor and we have a wearable reforge
-        if (itemClassification.isArmor() && reforge instanceof ArmorReforgeable)
-            return ((ArmorReforgeable) reforge).getArmorModifiers(rarity);
-
-        // If this item is something that is held and we have a holding reforge
-        if (itemClassification.equals(ItemClassification.EQUIPMENT) && reforge instanceof HoldingReforgeable)
-            return ((HoldingReforgeable) reforge).getHeldModifiers(rarity);
-
-        // If this item harvests (shovel, pickaxe, hoe) and we have a harvesting reforge
-        if (itemClassification.equals(ItemClassification.TOOL) && reforge instanceof HarvestReforgeable)
-            return ((HarvestReforgeable) reforge).getHarvesterModifiers(rarity);
-
-        // If we made it past this point, we prob got an invalid combination
-        plugin.getLogger().severe(String.format("Detected impossible reforge combination! REFORGE %s -> SLOT %s", reforgeType, itemClassification));
-        return Map.of();
+    public boolean hasReforge(ItemMeta meta) {
+        return getReforge(meta) != null;
     }
 
     /**

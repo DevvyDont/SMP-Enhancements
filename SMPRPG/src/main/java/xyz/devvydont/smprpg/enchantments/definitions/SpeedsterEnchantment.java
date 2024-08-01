@@ -11,6 +11,7 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemType;
+import org.bukkit.inventory.meta.ItemMeta;
 import xyz.devvydont.smprpg.enchantments.CustomEnchantment;
 import xyz.devvydont.smprpg.enchantments.base.AttributeEnchantment;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
@@ -92,7 +93,6 @@ public class SpeedsterEnchantment extends CustomEnchantment implements Attribute
                 new ScalarAttributeEntry(Attribute.GENERIC_MOVEMENT_SPEED, getSpeedPercentageIncrease(getLevel()) / 100.0)
         );
     }
-
 
     @Override
     public int getPowerRating() {
