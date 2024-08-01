@@ -238,6 +238,10 @@ public class LeveledPlayer extends LeveledEntity implements Listener {
         // Update max health to 100 while maintaining their current HP
         double percent = getHealthPercentage();
         updateBaseAttribute(Attribute.GENERIC_MAX_HEALTH, getBaseHealth());
+        // Set knockback resistance attributes so that percentages work correctly
+        updateBaseAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE, .01);
+        updateBaseAttribute(Attribute.GENERIC_EXPLOSION_KNOCKBACK_RESISTANCE, .01);
+        updateBaseAttribute(Attribute.PLAYER_SWEEPING_DAMAGE_RATIO, .01);
         setHealthPercentage(percent);
 
         // Make sure we aren't overloading their UI with hearts

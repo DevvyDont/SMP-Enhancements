@@ -39,7 +39,7 @@ public class SingularityChestplate extends CustomAttributeItem implements Wearab
                 new AdditiveAttributeEntry(AttributeWrapper.ARMOR, 6),
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 560),
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 380),
-                new AdditiveAttributeEntry(AttributeWrapper.KNOCKBACK_RESISTANCE, 2),
+                new ScalarAttributeEntry(AttributeWrapper.KNOCKBACK_RESISTANCE, .2),
                 new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, .25)
         );
     }

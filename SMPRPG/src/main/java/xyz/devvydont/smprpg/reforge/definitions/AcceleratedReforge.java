@@ -1,8 +1,10 @@
 package xyz.devvydont.smprpg.reforge.definitions;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import xyz.devvydont.smprpg.items.ItemRarity;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
+import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.reforge.ReforgeBase;
 import xyz.devvydont.smprpg.reforge.ReforgeType;
@@ -23,8 +25,8 @@ public class AcceleratedReforge extends ReforgeBase {
             case LEGENDARY -> .40f;
             case MYTHIC -> .50f;
             case DIVINE -> .65f;
-            case TRANSCENDENT -> .9f;
-            case SPECIAL -> 1.0f;
+            case TRANSCENDENT -> .8f;
+            case SPECIAL -> .95f;
         };
     }
 
@@ -35,8 +37,8 @@ public class AcceleratedReforge extends ReforgeBase {
     @Override
     public List<Component> getDescription() {
         return List.of(
-                ComponentUtil.getDefaultText("Provides a boost in"),
-                ComponentUtil.getDefaultText("movement and attack speed")
+                ComponentUtil.getDefaultText("Provides a").append(ComponentUtil.getColoredComponent(" SIGNIFICANT", NamedTextColor.GOLD)),
+                ComponentUtil.getDefaultText("boost in ").append(ComponentUtil.getColoredComponent("movement/attack speed", NamedTextColor.WHITE))
         );
     }
 
@@ -44,12 +46,12 @@ public class AcceleratedReforge extends ReforgeBase {
     public Collection<AttributeEntry> getAttributeModifiersWithRarity(ItemRarity rarity) {
         return List.of(
                 new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, getMovementSpeedBuff(rarity)),
-                new ScalarAttributeEntry(AttributeWrapper.ATTACK_SPEED, (rarity.ordinal()+1)*5 / 100.0)
+                new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, (rarity.ordinal()+1)*5 / 100.0)
         );
     }
 
     @Override
     public int getPowerRating() {
-        return 5;
+        return 4;
     }
 }

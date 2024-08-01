@@ -11,9 +11,11 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.ItemStack;
 import xyz.devvydont.smprpg.SMPRPG;
+import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
 import xyz.devvydont.smprpg.items.interfaces.Attributeable;
 import xyz.devvydont.smprpg.reforge.ReforgeBase;
+import xyz.devvydont.smprpg.reforge.ReforgeType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,8 +33,16 @@ public class InterfaceReforge extends PrivateInterface {
         return InterfaceUtil.getNamedItem(Material.ANVIL, Component.text("Reforge!"));
     }
 
-    public ReforgeBase getRandomReforge() {
-        List<ReforgeBase> choices = new ArrayList<>(SMPRPG.getInstance().getItemService().getReforges());
+    public ReforgeBase getRandomReforge(ItemClassification classification) {
+
+        List<ReforgeBase> choices = new ArrayList<>();
+        for (ReforgeType type : ReforgeType.values())
+            if (type.isRollable() && type.isAllowed(classification))
+                choices.add(SMPRPG.getInstance().getItemService().getReforge(type));
+
+        if (choices.isEmpty())
+            return SMPRPG.getInstance().getItemService().getReforge(ReforgeType.ERROR);
+
         return choices.get((int) (Math.random()*choices.size()));
     }
 
@@ -46,10 +56,13 @@ public class InterfaceReforge extends PrivateInterface {
         if (!(blueprint instanceof Attributeable attributeable))
             return;
 
-        ReforgeBase reforge = getRandomReforge();
-        reforge.apply(item);
+        ReforgeBase reforge = getRandomReforge(blueprint.getItemClassification());
+        boolean success = !reforge.getType().equals(ReforgeType.ERROR);
+        if (success)
+            reforge.apply(item);
+
         Location soundOrigin = owner.getLocation().add(owner.getLocation().getDirection().normalize().multiply(2));
-        owner.getWorld().playSound(soundOrigin, Sound.BLOCK_ANVIL_USE, .5f, .75f);
+        owner.getWorld().playSound(soundOrigin, success ? Sound.BLOCK_ANVIL_USE : Sound.ENTITY_VILLAGER_NO, .5f, .75f);
         blueprint.updateMeta(item);
     }
 

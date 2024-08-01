@@ -39,7 +39,7 @@ public class SingularityBoots extends CustomAttributeItem implements Wearable, T
                 new AdditiveAttributeEntry(AttributeWrapper.ARMOR, 6),
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 260),
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 120),
-                new AdditiveAttributeEntry(AttributeWrapper.KNOCKBACK_RESISTANCE, 2),
+                new ScalarAttributeEntry(Attribute.GENERIC_KNOCKBACK_RESISTANCE, .2),
                 new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, .25)
         );
     }

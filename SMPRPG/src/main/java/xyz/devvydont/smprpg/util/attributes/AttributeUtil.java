@@ -55,7 +55,7 @@ public class AttributeUtil {
      * @param result
      * @return
      */
-    public static Component getAttributeNumber(AttributeWrapper wrapper, AttributeUtil.AttributeCalculationResult result) {
+    public static Component getAttributeNumber(AttributeWrapper wrapper, AttributeUtil.AttributeCalculationResult result, boolean forcePercent) {
 
         TextColor color = NamedTextColor.GREEN;
 
@@ -71,23 +71,18 @@ public class AttributeUtil {
         if (wrapper.getAttributeType().equals(AttributeWrapper.AttributeType.SPECIAL))
             color = NamedTextColor.LIGHT_PURPLE;
 
-        return Component.text(result.formatTotal()).color(color);
+        // Some attributes are weird and are always percents
+        return Component.text(result.formatTotal(forcePercent)).color(color);
     }
 
-    public static Component formatAttribute(AttributeWrapper wrapper, AttributeUtil.AttributeCalculationResult result) {
-
-        AttributeUtil.AttributeCalculationResult finalResult = result;
-
-        // Knockback resistance for some reason calculates as decimals but displays as integers.....
-        if (wrapper.getAttribute().equals(Attribute.GENERIC_KNOCKBACK_RESISTANCE))
-            finalResult = result.multiply(10);
+    public static Component formatAttribute(AttributeWrapper wrapper, AttributeUtil.AttributeCalculationResult result, boolean forcePercent) {
 
         return Component.text(wrapper.getCleanName() + ": ").color(NamedTextColor.GRAY)
-                .append(getAttributeNumber(wrapper, finalResult));
+                .append(getAttributeNumber(wrapper, result, forcePercent));
     }
 
-    public static Component formatBonus(NamedTextColor color, AttributeUtil.AttributeCalculationResult result) {
-        return Component.text(" (" + result.formatTotal() + ")").color(color);
+    public static Component formatBonus(NamedTextColor color, AttributeUtil.AttributeCalculationResult result, boolean forcePercent) {
+        return Component.text(" (" + result.formatTotal(forcePercent) + ")").color(color);
     }
 
     /**
@@ -114,20 +109,27 @@ public class AttributeUtil {
                 continue;
 
             // Perform a total calculation to display on the stat
-            AttributeUtil.AttributeCalculationResult result = AttributeUtil.calculateAttributeBonus(modifers, 0);
-            Component line = AttributeUtil.formatAttribute(wrapper, result);
+            int base = 1;
+            // If there are no additive bonuses in the pool, use a base of 1.
+            for (AttributeModifier modifier : modifers)
+                if (modifier.getOperation().equals(AttributeModifier.Operation.ADD_NUMBER))
+                    base = 0;
+
+            AttributeUtil.AttributeCalculationResult result = AttributeUtil.calculateAttributeBonus(modifers, base);
+            boolean forcePercent = wrapper.equals(AttributeWrapper.KNOCKBACK_RESISTANCE) || wrapper.equals(AttributeWrapper.EXPLOSION_KNOCKBACK_RESISTANCE) || wrapper.equals(AttributeWrapper.SWEEPING);
+            Component line = AttributeUtil.formatAttribute(wrapper, result, forcePercent);
 
             // Perform a calculation on only reforge attribute modifiers
             AttributeModifierType.AttributeSession reforge = blueprint.getAttributeSession(AttributeModifierType.REFORGE, meta);
             AttributeCalculationResult reforgeResult = AttributeUtil.calculateAttributeBonus(reforge.getAttributeModifiers(wrapper.getAttribute()), 0);
             if (!reforgeResult.empty())
-                line = line.append(formatBonus(NamedTextColor.BLUE, reforgeResult));
+                line = line.append(formatBonus(NamedTextColor.BLUE, reforgeResult, forcePercent));
 
             // Perform a calculation on only enchantment attribute modifiers
             AttributeModifierType.AttributeSession enchants = blueprint.getAttributeSession(AttributeModifierType.ENCHANTMENT, meta);
             AttributeCalculationResult enchantResult = AttributeUtil.calculateAttributeBonus(enchants.getAttributeModifiers(wrapper.getAttribute()), 0);
             if (!enchantResult.empty())
-                line = line.append(formatBonus(NamedTextColor.LIGHT_PURPLE, enchantResult));
+                line = line.append(formatBonus(NamedTextColor.LIGHT_PURPLE, enchantResult, forcePercent));
 
             lines.add(line);
         }
@@ -187,9 +189,11 @@ public class AttributeUtil {
          *
          * @return
          */
-        public String formatTotal() {
+        public String formatTotal(boolean forcePercent) {
 
             // If normal addition operations occurred, This should just be a flat number.
+            if (!percentage() && forcePercent)
+                return (total > 0 ? "+" : "") + String.format("%d%%", Math.round(total*100));
             if (!percentage())
                 return (getTotal() > 0 ? "+" : "") + getTotal();
 

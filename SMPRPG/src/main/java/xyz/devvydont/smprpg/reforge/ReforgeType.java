@@ -3,10 +3,7 @@ package xyz.devvydont.smprpg.reforge;
 import org.apache.commons.lang.StringUtils;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.items.ItemClassification;
-import xyz.devvydont.smprpg.reforge.definitions.AcceleratedReforge;
-import xyz.devvydont.smprpg.reforge.definitions.HealthyReforge;
-import xyz.devvydont.smprpg.reforge.definitions.HeartyReforge;
-import xyz.devvydont.smprpg.reforge.definitions.UnimplementedReforge;
+import xyz.devvydont.smprpg.reforge.definitions.*;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
@@ -39,25 +36,29 @@ import java.util.List;
  */
 public enum ReforgeType {
 
+    ERROR(UnimplementedReforge.class, ItemClassification.ITEM),
+
     // HP oriented
     HEALTHY(HealthyReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS),
     HEARTY(HeartyReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS),
-//
-//    // ARMOR oriented
-//    DURABLE(UnimplementedReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS),
-//    FORTIFIED(UnimplementedReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS),
-//
-//    // KNOCKBACK oriented
-//    FIRM(UnimplementedReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS),
-//    HEAVY(UnimplementedReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS),
-//    WEIGHTY(UnimplementedReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS),
-//
-//    // ALL AROUND ARMOR
-//    CLEAN(UnimplementedReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS),
-//    DIRTY(UnimplementedReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS),
-//    ANCIENT(UnimplementedReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS),
-//    FRAIL(UnimplementedReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS),
-//    STRONG(UnimplementedReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS),
+
+    // ARMOR oriented
+    DURABLE(DurableReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS),
+    FORTIFIED(FortifiedReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS),
+
+    // KNOCKBACK oriented
+    FIRM(FirmReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS),
+    HEAVY(HeavyReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS),
+    HEFTY(HeftyReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS),
+
+    // DPS for armor
+    SAVAGE(SavageReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS),
+    STRONG(StrongReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS),
+
+    // ALL AROUND ARMOR
+    POLISHED(PolishedReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS),
+    ANCIENT(AncientReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS),
+
 //
 //    // Movement Speed oriented
 //    LIGHT(UnimplementedReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS),
@@ -76,10 +77,10 @@ public enum ReforgeType {
 //    MYTHICAL(UnimplementedReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS),
 //
 //    // DAMAGE (melee)
-//    SPICY(UnimplementedReforge.class, ItemClassification.SWORD, ItemClassification.AXE, ItemClassification.MACE),
-//    SHARP(UnimplementedReforge.class, ItemClassification.SWORD, ItemClassification.AXE, ItemClassification.MACE),
-//    DULL(UnimplementedReforge.class, ItemClassification.SWORD, ItemClassification.AXE, ItemClassification.MACE),
-//    SLUGGISH(UnimplementedReforge.class, ItemClassification.SWORD, ItemClassification.AXE, ItemClassification.MACE),
+    SPICY(SpicyReforge.class, ItemClassification.SWORD, ItemClassification.AXE, ItemClassification.MACE),
+    SHARP(SharpReforge.class, ItemClassification.SWORD, ItemClassification.AXE, ItemClassification.MACE),
+    DULL(DullReforge.class, ItemClassification.SWORD),
+    SLUGGISH(SluggishReforge.class, ItemClassification.SWORD, ItemClassification.AXE, ItemClassification.MACE),
 //    SHARPENED(UnimplementedReforge.class, ItemClassification.SWORD, ItemClassification.AXE, ItemClassification.MACE),
 //    STINGING(UnimplementedReforge.class, ItemClassification.SWORD, ItemClassification.AXE, ItemClassification.MACE),
 //
@@ -90,10 +91,9 @@ public enum ReforgeType {
 //    POWERFUL(UnimplementedReforge.class, ItemClassification.BOW),
 //    FORCEFUL(UnimplementedReforge.class, ItemClassification.BOW),
 //
-//    // ALL AROUND REFOREGES, generally what people would probably want in most cases
+//    // ALL AROUND REFOREGES
 //    BALANCED(UnimplementedReforge.class, ItemClassification.SWORD, ItemClassification.AXE, ItemClassification.MACE),  // Swords/Axes
 //    TUNED(UnimplementedReforge.class, ItemClassification.BOW),     // Bows
-//    POLISHED(UnimplementedReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS),  // Armor
 
     // META reforges, only dropped from rare drops
     ACCELERATED(AcceleratedReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS),  // MAX Movement Speed
@@ -141,6 +141,24 @@ public enum ReforgeType {
 
     public Collection<ItemClassification> getAllowedItems() {
         return allowedItems;
+    }
+
+    public boolean isAllowed(ItemClassification classification) {
+        return allowedItems.contains(classification);
+    }
+
+    /**
+     * Checks if this reforge is allowed to be randomly rolled in a reforge anvil. Rare reforges that require
+     * forged crystals will not allow this
+     *
+     * @return
+     */
+    public boolean isRollable() {
+
+        return switch (this) {
+            case ERROR, ACCELERATED -> false;
+            default -> true;
+        };
     }
 
     /**

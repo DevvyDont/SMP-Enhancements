@@ -38,7 +38,7 @@ public class SingularityHelmet extends CustomAttributeItem implements Wearable, 
                 new AdditiveAttributeEntry(AttributeWrapper.ARMOR, 6),
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 320),
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 180),
-                new AdditiveAttributeEntry(AttributeWrapper.KNOCKBACK_RESISTANCE, 2),
+                new ScalarAttributeEntry(Attribute.GENERIC_KNOCKBACK_RESISTANCE, .2),
                 new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, .25)
         );
     }

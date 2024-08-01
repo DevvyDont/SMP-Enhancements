@@ -38,7 +38,7 @@ public class SingularityLeggings extends CustomAttributeItem implements Wearable
                 new AdditiveAttributeEntry(AttributeWrapper.ARMOR, 6),
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 480),
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 300),
-                new AdditiveAttributeEntry(AttributeWrapper.KNOCKBACK_RESISTANCE, 2),
+                new ScalarAttributeEntry(Attribute.GENERIC_KNOCKBACK_RESISTANCE, .2),
                 new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, .25)
         );
     }

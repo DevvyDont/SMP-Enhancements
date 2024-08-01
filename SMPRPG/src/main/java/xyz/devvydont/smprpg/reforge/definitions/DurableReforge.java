@@ -12,29 +12,29 @@ import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
 import java.util.Collection;
 import java.util.List;
 
-public class HeartyReforge extends ReforgeBase {
+public class DurableReforge extends ReforgeBase {
 
-    public HeartyReforge(ReforgeType type) {
+    public DurableReforge(ReforgeType type) {
         super(type);
     }
 
     @Override
     public Collection<AttributeEntry> getAttributeModifiersWithRarity(ItemRarity rarity) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, (rarity.ordinal()+1)*7)
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, (rarity.ordinal()+1)*6)
         );
     }
 
     @Override
     public List<Component> getDescription() {
         return List.of(
-                ComponentUtil.getDefaultText("Provides a moderate boost"),
-                ComponentUtil.getDefaultText("to maximum health")
+                ComponentUtil.getDefaultText("Provides a small boost"),
+                ComponentUtil.getDefaultText("to defense")
         );
     }
 
     @Override
     public int getPowerRating() {
-        return 2;
+        return 1;
     }
 }

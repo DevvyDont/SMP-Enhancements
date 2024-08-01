@@ -29,7 +29,7 @@ public class HealthyReforge extends ReforgeBase {
     public List<Component> getDescription() {
         return List.of(
                 ComponentUtil.getDefaultText("Provides a small boost"),
-                ComponentUtil.getDefaultText("to max HP")
+                ComponentUtil.getDefaultText("to maximum health")
         );
     }
 

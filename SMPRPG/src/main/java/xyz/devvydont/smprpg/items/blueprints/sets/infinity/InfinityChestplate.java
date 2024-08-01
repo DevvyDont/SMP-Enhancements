@@ -7,6 +7,7 @@ import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
+import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomAttributeItem;
 import xyz.devvydont.smprpg.items.interfaces.Wearable;
 import xyz.devvydont.smprpg.services.ItemService;
@@ -43,7 +44,7 @@ public class InfinityChestplate extends CustomAttributeItem implements Wearable 
                 new AdditiveAttributeEntry(Attribute.GENERIC_ARMOR, 30),
                 new AdditiveAttributeEntry(Attribute.GENERIC_ARMOR_TOUGHNESS, 20000),
                 new AdditiveAttributeEntry(Attribute.GENERIC_MAX_HEALTH, 20000),
-                new AdditiveAttributeEntry(Attribute.GENERIC_KNOCKBACK_RESISTANCE, 2)
+                new ScalarAttributeEntry(Attribute.GENERIC_KNOCKBACK_RESISTANCE, .2)
         );
     }
 
