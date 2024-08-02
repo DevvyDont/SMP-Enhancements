@@ -67,7 +67,7 @@ public class ChatUtil {
      * @return
      */
     public static Component getPowerComponent(int level) {
-        return Component.text(level + Symbols.POWER).color(NamedTextColor.YELLOW);
+        return Component.text(Symbols.POWER + level).color(NamedTextColor.YELLOW);
     }
 
     /**

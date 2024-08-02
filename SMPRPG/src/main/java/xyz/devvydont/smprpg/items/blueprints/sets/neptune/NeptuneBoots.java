@@ -14,12 +14,12 @@ public class NeptuneBoots extends NeptuneArmorSet {
 
     @Override
     public int getDefense() {
-        return 125;
+        return 130;
     }
 
     @Override
     public int getHealth() {
-        return 40;
+        return 30;
     }
 
     @Override

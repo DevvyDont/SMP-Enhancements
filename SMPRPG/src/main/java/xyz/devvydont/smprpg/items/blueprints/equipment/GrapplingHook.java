@@ -129,7 +129,7 @@ public class GrapplingHook extends CustomItemBlueprint implements Listener, Craf
         }
 
         // If the player is reeling in, allow the event to happen
-        if (event.getState().equals(PlayerFishEvent.State.REEL_IN) || event.getState().equals(PlayerFishEvent.State.IN_GROUND)) {
+        if (event.getState().equals(PlayerFishEvent.State.REEL_IN) || event.getState().equals(PlayerFishEvent.State.IN_GROUND) || event.getState().equals(PlayerFishEvent.State.CAUGHT_ENTITY)) {
             use(event, GrapplingState.REEL);
             return;
         }
