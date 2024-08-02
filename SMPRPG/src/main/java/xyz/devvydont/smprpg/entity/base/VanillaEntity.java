@@ -11,6 +11,12 @@ import xyz.devvydont.smprpg.util.formatting.MinecraftStringUtils;
 
 public class VanillaEntity extends EnemyEntity {
 
+    // How aggresively should stats of this mob scale?
+    public static final double STAT_SCALING_FACTOR = 2.5;
+
+    // How many hits should it take for this mob to kill another mob if its level?
+    public static final double DPS_FACTOR = 10.0;
+
     public static final String VANILLA_CLASS_KEY = "vanilla";
 
 
@@ -73,7 +79,7 @@ public class VanillaEntity extends EnemyEntity {
     }
 
     public double calculateBaseHealth() {
-        double hp = calculateBaseHealthMultiplier() * Math.pow(getLevel(), 2.2) + 20.0;
+        double hp = calculateBaseHealthMultiplier() * Math.pow(getLevel(), STAT_SCALING_FACTOR) + 90.0;
 
         // If the HP is less than 30 leave it be
         if (hp < 20)
@@ -113,7 +119,7 @@ public class VanillaEntity extends EnemyEntity {
     @Override
     public double calculateBaseAttackDamage() {
         // Return the value that would make this mob 10 shot another mob of the same level with default stats
-        return calculateBaseHealth() / 10.0 * calculateBaseDamageMultiplier();
+        return calculateBaseHealth() / DPS_FACTOR * calculateBaseDamageMultiplier();
     }
 
     @Override

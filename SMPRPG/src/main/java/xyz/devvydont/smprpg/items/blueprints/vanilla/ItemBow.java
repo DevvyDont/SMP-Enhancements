@@ -28,7 +28,7 @@ public class ItemBow extends VanillaAttributeItem implements ToolBreakable {
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(Attribute.GENERIC_ATTACK_DAMAGE, 6.0)
+                new AdditiveAttributeEntry(Attribute.GENERIC_ATTACK_DAMAGE, 30)
         );
     }
 

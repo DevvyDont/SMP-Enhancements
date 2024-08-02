@@ -25,7 +25,7 @@ import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
 public class DamageOverrideListener implements Listener {
 
     // How effective defense is. The lower the number, the better damage reduction from defense is.
-    public static final int DEFENSE_FACTOR = 250;
+    public static final int DEFENSE_FACTOR = 100;
 
     private NamespacedKey ARROW_DAMAGE_TAG;
 

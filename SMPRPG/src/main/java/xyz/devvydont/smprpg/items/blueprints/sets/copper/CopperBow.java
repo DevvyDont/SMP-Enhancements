@@ -30,7 +30,7 @@ public class CopperBow extends CustomAttributeItem implements Craftable, ToolBre
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, 10)
+                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, 36)
         );
     }
 
