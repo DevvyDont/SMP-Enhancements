@@ -7,8 +7,10 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.persistence.PersistentDataType;
 import xyz.devvydont.smprpg.entity.base.CustomEntityInstance;
 import xyz.devvydont.smprpg.entity.base.LeveledEntity;
+import xyz.devvydont.smprpg.entity.base.NPCEntity;
 import xyz.devvydont.smprpg.entity.creatures.TestZombie;
 import xyz.devvydont.smprpg.entity.creatures.WitheredSeraph;
+import xyz.devvydont.smprpg.entity.npc.ReforgeNPC;
 import xyz.devvydont.smprpg.entity.spawning.BiomeSpawnCondition;
 import xyz.devvydont.smprpg.entity.spawning.EntitySpawnCondition;
 import xyz.devvydont.smprpg.entity.spawning.ImpossibleSpawnCondition;
@@ -26,6 +28,9 @@ public enum CustomEntityType {
 
     TEST_ZOMBIE(EntityType.ZOMBIE, "Test Zombie", 10, 15, 50, TestZombie.class),
     TEST_SKELETON(EntityType.SKELETON, "Test Skeleton", 5, 10, 25, CustomEntityInstance.class),
+
+    // NPCs
+    REFORGE_NPC(EntityType.VILLAGER, "Tool Reforger", ReforgeNPC.class),
     ;
 
 
@@ -64,6 +69,17 @@ public enum CustomEntityType {
         this.baseDamage = baseDamage;
         this.spawnConditions = spawnConditions;
         this.chance = chance;
+        this.entityHandler = entityHandler;
+    }
+
+    CustomEntityType(EntityType entityType, String name, Class<? extends NPCEntity> entityHandler) {
+        this.entityType = entityType;
+        this.name = name;
+        this.baseLevel = 0;
+        this.baseHp = 999_999;
+        this.baseDamage = 0;
+        this.spawnConditions = new EntitySpawnCondition[]{new ImpossibleSpawnCondition()};
+        this.chance = 0;
         this.entityHandler = entityHandler;
     }
 

@@ -86,8 +86,17 @@ public abstract class LeveledEntity implements LootSource {
             return NamedTextColor.AQUA;
     }
 
-    public void updateNametag() {
-        entity.setCustomNameVisible(true);
+    public Component getNametagPowerComponent() {
+        return Component.text("[").color(NamedTextColor.GRAY)
+                .append(Component.text(Symbols.POWER + getLevel()).color(NamedTextColor.YELLOW))
+                .append(Component.text("] ").color(NamedTextColor.GRAY));
+    }
+
+    public Component getDisplaynameNametagComponent() {
+        return Component.text(getDefaultName()).color(getEntityNametagColor());
+    }
+
+    public Component getHealthNametagComponent() {
 
         int hp;
         if (getHp() <= 0)
@@ -100,16 +109,18 @@ public abstract class LeveledEntity implements LootSource {
 
         TextColor hpTextColor = getChatColorFromHealth(getHp(), getMaxHp());
 
-        entity.customName(
-                Component.text("[").color(NamedTextColor.GRAY)
-                        .append(Component.text(Symbols.POWER + getLevel()).color(NamedTextColor.YELLOW))
-                        .append(Component.text("]").color(NamedTextColor.GRAY))
-                        .append(Component.text(" " + getDefaultName()).color(getEntityNametagColor()))
-                        .append(Component.text(" " + hp).color(hpTextColor))
-                        .append(Component.text("/").color(NamedTextColor.GRAY))
-                        .append(Component.text(maxHp).color(NamedTextColor.GREEN))
-                        .append(Component.text(Symbols.HEART).color(NamedTextColor.DARK_RED))
-        );
+        return Component.text(" " + hp).color(hpTextColor)
+                .append(Component.text("/").color(NamedTextColor.GRAY))
+                .append(Component.text(maxHp).color(NamedTextColor.GREEN))
+                .append(Component.text(Symbols.HEART).color(NamedTextColor.DARK_RED));
+    }
+
+    /**✦❤
+     * Default nametag behavior. Displays as [✦3] Zombie 100/100❤
+     */
+    public void updateNametag() {
+        entity.setCustomNameVisible(true);
+        entity.customName(getNametagPowerComponent().append(getDisplaynameNametagComponent()).append(getHealthNametagComponent()));
     }
 
     /**

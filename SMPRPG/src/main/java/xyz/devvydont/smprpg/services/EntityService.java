@@ -78,6 +78,7 @@ public class EntityService implements BaseService, Listener {
 
         for (CustomEntityType customEntityType : CustomEntityType.values())
             entityResolver.put(customEntityType.key(), customEntityType);
+
         plugin.getLogger().info(String.format("Registered %s custom entity types", entityResolver.size()));
 
         vanillaEntityHandlers.put(EntityType.ENDERMAN, LeveledEnderman.class);
@@ -158,6 +159,8 @@ public class EntityService implements BaseService, Listener {
      * @return
      */
     public LeveledEntity getEntityInstance(LivingEntity entity) {
+
+
 
         // Are we already tracking them?
         if (entityInstances.containsKey(entity.getUniqueId()))
@@ -283,10 +286,6 @@ public class EntityService implements BaseService, Listener {
 
         // Ignore things that aren't living creatures
         if (!(event.getEntity() instanceof LivingEntity entity))
-            return;
-
-        // Ignore players, this is done somewhere else
-        if (event.getEntity() instanceof Player)
             return;
 
         LeveledEntity leveled = getEntityInstance(entity);
