@@ -116,7 +116,7 @@ public class AttributeUtil {
                     base = 0;
 
             AttributeUtil.AttributeCalculationResult result = AttributeUtil.calculateAttributeBonus(modifers, base);
-            boolean forcePercent = wrapper.equals(AttributeWrapper.KNOCKBACK_RESISTANCE) || wrapper.equals(AttributeWrapper.EXPLOSION_KNOCKBACK_RESISTANCE) || wrapper.equals(AttributeWrapper.SWEEPING);
+            boolean forcePercent = wrapper.equals(AttributeWrapper.KNOCKBACK_RESISTANCE) || wrapper.equals(AttributeWrapper.EXPLOSION_KNOCKBACK_RESISTANCE) || wrapper.equals(AttributeWrapper.SWEEPING) || wrapper.equals(AttributeWrapper.MINING_EFFICIENCY) || wrapper.equals(AttributeWrapper.MINING_SPEED);
             Component line = AttributeUtil.formatAttribute(wrapper, result, forcePercent);
 
             // Perform a calculation on only reforge attribute modifiers
