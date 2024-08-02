@@ -33,7 +33,7 @@ public class CopperBoots extends CustomArmorBlueprint implements ToolBreakable, 
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 8)
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 12)
         );
     }
 

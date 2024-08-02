@@ -14,17 +14,17 @@ public class NeptuneChestplate extends NeptuneArmorSet {
 
     @Override
     public int getDefense() {
-        return 250;
+        return 210;
     }
 
     @Override
     public int getHealth() {
-        return 70;
+        return 120;
     }
 
     @Override
     public int getStrength() {
-        return 10;
+        return 15;
     }
 
     @Override

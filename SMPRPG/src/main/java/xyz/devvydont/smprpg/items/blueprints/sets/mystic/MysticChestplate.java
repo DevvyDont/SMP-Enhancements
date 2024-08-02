@@ -16,12 +16,12 @@ public class MysticChestplate extends MysticArmorSet implements Dyeable {
 
     @Override
     public int getDefense() {
-        return 135;
+        return 80;
     }
 
     @Override
     public int getHealth() {
-        return 5;
+        return 10;
     }
 
     @Override

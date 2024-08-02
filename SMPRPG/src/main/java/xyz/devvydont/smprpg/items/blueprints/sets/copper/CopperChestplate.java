@@ -35,7 +35,7 @@ public class CopperChestplate extends CustomArmorBlueprint implements ToolBreaka
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 20)
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 22)
         );
     }
 

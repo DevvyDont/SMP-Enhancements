@@ -37,10 +37,11 @@ public class SingularityChestplate extends CustomAttributeItem implements Wearab
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.ARMOR, 6),
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 560),
-                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 380),
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 850),
+                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 490),
                 new ScalarAttributeEntry(AttributeWrapper.KNOCKBACK_RESISTANCE, .2),
-                new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, .25)
+                new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, .2),
+                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .2)
         );
     }
 

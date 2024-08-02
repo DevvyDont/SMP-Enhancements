@@ -36,10 +36,11 @@ public class SingularityLeggings extends CustomAttributeItem implements Wearable
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.ARMOR, 6),
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 480),
-                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 300),
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 720),
+                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 210),
                 new ScalarAttributeEntry(Attribute.GENERIC_KNOCKBACK_RESISTANCE, .2),
-                new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, .25)
+                new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, .2),
+                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .2)
         );
     }
 

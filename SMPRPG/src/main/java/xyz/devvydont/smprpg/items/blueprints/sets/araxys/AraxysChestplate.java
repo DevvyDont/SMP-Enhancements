@@ -22,8 +22,8 @@ public class AraxysChestplate extends AraxysArmorPiece {
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 210),
-                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 35),
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 190),
+                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 45),
                 new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .1)
         );
     }

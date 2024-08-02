@@ -34,7 +34,7 @@ public class CopperLeggings extends CustomArmorBlueprint implements ToolBreakabl
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 12)
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 18)
         );
     }
 

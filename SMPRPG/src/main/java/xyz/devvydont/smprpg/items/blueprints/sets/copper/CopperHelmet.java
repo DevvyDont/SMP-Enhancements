@@ -27,7 +27,7 @@ public class CopperHelmet extends CustomFakeHelmetBlueprint implements Craftable
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 10)
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 15)
         );
     }
 

@@ -15,12 +15,12 @@ public class MysticLeggings extends MysticArmorSet{
 
     @Override
     public int getDefense() {
-        return 115;
+        return 70;
     }
 
     @Override
     public int getHealth() {
-        return 5;
+        return 10;
     }
 
     @Override

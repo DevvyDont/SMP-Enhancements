@@ -12,6 +12,7 @@ import xyz.devvydont.smprpg.items.base.VanillaAttributeItem;
 import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
 import xyz.devvydont.smprpg.items.interfaces.Wearable;
 import xyz.devvydont.smprpg.services.ItemService;
+import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
 
 import java.util.*;
 
@@ -33,37 +34,37 @@ public class ItemArmor extends VanillaAttributeItem implements Wearable, ToolBre
             case DIAMOND_HORSE_ARMOR -> 1000;
             case WOLF_ARMOR -> 500;
 
-            case TURTLE_HELMET -> 5;
+            case TURTLE_HELMET -> 20;
 
-            case LEATHER_HELMET -> 7;
-            case LEATHER_CHESTPLATE -> 15;
-            case LEATHER_LEGGINGS -> 10;
-            case LEATHER_BOOTS -> 5;
+            case LEATHER_HELMET -> 10;
+            case LEATHER_CHESTPLATE -> 18;
+            case LEATHER_LEGGINGS -> 15;
+            case LEATHER_BOOTS -> 8;
 
-            case CHAINMAIL_HELMET -> 12;
-            case CHAINMAIL_CHESTPLATE -> 25;
-            case CHAINMAIL_LEGGINGS -> 15;
-            case CHAINMAIL_BOOTS -> 10;
+            case CHAINMAIL_HELMET -> 24;
+            case CHAINMAIL_CHESTPLATE -> 30;
+            case CHAINMAIL_LEGGINGS -> 26;
+            case CHAINMAIL_BOOTS -> 20;
 
-            case GOLDEN_HELMET -> 25;
-            case GOLDEN_CHESTPLATE -> 45;
-            case GOLDEN_LEGGINGS -> 35;
-            case GOLDEN_BOOTS -> 20;
+            case GOLDEN_HELMET -> 35;
+            case GOLDEN_CHESTPLATE -> 50;
+            case GOLDEN_LEGGINGS -> 44;
+            case GOLDEN_BOOTS -> 32;
 
-            case IRON_HELMET -> 20;
-            case IRON_CHESTPLATE -> 35;
-            case IRON_LEGGINGS -> 25;
-            case IRON_BOOTS -> 15;
+            case IRON_HELMET -> 32;
+            case IRON_CHESTPLATE -> 42;
+            case IRON_LEGGINGS -> 38;
+            case IRON_BOOTS -> 28;
 
-            case DIAMOND_HELMET -> 60;
-            case DIAMOND_CHESTPLATE -> 75;
-            case DIAMOND_LEGGINGS -> 65;
-            case DIAMOND_BOOTS -> 45;
+            case DIAMOND_HELMET -> 90;
+            case DIAMOND_CHESTPLATE -> 160;
+            case DIAMOND_LEGGINGS -> 130;
+            case DIAMOND_BOOTS -> 70;
 
-            case NETHERITE_HELMET -> 105;
-            case NETHERITE_CHESTPLATE -> 140;
-            case NETHERITE_LEGGINGS -> 120;
-            case NETHERITE_BOOTS -> 80;
+            case NETHERITE_HELMET -> 130;
+            case NETHERITE_CHESTPLATE -> 240;
+            case NETHERITE_LEGGINGS -> 175;
+            case NETHERITE_BOOTS -> 100;
 
             default -> 0;
         };
@@ -95,15 +96,33 @@ public class ItemArmor extends VanillaAttributeItem implements Wearable, ToolBre
     public static double getHealthFromMaterial(Material material) {
 
         return switch (material) {
-            case NETHERITE_HELMET -> 60;
-            case NETHERITE_CHESTPLATE -> 140;
-            case NETHERITE_LEGGINGS -> 80;
-            case NETHERITE_BOOTS -> 40;
+            case NETHERITE_HELMET -> 90;
+            case NETHERITE_CHESTPLATE -> 130;
+            case NETHERITE_LEGGINGS -> 110;
+            case NETHERITE_BOOTS -> 80;
 
-            case DIAMOND_HELMET -> 30;
-            case DIAMOND_CHESTPLATE -> 70;
-            case DIAMOND_LEGGINGS -> 40;
-            case DIAMOND_BOOTS -> 20;
+            case DIAMOND_HELMET -> 10;
+            case DIAMOND_CHESTPLATE -> 20;
+            case DIAMOND_LEGGINGS -> 15;
+            case DIAMOND_BOOTS -> 5;
+
+            default -> 0;
+        };
+
+    }
+
+    public static double getDamageFromMaterial(Material material) {
+
+        return switch (material) {
+            case NETHERITE_HELMET -> .1;
+            case NETHERITE_CHESTPLATE -> .1;
+            case NETHERITE_LEGGINGS -> .1;
+            case NETHERITE_BOOTS -> .1;
+
+            case DIAMOND_HELMET -> .05;
+            case DIAMOND_CHESTPLATE -> .05;
+            case DIAMOND_LEGGINGS -> .05;
+            case DIAMOND_BOOTS -> .05;
 
             default -> 0;
         };
@@ -209,6 +228,11 @@ public class ItemArmor extends VanillaAttributeItem implements Wearable, ToolBre
         double kbResist = getKnockbackResistanceFromMaterial(getItem().getType());
         if (kbResist > 0)
             modifiers.add(new AdditiveAttributeEntry(Attribute.GENERIC_KNOCKBACK_RESISTANCE, kbResist));
+
+        // If we have damage...
+        double dmg = getDamageFromMaterial(getItem().getType());
+        if (dmg > 0)
+            modifiers.add(new ScalarAttributeEntry(AttributeWrapper.STRENGTH, dmg));
 
         // If we have no modifiers, we need to have something to get rid of the vanilla stats
         // Crappy armor won't have any attributes since defense isn't an attribute

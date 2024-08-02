@@ -36,10 +36,11 @@ public class SingularityHelmet extends CustomAttributeItem implements Wearable, 
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.ARMOR, 6),
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 320),
-                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 180),
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 480),
+                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 280),
                 new ScalarAttributeEntry(Attribute.GENERIC_KNOCKBACK_RESISTANCE, .2),
-                new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, .25)
+                new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, .2),
+                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .2)
         );
     }
 

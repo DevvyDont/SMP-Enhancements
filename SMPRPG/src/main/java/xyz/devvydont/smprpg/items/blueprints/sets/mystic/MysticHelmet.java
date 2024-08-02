@@ -14,12 +14,12 @@ public class MysticHelmet extends MysticArmorSet {
 
     @Override
     public int getDefense() {
-        return 80;
+        return 50;
     }
 
     @Override
     public int getHealth() {
-        return 5;
+        return 10;
     }
 
     @Override
