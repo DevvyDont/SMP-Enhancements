@@ -203,22 +203,22 @@ public class LeveledPlayer extends LeveledEntity implements Listener {
         // When someone is at starting HP of 100, they should only have 5 hearts (displays as 10 hp)
 
         // If we are under 200 HP, we achieve 1 scale point for every 10 HP (200HP = 20 scale points)
-        int scale = 10;
+        int scale;
         if (getMaxHp() < 200)
             scale = (int) (getMaxHp() / 10);
 
-        // If we are under 500 HP, we achieve 1 scale point for every 15 HP (500HP = 40 scale points)
-        else if (getMaxHp() < 500)
-            scale = (int) (20 + ((getMaxHp() - 200) / 15));
+        // If we are under 1000 HP, we achieve 1 additional scale point for every 40 HP above 200 (1000HP = 40 scale points)
+        else if (getMaxHp() < 1000)
+            scale = (int) (20 + ((getMaxHp() - 200) / 40));
 
-        // If we are at anything else, we achieve 1 scale point for every 25 HP (1000HP = 60 scale points)
+        // If we are at anything else, we achieve 1 scale point for every 75 HP (2500HP = 60 scale points)
         else
-            scale = (int) (40 + ((getMaxHp() - 500) / 25));
+            scale = (int) (40 + ((getMaxHp() - 1000) / 75));
 
         // Never allow half hearts to show, only full hearts
         if (scale % 2 != 0)
             scale++;
-        return Math.min(Math.max(10, scale), 60);
+        return Math.min(Math.max(2, scale), 60);
     }
 
     /**
