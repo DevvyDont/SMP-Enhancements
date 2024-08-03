@@ -29,8 +29,8 @@ public class SavageReforge extends ReforgeBase {
         return List.of(
                 new ScalarAttributeEntry(AttributeWrapper.STRENGTH, getDamageBoost(rarity)),
                 new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, .05),
-                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, -20),
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, -40)
+                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, -50 - 10*rarity.ordinal()),
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, -50 - 10*rarity.ordinal())
         );
     }
 
