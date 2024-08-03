@@ -56,6 +56,8 @@ public class ItemSword extends VanillaAttributeItem implements ToolBreakable {
 
     @Override
     public ItemClassification getItemClassification() {
+        if (getItem().getType().equals(Material.TRIDENT))
+                return ItemClassification.TRIDENT;
         return ItemClassification.SWORD;
     }
 

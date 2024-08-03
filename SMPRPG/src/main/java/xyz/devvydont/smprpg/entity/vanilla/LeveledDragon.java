@@ -23,7 +23,7 @@ public class LeveledDragon extends VanillaEntity implements Listener {
 
     @Override
     public double calculateBaseAttackDamage() {
-        return 1100;
+        return 2000;
     }
 
     @Override
@@ -38,7 +38,7 @@ public class LeveledDragon extends VanillaEntity implements Listener {
 
     @Override
     public double calculateBaseHealth() {
-        return 100_000;
+        return 300_000;
     }
 
     @EventHandler(priority = EventPriority.LOWEST)

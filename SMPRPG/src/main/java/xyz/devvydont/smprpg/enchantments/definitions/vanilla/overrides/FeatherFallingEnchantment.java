@@ -20,6 +20,7 @@ import org.bukkit.inventory.ItemType;
 import xyz.devvydont.smprpg.enchantments.EnchantmentUtil;
 import xyz.devvydont.smprpg.enchantments.base.AttributeEnchantment;
 import xyz.devvydont.smprpg.enchantments.definitions.vanilla.VanillaEnchantment;
+import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeModifierType;
 import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
@@ -30,7 +31,7 @@ import java.util.List;
 public class FeatherFallingEnchantment extends VanillaEnchantment implements AttributeEnchantment, Listener {
 
     public static int getFallResistPercent(int level) {
-        return Math.min(Math.max(0, level * 10), 99);
+        return Math.min(Math.max(0, level * 9), 99);
     }
 
     public FeatherFallingEnchantment(TypedKey<Enchantment> key) {
@@ -98,7 +99,8 @@ public class FeatherFallingEnchantment extends VanillaEnchantment implements Att
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new MultiplicativeAttributeEntry(Attribute.GENERIC_FALL_DAMAGE_MULTIPLIER, -getFallResistPercent(getLevel()) / 100.0)
+                new MultiplicativeAttributeEntry(Attribute.GENERIC_FALL_DAMAGE_MULTIPLIER, -getFallResistPercent(getLevel()) / 100.0),
+                new AdditiveAttributeEntry(Attribute.GENERIC_SAFE_FALL_DISTANCE, getLevel()*2)
         );
     }
 

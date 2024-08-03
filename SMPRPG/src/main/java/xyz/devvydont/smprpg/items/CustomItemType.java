@@ -25,10 +25,7 @@ import xyz.devvydont.smprpg.items.blueprints.sets.mystic.MysticBoots;
 import xyz.devvydont.smprpg.items.blueprints.sets.mystic.MysticChestplate;
 import xyz.devvydont.smprpg.items.blueprints.sets.mystic.MysticHelmet;
 import xyz.devvydont.smprpg.items.blueprints.sets.mystic.MysticLeggings;
-import xyz.devvydont.smprpg.items.blueprints.sets.neptune.NeptuneBoots;
-import xyz.devvydont.smprpg.items.blueprints.sets.neptune.NeptuneChestplate;
-import xyz.devvydont.smprpg.items.blueprints.sets.neptune.NeptuneHelmet;
-import xyz.devvydont.smprpg.items.blueprints.sets.neptune.NeptuneLeggings;
+import xyz.devvydont.smprpg.items.blueprints.sets.neptune.*;
 import xyz.devvydont.smprpg.items.blueprints.sets.singularity.SingularityChestplate;
 import xyz.devvydont.smprpg.items.blueprints.sets.singularity.SingularityHelmet;
 import xyz.devvydont.smprpg.items.blueprints.sets.singularity.SingularityLeggings;
@@ -95,6 +92,7 @@ public enum CustomItemType {
     NEPTUNE_CHESTPLATE("Neptune Chestplate", Material.LEATHER_CHESTPLATE, ItemRarity.LEGENDARY, NeptuneChestplate.class),
     NEPTUNE_LEGGINGS("Neptune Leggings",     Material.LEATHER_LEGGINGS,   ItemRarity.LEGENDARY, NeptuneLeggings.class),
     NEPTUNE_BOOTS("Neptune Boots",           Material.LEATHER_BOOTS,      ItemRarity.LEGENDARY, NeptuneBoots.class),
+    NEPTUNE_TRIDENT("Neptune's Trident",     Material.TRIDENT,            ItemRarity.LEGENDARY, NeptuneTrident.class),
 
     // MISC TOOLS
     GRAPPLING_HOOK("Grappling Hook", Material.FISHING_ROD, ItemRarity.RARE, GrapplingHook.class),

@@ -12,6 +12,7 @@ import java.util.List;
 public enum ItemClassification {
 
     SWORD(ItemTypeTagKeys.ENCHANTABLE_WEAPON, ItemTypeTagKeys.ENCHANTABLE_SHARP_WEAPON, ItemTypeTagKeys.ENCHANTABLE_DURABILITY, ItemTypeTagKeys.ENCHANTABLE_VANISHING),
+    TRIDENT(ItemTypeTagKeys.ENCHANTABLE_WEAPON, ItemTypeTagKeys.ENCHANTABLE_SHARP_WEAPON, ItemTypeTagKeys.ENCHANTABLE_DURABILITY, ItemTypeTagKeys.ENCHANTABLE_VANISHING, ItemTypeTagKeys.ENCHANTABLE_TRIDENT),
     MACE(ItemTypeTagKeys.ENCHANTABLE_MACE, ItemTypeTagKeys.ENCHANTABLE_WEAPON, ItemTypeTagKeys.ENCHANTABLE_DURABILITY, ItemTypeTagKeys.ENCHANTABLE_VANISHING),
     // Both bows and crossbows
     BOW(ItemTypeTagKeys.ENCHANTABLE_DURABILITY, ItemTypeTagKeys.ENCHANTABLE_VANISHING),
@@ -57,6 +58,7 @@ public enum ItemClassification {
 
         return switch (material) {
             case IRON_SWORD, STONE_SWORD, DIAMOND_SWORD, GOLDEN_SWORD, NETHERITE_SWORD, WOODEN_SWORD -> SWORD;
+            case TRIDENT -> TRIDENT;
             case BOW, CROSSBOW -> BOW;
             case DIAMOND_AXE, GOLDEN_AXE, IRON_AXE, NETHERITE_AXE, WOODEN_AXE, STONE_AXE -> AXE;
             case CHAINMAIL_HELMET, NETHERITE_HELMET, DIAMOND_HELMET, GOLDEN_HELMET, IRON_HELMET, LEATHER_HELMET, TURTLE_HELMET -> HELMET;
@@ -91,7 +93,7 @@ public enum ItemClassification {
 
     public boolean reforgeable() {
         return switch (this) {
-            case SWORD, BOW, AXE, HELMET, CHESTPLATE, LEGGINGS, BOOTS, EQUIPMENT, TOOL -> true;
+            case TRIDENT, SWORD, BOW, AXE, HELMET, CHESTPLATE, LEGGINGS, BOOTS, EQUIPMENT, TOOL -> true;
             default -> false;
         };
     }

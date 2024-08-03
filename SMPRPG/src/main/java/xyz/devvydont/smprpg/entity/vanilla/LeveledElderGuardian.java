@@ -32,12 +32,12 @@ public class LeveledElderGuardian extends VanillaEntity implements Listener {
 
     @Override
     public double calculateBaseHealth() {
-        return 25000;
+        return 75_000;
     }
 
     @Override
     public double calculateBaseAttackDamage() {
-        return 400;
+        return 575;
     }
 
     @Override
@@ -56,7 +56,8 @@ public class LeveledElderGuardian extends VanillaEntity implements Listener {
                 new ChancedItemDrop(SMPRPG.getInstance().getItemService().getCustomItem(CustomItemType.NEPTUNE_HELMET), 120, this),
                 new ChancedItemDrop(SMPRPG.getInstance().getItemService().getCustomItem(CustomItemType.NEPTUNE_CHESTPLATE), 120, this),
                 new ChancedItemDrop(SMPRPG.getInstance().getItemService().getCustomItem(CustomItemType.NEPTUNE_LEGGINGS), 120, this),
-                new ChancedItemDrop(SMPRPG.getInstance().getItemService().getCustomItem(CustomItemType.NEPTUNE_BOOTS), 120, this)
+                new ChancedItemDrop(SMPRPG.getInstance().getItemService().getCustomItem(CustomItemType.NEPTUNE_BOOTS), 120, this),
+                new ChancedItemDrop(SMPRPG.getInstance().getItemService().getCustomItem(CustomItemType.NEPTUNE_TRIDENT), 120, this)
         );
     }
 }
