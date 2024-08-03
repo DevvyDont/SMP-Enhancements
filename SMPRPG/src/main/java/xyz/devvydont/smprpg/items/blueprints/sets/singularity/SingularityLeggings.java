@@ -2,21 +2,24 @@ package xyz.devvydont.smprpg.items.blueprints.sets.singularity;
 
 import org.bukkit.attribute.Attribute;
 import org.bukkit.inventory.EquipmentSlotGroup;
+import org.bukkit.inventory.meta.trim.TrimMaterial;
+import org.bukkit.inventory.meta.trim.TrimPattern;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
+import xyz.devvydont.smprpg.items.base.CustomArmorBlueprint;
 import xyz.devvydont.smprpg.items.base.CustomAttributeItem;
 import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
-import xyz.devvydont.smprpg.items.interfaces.Wearable;
+import xyz.devvydont.smprpg.items.interfaces.Trimmable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
 
 import java.util.Collection;
 import java.util.List;
 
-public class SingularityLeggings extends CustomAttributeItem implements Wearable, ToolBreakable {
+public class SingularityLeggings extends CustomArmorBlueprint implements ToolBreakable, Trimmable {
 
     public SingularityLeggings(ItemService itemService, CustomItemType type) {
         super(itemService, type);
@@ -45,12 +48,17 @@ public class SingularityLeggings extends CustomAttributeItem implements Wearable
     }
 
     @Override
-    public EquipmentSlotGroup getActiveSlot() {
-        return EquipmentSlotGroup.ARMOR;
+    public int getMaxDurability() {
+        return 1_000_000;
     }
 
     @Override
-    public int getMaxDurability() {
-        return 1_000_000;
+    public TrimMaterial getTrimMaterial() {
+        return TrimMaterial.AMETHYST;
+    }
+
+    @Override
+    public TrimPattern getTrimPattern() {
+        return TrimPattern.SILENCE;
     }
 }

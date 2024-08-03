@@ -1,22 +1,20 @@
 package xyz.devvydont.smprpg.items.blueprints.sets.mystic;
 
-import org.bukkit.Color;
 import org.bukkit.inventory.CraftingRecipe;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
-import xyz.devvydont.smprpg.items.interfaces.Dyeable;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.util.crafting.builders.ChestplateRecipe;
+import xyz.devvydont.smprpg.util.crafting.builders.HelmetRecipe;
 
-public class MysticBoots extends MysticArmorSet implements Dyeable {
+public class LuxeHelmet extends LuxeArmorSet {
 
-    public MysticBoots(ItemService itemService, CustomItemType type) {
+    public LuxeHelmet(ItemService itemService, CustomItemType type) {
         super(itemService, type);
     }
 
     @Override
     public int getDefense() {
-        return 40;
+        return 50;
     }
 
     @Override
@@ -26,17 +24,11 @@ public class MysticBoots extends MysticArmorSet implements Dyeable {
 
     @Override
     public ItemClassification getItemClassification() {
-        return ItemClassification.BOOTS;
+        return ItemClassification.HELMET;
     }
 
     @Override
     public CraftingRecipe getCustomRecipe() {
-        return new ChestplateRecipe(this, itemService.getCustomItem(CustomItemType.ENCHANTED_LAPIS), generate()).build();
+        return new HelmetRecipe(this, itemService.getCustomItem(CustomItemType.ENCHANTED_LAPIS), generate()).build();
     }
-
-    @Override
-    public Color getColor() {
-        return Color.fromRGB(0x3c44aa);
-    }
-
 }

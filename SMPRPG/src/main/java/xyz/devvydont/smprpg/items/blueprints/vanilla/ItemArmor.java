@@ -10,13 +10,12 @@ import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.items.base.VanillaAttributeItem;
 import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
-import xyz.devvydont.smprpg.items.interfaces.Wearable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
 
 import java.util.*;
 
-public class ItemArmor extends VanillaAttributeItem implements Wearable, ToolBreakable {
+public class ItemArmor extends VanillaAttributeItem implements ToolBreakable {
 
     public ItemArmor(ItemService itemService, ItemStack item) {
         super(itemService, item);

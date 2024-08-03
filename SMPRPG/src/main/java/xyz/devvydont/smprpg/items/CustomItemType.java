@@ -9,23 +9,88 @@ import xyz.devvydont.smprpg.items.blueprints.equipment.GrapplingHook;
 import xyz.devvydont.smprpg.items.blueprints.resources.EmptyBlueprint;
 import xyz.devvydont.smprpg.items.blueprints.resources.mining.*;
 import xyz.devvydont.smprpg.items.blueprints.resources.mob.*;
+import xyz.devvydont.smprpg.items.blueprints.sets.amethyst.AmethystBoots;
+import xyz.devvydont.smprpg.items.blueprints.sets.amethyst.AmethystChestplate;
+import xyz.devvydont.smprpg.items.blueprints.sets.amethyst.AmethystHelmet;
+import xyz.devvydont.smprpg.items.blueprints.sets.amethyst.AmethystLeggings;
 import xyz.devvydont.smprpg.items.blueprints.sets.araxys.AraxysBoots;
 import xyz.devvydont.smprpg.items.blueprints.sets.araxys.AraxysChestplate;
 import xyz.devvydont.smprpg.items.blueprints.sets.araxys.AraxysHelmet;
 import xyz.devvydont.smprpg.items.blueprints.sets.araxys.AraxysLeggings;
+import xyz.devvydont.smprpg.items.blueprints.sets.bedrock.BedrockBoots;
+import xyz.devvydont.smprpg.items.blueprints.sets.bedrock.BedrockChestplate;
+import xyz.devvydont.smprpg.items.blueprints.sets.bedrock.BedrockHelmet;
+import xyz.devvydont.smprpg.items.blueprints.sets.bedrock.BedrockLeggings;
+import xyz.devvydont.smprpg.items.blueprints.sets.bone.BoneBoots;
+import xyz.devvydont.smprpg.items.blueprints.sets.bone.BoneChestplate;
+import xyz.devvydont.smprpg.items.blueprints.sets.bone.BoneHelmet;
+import xyz.devvydont.smprpg.items.blueprints.sets.bone.BoneLeggings;
 import xyz.devvydont.smprpg.items.blueprints.sets.cobblestone.CobblestoneBoots;
 import xyz.devvydont.smprpg.items.blueprints.sets.cobblestone.CobblestoneChestplate;
 import xyz.devvydont.smprpg.items.blueprints.sets.cobblestone.CobblestoneHelmet;
 import xyz.devvydont.smprpg.items.blueprints.sets.cobblestone.CobblestoneLeggings;
 import xyz.devvydont.smprpg.items.blueprints.sets.copper.*;
 import xyz.devvydont.smprpg.items.blueprints.sets.diamond.DiamondBow;
+import xyz.devvydont.smprpg.items.blueprints.sets.elderflame.ElderflameBoots;
+import xyz.devvydont.smprpg.items.blueprints.sets.elderflame.ElderflameChestplate;
+import xyz.devvydont.smprpg.items.blueprints.sets.elderflame.ElderflameHelmet;
+import xyz.devvydont.smprpg.items.blueprints.sets.elderflame.ElderflameLeggings;
+import xyz.devvydont.smprpg.items.blueprints.sets.emerald.EmeraldBoots;
+import xyz.devvydont.smprpg.items.blueprints.sets.emerald.EmeraldChestplate;
+import xyz.devvydont.smprpg.items.blueprints.sets.emerald.EmeraldHelmet;
+import xyz.devvydont.smprpg.items.blueprints.sets.emerald.EmeraldLeggings;
+import xyz.devvydont.smprpg.items.blueprints.sets.forsaken.ForsakenBoots;
+import xyz.devvydont.smprpg.items.blueprints.sets.forsaken.ForsakenChestplate;
+import xyz.devvydont.smprpg.items.blueprints.sets.forsaken.ForsakenHelmet;
+import xyz.devvydont.smprpg.items.blueprints.sets.forsaken.ForsakenLeggings;
+import xyz.devvydont.smprpg.items.blueprints.sets.imperium.ImperiumBoots;
+import xyz.devvydont.smprpg.items.blueprints.sets.imperium.ImperiumChestplate;
+import xyz.devvydont.smprpg.items.blueprints.sets.imperium.ImperiumHelmet;
+import xyz.devvydont.smprpg.items.blueprints.sets.imperium.ImperiumLeggings;
+import xyz.devvydont.smprpg.items.blueprints.sets.inferno.InfernoBoots;
+import xyz.devvydont.smprpg.items.blueprints.sets.inferno.InfernoChestplate;
+import xyz.devvydont.smprpg.items.blueprints.sets.inferno.InfernoHelmet;
+import xyz.devvydont.smprpg.items.blueprints.sets.inferno.InfernoLeggings;
 import xyz.devvydont.smprpg.items.blueprints.sets.infinity.*;
 import xyz.devvydont.smprpg.items.blueprints.sets.iron.IronBow;
-import xyz.devvydont.smprpg.items.blueprints.sets.mystic.MysticBoots;
-import xyz.devvydont.smprpg.items.blueprints.sets.mystic.MysticChestplate;
-import xyz.devvydont.smprpg.items.blueprints.sets.mystic.MysticHelmet;
-import xyz.devvydont.smprpg.items.blueprints.sets.mystic.MysticLeggings;
+import xyz.devvydont.smprpg.items.blueprints.sets.mystbloom.MystbloomBoots;
+import xyz.devvydont.smprpg.items.blueprints.sets.mystbloom.MystbloomChestplate;
+import xyz.devvydont.smprpg.items.blueprints.sets.mystbloom.MystbloomHelmet;
+import xyz.devvydont.smprpg.items.blueprints.sets.mystbloom.MystbloomLeggings;
+import xyz.devvydont.smprpg.items.blueprints.sets.mystic.LuxeBoots;
+import xyz.devvydont.smprpg.items.blueprints.sets.mystic.LuxeChestplate;
+import xyz.devvydont.smprpg.items.blueprints.sets.mystic.LuxeHelmet;
+import xyz.devvydont.smprpg.items.blueprints.sets.mystic.LuxeLeggings;
+import xyz.devvydont.smprpg.items.blueprints.sets.neofrontier.NeoFrontierBoots;
+import xyz.devvydont.smprpg.items.blueprints.sets.neofrontier.NeoFrontierChestplate;
+import xyz.devvydont.smprpg.items.blueprints.sets.neofrontier.NeoFrontierHelmet;
+import xyz.devvydont.smprpg.items.blueprints.sets.neofrontier.NeoFrontierLeggings;
 import xyz.devvydont.smprpg.items.blueprints.sets.neptune.*;
+import xyz.devvydont.smprpg.items.blueprints.sets.prelude.PreludeBoots;
+import xyz.devvydont.smprpg.items.blueprints.sets.prelude.PreludeChestplate;
+import xyz.devvydont.smprpg.items.blueprints.sets.prelude.PreludeHelmet;
+import xyz.devvydont.smprpg.items.blueprints.sets.prelude.PreludeLeggings;
+import xyz.devvydont.smprpg.items.blueprints.sets.quartz.QuartzBoots;
+import xyz.devvydont.smprpg.items.blueprints.sets.quartz.QuartzChestplate;
+import xyz.devvydont.smprpg.items.blueprints.sets.quartz.QuartzHelmet;
+import xyz.devvydont.smprpg.items.blueprints.sets.quartz.QuartzLeggings;
+import xyz.devvydont.smprpg.items.blueprints.sets.radiant.RadiantBoots;
+import xyz.devvydont.smprpg.items.blueprints.sets.radiant.RadiantChestplate;
+import xyz.devvydont.smprpg.items.blueprints.sets.radiant.RadiantHelmet;
+import xyz.devvydont.smprpg.items.blueprints.sets.radiant.RadiantLeggings;
+import xyz.devvydont.smprpg.items.blueprints.sets.reaver.ReaverBoots;
+import xyz.devvydont.smprpg.items.blueprints.sets.reaver.ReaverChestplate;
+import xyz.devvydont.smprpg.items.blueprints.sets.reaver.ReaverHelmet;
+import xyz.devvydont.smprpg.items.blueprints.sets.reaver.ReaverLeggings;
+import xyz.devvydont.smprpg.items.blueprints.sets.redstone.RedstoneBoots;
+import xyz.devvydont.smprpg.items.blueprints.sets.redstone.RedstoneChestplate;
+import xyz.devvydont.smprpg.items.blueprints.sets.redstone.RedstoneHelmet;
+import xyz.devvydont.smprpg.items.blueprints.sets.redstone.RedstoneLeggings;
+import xyz.devvydont.smprpg.items.blueprints.sets.sakura.SakuraBoots;
+import xyz.devvydont.smprpg.items.blueprints.sets.sakura.SakuraChestplate;
+import xyz.devvydont.smprpg.items.blueprints.sets.sakura.SakuraHelmet;
+import xyz.devvydont.smprpg.items.blueprints.sets.sakura.SakuraLeggings;
+import xyz.devvydont.smprpg.items.blueprints.sets.singularity.SingularityBoots;
 import xyz.devvydont.smprpg.items.blueprints.sets.singularity.SingularityChestplate;
 import xyz.devvydont.smprpg.items.blueprints.sets.singularity.SingularityHelmet;
 import xyz.devvydont.smprpg.items.blueprints.sets.singularity.SingularityLeggings;
@@ -33,7 +98,27 @@ import xyz.devvydont.smprpg.items.blueprints.sets.slimy.SlimyBoots;
 import xyz.devvydont.smprpg.items.blueprints.sets.slimy.SlimyChestplate;
 import xyz.devvydont.smprpg.items.blueprints.sets.slimy.SlimyHelmet;
 import xyz.devvydont.smprpg.items.blueprints.sets.slimy.SlimyLeggings;
+import xyz.devvydont.smprpg.items.blueprints.sets.smite.SmiteBoots;
+import xyz.devvydont.smprpg.items.blueprints.sets.smite.SmiteChestplate;
+import xyz.devvydont.smprpg.items.blueprints.sets.smite.SmiteHelmet;
+import xyz.devvydont.smprpg.items.blueprints.sets.smite.SmiteLeggings;
+import xyz.devvydont.smprpg.items.blueprints.sets.snowfall.SnowfallBoots;
+import xyz.devvydont.smprpg.items.blueprints.sets.snowfall.SnowfallChestplate;
+import xyz.devvydont.smprpg.items.blueprints.sets.snowfall.SnowfallHelmet;
+import xyz.devvydont.smprpg.items.blueprints.sets.snowfall.SnowfallLeggings;
 import xyz.devvydont.smprpg.items.blueprints.sets.special.SpaceHelmet;
+import xyz.devvydont.smprpg.items.blueprints.sets.undead.UndeadBoots;
+import xyz.devvydont.smprpg.items.blueprints.sets.undead.UndeadChestplate;
+import xyz.devvydont.smprpg.items.blueprints.sets.undead.UndeadHelmet;
+import xyz.devvydont.smprpg.items.blueprints.sets.undead.UndeadLeggings;
+import xyz.devvydont.smprpg.items.blueprints.sets.unstable.UnstableBoots;
+import xyz.devvydont.smprpg.items.blueprints.sets.unstable.UnstableChestplate;
+import xyz.devvydont.smprpg.items.blueprints.sets.unstable.UnstableHelmet;
+import xyz.devvydont.smprpg.items.blueprints.sets.unstable.UnstableLeggings;
+import xyz.devvydont.smprpg.items.blueprints.sets.valiant.ValiantBoots;
+import xyz.devvydont.smprpg.items.blueprints.sets.valiant.ValiantChestplate;
+import xyz.devvydont.smprpg.items.blueprints.sets.valiant.ValiantHelmet;
+import xyz.devvydont.smprpg.items.blueprints.sets.valiant.ValiantLeggings;
 
 public enum CustomItemType {
 
@@ -65,21 +150,77 @@ public enum CustomItemType {
     COPPER_LEGGINGS(  "Copper Leggings",   Material.LEATHER_LEGGINGS,   CopperLeggings.class),
     COPPER_BOOTS(     "Copper Boots",      Material.LEATHER_BOOTS,      CopperBoots.class),
 
+    // UNDEAD SET
+    UNDEAD_HELMET(    "Undead Helmet",         Material.LEATHER_HELMET,     UndeadHelmet.class),
+    UNDEAD_CHESTPLATE("Undead Chestplate",     Material.LEATHER_CHESTPLATE, UndeadChestplate.class),
+    UNDEAD_LEGGINGS(  "Undead Leggings",       Material.LEATHER_LEGGINGS,   UndeadLeggings.class),
+    UNDEAD_BOOTS(     "Undead Boots",          Material.LEATHER_BOOTS,      UndeadBoots.class),
+
+    // BONE SET
+    BONE_HELMET(    "Bone Helmet",         Material.CHAINMAIL_HELMET,   BoneHelmet.class),
+    BONE_CHESTPLATE("Bone Chestplate",     Material.LEATHER_CHESTPLATE, BoneChestplate.class),
+    BONE_LEGGINGS(  "Bone Leggings",       Material.CHAINMAIL_LEGGINGS, BoneLeggings.class),
+    BONE_BOOTS(     "Bone Boots",          Material.LEATHER_BOOTS,      BoneBoots.class),
+
+    // SMITE SET
+    SMITE_HELMET(    "Smite Helmet",         Material.CHAINMAIL_HELMET,     SmiteHelmet.class),
+    SMITE_CHESTPLATE("Smite Chestplate",     Material.CHAINMAIL_CHESTPLATE, SmiteChestplate.class),
+    SMITE_LEGGINGS(  "Smite Leggings",       Material.CHAINMAIL_LEGGINGS,   SmiteLeggings.class),
+    SMITE_BOOTS(     "Smite Boots",          Material.CHAINMAIL_BOOTS,        SmiteBoots.class),
+
+    // SAKURA SET
+    SAKURA_HELMET("Sakura Helmet",         Material.CHERRY_LEAVES,      SakuraHelmet.class),
+    SAKURA_CHESTPLATE("Sakura Chestplate", Material.LEATHER_CHESTPLATE, SakuraChestplate.class),
+    SAKURA_LEGGINGS("Sakura Leggings",     Material.IRON_LEGGINGS,      SakuraLeggings.class),
+    SAKURA_BOOTS("Sakura Boots",           Material.LEATHER_BOOTS,      SakuraBoots.class),
+
+    // MYSTBLOOM SET
+    MYSTBLOOM_HELMET("Mystbloom Helmet",         Material.LEATHER_HELMET,     MystbloomHelmet.class),
+    MYSTBLOOM_CHESTPLATE("Mystbloom Chestplate", Material.LEATHER_CHESTPLATE, MystbloomChestplate.class),
+    MYSTBLOOM_LEGGINGS("Mystbloom Leggings",     Material.LEATHER_LEGGINGS,   MystbloomLeggings.class),
+    MYSTBLOOM_BOOTS("Mystbloom Boots",           Material.LEATHER_BOOTS,      MystbloomBoots.class),
+
+    // NEO_FRONTIER SET
+    NEO_FRONTIER_HELMET("Neo Frontier Helmet",         Material.IRON_HELMET,        NeoFrontierHelmet.class),
+    NEO_FRONTIER_CHESTPLATE("Neo Frontier Chestplate", Material.LEATHER_CHESTPLATE, NeoFrontierChestplate.class),
+    NEO_FRONTIER_LEGGINGS("Neo Frontier Leggings",     Material.IRON_LEGGINGS,      NeoFrontierLeggings.class),
+    NEO_FRONTIER_BOOTS("Neo Frontier Boots",           Material.LEATHER_BOOTS,      NeoFrontierBoots.class),
+
     // SLIMY SET
     SLIMY_HELMET("Slimy Helmet",         Material.SLIME_BLOCK   ,     ItemRarity.RARE, SlimyHelmet.class),
     SLIMY_CHESTPLATE("Slimy Chestplate", Material.LEATHER_CHESTPLATE, ItemRarity.RARE, SlimyChestplate.class),
     SLIMY_LEGGINGS("Slimy Leggings",     Material.DIAMOND_LEGGINGS,   ItemRarity.RARE, SlimyLeggings.class),
     SLIMY_BOOTS("Slimy Boots",           Material.LEATHER_BOOTS,      ItemRarity.RARE, SlimyBoots.class),
 
-    // MYSTIC
-    MYSTIC_HELMET("Mystic Helmet",         Material.IRON_HELMET   ,     ItemRarity.RARE, MysticHelmet.class),
-    MYSTIC_CHESTPLATE("Mystic Chestplate", Material.LEATHER_CHESTPLATE, ItemRarity.RARE, MysticChestplate.class),
-    MYSTIC_LEGGINGS("Mystic Leggings",     Material.IRON_LEGGINGS,      ItemRarity.RARE, MysticLeggings.class),
-    MYSTIC_BOOTS("Mystic Boots",           Material.LEATHER_BOOTS,      ItemRarity.RARE, MysticBoots.class),
+    // LUXE
+    LUXE_HELMET("Luxe Helmet",         Material.IRON_HELMET   ,     ItemRarity.RARE, LuxeHelmet.class),
+    LUXE_CHESTPLATE("Luxe Chestplate", Material.LEATHER_CHESTPLATE, ItemRarity.RARE, LuxeChestplate.class),
+    LUXE_LEGGINGS("Luxe Leggings",     Material.IRON_LEGGINGS,      ItemRarity.RARE, LuxeLeggings.class),
+    LUXE_BOOTS("Luxe Boots",           Material.LEATHER_BOOTS,      ItemRarity.RARE, LuxeBoots.class),
 
-    // BOWS
-    DIAMOND_BOW("Diamond Bow", Material.BOW, ItemRarity.UNCOMMON,  DiamondBow.class),
-    IRON_BOW(   "Iron Bow",    Material.BOW, ItemRarity.COMMON,  IronBow.class),
+    // AMETHYST
+    AMETHYST_HELMET(    "Amethyst Helmet",     Material.IRON_HELMET   ,  ItemRarity.RARE, AmethystHelmet.class),
+    AMETHYST_CHESTPLATE("Amethyst Chestplate", Material.IRON_CHESTPLATE, ItemRarity.RARE, AmethystChestplate.class),
+    AMETHYST_LEGGINGS(  "Amethyst Leggings",   Material.IRON_LEGGINGS,   ItemRarity.RARE, AmethystLeggings.class),
+    AMETHYST_BOOTS(     "Amethyst Boots",      Material.IRON_BOOTS,      ItemRarity.RARE, AmethystBoots.class),
+
+    // EMERALD SET
+    EMERALD_HELMET(    "Emerald Helmet",         Material.DIAMOND_HELMET,     EmeraldHelmet.class),
+    EMERALD_CHESTPLATE("Emerald Chestplate",     Material.DIAMOND_CHESTPLATE, EmeraldChestplate.class),
+    EMERALD_LEGGINGS(  "Emerald Leggings",       Material.DIAMOND_LEGGINGS,   EmeraldLeggings.class),
+    EMERALD_BOOTS(     "Emerald Boots",          Material.DIAMOND_BOOTS,      EmeraldBoots.class),
+
+    // REDSTONE
+    REDSTONE_HELMET(    "Redstone Helmet",     Material.TARGET,             ItemRarity.RARE, RedstoneHelmet.class),
+    REDSTONE_CHESTPLATE("Redstone Chestplate", Material.LEATHER_CHESTPLATE, ItemRarity.RARE, RedstoneChestplate.class),
+    REDSTONE_LEGGINGS(  "Redstone Leggings",   Material.LEATHER_LEGGINGS,   ItemRarity.RARE, RedstoneLeggings.class),
+    REDSTONE_BOOTS(     "Redstone Boots",      Material.LEATHER_BOOTS,      ItemRarity.RARE, RedstoneBoots.class),
+
+    // BEDROCK
+    BEDROCK_HELMET("Bedrock Helmet",         Material.BEDROCK,            ItemRarity.RARE, BedrockHelmet.class),
+    BEDROCK_CHESTPLATE("Bedrock Chestplate", Material.LEATHER_CHESTPLATE, ItemRarity.RARE, BedrockChestplate.class),
+    BEDROCK_LEGGINGS("Bedrock Leggings",     Material.NETHERITE_LEGGINGS, ItemRarity.RARE, BedrockLeggings.class),
+    BEDROCK_BOOTS("Bedrock Boots",           Material.LEATHER_BOOTS,      ItemRarity.RARE, BedrockBoots.class),
 
     // ARAXYS SET
     ARAXYS_HELMET("Araxys Helmet",         Material.SPAWNER,              ItemRarity.EPIC, AraxysHelmet.class),
@@ -88,11 +229,81 @@ public enum CustomItemType {
     ARAXYS_BOOTS("Araxys Boots",           Material.CHAINMAIL_BOOTS,      ItemRarity.EPIC, AraxysBoots.class),
 
     // NEPTUNE SET
-    NEPTUNE_HELMET("Neptune Helmet",         Material.LEATHER_HELMET,     ItemRarity.LEGENDARY, NeptuneHelmet.class),
+    NEPTUNE_HELMET("Neptune Helmet",         Material.ICE,                ItemRarity.LEGENDARY, NeptuneHelmet.class),
     NEPTUNE_CHESTPLATE("Neptune Chestplate", Material.LEATHER_CHESTPLATE, ItemRarity.LEGENDARY, NeptuneChestplate.class),
     NEPTUNE_LEGGINGS("Neptune Leggings",     Material.LEATHER_LEGGINGS,   ItemRarity.LEGENDARY, NeptuneLeggings.class),
     NEPTUNE_BOOTS("Neptune Boots",           Material.LEATHER_BOOTS,      ItemRarity.LEGENDARY, NeptuneBoots.class),
     NEPTUNE_TRIDENT("Neptune's Trident",     Material.TRIDENT,            ItemRarity.LEGENDARY, NeptuneTrident.class),
+
+    // QUARTZ
+    QUARTZ_HELMET("Quartz Helmet",         Material.IRON_HELMET,        ItemRarity.RARE, QuartzHelmet.class),
+    QUARTZ_CHESTPLATE("Quartz Chestplate", Material.LEATHER_CHESTPLATE, ItemRarity.RARE, QuartzChestplate.class),
+    QUARTZ_LEGGINGS("Quartz Leggings",     Material.IRON_LEGGINGS,      ItemRarity.RARE, QuartzLeggings.class),
+    QUARTZ_BOOTS("Quartz Boots",           Material.LEATHER_BOOTS,      ItemRarity.RARE, QuartzBoots.class),
+
+    // RADIANT
+    RADIANT_HELMET(    "Radiant Helmet",     Material.IRON_HELMET,      ItemRarity.RARE, RadiantHelmet.class),
+    RADIANT_CHESTPLATE("Radiant Chestplate", Material.IRON_CHESTPLATE,  ItemRarity.RARE, RadiantChestplate.class),
+    RADIANT_LEGGINGS(  "Radiant Leggings",   Material.IRON_LEGGINGS,    ItemRarity.RARE, RadiantLeggings.class),
+    RADIANT_BOOTS(     "Radiant Boots",      Material.IRON_BOOTS,       ItemRarity.RARE, RadiantBoots.class),
+
+    // INFERNO
+    INFERNO_HELMET("Inferno Helmet",         Material.GOLDEN_HELMET,     ItemRarity.EPIC, InfernoHelmet.class),
+    INFERNO_CHESTPLATE("Inferno Chestplate", Material.GOLDEN_CHESTPLATE, ItemRarity.EPIC, InfernoChestplate.class),
+    INFERNO_LEGGINGS("Inferno Leggings",     Material.GOLDEN_LEGGINGS,   ItemRarity.EPIC, InfernoLeggings.class),
+    INFERNO_BOOTS("Inferno Boots",           Material.GOLDEN_BOOTS,      ItemRarity.EPIC, InfernoBoots.class),
+
+    // REAVER
+    REAVER_HELMET("Reaver Helmet",         Material.BLACK_STAINED_GLASS, ItemRarity.EPIC, ReaverHelmet.class),
+    REAVER_CHESTPLATE("Reaver Chestplate", Material.LEATHER_CHESTPLATE,  ItemRarity.EPIC, ReaverChestplate.class),
+    REAVER_LEGGINGS("Reaver Leggings",     Material.NETHERITE_LEGGINGS,  ItemRarity.EPIC, ReaverLeggings.class),
+    REAVER_BOOTS("Reaver Boots",           Material.LEATHER_BOOTS,       ItemRarity.EPIC, ReaverBoots.class),
+
+    // FORSAKEN
+    FORSAKEN_HELMET(    "Forsaken Helmet",     Material.NETHERITE_HELMET,    ItemRarity.LEGENDARY, ForsakenHelmet.class),
+    FORSAKEN_CHESTPLATE("Forsaken Chestplate", Material.LEATHER_CHESTPLATE,  ItemRarity.LEGENDARY, ForsakenChestplate.class),
+    FORSAKEN_LEGGINGS(  "Forsaken Leggings",   Material.NETHERITE_LEGGINGS,  ItemRarity.LEGENDARY, ForsakenLeggings.class),
+    FORSAKEN_BOOTS(     "Forsaken Boots",      Material.LEATHER_BOOTS,       ItemRarity.LEGENDARY, ForsakenBoots.class),
+
+    // UNSTABLE
+    UNSTABLE_HELMET(    "Unstable Helmet",     Material.NETHERITE_HELMET,    ItemRarity.EPIC, UnstableHelmet.class),
+    UNSTABLE_CHESTPLATE("Unstable Chestplate", Material.LEATHER_CHESTPLATE,  ItemRarity.EPIC, UnstableChestplate.class),
+    UNSTABLE_LEGGINGS(  "Unstable Leggings",   Material.NETHERITE_LEGGINGS,  ItemRarity.EPIC, UnstableLeggings.class),
+    UNSTABLE_BOOTS(     "Unstable Boots",      Material.LEATHER_BOOTS,       ItemRarity.EPIC, UnstableBoots.class),
+
+    // IMPERIUM
+    IMPERIUM_HELMET(    "Imperium Helmet",     Material.IRON_HELMET,      ItemRarity.EPIC, ImperiumHelmet.class),
+    IMPERIUM_CHESTPLATE("Imperium Chestplate", Material.IRON_CHESTPLATE,  ItemRarity.EPIC, ImperiumChestplate.class),
+    IMPERIUM_LEGGINGS(  "Imperium Leggings",   Material.IRON_LEGGINGS,    ItemRarity.EPIC, ImperiumLeggings.class),
+    IMPERIUM_BOOTS(     "Imperium Boots",      Material.IRON_BOOTS,       ItemRarity.EPIC, ImperiumBoots.class),
+
+    // ELDERFLAME
+    ELDERFLAME_HELMET(    "Elderflame Helmet",     Material.NETHERITE_HELMET,    ItemRarity.LEGENDARY, ElderflameHelmet.class),
+    ELDERFLAME_CHESTPLATE("Elderflame Wings",      Material.ELYTRA,              ItemRarity.LEGENDARY, ElderflameChestplate.class),
+    ELDERFLAME_LEGGINGS(  "Elderflame Leggings",   Material.NETHERITE_LEGGINGS,  ItemRarity.LEGENDARY, ElderflameLeggings.class),
+    ELDERFLAME_BOOTS(     "Elderflame Boots",      Material.LEATHER_BOOTS,       ItemRarity.LEGENDARY, ElderflameBoots.class),
+
+    // SNOWFALL SET
+    SNOWFALL_HELMET(    "Snowfall Helmet",         Material.NETHERITE_HELMET,     ItemRarity.EPIC,  SnowfallHelmet.class),
+    SNOWFALL_CHESTPLATE("Snowfall Chestplate",     Material.NETHERITE_CHESTPLATE, ItemRarity.EPIC,  SnowfallChestplate.class),
+    SNOWFALL_LEGGINGS(  "Snowfall Leggings",       Material.NETHERITE_LEGGINGS,   ItemRarity.EPIC,  SnowfallLeggings.class),
+    SNOWFALL_BOOTS(     "Snowfall Boots",          Material.NETHERITE_BOOTS,      ItemRarity.EPIC,  SnowfallBoots.class),
+
+    // VALIANT SET
+    VALIANT_HELMET(    "Valiant Helmet",         Material.NETHERITE_HELMET,     ItemRarity.EPIC,  ValiantHelmet.class),
+    VALIANT_CHESTPLATE("Valiant Chestplate",     Material.NETHERITE_CHESTPLATE, ItemRarity.EPIC,  ValiantChestplate.class),
+    VALIANT_LEGGINGS(  "Valiant Leggings",       Material.NETHERITE_LEGGINGS,   ItemRarity.EPIC,  ValiantLeggings.class),
+    VALIANT_BOOTS(     "Valiant Boots",          Material.NETHERITE_BOOTS,      ItemRarity.EPIC,  ValiantBoots.class),
+
+    // PRELUDE SET
+    PRELUDE_HELMET(    "Prelude to Chaos Helmet",         Material.NETHERITE_HELMET,     ItemRarity.LEGENDARY,  PreludeHelmet.class),
+    PRELUDE_CHESTPLATE("Prelude to Chaos Chestplate",     Material.NETHERITE_CHESTPLATE, ItemRarity.LEGENDARY,  PreludeChestplate.class),
+    PRELUDE_LEGGINGS(  "Prelude to Chaos Leggings",       Material.NETHERITE_LEGGINGS,   ItemRarity.LEGENDARY,  PreludeLeggings.class),
+    PRELUDE_BOOTS(     "Prelude to Chaos Boots",          Material.NETHERITE_BOOTS,      ItemRarity.LEGENDARY,  PreludeBoots.class),
+
+    // BOWS
+    DIAMOND_BOW("Diamond Bow", Material.BOW, ItemRarity.UNCOMMON,  DiamondBow.class),
+    IRON_BOW(   "Iron Bow",    Material.BOW, ItemRarity.COMMON,  IronBow.class),
 
     // MISC TOOLS
     GRAPPLING_HOOK("Grappling Hook", Material.FISHING_ROD, ItemRarity.RARE, GrapplingHook.class),
@@ -261,10 +472,10 @@ public enum CustomItemType {
     ENCHANTED_FEATHER("Enchanted Feather", Material.FEATHER, ItemRarity.RARE, true, FeatherFamilyBlueprint.class),
 
     // SINGULARITY SET
-    SINGULARITY_HELMET(    "Singularity Helmet",     Material.NETHERITE_HELMET,     ItemRarity.MYTHIC, SingularityHelmet.class),
+    SINGULARITY_HELMET(    "Singularity Helmet",     Material.CRYING_OBSIDIAN,      ItemRarity.MYTHIC, SingularityHelmet.class),
     SINGULARITY_CHESTPLATE("Singularity Chestplate", Material.NETHERITE_CHESTPLATE, ItemRarity.MYTHIC, SingularityChestplate.class),
     SINGULARITY_LEGGINGS(  "Singularity Leggings",   Material.NETHERITE_LEGGINGS,   ItemRarity.MYTHIC, SingularityLeggings.class),
-    SINGULARITY_BOOTS(     "Singularity Boots",      Material.NETHERITE_BOOTS,      ItemRarity.MYTHIC, SingularityLeggings.class),
+    SINGULARITY_BOOTS(     "Singularity Boots",      Material.NETHERITE_BOOTS,      ItemRarity.MYTHIC, SingularityBoots.class),
 
     // DEBUG
     // Admin armor, makes you invincible basically

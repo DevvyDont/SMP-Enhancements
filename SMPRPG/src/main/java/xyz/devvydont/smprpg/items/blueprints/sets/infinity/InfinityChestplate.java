@@ -9,13 +9,12 @@ import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomAttributeItem;
-import xyz.devvydont.smprpg.items.interfaces.Wearable;
 import xyz.devvydont.smprpg.services.ItemService;
 
 import java.util.Collection;
 import java.util.List;
 
-public class InfinityChestplate extends CustomAttributeItem implements Wearable {
+public class InfinityChestplate extends CustomAttributeItem {
 
 
     public InfinityChestplate(ItemService itemService, CustomItemType type) {

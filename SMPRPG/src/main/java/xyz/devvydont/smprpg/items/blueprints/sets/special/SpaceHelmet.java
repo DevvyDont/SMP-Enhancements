@@ -8,13 +8,12 @@ import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomFakeHelmetBlueprint;
-import xyz.devvydont.smprpg.items.interfaces.Wearable;
 import xyz.devvydont.smprpg.services.ItemService;
 
 import java.util.Collection;
 import java.util.List;
 
-public class SpaceHelmet extends CustomFakeHelmetBlueprint implements Wearable {
+public class SpaceHelmet extends CustomFakeHelmetBlueprint {
 
 
     public SpaceHelmet(ItemService itemService, CustomItemType type) {

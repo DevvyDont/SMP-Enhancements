@@ -5,7 +5,7 @@ import org.bukkit.inventory.meta.trim.TrimPattern;
 
 public interface Trimmable {
 
-    public TrimMaterial getTrimMaterial();
-    public TrimPattern getTrimPattern();
+    TrimMaterial getTrimMaterial();
+    TrimPattern getTrimPattern();
 
 }

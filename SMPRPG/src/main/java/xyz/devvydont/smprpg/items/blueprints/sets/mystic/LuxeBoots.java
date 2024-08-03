@@ -8,15 +8,15 @@ import xyz.devvydont.smprpg.items.interfaces.Dyeable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.crafting.builders.ChestplateRecipe;
 
-public class MysticChestplate extends MysticArmorSet implements Dyeable {
+public class LuxeBoots extends LuxeArmorSet implements Dyeable {
 
-    public MysticChestplate(ItemService itemService, CustomItemType type) {
+    public LuxeBoots(ItemService itemService, CustomItemType type) {
         super(itemService, type);
     }
 
     @Override
     public int getDefense() {
-        return 80;
+        return 40;
     }
 
     @Override
@@ -26,7 +26,7 @@ public class MysticChestplate extends MysticArmorSet implements Dyeable {
 
     @Override
     public ItemClassification getItemClassification() {
-        return ItemClassification.CHESTPLATE;
+        return ItemClassification.BOOTS;
     }
 
     @Override
@@ -38,4 +38,5 @@ public class MysticChestplate extends MysticArmorSet implements Dyeable {
     public Color getColor() {
         return Color.fromRGB(0x3c44aa);
     }
+
 }

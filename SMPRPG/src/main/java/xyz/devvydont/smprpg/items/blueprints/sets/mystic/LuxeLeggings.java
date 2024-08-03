@@ -1,20 +1,21 @@
 package xyz.devvydont.smprpg.items.blueprints.sets.mystic;
 
 import org.bukkit.inventory.CraftingRecipe;
+import org.bukkit.inventory.meta.trim.TrimPattern;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.util.crafting.builders.HelmetRecipe;
+import xyz.devvydont.smprpg.util.crafting.builders.LeggingsRecipe;
 
-public class MysticHelmet extends MysticArmorSet {
+public class LuxeLeggings extends LuxeArmorSet {
 
-    public MysticHelmet(ItemService itemService, CustomItemType type) {
+    public LuxeLeggings(ItemService itemService, CustomItemType type) {
         super(itemService, type);
     }
 
     @Override
     public int getDefense() {
-        return 50;
+        return 70;
     }
 
     @Override
@@ -24,11 +25,16 @@ public class MysticHelmet extends MysticArmorSet {
 
     @Override
     public ItemClassification getItemClassification() {
-        return ItemClassification.HELMET;
+        return ItemClassification.LEGGINGS;
     }
 
     @Override
     public CraftingRecipe getCustomRecipe() {
-        return new HelmetRecipe(this, itemService.getCustomItem(CustomItemType.ENCHANTED_LAPIS), generate()).build();
+        return new LeggingsRecipe(this, itemService.getCustomItem(CustomItemType.ENCHANTED_LAPIS), generate()).build();
+    }
+
+    @Override
+    public TrimPattern getTrimPattern() {
+        return TrimPattern.SILENCE;
     }
 }
