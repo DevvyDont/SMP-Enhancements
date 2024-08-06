@@ -16,6 +16,7 @@ import xyz.devvydont.smprpg.skills.SkillInstance;
 import xyz.devvydont.smprpg.skills.rewards.SkillReward;
 import xyz.devvydont.smprpg.skills.SkillType;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
+import xyz.devvydont.smprpg.util.formatting.MinecraftStringUtils;
 import xyz.devvydont.smprpg.util.formatting.Symbols;
 
 public class ExperienceGainNotifier implements Listener {
@@ -72,9 +73,9 @@ public class ExperienceGainNotifier implements Listener {
         event.getPlayer().sendActionBar(
                 ComponentUtil.getColoredComponent(event.getSkillType().getDisplayName() + " " + event.getSkill().getLevel(), NamedTextColor.AQUA)
                         .append(ComponentUtil.getDefaultText(" | "))
-                        .append(Component.text(event.getSkill().getExperienceProgress()).color(NamedTextColor.GREEN))
-                        .append(Component.text("/" + event.getSkill().getNextExperienceThreshold()).color(NamedTextColor.DARK_GRAY))
-                        .append(Component.text(" (+" + event.getSkill().getCombo() + ")").color(NamedTextColor.GOLD))
+                        .append(Component.text(MinecraftStringUtils.formatNumber(event.getSkill().getExperienceProgress())).color(NamedTextColor.GREEN))
+                        .append(Component.text("/" + MinecraftStringUtils.formatNumber(event.getSkill().getNextExperienceThreshold())).color(NamedTextColor.DARK_GRAY))
+                        .append(Component.text(" (+" + MinecraftStringUtils.formatNumber(event.getSkill().getCombo()) + ")").color(NamedTextColor.GOLD))
         );
         event.getPlayer().playSound(event.getPlayer().getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, .15f, 2);
     }

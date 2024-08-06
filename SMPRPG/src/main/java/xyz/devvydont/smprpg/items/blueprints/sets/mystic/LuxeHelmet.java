@@ -1,5 +1,6 @@
 package xyz.devvydont.smprpg.items.blueprints.sets.mystic;
 
+import org.bukkit.Material;
 import org.bukkit.inventory.CraftingRecipe;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
@@ -29,6 +30,6 @@ public class LuxeHelmet extends LuxeArmorSet {
 
     @Override
     public CraftingRecipe getCustomRecipe() {
-        return new HelmetRecipe(this, itemService.getCustomItem(CustomItemType.ENCHANTED_LAPIS), generate()).build();
+        return new HelmetRecipe(this, itemService.getCustomItem(Material.LAPIS_BLOCK), generate()).build();
     }
 }

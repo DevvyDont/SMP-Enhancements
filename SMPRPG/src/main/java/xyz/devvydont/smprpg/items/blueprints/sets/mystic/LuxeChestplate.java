@@ -1,6 +1,7 @@
 package xyz.devvydont.smprpg.items.blueprints.sets.mystic;
 
 import org.bukkit.Color;
+import org.bukkit.Material;
 import org.bukkit.inventory.CraftingRecipe;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
@@ -31,7 +32,7 @@ public class LuxeChestplate extends LuxeArmorSet implements Dyeable {
 
     @Override
     public CraftingRecipe getCustomRecipe() {
-        return new ChestplateRecipe(this, itemService.getCustomItem(CustomItemType.ENCHANTED_LAPIS), generate()).build();
+        return new ChestplateRecipe(this, itemService.getCustomItem(Material.LAPIS_BLOCK), generate()).build();
     }
 
     @Override

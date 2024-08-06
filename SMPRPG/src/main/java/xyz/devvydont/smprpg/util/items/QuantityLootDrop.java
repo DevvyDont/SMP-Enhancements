@@ -17,6 +17,10 @@ public class QuantityLootDrop implements LootDrop {
     private LootSource source;
 
     public QuantityLootDrop(ItemStack item, int min, int max, LootSource source) {
+        this.item = item;
+        this.min = min;
+        this.max = max;
+        this.source = source;
     }
 
     @Override

@@ -40,7 +40,7 @@ public class FortuityEnchantment extends CustomEnchantment implements Listener {
     @Override
     public Component getDescription() {
         return Component.text("Increases rare item drop chance by ").color(NamedTextColor.GRAY)
-                .append(Component.text("+" + getChanceIncrease(getLevel()) + "%").color(NamedTextColor.GREEN))
+                .append(Component.text("+" + (int)(getChanceIncrease(getLevel())*100) + "%").color(NamedTextColor.GREEN))
                 .append(Component.text(" from mobs").color(NamedTextColor.GRAY));
     }
 
