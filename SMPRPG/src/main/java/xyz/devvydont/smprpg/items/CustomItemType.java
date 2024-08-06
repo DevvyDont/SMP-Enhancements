@@ -313,8 +313,15 @@ public enum CustomItemType {
 
     // Cobblestone
     COMPRESSED_COBBLESTONE("Compressed Cobblestone", Material.COBBLESTONE, ItemRarity.UNCOMMON, true, CobblestoneFamilyBlueprint.class),
-    ENCHANTED_COBBLESTONE("Enchanted Cobblestone", Material.COBBLESTONE, ItemRarity.RARE, true, CobblestoneFamilyBlueprint.class),
-    COBBLESTONE_SINGULARITY("Cobblestone Singularity", Material.COBBLESTONE, ItemRarity.EPIC, true, CobblestoneFamilyBlueprint.class),
+    DOUBLE_COMPRESSED_COBBLESTONE("Double Compressed Cobblestone", Material.COBBLESTONE, ItemRarity.RARE, true, CobblestoneFamilyBlueprint.class),
+    ENCHANTED_COBBLESTONE("Enchanted Cobblestone", Material.COBBLESTONE, ItemRarity.EPIC, true, CobblestoneFamilyBlueprint.class),
+    COBBLESTONE_SINGULARITY("Cobblestone Singularity", Material.COBBLESTONE, ItemRarity.LEGENDARY, true, CobblestoneFamilyBlueprint.class),
+
+    // Deepslate
+    COMPRESSED_DEEPSLATE( "Compressed Deepslate",                Material.COBBLED_DEEPSLATE, ItemRarity.UNCOMMON,  true, DeepslateFamilyBlueprint.class),
+    DOUBLE_COMPRESSED_DEEPSLATE( "Double Compressed Deepslate",  Material.COBBLED_DEEPSLATE, ItemRarity.RARE,      true, DeepslateFamilyBlueprint.class),
+    ENCHANTED_DEEPSLATE(  "Enchanted Deepslate",                 Material.COBBLED_DEEPSLATE, ItemRarity.EPIC,      true, DeepslateFamilyBlueprint.class),
+    DEEPSLATE_SINGULARITY("Deepslate Singularity",               Material.BEDROCK,           ItemRarity.LEGENDARY, true, DeepslateFamilyBlueprint.class),
 
     // COAL
     ENCHANTED_COAL("Enchanted Coal",                Material.COAL,       ItemRarity.RARE,      true, CoalFamilyBlueprint.class),

@@ -9,17 +9,18 @@ import xyz.devvydont.smprpg.util.crafting.MaterialWrapper;
 
 import java.util.List;
 
-public class CobblestoneFamilyBlueprint extends CustomCompressableBlueprint {
+public class DeepslateFamilyBlueprint extends CustomCompressableBlueprint {
+
 
     public static final List<CompressionRecipeMember> COMPRESSION_FLOW = List.of(
-            new CompressionRecipeMember(new MaterialWrapper(Material.COBBLESTONE)),
-            new CompressionRecipeMember(new MaterialWrapper(CustomItemType.COMPRESSED_COBBLESTONE)),
-            new CompressionRecipeMember(new MaterialWrapper(CustomItemType.DOUBLE_COMPRESSED_COBBLESTONE)),
-            new CompressionRecipeMember(new MaterialWrapper(CustomItemType.ENCHANTED_COBBLESTONE)),
-            new CompressionRecipeMember(new MaterialWrapper(CustomItemType.COBBLESTONE_SINGULARITY))
+            new CompressionRecipeMember(new MaterialWrapper(Material.DEEPSLATE)),
+            new CompressionRecipeMember(new MaterialWrapper(CustomItemType.COMPRESSED_DEEPSLATE)),
+            new CompressionRecipeMember(new MaterialWrapper(CustomItemType.DOUBLE_COMPRESSED_DEEPSLATE)),
+            new CompressionRecipeMember(new MaterialWrapper(CustomItemType.ENCHANTED_DEEPSLATE)),
+            new CompressionRecipeMember(new MaterialWrapper(CustomItemType.DEEPSLATE_SINGULARITY))
     );
 
-    public CobblestoneFamilyBlueprint(ItemService itemService, CustomItemType type) {
+    public DeepslateFamilyBlueprint(ItemService itemService, CustomItemType type) {
         super(itemService, type);
     }
 
@@ -27,5 +28,4 @@ public class CobblestoneFamilyBlueprint extends CustomCompressableBlueprint {
     public List<CompressionRecipeMember> getCompressionFlow() {
         return COMPRESSION_FLOW;
     }
-
 }
