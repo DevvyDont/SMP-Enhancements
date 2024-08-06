@@ -9,11 +9,15 @@ import io.papermc.paper.registry.tag.TagKey;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemType;
+import xyz.devvydont.smprpg.enchantments.EnchantmentUtil;
 import xyz.devvydont.smprpg.enchantments.definitions.vanilla.VanillaEnchantment;
+import xyz.devvydont.smprpg.events.CustomItemQuantityRollDropEvent;
 
-public class LootingEnchantment extends VanillaEnchantment {
+public class LootingEnchantment extends VanillaEnchantment implements Listener {
 
 
     /**
@@ -38,9 +42,9 @@ public class LootingEnchantment extends VanillaEnchantment {
 
     @Override
     public Component getDescription() {
-        return Component.text("Provides a bonus of ").color(NamedTextColor.GRAY)
+        return Component.text("Provides a drop bonus of ").color(NamedTextColor.GRAY)
                 .append(Component.text("+~" + getLootingPercentEstimation(getLevel()) + "%").color(NamedTextColor.GREEN))
-                .append(Component.text(" from mob drops").color(NamedTextColor.GRAY));
+                .append(Component.text(" from mobs").color(NamedTextColor.GRAY));
     }
 
     @Override
@@ -81,5 +85,16 @@ public class LootingEnchantment extends VanillaEnchantment {
     @Override
     public int getSkillRequirement() {
         return 20;
+    }
+
+    @EventHandler
+    public void onItemQuantityRoll(CustomItemQuantityRollDropEvent event) {
+
+        int looting = EnchantmentUtil.getEnchantLevel(Enchantment.LOOTING, event.getTool());
+        if (looting < 1)
+            return;
+
+        int extraDrops = (int) Math.round(Math.random()*looting+1);
+        event.setAmount(event.getAmount() + extraDrops);
     }
 }

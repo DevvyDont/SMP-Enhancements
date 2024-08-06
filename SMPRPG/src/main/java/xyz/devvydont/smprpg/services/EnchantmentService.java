@@ -28,6 +28,7 @@ import org.bukkit.scheduler.BukkitScheduler;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.enchantments.CustomEnchantment;
 import xyz.devvydont.smprpg.enchantments.calculator.EnchantmentCalculator;
+import xyz.devvydont.smprpg.enchantments.definitions.FortuityEnchantment;
 import xyz.devvydont.smprpg.enchantments.definitions.HeartyEnchantment;
 import xyz.devvydont.smprpg.enchantments.definitions.LeechEnchantment;
 import xyz.devvydont.smprpg.enchantments.definitions.SpeedsterEnchantment;
@@ -85,6 +86,7 @@ public class EnchantmentService implements BaseService, Listener {
     public final static CustomEnchantment WIND_BURST = new WindBurstEnchantment(EnchantmentKeys.WIND_BURST);
 
     // Custom enchantments
+    public final static CustomEnchantment FORTUITY = new FortuityEnchantment("fortuity");
     public final static CustomEnchantment HEARTY = new HeartyEnchantment("hearty");
     public final static CustomEnchantment SPEEDSTER = new SpeedsterEnchantment("speedster");
     public final static CustomEnchantment LEECH = new LeechEnchantment("leech");
@@ -134,6 +136,7 @@ public class EnchantmentService implements BaseService, Listener {
             UNBREAKING,
             WIND_BURST,
 
+            FORTUITY,
             HEARTY,
             SPEEDSTER,
             LEECH,
