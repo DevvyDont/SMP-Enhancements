@@ -23,9 +23,11 @@ public abstract class BoneArmorSet extends CustomArmorBlueprint implements ToolB
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 1)
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, getDefense())
         );
     }
+
+    public abstract int getDefense();
 
     @Override
     public TrimMaterial getTrimMaterial() {
@@ -39,11 +41,11 @@ public abstract class BoneArmorSet extends CustomArmorBlueprint implements ToolB
 
     @Override
     public int getPowerRating() {
-        return 0;
+        return 10;
     }
 
     @Override
     public int getMaxDurability() {
-        return 100;
+        return 1_800;
     }
 }

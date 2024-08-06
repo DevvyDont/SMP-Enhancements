@@ -12,6 +12,11 @@ public class UndeadBoots extends UndeadArmorSet {
     }
 
     @Override
+    public int getDefense() {
+        return 20;
+    }
+
+    @Override
     public Color getColor() {
         return Color.fromRGB(0x835432);
     }

@@ -6,6 +6,7 @@ import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
+import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomArmorBlueprint;
 import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
 import xyz.devvydont.smprpg.items.interfaces.Trimmable;
@@ -24,9 +25,15 @@ public abstract class ForsakenArmorSet extends CustomArmorBlueprint implements T
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 1)
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, getDefense()),
+                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, getHealth()),
+                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, getStrength())
         );
     }
+
+    public abstract int getDefense();
+    public abstract int getHealth();
+    public abstract double getStrength();
 
     @Override
     public int getPowerRating() {
@@ -35,7 +42,7 @@ public abstract class ForsakenArmorSet extends CustomArmorBlueprint implements T
 
     @Override
     public int getMaxDurability() {
-        return 100;
+        return 35_000;
     }
 
     @Override

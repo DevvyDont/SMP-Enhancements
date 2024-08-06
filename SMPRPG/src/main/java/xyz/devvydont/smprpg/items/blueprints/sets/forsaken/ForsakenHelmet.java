@@ -11,6 +11,21 @@ public class ForsakenHelmet extends ForsakenArmorSet {
     }
 
     @Override
+    public int getDefense() {
+        return 205;
+    }
+
+    @Override
+    public int getHealth() {
+        return 155;
+    }
+
+    @Override
+    public double getStrength() {
+        return .25;
+    }
+
+    @Override
     public ItemClassification getItemClassification() {
         return ItemClassification.HELMET;
     }

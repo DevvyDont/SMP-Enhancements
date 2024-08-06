@@ -12,6 +12,21 @@ public class InfernoLeggings extends InfernoArmorSet {
     }
 
     @Override
+    public int getDefense() {
+        return 200;
+    }
+
+    @Override
+    public int getHealth() {
+        return 130;
+    }
+
+    @Override
+    public double getStrength() {
+        return .16;
+    }
+
+    @Override
     public ItemClassification getItemClassification() {
         return ItemClassification.LEGGINGS;
     }

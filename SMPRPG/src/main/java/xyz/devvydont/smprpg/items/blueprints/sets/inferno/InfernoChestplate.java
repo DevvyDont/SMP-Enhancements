@@ -12,6 +12,21 @@ public class InfernoChestplate extends InfernoArmorSet {
     }
 
     @Override
+    public int getDefense() {
+        return 240;
+    }
+
+    @Override
+    public int getHealth() {
+        return 150;
+    }
+
+    @Override
+    public double getStrength() {
+        return .16;
+    }
+
+    @Override
     public ItemClassification getItemClassification() {
         return ItemClassification.CHESTPLATE;
     }

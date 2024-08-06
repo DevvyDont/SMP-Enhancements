@@ -12,6 +12,21 @@ public class InfernoHelmet extends InfernoArmorSet {
     }
 
     @Override
+    public int getDefense() {
+        return 145;
+    }
+
+    @Override
+    public int getHealth() {
+        return 95;
+    }
+
+    @Override
+    public double getStrength() {
+        return .12;
+    }
+
+    @Override
     public ItemClassification getItemClassification() {
         return ItemClassification.HELMET;
     }

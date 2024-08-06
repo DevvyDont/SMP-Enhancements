@@ -14,4 +14,14 @@ public class EmeraldBoots extends EmeraldArmorSet {
     public ItemClassification getItemClassification() {
         return ItemClassification.BOOTS;
     }
+
+    @Override
+    public int getDefense() {
+        return 70;
+    }
+
+    @Override
+    public int getHealth() {
+        return 2;
+    }
 }

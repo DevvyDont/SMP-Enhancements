@@ -4,6 +4,7 @@ import org.bukkit.inventory.meta.trim.TrimMaterial;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
+import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomArmorBlueprint;
 import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
 import xyz.devvydont.smprpg.items.interfaces.Trimmable;
@@ -22,13 +23,17 @@ public abstract class AmethystArmorSet extends CustomArmorBlueprint implements T
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 1)
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, getDefense()),
+                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 5),
+                new ScalarAttributeEntry(AttributeWrapper.LUCK, .05)
         );
     }
 
+    public abstract int getDefense();
+
     @Override
     public int getPowerRating() {
-        return 0;
+        return 12;
     }
 
     @Override
@@ -38,6 +43,6 @@ public abstract class AmethystArmorSet extends CustomArmorBlueprint implements T
 
     @Override
     public int getMaxDurability() {
-        return 100;
+        return 2_000;
     }
 }

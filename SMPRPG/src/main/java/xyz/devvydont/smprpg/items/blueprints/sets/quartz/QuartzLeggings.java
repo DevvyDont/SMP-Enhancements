@@ -13,6 +13,16 @@ public class QuartzLeggings extends QuartzArmorSet {
     }
 
     @Override
+    public int getDefense() {
+        return 165;
+    }
+
+    @Override
+    public int getHealth() {
+        return 50;
+    }
+
+    @Override
     public ItemClassification getItemClassification() {
         return ItemClassification.LEGGINGS;
     }

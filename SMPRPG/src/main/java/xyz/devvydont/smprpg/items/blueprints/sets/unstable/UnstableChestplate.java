@@ -15,6 +15,11 @@ public class UnstableChestplate extends UnstableArmorSet implements Dyeable {
     }
 
     @Override
+    public double getStatMultiplier() {
+        return 1.0;
+    }
+
+    @Override
     public ItemClassification getItemClassification() {
         return ItemClassification.CHESTPLATE;
     }

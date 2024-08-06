@@ -13,6 +13,21 @@ public class ForsakenBoots extends ForsakenArmorSet implements Dyeable {
     }
 
     @Override
+    public int getDefense() {
+        return 160;
+    }
+
+    @Override
+    public int getHealth() {
+        return 120;
+    }
+
+    @Override
+    public double getStrength() {
+        return .25;
+    }
+
+    @Override
     public ItemClassification getItemClassification() {
         return ItemClassification.BOOTS;
     }

@@ -23,7 +23,7 @@ public class AraxysChestplate extends AraxysArmorPiece {
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 190),
-                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 45),
+                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 40),
                 new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .1)
         );
     }

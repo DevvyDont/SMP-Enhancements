@@ -12,6 +12,21 @@ public class InfernoBoots extends InfernoArmorSet {
     }
 
     @Override
+    public int getDefense() {
+        return 105;
+    }
+
+    @Override
+    public int getHealth() {
+        return 70;
+    }
+
+    @Override
+    public double getStrength() {
+        return .12;
+    }
+
+    @Override
     public ItemClassification getItemClassification() {
         return ItemClassification.BOOTS;
     }

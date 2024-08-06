@@ -12,6 +12,16 @@ public class ImperiumBoots extends ImperiumArmorSet {
     }
 
     @Override
+    public int getDefense() {
+        return 145;
+    }
+
+    @Override
+    public int getHealth() {
+        return 100;
+    }
+
+    @Override
     public ItemClassification getItemClassification() {
         return ItemClassification.BOOTS;
     }

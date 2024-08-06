@@ -3,6 +3,7 @@ package xyz.devvydont.smprpg.items.blueprints.sets.reaver;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
+import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomFakeHelmetBlueprint;
 import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
 import xyz.devvydont.smprpg.services.ItemService;
@@ -20,7 +21,9 @@ public class ReaverHelmet extends CustomFakeHelmetBlueprint implements ToolBreak
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 1)
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 165),
+                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 120),
+                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .2)
         );
     }
 

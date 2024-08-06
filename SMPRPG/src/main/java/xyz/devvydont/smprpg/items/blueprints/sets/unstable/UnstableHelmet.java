@@ -12,6 +12,11 @@ public class UnstableHelmet extends UnstableArmorSet {
     }
 
     @Override
+    public double getStatMultiplier() {
+        return .7;
+    }
+
+    @Override
     public ItemClassification getItemClassification() {
         return ItemClassification.HELMET;
     }

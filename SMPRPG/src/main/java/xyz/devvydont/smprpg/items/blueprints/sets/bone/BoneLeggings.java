@@ -11,6 +11,11 @@ public class BoneLeggings extends BoneArmorSet {
     }
 
     @Override
+    public int getDefense() {
+        return 30;
+    }
+
+    @Override
     public ItemClassification getItemClassification() {
         return ItemClassification.LEGGINGS;
     }

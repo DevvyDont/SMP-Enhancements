@@ -12,6 +12,16 @@ public class ImperiumHelmet extends ImperiumArmorSet {
     }
 
     @Override
+    public int getDefense() {
+        return 195;
+    }
+
+    @Override
+    public int getHealth() {
+        return 150;
+    }
+
+    @Override
     public ItemClassification getItemClassification() {
         return ItemClassification.HELMET;
     }

@@ -14,6 +14,21 @@ public class ReaverLeggings extends ReaverArmorSet {
     }
 
     @Override
+    public int getDefense() {
+        return 245;
+    }
+
+    @Override
+    public int getHealth() {
+        return 180;
+    }
+
+    @Override
+    public double getStrength() {
+        return .25;
+    }
+
+    @Override
     public ItemClassification getItemClassification() {
         return ItemClassification.LEGGINGS;
     }

@@ -12,6 +12,16 @@ public class ImperiumChestplate extends ImperiumArmorSet {
     }
 
     @Override
+    public int getDefense() {
+        return 350;
+    }
+
+    @Override
+    public int getHealth() {
+        return 250;
+    }
+
+    @Override
     public ItemClassification getItemClassification() {
         return ItemClassification.CHESTPLATE;
     }

@@ -12,6 +12,11 @@ public class UnstableLeggings extends UnstableArmorSet {
     }
 
     @Override
+    public double getStatMultiplier() {
+        return .85;
+    }
+
+    @Override
     public ItemClassification getItemClassification() {
         return ItemClassification.LEGGINGS;
     }

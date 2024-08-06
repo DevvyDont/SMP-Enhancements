@@ -12,6 +12,16 @@ public class ImperiumLeggings extends ImperiumArmorSet {
     }
 
     @Override
+    public int getDefense() {
+        return 300;
+    }
+
+    @Override
+    public int getHealth() {
+        return 225;
+    }
+
+    @Override
     public ItemClassification getItemClassification() {
         return ItemClassification.LEGGINGS;
     }

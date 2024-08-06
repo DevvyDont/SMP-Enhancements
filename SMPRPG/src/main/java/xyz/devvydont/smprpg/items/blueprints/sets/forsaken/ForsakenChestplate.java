@@ -13,6 +13,21 @@ public class ForsakenChestplate extends ForsakenArmorSet implements Dyeable {
     }
 
     @Override
+    public int getDefense() {
+        return 360;
+    }
+
+    @Override
+    public int getHealth() {
+        return 275;
+    }
+
+    @Override
+    public double getStrength() {
+        return .3;
+    }
+
+    @Override
     public ItemClassification getItemClassification() {
         return ItemClassification.CHESTPLATE;
     }

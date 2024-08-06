@@ -13,6 +13,16 @@ public class QuartzHelmet extends QuartzArmorSet {
     }
 
     @Override
+    public int getDefense() {
+        return 110;
+    }
+
+    @Override
+    public int getHealth() {
+        return 35;
+    }
+
+    @Override
     public ItemClassification getItemClassification() {
         return ItemClassification.HELMET;
     }

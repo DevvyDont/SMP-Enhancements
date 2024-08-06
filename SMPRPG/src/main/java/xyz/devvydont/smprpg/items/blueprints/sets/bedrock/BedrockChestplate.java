@@ -13,6 +13,11 @@ public class BedrockChestplate extends BedrockArmorSet implements Dyeable {
     }
 
     @Override
+    public int getDefense() {
+        return 300;
+    }
+
+    @Override
     public ItemClassification getItemClassification() {
         return ItemClassification.CHESTPLATE;
     }

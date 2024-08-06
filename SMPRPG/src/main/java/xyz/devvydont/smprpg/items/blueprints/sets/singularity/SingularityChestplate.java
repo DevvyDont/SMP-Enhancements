@@ -39,8 +39,8 @@ public class SingularityChestplate extends CustomArmorBlueprint implements ToolB
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.ARMOR, 6),
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 850),
-                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 490),
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 1100),
+                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 540),
                 new ScalarAttributeEntry(AttributeWrapper.KNOCKBACK_RESISTANCE, .2),
                 new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, .2),
                 new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .2)
@@ -49,7 +49,7 @@ public class SingularityChestplate extends CustomArmorBlueprint implements ToolB
 
     @Override
     public int getMaxDurability() {
-        return 1_000_000;
+        return 100_000;
     }
 
     @Override

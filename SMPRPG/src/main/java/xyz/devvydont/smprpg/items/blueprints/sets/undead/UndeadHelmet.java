@@ -15,4 +15,8 @@ public class UndeadHelmet extends UndeadArmorSet {
         return ItemClassification.HELMET;
     }
 
+    @Override
+    public int getDefense() {
+        return 25;
+    }
 }

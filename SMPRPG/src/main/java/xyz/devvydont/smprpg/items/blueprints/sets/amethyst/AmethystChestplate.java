@@ -13,6 +13,11 @@ public class AmethystChestplate extends AmethystArmorSet {
     }
 
     @Override
+    public int getDefense() {
+        return 30;
+    }
+
+    @Override
     public ItemClassification getItemClassification() {
         return ItemClassification.CHESTPLATE;
     }

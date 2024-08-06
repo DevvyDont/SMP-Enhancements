@@ -124,6 +124,7 @@ public final class SMPRPG extends JavaPlugin implements Listener {
         new HealthRegenerationListener(this);
         new HealthScaleListener(this);
         new AnvilEnchantmentCombinationFixListener(this);
+        new DimensionPortalLockingListener(this);
 
         new StructureEntitySpawnListener(this);
         new LootListener(this);

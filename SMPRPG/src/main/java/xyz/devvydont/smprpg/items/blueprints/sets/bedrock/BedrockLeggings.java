@@ -11,6 +11,11 @@ public class BedrockLeggings extends BedrockArmorSet {
     }
 
     @Override
+    public int getDefense() {
+        return 275;
+    }
+
+    @Override
     public ItemClassification getItemClassification() {
         return ItemClassification.LEGGINGS;
     }

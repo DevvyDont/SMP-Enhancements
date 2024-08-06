@@ -15,6 +15,21 @@ public class ReaverBoots extends ReaverArmorSet implements Dyeable {
     }
 
     @Override
+    public int getDefense() {
+        return 125;
+    }
+
+    @Override
+    public int getHealth() {
+        return 90;
+    }
+
+    @Override
+    public double getStrength() {
+        return .2;
+    }
+
+    @Override
     public ItemClassification getItemClassification() {
         return ItemClassification.BOOTS;
     }

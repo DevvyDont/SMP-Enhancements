@@ -12,11 +12,22 @@ import xyz.devvydont.smprpg.skills.SkillGlobals;
 import xyz.devvydont.smprpg.skills.SkillInstance;
 import xyz.devvydont.smprpg.skills.SkillType;
 import xyz.devvydont.smprpg.util.formatting.ChatUtil;
+import xyz.devvydont.smprpg.util.formatting.MinecraftStringUtils;
 
 public class CommandSkill extends CommandBase {
 
     public CommandSkill(String name) {
         super(name);
+    }
+
+    private void setSkillExp(LeveledPlayer player, SkillType skill, int level) {
+        SkillInstance inst = SMPRPG.getInstance().getSkillService().getNewSkillInstance(player.getPlayer(), skill);
+        int targetExp = SkillGlobals.getCumulativeExperienceForLevel(level);
+        if (targetExp > inst.getExperience())
+            inst.addExperience(targetExp - inst.getExperience(), SkillExperienceGainEvent.ExperienceSource.UNKNOWN);
+        else
+            inst.setExperience(targetExp);
+        player.getPlayer().sendMessage(ChatUtil.getSuccessMessage("Set your " + skill.getDisplayName() + " skill to level " + inst.getLevel()));
     }
 
     @Override
@@ -42,16 +53,16 @@ public class CommandSkill extends CommandBase {
             try {
                 String skill = strings[0].toUpperCase();
                 int level = Integer.parseInt(strings[1]);
-                SkillType type = SkillType.valueOf(skill);
-                SkillInstance inst = SMPRPG.getInstance().getSkillService().getNewSkillInstance(p, type);
-                int targetExp = SkillGlobals.getCumulativeExperienceForLevel(level);
-                if (targetExp > inst.getExperience())
-                    inst.addExperience(targetExp - inst.getExperience(), SkillExperienceGainEvent.ExperienceSource.UNKNOWN);
+
+                if (skill.equalsIgnoreCase("ALL"))
+                    for (SkillType type : SkillType.values())
+                        setSkillExp(player, type, level);
                 else {
-                    inst.setExperience(targetExp);
-                    SMPRPG.getInstance().getSkillService().syncSkillAttributes(player);
+                    SkillType type = SkillType.valueOf(skill);
+                    setSkillExp(player, type, level);
                 }
-                p.sendMessage(ChatUtil.getSuccessMessage("Set your " + type.getDisplayName() + " skill to level " + inst.getLevel()));
+
+                SMPRPG.getInstance().getSkillService().syncSkillAttributes(player);
             } catch (NumberFormatException ignored) {
                 p.sendMessage(ChatUtil.getErrorMessage("Invalid level provided. Please provide an actual number"));
                 return;
@@ -64,6 +75,6 @@ public class CommandSkill extends CommandBase {
 
         p.sendMessage(Component.empty());
         for (SkillInstance skill : player.getSkills())
-            p.sendMessage(skill.getType().getDisplayName() + " " + skill.getLevel() + " " + skill.getExperience() + "XP " + "(" + skill.getExperienceProgress() + "/" + skill.getNextExperienceThreshold() + ")");
+            p.sendMessage(skill.getType().getDisplayName() + " " + skill.getLevel() + " " + MinecraftStringUtils.formatNumber(skill.getExperience()) + "XP " + "(" + MinecraftStringUtils.formatNumber(skill.getExperienceProgress()) + "/" + MinecraftStringUtils.formatNumber(skill.getNextExperienceThreshold()) + ")");
     }
 }

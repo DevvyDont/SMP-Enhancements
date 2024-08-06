@@ -12,6 +12,11 @@ public class RedstoneChestplate extends RedstoneArmorSet {
     }
 
     @Override
+    public int getDefense() {
+        return 60;
+    }
+
+    @Override
     public ItemClassification getItemClassification() {
         return ItemClassification.CHESTPLATE;
     }

@@ -25,9 +25,15 @@ public abstract class EmeraldArmorSet extends CustomArmorBlueprint implements To
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 1)
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, getDefense()),
+                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, getHealth())
         );
     }
+
+    public abstract int getDefense();
+
+    public abstract int getHealth();
+
 
     @Override
     public int getPowerRating() {
@@ -36,7 +42,7 @@ public abstract class EmeraldArmorSet extends CustomArmorBlueprint implements To
 
     @Override
     public int getMaxDurability() {
-        return 100;
+        return 7_500;
     }
 
     @Override

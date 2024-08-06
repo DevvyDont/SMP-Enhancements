@@ -1,11 +1,9 @@
 package xyz.devvydont.smprpg.items.blueprints.sets.quartz;
 
-import org.bukkit.inventory.meta.trim.TrimMaterial;
-import org.bukkit.inventory.meta.trim.TrimPattern;
 import xyz.devvydont.smprpg.items.CustomItemType;
-import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
+import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomArmorBlueprint;
 import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
 import xyz.devvydont.smprpg.items.interfaces.Trimmable;
@@ -25,9 +23,15 @@ public abstract class QuartzArmorSet extends CustomArmorBlueprint implements Tri
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 1)
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, getDefense()),
+                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, getHealth()),
+                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .04)
         );
     }
+
+    public abstract int getDefense();
+
+    public abstract int getHealth();
 
     @Override
     public int getPowerRating() {
@@ -36,7 +40,7 @@ public abstract class QuartzArmorSet extends CustomArmorBlueprint implements Tri
 
     @Override
     public int getMaxDurability() {
-        return 100;
+        return 10_000;
     }
 
 }

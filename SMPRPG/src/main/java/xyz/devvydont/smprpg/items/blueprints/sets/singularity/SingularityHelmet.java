@@ -29,8 +29,8 @@ public class SingularityHelmet extends CustomFakeHelmetBlueprint implements Tool
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.ARMOR, 6),
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 480),
-                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 280),
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 600),
+                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 300),
                 new ScalarAttributeEntry(Attribute.GENERIC_KNOCKBACK_RESISTANCE, .2),
                 new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, .2),
                 new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .2)
@@ -44,6 +44,6 @@ public class SingularityHelmet extends CustomFakeHelmetBlueprint implements Tool
 
     @Override
     public int getMaxDurability() {
-        return 1_000_000;
+        return 100_000;
     }
 }

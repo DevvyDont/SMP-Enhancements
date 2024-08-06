@@ -21,4 +21,9 @@ public class SmiteHelmet extends SmiteArmorSet {
     public TrimMaterial getTrimMaterial() {
         return TrimMaterial.LAPIS;
     }
+
+    @Override
+    public int getDefense() {
+        return 35;
+    }
 }

@@ -11,6 +11,21 @@ public class ForsakenLeggings extends ForsakenArmorSet {
     }
 
     @Override
+    public int getDefense() {
+        return 310;
+    }
+
+    @Override
+    public int getHealth() {
+        return 230;
+    }
+
+    @Override
+    public double getStrength() {
+        return .3;
+    }
+
+    @Override
     public ItemClassification getItemClassification() {
         return ItemClassification.LEGGINGS;
     }

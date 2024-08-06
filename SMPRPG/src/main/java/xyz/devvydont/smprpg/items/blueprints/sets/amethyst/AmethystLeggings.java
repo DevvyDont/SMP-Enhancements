@@ -12,6 +12,11 @@ public class AmethystLeggings extends AmethystArmorSet {
     }
 
     @Override
+    public int getDefense() {
+        return 25;
+    }
+
+    @Override
     public ItemClassification getItemClassification() {
         return ItemClassification.LEGGINGS;
     }

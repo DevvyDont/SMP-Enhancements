@@ -11,6 +11,11 @@ public class UndeadLeggings extends UndeadArmorSet {
     }
 
     @Override
+    public int getDefense() {
+        return 35;
+    }
+
+    @Override
     public ItemClassification getItemClassification() {
         return ItemClassification.LEGGINGS;
     }

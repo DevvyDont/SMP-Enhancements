@@ -14,4 +14,14 @@ public class EmeraldHelmet extends EmeraldArmorSet {
     public ItemClassification getItemClassification() {
         return ItemClassification.HELMET;
     }
+
+    @Override
+    public int getDefense() {
+        return 90;
+    }
+
+    @Override
+    public int getHealth() {
+        return 5;
+    }
 }

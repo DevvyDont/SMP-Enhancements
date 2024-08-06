@@ -13,6 +13,11 @@ public class BedrockBoots extends BedrockArmorSet implements Dyeable {
     }
 
     @Override
+    public int getDefense() {
+        return 225;
+    }
+
+    @Override
     public ItemClassification getItemClassification() {
         return ItemClassification.BOOTS;
     }

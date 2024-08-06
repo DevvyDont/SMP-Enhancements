@@ -40,8 +40,8 @@ public class SingularityBoots extends CustomArmorBlueprint implements ToolBreaka
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.ARMOR, 6),
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 260),
-                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 120),
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 460),
+                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 230),
                 new ScalarAttributeEntry(Attribute.GENERIC_KNOCKBACK_RESISTANCE, .2),
                 new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, .25)
         );
@@ -49,7 +49,7 @@ public class SingularityBoots extends CustomArmorBlueprint implements ToolBreaka
 
     @Override
     public int getMaxDurability() {
-        return 1_000_000;
+        return 100_000;
     }
 
     @Override

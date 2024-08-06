@@ -20,6 +20,11 @@ public class UndeadChestplate extends UndeadArmorSet implements Trimmable {
     }
 
     @Override
+    public int getDefense() {
+        return 40;
+    }
+
+    @Override
     public ItemClassification getItemClassification() {
         return ItemClassification.CHESTPLATE;
     }

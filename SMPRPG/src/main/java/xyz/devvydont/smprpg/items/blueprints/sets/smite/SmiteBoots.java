@@ -20,4 +20,9 @@ public class SmiteBoots extends SmiteArmorSet {
     public TrimMaterial getTrimMaterial() {
         return TrimMaterial.DIAMOND;
     }
+
+    @Override
+    public int getDefense() {
+        return 30;
+    }
 }

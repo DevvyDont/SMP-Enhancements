@@ -11,6 +11,11 @@ public class BoneHelmet extends BoneArmorSet {
     }
 
     @Override
+    public int getDefense() {
+        return 20;
+    }
+
+    @Override
     public ItemClassification getItemClassification() {
         return ItemClassification.HELMET;
     }

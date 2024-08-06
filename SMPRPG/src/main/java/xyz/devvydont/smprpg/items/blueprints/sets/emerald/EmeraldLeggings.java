@@ -14,4 +14,14 @@ public class EmeraldLeggings extends EmeraldArmorSet {
     public ItemClassification getItemClassification() {
         return ItemClassification.LEGGINGS;
     }
+
+    @Override
+    public int getDefense() {
+        return 140;
+    }
+
+    @Override
+    public int getHealth() {
+        return 5;
+    }
 }

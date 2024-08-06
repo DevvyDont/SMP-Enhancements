@@ -15,4 +15,9 @@ public class RedstoneBoots extends RedstoneArmorSet {
     public ItemClassification getItemClassification() {
         return ItemClassification.BOOTS;
     }
+
+    @Override
+    public int getDefense() {
+        return 30;
+    }
 }

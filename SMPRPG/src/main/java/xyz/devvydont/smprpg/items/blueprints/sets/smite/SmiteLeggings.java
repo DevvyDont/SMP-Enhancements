@@ -20,4 +20,9 @@ public class SmiteLeggings extends SmiteArmorSet {
     public TrimMaterial getTrimMaterial() {
         return TrimMaterial.LAPIS;
     }
+
+    @Override
+    public int getDefense() {
+        return 50;
+    }
 }

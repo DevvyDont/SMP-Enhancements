@@ -15,6 +15,16 @@ public class QuartzBoots extends QuartzArmorSet implements Dyeable {
     }
 
     @Override
+    public int getDefense() {
+        return 80;
+    }
+
+    @Override
+    public int getHealth() {
+        return 25;
+    }
+
+    @Override
     public ItemClassification getItemClassification() {
         return ItemClassification.BOOTS;
     }

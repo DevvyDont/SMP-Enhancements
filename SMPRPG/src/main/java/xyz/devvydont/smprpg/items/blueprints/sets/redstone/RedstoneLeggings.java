@@ -14,4 +14,9 @@ public class RedstoneLeggings extends RedstoneArmorSet {
     public ItemClassification getItemClassification() {
         return ItemClassification.LEGGINGS;
     }
+
+    @Override
+    public int getDefense() {
+        return 50;
+    }
 }

@@ -14,6 +14,11 @@ public class BoneChestplate extends BoneArmorSet implements Dyeable {
     }
 
     @Override
+    public int getDefense() {
+        return 40;
+    }
+
+    @Override
     public ItemClassification getItemClassification() {
         return ItemClassification.CHESTPLATE;
     }

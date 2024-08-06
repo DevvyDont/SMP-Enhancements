@@ -16,6 +16,21 @@ public class ReaverChestplate extends ReaverArmorSet implements Dyeable {
     }
 
     @Override
+    public int getDefense() {
+        return 290;
+    }
+
+    @Override
+    public int getHealth() {
+        return 210;
+    }
+
+    @Override
+    public double getStrength() {
+        return .25;
+    }
+
+    @Override
     public ItemClassification getItemClassification() {
         return ItemClassification.CHESTPLATE;
     }

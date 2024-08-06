@@ -13,6 +13,11 @@ public class BoneBoots extends BoneArmorSet implements Dyeable {
     }
 
     @Override
+    public int getDefense() {
+        return 20;
+    }
+
+    @Override
     public Color getColor() {
         return Color.fromRGB(0x9d9d97);
     }

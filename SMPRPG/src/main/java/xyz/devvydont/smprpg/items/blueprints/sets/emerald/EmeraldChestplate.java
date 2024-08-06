@@ -14,4 +14,14 @@ public class EmeraldChestplate extends EmeraldArmorSet {
     public ItemClassification getItemClassification() {
         return ItemClassification.CHESTPLATE;
     }
+
+    @Override
+    public int getDefense() {
+        return 165;
+    }
+
+    @Override
+    public int getHealth() {
+        return 10;
+    }
 }

@@ -39,8 +39,8 @@ public class SingularityLeggings extends CustomArmorBlueprint implements ToolBre
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.ARMOR, 6),
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 720),
-                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 210),
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 930),
+                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 460),
                 new ScalarAttributeEntry(Attribute.GENERIC_KNOCKBACK_RESISTANCE, .2),
                 new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, .2),
                 new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .2)
@@ -49,7 +49,7 @@ public class SingularityLeggings extends CustomArmorBlueprint implements ToolBre
 
     @Override
     public int getMaxDurability() {
-        return 1_000_000;
+        return 100_000;
     }
 
     @Override

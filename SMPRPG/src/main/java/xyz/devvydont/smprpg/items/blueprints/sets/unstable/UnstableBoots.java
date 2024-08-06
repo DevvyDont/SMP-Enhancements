@@ -14,6 +14,11 @@ public class UnstableBoots extends UnstableArmorSet implements Dyeable {
     }
 
     @Override
+    public double getStatMultiplier() {
+        return .6;
+    }
+
+    @Override
     public ItemClassification getItemClassification() {
         return ItemClassification.BOOTS;
     }

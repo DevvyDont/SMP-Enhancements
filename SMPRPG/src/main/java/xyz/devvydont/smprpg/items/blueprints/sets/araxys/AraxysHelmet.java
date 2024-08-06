@@ -28,7 +28,7 @@ public class AraxysHelmet extends CustomFakeHelmetBlueprint implements Craftable
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 120),
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 115),
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 25),
                 new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .05)
         );

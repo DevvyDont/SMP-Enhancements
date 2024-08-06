@@ -13,6 +13,11 @@ public class AmethystBoots extends AmethystArmorSet {
     }
 
     @Override
+    public int getDefense() {
+        return 18;
+    }
+
+    @Override
     public ItemClassification getItemClassification() {
         return ItemClassification.BOOTS;
     }
