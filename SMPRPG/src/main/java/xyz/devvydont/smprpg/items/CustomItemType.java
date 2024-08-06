@@ -7,6 +7,7 @@ import xyz.devvydont.smprpg.items.blueprints.debug.SpiderRepellentBlueprint;
 import xyz.devvydont.smprpg.items.blueprints.economy.CustomItemCoin;
 import xyz.devvydont.smprpg.items.blueprints.equipment.GrapplingHook;
 import xyz.devvydont.smprpg.items.blueprints.resources.EmptyBlueprint;
+import xyz.devvydont.smprpg.items.blueprints.resources.crafting.DraconicCrystal;
 import xyz.devvydont.smprpg.items.blueprints.resources.mining.*;
 import xyz.devvydont.smprpg.items.blueprints.resources.mob.*;
 import xyz.devvydont.smprpg.items.blueprints.sets.amethyst.AmethystBoots;
@@ -448,6 +449,10 @@ public enum CustomItemType {
     // SHULKER
     PREMIUM_SHULKER_SHELL("Premium Shulker Shell", Material.SHULKER_SHELL, ItemRarity.RARE, true, ShulkerFamilyBlueprint.class),
     ENCHANTED_SHULKER_SHELL("Enchanted Shulker Shell", Material.SHULKER_SHELL, ItemRarity.EPIC, true, ShulkerFamilyBlueprint.class),
+
+    // DRAGON
+    DRAGON_SCALES(   "Dragon Scales",    Material.PHANTOM_MEMBRANE, ItemRarity.RARE, true),
+    DRACONIC_CRYSTAL("Draconic Crystal", Material.AMETHYST_CLUSTER, ItemRarity.EPIC, true, DraconicCrystal.class),
 
     // PASSIVE MOBS
     PREMIUM_PORKCHOP("Premium Porkchop", Material.COOKED_PORKCHOP, ItemRarity.UNCOMMON, true, PorkchopFamilyBlueprint.class),

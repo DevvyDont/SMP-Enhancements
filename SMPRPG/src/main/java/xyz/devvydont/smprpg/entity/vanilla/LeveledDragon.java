@@ -7,8 +7,16 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.base.VanillaEntity;
+import xyz.devvydont.smprpg.items.CustomItemType;
+import xyz.devvydont.smprpg.util.items.ChancedItemDrop;
+import xyz.devvydont.smprpg.util.items.LootDrop;
+import xyz.devvydont.smprpg.util.items.QuantityLootDrop;
+
+import java.util.Collection;
+import java.util.List;
 
 public class LeveledDragon extends VanillaEntity implements Listener {
 
@@ -39,6 +47,18 @@ public class LeveledDragon extends VanillaEntity implements Listener {
     @Override
     public double calculateBaseHealth() {
         return 300_000;
+    }
+
+    @Override
+    public @Nullable Collection<LootDrop> getItemDrops() {
+        return List.of(
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.ELDERFLAME_HELMET), 10, this),
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.ELDERFLAME_CHESTPLATE), 10, this),
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.ELDERFLAME_LEGGINGS), 10, this),
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.ELDERFLAME_BOOTS), 10, this),
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.DRACONIC_CRYSTAL), 3, this),
+                new QuantityLootDrop(plugin.getItemService().getCustomItem(CustomItemType.DRAGON_SCALES), 3, 8, this)
+        );
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
