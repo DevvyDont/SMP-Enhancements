@@ -31,6 +31,7 @@ import xyz.devvydont.smprpg.entity.base.LeveledEntity;
 import xyz.devvydont.smprpg.events.CustomChancedItemDropSuccessEvent;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemRarity;
+import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
 import xyz.devvydont.smprpg.util.items.ChancedItemDrop;
 import xyz.devvydont.smprpg.util.items.DropFireworkTask;
@@ -339,28 +340,33 @@ public class DropsService implements BaseService, Listener {
     @EventHandler
     public void onRareDropObtained(CustomChancedItemDropSuccessEvent event) {
 
-        double ALERT_SERVER = 1/1000.0;
-        double ALERT_PLAYER = 1/20.0;
-
-        if (event.getChance() > ALERT_PLAYER)
-            return;
-
-
-        Component prefix = ComponentUtil.getAlertMessage(Component.text("RARE DROP!!! ").decorate(TextDecoration.BOLD), NamedTextColor.YELLOW, NamedTextColor.GOLD);
+        SMPItemBlueprint blueprint = plugin.getItemService().getBlueprint(event.getItem());
+        ItemRarity rarityOfDrop = blueprint.getRarity(event.getItem());
+        Component prefix = ComponentUtil.getAlertMessage(Component.text(rarityOfDrop.name() + " DROP!!! ").decorate(TextDecoration.BOLD), NamedTextColor.YELLOW, rarityOfDrop.color);
         Component player = ComponentUtil.getColoredComponent(event.getPlayer().getName(), NamedTextColor.AQUA);
         Component item = event.getItem().displayName().hoverEvent(event.getItem().asHoverEvent());
         Component suffix = ComponentUtil.getDefaultText(" found ").append(item).append(ComponentUtil.getDefaultText(" from ")).append(event.getSource().getAsComponent()).append(ComponentUtil.getDefaultText("!"));
         Component chance = ComponentUtil.getColoredComponent(" (" + event.getFormattedChance() + ")", NamedTextColor.DARK_GRAY);
+        boolean broadcastServer = rarityOfDrop.ordinal() >= ItemRarity.LEGENDARY.ordinal();
+        if (event.getChance() < rarityOfDrop.ordinal() * 3 / 100.0)
+            broadcastServer = true;
 
         // We have 3 levels of "rare drop" obtaining based on the chance.
-        // If the drop is 1/1000 or lower alert the entire server
-        if (event.getChance() <= ALERT_SERVER) {
+        // If the drop is worth broadcasting to the entire server...
+        if (broadcastServer) {
             Component message = prefix.append(player).append(suffix).append(chance);
             Bukkit.broadcast(message);
             for (Player p : Bukkit.getOnlinePlayers())
                 p.playSound(p.getLocation(), Sound.ENTITY_CHICKEN_EGG, 1, 1);
             return;
         }
+
+        boolean tellPlayer = rarityOfDrop.ordinal() >= ItemRarity.RARE.ordinal();
+        if (event.getChance() < rarityOfDrop.ordinal() * 6.0 / 100)
+            tellPlayer = true;
+
+        if (!tellPlayer)
+            return;
 
         // Just show the message to the player since it's not THAT crazy
         Component message = prefix.append(ComponentUtil.getDefaultText("You")).append(suffix).append(chance);
