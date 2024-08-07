@@ -1,7 +1,11 @@
 package xyz.devvydont.smprpg.services;
 
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextColor;
 import net.milkbowl.vault.chat.Chat;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Color;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -53,13 +57,47 @@ public class ChatService implements BaseService, Listener {
         return true;
     }
 
+    private TextColor translateLegacyChatColor(ChatColor color) {
+        return switch (color) {
+            case RED -> NamedTextColor.RED;
+            case AQUA -> NamedTextColor.AQUA;
+            case BLUE -> NamedTextColor.BLUE;
+            case GREEN -> NamedTextColor.GREEN;
+            case YELLOW -> NamedTextColor.YELLOW;
+            case GRAY -> NamedTextColor.GRAY;
+            case BLACK -> NamedTextColor.BLACK;
+            case DARK_RED -> NamedTextColor.DARK_RED;
+            case DARK_AQUA -> NamedTextColor.DARK_AQUA;
+            case DARK_BLUE -> NamedTextColor.DARK_BLUE;
+            case DARK_GREEN -> NamedTextColor.DARK_GREEN;
+            case DARK_GRAY -> NamedTextColor.DARK_GRAY;
+            case DARK_PURPLE -> NamedTextColor.DARK_PURPLE;
+            case GOLD -> NamedTextColor.GOLD;
+            default -> NamedTextColor.WHITE;
+        };
+    }
+
+    private TextColor determineNameColor(String prefix) {
+        int index = prefix.lastIndexOf('&');
+        if (index == -1 || index == prefix.length() - 1)
+            return NamedTextColor.WHITE;
+
+        ChatColor color = ChatColor.getByChar(prefix.charAt(index+1));
+        if (color == null)
+            return NamedTextColor.WHITE;
+
+        return translateLegacyChatColor(color);
+    }
+
     public PlayerChatInformation getPlayerInfo(Player player) {
-        return new PlayerChatInformation(player, chat.getPlayerPrefix(player), chat.getPlayerSuffix(player));
+        String prefix = chat.getPlayerPrefix(player);
+        return new PlayerChatInformation(player, prefix, chat.getPlayerSuffix(player), determineNameColor(prefix));
     }
 
     public PlayerChatInformation getPlayerInfo(OfflinePlayer player) {
         String world = Bukkit.getWorlds().get(0).getName();
-        return new PlayerChatInformation(player, chat.getPlayerPrefix(world, player), chat.getPlayerSuffix(world, player));
+        String prefix = chat.getPlayerPrefix(world, player);
+        return new PlayerChatInformation(player, prefix, chat.getPlayerSuffix(world, player), determineNameColor(prefix));
     }
 
     public PlayerChatInformation getPlayerInfo(String name) {
@@ -69,7 +107,8 @@ public class ChatService implements BaseService, Listener {
         if (p == null)
             p = Bukkit.getOfflinePlayer(name);
 
-        return new PlayerChatInformation(p, chat.getPlayerPrefix("world", p), chat.getPlayerSuffix("world", p));
+        String prefix = chat.getPlayerPrefix("world", p);
+        return new PlayerChatInformation(p, prefix, chat.getPlayerSuffix("world", p), determineNameColor(prefix));
     }
 
 }

@@ -52,12 +52,12 @@ public class LeveledDragon extends VanillaEntity implements Listener {
     @Override
     public @Nullable Collection<LootDrop> getItemDrops() {
         return List.of(
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.ELDERFLAME_HELMET), 10, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.ELDERFLAME_CHESTPLATE), 10, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.ELDERFLAME_LEGGINGS), 10, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.ELDERFLAME_BOOTS), 10, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.DRACONIC_CRYSTAL), 3, this),
-                new QuantityLootDrop(plugin.getItemService().getCustomItem(CustomItemType.DRAGON_SCALES), 3, 8, this)
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.ELDERFLAME_HELMET), 15, this),
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.ELDERFLAME_CHESTPLATE), 15, this),
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.ELDERFLAME_LEGGINGS), 15, this),
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.ELDERFLAME_BOOTS), 15, this),
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.DRACONIC_CRYSTAL), 4, this),
+                new QuantityLootDrop(plugin.getItemService().getCustomItem(CustomItemType.DRAGON_SCALES), 2, 7, this)
         );
     }
 

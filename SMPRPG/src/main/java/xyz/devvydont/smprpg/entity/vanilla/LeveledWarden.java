@@ -2,10 +2,19 @@ package xyz.devvydont.smprpg.entity.vanilla;
 
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
+import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.Listener;
+import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.base.VanillaEntity;
+import xyz.devvydont.smprpg.items.CustomItemType;
+import xyz.devvydont.smprpg.util.items.ChancedItemDrop;
+import xyz.devvydont.smprpg.util.items.LootDrop;
+import xyz.devvydont.smprpg.util.items.QuantityLootDrop;
+
+import java.util.Collection;
+import java.util.List;
 
 public class LeveledWarden extends VanillaEntity implements Listener {
 
@@ -42,5 +51,18 @@ public class LeveledWarden extends VanillaEntity implements Listener {
     @Override
     public TextColor getEntityNametagColor() {
         return NamedTextColor.DARK_PURPLE;
+    }
+
+    @Override
+    public @Nullable Collection<LootDrop> getItemDrops() {
+        return List.of(
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.PRELUDE_HELMET), 25, this),
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.PRELUDE_CHESTPLATE), 25, this),
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.PRELUDE_LEGGINGS), 25, this),
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.PRELUDE_BOOTS), 25, this),
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.PREMIUM_ECHO_SHARD), 6, this),
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.ENCHANTED_ECHO_SHARD), 45, this),
+                new QuantityLootDrop(plugin.getItemService().getCustomItem(Material.ECHO_SHARD), 2, 7, this)
+        );
     }
 }
