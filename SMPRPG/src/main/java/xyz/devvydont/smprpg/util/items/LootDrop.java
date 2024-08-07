@@ -18,6 +18,6 @@ public interface LootDrop {
      * @return
      */
     @Nullable
-    public Collection<ItemStack> roll(Player player, @Nullable ItemStack tool);
+    Collection<ItemStack> roll(Player player, @Nullable ItemStack tool, double chanceDecay);
 
 }

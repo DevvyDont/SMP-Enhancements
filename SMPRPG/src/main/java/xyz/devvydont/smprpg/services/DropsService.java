@@ -297,25 +297,30 @@ public class DropsService implements BaseService, Listener {
             event.getDrops().clear();
 
         // Loop through all players that helped kill this entity and did at least some meaningful damage
-        int damageRequirement = 1;  // todo maybe make this a percent?
-        List<Player> involvedPlayers = new ArrayList<>();
-        involvedPlayers.add(killer);
+        Map<Player, Double> involvedPlayers = new HashMap<>();
+        involvedPlayers.put(killer, 1.0);  // Ensure killer at least gets credit for the kill
 
         // If this entity has a damage map go through all participants and add them to the involved players
         if (entity instanceof EnemyEntity enemy)
             for (Map.Entry<Player, Integer> entry : enemy.getPlayerDamageTracker().entrySet())
-                if (!entry.getKey().equals(killer))
-                    if (entry.getValue() >= damageRequirement)
-                        involvedPlayers.add(entry.getKey());
+                // Add this player damage to max hp ratio
+                involvedPlayers.put(entry.getKey(), Math.min(entry.getValue() / enemy.getMaxHp(), 1.0));
 
         // Loop through every involved player
-        for (Player player : involvedPlayers) {
+        for (Map.Entry<Player, Double> entry : involvedPlayers.entrySet()) {
+
+            Player player = entry.getKey();
+            Double damageRatio = entry.getValue();
+
+            // If an entity does at least 50% damage to an entity, they should get full credit for drops
+            damageRatio *= 2;
+            damageRatio = Math.min(damageRatio, 1.0);
 
             // Loop through all the droppable items from the entity
             for (LootDrop drop : entity.getItemDrops()) {
 
                 // Test for items to drop
-                Collection<ItemStack> roll = drop.roll(player, player.getInventory().getItemInMainHand());
+                Collection<ItemStack> roll = drop.roll(player, player.getInventory().getItemInMainHand(), damageRatio);
                 // If we didn't roll anything skip
                 if (roll == null || roll.isEmpty())
                     continue;

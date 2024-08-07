@@ -54,14 +54,15 @@ public class ChancedItemDrop implements LootDrop {
      */
     @Override
     @Nullable
-    public Collection<ItemStack> roll(Player player, @Nullable ItemStack tool) {
+    public Collection<ItemStack> roll(Player player, @Nullable ItemStack tool, double chanceDecay) {
 
         // Make an event for this drop chance to allow the plugin to modify it in other places
         CustomItemDropRollEvent event = new CustomItemDropRollEvent(player, tool, getChance(), item);
         event.callEvent();
 
         // RNG roll
-        if (Math.random() < event.getChance()) {
+        double chance = event.getChance() * chanceDecay;
+        if (Math.random() < chance) {
             ItemStack reward = getItemCopy();
             new CustomChancedItemDropSuccessEvent(player, event.getChance(), reward, getSource()).callEvent();
             return List.of(reward);

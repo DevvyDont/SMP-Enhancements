@@ -24,7 +24,7 @@ public class QuantityLootDrop implements LootDrop {
     }
 
     @Override
-    public @Nullable Collection<ItemStack> roll(Player player, @Nullable ItemStack tool) {
+    public @Nullable Collection<ItemStack> roll(Player player, @Nullable ItemStack tool, double chanceDecay) {
         int count = min;
         int possibleExtra = max - min;
         count += (int) (Math.random() * (possibleExtra+1));
@@ -33,7 +33,11 @@ public class QuantityLootDrop implements LootDrop {
         event.callEvent();
         if (event.isCancelled())
             return null;
+
         count = event.getAmount();
+        count *= (int) Math.round(chanceDecay);
+        if (count <= 0)
+            return null;
 
         List<ItemStack> drops = new ArrayList<>();
         for (int i = 0; i < count; i++)
