@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ItemType;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.commands.CommandBase;
 import xyz.devvydont.smprpg.items.SMPItemQuery;
@@ -102,5 +103,10 @@ public class CommandGiveItem extends CommandBase {
 
         return validArgs;
 
+    }
+
+    @Override
+    public @Nullable String permission() {
+        return "smprpg.command.give";
     }
 }

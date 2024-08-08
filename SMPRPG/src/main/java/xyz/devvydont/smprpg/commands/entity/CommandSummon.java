@@ -6,6 +6,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.commands.CommandBase;
 import xyz.devvydont.smprpg.entity.CustomEntityType;
@@ -99,5 +100,10 @@ public class CommandSummon extends CommandBase {
                 valid.add(option);
 
         return valid;
+    }
+
+    @Override
+    public @Nullable String permission() {
+        return "smprpg.command.summon";
     }
 }

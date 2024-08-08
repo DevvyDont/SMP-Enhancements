@@ -2,6 +2,8 @@ package xyz.devvydont.smprpg.commands.player;
 
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.util.TriState;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.SMPRPG;
@@ -12,7 +14,11 @@ import xyz.devvydont.smprpg.skills.SkillGlobals;
 import xyz.devvydont.smprpg.skills.SkillInstance;
 import xyz.devvydont.smprpg.skills.SkillType;
 import xyz.devvydont.smprpg.util.formatting.ChatUtil;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
 import xyz.devvydont.smprpg.util.formatting.MinecraftStringUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CommandSkill extends CommandBase {
 
@@ -30,13 +36,40 @@ public class CommandSkill extends CommandBase {
         player.getPlayer().sendMessage(ChatUtil.getSuccessMessage("Set your " + skill.getDisplayName() + " skill to level " + inst.getLevel()));
     }
 
+    private List<Component> getSkillDisplay(LeveledPlayer player) {
+
+        List<Component> display = new ArrayList<>();
+        display.add(Component.empty());
+        for (SkillInstance skill : player.getSkills())
+            display.add(
+                    ComponentUtil.getColoredComponent(skill.getType().getDisplayName() + " " + skill.getLevel(), NamedTextColor.AQUA)
+                            .append(ComponentUtil.getDefaultText(" - "))
+                            .append(ComponentUtil.getColoredComponent(MinecraftStringUtils.formatNumber(skill.getExperienceProgress()), NamedTextColor.GREEN))
+                            .append(ComponentUtil.getDefaultText("/"))
+                            .append(ComponentUtil.getColoredComponent(MinecraftStringUtils.formatNumber(skill.getNextExperienceThreshold()), NamedTextColor.GOLD))
+                            .append(ComponentUtil.getDefaultText(" ("))
+                            .append(ComponentUtil.getColoredComponent(MinecraftStringUtils.formatNumber(skill.getExperience()) + "XP", NamedTextColor.DARK_GRAY))
+                            .append(ComponentUtil.getDefaultText(")"))
+            );
+        display.add(Component.empty());
+        display.add(ComponentUtil.getDefaultText("Skill Average: ").append(ComponentUtil.getColoredComponent(String.format("%.2f", player.getAverageSkillLevel()), NamedTextColor.GOLD)));
+        return display;
+    }
+
     @Override
     public void execute(@NotNull CommandSourceStack commandSourceStack, @NotNull String[] strings) {
 
         if (!(commandSourceStack.getSender() instanceof Player p))
             return;
 
+        boolean isAdmin = commandSourceStack.getSender().permissionValue("smprpg.command.skill.admin").equals(TriState.TRUE);
         LeveledPlayer player = SMPRPG.getInstance().getEntityService().getPlayerInstance(p);
+
+        if (!isAdmin) {
+            for (Component component : getSkillDisplay(player))
+                player.getPlayer().sendMessage(component);
+            return;
+        }
 
         if (strings.length >= 1) {
 
@@ -73,8 +106,7 @@ public class CommandSkill extends CommandBase {
 
         }
 
-        p.sendMessage(Component.empty());
-        for (SkillInstance skill : player.getSkills())
-            p.sendMessage(skill.getType().getDisplayName() + " " + skill.getLevel() + " " + MinecraftStringUtils.formatNumber(skill.getExperience()) + "XP " + "(" + MinecraftStringUtils.formatNumber(skill.getExperienceProgress()) + "/" + MinecraftStringUtils.formatNumber(skill.getNextExperienceThreshold()) + ")");
+        for (Component component : getSkillDisplay(player))
+            player.getPlayer().sendMessage(component);
     }
 }

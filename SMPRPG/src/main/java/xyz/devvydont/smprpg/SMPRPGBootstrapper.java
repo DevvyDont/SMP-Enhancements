@@ -7,10 +7,7 @@ import io.papermc.paper.plugin.lifecycle.event.LifecycleEventManager;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.commands.CommandBase;
-import xyz.devvydont.smprpg.commands.economy.CommandBalance;
-import xyz.devvydont.smprpg.commands.economy.CommandBalanceTop;
-import xyz.devvydont.smprpg.commands.economy.CommandDeposit;
-import xyz.devvydont.smprpg.commands.economy.CommandWithdrawal;
+import xyz.devvydont.smprpg.commands.economy.*;
 import xyz.devvydont.smprpg.commands.entity.CommandSummon;
 import xyz.devvydont.smprpg.commands.items.CommandGiveItem;
 import xyz.devvydont.smprpg.commands.items.CommandSearchItem;
@@ -24,6 +21,7 @@ public class SMPRPGBootstrapper implements PluginBootstrap {
 
     private void bootstrapCommands(BootstrapContext context) {
         CommandBase[] commandsToRegister = new CommandBase[] {
+                new CommandEcoAdmin("eco"),
                 new CommandBalance("balance"),
                 new CommandBalanceTop("balancetop"),
                 new CommandDeposit("deposit"),
