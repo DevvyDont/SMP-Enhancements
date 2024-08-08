@@ -8,7 +8,9 @@ import org.bukkit.persistence.PersistentDataType;
 import xyz.devvydont.smprpg.entity.base.CustomEntityInstance;
 import xyz.devvydont.smprpg.entity.base.LeveledEntity;
 import xyz.devvydont.smprpg.entity.base.NPCEntity;
+import xyz.devvydont.smprpg.entity.creatures.CastleDweller;
 import xyz.devvydont.smprpg.entity.creatures.TestZombie;
+import xyz.devvydont.smprpg.entity.creatures.UndeadArcher;
 import xyz.devvydont.smprpg.entity.creatures.WitheredSeraph;
 import xyz.devvydont.smprpg.entity.npc.ReforgeNPC;
 import xyz.devvydont.smprpg.entity.spawning.BiomeSpawnCondition;
@@ -19,9 +21,15 @@ import xyz.devvydont.smprpg.services.EntityService;
 // Enums to use for the retrieval, storage, and statistics of "custom" entities.
 public enum CustomEntityType {
 
+    CASTLE_DWELLER(EntityType.ZOMBIE_VILLAGER, "Castle Dweller",
+            15, 900, 110, CastleDweller.class),
+
+    UNDEAD_ARCHER(EntityType.SKELETON, "Undead Archer",
+            15, 750, 90, UndeadArcher.class),
+
     // Wither skeletons that spawn on the end island
     WITHERED_SERAPH(EntityType.WITHER_SKELETON, "Withered Seraph",
-            45, 5_000, 900,
+            45, 16_000, 1800,
             new BiomeSpawnCondition[]{new BiomeSpawnCondition(Biome.THE_END)}, 15,
             WitheredSeraph.class
     ),

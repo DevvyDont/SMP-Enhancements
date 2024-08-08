@@ -13,6 +13,7 @@ import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.util.attributes.AttributeUtil;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
+import xyz.devvydont.smprpg.util.formatting.MinecraftStringUtils;
 import xyz.devvydont.smprpg.util.formatting.Symbols;
 import xyz.devvydont.smprpg.util.items.LootDrop;
 import xyz.devvydont.smprpg.util.items.LootSource;
@@ -101,9 +102,9 @@ public abstract class LeveledEntity implements LootSource {
 
         TextColor hpTextColor = getChatColorFromHealth(getHp(), getMaxHp());
 
-        return Component.text(" " + hp).color(hpTextColor)
+        return Component.text(" " + MinecraftStringUtils.formatNumber(hp)).color(hpTextColor)
                 .append(Component.text("/").color(NamedTextColor.GRAY))
-                .append(Component.text(maxHp).color(NamedTextColor.GREEN))
+                .append(Component.text(MinecraftStringUtils.formatNumber(maxHp)).color(NamedTextColor.GREEN))
                 .append(Component.text(Symbols.HEART).color(NamedTextColor.DARK_RED));
     }
 
@@ -231,11 +232,13 @@ public abstract class LeveledEntity implements LootSource {
 
         AttributeInstance attrInstance = entity.getAttribute(attribute);
         if (attrInstance == null) {
+            entity.registerAttribute(attribute);
             plugin.getLogger().fine(String.format("Tried to set %s attribute on %s, does not have it", attribute.name(), entity.getName()));
-            return;
+            attrInstance = entity.getAttribute(attribute);
         }
 
-        attrInstance.setBaseValue(value);
+        if (attrInstance != null)
+            attrInstance.setBaseValue(value);
     }
 
     /**
@@ -313,5 +316,23 @@ public abstract class LeveledEntity implements LootSource {
     @Override
     public Component getAsComponent() {
         return ComponentUtil.getDefaultText("defeating a(n) ").append(ComponentUtil.getColoredComponent(getDefaultName(), NamedTextColor.RED));
+    }
+
+    /**
+     * How much damage should be dealt to be considered for full loot/exp?
+     *
+     * @return
+     */
+    public double getDamageRatioRequirement() {
+        return .5;
+    }
+
+    /**
+     * Using the ratio requirement, calculate a number of exact damage we need to do
+     *
+     * @return
+     */
+    public int getDamageRequirement() {
+        return (int) (getMaxHp() * getDamageRatioRequirement());
     }
 }

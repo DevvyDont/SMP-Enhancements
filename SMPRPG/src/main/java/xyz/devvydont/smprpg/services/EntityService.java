@@ -47,7 +47,7 @@ public class EntityService implements BaseService, Listener {
 
     private final Map<UUID, LeveledEntity> entityInstances;
     private final Map<String, CustomEntityType> entityResolver;
-    private final Map<EntityType, Class<? extends VanillaEntity>> vanillaEntityHandlers;
+    private final Map<EntityType, Class<? extends LeveledEntity>> vanillaEntityHandlers;
 
     public static NamespacedKey getClassNamespacedKey(SMPRPG plugin) {
         return new NamespacedKey(plugin, ENTITY_CLASS_KEY);
@@ -123,9 +123,9 @@ public class EntityService implements BaseService, Listener {
      *
      * @param entity
      */
-    public VanillaEntity getNewVanillaEntityInstance(LivingEntity entity) {
+    public LeveledEntity getNewVanillaEntityInstance(LivingEntity entity) {
 
-        VanillaEntity ret;
+        LeveledEntity ret;
 
         // Are we using the vanilla handler? (We don't have a custom class setup for this vanilla type)
         if (!vanillaEntityHandlers.containsKey(entity.getType())) {
@@ -136,7 +136,7 @@ public class EntityService implements BaseService, Listener {
         }
 
         // Reflection hacks since we have a custom handler
-        Class<? extends VanillaEntity> handler = vanillaEntityHandlers.get(entity.getType());
+        Class<? extends LeveledEntity> handler = vanillaEntityHandlers.get(entity.getType());
         try {
             ret = handler.getConstructor(SMPRPG.class, LivingEntity.class).newInstance(plugin, entity);
             ret.updateAttributes();

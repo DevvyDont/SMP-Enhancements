@@ -1,6 +1,8 @@
 package xyz.devvydont.smprpg.entity.vanilla;
 
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.AreaEffectCloud;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -9,6 +11,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
+import xyz.devvydont.smprpg.entity.base.BossInstance;
 import xyz.devvydont.smprpg.entity.base.VanillaEntity;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.util.items.ChancedItemDrop;
@@ -18,7 +21,7 @@ import xyz.devvydont.smprpg.util.items.QuantityLootDrop;
 import java.util.Collection;
 import java.util.List;
 
-public class LeveledDragon extends VanillaEntity implements Listener {
+public class LeveledDragon extends BossInstance implements Listener {
 
     public LeveledDragon(SMPRPG plugin, LivingEntity entity) {
         super(plugin, entity);
@@ -29,22 +32,27 @@ public class LeveledDragon extends VanillaEntity implements Listener {
         return 50;
     }
 
+
     @Override
     public double calculateBaseAttackDamage() {
         return 2000;
     }
 
     @Override
-    public double calculateBaseDamageMultiplier() {
-        return 1.0;
+    public String getClassKey() {
+        return VanillaEntity.VANILLA_CLASS_KEY;
     }
 
     @Override
-    public double calculateBaseHealthMultiplier() {
-        return 1.0;
+    public EntityType getDefaultEntityType() {
+        return EntityType.ENDER_DRAGON;
     }
 
     @Override
+    public String getDefaultName() {
+        return "Ender Dragon";
+    }
+
     public double calculateBaseHealth() {
         return 300_000;
     }

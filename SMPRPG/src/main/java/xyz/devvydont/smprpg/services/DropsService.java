@@ -312,8 +312,8 @@ public class DropsService implements BaseService, Listener {
             Player player = entry.getKey();
             Double damageRatio = entry.getValue();
 
-            // If an entity does at least 50% damage to an entity, they should get full credit for drops
-            damageRatio *= 2;
+            // If an entity does at least some % damage to an entity, they should get full credit for drops
+            damageRatio /= entity.getDamageRatioRequirement();
             damageRatio = Math.min(damageRatio, 1.0);
 
             // Loop through all the droppable items from the entity

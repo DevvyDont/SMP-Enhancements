@@ -67,6 +67,7 @@ import xyz.devvydont.smprpg.items.blueprints.sets.neofrontier.NeoFrontierChestpl
 import xyz.devvydont.smprpg.items.blueprints.sets.neofrontier.NeoFrontierHelmet;
 import xyz.devvydont.smprpg.items.blueprints.sets.neofrontier.NeoFrontierLeggings;
 import xyz.devvydont.smprpg.items.blueprints.sets.neptune.*;
+import xyz.devvydont.smprpg.items.blueprints.sets.netherite.NetheriteBow;
 import xyz.devvydont.smprpg.items.blueprints.sets.prelude.PreludeBoots;
 import xyz.devvydont.smprpg.items.blueprints.sets.prelude.PreludeChestplate;
 import xyz.devvydont.smprpg.items.blueprints.sets.prelude.PreludeHelmet;
@@ -303,8 +304,9 @@ public enum CustomItemType {
     PRELUDE_BOOTS(     "Prelude to Chaos Boots",          Material.NETHERITE_BOOTS,      ItemRarity.LEGENDARY,  PreludeBoots.class),
 
     // BOWS
-    DIAMOND_BOW("Diamond Bow", Material.BOW, ItemRarity.UNCOMMON,  DiamondBow.class),
-    IRON_BOW(   "Iron Bow",    Material.BOW, ItemRarity.COMMON,  IronBow.class),
+    NETHERITE_BOW("Netherite Bow", Material.BOW, ItemRarity.RARE,      NetheriteBow.class),
+    DIAMOND_BOW("Diamond Bow",     Material.BOW, ItemRarity.UNCOMMON,  DiamondBow.class),
+    IRON_BOW(   "Iron Bow",        Material.BOW, ItemRarity.COMMON,    IronBow.class),
 
     // MISC TOOLS
     GRAPPLING_HOOK("Grappling Hook", Material.FISHING_ROD, ItemRarity.RARE, GrapplingHook.class),
@@ -502,6 +504,8 @@ public enum CustomItemType {
 
     ENTITY_ANALYZER("Entity Analyzer", Material.CLOCK, ItemRarity.SPECIAL, true, EntityAnalyzer.class),
     ENTITY_ANALYZER_REPORT("Entity Analyzer Report", Material.PAPER, ItemRarity.SPECIAL, true),
+
+    DUMMY_SMITHING_RESULT("DUMMY SMITHING RESULT", Material.BARRIER, ItemRarity.SPECIAL)
     ;
 
     public final String name;

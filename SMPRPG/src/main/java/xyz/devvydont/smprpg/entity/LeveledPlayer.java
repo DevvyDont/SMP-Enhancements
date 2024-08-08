@@ -266,7 +266,10 @@ public class LeveledPlayer extends LeveledEntity implements Listener {
         PlayerChatInformation chatInformation = plugin.getChatService().getPlayerInfo(getPlayer());
         Component newPrefix = ChatUtil.getBracketedPowerComponent(getLevel()).append(Component.text(" "));
         team.prefix(newPrefix);
-        team.suffix(Component.text(ChatColor.translateAlternateColorCodes('&', chatInformation.prefix())));
+        if (!chatInformation.suffix().isEmpty())
+            team.suffix(Component.text(" " + ChatColor.translateAlternateColorCodes('&', chatInformation.prefix()).stripTrailing()));
+        else
+            team.suffix(null);
         team.color(NamedTextColor.nearestTo(chatInformation.nameColor()));
     }
 

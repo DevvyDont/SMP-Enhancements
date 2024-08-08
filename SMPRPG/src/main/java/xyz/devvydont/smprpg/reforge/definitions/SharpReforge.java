@@ -20,7 +20,7 @@ public class SharpReforge extends ReforgeBase {
     }
 
     public static float getDamageBonus(ItemRarity rarity) {
-        return .01f * rarity.ordinal() + .5f;
+        return .01f * rarity.ordinal() + .05f;
     }
 
     @Override

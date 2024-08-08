@@ -79,8 +79,7 @@ public class CommandBalanceTop extends CommandBase {
                     if (rank > 10)
                         break;
 
-                    PlayerChatInformation info = SMPRPG.getInstance().getChatService().getPlayerInfo(entry.player);
-                    String legacyName = ChatColor.translateAlternateColorCodes('&', (info.prefix() + entry.player.getName() + info.suffix()));
+                    String legacyName = SMPRPG.getInstance().getChatService().getPlayerDisplayname(entry.player);
 
                     component = component.append(Component.text(String.format("#%d: ", rank)).style(Style.style(NamedTextColor.AQUA, TextDecoration.ITALIC)));
                     component = component.append(Component.text(legacyName));

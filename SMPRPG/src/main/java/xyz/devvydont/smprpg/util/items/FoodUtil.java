@@ -114,6 +114,13 @@ public class FoodUtil {
 
     }
 
+    public static boolean canEatAlways(Material material) {
+        return switch (material) {
+            case GOLDEN_APPLE, ENCHANTED_GOLDEN_APPLE -> true;
+            default -> false;
+        };
+    }
+
     private record FoodEffectWrapper (PotionEffect effect, float probability){ }
 
     public static List<FoodEffectWrapper> getVanillaFoodEffects(Material material) {
@@ -193,6 +200,7 @@ public class FoodUtil {
         food.setEatSeconds(getEatTime(material));
         food.setNutrition(getNutrition(material));
         food.setSaturation(getSaturation(material));
+        food.setCanAlwaysEat(canEatAlways(material));
         List<FoodEffectWrapper> effects = getVanillaFoodEffects(material);
         if (!effects.isEmpty())
             for (FoodEffectWrapper effect : effects)

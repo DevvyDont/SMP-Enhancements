@@ -72,6 +72,7 @@ public class ChatService implements BaseService, Listener {
             case DARK_GREEN -> NamedTextColor.DARK_GREEN;
             case DARK_GRAY -> NamedTextColor.DARK_GRAY;
             case DARK_PURPLE -> NamedTextColor.DARK_PURPLE;
+            case LIGHT_PURPLE -> NamedTextColor.LIGHT_PURPLE;
             case GOLD -> NamedTextColor.GOLD;
             default -> NamedTextColor.WHITE;
         };
@@ -111,4 +112,8 @@ public class ChatService implements BaseService, Listener {
         return new PlayerChatInformation(p, prefix, chat.getPlayerSuffix("world", p), determineNameColor(prefix));
     }
 
+    public String getPlayerDisplayname(OfflinePlayer player) {
+        PlayerChatInformation information = getPlayerInfo(player);
+        return ChatColor.translateAlternateColorCodes('&', (information.prefix() + player.getName() + information.suffix().stripTrailing()));
+    }
 }

@@ -64,7 +64,7 @@ public class ItemService implements BaseService, Listener {
 
     private final Map<String, ReforgeBase> reforges;
 
-    private final List<CraftingRecipe> registeredRecipes;
+    private final List<Recipe> registeredRecipes;
 
     public ItemService(SMPRPG plugin) {
         this.plugin = plugin;
@@ -245,6 +245,7 @@ public class ItemService implements BaseService, Listener {
 
                 registeredRecipes.add(craftable.getCustomRecipe());
             }
+
         }
 
         // Go back through all items and find recipe links, kind of ugly but this will save us computation time
@@ -588,7 +589,7 @@ public class ItemService implements BaseService, Listener {
      *
      * @return
      */
-    public Collection<CraftingRecipe> getCustomRecipes() {
+    public Collection<Recipe> getCustomRecipes() {
         return registeredRecipes;
     }
 
@@ -720,37 +721,34 @@ public class ItemService implements BaseService, Listener {
         if (input == null || input.getType().equals(Material.AIR))
             return;
 
-        SMPItemBlueprint inputBlueprint = getBlueprint(input);
-
-        // Do we have a custom item in the input slot? If so, make sure result is empty and return
-        if (inputBlueprint.isCustom()) {
-            event.setResult(null);
-            return;
-        }
-
-        // Skip anything that isn't diamond
-        if (!ItemUtil.getDiamondEquipment().contains(input.getType()))
-            return;
-
-        // Skip if nothing is in the output
+        // Nothing in output means we don't care
         ItemStack output = event.getResult();
         if (output == null || output.getType().equals(Material.AIR))
             return;
 
+        SMPItemBlueprint inputBlueprint = getBlueprint(input);
+        SMPItemBlueprint outputBlueprint = getBlueprint(output);
+
+        // Don't allow custom items to turn into vanilla ones. If we have a custom input and a vanilla output, something
+        // is not right.
+        if (inputBlueprint instanceof CustomItemBlueprint && outputBlueprint instanceof VanillaItemBlueprint) {
+            event.setResult(null);
+            return;
+        }
+
+        // Don't allow custom items to be an input
+        if (inputBlueprint instanceof CustomItemBlueprint) {
+            event.setResult(null);
+            return;
+        }
+
+        // If we have a dummy item as a result, set the result to nothing, this is so that custom smithing recipes can work properly
+        if (outputBlueprint instanceof CustomItemBlueprint custom && custom.getCustomItemType().equals(CustomItemType.DUMMY_SMITHING_RESULT)) {
+            event.setResult(null);
+            return;
+        }
+
         ensureItemStackUpdated(output);
-
-        // Skip if netherite is not in the output
-        if (!ItemUtil.getNetheriteEquipment().contains(output.getType()))
-            return;
-
-        // Skip this item if it doesn't have a display name (won't screw it up)
-        ItemMeta outputMeta = output.getItemMeta();
-        if (outputMeta.displayName() == null)
-            return;
-
-        TextReplacementConfig replacer = TextReplacementConfig.builder().matchLiteral("Diamond").replacement("Netherite").build();
-        outputMeta.displayName(outputMeta.displayName().replaceText(replacer));
-        output.setItemMeta(outputMeta);
         event.setResult(output);
     }
 
