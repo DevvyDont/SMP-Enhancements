@@ -49,7 +49,7 @@ public class LootingEnchantment extends VanillaEnchantment implements Listener {
 
     @Override
     public TagKey<ItemType> getItemTypeTag() {
-        return ItemTypeTagKeys.ENCHANTABLE_WEAPON;
+        return ItemTypeTagKeys.ENCHANTABLE_SHARP_WEAPON;
     }
 
     @Override
@@ -84,7 +84,7 @@ public class LootingEnchantment extends VanillaEnchantment implements Listener {
 
     @Override
     public int getSkillRequirement() {
-        return 20;
+        return 15;
     }
 
     @EventHandler

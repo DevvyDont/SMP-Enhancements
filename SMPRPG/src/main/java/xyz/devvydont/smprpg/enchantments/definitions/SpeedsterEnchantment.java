@@ -79,7 +79,7 @@ public class SpeedsterEnchantment extends CustomEnchantment implements Attribute
 
     @Override
     public int getSkillRequirement() {
-        return 56;
+        return 21;
     }
 
     @Override

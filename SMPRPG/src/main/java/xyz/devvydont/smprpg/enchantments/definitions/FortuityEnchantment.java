@@ -81,13 +81,13 @@ public class FortuityEnchantment extends CustomEnchantment implements Listener {
 
     @Override
     public int getSkillRequirement() {
-        return 17;
+        return 25;
     }
 
     @EventHandler
     public void onItemRoll(CustomItemDropRollEvent event) {
 
-        int fortuity = EnchantmentUtil.getEnchantLevel(getEnchantment(), event.getTool());
+        int fortuity = EnchantmentUtil.getHoldingEnchantLevel(getEnchantment(), EquipmentSlotGroup.HAND, event.getPlayer().getEquipment());
         if (fortuity < 1)
             return;
 

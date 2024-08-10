@@ -15,7 +15,8 @@ public enum ItemClassification {
     TRIDENT(ItemTypeTagKeys.ENCHANTABLE_WEAPON, ItemTypeTagKeys.ENCHANTABLE_SHARP_WEAPON, ItemTypeTagKeys.ENCHANTABLE_DURABILITY, ItemTypeTagKeys.ENCHANTABLE_VANISHING, ItemTypeTagKeys.ENCHANTABLE_TRIDENT),
     MACE(ItemTypeTagKeys.ENCHANTABLE_MACE, ItemTypeTagKeys.ENCHANTABLE_WEAPON, ItemTypeTagKeys.ENCHANTABLE_DURABILITY, ItemTypeTagKeys.ENCHANTABLE_VANISHING),
     // Both bows and crossbows
-    BOW(ItemTypeTagKeys.ENCHANTABLE_DURABILITY, ItemTypeTagKeys.ENCHANTABLE_VANISHING),
+    BOW(ItemTypeTagKeys.ENCHANTABLE_DURABILITY, ItemTypeTagKeys.ENCHANTABLE_VANISHING, ItemTypeTagKeys.ENCHANTABLE_BOW, ItemTypeTagKeys.ENCHANTABLE_WEAPON),
+    CROSSBOW(ItemTypeTagKeys.ENCHANTABLE_DURABILITY, ItemTypeTagKeys.ENCHANTABLE_VANISHING, ItemTypeTagKeys.ENCHANTABLE_CROSSBOW, ItemTypeTagKeys.ENCHANTABLE_WEAPON),
     // Some combat focused, some harvest focused
     AXE(ItemTypeTagKeys.ENCHANTABLE_WEAPON, ItemTypeTagKeys.ENCHANTABLE_SHARP_WEAPON, ItemTypeTagKeys.ENCHANTABLE_MINING, ItemTypeTagKeys.ENCHANTABLE_DURABILITY, ItemTypeTagKeys.ENCHANTABLE_VANISHING),
     // Anything that can be worn
@@ -59,7 +60,8 @@ public enum ItemClassification {
         return switch (material) {
             case IRON_SWORD, STONE_SWORD, DIAMOND_SWORD, GOLDEN_SWORD, NETHERITE_SWORD, WOODEN_SWORD -> SWORD;
             case TRIDENT -> TRIDENT;
-            case BOW, CROSSBOW -> BOW;
+            case BOW -> BOW;
+            case CROSSBOW -> CROSSBOW;
             case DIAMOND_AXE, GOLDEN_AXE, IRON_AXE, NETHERITE_AXE, WOODEN_AXE, STONE_AXE -> AXE;
             case CHAINMAIL_HELMET, NETHERITE_HELMET, DIAMOND_HELMET, GOLDEN_HELMET, IRON_HELMET, LEATHER_HELMET, TURTLE_HELMET -> HELMET;
             case DIAMOND_CHESTPLATE, CHAINMAIL_CHESTPLATE, NETHERITE_CHESTPLATE, GOLDEN_CHESTPLATE, IRON_CHESTPLATE, LEATHER_CHESTPLATE, ELYTRA -> CHESTPLATE;
@@ -93,7 +95,7 @@ public enum ItemClassification {
 
     public boolean reforgeable() {
         return switch (this) {
-            case TRIDENT, SWORD, BOW, AXE, HELMET, CHESTPLATE, LEGGINGS, BOOTS, EQUIPMENT, TOOL -> true;
+            case TRIDENT, SWORD, BOW, CROSSBOW, AXE, HELMET, CHESTPLATE, LEGGINGS, BOOTS, EQUIPMENT, TOOL -> true;
             default -> false;
         };
     }

@@ -84,7 +84,7 @@ public class BreachEnchantment extends VanillaEnchantment implements Listener {
 
     @Override
     public int getSkillRequirement() {
-        return 68;
+        return 60;
     }
 
     @EventHandler

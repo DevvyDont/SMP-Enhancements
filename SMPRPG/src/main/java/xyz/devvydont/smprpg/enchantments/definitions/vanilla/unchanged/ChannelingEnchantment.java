@@ -40,6 +40,6 @@ public class ChannelingEnchantment extends UnchangedEnchantment {
 
     @Override
     public int getSkillRequirement() {
-        return 42;
+        return 34;
     }
 }

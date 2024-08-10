@@ -87,7 +87,7 @@ public class ProtectionEnchantment extends VanillaEnchantment implements Attribu
 
     @Override
     public int getSkillRequirement() {
-        return 18;
+        return 0;
     }
 
     @Override

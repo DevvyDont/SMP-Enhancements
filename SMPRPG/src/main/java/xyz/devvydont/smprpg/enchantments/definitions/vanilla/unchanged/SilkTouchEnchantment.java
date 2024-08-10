@@ -34,6 +34,6 @@ public class SilkTouchEnchantment extends UnchangedEnchantment {
 
     @Override
     public int getSkillRequirement() {
-        return 8;
+        return 20;
     }
 }

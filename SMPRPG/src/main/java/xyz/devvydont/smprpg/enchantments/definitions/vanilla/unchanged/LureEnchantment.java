@@ -42,6 +42,6 @@ public class LureEnchantment extends UnchangedEnchantment {
 
     @Override
     public int getSkillRequirement() {
-        return 10;
+        return 13;
     }
 }

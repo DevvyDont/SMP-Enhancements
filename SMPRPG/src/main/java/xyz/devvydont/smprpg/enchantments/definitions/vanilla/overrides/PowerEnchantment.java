@@ -28,20 +28,7 @@ public class PowerEnchantment extends VanillaEnchantment implements AttributeEnc
     }
 
     public static int getDamageIncrease(int level) {
-        return switch (level) {
-            case 0 -> 0;
-            case 1 -> 10;
-            case 2 -> 20;
-            case 3 -> 30;
-            case 4 -> 40;
-            case 5 -> 50;
-            case 6 -> 75;
-            case 7 -> 110;
-            case 8 -> 150;
-            case 9 -> 200;
-            case 10 -> 300;
-            default -> (level-9) * 100 + 200;
-        };
+        return SharpnessEnchantment.getDamageIncrease(level);
     }
 
     @Override
@@ -110,6 +97,6 @@ public class PowerEnchantment extends VanillaEnchantment implements AttributeEnc
 
     @Override
     public int getSkillRequirement() {
-        return 10;
+        return 5;
     }
 }

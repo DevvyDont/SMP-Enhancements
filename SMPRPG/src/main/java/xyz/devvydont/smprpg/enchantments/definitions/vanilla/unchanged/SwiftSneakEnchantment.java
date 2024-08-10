@@ -38,6 +38,6 @@ public class SwiftSneakEnchantment extends UnchangedEnchantment {
 
     @Override
     public int getSkillRequirement() {
-        return 90;
+        return 35;
     }
 }

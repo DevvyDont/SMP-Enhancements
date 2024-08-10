@@ -43,6 +43,6 @@ public class LoyaltyEnchantment extends UnchangedEnchantment {
 
     @Override
     public int getSkillRequirement() {
-        return 48;
+        return 22;
     }
 }

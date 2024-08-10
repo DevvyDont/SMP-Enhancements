@@ -39,6 +39,6 @@ public class AquaAffinityEnchantment extends UnchangedEnchantment {
 
     @Override
     public int getSkillRequirement() {
-        return 26;
+        return 18;
     }
 }

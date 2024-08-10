@@ -30,17 +30,17 @@ public class SharpnessEnchantment extends VanillaEnchantment implements Attribut
     public static int getDamageIncrease(int level) {
         return switch (level) {
             case 0 -> 0;
-            case 1 -> 10;
-            case 2 -> 20;
-            case 3 -> 30;
-            case 4 -> 40;
-            case 5 -> 50;
-            case 6 -> 75;
-            case 7 -> 110;
-            case 8 -> 150;
-            case 9 -> 200;
-            case 10 -> 300;
-            default -> (level-9) * 100 + 200;
+            case 1 -> 25;
+            case 2 -> 50;
+            case 3 -> 75;
+            case 4 -> 110;
+            case 5 -> 150;
+            case 6 -> 200;
+            case 7 -> 275;
+            case 8 -> 350;
+            case 9 -> 425;
+            case 10 -> 500;
+            default -> getDamageIncrease(10) + 100 * (level-10);
         };
     }
 
@@ -75,7 +75,7 @@ public class SharpnessEnchantment extends VanillaEnchantment implements Attribut
 
     @Override
     public TagKey<ItemType> getItemTypeTag() {
-        return ItemTypeTagKeys.ENCHANTABLE_WEAPON;
+        return ItemTypeTagKeys.ENCHANTABLE_SHARP_WEAPON;
     }
 
     @Override
@@ -110,6 +110,6 @@ public class SharpnessEnchantment extends VanillaEnchantment implements Attribut
 
     @Override
     public int getSkillRequirement() {
-        return 20;
+        return 0;
     }
 }

@@ -94,7 +94,7 @@ public class HeartyEnchantment extends CustomEnchantment implements AttributeEnc
 
     @Override
     public int getSkillRequirement() {
-        return 30;
+        return 2;
     }
 
     @Override

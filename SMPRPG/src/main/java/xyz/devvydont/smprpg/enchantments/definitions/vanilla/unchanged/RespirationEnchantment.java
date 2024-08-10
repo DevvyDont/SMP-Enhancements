@@ -37,6 +37,6 @@ public class RespirationEnchantment extends UnchangedEnchantment {
 
     @Override
     public int getSkillRequirement() {
-        return 40;
+        return 25;
     }
 }

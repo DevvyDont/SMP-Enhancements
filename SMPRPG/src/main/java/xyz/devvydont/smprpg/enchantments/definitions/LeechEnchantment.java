@@ -81,7 +81,7 @@ public class LeechEnchantment extends CustomEnchantment implements Listener {
 
     @Override
     public int getSkillRequirement() {
-        return 60;
+        return 15;
     }
 
     @EventHandler

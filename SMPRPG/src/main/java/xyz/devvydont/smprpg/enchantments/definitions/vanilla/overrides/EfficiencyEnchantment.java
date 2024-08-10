@@ -72,7 +72,7 @@ public class EfficiencyEnchantment extends VanillaEnchantment {
 
     @Override
     public int getSkillRequirement() {
-        return 30;
+        return 0;
     }
 
 }

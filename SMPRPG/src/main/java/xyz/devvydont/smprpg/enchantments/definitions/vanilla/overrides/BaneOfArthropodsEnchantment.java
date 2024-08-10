@@ -87,7 +87,7 @@ public class BaneOfArthropodsEnchantment extends VanillaEnchantment implements L
 
     @Override
     public int getSkillRequirement() {
-        return 12;
+        return 4;
     }
 
     @EventHandler(priority = EventPriority.HIGH)

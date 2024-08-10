@@ -48,6 +48,6 @@ public class DepthStriderEnchantment extends UnchangedEnchantment {
 
     @Override
     public int getSkillRequirement() {
-        return 34;
+        return 27;
     }
 }

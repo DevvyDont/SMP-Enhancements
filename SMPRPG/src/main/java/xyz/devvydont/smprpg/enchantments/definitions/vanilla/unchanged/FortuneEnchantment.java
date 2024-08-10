@@ -80,6 +80,6 @@ public class FortuneEnchantment extends VanillaEnchantment {
 
     @Override
     public int getSkillRequirement() {
-        return 32;
+        return 5;
     }
 }

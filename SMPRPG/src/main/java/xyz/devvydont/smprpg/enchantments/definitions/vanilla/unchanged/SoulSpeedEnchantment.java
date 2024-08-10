@@ -40,6 +40,6 @@ public class SoulSpeedEnchantment extends UnchangedEnchantment {
 
     @Override
     public int getSkillRequirement() {
-        return 50;
+        return 23;
     }
 }

@@ -34,6 +34,6 @@ public class PiercingEnchantment extends UnchangedEnchantment {
 
     @Override
     public int getSkillRequirement() {
-        return 52;
+        return 24;
     }
 }

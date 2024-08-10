@@ -52,7 +52,7 @@ public class ThornsEnchantment extends UnchangedEnchantment implements Listener 
 
     @Override
     public int getSkillRequirement() {
-        return 36;
+        return 26;
     }
 
     @EventHandler(priority = EventPriority.LOW)

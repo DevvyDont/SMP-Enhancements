@@ -39,6 +39,7 @@ public class RiptideEnchantment extends UnchangedEnchantment {
 
     @Override
     public int getSkillRequirement() {
-        return 58;
+        return 35;
     }
+
 }

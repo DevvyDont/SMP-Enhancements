@@ -34,6 +34,6 @@ public class MendingEnchantment extends UnchangedEnchantment {
 
     @Override
     public int getSkillRequirement() {
-        return 60;
+        return 30;
     }
 }
