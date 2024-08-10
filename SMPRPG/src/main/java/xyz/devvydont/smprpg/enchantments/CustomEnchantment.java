@@ -6,8 +6,8 @@ import io.papermc.paper.registry.TypedKey;
 import io.papermc.paper.registry.data.EnchantmentRegistryEntry;
 import io.papermc.paper.registry.event.RegistryEvents;
 import io.papermc.paper.registry.event.RegistryFreezeEvent;
-import io.papermc.paper.registry.keys.tags.ItemTypeTagKeys;
 import io.papermc.paper.registry.set.RegistryKeySet;
+import io.papermc.paper.registry.set.RegistrySet;
 import io.papermc.paper.registry.tag.TagKey;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.Component;
@@ -16,6 +16,7 @@ import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemType;
+import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.SMPRPG;
 
 public abstract class CustomEnchantment implements Cloneable {
@@ -76,10 +77,22 @@ public abstract class CustomEnchantment implements Cloneable {
                             .minimumCost(getMinimumCost())
                             .maximumCost(getMaximumCost())
                             .activeSlots(getEquipmentSlotGroup())
+                            .exclusiveWith(getConflictingEnchantments())
             );
         }));
 
         bootstrapCompleted();
+    }
+
+    /**
+     * A set of enchantments that this enchantment conflicts with.
+     * If there are none, this enchantment has no conflicts
+     *
+     * @return
+     */
+    @NotNull
+    public RegistryKeySet<Enchantment> getConflictingEnchantments() {
+        return RegistrySet.keySet(RegistryKey.ENCHANTMENT);
     }
 
     public String getId() {
