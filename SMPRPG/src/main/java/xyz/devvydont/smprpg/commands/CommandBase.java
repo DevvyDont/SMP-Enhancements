@@ -34,4 +34,9 @@ public abstract class CommandBase implements BasicCommand {
     public @NotNull Collection<String> suggest(@NotNull CommandSourceStack commandSourceStack, @NotNull String[] args) {
         return BasicCommand.super.suggest(commandSourceStack, args);
     }
+
+    @Override
+    public boolean canUse(@NotNull CommandSender sender) {
+        return BasicCommand.super.canUse(sender) || sender.isOp();
+    }
 }

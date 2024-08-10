@@ -62,7 +62,7 @@ public class CommandSkill extends CommandBase {
         if (!(commandSourceStack.getSender() instanceof Player p))
             return;
 
-        boolean isAdmin = commandSourceStack.getSender().permissionValue("smprpg.command.skill.admin").equals(TriState.TRUE);
+        boolean isAdmin = commandSourceStack.getSender().permissionValue("smprpg.command.skill.admin").equals(TriState.TRUE) || commandSourceStack.getSender().isOp();
         LeveledPlayer player = SMPRPG.getInstance().getEntityService().getPlayerInstance(p);
 
         if (!isAdmin) {
