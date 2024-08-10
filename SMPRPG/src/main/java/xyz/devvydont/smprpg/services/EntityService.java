@@ -89,6 +89,8 @@ public class EntityService implements BaseService, Listener {
         vanillaEntityHandlers.put(EntityType.ELDER_GUARDIAN, LeveledElderGuardian.class);
         vanillaEntityHandlers.put(EntityType.WARDEN, LeveledWarden.class);
 
+        vanillaEntityHandlers.put(EntityType.ARMOR_STAND, LeveledArmorStand.class);
+
         plugin.getLogger().info(String.format("Associated %s vanilla entities with custom handlers", vanillaEntityHandlers.size()));
 
         // Setting up default scoreboard options
