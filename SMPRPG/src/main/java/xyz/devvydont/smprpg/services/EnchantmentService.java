@@ -4,6 +4,7 @@ import io.papermc.paper.registry.RegistryAccess;
 import io.papermc.paper.registry.RegistryKey;
 import io.papermc.paper.registry.TypedKey;
 import io.papermc.paper.registry.keys.EnchantmentKeys;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import net.minecraft.world.level.storage.loot.LootTable;
 import org.bukkit.Registry;
 import org.bukkit.enchantments.Enchantment;
@@ -28,10 +29,7 @@ import org.bukkit.scheduler.BukkitScheduler;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.enchantments.CustomEnchantment;
 import xyz.devvydont.smprpg.enchantments.calculator.EnchantmentCalculator;
-import xyz.devvydont.smprpg.enchantments.definitions.FortuityEnchantment;
-import xyz.devvydont.smprpg.enchantments.definitions.HeartyEnchantment;
-import xyz.devvydont.smprpg.enchantments.definitions.LeechEnchantment;
-import xyz.devvydont.smprpg.enchantments.definitions.SpeedsterEnchantment;
+import xyz.devvydont.smprpg.enchantments.definitions.*;
 import xyz.devvydont.smprpg.enchantments.definitions.vanilla.overrides.*;
 import xyz.devvydont.smprpg.enchantments.definitions.vanilla.UnknownEnchantment;
 import xyz.devvydont.smprpg.enchantments.definitions.vanilla.unchanged.*;
@@ -86,10 +84,12 @@ public class EnchantmentService implements BaseService, Listener {
     public final static CustomEnchantment WIND_BURST = new WindBurstEnchantment(EnchantmentKeys.WIND_BURST);
 
     // Custom enchantments
+    public final static CustomEnchantment KEEPING_BLESSING = new KeepingBlessing("keeping");
     public final static CustomEnchantment FORTUITY = new FortuityEnchantment("fortuity");
     public final static CustomEnchantment HEARTY = new HeartyEnchantment("hearty");
     public final static CustomEnchantment SPEEDSTER = new SpeedsterEnchantment("speedster");
     public final static CustomEnchantment LEECH = new LeechEnchantment("leech");
+    public final static CustomEnchantment TRACING = new BossTracingEnchantment("tracing");
 
     public final static CustomEnchantment[] CUSTOM_ENCHANTMENTS = {
 
@@ -136,10 +136,12 @@ public class EnchantmentService implements BaseService, Listener {
             UNBREAKING,
             WIND_BURST,
 
+            KEEPING_BLESSING,
             FORTUITY,
             HEARTY,
             SPEEDSTER,
             LEECH,
+            TRACING,
     };
 
     public final Map<Enchantment, CustomEnchantment> enchantments = new HashMap<>();
@@ -155,6 +157,12 @@ public class EnchantmentService implements BaseService, Listener {
             if (enchantment instanceof Listener)
                 SMPRPG.getInstance().getServer().getPluginManager().registerEvents((Listener) enchantment, SMPRPG.getInstance());
         }
+
+        // Debug print out the level unlocks of all the enchants
+//        List<CustomEnchantment> sortedByUnlock = new ArrayList<>(enchantments.values());
+//        sortedByUnlock.sort(Comparator.comparingInt(CustomEnchantment::getSkillRequirement));
+//        for (CustomEnchantment e : sortedByUnlock)
+//            System.out.println(PlainTextComponentSerializer.plainText().serialize(e.getDisplayName()) + ": " + e.getSkillRequirement());
 
         return true;
     }
