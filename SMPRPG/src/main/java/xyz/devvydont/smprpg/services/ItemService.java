@@ -231,7 +231,8 @@ public class ItemService implements BaseService, Listener {
                 blueprint = customItemType.getHandler().getConstructor(ItemService.class, CustomItemType.class).newInstance(this, customItemType);
             } catch (InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException e) {
                 plugin.getLogger().severe("Failed to register custom item: " + customItemType);
-                throw new RuntimeException(e);
+                e.printStackTrace();
+                continue;
             }
 
             registerCustomItem(blueprint);

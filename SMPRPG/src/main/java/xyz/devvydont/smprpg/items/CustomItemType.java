@@ -1,6 +1,7 @@
 package xyz.devvydont.smprpg.items;
 
 import org.bukkit.Material;
+import xyz.devvydont.smprpg.items.base.CustomHeadBlueprint;
 import xyz.devvydont.smprpg.items.base.CustomItemBlueprint;
 import xyz.devvydont.smprpg.items.blueprints.debug.EntityAnalyzer;
 import xyz.devvydont.smprpg.items.blueprints.debug.SpiderRepellentBlueprint;
@@ -461,7 +462,7 @@ public enum CustomItemType {
 
     // DRAGON
     DRAGON_SCALES(   "Dragon Scales",    Material.PHANTOM_MEMBRANE, ItemRarity.RARE, true),
-    DRACONIC_CRYSTAL("Draconic Crystal", Material.AMETHYST_CLUSTER, ItemRarity.EPIC, true, DraconicCrystal.class),
+    DRACONIC_CRYSTAL("Draconic Crystal", "c145dd7e0a35db50c9a4bdc465ca1235356fc5dd470737d2a74ea99cc1525bdb", ItemRarity.EPIC, DraconicCrystal.class),
 
     // PASSIVE MOBS
     PREMIUM_PORKCHOP("Premium Porkchop", Material.COOKED_PORKCHOP, ItemRarity.UNCOMMON, true, PorkchopFamilyBlueprint.class),
@@ -499,6 +500,8 @@ public enum CustomItemType {
     INFINITY_BOOTS(     "Infinity Boots",      Material.NETHERITE_BOOTS,      ItemRarity.TRANSCENDENT, InfinityBoots.class),
     INFINITY_SWORD(     "Infinity Sword",      Material.NETHERITE_SWORD,      ItemRarity.TRANSCENDENT, InfinitySword.class),
 
+    BURGER("Burger", "545440bd8a551aea344d81bf398c9f7cfbaaad582b184785abf0ac1d1d78bb26", ItemRarity.SPECIAL),
+
     SPACE_HELMET("Space Helmet", Material.RED_STAINED_GLASS, ItemRarity.SPECIAL, true, SpaceHelmet.class),
     SPIDER_REPELLENT("Spider Repellent", Material.POTION, ItemRarity.SPECIAL, true, SpiderRepellentBlueprint.class),
 
@@ -509,12 +512,31 @@ public enum CustomItemType {
     ;
 
     public final String name;
+    public String url = "";
     public final Material material;
     public final ItemRarity rarity;
     public final boolean glow;
     public final Class<? extends CustomItemBlueprint> handler;
 
     public static final int MODEL_DATA_OFFSET = 0x849FFB;
+
+    CustomItemType(String name, String URL, ItemRarity rarity) {
+        this.name = name;
+        this.url = URL;
+        this.material = Material.PLAYER_HEAD;
+        this.rarity = rarity;
+        this.glow = false;
+        this.handler = CustomHeadBlueprint.class;
+    }
+
+    CustomItemType(String name, String URL, ItemRarity rarity, Class<? extends CustomHeadBlueprint> handler) {
+        this.name = name;
+        this.url = URL;
+        this.material = Material.PLAYER_HEAD;
+        this.rarity = rarity;
+        this.glow = false;
+        this.handler = handler;
+    }
 
     CustomItemType(String name, Material material) {
         this.name = name;
@@ -574,6 +596,14 @@ public enum CustomItemType {
 
     public String getKey() {
         return this.toString().toLowerCase();
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public boolean hasCustomHeadTexture() {
+        return !getUrl().isEmpty();
     }
 
     public int getModelData() {
