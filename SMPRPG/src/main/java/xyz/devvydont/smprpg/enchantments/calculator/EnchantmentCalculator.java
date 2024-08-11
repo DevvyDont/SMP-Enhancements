@@ -79,25 +79,6 @@ public class EnchantmentCalculator {
         return blueprint instanceof VanillaItemBlueprint && item.getType().equals(Material.BOOK);
     }
 
-    /**
-     * The number of allowed enchantments on an item depends on the rarity of it.
-     * Common = 1
-     * Uncommon = 3
-     * Rare = 5
-     * Epic = 7
-     * Legendary = 9
-     * Mythic = 11
-     * Divine = 13
-     * Transcendent = 15
-     * Special = 17
-     *
-     * @return
-     */
-    public static int getMaxAllowedEnchantments(ItemRarity rarity) {
-        int rarityScore = rarity.ordinal();
-        return rarityScore * 2 + 1;
-    }
-
     public boolean enchantmentIsAllowed(CustomEnchantment enchantment, Collection<Enchantment> previous) {
 
         // Is the enchantment a low enough skill requirement to apply?
@@ -218,7 +199,8 @@ public class EnchantmentCalculator {
                 pool.add(enchantment.build(calculateSuitableEnchantmentLevel(enchantment, slot)));
 
         int cost = calculateSlotCost(slot);
-        int numEnchantsWanted = Math.min(getMaxAllowedEnchantments(SMPRPG.getInstance().getItemService().getBlueprint(item).getRarity(item)), cost / 10 + 1);
+        SMPItemBlueprint blueprint = SMPRPG.getInstance().getItemService().getBlueprint(item);
+        int numEnchantsWanted = Math.min(blueprint.getMaxAllowedEnchantments(item.getItemMeta()), cost / 10 + 1);
 
         // While we have enchants to give, add to the item
         while (numEnchantsWanted > 0) {

@@ -128,6 +128,25 @@ public abstract class SMPItemBlueprint {
     public abstract ItemStack generate();
 
     /**
+     * The number of allowed enchantments on an item depends on the rarity of it.
+     * Common = 1
+     * Uncommon = 3
+     * Rare = 5
+     * Epic = 7
+     * Legendary = 9
+     * Mythic = 11
+     * Divine = 13
+     * Transcendent = 15
+     * Special = 17
+     *
+     * @return
+     */
+    public int getMaxAllowedEnchantments(ItemMeta meta) {
+        int rarityScore = getRarity(meta).ordinal();
+        return rarityScore * 2 + 1;
+    }
+
+    /**
      * Given item meta for this specific item type, return what to display for enchants
      */
     public List<Component> getEnchantsComponent(ItemMeta meta) {
@@ -140,7 +159,7 @@ public abstract class SMPItemBlueprint {
             if (meta.getEnchants().size() <= 8)
                 lines.add(enchantment.getDescription());
         }
-        lines.add(ComponentUtil.getColoredComponent("Enchantments: " + meta.getEnchants().size() + "/" + EnchantmentCalculator.getMaxAllowedEnchantments(getRarity(meta)), NamedTextColor.DARK_GRAY));
+        lines.add(ComponentUtil.getColoredComponent("Enchantments: " + meta.getEnchants().size() + "/" + getMaxAllowedEnchantments(meta), NamedTextColor.DARK_GRAY));
         return lines;
     }
 
@@ -235,6 +254,10 @@ public abstract class SMPItemBlueprint {
         itemStack.setItemMeta(meta);
     }
 
+    public boolean hasEnchants(ItemMeta meta) {
+        return meta.hasEnchants();
+    }
+
     public void updateLore(ItemMeta meta) {
 
         List<Component> lore = new ArrayList<>();
@@ -247,7 +270,7 @@ public abstract class SMPItemBlueprint {
 
         // First, enchants. Are we not forcing glow? Only display enchants when we are not forcing glow (and have some).
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        if (meta.hasEnchants())
+        if (hasEnchants(meta))
             lore.addAll(getEnchantsComponent(meta));
 
         // Edibility if this item has it

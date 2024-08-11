@@ -221,6 +221,8 @@ public class ItemService implements BaseService, Listener {
 
         registerVanillaMaterialResolver(Material.MACE, ItemMace.class);
 
+        registerVanillaMaterialResolver(Material.ENCHANTED_BOOK, ItemEnchantedBook.class);
+
         // Loop through all the custom items and use reflection to register a handler
         for (CustomItemType customItemType : CustomItemType.values()) {
 

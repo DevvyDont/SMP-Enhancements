@@ -349,6 +349,9 @@ public class EnchantmentService implements BaseService, Listener {
            if (!(view.getTopInventory() instanceof EnchantingInventory inv))
             return;
            inv.setSecondary(ItemType.LAPIS_LAZULI.createItemStack(64));
+           ItemStack result = inv.getItem();
+           SMPRPG.getInstance().getItemService().ensureItemStackUpdated(result);
+           inv.setItem(result);
         }, 0L);
     }
 

@@ -59,7 +59,7 @@ public class AnvilEnchantmentCombinationFixListener implements Listener {
 
         // Now we actually do the enchantment application. First, we need to figure out how many new enchants
         // this item is allowed to have so it doesn't go over its limit.
-        int newEnchantmentSlots = EnchantmentCalculator.getMaxAllowedEnchantments(inputBlueprint.getRarity(input)) - input.getEnchantments().size();
+        int newEnchantmentSlots = inputBlueprint.getMaxAllowedEnchantments(input.getItemMeta()) - input.getEnchantments().size();
 
         // Attempt to apply all the enchantments from the 2nd item.
         int cost = 0;
