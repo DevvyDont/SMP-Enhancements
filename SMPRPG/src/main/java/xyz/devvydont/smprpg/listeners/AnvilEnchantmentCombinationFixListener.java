@@ -69,6 +69,13 @@ public class AnvilEnchantmentCombinationFixListener implements Listener {
 
             int levelPresent = result.getEnchantmentLevel(enchantment.getEnchantment());
             int levelToUse = combine.getEnchantmentLevel(enchantment.getEnchantment());
+
+            // Fix for book logic
+            if (result.getItemMeta() instanceof EnchantmentStorageMeta meta)
+                levelPresent = meta.getStoredEnchantLevel(enchantment.getEnchantment());
+            if (combine.getItemMeta() instanceof EnchantmentStorageMeta meta)
+                levelToUse = meta.getStoredEnchantLevel(enchantment.getEnchantment());
+
             // Skip this enchantment if a higher level is already present.
             if (levelPresent > levelToUse)
                 continue;
