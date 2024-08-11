@@ -10,6 +10,8 @@ import org.bukkit.event.enchantment.EnchantItemEvent;
 import org.bukkit.event.inventory.BrewEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.event.inventory.PrepareAnvilEvent;
+import org.bukkit.inventory.AnvilInventory;
 import org.bukkit.inventory.BrewerInventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
@@ -20,6 +22,8 @@ import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.enchantments.CustomEnchantment;
 import xyz.devvydont.smprpg.entity.LeveledPlayer;
 import xyz.devvydont.smprpg.events.skills.SkillExperienceGainEvent;
+import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
+import xyz.devvydont.smprpg.items.interfaces.Attributeable;
 
 public class MagicExperienceListener implements Listener {
 
@@ -93,11 +97,15 @@ public class MagicExperienceListener implements Listener {
      *
      * @param item
      */
-    private void stowExperience(ItemStack item) {
+    private void stowExperience(ItemStack item, int addition) {
         item.editMeta(meta -> {
             int oldXp = meta.getPersistentDataContainer().getOrDefault(getExperienceStowKey(), PersistentDataType.INTEGER, 0);
-            meta.getPersistentDataContainer().set(getExperienceStowKey(), PersistentDataType.INTEGER, oldXp + getExperienceForPotionExtract(item));
+            meta.getPersistentDataContainer().set(getExperienceStowKey(), PersistentDataType.INTEGER, oldXp + addition);
         });
+    }
+
+    private void stowPotionExperience(ItemStack item) {
+        stowExperience(item, getExperienceForPotionExtract(item));
     }
 
     /**
@@ -106,7 +114,7 @@ public class MagicExperienceListener implements Listener {
      * @param player
      * @param item
      */
-    private void awardExperience(LeveledPlayer player, ItemStack item) {
+    private void awardExperience(LeveledPlayer player, ItemStack item, SkillExperienceGainEvent.ExperienceSource source) {
 
         // Extract the experience from the item
         int exp = item.getPersistentDataContainer().getOrDefault(getExperienceStowKey(), PersistentDataType.INTEGER, 0);
@@ -118,7 +126,7 @@ public class MagicExperienceListener implements Listener {
 
         // Award!
         if (exp > 0)
-            player.getMagicSkill().addExperience(exp, SkillExperienceGainEvent.ExperienceSource.BREW);
+            player.getMagicSkill().addExperience(exp, source);
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
@@ -145,19 +153,16 @@ public class MagicExperienceListener implements Listener {
             return;
 
         for (ItemStack result : event.getResults())
-            stowExperience(result);
+            stowPotionExperience(result);
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onBrewExtract(InventoryClickEvent event) {
-
-        if (event.isCancelled())
-            return;
 
         if (event.getClickedInventory() == null)
             return;
 
-        // Only listen to brewing inventories
+        // Only listen to brewing inventories and anvil inventories
         if (!event.getClickedInventory().getType().equals(InventoryType.BREWING))
             return;
 
@@ -174,7 +179,53 @@ public class MagicExperienceListener implements Listener {
 
         // Determine experience
         LeveledPlayer player = plugin.getEntityService().getPlayerInstance((Player) event.getWhoClicked());
-        awardExperience(player, extracted);
+        awardExperience(player, extracted, SkillExperienceGainEvent.ExperienceSource.BREW);
+    }
+
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
+    public void onAnvilExtract(InventoryClickEvent event) {
+
+        // If we aren't clicking in an anvil we don't care
+        if (!(event.getClickedInventory() instanceof AnvilInventory anvil))
+            return;
+
+        // If the result is not real we don't care
+        if (anvil.getResult() == null)
+            return;
+
+        // If we aren't clicking on the output slot we don't care
+        if (!event.getSlotType().equals(InventoryType.SlotType.RESULT))
+            return;
+
+        // Evaluate the item we are extracting, if it isn't there then ignore
+        ItemStack extracted = anvil.getResult();
+        if (extracted == null || extracted.getType().equals(Material.AIR))
+            return;
+
+        // Determine experience
+        LeveledPlayer player = plugin.getEntityService().getPlayerInstance((Player) event.getWhoClicked());
+        awardExperience(player, extracted, SkillExperienceGainEvent.ExperienceSource.FORGE);
+    }
+    /**
+     * Add magic experience to items in the anvil.
+     *
+     * @param event
+     */
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onAnvilPrepare(PrepareAnvilEvent event) {
+
+        AnvilInventory anvil = event.getInventory();
+
+        if (event.getResult() == null)
+            return;
+
+        SMPItemBlueprint blueprint = plugin.getItemService().getBlueprint(event.getResult());
+        int multiplier = 1;
+        if (blueprint instanceof Attributeable attributeable)
+            multiplier = attributeable.getPowerRating();
+        ItemStack result = event.getResult();
+        stowExperience(result, anvil.getRepairCostAmount() * multiplier);
+        event.setResult(result);
     }
 
 

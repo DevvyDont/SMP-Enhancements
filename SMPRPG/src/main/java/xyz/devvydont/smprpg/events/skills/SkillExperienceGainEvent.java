@@ -26,6 +26,7 @@ public class SkillExperienceGainEvent extends Event implements Cancellable {
 
         ENCHANT,
         BREW,
+        FORGE,
 
         UNKNOWN
     }
