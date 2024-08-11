@@ -110,7 +110,7 @@ public class AnvilEnchantmentCombinationFixListener implements Listener {
 
         // Set the result!
         ItemStack result = firstItemStack.clone();
-        int maxAllowedEnchants = calculator.getMaxAllowedEnchantments();
+        int maxAllowedEnchants = EnchantmentCalculator.getMaxAllowedEnchantments(firstBlueprint.getRarity(result));
         for (Map.Entry<Enchantment, Integer> entry : enchantments.entrySet()) {
 
             // If this item isn't allowed to have a new enchantment then skip
@@ -207,7 +207,7 @@ public class AnvilEnchantmentCombinationFixListener implements Listener {
 
         // Set the result!
         ItemStack result = firstItemStack.clone();
-        int maxAllowedEnchants = calculator.getMaxAllowedEnchantments();
+        int maxAllowedEnchants = EnchantmentCalculator.getMaxAllowedEnchantments(firstBlueprint.getRarity(result));
         for (Map.Entry<Enchantment, Integer> entry : enchantments.entrySet()) {
 
             // If this item isn't allowed to have a new enchantment then skip

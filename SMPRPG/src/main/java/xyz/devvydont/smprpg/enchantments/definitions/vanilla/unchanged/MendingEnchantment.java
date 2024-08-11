@@ -24,7 +24,7 @@ public class MendingEnchantment extends UnchangedEnchantment {
     @Override
     public Component getDescription() {
         return Component.text("Repaired when ").color(NamedTextColor.GRAY)
-                .append(Component.text("earning experience").color(NamedTextColor.LIGHT_PURPLE));
+                .append(Component.text("earning experience").color(NamedTextColor.DARK_GREEN));
     }
 
     @Override

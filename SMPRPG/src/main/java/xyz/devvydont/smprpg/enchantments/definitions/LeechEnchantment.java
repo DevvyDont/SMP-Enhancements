@@ -40,7 +40,7 @@ public class LeechEnchantment extends CustomEnchantment implements Listener {
     public Component getDescription() {
         return Component.text("Heal ").color(NamedTextColor.GRAY)
                 .append(Component.text("+" + getLifestealPercent(getLevel()) + "%").color(NamedTextColor.GREEN)
-                .append(Component.text(" of max health upon kills").color(NamedTextColor.GRAY))
+                .append(Component.text(" of max health when killing an enemy").color(NamedTextColor.GRAY))
                 );
     }
 

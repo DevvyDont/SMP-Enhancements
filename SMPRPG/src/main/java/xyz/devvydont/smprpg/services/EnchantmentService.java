@@ -90,19 +90,34 @@ public class EnchantmentService implements BaseService, Listener {
     public final static CustomEnchantment SPEEDSTER = new SpeedsterEnchantment("speedster");
     public final static CustomEnchantment LEECH = new LeechEnchantment("leech");
     public final static CustomEnchantment TRACING = new BossTracingEnchantment("tracing");
+    public final static CustomEnchantment BLESSED = new BlessedEnchantment("blessed");
+    public final static CustomEnchantment STABILIZED = new StabilizedEnchantment("stabilized");
 
     public final static CustomEnchantment[] CUSTOM_ENCHANTMENTS = {
 
-            AQUA_AFFINITY,
+            // Blessings
+            KEEPING_BLESSING,
+
+            // Curses
+            BINDING_CURSE,
+            VANISHING_CURSE,
+
+            // Important enchantments (display first)
+            SHARPNESS,
+            POWER,
+            SMITE,
             BANE_OF_ARTHROPODS,
+            EFFICIENCY,
+
+            BLESSED,
+            STABILIZED,
+
+            AQUA_AFFINITY,
             BLAST_PROTECTION,
             BREACH,
             CHANNELING,
-            BINDING_CURSE,
-            VANISHING_CURSE,
             DENSITY,
             DEPTH_STRIDER,
-            EFFICIENCY,
             FEATHER_FALLING,
             FIRE_ASPECT,
             FIRE_PROTECTION,
@@ -116,27 +131,23 @@ public class EnchantmentService implements BaseService, Listener {
             LOYALTY,
             LUCK_OF_THE_SEA,
             LURE,
-            MENDING,
             MULTISHOT,
             PIERCING,
-            POWER,
             PROJECTILE_PROTECTION,
             PROTECTION,
             PUNCH,
             QUICK_CHARGE,
             RESPIRATION,
             RIPTIDE,
-            SHARPNESS,
             SILK_TOUCH,
-            SMITE,
             SOUL_SPEED,
             SWEEPING_EDGE,
             SWIFT_SNEAK,
             THORNS,
             UNBREAKING,
             WIND_BURST,
+            MENDING,
 
-            KEEPING_BLESSING,
             FORTUITY,
             HEARTY,
             SPEEDSTER,
@@ -232,10 +243,23 @@ public class EnchantmentService implements BaseService, Listener {
         return getCustomEnchantments(meta.getEnchants());
     }
 
+    /**
+     * Returns a collection of enchantments sorted by the order that they are defined above
+     *
+     * @param enchants
+     * @return
+     */
     public Collection<CustomEnchantment> getCustomEnchantments(Map<Enchantment, Integer> enchants) {
+
+
         List<CustomEnchantment> enchantList = new ArrayList<>();
-        for (Map.Entry<Enchantment, Integer> entry : enchants.entrySet())
-            enchantList.add(getEnchantment(entry.getKey()).build(entry.getValue()));
+
+        // Loop through every enchant registered
+        for (CustomEnchantment enchantment : CUSTOM_ENCHANTMENTS)
+            // If the enchantment map on the item contains this enchantment, add it and its level to the list to return later
+            if (enchants.containsKey(enchantment.getEnchantment()))
+                enchantList.add(enchantment.build(enchants.get(enchantment.getEnchantment())));
+
         return enchantList;
     }
 

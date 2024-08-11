@@ -118,7 +118,7 @@ public abstract class CustomEnchantment implements Cloneable {
     public abstract Component getDisplayName();
 
     public TextColor getEnchantColor() {
-        return NamedTextColor.BLUE;
+        return NamedTextColor.LIGHT_PURPLE;
     }
 
     public abstract Component getDescription();

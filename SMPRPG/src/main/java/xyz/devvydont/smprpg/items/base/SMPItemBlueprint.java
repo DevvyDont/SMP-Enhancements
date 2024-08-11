@@ -19,6 +19,7 @@ import org.bukkit.inventory.meta.components.ToolComponent;
 import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.enchantments.CustomEnchantment;
+import xyz.devvydont.smprpg.enchantments.calculator.EnchantmentCalculator;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.ItemRarity;
 import xyz.devvydont.smprpg.items.interfaces.Edible;
@@ -139,6 +140,7 @@ public abstract class SMPItemBlueprint {
             if (meta.getEnchants().size() <= 8)
                 lines.add(enchantment.getDescription());
         }
+        lines.add(ComponentUtil.getColoredComponent("Enchantments: " + meta.getEnchants().size() + "/" + EnchantmentCalculator.getMaxAllowedEnchantments(getRarity(meta)), NamedTextColor.DARK_GRAY));
         return lines;
     }
 

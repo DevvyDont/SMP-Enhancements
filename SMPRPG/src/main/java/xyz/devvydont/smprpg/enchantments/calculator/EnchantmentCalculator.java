@@ -6,6 +6,7 @@ import org.bukkit.enchantments.EnchantmentOffer;
 import org.bukkit.inventory.ItemStack;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.enchantments.CustomEnchantment;
+import xyz.devvydont.smprpg.items.ItemRarity;
 import xyz.devvydont.smprpg.items.base.CustomItemBlueprint;
 import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
 import xyz.devvydont.smprpg.items.base.VanillaItemBlueprint;
@@ -74,11 +75,8 @@ public class EnchantmentCalculator {
      *
      * @return
      */
-    public boolean isBook() {
-        SMPItemBlueprint blueprint = SMPRPG.getInstance().getItemService().getBlueprint(getItem());
-        if (blueprint instanceof VanillaItemBlueprint && getItem().getType().equals(Material.BOOK))
-            return true;
-        return false;
+    public static boolean isBook(SMPItemBlueprint blueprint, ItemStack item) {
+        return blueprint instanceof VanillaItemBlueprint && item.getType().equals(Material.BOOK);
     }
 
     /**
@@ -95,13 +93,8 @@ public class EnchantmentCalculator {
      *
      * @return
      */
-    public int getMaxAllowedEnchantments() {
-
-        // An enchanted book can only have one.
-        if (isBook())
-            return 1;
-
-        int rarityScore = SMPRPG.getInstance().getItemService().getBlueprint(item).getRarity(item).ordinal();
+    public static int getMaxAllowedEnchantments(ItemRarity rarity) {
+        int rarityScore = rarity.ordinal();
         return rarityScore * 2 + 1;
     }
 
@@ -115,11 +108,13 @@ public class EnchantmentCalculator {
         if (getMagicLevel() >= enchantment.getSkillRequirementToAvoid())
             return false;
 
+        SMPItemBlueprint blueprint = SMPRPG.getInstance().getItemService().getBlueprint(item);
+
         // Do we have a book? Any enchantment is allowed...
-        if (isBook())
+        if (isBook(blueprint, item))
             return true;
 
-        SMPItemBlueprint blueprint = SMPRPG.getInstance().getItemService().getBlueprint(item);
+
         // Can this enchantment apply to this item according to minecraft's vanilla logic (if vanilla item)?
         if (blueprint instanceof VanillaItemBlueprint && !enchantment.getEnchantment().canEnchantItem(getItem()))
             return false;
@@ -223,7 +218,7 @@ public class EnchantmentCalculator {
                 pool.add(enchantment.build(calculateSuitableEnchantmentLevel(enchantment, slot)));
 
         int cost = calculateSlotCost(slot);
-        int numEnchantsWanted = Math.min(getMaxAllowedEnchantments(), cost / 10 + 1);
+        int numEnchantsWanted = Math.min(getMaxAllowedEnchantments(SMPRPG.getInstance().getItemService().getBlueprint(item).getRarity(item)), cost / 10 + 1);
 
         // While we have enchants to give, add to the item
         while (numEnchantsWanted > 0) {
