@@ -13,6 +13,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.ItemType;
+import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.enchantments.EnchantmentUtil;
 import xyz.devvydont.smprpg.enchantments.definitions.vanilla.UnchangedEnchantment;
 
@@ -32,12 +33,12 @@ public class ThornsEnchantment extends UnchangedEnchantment implements Listener 
     }
 
     @Override
-    public Component getDisplayName() {
+    public @NotNull Component getDisplayName() {
         return Component.text("Thorns");
     }
 
     @Override
-    public Component getDescription() {
+    public @NotNull Component getDescription() {
         return Component.text("Provides a ").color(NamedTextColor.GRAY)
                 .append(Component.text(getReflectChance(getLevel()) + "%").color(NamedTextColor.GREEN))
                 .append(Component.text(" chance to reflect ").color(NamedTextColor.GRAY))

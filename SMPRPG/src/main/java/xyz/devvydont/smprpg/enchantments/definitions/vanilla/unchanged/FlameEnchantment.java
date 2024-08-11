@@ -12,6 +12,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemType;
+import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.enchantments.definitions.vanilla.UnchangedEnchantment;
 
 public class FlameEnchantment extends UnchangedEnchantment {
@@ -25,12 +26,12 @@ public class FlameEnchantment extends UnchangedEnchantment {
     }
 
     @Override
-    public Component getDisplayName() {
+    public @NotNull Component getDisplayName() {
         return Component.text("Flame");
     }
 
     @Override
-    public Component getDescription() {
+    public @NotNull Component getDescription() {
         return Component.text("Ignites enemies for ").color(NamedTextColor.GRAY)
                 .append(Component.text(getSecondsOfBurn(getLevel()) + "s").color(NamedTextColor.GOLD));
     }

@@ -16,6 +16,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemType;
+import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.enchantments.EnchantmentUtil;
 import xyz.devvydont.smprpg.enchantments.definitions.vanilla.VanillaEnchantment;
 import xyz.devvydont.smprpg.events.CustomEntityDamageByEntityEvent;
@@ -38,12 +39,12 @@ public class BaneOfArthropodsEnchantment extends VanillaEnchantment implements L
     }
 
     @Override
-    public Component getDisplayName() {
+    public @NotNull Component getDisplayName() {
         return Component.text("Bane of Arthropods");
     }
 
     @Override
-    public Component getDescription() {
+    public @NotNull Component getDescription() {
         return Component.text("Increases damage dealt by ").color(NamedTextColor.GRAY)
                 .append(Component.text("+" + getPercentageIncrease(getLevel()) + "%").color(NamedTextColor.GREEN))
                 .append(Component.text(" against ").color(NamedTextColor.GRAY))
@@ -68,16 +69,6 @@ public class BaneOfArthropodsEnchantment extends VanillaEnchantment implements L
     @Override
     public int getWeight() {
         return 1;
-    }
-
-    @Override
-    public EnchantmentRegistryEntry.EnchantmentCost getMinimumCost() {
-        return EnchantmentRegistryEntry.EnchantmentCost.of(1, 3);
-    }
-
-    @Override
-    public EnchantmentRegistryEntry.EnchantmentCost getMaximumCost() {
-        return EnchantmentRegistryEntry.EnchantmentCost.of(1, 1);
     }
 
     @Override

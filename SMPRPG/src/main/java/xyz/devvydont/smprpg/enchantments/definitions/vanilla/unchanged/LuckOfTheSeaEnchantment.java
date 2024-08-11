@@ -7,6 +7,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemType;
+import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.enchantments.definitions.vanilla.UnchangedEnchantment;
 
 public class LuckOfTheSeaEnchantment extends UnchangedEnchantment {
@@ -17,12 +18,12 @@ public class LuckOfTheSeaEnchantment extends UnchangedEnchantment {
     }
 
     @Override
-    public Component getDisplayName() {
+    public @NotNull Component getDisplayName() {
         return Component.text("Luck of the Sea");
     }
 
     @Override
-    public Component getDescription() {
+    public @NotNull Component getDescription() {
         return Component.text("Increases chance of treasure by ").color(NamedTextColor.GRAY)
                 .append(Component.text((2*getLevel()) + "%").color(NamedTextColor.GREEN));
     }

@@ -7,6 +7,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemType;
+import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.enchantments.definitions.vanilla.UnchangedEnchantment;
 
 public class MultishotEnchantment extends UnchangedEnchantment {
@@ -17,12 +18,12 @@ public class MultishotEnchantment extends UnchangedEnchantment {
     }
 
     @Override
-    public Component getDisplayName() {
+    public @NotNull Component getDisplayName() {
         return Component.text("Multishot");
     }
 
     @Override
-    public Component getDescription() {
+    public @NotNull Component getDescription() {
         return Component.text("Fires ").color(NamedTextColor.GRAY)
                 .append(Component.text("multiple arrows").color(NamedTextColor.GOLD))
                 .append(Component.text(" when shot").color(NamedTextColor.GRAY));

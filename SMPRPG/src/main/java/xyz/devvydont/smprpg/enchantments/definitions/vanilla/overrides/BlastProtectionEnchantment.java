@@ -17,6 +17,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemType;
+import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.enchantments.EnchantmentUtil;
 import xyz.devvydont.smprpg.enchantments.base.AttributeEnchantment;
 import xyz.devvydont.smprpg.enchantments.definitions.vanilla.VanillaEnchantment;
@@ -38,12 +39,12 @@ public class BlastProtectionEnchantment extends VanillaEnchantment implements At
     }
 
     @Override
-    public Component getDisplayName() {
+    public @NotNull Component getDisplayName() {
         return Component.text("Blast Protection");
     }
 
     @Override
-    public Component getDescription() {
+    public @NotNull Component getDescription() {
         return Component.text("Increases explosion resistance by ").color(NamedTextColor.GRAY)
                 .append(Component.text("+" + getExplosiveProtectionPercent(getLevel()) + "%").color(NamedTextColor.GREEN));
     }
@@ -66,16 +67,6 @@ public class BlastProtectionEnchantment extends VanillaEnchantment implements At
     @Override
     public int getWeight() {
         return 1;
-    }
-
-    @Override
-    public EnchantmentRegistryEntry.EnchantmentCost getMinimumCost() {
-        return EnchantmentRegistryEntry.EnchantmentCost.of(1, 3);
-    }
-
-    @Override
-    public EnchantmentRegistryEntry.EnchantmentCost getMaximumCost() {
-        return EnchantmentRegistryEntry.EnchantmentCost.of(1, 1);
     }
 
     @Override

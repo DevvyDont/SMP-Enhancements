@@ -10,6 +10,7 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemType;
+import org.jetbrains.annotations.NotNull;
 
 public class UnknownEnchantment extends VanillaEnchantment {
 
@@ -19,12 +20,12 @@ public class UnknownEnchantment extends VanillaEnchantment {
     }
 
     @Override
-    public Component getDisplayName() {
+    public @NotNull Component getDisplayName() {
         return getVanillaEnchantment().displayName(0);
     }
 
     @Override
-    public Component getDescription() {
+    public @NotNull Component getDescription() {
         return Component.text("Unknown description");
     }
 
@@ -46,16 +47,6 @@ public class UnknownEnchantment extends VanillaEnchantment {
     @Override
     public int getWeight() {
         return 1;
-    }
-
-    @Override
-    public EnchantmentRegistryEntry.EnchantmentCost getMinimumCost() {
-        return EnchantmentRegistryEntry.EnchantmentCost.of(1, 1);
-    }
-
-    @Override
-    public EnchantmentRegistryEntry.EnchantmentCost getMaximumCost() {
-        return EnchantmentRegistryEntry.EnchantmentCost.of(1, 1);
     }
 
     @Override

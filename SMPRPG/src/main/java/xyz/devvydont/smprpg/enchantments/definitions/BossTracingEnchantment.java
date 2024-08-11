@@ -14,6 +14,7 @@ import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemType;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.enchantments.CustomEnchantment;
 import xyz.devvydont.smprpg.enchantments.EnchantmentUtil;
@@ -39,12 +40,12 @@ public class BossTracingEnchantment extends CustomEnchantment implements Listene
     }
 
     @Override
-    public Component getDisplayName() {
+    public @NotNull Component getDisplayName() {
         return Component.text("Tracing");
     }
 
     @Override
-    public Component getDescription() {
+    public @NotNull Component getDescription() {
         return ComponentUtil.getDefaultText("Arrows fired will home onto bosses ")
                 .append(ComponentUtil.getColoredComponent(getActivationDistance(getLevel()) + "m", NamedTextColor.GREEN))
                 .append(ComponentUtil.getDefaultText(" away for "))
@@ -69,16 +70,6 @@ public class BossTracingEnchantment extends CustomEnchantment implements Listene
     @Override
     public int getWeight() {
         return 1;
-    }
-
-    @Override
-    public EnchantmentRegistryEntry.EnchantmentCost getMinimumCost() {
-        return EnchantmentRegistryEntry.EnchantmentCost.of(1, 1);
-    }
-
-    @Override
-    public EnchantmentRegistryEntry.EnchantmentCost getMaximumCost() {
-        return EnchantmentRegistryEntry.EnchantmentCost.of(1, 1);
     }
 
     @Override

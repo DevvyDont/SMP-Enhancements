@@ -29,17 +29,17 @@ public class KeepingBlessing extends CustomEnchantment implements Listener {
     }
 
     @Override
-    public Component getDisplayName() {
+    public @NotNull Component getDisplayName() {
         return ComponentUtil.getColoredComponent("Blessing of Keeping", NamedTextColor.YELLOW);
     }
 
     @Override
-    public TextColor getEnchantColor() {
+    public @NotNull TextColor getEnchantColor() {
         return NamedTextColor.YELLOW;
     }
 
     @Override
-    public Component getDescription() {
+    public @NotNull Component getDescription() {
         return Component.text("This item ").color(NamedTextColor.GRAY)
                 .append(Component.text("will not").color(NamedTextColor.AQUA))
                 .append(Component.text(" drop from ").color(NamedTextColor.GRAY))
@@ -64,16 +64,6 @@ public class KeepingBlessing extends CustomEnchantment implements Listener {
     @Override
     public int getWeight() {
         return 2;
-    }
-
-    @Override
-    public EnchantmentRegistryEntry.EnchantmentCost getMinimumCost() {
-        return EnchantmentRegistryEntry.EnchantmentCost.of(1, 1);
-    }
-
-    @Override
-    public EnchantmentRegistryEntry.EnchantmentCost getMaximumCost() {
-        return EnchantmentRegistryEntry.EnchantmentCost.of(1, 1);
     }
 
     @Override

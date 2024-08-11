@@ -8,6 +8,7 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemType;
+import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.enchantments.definitions.vanilla.UnchangedEnchantment;
 
 public class VanishingCurseEnchantment extends UnchangedEnchantment {
@@ -17,17 +18,17 @@ public class VanishingCurseEnchantment extends UnchangedEnchantment {
     }
 
     @Override
-    public Component getDisplayName() {
+    public @NotNull Component getDisplayName() {
         return Component.text("Curse of Vanishing");
     }
 
     @Override
-    public TextColor getEnchantColor() {
+    public @NotNull TextColor getEnchantColor() {
         return NamedTextColor.RED;
     }
 
     @Override
-    public Component getDescription() {
+    public @NotNull Component getDescription() {
         return Component.text("Vanishes when ").color(NamedTextColor.GRAY)
                 .append(Component.text("dropped from death").color(NamedTextColor.DARK_RED));
     }

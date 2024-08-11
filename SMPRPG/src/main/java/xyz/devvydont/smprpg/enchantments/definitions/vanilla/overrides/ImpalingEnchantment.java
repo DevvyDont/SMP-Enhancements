@@ -15,6 +15,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemType;
+import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.enchantments.EnchantmentUtil;
 import xyz.devvydont.smprpg.enchantments.definitions.vanilla.VanillaEnchantment;
 import xyz.devvydont.smprpg.events.CustomEntityDamageByEntityEvent;
@@ -44,12 +45,12 @@ public class ImpalingEnchantment extends VanillaEnchantment implements Listener 
     }
 
     @Override
-    public Component getDisplayName() {
+    public @NotNull Component getDisplayName() {
         return Component.text("Impaling");
     }
 
     @Override
-    public Component getDescription() {
+    public @NotNull Component getDescription() {
         return Component.text("Increases base damage by ").color(NamedTextColor.GRAY)
                 .append(Component.text("+" + getDamagePercentageMultiplier(getLevel()) + "%").color(NamedTextColor.GREEN)
                 .append(Component.text(" against wet enemies").color(NamedTextColor.GRAY))
@@ -74,16 +75,6 @@ public class ImpalingEnchantment extends VanillaEnchantment implements Listener 
     @Override
     public int getWeight() {
         return 2;
-    }
-
-    @Override
-    public EnchantmentRegistryEntry.EnchantmentCost getMinimumCost() {
-        return EnchantmentRegistryEntry.EnchantmentCost.of(1, 3);
-    }
-
-    @Override
-    public EnchantmentRegistryEntry.EnchantmentCost getMaximumCost() {
-        return EnchantmentRegistryEntry.EnchantmentCost.of(1, 1);
     }
 
     @Override

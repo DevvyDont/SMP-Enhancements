@@ -12,6 +12,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemType;
+import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.enchantments.definitions.vanilla.UnchangedEnchantment;
 
 public class AquaAffinityEnchantment extends UnchangedEnchantment {
@@ -21,12 +22,12 @@ public class AquaAffinityEnchantment extends UnchangedEnchantment {
     }
 
     @Override
-    public Component getDisplayName() {
+    public @NotNull Component getDisplayName() {
         return Component.text("Aqua Affinity");
     }
 
     @Override
-    public Component getDescription() {
+    public @NotNull Component getDescription() {
         return Component.text("Improves ").color(NamedTextColor.GRAY)
                 .append(Component.text("underwater").color(NamedTextColor.AQUA))
                 .append(Component.text(" mining speed").color(NamedTextColor.GRAY));

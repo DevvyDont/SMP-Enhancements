@@ -14,6 +14,7 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemType;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Acts as a wrapper for vanilla enchantments with no extra behavior. Allows us to define descriptions for them
@@ -43,7 +44,7 @@ public abstract class UnchangedEnchantment extends VanillaEnchantment {
 
     @Override
     public int getAnvilCost() {
-        return 0;  // unused
+        return 1;
     }
 
     @Override
@@ -54,16 +55,6 @@ public abstract class UnchangedEnchantment extends VanillaEnchantment {
     @Override
     public int getWeight() {
         return 2;
-    }
-
-    @Override
-    public EnchantmentRegistryEntry.EnchantmentCost getMinimumCost() {
-        return null; // unused
-    }
-
-    @Override
-    public EnchantmentRegistryEntry.EnchantmentCost getMaximumCost() {
-        return null; // unused
     }
 
     @Override

@@ -115,15 +115,15 @@ public abstract class CustomEnchantment implements Cloneable {
         this.typedKey = typedKey;
     }
 
-    public abstract Component getDisplayName();
+    public abstract @NotNull Component getDisplayName();
 
-    public TextColor getEnchantColor() {
+    public @NotNull TextColor getEnchantColor() {
         return NamedTextColor.LIGHT_PURPLE;
     }
 
-    public abstract Component getDescription();
+    public abstract @NotNull Component getDescription();
 
-    public RegistryKeySet<ItemType> getSupportedItems(RegistryFreezeEvent<Enchantment, EnchantmentRegistryEntry.Builder> event) {
+    public @NotNull RegistryKeySet<ItemType> getSupportedItems(RegistryFreezeEvent<Enchantment, EnchantmentRegistryEntry.Builder> event) {
         return event.getOrCreateTag(getItemTypeTag());
     }
 
@@ -147,9 +147,13 @@ public abstract class CustomEnchantment implements Cloneable {
 
     public abstract int getWeight();
 
-    public abstract EnchantmentRegistryEntry.EnchantmentCost getMinimumCost();
+    public @NotNull EnchantmentRegistryEntry.EnchantmentCost getMinimumCost() {
+        return EnchantmentRegistryEntry.EnchantmentCost.of(1, 1);
+    }
 
-    public abstract EnchantmentRegistryEntry.EnchantmentCost getMaximumCost();
+    public @NotNull EnchantmentRegistryEntry.EnchantmentCost getMaximumCost() {
+        return EnchantmentRegistryEntry.EnchantmentCost.of(1, 1);
+    }
 
     public abstract EquipmentSlotGroup getEquipmentSlotGroup();
 
@@ -162,7 +166,7 @@ public abstract class CustomEnchantment implements Cloneable {
      * @return
      */
     public int getSkillRequirementToAvoid() {
-        return 1000;
+        return Integer.MAX_VALUE;
     }
 
     public Enchantment getEnchantment() {

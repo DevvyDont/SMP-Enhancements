@@ -7,6 +7,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemType;
+import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.enchantments.definitions.vanilla.UnchangedEnchantment;
 
 public class QuickChargeEnchantment extends UnchangedEnchantment {
@@ -20,12 +21,12 @@ public class QuickChargeEnchantment extends UnchangedEnchantment {
     }
 
     @Override
-    public Component getDisplayName() {
+    public @NotNull Component getDisplayName() {
         return Component.text("Quick Charge");
     }
 
     @Override
-    public Component getDescription() {
+    public @NotNull Component getDescription() {
         return Component.text("Sets loading time to ").color(NamedTextColor.GRAY)
                 .append(Component.text("-" + getChargePercentageReduction(getLevel()) + "%").color(getLevel() >= 5 ? NamedTextColor.LIGHT_PURPLE : NamedTextColor.GREEN));
     }

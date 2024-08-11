@@ -15,6 +15,7 @@ import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ItemType;
+import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.enchantments.EnchantmentUtil;
 import xyz.devvydont.smprpg.enchantments.definitions.vanilla.VanillaEnchantment;
 
@@ -30,12 +31,12 @@ public class InfinityEnchantment extends VanillaEnchantment implements Listener 
     }
 
     @Override
-    public Component getDisplayName() {
+    public @NotNull Component getDisplayName() {
         return Component.text("Infinity");
     }
 
     @Override
-    public Component getDescription() {
+    public @NotNull Component getDescription() {
         return Component.text("Provides a ").color(NamedTextColor.GRAY)
                 .append(Component.text(getNonconsumeChance(getLevel()) + "%").color(NamedTextColor.GREEN))
                 .append(Component.text(" chance to not consume arrows").color(NamedTextColor.GRAY));
@@ -59,16 +60,6 @@ public class InfinityEnchantment extends VanillaEnchantment implements Listener 
     @Override
     public int getWeight() {
         return 4;
-    }
-
-    @Override
-    public EnchantmentRegistryEntry.EnchantmentCost getMinimumCost() {
-        return EnchantmentRegistryEntry.EnchantmentCost.of(1, 1);
-    }
-
-    @Override
-    public EnchantmentRegistryEntry.EnchantmentCost getMaximumCost() {
-        return EnchantmentRegistryEntry.EnchantmentCost.of(1, 3);
     }
 
     @Override
