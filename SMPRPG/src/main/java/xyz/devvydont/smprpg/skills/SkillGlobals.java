@@ -3,6 +3,8 @@ package xyz.devvydont.smprpg.skills;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.config.ConfigManager;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,8 +48,15 @@ public class SkillGlobals {
      * @return
      */
     public static int getExperienceForLevel(int level) {
-        return 10 * (level * level) + 90;
+        return dropIntegerPrecision((int) (Math.pow(level+1, 3) + 92), 2);
     }
+
+    public static int dropIntegerPrecision(int n, int numSignificantDigits) {
+        BigDecimal bd = new BigDecimal(n);
+        bd = bd.round(new MathContext(numSignificantDigits));
+        return bd.intValue();
+    }
+
 
     /**
      * Returns the total amount of experience required to reach the next level

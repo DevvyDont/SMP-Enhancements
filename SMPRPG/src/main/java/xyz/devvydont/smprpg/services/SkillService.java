@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.LeveledPlayer;
+import xyz.devvydont.smprpg.skills.SkillGlobals;
 import xyz.devvydont.smprpg.skills.SkillInstance;
 import xyz.devvydont.smprpg.skills.SkillType;
 import xyz.devvydont.smprpg.skills.listeners.*;
@@ -32,7 +33,15 @@ public class SkillService implements BaseService, Listener {
 
     @Override
     public boolean setup() {
-        return false;
+
+        int sum = 0;
+        for (int i = 1; i <= 99; i++) {
+            int xp = SkillGlobals.getExperienceForLevel(i);
+            sum += xp;
+            plugin.getLogger().fine("Skill Requirement for Level " + i + ": " + xp + " (" + sum + ")");
+        }
+
+        return true;
     }
 
     @Override
