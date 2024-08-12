@@ -92,6 +92,9 @@ public class EnchantmentService implements BaseService, Listener {
     public final static CustomEnchantment TRACING = new BossTracingEnchantment("tracing");
     public final static CustomEnchantment BLESSED = new BlessedEnchantment("blessed");
     public final static CustomEnchantment STABILIZED = new StabilizedEnchantment("stabilized");
+    public final static CustomEnchantment PROFICIENT = new ProficientEnchantment("proficient");
+    public final static CustomEnchantment CLIMBING = new ClimbingEnchantment("climbing");
+    public final static CustomEnchantment SERRATED = new SerratedEnchantment("serrated");
 
     public final static CustomEnchantment[] CUSTOM_ENCHANTMENTS = {
 
@@ -107,6 +110,7 @@ public class EnchantmentService implements BaseService, Listener {
             POWER,
             SMITE,
             BANE_OF_ARTHROPODS,
+            SERRATED,
             EFFICIENCY,
 
             BLESSED,
@@ -148,10 +152,12 @@ public class EnchantmentService implements BaseService, Listener {
             WIND_BURST,
             MENDING,
 
+            CLIMBING,
             FORTUITY,
             HEARTY,
-            SPEEDSTER,
             LEECH,
+            PROFICIENT,
+            SPEEDSTER,
             TRACING,
     };
 
@@ -170,10 +176,10 @@ public class EnchantmentService implements BaseService, Listener {
         }
 
         // Debug print out the level unlocks of all the enchants
-//        List<CustomEnchantment> sortedByUnlock = new ArrayList<>(enchantments.values());
-//        sortedByUnlock.sort(Comparator.comparingInt(CustomEnchantment::getSkillRequirement));
-//        for (CustomEnchantment e : sortedByUnlock)
-//            System.out.println(PlainTextComponentSerializer.plainText().serialize(e.getDisplayName()) + ": " + e.getSkillRequirement());
+        List<CustomEnchantment> sortedByUnlock = new ArrayList<>(enchantments.values());
+        sortedByUnlock.sort(Comparator.comparingInt(CustomEnchantment::getSkillRequirement));
+        for (CustomEnchantment e : sortedByUnlock)
+            SMPRPG.getInstance().getLogger().fine(PlainTextComponentSerializer.plainText().serialize(e.getDisplayName()) + ": " + e.getSkillRequirement());
 
         return true;
     }

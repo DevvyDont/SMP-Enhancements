@@ -35,7 +35,7 @@ public class FrostWalkerEnchantment extends UnchangedEnchantment {
 
     @Override
     public int getSkillRequirement() {
-        return 12;
+        return 32;
     }
 
 }

@@ -26,7 +26,9 @@ import java.util.List;
 public class SweepingEdgeEnchantment extends VanillaEnchantment implements AttributeEnchantment {
 
     public static int getSweepingEdgeEfficiency(int level) {
-        return level * 20;
+        if (level <= 0)
+            return 0;
+        return (int)((1 - 1.0 / (level+1)) * 100);
     }
 
     public SweepingEdgeEnchantment(TypedKey<Enchantment> key) {
@@ -40,8 +42,8 @@ public class SweepingEdgeEnchantment extends VanillaEnchantment implements Attri
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Increases sweeping damage by ").color(NamedTextColor.GRAY)
-                .append(Component.text("+" + getSweepingEdgeEfficiency(getLevel()) + "%").color(NamedTextColor.GREEN));
+        return Component.text("Increases sweeping damage to ").color(NamedTextColor.GRAY)
+                .append(Component.text(getSweepingEdgeEfficiency(getLevel()) + "%").color(NamedTextColor.GREEN));
     }
 
     @Override
@@ -82,7 +84,7 @@ public class SweepingEdgeEnchantment extends VanillaEnchantment implements Attri
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(Attribute.PLAYER_SWEEPING_DAMAGE_RATIO, getSweepingEdgeEfficiency(getLevel())/100.0)
+//                new AdditiveAttributeEntry(Attribute.PLAYER_SWEEPING_DAMAGE_RATIO, getSweepingEdgeEfficiency(getLevel())/1000.0)
         );
     }
 

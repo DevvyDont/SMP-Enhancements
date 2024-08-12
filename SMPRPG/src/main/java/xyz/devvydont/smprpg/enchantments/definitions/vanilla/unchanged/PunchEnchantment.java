@@ -43,6 +43,6 @@ public class PunchEnchantment extends UnchangedEnchantment {
 
     @Override
     public int getSkillRequirement() {
-        return 11;
+        return 32;
     }
 }
