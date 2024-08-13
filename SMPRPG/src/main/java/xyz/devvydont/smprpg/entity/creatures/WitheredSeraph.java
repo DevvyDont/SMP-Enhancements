@@ -2,6 +2,7 @@ package xyz.devvydont.smprpg.entity.creatures;
 
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 import xyz.devvydont.smprpg.SMPRPG;
@@ -10,7 +11,7 @@ import xyz.devvydont.smprpg.entity.base.CustomEntityInstance;
 
 public class WitheredSeraph extends CustomEntityInstance {
 
-    public WitheredSeraph(SMPRPG plugin, LivingEntity entity, CustomEntityType entityType) {
+    public WitheredSeraph(SMPRPG plugin, Entity entity, CustomEntityType entityType) {
         super(plugin, entity, entityType);
     }
 
@@ -18,18 +19,21 @@ public class WitheredSeraph extends CustomEntityInstance {
     public void setup() {
         super.setup();
 
-        if (entity.getEquipment() == null)
+        if (!(entity instanceof LivingEntity living))
             return;
 
-        entity.getEquipment().setItemInMainHand(getAttributelessItem(Material.NETHERITE_HOE));
-        entity.getEquipment().setChestplate(getAttributelessItem(Material.NETHERITE_CHESTPLATE));
+        if (living.getEquipment() == null)
+            return;
+
+        living.getEquipment().setItemInMainHand(getAttributelessItem(Material.NETHERITE_HOE));
+        living.getEquipment().setChestplate(getAttributelessItem(Material.NETHERITE_CHESTPLATE));
         setNoDropEquipment();
     }
 
     @Override
     public void updateAttributes() {
         super.updateAttributes();
-        entity.getAttribute(Attribute.GENERIC_SCALE).setBaseValue(1.2);
-        entity.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(0.15);
+        this.updateBaseAttribute(Attribute.GENERIC_SCALE, 1.2);
+        this.updateBaseAttribute(Attribute.GENERIC_MOVEMENT_SPEED, .25);
     }
 }

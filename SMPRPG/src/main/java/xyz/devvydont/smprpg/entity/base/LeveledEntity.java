@@ -23,9 +23,9 @@ import java.util.Collection;
 public abstract class LeveledEntity implements LootSource {
 
     protected final SMPRPG plugin;
-    protected final LivingEntity entity;
+    protected final Entity entity;
 
-    public LeveledEntity(SMPRPG plugin, LivingEntity entity) {
+    public LeveledEntity(SMPRPG plugin, Entity entity) {
         this.plugin =  plugin;
         this.entity = entity;
     }
@@ -122,7 +122,9 @@ public abstract class LeveledEntity implements LootSource {
      * @return
      */
     public double getAbsorptionHealth() {
-        return entity.getAbsorptionAmount() * getHalfHeartValue();
+        if (entity instanceof LivingEntity living)
+            return living.getAbsorptionAmount() * getHalfHeartValue();
+        return 0;
     }
 
     /**
@@ -131,7 +133,8 @@ public abstract class LeveledEntity implements LootSource {
      * @return
      */
     public void setAbsorptionHealth(double amount) {
-        entity.setAbsorptionAmount(amount / getHalfHeartValue());
+        if (entity instanceof LivingEntity living)
+            living.setAbsorptionAmount(amount / getHalfHeartValue());
     }
 
     public void updateAbsorptionHealth(double amount) {
@@ -143,11 +146,15 @@ public abstract class LeveledEntity implements LootSource {
     }
 
     public double getHp() {
-        return entity.getHealth() + getAbsorptionHealth();
+        if (entity instanceof LivingEntity living)
+            return living.getHealth() + getAbsorptionHealth();
+        return 0;
     }
 
     public double getMaxHp() {
-        return entity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
+        if (entity instanceof LivingEntity living)
+            return living.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
+        return 1;
     }
 
     /**
@@ -172,7 +179,11 @@ public abstract class LeveledEntity implements LootSource {
      * @return
      */
     public double getBaseAttackDamage() {
-        AttributeInstance attack = entity.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE);
+
+        if (!(entity instanceof LivingEntity living))
+            return 0;
+
+        AttributeInstance attack = living.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE);
         if (attack != null)
             return attack.getValue();
 
@@ -230,11 +241,14 @@ public abstract class LeveledEntity implements LootSource {
 
     protected void updateBaseAttribute(Attribute attribute, double value) {
 
-        AttributeInstance attrInstance = entity.getAttribute(attribute);
+        if (!(entity instanceof LivingEntity living))
+            return;
+
+        AttributeInstance attrInstance = living.getAttribute(attribute);
         if (attrInstance == null) {
-            entity.registerAttribute(attribute);
+            living.registerAttribute(attribute);
             plugin.getLogger().fine(String.format("Tried to set %s attribute on %s, does not have it", attribute.name(), entity.getName()));
-            attrInstance = entity.getAttribute(attribute);
+            attrInstance = living.getAttribute(attribute);
         }
 
         if (attrInstance != null)
@@ -247,7 +261,11 @@ public abstract class LeveledEntity implements LootSource {
     public abstract void updateAttributes();
 
     public void heal() {
-        entity.setHealth(getMaxHp());
+
+        if (!(entity instanceof LivingEntity living))
+            return;
+
+        living.setHealth(getMaxHp());
         updateNametag();
     }
 
@@ -268,7 +286,11 @@ public abstract class LeveledEntity implements LootSource {
     }
 
     public void setHealthPercentage(double percentage) {
-        entity.setHealth(getMaxHp() * Math.max(0, Math.min(1.0, percentage)));
+
+        if (!(entity instanceof LivingEntity living))
+            return;
+
+        living.setHealth(getMaxHp() * Math.max(0, Math.min(1.0, percentage)));
     }
 
     public double getCombatExperienceMultiplier() {

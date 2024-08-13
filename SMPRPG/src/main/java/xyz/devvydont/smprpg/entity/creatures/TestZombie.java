@@ -1,5 +1,6 @@
 package xyz.devvydont.smprpg.entity.creatures;
 
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -11,7 +12,7 @@ import xyz.devvydont.smprpg.entity.CustomEntityType;
 public class TestZombie extends CustomEntityInstance implements Listener {
 
 
-    public TestZombie(SMPRPG plugin, LivingEntity entity, CustomEntityType entityType) {
+    public TestZombie(SMPRPG plugin, Entity entity, CustomEntityType entityType) {
         super(plugin, entity, entityType);
     }
 

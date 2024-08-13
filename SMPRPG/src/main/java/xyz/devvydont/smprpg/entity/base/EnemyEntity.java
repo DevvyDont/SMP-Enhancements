@@ -15,7 +15,7 @@ public abstract class EnemyEntity extends LeveledEntity {
     // Tracks damage done by players (and other entities if desired)
     private Map<UUID, Integer> damageTracker = new HashMap<>();
 
-    public EnemyEntity(SMPRPG plugin, LivingEntity entity) {
+    public EnemyEntity(SMPRPG plugin, Entity entity) {
         super(plugin, entity);
     }
 

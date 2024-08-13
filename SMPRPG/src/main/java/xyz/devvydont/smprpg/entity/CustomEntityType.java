@@ -15,6 +15,7 @@ import xyz.devvydont.smprpg.entity.creatures.WitheredSeraph;
 import xyz.devvydont.smprpg.entity.npc.ReforgeNPC;
 import xyz.devvydont.smprpg.entity.spawning.BiomeSpawnCondition;
 import xyz.devvydont.smprpg.entity.spawning.EntitySpawnCondition;
+import xyz.devvydont.smprpg.entity.spawning.EntitySpawner;
 import xyz.devvydont.smprpg.entity.spawning.ImpossibleSpawnCondition;
 import xyz.devvydont.smprpg.services.EntityService;
 
@@ -39,6 +40,9 @@ public enum CustomEntityType {
 
     // NPCs
     REFORGE_NPC(EntityType.VILLAGER, "Tool Reforger", ReforgeNPC.class),
+
+    // Spawner
+    SPAWNER(EntityType.ITEM_DISPLAY, "Spawner", EntitySpawner.class)
     ;
 
 
@@ -80,7 +84,7 @@ public enum CustomEntityType {
         this.entityHandler = entityHandler;
     }
 
-    CustomEntityType(EntityType entityType, String name, Class<? extends NPCEntity> entityHandler) {
+    CustomEntityType(EntityType entityType, String name, Class<? extends LeveledEntity> entityHandler) {
         this.entityType = entityType;
         this.name = name;
         this.baseLevel = 0;

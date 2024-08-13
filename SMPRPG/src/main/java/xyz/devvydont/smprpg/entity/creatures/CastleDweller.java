@@ -1,7 +1,7 @@
 package xyz.devvydont.smprpg.entity.creatures;
 
 import org.bukkit.Material;
-import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Villager;
 import org.bukkit.entity.ZombieVillager;
 import xyz.devvydont.smprpg.SMPRPG;
@@ -10,7 +10,7 @@ import xyz.devvydont.smprpg.entity.base.CustomEntityInstance;
 
 public class CastleDweller extends CustomEntityInstance {
 
-    public CastleDweller(SMPRPG plugin, LivingEntity entity, CustomEntityType entityType) {
+    public CastleDweller(SMPRPG plugin, Entity entity, CustomEntityType entityType) {
         super(plugin, entity, entityType);
     }
 

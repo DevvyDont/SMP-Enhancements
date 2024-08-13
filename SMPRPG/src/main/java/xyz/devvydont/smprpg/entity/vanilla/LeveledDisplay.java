@@ -1,13 +1,12 @@
 package xyz.devvydont.smprpg.entity.vanilla;
 
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.base.VanillaEntity;
 
-public class LeveledArmorStand extends VanillaEntity {
+public class LeveledDisplay extends VanillaEntity {
 
-    public LeveledArmorStand(SMPRPG plugin, Entity entity) {
+    public LeveledDisplay(SMPRPG plugin, Entity entity) {
         super(plugin, entity);
     }
 

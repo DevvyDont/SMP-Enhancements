@@ -6,6 +6,7 @@ import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -33,7 +34,7 @@ public abstract class BossInstance extends EnemyEntity {
     private SimpleGlobalScoreboard scoreboard;
     BukkitTask scoreboardUpdateTask;
 
-    public BossInstance(SMPRPG plugin, LivingEntity entity) {
+    public BossInstance(SMPRPG plugin, Entity entity) {
         super(plugin, entity);
     }
 

@@ -2,6 +2,7 @@ package xyz.devvydont.smprpg.entity.base;
 
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import xyz.devvydont.smprpg.SMPRPG;
@@ -20,7 +21,7 @@ public class VanillaEntity extends EnemyEntity {
     public static final String VANILLA_CLASS_KEY = "vanilla";
 
 
-    public VanillaEntity(SMPRPG plugin, LivingEntity entity) {
+    public VanillaEntity(SMPRPG plugin, Entity entity) {
         super(plugin, entity);
     }
 
@@ -102,9 +103,13 @@ public class VanillaEntity extends EnemyEntity {
     }
 
     public double calculateBaseDamageMultiplier() {
+
+        if (!(entity instanceof LivingEntity living))
+            return 1;
+
         // Based on vanilla minecraft's rules for damage, figure out a suitable damage multiplier for this entity
         double averageDamage = 2.0;
-        AttributeInstance attack = entity.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE);
+        AttributeInstance attack = living.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE);
         if (attack == null)
             return averageDamage;
 

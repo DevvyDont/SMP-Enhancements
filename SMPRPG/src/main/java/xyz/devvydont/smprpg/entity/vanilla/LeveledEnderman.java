@@ -3,6 +3,7 @@ package xyz.devvydont.smprpg.entity.vanilla;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Biome;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -22,7 +23,7 @@ public class LeveledEnderman extends VanillaEntity implements Listener {
     public static final int MINIMUM_LEVEL = 40;
     public static final int END_MINIMUM_LEVEL = 50;
 
-    public LeveledEnderman(SMPRPG plugin, LivingEntity entity) {
+    public LeveledEnderman(SMPRPG plugin, Entity entity) {
         super(plugin, entity);
     }
 

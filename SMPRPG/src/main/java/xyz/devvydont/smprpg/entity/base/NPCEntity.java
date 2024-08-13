@@ -1,12 +1,10 @@
 package xyz.devvydont.smprpg.entity.base;
 
-import com.destroystokyo.paper.entity.ai.GoalType;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
-import org.bukkit.Bukkit;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -16,7 +14,7 @@ import xyz.devvydont.smprpg.entity.CustomEntityType;
 
 public abstract class NPCEntity extends CustomEntityInstance implements Listener {
 
-    public NPCEntity(SMPRPG plugin, LivingEntity entity, CustomEntityType entityType) {
+    public NPCEntity(SMPRPG plugin, Entity entity, CustomEntityType entityType) {
         super(plugin, entity, entityType);
     }
 
@@ -25,7 +23,8 @@ public abstract class NPCEntity extends CustomEntityInstance implements Listener
     @Override
     public void setup() {
         super.setup();
-        entity.setAI(false);
+        if (entity instanceof LivingEntity living)
+            living.setAI(false);
         entity.setInvulnerable(true);
         entity.setPersistent(true);
         entity.setSilent(true);

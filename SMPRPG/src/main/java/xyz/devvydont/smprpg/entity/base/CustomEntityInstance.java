@@ -24,7 +24,7 @@ public class CustomEntityInstance extends EnemyEntity {
 
     private final CustomEntityType entityType;
 
-    public CustomEntityInstance(SMPRPG plugin, LivingEntity entity, CustomEntityType entityType) {
+    public CustomEntityInstance(SMPRPG plugin, Entity entity, CustomEntityType entityType) {
         super(plugin, entity);
         this.entityType = entityType;
     }
@@ -93,7 +93,11 @@ public class CustomEntityInstance extends EnemyEntity {
      * Sets it so that this entity will never drop equipment.
      */
     protected void setNoDropEquipment() {
-        EntityEquipment equipment = entity.getEquipment();
+
+        if (!(entity instanceof LivingEntity living))
+            return;
+
+        EntityEquipment equipment = living.getEquipment();
         if (equipment == null)
             return;
 

@@ -2,6 +2,7 @@ package xyz.devvydont.smprpg.entity.vanilla;
 
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.AreaEffectCloud;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
@@ -23,7 +24,7 @@ import java.util.List;
 
 public class LeveledDragon extends BossInstance implements Listener {
 
-    public LeveledDragon(SMPRPG plugin, LivingEntity entity) {
+    public LeveledDragon(SMPRPG plugin, Entity entity) {
         super(plugin, entity);
     }
 

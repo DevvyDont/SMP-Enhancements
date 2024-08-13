@@ -1,5 +1,6 @@
 package xyz.devvydont.smprpg.entity.vanilla;
 
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
@@ -13,7 +14,7 @@ import java.util.List;
 
 public class LeveledSpider extends VanillaEntity {
 
-    public LeveledSpider(SMPRPG plugin, LivingEntity entity) {
+    public LeveledSpider(SMPRPG plugin, Entity entity) {
         super(plugin, entity);
     }
 

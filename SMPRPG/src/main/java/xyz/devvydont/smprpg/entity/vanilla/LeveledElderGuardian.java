@@ -2,6 +2,7 @@ package xyz.devvydont.smprpg.entity.vanilla;
 
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.Listener;
 import org.jetbrains.annotations.Nullable;
@@ -16,7 +17,7 @@ import java.util.List;
 
 public class LeveledElderGuardian extends VanillaEntity implements Listener {
 
-    public LeveledElderGuardian(SMPRPG plugin, LivingEntity entity) {
+    public LeveledElderGuardian(SMPRPG plugin, Entity entity) {
         super(plugin, entity);
     }
 

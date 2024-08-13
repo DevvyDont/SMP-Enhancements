@@ -91,6 +91,10 @@ public class EntityService implements BaseService, Listener {
 
         vanillaEntityHandlers.put(EntityType.ARMOR_STAND, LeveledArmorStand.class);
 
+        vanillaEntityHandlers.put(EntityType.BLOCK_DISPLAY, LeveledDisplay.class);
+        vanillaEntityHandlers.put(EntityType.ITEM_DISPLAY, LeveledDisplay.class);
+        vanillaEntityHandlers.put(EntityType.TEXT_DISPLAY, LeveledDisplay.class);
+
         plugin.getLogger().info(String.format("Associated %s vanilla entities with custom handlers", vanillaEntityHandlers.size()));
 
         // Setting up default scoreboard options
@@ -102,6 +106,22 @@ public class EntityService implements BaseService, Listener {
         hpObjective.setAutoUpdateDisplay(true);
 
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
+
+        // Initialize entities that are already loaded
+
+        for (World world : Bukkit.getWorlds())
+            for (Entity entity : world.getEntities()) {
+
+                // Ignore non living/displays
+                if (!(entity instanceof LivingEntity) && !(entity instanceof Display))
+                    continue;
+
+                LeveledEntity leveled = getEntityInstance(entity);
+
+                leveled.updateAttributes();
+                trackEntity(leveled);
+            }
+
         return true;
     }
 
@@ -125,7 +145,7 @@ public class EntityService implements BaseService, Listener {
      *
      * @param entity
      */
-    public LeveledEntity getNewVanillaEntityInstance(LivingEntity entity) {
+    public LeveledEntity getNewVanillaEntityInstance(Entity entity) {
 
         LeveledEntity ret;
 
@@ -140,7 +160,7 @@ public class EntityService implements BaseService, Listener {
         // Reflection hacks since we have a custom handler
         Class<? extends LeveledEntity> handler = vanillaEntityHandlers.get(entity.getType());
         try {
-            ret = handler.getConstructor(SMPRPG.class, LivingEntity.class).newInstance(plugin, entity);
+            ret = handler.getConstructor(SMPRPG.class, Entity.class).newInstance(plugin, entity);
             ret.updateAttributes();
             trackEntity(ret);
             return ret;
@@ -162,9 +182,7 @@ public class EntityService implements BaseService, Listener {
      * @param entity
      * @return
      */
-    public LeveledEntity getEntityInstance(LivingEntity entity) {
-
-
+    public LeveledEntity getEntityInstance(Entity entity) {
 
         // Are we already tracking them?
         if (entityInstances.containsKey(entity.getUniqueId()))
@@ -189,7 +207,7 @@ public class EntityService implements BaseService, Listener {
 
         // Reflection hacks since we know we have a custom entity
         try {
-            LeveledEntity leveled = type.entityHandler.getConstructor(SMPRPG.class, LivingEntity.class, CustomEntityType.class).newInstance(plugin, entity, type);
+            LeveledEntity leveled = type.entityHandler.getConstructor(SMPRPG.class, Entity.class, CustomEntityType.class).newInstance(plugin, entity, type);
             trackEntity(leveled);
             return leveled;
         } catch (InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException e) {
@@ -209,7 +227,7 @@ public class EntityService implements BaseService, Listener {
         Entity entity = location.getWorld().spawnEntity(location, type.entityType, CreatureSpawnEvent.SpawnReason.CUSTOM, e -> {
             e.getPersistentDataContainer().set(getClassNamespacedKey(), PersistentDataType.STRING, type.key());
         });
-        if (!(entity instanceof LivingEntity living)) {
+        if (!(entity instanceof LivingEntity) && !(entity instanceof Display)) {
             plugin.getLogger().severe(String.format("Tried to spawn incorrect custom entity vanilla class %s", type.entityType));
             entity.remove();
             return null;
@@ -217,7 +235,7 @@ public class EntityService implements BaseService, Listener {
 
         // Reflection hacks
         try {
-            CustomEntityInstance customEntity = (CustomEntityInstance) type.entityHandler.getConstructor(SMPRPG.class, LivingEntity.class, CustomEntityType.class).newInstance(plugin, living, type);
+            CustomEntityInstance customEntity = (CustomEntityInstance) type.entityHandler.getConstructor(SMPRPG.class, Entity.class, CustomEntityType.class).newInstance(plugin, entity, type);
             customEntity.updateAttributes();
             trackEntity(customEntity);
             return customEntity;
@@ -288,11 +306,12 @@ public class EntityService implements BaseService, Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onEntitySpawn(EntityAddToWorldEvent event) {
 
-        // Ignore things that aren't living creatures
-        if (!(event.getEntity() instanceof LivingEntity entity))
+        // Ignore non living/displays
+        if (!(event.getEntity() instanceof LivingEntity) && !(event.getEntity() instanceof Display))
             return;
 
-        LeveledEntity leveled = getEntityInstance(entity);
+        LeveledEntity leveled = getEntityInstance(event.getEntity());
+
         leveled.updateAttributes();
         trackEntity(leveled);
     }
@@ -330,7 +349,7 @@ public class EntityService implements BaseService, Listener {
         DamagePopupUtil.spawnTextPopup(((LivingEntity) event.getEntity()).getEyeLocation(), (int)Math.round(event.getFinalDamage()), DamagePopupUtil.PopupType.DAMAGE);
 
         // Update the entity's nametag
-        LeveledEntity leveled = getEntityInstance((LivingEntity) event.getEntity());
+        LeveledEntity leveled = getEntityInstance(event.getEntity());
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -353,7 +372,7 @@ public class EntityService implements BaseService, Listener {
         DamagePopupUtil.spawnTextPopup(((LivingEntity) event.getEntity()).getEyeLocation(), (int)Math.round(event.getAmount()), DamagePopupUtil.PopupType.HEAL);
 
         // Update the entity's nametag
-        LeveledEntity leveled = getEntityInstance((LivingEntity) event.getEntity());
+        LeveledEntity leveled = getEntityInstance(event.getEntity());
         new BukkitRunnable() {
             @Override
             public void run() {

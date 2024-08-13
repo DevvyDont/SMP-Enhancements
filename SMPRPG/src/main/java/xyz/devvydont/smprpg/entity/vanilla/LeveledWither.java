@@ -1,6 +1,7 @@
 package xyz.devvydont.smprpg.entity.vanilla;
 
 import org.bukkit.Material;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.Listener;
 import org.jetbrains.annotations.Nullable;
@@ -16,7 +17,7 @@ import java.util.List;
 
 public class LeveledWither extends VanillaEntity implements Listener {
 
-    public LeveledWither(SMPRPG plugin, LivingEntity entity) {
+    public LeveledWither(SMPRPG plugin, Entity entity) {
         super(plugin, entity);
     }
 
