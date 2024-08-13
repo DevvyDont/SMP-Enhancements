@@ -13,6 +13,7 @@ import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
@@ -75,7 +76,7 @@ public class LeechEnchantment extends CustomEnchantment implements Listener {
         return 15;
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onPlayerLeechedEntity(EntityDeathEvent event) {
 
         Player killer = event.getEntity().getKiller();

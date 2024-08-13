@@ -29,6 +29,12 @@ public class CustomEntityInstance extends EnemyEntity {
         this.entityType = entityType;
     }
 
+    @Override
+    public void setup() {
+        super.setup();
+        setNoDropEquipment();
+    }
+
     public CustomEntityType getEntityType() {
         return entityType;
     }
@@ -73,11 +79,6 @@ public class CustomEntityInstance extends EnemyEntity {
         return entity.equals(this.entity);
     }
 
-    @Override
-    public boolean hasVanillaDrops() {
-        return false;
-    }
-
     protected ItemStack getAttributelessItem(Material material) {
         ItemStack item = new ItemStack(material);
         item.editMeta(meta -> {
@@ -101,7 +102,11 @@ public class CustomEntityInstance extends EnemyEntity {
         if (equipment == null)
             return;
 
-        for (EquipmentSlot slot : EquipmentSlot.values())
-            equipment.setDropChance(slot, 0f);
+        equipment.setItemInMainHandDropChance(0);
+        equipment.setItemInOffHandDropChance(0);
+        equipment.setHelmetDropChance(0);
+        equipment.setChestplateDropChance(0);
+        equipment.setLeggingsDropChance(0);
+        equipment.setBootsDropChance(0);
     }
 }

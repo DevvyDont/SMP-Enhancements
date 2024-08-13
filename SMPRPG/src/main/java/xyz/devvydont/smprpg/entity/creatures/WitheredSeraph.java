@@ -5,9 +5,15 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.CustomEntityType;
 import xyz.devvydont.smprpg.entity.base.CustomEntityInstance;
+import xyz.devvydont.smprpg.util.items.LootDrop;
+import xyz.devvydont.smprpg.util.items.QuantityLootDrop;
+
+import java.util.Collection;
+import java.util.List;
 
 public class WitheredSeraph extends CustomEntityInstance {
 
@@ -27,7 +33,6 @@ public class WitheredSeraph extends CustomEntityInstance {
 
         living.getEquipment().setItemInMainHand(getAttributelessItem(Material.NETHERITE_HOE));
         living.getEquipment().setChestplate(getAttributelessItem(Material.NETHERITE_CHESTPLATE));
-        setNoDropEquipment();
     }
 
     @Override
@@ -35,5 +40,13 @@ public class WitheredSeraph extends CustomEntityInstance {
         super.updateAttributes();
         this.updateBaseAttribute(Attribute.GENERIC_SCALE, 1.2);
         this.updateBaseAttribute(Attribute.GENERIC_MOVEMENT_SPEED, .25);
+    }
+
+
+    @Override
+    public @Nullable Collection<LootDrop> getItemDrops() {
+        return List.of(
+                new QuantityLootDrop(SMPRPG.getInstance().getItemService().getCustomItem(Material.BONE), 1, 2, this)
+        );
     }
 }

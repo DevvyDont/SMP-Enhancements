@@ -53,8 +53,12 @@ public class LeveledEnderman extends VanillaEntity implements Listener {
     @Override
     public @Nullable Collection<LootDrop> getItemDrops() {
         List<LootDrop> drops = new java.util.ArrayList<>(List.of(
-                new ChancedItemDrop(SMPRPG.getInstance().getItemService().getCustomItem(CustomItemType.PREMIUM_ENDER_PEARL), 25, this),
-                new ChancedItemDrop(SMPRPG.getInstance().getItemService().getCustomItem(CustomItemType.ENCHANTED_ENDER_PEARL), 150, this)
+                new ChancedItemDrop(SMPRPG.getInstance().getItemService().getCustomItem(CustomItemType.PREMIUM_ENDER_PEARL), 50, this),
+                new ChancedItemDrop(SMPRPG.getInstance().getItemService().getCustomItem(CustomItemType.ENCHANTED_ENDER_PEARL), 250, this),
+                new ChancedItemDrop(SMPRPG.getInstance().getItemService().getCustomItem(CustomItemType.UNSTABLE_HELMET), 1000, this),
+                new ChancedItemDrop(SMPRPG.getInstance().getItemService().getCustomItem(CustomItemType.UNSTABLE_CHESTPLATE), 1000, this),
+                new ChancedItemDrop(SMPRPG.getInstance().getItemService().getCustomItem(CustomItemType.UNSTABLE_LEGGINGS), 1000, this),
+                new ChancedItemDrop(SMPRPG.getInstance().getItemService().getCustomItem(CustomItemType.UNSTABLE_BOOTS), 1000, this)
         ));
 
         if (canDropCrystal())

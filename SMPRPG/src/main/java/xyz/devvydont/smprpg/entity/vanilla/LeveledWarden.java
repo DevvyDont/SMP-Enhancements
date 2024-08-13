@@ -57,11 +57,11 @@ public class LeveledWarden extends VanillaEntity implements Listener {
     @Override
     public @Nullable Collection<LootDrop> getItemDrops() {
         return List.of(
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.PRELUDE_HELMET), 25, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.PRELUDE_CHESTPLATE), 25, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.PRELUDE_LEGGINGS), 25, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.PRELUDE_BOOTS), 25, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.PREMIUM_ECHO_SHARD), 6, this),
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.PRELUDE_HELMET), 100, this),
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.PRELUDE_CHESTPLATE), 100, this),
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.PRELUDE_LEGGINGS), 100, this),
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.PRELUDE_BOOTS), 100, this),
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.PREMIUM_ECHO_SHARD), 5, this),
                 new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.ENCHANTED_ECHO_SHARD), 45, this),
                 new QuantityLootDrop(plugin.getItemService().getCustomItem(Material.ECHO_SHARD), 2, 7, this)
         );

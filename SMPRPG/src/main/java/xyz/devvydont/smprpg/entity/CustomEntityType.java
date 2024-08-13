@@ -1,6 +1,7 @@
 package xyz.devvydont.smprpg.entity;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Biome;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -163,5 +164,30 @@ public enum CustomEntityType {
 
     public Class<? extends LeveledEntity> getEntityHandler() {
         return entityHandler;
+    }
+
+    /**
+     * Determine if an entity type is allowed to spawn from a custom entity spawner instance.
+     *
+     * @return
+     */
+    public boolean canBeSpawnerSpawned() {
+        return switch (this) {
+            case SPAWNER, TEST_SKELETON, TEST_ZOMBIE, REFORGE_NPC -> false;
+            default -> true;
+        };
+    }
+
+    public Material getInterfaceButton() {
+        return switch (this) {
+            case REFORGE_NPC -> Material.ANVIL;
+            case CASTLE_DWELLER -> Material.WOODEN_SHOVEL;
+            case UNDEAD_ARCHER -> Material.BOW;
+            case SPAWNER -> Material.BARRIER;
+            case TEST_ZOMBIE -> Material.ROTTEN_FLESH;
+            case TEST_SKELETON -> Material.BONE;
+            case WITHERED_SERAPH -> Material.NETHERITE_HOE;
+            default -> Material.SKELETON_SKULL;
+        };
     }
 }

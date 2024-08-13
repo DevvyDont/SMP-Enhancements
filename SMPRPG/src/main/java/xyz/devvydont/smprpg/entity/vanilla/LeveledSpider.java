@@ -21,12 +21,12 @@ public class LeveledSpider extends VanillaEntity {
     @Override
     public @Nullable Collection<LootDrop> getItemDrops() {
         return List.of(
-                new ChancedItemDrop(SMPRPG.getInstance().getItemService().getCustomItem(CustomItemType.ARAXYS_HELMET), 400, this),
-                new ChancedItemDrop(SMPRPG.getInstance().getItemService().getCustomItem(CustomItemType.ARAXYS_CHESTPLATE), 400, this),
-                new ChancedItemDrop(SMPRPG.getInstance().getItemService().getCustomItem(CustomItemType.ARAXYS_LEGGINGS), 400, this),
-                new ChancedItemDrop(SMPRPG.getInstance().getItemService().getCustomItem(CustomItemType.ARAXYS_BOOTS), 400, this),
-                new ChancedItemDrop(SMPRPG.getInstance().getItemService().getCustomItem(CustomItemType.PREMIUM_STRING), 12, this),
-                new ChancedItemDrop(SMPRPG.getInstance().getItemService().getCustomItem(CustomItemType.ENCHANTED_STRING), 110, this)
+                new ChancedItemDrop(SMPRPG.getInstance().getItemService().getCustomItem(CustomItemType.ARAXYS_HELMET), 500, this),
+                new ChancedItemDrop(SMPRPG.getInstance().getItemService().getCustomItem(CustomItemType.ARAXYS_CHESTPLATE), 500, this),
+                new ChancedItemDrop(SMPRPG.getInstance().getItemService().getCustomItem(CustomItemType.ARAXYS_LEGGINGS), 500, this),
+                new ChancedItemDrop(SMPRPG.getInstance().getItemService().getCustomItem(CustomItemType.ARAXYS_BOOTS), 500, this),
+                new ChancedItemDrop(SMPRPG.getInstance().getItemService().getCustomItem(CustomItemType.PREMIUM_STRING), 15, this),
+                new ChancedItemDrop(SMPRPG.getInstance().getItemService().getCustomItem(CustomItemType.ENCHANTED_STRING), 120, this)
         );
     }
 

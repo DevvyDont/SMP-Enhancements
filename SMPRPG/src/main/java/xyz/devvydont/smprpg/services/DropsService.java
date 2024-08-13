@@ -269,7 +269,7 @@ public class DropsService implements BaseService, Listener {
             return;
 
         // Only every other mob will drop coins
-        if (Math.random() < .5)
+        if (Math.random() < .2)
             return;
 
         LeveledEntity leveled = SMPRPG.getInstance().getEntityService().getEntityInstance(event.getEntity());
@@ -278,7 +278,7 @@ public class DropsService implements BaseService, Listener {
         event.getDrops().add(money);
     }
 
-    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onEntityHasDrops(EntityDeathEvent event) {
 
         // Is there a killer involved?
@@ -288,13 +288,13 @@ public class DropsService implements BaseService, Listener {
 
         LeveledEntity entity = plugin.getEntityService().getEntityInstance(event.getEntity());
 
-        // Drop override?
-        if (entity.getItemDrops() == null)
-            return;
-
         // Clear the drops from the vanilla roll if desired
         if (!entity.hasVanillaDrops())
             event.getDrops().clear();
+
+        // Drop override?
+        if (entity.getItemDrops() == null)
+            return;
 
         // Loop through all players that helped kill this entity and did at least some meaningful damage
         Map<Player, Double> involvedPlayers = new HashMap<>();
