@@ -84,7 +84,7 @@ public class StructureEntitySpawnListener implements Listener {
                     structureLevel = Math.max(structureLevel, getMinimumEntityLevel(structure));
 
         // If there is a difference in structure level, use that level instead
-        if (structureLevel != originalLevel)
+        if (structureLevel == originalLevel)
             return;
 
         // After resolving the highest level based on current entity level and structures the entity was in, set it.
