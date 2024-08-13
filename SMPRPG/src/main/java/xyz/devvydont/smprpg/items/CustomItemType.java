@@ -4,6 +4,7 @@ import org.bukkit.Material;
 import xyz.devvydont.smprpg.items.base.CustomHeadBlueprint;
 import xyz.devvydont.smprpg.items.base.CustomItemBlueprint;
 import xyz.devvydont.smprpg.items.blueprints.debug.EntityAnalyzer;
+import xyz.devvydont.smprpg.items.blueprints.debug.SpawnerEditorBlueprint;
 import xyz.devvydont.smprpg.items.blueprints.debug.SpiderRepellentBlueprint;
 import xyz.devvydont.smprpg.items.blueprints.economy.CustomItemCoin;
 import xyz.devvydont.smprpg.items.blueprints.equipment.GrapplingHook;
@@ -507,6 +508,8 @@ public enum CustomItemType {
 
     ENTITY_ANALYZER("Entity Analyzer", Material.CLOCK, ItemRarity.SPECIAL, true, EntityAnalyzer.class),
     ENTITY_ANALYZER_REPORT("Entity Analyzer Report", Material.PAPER, ItemRarity.SPECIAL, true),
+
+    SPAWNER_EDITING_WAND("Spawner Editor Wand", Material.BREEZE_ROD, ItemRarity.SPECIAL, true, SpawnerEditorBlueprint.class),
 
     DUMMY_SMITHING_RESULT("DUMMY SMITHING RESULT", Material.BARRIER, ItemRarity.SPECIAL)
     ;

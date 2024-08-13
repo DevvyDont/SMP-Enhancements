@@ -31,7 +31,6 @@ public abstract class PrivateInterface implements Listener {
 
         inventory = createInventory();
 
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
     public int getNumRows() {
@@ -119,6 +118,7 @@ public abstract class PrivateInterface implements Listener {
     public void open() {
         inventoryView = owner.openInventory(inventory);
         initializeDefaultState();
+        Bukkit.getPluginManager().registerEvents(this, plugin);
     }
 
     public void handleInventoryClick(InventoryClickEvent event) {}
