@@ -22,10 +22,10 @@ repositories {
 }
 
 dependencies {
-    compileOnly "io.papermc.paper:paper-api:1.21-R0.1-SNAPSHOT"
+    compileOnly("io.papermc.paper:paper-api:1.21.1-R0.1-SNAPSHOT")
     compileOnly "com.github.MilkBowl:VaultAPI:1.7"
     compileOnly group: "com.comphenix.protocol", name: "ProtocolLib", version: "4.8.0";
-    paperweight.paperDevBundle("1.21-R0.1-SNAPSHOT")
+    paperweight.paperDevBundle("1.21.1-R0.1-SNAPSHOT")
 }
 
 def targetJavaVersion = 21
