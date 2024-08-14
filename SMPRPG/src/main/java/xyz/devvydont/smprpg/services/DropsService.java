@@ -281,11 +281,6 @@ public class DropsService implements BaseService, Listener {
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onEntityHasDrops(EntityDeathEvent event) {
 
-        // Is there a killer involved?
-        Player killer = event.getEntity().getKiller();
-        if (killer == null)
-            return;
-
         LeveledEntity entity = plugin.getEntityService().getEntityInstance(event.getEntity());
 
         // Clear the drops from the vanilla roll if desired
@@ -294,6 +289,11 @@ public class DropsService implements BaseService, Listener {
 
         // Drop override?
         if (entity.getItemDrops() == null)
+            return;
+
+        // Is there a killer involved?
+        Player killer = event.getEntity().getKiller();
+        if (killer == null)
             return;
 
         // Loop through all players that helped kill this entity and did at least some meaningful damage
@@ -353,7 +353,7 @@ public class DropsService implements BaseService, Listener {
         Component suffix = ComponentUtil.getDefaultText(" found ").append(item).append(ComponentUtil.getDefaultText(" from ")).append(event.getSource().getAsComponent()).append(ComponentUtil.getDefaultText("!"));
         Component chance = ComponentUtil.getColoredComponent(" (" + event.getFormattedChance() + ")", NamedTextColor.DARK_GRAY);
         boolean broadcastServer = rarityOfDrop.ordinal() >= ItemRarity.LEGENDARY.ordinal();
-        if (event.getChance() < rarityOfDrop.ordinal() * 3 / 100.0)
+        if (event.getChance() < rarityOfDrop.ordinal() * rarityOfDrop.ordinal() / 100.0)
             broadcastServer = true;
 
         // We have 3 levels of "rare drop" obtaining based on the chance.
@@ -367,7 +367,7 @@ public class DropsService implements BaseService, Listener {
         }
 
         boolean tellPlayer = rarityOfDrop.ordinal() >= ItemRarity.RARE.ordinal();
-        if (event.getChance() < rarityOfDrop.ordinal() * 6.0 / 100)
+        if (event.getChance() < rarityOfDrop.ordinal() * rarityOfDrop.ordinal() / 25.0)
             tellPlayer = true;
 
         if (!tellPlayer)
