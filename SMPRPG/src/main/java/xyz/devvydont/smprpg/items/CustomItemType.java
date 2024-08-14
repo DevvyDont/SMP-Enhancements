@@ -180,10 +180,10 @@ public enum CustomItemType {
     SAKURA_BOOTS("Sakura Boots",           Material.LEATHER_BOOTS,      SakuraBoots.class),
 
     // MYSTBLOOM SET
-    MYSTBLOOM_HELMET("Mystbloom Helmet",         Material.LEATHER_HELMET,     MystbloomHelmet.class),
-    MYSTBLOOM_CHESTPLATE("Mystbloom Chestplate", Material.LEATHER_CHESTPLATE, MystbloomChestplate.class),
-    MYSTBLOOM_LEGGINGS("Mystbloom Leggings",     Material.LEATHER_LEGGINGS,   MystbloomLeggings.class),
-    MYSTBLOOM_BOOTS("Mystbloom Boots",           Material.LEATHER_BOOTS,      MystbloomBoots.class),
+    MYSTBLOOM_HELMET("Mystbloom Helmet",         Material.LEATHER_HELMET,     ItemRarity.EPIC, MystbloomHelmet.class),
+    MYSTBLOOM_CHESTPLATE("Mystbloom Chestplate", Material.LEATHER_CHESTPLATE, ItemRarity.EPIC, MystbloomChestplate.class),
+    MYSTBLOOM_LEGGINGS("Mystbloom Leggings",     Material.LEATHER_LEGGINGS,   ItemRarity.EPIC, MystbloomLeggings.class),
+    MYSTBLOOM_BOOTS("Mystbloom Boots",           Material.LEATHER_BOOTS,      ItemRarity.EPIC, MystbloomBoots.class),
 
     // NEO_FRONTIER SET
     NEO_FRONTIER_HELMET("Neo Frontier Helmet",         Material.IRON_HELMET,        NeoFrontierHelmet.class),
