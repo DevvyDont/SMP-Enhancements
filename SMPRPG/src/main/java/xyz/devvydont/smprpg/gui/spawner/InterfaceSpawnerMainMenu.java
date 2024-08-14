@@ -24,6 +24,7 @@ public class InterfaceSpawnerMainMenu extends PrivateInterface {
 
     private EntitySpawner spawner;
 
+    private final SpawnerButton deleteButton;
     private final SpawnerButton entriesButton;
     private final SpawnerButton levelButton;
     private final SpawnerButton rangeButton;
@@ -34,6 +35,28 @@ public class InterfaceSpawnerMainMenu extends PrivateInterface {
     public InterfaceSpawnerMainMenu(SMPRPG plugin, Player owner, EntitySpawner spawner) {
         super(plugin, owner);
         this.spawner = spawner;
+
+        deleteButton = new SpawnerButton() {
+            @Override
+            public ItemStack getItem(InterfaceSpawnerMainMenu gui) {
+                ItemStack display = InterfaceUtil.getNamedItem(Material.BEDROCK, ComponentUtil.getColoredComponent("Delete Spawner", NamedTextColor.RED));
+                List<Component> lore = new ArrayList<>();
+                lore.add(Component.empty());
+                lore.add(ComponentUtil.getColoredComponent("Click to remove this spawner from the world!", NamedTextColor.RED));
+                display.editMeta(meta -> {
+                    meta.lore(lore);
+                    meta.lore(ChatUtil.cleanItalics(meta.lore()));
+                });
+                return display;
+            }
+
+            @Override
+            public void handleClick(InterfaceSpawnerMainMenu gui, Player player, ClickType clickType) {
+                gui.getSpawner().getEntity().remove();
+                player.closeInventory();
+                player.sendMessage(ChatUtil.getSuccessMessage("Successfully deleted spawner!"));
+            }
+        };
 
         entriesButton = new SpawnerButton() {
             @Override
@@ -167,6 +190,7 @@ public class InterfaceSpawnerMainMenu extends PrivateInterface {
         buttonHandlers.put(13, rangeButton);
         buttonHandlers.put(15, limitButton);
         buttonHandlers.put(31, entriesButton);
+        buttonHandlers.put(43, deleteButton);
     }
 
     public EntitySpawner getSpawner() {
