@@ -8,6 +8,7 @@ import xyz.devvydont.smprpg.items.blueprints.debug.SpawnerEditorBlueprint;
 import xyz.devvydont.smprpg.items.blueprints.debug.SpiderRepellentBlueprint;
 import xyz.devvydont.smprpg.items.blueprints.economy.CustomItemCoin;
 import xyz.devvydont.smprpg.items.blueprints.equipment.GrapplingHook;
+import xyz.devvydont.smprpg.items.blueprints.misc.DeathCertificate;
 import xyz.devvydont.smprpg.items.blueprints.resources.EmptyBlueprint;
 import xyz.devvydont.smprpg.items.blueprints.resources.crafting.DraconicCrystal;
 import xyz.devvydont.smprpg.items.blueprints.resources.mining.*;
@@ -492,6 +493,8 @@ public enum CustomItemType {
     SINGULARITY_CHESTPLATE("Singularity Chestplate", Material.NETHERITE_CHESTPLATE, ItemRarity.MYTHIC, SingularityChestplate.class),
     SINGULARITY_LEGGINGS(  "Singularity Leggings",   Material.NETHERITE_LEGGINGS,   ItemRarity.MYTHIC, SingularityLeggings.class),
     SINGULARITY_BOOTS(     "Singularity Boots",      Material.NETHERITE_BOOTS,      ItemRarity.MYTHIC, SingularityBoots.class),
+
+    DEATH_CERTIFICATE("Death Certificate", Material.PAPER, ItemRarity.SPECIAL, DeathCertificate.class),
 
     // DEBUG
     // Admin armor, makes you invincible basically

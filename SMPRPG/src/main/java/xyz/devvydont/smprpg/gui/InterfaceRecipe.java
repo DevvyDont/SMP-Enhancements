@@ -12,6 +12,7 @@ import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.ShapedRecipe;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.items.interfaces.Craftable;
+import xyz.devvydont.smprpg.util.formatting.ChatUtil;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
 
 import java.util.ArrayList;
@@ -81,7 +82,7 @@ public class InterfaceRecipe extends PrivateInterface {
             lore.add(Component.empty());
             for (ItemStack item : requirements)
                 lore.add(ComponentUtil.getDefaultText("- ").append(item.displayName()));
-            meta.lore(lore);
+            meta.lore(ChatUtil.cleanItalics(lore));
             meta.setEnchantmentGlintOverride(true);
         });
         plugin.getItemService().setIgnoreMetaUpdate(paper);
