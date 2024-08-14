@@ -22,6 +22,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scoreboard.*;
 import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
@@ -48,6 +49,8 @@ public class EntityService implements BaseService, Listener {
     private final Map<UUID, LeveledEntity> entityInstances;
     private final Map<String, CustomEntityType> entityResolver;
     private final Map<EntityType, Class<? extends LeveledEntity>> vanillaEntityHandlers;
+
+    private BukkitTask wellnessCheckTask = null;
 
     public static NamespacedKey getClassNamespacedKey(SMPRPG plugin) {
         return new NamespacedKey(plugin, ENTITY_CLASS_KEY);
@@ -122,6 +125,19 @@ public class EntityService implements BaseService, Listener {
                 trackEntity(leveled);
             }
 
+        wellnessCheckTask = new BukkitRunnable() {
+
+            @Override
+            public void run() {
+                List<UUID> invalid = new ArrayList<>();
+                for (Map.Entry<UUID, LeveledEntity> entry : entityInstances.entrySet())
+                    if (!entry.getValue().getEntity().isValid())
+                        invalid.add(entry.getKey());
+                for (UUID id : invalid)
+                    entityInstances.remove(id);
+            }
+        }.runTaskTimer(plugin, 5*60*20, 5*60*20);
+
         return true;
     }
 
@@ -131,6 +147,7 @@ public class EntityService implements BaseService, Listener {
         for (LeveledEntity entity : entityInstances.values())
             entity.cleanup();
         entityInstances.clear();
+        wellnessCheckTask.cancel();
     }
 
     @Override
@@ -272,7 +289,7 @@ public class EntityService implements BaseService, Listener {
      *
      * @param event
      */
-    @EventHandler(priority = EventPriority.MONITOR)
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onEntitySpawnForTheFirstTime(CreatureSpawnEvent event) {
         LeveledEntity entity = getEntityInstance(event.getEntity());
         trackEntity(entity);
@@ -303,7 +320,7 @@ public class EntityService implements BaseService, Listener {
      *
      * @param event
      */
-    @EventHandler(priority = EventPriority.MONITOR)
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onEntitySpawn(EntityAddToWorldEvent event) {
 
         // Ignore non living/displays
@@ -436,9 +453,9 @@ public class EntityService implements BaseService, Listener {
         if (event.getFrom().getChunk().equals(event.getTo().getChunk()))
             return;
 
-        event.getPlayer().getNearbyEntities(16, 4, 16).forEach(entity -> {
+        event.getPlayer().getNearbyEntities(56, 6, 56).forEach(entity -> {
             if (!(entity instanceof Player) && entity instanceof LivingEntity)
-                getEntityInstance((LivingEntity) entity).brightenNametag();
+                getEntityInstance(entity).brightenNametag();
         });
 
     }
@@ -469,7 +486,7 @@ public class EntityService implements BaseService, Listener {
         leveled.brightenNametag();
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onSpawn(CreatureSpawnEvent event) {
 
         // Ignore non natural spawns
@@ -495,6 +512,7 @@ public class EntityService implements BaseService, Listener {
         CustomEntityInstance entity = this.spawnCustomEntity(newEntity, event.getLocation());
         if (entity == null)
             return;
+
         entity.setup();
         event.setCancelled(true);
     }
