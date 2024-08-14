@@ -12,6 +12,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.events.skills.SkillExperiencePostGainEvent;
 import xyz.devvydont.smprpg.events.skills.SkillLevelUpEvent;
+import xyz.devvydont.smprpg.services.ActionBarService;
 import xyz.devvydont.smprpg.skills.SkillInstance;
 import xyz.devvydont.smprpg.skills.rewards.SkillReward;
 import xyz.devvydont.smprpg.skills.SkillType;
@@ -69,14 +70,14 @@ public class ExperienceGainNotifier implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onGainExperience(SkillExperiencePostGainEvent event) {
 
+        Component component = ComponentUtil.getColoredComponent(event.getSkillType().getDisplayName() + " " + event.getSkill().getLevel(), NamedTextColor.AQUA)
+                .append(ComponentUtil.getDefaultText(" | "))
+                .append(Component.text(MinecraftStringUtils.formatNumber(event.getSkill().getExperienceProgress())).color(NamedTextColor.GREEN))
+                .append(Component.text("/" + MinecraftStringUtils.formatNumber(event.getSkill().getNextExperienceThreshold())).color(NamedTextColor.DARK_GRAY))
+                .append(Component.text(" (+" + MinecraftStringUtils.formatNumber(event.getSkill().getCombo()) + ")").color(NamedTextColor.GOLD));
+
         // Send the player an action bar of their experience progress
-        event.getPlayer().sendActionBar(
-                ComponentUtil.getColoredComponent(event.getSkillType().getDisplayName() + " " + event.getSkill().getLevel(), NamedTextColor.AQUA)
-                        .append(ComponentUtil.getDefaultText(" | "))
-                        .append(Component.text(MinecraftStringUtils.formatNumber(event.getSkill().getExperienceProgress())).color(NamedTextColor.GREEN))
-                        .append(Component.text("/" + MinecraftStringUtils.formatNumber(event.getSkill().getNextExperienceThreshold())).color(NamedTextColor.DARK_GRAY))
-                        .append(Component.text(" (+" + MinecraftStringUtils.formatNumber(event.getSkill().getCombo()) + ")").color(NamedTextColor.GOLD))
-        );
+        plugin.getActionBarService().addActionBarComponent(event.getPlayer(), ActionBarService.ActionBarSource.SKILL, component, 5);
         event.getPlayer().playSound(event.getPlayer().getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, .15f, 2);
     }
 

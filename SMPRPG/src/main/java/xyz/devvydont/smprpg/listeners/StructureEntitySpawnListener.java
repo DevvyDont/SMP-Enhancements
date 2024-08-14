@@ -5,14 +5,17 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.generator.structure.GeneratedStructure;
 import org.bukkit.generator.structure.Structure;
+import org.bukkit.scheduler.BukkitRunnable;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.events.LeveledEntitySpawnEvent;
+import xyz.devvydont.smprpg.services.ActionBarService;
 import xyz.devvydont.smprpg.util.formatting.ChatUtil;
 import xyz.devvydont.smprpg.util.formatting.MinecraftStringUtils;
 
@@ -54,6 +57,15 @@ public class StructureEntitySpawnListener implements Listener {
         minimumStructureLevels.put(Structure.IGLOO,           10);  // Early game structure
         minimumStructureLevels.put(Structure.JUNGLE_PYRAMID,  10);  // Early game structure
         minimumStructureLevels.put(Structure.SWAMP_HUT,       10);  // Early game structure
+
+        new BukkitRunnable() {
+
+            @Override
+            public void run() {
+                for (Player player : plugin.getServer().getOnlinePlayers())
+                    doPlayerLocationCheck(player);
+            }
+        }.runTaskTimerAsynchronously(plugin, 1, 2*50);
     }
 
     /**
@@ -65,6 +77,44 @@ public class StructureEntitySpawnListener implements Listener {
      */
     public static int getMinimumEntityLevel(GeneratedStructure structure) {
         return minimumStructureLevels.getOrDefault(structure.getStructure(), -1);
+    }
+
+    private Component getStructureComponent(Player player, GeneratedStructure structure, int power) {
+        Component send = Component.text("Currently in").color(NamedTextColor.GRAY)
+                .append(Component.text(" " + MinecraftStringUtils.getTitledString(structure.getStructure().key().value() + " ")).color(NamedTextColor.AQUA)
+                        .append(ChatUtil.getBracketedPowerComponent(power)));
+
+        if (power > plugin.getEntityService().getPlayerInstance(player).getLevel())
+            send = Component.text("WARNING! ").color(NamedTextColor.RED).append(send);
+        return send;
+    }
+
+
+    private void doPlayerLocationCheck(Player player) {
+
+        Location location = player.getLocation();
+        Chunk chunk = location.getChunk();
+
+        // Determine highest level structure we are in. If -1, that means we are not in one
+        GeneratedStructure mostDangerousStructure = null;
+        int highestLevel = -1;
+        for (GeneratedStructure structure : chunk.getStructures()) {
+
+            // Skip structures we aren't actually in
+            if (!structure.getBoundingBox().overlaps(player.getBoundingBox()))
+                continue;
+
+            if (highestLevel < getMinimumEntityLevel(structure)) {
+                mostDangerousStructure = structure;
+                highestLevel = getMinimumEntityLevel(structure);
+            }
+        }
+
+        // Don't do anything if we aren't in a structure
+        if (mostDangerousStructure == null || highestLevel < 1)
+            return;
+
+        plugin.getActionBarService().addActionBarComponent(player, ActionBarService.ActionBarSource.STRUCTURE, getStructureComponent(player, mostDangerousStructure, highestLevel), 5);
     }
 
     @EventHandler
@@ -92,45 +142,6 @@ public class StructureEntitySpawnListener implements Listener {
         event.getEntity().updateAttributes();
     }
 
-    // todo move this to a runnable instead of a player move event
-    @EventHandler(priority = EventPriority.MONITOR)
-    public void onEnterStructure(PlayerMoveEvent event) {
-
-
-        // Only do this every 40 ticks (2 seconds)
-        if (SMPRPG.getInstance().getServer().getCurrentTick() % 40 != 0)
-            return;
-
-        Chunk chunk = event.getTo().getChunk();
-
-        // Determine highest level structure we are in. If -1, that means we are not in one
-        GeneratedStructure mostDangerousStructure = null;
-        int highestLevel = -1;
-        for (GeneratedStructure structure : chunk.getStructures()) {
-
-            // Skip structures we aren't actually in
-            if (!structure.getBoundingBox().overlaps(event.getPlayer().getBoundingBox()))
-                continue;
-
-            if (highestLevel < getMinimumEntityLevel(structure)) {
-                mostDangerousStructure = structure;
-                highestLevel = getMinimumEntityLevel(structure);
-            }
-        }
-
-        // Don't do anything if we aren't in a structure
-        if (mostDangerousStructure == null || highestLevel < 1)
-            return;
-
-        Component send = Component.text("Currently in").color(NamedTextColor.GRAY)
-                .append(Component.text(" " + MinecraftStringUtils.getTitledString(mostDangerousStructure.getStructure().key().value() + " ")).color(NamedTextColor.AQUA)
-                .append(ChatUtil.getBracketedPowerComponent(highestLevel)));
-
-        if (highestLevel > plugin.getEntityService().getPlayerInstance(event.getPlayer()).getLevel())
-            send = Component.text("WARNING! ").color(NamedTextColor.RED).append(send);
-
-        event.getPlayer().sendActionBar(send);
-    }
 
 
 }

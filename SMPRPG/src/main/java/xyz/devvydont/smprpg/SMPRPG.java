@@ -33,6 +33,7 @@ public final class SMPRPG extends JavaPlugin implements Listener {
     EntityService entityService;
     SkillService skillService;
     DropsService dropsService;
+    ActionBarService actionBarService;
     UnstableListenersService unstableListenersService;
 
     List<BaseService> services;
@@ -63,6 +64,10 @@ public final class SMPRPG extends JavaPlugin implements Listener {
 
     public DropsService getDropsService() {
         return dropsService;
+    }
+
+    public ActionBarService getActionBarService() {
+        return actionBarService;
     }
 
     public UnstableListenersService getUnstableListenersService() {
@@ -112,6 +117,9 @@ public final class SMPRPG extends JavaPlugin implements Listener {
 
         dropsService = new DropsService(this);
         registerService(dropsService);
+
+        actionBarService = new ActionBarService(this);
+        registerService(actionBarService);
 
         unstableListenersService =  new UnstableListenersService(this);
         registerService(unstableListenersService);
