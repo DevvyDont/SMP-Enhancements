@@ -9,6 +9,7 @@ import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.CustomEntityType;
 import xyz.devvydont.smprpg.entity.base.CustomEntityInstance;
+import xyz.devvydont.smprpg.util.items.ChancedItemDrop;
 import xyz.devvydont.smprpg.util.items.LootDrop;
 import xyz.devvydont.smprpg.util.items.QuantityLootDrop;
 
@@ -46,6 +47,7 @@ public class WitheredSeraph extends CustomEntityInstance {
     @Override
     public @Nullable Collection<LootDrop> getItemDrops() {
         return List.of(
+                new ChancedItemDrop(SMPRPG.getInstance().getItemService().getCustomItem(Material.OBSIDIAN), 5, this),
                 new QuantityLootDrop(SMPRPG.getInstance().getItemService().getCustomItem(Material.BONE), 1, 2, this)
         );
     }

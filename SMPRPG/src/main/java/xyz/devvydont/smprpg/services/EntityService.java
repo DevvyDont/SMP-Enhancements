@@ -86,6 +86,7 @@ public class EntityService implements BaseService, Listener {
 
         vanillaEntityHandlers.put(EntityType.SPIDER, LeveledSpider.class);
         vanillaEntityHandlers.put(EntityType.CAVE_SPIDER, LeveledSpider.class);
+        vanillaEntityHandlers.put(EntityType.CREEPER, LeveledCreeper.class);
         vanillaEntityHandlers.put(EntityType.ENDERMAN, LeveledEnderman.class);
         vanillaEntityHandlers.put(EntityType.ENDER_DRAGON, LeveledDragon.class);
         vanillaEntityHandlers.put(EntityType.WITHER, LeveledWither.class);

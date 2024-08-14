@@ -210,10 +210,10 @@ public enum CustomItemType {
     AMETHYST_BOOTS(     "Amethyst Boots",      Material.IRON_BOOTS,      ItemRarity.RARE, AmethystBoots.class),
 
     // EMERALD SET
-    EMERALD_HELMET(    "Emerald Helmet",         Material.DIAMOND_HELMET,     EmeraldHelmet.class),
-    EMERALD_CHESTPLATE("Emerald Chestplate",     Material.DIAMOND_CHESTPLATE, EmeraldChestplate.class),
-    EMERALD_LEGGINGS(  "Emerald Leggings",       Material.DIAMOND_LEGGINGS,   EmeraldLeggings.class),
-    EMERALD_BOOTS(     "Emerald Boots",          Material.DIAMOND_BOOTS,      EmeraldBoots.class),
+    EMERALD_HELMET(    "Emerald Helmet",         Material.DIAMOND_HELMET,     ItemRarity.UNCOMMON, EmeraldHelmet.class),
+    EMERALD_CHESTPLATE("Emerald Chestplate",     Material.DIAMOND_CHESTPLATE, ItemRarity.UNCOMMON, EmeraldChestplate.class),
+    EMERALD_LEGGINGS(  "Emerald Leggings",       Material.DIAMOND_LEGGINGS,   ItemRarity.UNCOMMON, EmeraldLeggings.class),
+    EMERALD_BOOTS(     "Emerald Boots",          Material.DIAMOND_BOOTS,      ItemRarity.UNCOMMON, EmeraldBoots.class),
 
     // REDSTONE
     REDSTONE_HELMET(    "Redstone Helmet",     Material.TARGET,             ItemRarity.RARE, RedstoneHelmet.class),

@@ -23,8 +23,8 @@ public class DimensionPortalLockingListener implements Listener {
         return calendar.getTime();
     }
 
-    public static final Date NETHER_LOCK = generateDate(7, 15, 2024);
-    public static final Date END_LOCK = generateDate(7, 20, 2024);
+    public static final Date NETHER_LOCK = generateDate(7, 20, 2024);
+    public static final Date END_LOCK = generateDate(7, 25, 2024);
 
     public static final int MESSAGE_COOLDOWN = 1000;
 
