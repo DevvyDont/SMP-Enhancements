@@ -29,7 +29,7 @@ public class ItemUtil {
      * @param emeralds
      */
     public static int emeraldsToCoins(int emeralds) {
-        return (int) Math.round(Math.pow(emeralds+2, 2.5));
+        return (int) Math.round(Math.pow(emeralds+5, 2.5));
     }
 
     /**
@@ -47,8 +47,8 @@ public class ItemUtil {
 
             CustomItemCoin coin = (CustomItemCoin) itemService.getBlueprint(coinType);
 
-            // If this coin is unable to capture the full value of the emeralds in 50, skip
-            if (coin.getValue() * 50 < coinTarget)
+            // If this coin is unable to capture the full value of the emeralds in 75, skip
+            if (coin.getValue() * 75 < coinTarget)
                 continue;
 
             // We have a good coin to use.
@@ -62,7 +62,7 @@ public class ItemUtil {
         // Oh boy we failed to find a suitable coin to satisfy a trade worth 50 million coins.....
         SMPRPG.getPlugin(SMPRPG.class).getLogger().severe(String.format("Failed to convert trade of %d emeralds to coins. Defaulting to 60m coins!", emeralds));
         ItemStack coin = itemService.getBlueprint(CustomItemType.ENCHANTED_COIN).generate();
-        coin.setAmount(60);
+        coin.setAmount(99);
         return coin;
     }
 
@@ -81,7 +81,7 @@ public class ItemUtil {
         SMPItemBlueprint blueprint = itemService.getBlueprint(itemStack);
 
         // Custom items are fine to stay
-        if (!blueprint.isCustom())
+        if (blueprint.isCustom())
             return itemStack;
 
         // If the vanilla item we have is not an emerald, it is fine to stay
@@ -90,34 +90,6 @@ public class ItemUtil {
 
         // This emerald should be converted to coins
         return determineBestVillagerCurrencyConversion(itemService, itemStack.getAmount());
-    }
-
-    public static List<Material> getDiamondEquipment() {
-        return Arrays.asList(
-                Material.DIAMOND_HELMET,
-                Material.DIAMOND_CHESTPLATE,
-                Material.DIAMOND_LEGGINGS,
-                Material.DIAMOND_BOOTS,
-                Material.DIAMOND_SWORD,
-                Material.DIAMOND_AXE,
-                Material.DIAMOND_PICKAXE,
-                Material.DIAMOND_SHOVEL,
-                Material.DIAMOND_HOE
-        );
-    }
-
-    public static List<Material> getNetheriteEquipment() {
-        return Arrays.asList(
-                Material.NETHERITE_HELMET,
-                Material.NETHERITE_CHESTPLATE,
-                Material.NETHERITE_LEGGINGS,
-                Material.NETHERITE_BOOTS,
-                Material.NETHERITE_SWORD,
-                Material.NETHERITE_AXE,
-                Material.NETHERITE_PICKAXE,
-                Material.NETHERITE_SHOVEL,
-                Material.NETHERITE_HOE
-        );
     }
 
 }
