@@ -52,7 +52,8 @@ public class CastleDweller extends CustomEntityInstance {
                 new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.MYSTBLOOM_LEGGINGS), 500, this),
                 new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.MYSTBLOOM_BOOTS), 500, this),
                 new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.MYSTBLOOM_KUNAI), 500, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(Material.ROTTEN_FLESH), 2, this)
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(Material.ROTTEN_FLESH), 3, this),
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.STALE_BREAD), 3, this)
         );
     }
 }

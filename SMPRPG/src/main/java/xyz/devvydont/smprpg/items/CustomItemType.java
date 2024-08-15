@@ -8,6 +8,7 @@ import xyz.devvydont.smprpg.items.blueprints.debug.SpawnerEditorBlueprint;
 import xyz.devvydont.smprpg.items.blueprints.debug.SpiderRepellentBlueprint;
 import xyz.devvydont.smprpg.items.blueprints.economy.CustomItemCoin;
 import xyz.devvydont.smprpg.items.blueprints.equipment.GrapplingHook;
+import xyz.devvydont.smprpg.items.blueprints.food.StaleBread;
 import xyz.devvydont.smprpg.items.blueprints.misc.DeathCertificate;
 import xyz.devvydont.smprpg.items.blueprints.resources.EmptyBlueprint;
 import xyz.devvydont.smprpg.items.blueprints.resources.crafting.DraconicCrystal;
@@ -311,6 +312,9 @@ public enum CustomItemType {
 
     // MISC TOOLS
     GRAPPLING_HOOK("Grappling Hook", Material.FISHING_ROD, ItemRarity.RARE, GrapplingHook.class),
+
+    // FOOD
+    STALE_BREAD("Stale Bread", Material.BREAD, ItemRarity.COMMON, StaleBread.class),
 
     // COMPRESSED MINING MATERIALS
 
