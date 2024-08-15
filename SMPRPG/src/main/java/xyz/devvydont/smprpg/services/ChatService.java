@@ -1,17 +1,25 @@
 package xyz.devvydont.smprpg.services;
 
+import io.papermc.paper.event.player.AsyncChatEvent;
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import net.milkbowl.vault.chat.Chat;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import xyz.devvydont.smprpg.SMPRPG;
+import xyz.devvydont.smprpg.entity.LeveledPlayer;
+import xyz.devvydont.smprpg.util.formatting.ChatUtil;
 import xyz.devvydont.smprpg.util.formatting.PlayerChatInformation;
+import xyz.devvydont.smprpg.util.formatting.Symbols;
 
 public class ChatService implements BaseService, Listener {
 
@@ -115,5 +123,23 @@ public class ChatService implements BaseService, Listener {
     public String getPlayerDisplayname(OfflinePlayer player) {
         PlayerChatInformation information = getPlayerInfo(player);
         return ChatColor.translateAlternateColorCodes('&', (information.prefix() + player.getName() + information.suffix().stripTrailing()));
+    }
+
+    /**
+     * Injects the player level into a chat message no matter what chat plugins are doing.
+     * todo replace with PlaceholdersAPI
+     *
+     * @param event
+     */
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onChat(AsyncChatEvent event) {
+
+        // Hack, if power symbol in component don't do anything
+        if (PlainTextComponentSerializer.plainText().serialize(event.message()).contains(Symbols.POWER))
+            return;
+
+        int level = plugin.getEntityService().getPlayerInstance(event.getPlayer()).getLevel();
+        Component component = ChatUtil.getBracketedPowerComponent(level).append(Component.text(" ")).append(event.message());
+        event.message(component);
     }
 }

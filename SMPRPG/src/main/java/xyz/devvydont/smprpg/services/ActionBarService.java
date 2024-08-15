@@ -12,7 +12,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import xyz.devvydont.smprpg.SMPRPG;
+import xyz.devvydont.smprpg.entity.LeveledPlayer;
 import xyz.devvydont.smprpg.entity.base.LeveledEntity;
+import xyz.devvydont.smprpg.util.formatting.ChatUtil;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
 import xyz.devvydont.smprpg.util.formatting.Symbols;
 
@@ -93,10 +95,15 @@ public class ActionBarService implements BaseService, Listener {
                 .append(ComponentUtil.getColoredComponent(Symbols.HEART, NamedTextColor.RED));
     }
 
+    private Component getPowerComponent(final Player player) {
+        LeveledPlayer p = plugin.getEntityService().getPlayerInstance(player);
+        return ChatUtil.getBracketedPowerComponent(p.getLevel());
+    }
+
     private void display(Player player) {
 
         // The component Will always have their health
-        Component message = getHealthComponent(player);
+        Component message = getPowerComponent(player).append(Component.text(" ")).append(getHealthComponent(player));
 
         // Check for components
         Map<ActionBarSource, ActionBarComponent> playersComponents = getPlayerComponents(player);
