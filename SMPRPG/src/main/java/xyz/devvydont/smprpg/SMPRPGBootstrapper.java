@@ -14,6 +14,7 @@ import xyz.devvydont.smprpg.commands.items.CommandSearchItem;
 import xyz.devvydont.smprpg.commands.player.CommandReforge;
 import xyz.devvydont.smprpg.commands.player.CommandSkill;
 import xyz.devvydont.smprpg.commands.player.CommandStatistics;
+import xyz.devvydont.smprpg.commands.player.CommandWhatAmIHolding;
 import xyz.devvydont.smprpg.enchantments.CustomEnchantment;
 import xyz.devvydont.smprpg.services.EnchantmentService;
 
@@ -31,7 +32,8 @@ public class SMPRPGBootstrapper implements PluginBootstrap {
                 new CommandStatistics("statistics"),
                 new CommandSkill("skill"),
                 new CommandSummon("summon"),
-                new CommandReforge("reforge")
+                new CommandReforge("reforge"),
+                new CommandWhatAmIHolding("whatamiholding")
         };
 
         LifecycleEventManager<BootstrapContext> manager = context.getLifecycleManager();
