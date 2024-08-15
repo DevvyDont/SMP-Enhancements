@@ -125,21 +125,21 @@ public class ChatService implements BaseService, Listener {
         return ChatColor.translateAlternateColorCodes('&', (information.prefix() + player.getName() + information.suffix().stripTrailing()));
     }
 
-    /**
-     * Injects the player level into a chat message no matter what chat plugins are doing.
-     * todo replace with PlaceholdersAPI
-     *
-     * @param event
-     */
-    @EventHandler(priority = EventPriority.MONITOR)
-    public void onChat(AsyncChatEvent event) {
-
-        // Hack, if power symbol in component don't do anything
-        if (PlainTextComponentSerializer.plainText().serialize(event.message()).contains(Symbols.POWER))
-            return;
-
-        int level = plugin.getEntityService().getPlayerInstance(event.getPlayer()).getLevel();
-        Component component = ChatUtil.getBracketedPowerComponent(level).append(Component.text(" ")).append(event.message());
-        event.message(component);
-    }
+//    /**
+//     * Injects the player level into a chat message no matter what chat plugins are doing.
+//     * todo replace with PlaceholdersAPI
+//     *
+//     * @param event
+//     */
+//    @EventHandler(priority = EventPriority.MONITOR)
+//    public void onChat(AsyncChatEvent event) {
+//
+//        // Hack, if power symbol in component don't do anything
+//        if (PlainTextComponentSerializer.plainText().serialize(event.message()).contains(Symbols.POWER))
+//            return;
+//
+//        int level = plugin.getEntityService().getPlayerInstance(event.getPlayer()).getLevel();
+//        Component component = ChatUtil.getBracketedPowerComponent(level).append(Component.text(" ")).append(event.message());
+//        event.message(component);
+//    }
 }
