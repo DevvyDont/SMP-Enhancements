@@ -207,7 +207,7 @@ public class DropsService implements BaseService, Listener {
      *
      * @param event
      */
-    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onPlayerDeath(PlayerDeathEvent event) {
 
         // Go through all the drops on the player and tag it as being owned
@@ -218,6 +218,9 @@ public class DropsService implements BaseService, Listener {
             });
         }
 
+        // Lose 25% of their experience
+        event.setNewTotalExp((int) (event.getPlayer().getTotalExperience() * .75));
+        event.setShouldDropExperience(false);
     }
 
     /**
