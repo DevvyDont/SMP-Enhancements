@@ -13,7 +13,7 @@ public class DeepslateFamilyBlueprint extends CustomCompressableBlueprint {
 
 
     public static final List<CompressionRecipeMember> COMPRESSION_FLOW = List.of(
-            new CompressionRecipeMember(new MaterialWrapper(Material.DEEPSLATE)),
+            new CompressionRecipeMember(new MaterialWrapper(Material.COBBLED_DEEPSLATE)),
             new CompressionRecipeMember(new MaterialWrapper(CustomItemType.COMPRESSED_DEEPSLATE)),
             new CompressionRecipeMember(new MaterialWrapper(CustomItemType.DOUBLE_COMPRESSED_DEEPSLATE)),
             new CompressionRecipeMember(new MaterialWrapper(CustomItemType.ENCHANTED_DEEPSLATE)),
