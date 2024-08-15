@@ -293,7 +293,7 @@ public abstract class SMPItemBlueprint {
 
         // Now, rarity
         lore.add(Component.empty());
-        lore.add(getRarity(meta).applyDecoration(Component.text(getRarity(meta).name() + " " + getItemClassification().name())).decoration(TextDecoration.BOLD, true));
+        lore.add(getRarity(meta).applyDecoration(Component.text(getRarity(meta).name() + " " + getItemClassification().name().replace("_", " "))).decoration(TextDecoration.BOLD, true));
 
         meta.lore(ChatUtil.cleanItalics(lore));
     }
