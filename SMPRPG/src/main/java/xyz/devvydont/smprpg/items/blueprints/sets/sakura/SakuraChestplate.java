@@ -36,7 +36,7 @@ public class SakuraChestplate extends SakuraArmorSet implements Dyeable, Trimmab
 
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
-        return List.of(new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 50));
+        return List.of(new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 30));
     }
 
     @Override

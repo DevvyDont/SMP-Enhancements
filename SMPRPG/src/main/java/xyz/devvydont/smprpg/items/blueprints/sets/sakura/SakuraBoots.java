@@ -37,7 +37,7 @@ public class SakuraBoots extends SakuraArmorSet implements Dyeable, Trimmable {
 
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
-        return List.of(new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 25));
+        return List.of(new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 15));
     }
 
     @Override

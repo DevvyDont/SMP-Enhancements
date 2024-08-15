@@ -27,7 +27,7 @@ public class SakuraHelmet extends CustomFakeHelmetBlueprint implements ToolBreak
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 30)
+                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 20)
         );
     }
 

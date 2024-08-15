@@ -35,7 +35,7 @@ public class SakuraLeggings extends SakuraArmorSet implements Trimmable {
 
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
-        return List.of(new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 35));
+        return List.of(new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 24));
     }
 
     @Override
