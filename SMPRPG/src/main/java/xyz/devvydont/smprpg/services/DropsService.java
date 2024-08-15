@@ -8,6 +8,8 @@ import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.damage.DamageSource;
 import org.bukkit.damage.DamageType;
 import org.bukkit.entity.Enemy;
@@ -29,6 +31,7 @@ import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.base.EnemyEntity;
 import xyz.devvydont.smprpg.entity.base.LeveledEntity;
 import xyz.devvydont.smprpg.events.CustomChancedItemDropSuccessEvent;
+import xyz.devvydont.smprpg.events.CustomItemDropRollEvent;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemRarity;
 import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
@@ -182,6 +185,24 @@ public class DropsService implements BaseService, Listener {
     }
 
     /**
+     * When players roll for a drop, consider their luck stat as a factor for an item
+     *
+     * @param event
+     */
+    @EventHandler
+    public void onConsiderLuckRollForGear(CustomItemDropRollEvent event) {
+
+        double multiplier = 1.0;
+        AttributeInstance luck = event.getPlayer().getAttribute(Attribute.GENERIC_LUCK);
+
+        if (luck == null)
+            return;
+
+        multiplier += luck.getValue() / 100.0;
+        event.setChance(event.getChance() * multiplier);
+    }
+
+    /**
      * When a player dies, mark all their items as being owned by them
      *
      * @param event
@@ -269,15 +290,11 @@ public class DropsService implements BaseService, Listener {
         if (!(event.getEntity() instanceof Enemy))
             return;
 
-        // Only a select amount of mobs will drop coins
-        if (Math.random() < .25)
-            return;
-
         LeveledEntity leveled = SMPRPG.getInstance().getEntityService().getEntityInstance(event.getEntity());
 
         // Some chance to add more money
         if (Math.random() < .33)
-            ItemUtil.getOptimalCoinStack(plugin.getItemService(), leveled.getLevel());
+            event.getDrops().add(ItemUtil.getOptimalCoinStack(plugin.getItemService(), leveled.getLevel()));
 
     }
 

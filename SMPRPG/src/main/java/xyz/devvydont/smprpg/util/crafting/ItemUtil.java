@@ -77,13 +77,16 @@ public class ItemUtil {
     public static ItemStack getOptimalCoinStack(ItemService itemService, int level) {
 
         int typeIndex = level / 10;
-        CustomItemType type = COINS[Math.min(Math.max(0, typeIndex), COINS.length-1)];
+        CustomItemType type = COINS[Math.min(Math.max(0, typeIndex), 2)];
 
         // We have a good coin to use.
         ItemStack coinItem = itemService.getBlueprint(type).generate();
 
+        if (type.ordinal() >= 2)
+            return coinItem;
+
         // Add some random variation to the drop
-        int stackSize = (int) (Math.random() * 3) + 1;
+        int stackSize = (int) (Math.random() * 4) + 1;
         coinItem.setAmount(stackSize);
         return coinItem;
     }
