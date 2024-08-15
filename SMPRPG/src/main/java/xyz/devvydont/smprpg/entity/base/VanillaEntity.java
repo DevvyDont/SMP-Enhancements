@@ -2,9 +2,7 @@ package xyz.devvydont.smprpg.entity.base;
 
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.*;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.util.attributes.EntityHelpers;
 import xyz.devvydont.smprpg.util.formatting.MinecraftStringUtils;
@@ -76,6 +74,19 @@ public class VanillaEntity extends EnemyEntity {
     }
 
     public double calculateBaseHealthMultiplier() {
+
+        if (entity instanceof Monster)
+            return 1.0;
+
+        if (entity instanceof Animals)
+            return .2;
+
+        if (entity instanceof Fish)
+            return .1;
+
+        if (entity instanceof Ambient)
+            return .1;
+        
         return 1.0;
     }
 
