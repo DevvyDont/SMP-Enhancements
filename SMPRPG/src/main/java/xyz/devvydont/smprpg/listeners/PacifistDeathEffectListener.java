@@ -53,7 +53,7 @@ public class PacifistDeathEffectListener implements Listener {
         public void run() {
 
             // Did they log out or did we lose the reference? Cancel the task if that is the case
-            if (player.isValid()) {
+            if (!player.isValid()) {
                 removePacifistEffect(player);
                 return;
             }

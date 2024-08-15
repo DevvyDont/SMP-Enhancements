@@ -217,10 +217,6 @@ public class DropsService implements BaseService, Listener {
                 setFlag(meta, DropFlag.DEATH);
             });
         }
-
-        // Lose 25% of their experience
-        event.setNewTotalExp((int) (event.getPlayer().getTotalExperience() * .75));
-        event.setShouldDropExperience(false);
     }
 
     /**
