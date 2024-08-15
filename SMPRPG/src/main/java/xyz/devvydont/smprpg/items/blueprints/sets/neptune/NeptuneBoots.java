@@ -24,7 +24,7 @@ public class NeptuneBoots extends NeptuneArmorSet {
 
     @Override
     public int getStrength() {
-        return 10;
+        return 20;
     }
 
     @Override

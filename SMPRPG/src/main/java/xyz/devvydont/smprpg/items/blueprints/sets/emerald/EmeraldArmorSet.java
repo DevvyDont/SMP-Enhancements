@@ -9,6 +9,7 @@ import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
+import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomArmorBlueprint;
 import xyz.devvydont.smprpg.items.interfaces.Craftable;
 import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
@@ -30,7 +31,8 @@ public abstract class EmeraldArmorSet extends CustomArmorBlueprint implements To
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, getDefense()),
-                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, getHealth())
+                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, getHealth()),
+                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .07)
         );
     }
 
@@ -52,12 +54,12 @@ public abstract class EmeraldArmorSet extends CustomArmorBlueprint implements To
 
     @Override
     public int getPowerRating() {
-        return 22;
+        return 30;
     }
 
     @Override
     public int getMaxDurability() {
-        return 7_500;
+        return 9_500;
     }
 
     @Override

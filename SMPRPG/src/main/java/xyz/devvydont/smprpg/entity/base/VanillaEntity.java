@@ -86,7 +86,7 @@ public class VanillaEntity extends EnemyEntity {
 
         if (entity instanceof Ambient)
             return .1;
-        
+
         return 1.0;
     }
 

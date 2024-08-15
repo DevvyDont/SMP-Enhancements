@@ -302,7 +302,7 @@ public abstract class LeveledEntity implements LootSource {
             return 1;
 
         else if (entity instanceof Creature)
-            return 10;
+            return 7;
 
         return 0;
     }

@@ -30,6 +30,6 @@ public class EmeraldBoots extends EmeraldArmorSet {
 
     @Override
     public int getHealth() {
-        return 2;
+        return 10;
     }
 }

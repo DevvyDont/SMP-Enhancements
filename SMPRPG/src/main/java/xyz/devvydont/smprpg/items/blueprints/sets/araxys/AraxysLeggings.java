@@ -24,7 +24,7 @@ public class AraxysLeggings extends AraxysArmorPiece {
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 165),
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 35),
-                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .1)
+                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .2)
         );
     }
 
