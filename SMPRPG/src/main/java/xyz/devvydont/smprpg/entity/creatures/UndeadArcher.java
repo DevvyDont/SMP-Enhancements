@@ -27,6 +27,9 @@ public class UndeadArcher extends CustomEntityInstance {
         if (!(entity instanceof LivingEntity living))
             return;
 
+        living.getEquipment().setLeggings(null);
+        living.getEquipment().setBoots(null);
+
         living.getEquipment().setHelmet(getAttributelessItem(Material.CHAINMAIL_HELMET));
         living.getEquipment().setChestplate(getAttributelessItem(Material.CHAINMAIL_CHESTPLATE));
     }
@@ -34,12 +37,13 @@ public class UndeadArcher extends CustomEntityInstance {
     @Override
     public @Nullable Collection<LootDrop> getItemDrops() {
         return List.of(
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.MYSTBLOOM_HELMET), 350, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.MYSTBLOOM_CHESTPLATE), 350, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.MYSTBLOOM_LEGGINGS), 350, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.MYSTBLOOM_BOOTS), 350, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.MYSTBLOOM_KUNAI), 350, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(Material.BONE), 2, this)
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.MYSTBLOOM_HELMET), 400, this),
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.MYSTBLOOM_CHESTPLATE), 400, this),
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.MYSTBLOOM_LEGGINGS), 400, this),
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.MYSTBLOOM_BOOTS), 400, this),
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.MYSTBLOOM_KUNAI), 400, this),
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(Material.BONE), 2, this),
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(Material.ARROW), 2, this)
         );
     }
 }

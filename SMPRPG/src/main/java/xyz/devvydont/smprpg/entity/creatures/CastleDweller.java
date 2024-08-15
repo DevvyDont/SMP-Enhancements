@@ -29,20 +29,29 @@ public class CastleDweller extends CustomEntityInstance {
         ZombieVillager zv = (ZombieVillager) entity;
         zv.setVillagerProfession(Villager.Profession.values()[(int) (Math.random()*Villager.Profession.values().length)]);
 
-        zv.getEquipment().setHelmet(getAttributelessItem(Material.LEATHER_HELMET));
+        zv.getEquipment().setHelmet(null);
+        zv.getEquipment().setChestplate(null);
+        zv.getEquipment().setLeggings(null);
+        zv.getEquipment().setBoots(null);
+
+        zv.getEquipment().setHelmet(getAttributelessItem(Material.IRON_HELMET));
+
         if (Math.random() < .75)
             zv.getEquipment().setItemInMainHand(getAttributelessItem(WEAPONS[(int) (Math.random()*WEAPONS.length)]));
+
+        if (Math.random() < .25)
+            zv.getEquipment().setItemInMainHand(getAttributelessItem(Material.GOLDEN_HELMET));
     }
 
 
     @Override
     public @Nullable Collection<LootDrop> getItemDrops() {
         return List.of(
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.MYSTBLOOM_HELMET), 400, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.MYSTBLOOM_CHESTPLATE), 400, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.MYSTBLOOM_LEGGINGS), 400, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.MYSTBLOOM_BOOTS), 400, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.MYSTBLOOM_KUNAI), 400, this),
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.MYSTBLOOM_HELMET), 500, this),
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.MYSTBLOOM_CHESTPLATE), 500, this),
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.MYSTBLOOM_LEGGINGS), 500, this),
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.MYSTBLOOM_BOOTS), 500, this),
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.MYSTBLOOM_KUNAI), 500, this),
                 new ChancedItemDrop(plugin.getItemService().getCustomItem(Material.ROTTEN_FLESH), 2, this)
         );
     }

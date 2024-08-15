@@ -24,10 +24,10 @@ import xyz.devvydont.smprpg.services.EntityService;
 public enum CustomEntityType {
 
     CASTLE_DWELLER(EntityType.ZOMBIE_VILLAGER, "Castle Dweller",
-            15, 900, 110, CastleDweller.class),
+            15, 900, 80, CastleDweller.class),
 
     UNDEAD_ARCHER(EntityType.SKELETON, "Undead Archer",
-            15, 750, 90, UndeadArcher.class),
+            15, 750, 60, UndeadArcher.class),
 
     // Wither skeletons that spawn on the end island
     WITHERED_SERAPH(EntityType.WITHER_SKELETON, "Withered Seraph",
