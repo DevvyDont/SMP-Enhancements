@@ -141,7 +141,8 @@ public class EnchantmentCalculator {
 
     public int calculateSlotCost(EnchantmentSlot slot) {
 
-        float power = getPowerAsPercentage();
+        // Power goes from 50%->100% depending on the bookshelf bonus
+        float power = getPowerAsPercentage() / 2 + .5f;
         int maxCost = (int)(power * getMagicLevel());
 
         // Max is always magic power
