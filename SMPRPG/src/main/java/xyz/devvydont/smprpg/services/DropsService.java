@@ -274,13 +274,11 @@ public class DropsService implements BaseService, Listener {
             return;
 
         LeveledEntity leveled = SMPRPG.getInstance().getEntityService().getEntityInstance(event.getEntity());
-        ItemStack money = ItemUtil.getOptimalCoinStack(plugin.getItemService(), leveled.getLevel());
 
         // Some chance to add more money
-        if (Math.random() < .5)
-            money.setAmount(money.getAmount()+1);
+        if (Math.random() < .33)
+            ItemUtil.getOptimalCoinStack(plugin.getItemService(), leveled.getLevel());
 
-        event.getDrops().add(money);
     }
 
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)

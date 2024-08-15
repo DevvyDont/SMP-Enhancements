@@ -71,32 +71,21 @@ public class ItemUtil {
      * of coins desired.
      *
      * @param itemService
-     * @param coins
+     * @param level
      * @return
      */
-    public static ItemStack getOptimalCoinStack(ItemService itemService, int coins) {
+    public static ItemStack getOptimalCoinStack(ItemService itemService, int level) {
 
-        // Loop through all the coins types and do math to see which coin we can make have the highest stack size
-        // while still capturing all the value of the emeralds.
+        int typeIndex = level / 10;
+        CustomItemType type = COINS[Math.min(Math.max(0, typeIndex), COINS.length-1)];
 
-        for (int i = COINS.length - 1; i >= 0; i--) {
+        // We have a good coin to use.
+        ItemStack coinItem = itemService.getBlueprint(type).generate();
 
-            CustomItemType coinType = COINS[i];
-            CustomItemCoin coin = (CustomItemCoin) itemService.getBlueprint(coinType);
-
-            // If this coin is 10x the value of the coins we are trying to show go down a tier
-            if (coin.getValue() > coins * 10)
-                continue;
-
-            // We have a good coin to use.
-            int stackSize = (int) Math.ceil((double)coins / coin.getValue());
-            ItemStack coinItem = coin.generate();
-            coinItem.setAmount(stackSize);
-            return coinItem;
-        }
-
-        // We are trying to generate something too small, use a copper coin
-        return itemService.getBlueprint(CustomItemType.COPPER_COIN).generate();
+        // Add some random variation to the drop
+        int stackSize = (int) (Math.random() * 3) + 1;
+        coinItem.setAmount(stackSize);
+        return coinItem;
     }
 
     /**

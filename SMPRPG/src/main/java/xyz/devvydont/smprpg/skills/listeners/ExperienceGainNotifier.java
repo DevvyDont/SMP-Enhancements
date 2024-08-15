@@ -10,6 +10,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.scheduler.BukkitRunnable;
 import xyz.devvydont.smprpg.SMPRPG;
+import xyz.devvydont.smprpg.events.skills.SkillExperienceGainEvent;
 import xyz.devvydont.smprpg.events.skills.SkillExperiencePostGainEvent;
 import xyz.devvydont.smprpg.events.skills.SkillLevelUpEvent;
 import xyz.devvydont.smprpg.services.ActionBarService;
@@ -69,6 +70,9 @@ public class ExperienceGainNotifier implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onGainExperience(SkillExperiencePostGainEvent event) {
+
+        if (event.getSource().equals(SkillExperienceGainEvent.ExperienceSource.XP))
+            return;
 
         Component component = ComponentUtil.getColoredComponent(event.getSkillType().getDisplayName() + " " + event.getSkill().getLevel(), NamedTextColor.AQUA)
                 .append(ComponentUtil.getDefaultText(" | "))

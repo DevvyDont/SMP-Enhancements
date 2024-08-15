@@ -39,8 +39,8 @@ public class CastleDweller extends CustomEntityInstance {
         if (Math.random() < .75)
             zv.getEquipment().setItemInMainHand(getAttributelessItem(WEAPONS[(int) (Math.random()*WEAPONS.length)]));
 
-        if (Math.random() < .25)
-            zv.getEquipment().setItemInMainHand(getAttributelessItem(Material.GOLDEN_HELMET));
+        if (Math.random() < .33)
+            zv.getEquipment().setChestplate(getAttributelessItem(Material.GOLDEN_CHESTPLATE));
     }
 
 
