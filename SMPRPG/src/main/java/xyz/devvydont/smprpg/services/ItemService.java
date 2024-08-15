@@ -730,6 +730,16 @@ public class ItemService implements BaseService, Listener {
     }
 
     /**
+     * When we smelt an item make sure to fix it!
+     *
+     * @param event
+     */
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+    public void onSmeltItem(FurnaceSmeltEvent event) {
+        ensureItemStackUpdated(event.getResult());
+    }
+
+    /**
      * Don't ever let custom items be smithed into something else in a smithing table.
      *
      * ALSO
