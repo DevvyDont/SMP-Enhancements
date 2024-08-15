@@ -32,6 +32,8 @@ public class UndeadArcher extends CustomEntityInstance {
 
         living.getEquipment().setHelmet(getAttributelessItem(Material.CHAINMAIL_HELMET));
         living.getEquipment().setChestplate(getAttributelessItem(Material.CHAINMAIL_CHESTPLATE));
+
+        living.getEquipment().setItemInMainHand(getAttributelessItem(Material.BOW));
     }
 
     @Override
