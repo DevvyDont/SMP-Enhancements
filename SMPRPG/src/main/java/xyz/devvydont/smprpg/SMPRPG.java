@@ -134,6 +134,7 @@ public final class SMPRPG extends JavaPlugin implements Listener {
         new AnvilEnchantmentCombinationFixListener(this);
         new DimensionPortalLockingListener(this);
         new TrialChamberFixListener(this);
+        new PacifistDeathEffectListener(this);
 
         new StructureEntitySpawnListener(this);
         new LootListener(this);
