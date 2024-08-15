@@ -144,16 +144,16 @@ public class EnchantmentCalculator {
         float power = getPowerAsPercentage();
         int maxCost = (int)(power * getMagicLevel());
 
-        // Max is always magic level + 1 * power
+        // Max is always magic power
         if (slot.equals(EnchantmentSlot.EXPENSIVE))
-            return maxCost + 1;
+            return Math.max(3, maxCost);
 
         // Cheap is 33%
         if (slot.equals(EnchantmentSlot.CHEAP))
-            return (int) (maxCost * 0.33) + 1;
+            return (int) Math.max(1, (maxCost * 0.33));
 
         // mid is 66%
-        return (int) (maxCost * 0.66) + 1;
+        return (int) Math.max(2, (maxCost * 0.66));
     }
 
     public int calculateSuitableEnchantmentLevel(CustomEnchantment enchantment, EnchantmentSlot slot) {
