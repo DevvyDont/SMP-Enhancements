@@ -7,6 +7,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.inventory.CraftingRecipe;
+import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -15,22 +16,27 @@ import org.bukkit.util.Vector;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
+import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
+import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
+import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
+import xyz.devvydont.smprpg.items.base.CustomAttributeItem;
 import xyz.devvydont.smprpg.items.base.CustomItemBlueprint;
 import xyz.devvydont.smprpg.items.interfaces.Craftable;
 import xyz.devvydont.smprpg.services.ItemService;
+import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
 import xyz.devvydont.smprpg.util.items.AbilityUtil;
 
 import java.util.Collection;
 import java.util.List;
 
-public class GrapplingHook extends CustomItemBlueprint implements Listener, Craftable {
+public class GrapplingHook extends CustomAttributeItem implements Listener, Craftable {
 
     public static final int COOLDOWN = 2;
 
-    public static final float VELOCITY_DAMPENING_FACTOR = .25f;
+    public static final float VELOCITY_DAMPENING_FACTOR = .3f;
 
-    public static final float MAX_HORIZONTAL_VELOCITY = 3f;
+    public static final float MAX_HORIZONTAL_VELOCITY = 4f;
 
     public static final float MIN_VERTICAL_VELOCITY = 1f;
     public static final float MAX_VERTICAL_VELOCITY = 2f;
@@ -70,6 +76,24 @@ public class GrapplingHook extends CustomItemBlueprint implements Listener, Craf
         return List.of(
                 itemService.getCustomItem(Material.STRING)
         );
+    }
+
+    @Override
+    public EquipmentSlotGroup getActiveSlot() {
+        return EquipmentSlotGroup.HAND;
+    }
+
+    @Override
+    public Collection<AttributeEntry> getAttributeModifiers() {
+        return List.of(
+                new MultiplicativeAttributeEntry(AttributeWrapper.FALL_DAMAGE_MULTIPLIER, -.9),
+                new AdditiveAttributeEntry(AttributeWrapper.SAFE_FALL, 15)
+        );
+    }
+
+    @Override
+    public int getPowerRating() {
+        return 1;
     }
 
     public enum GrapplingState {

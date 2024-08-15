@@ -12,6 +12,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockGrowEvent;
 import org.bukkit.event.player.PlayerHarvestBlockEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
@@ -64,6 +65,7 @@ public class FarmingExperienceListener implements Listener {
             case WITHER_ROSE -> 20;
 
             case MELON -> 12;
+            case MELON_SLICE -> 4;
             case MELON_SEEDS -> 1;
 
             case PUMPKIN -> 10;
@@ -123,15 +125,21 @@ public class FarmingExperienceListener implements Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onHarvestBlock(BlockBreakEvent event) {
 
-        // If this block is marked as skill invalid, (somebody placed this block) don't give xp but set block
-        // as valid
+        boolean isAgeable = event.getBlock().getBlockData() instanceof Ageable ageable;
+
+        // If this block is marked as skill invalid, we have some things we need to do.
         if (ChunkUtil.isBlockSkillInvalid(event.getBlock())) {
+
+            // Mark the block as valid again. Block breaks mean this is valid now.
             ChunkUtil.markBlockSkillValid(event.getBlock());
-            return;
+
+            // If this block does not have age states, we don't have to consider anything. past this point
+            if (!isAgeable)
+                return;
         }
 
         // Loop through every drop from breaking this block and award XP
-        int exp = getExperienceForDrops(event.getBlock().getDrops());
+        int exp = getExperienceForDrops(event.getBlock().getDrops(event.getPlayer().getInventory().getItemInMainHand(), event.getPlayer()));
         if (exp <= 0)
             return;
 
@@ -142,6 +150,11 @@ public class FarmingExperienceListener implements Listener {
 
         LeveledPlayer player = plugin.getEntityService().getPlayerInstance(event.getPlayer());
         player.getFarmingSkill().addExperience(exp, SkillExperienceGainEvent.ExperienceSource.HARVEST);
+    }
+
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
+    public void onGrow(BlockGrowEvent event) {
+        ChunkUtil.markBlockSkillValid(event.getBlock());
     }
 
     /**
@@ -177,10 +190,12 @@ public class FarmingExperienceListener implements Listener {
             plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
                 block.getWorld().playSound(block.getLocation(), block.getBlockSoundGroup().getBreakSound(), 1, 1);
                 Collection<ItemStack> laterDrops = block.getDrops(tool);
-                farming.addExperience(getExperienceForDrops(laterDrops), SkillExperienceGainEvent.ExperienceSource.HARVEST);
+                if (!ChunkUtil.isBlockSkillInvalid(block))
+                    farming.addExperience(getExperienceForDrops(laterDrops), SkillExperienceGainEvent.ExperienceSource.HARVEST);
                 block.setType(Material.AIR, false);
                 for (ItemStack drop : laterDrops)
                     block.getWorld().dropItemNaturally(block.getLocation(), drop);
+                ChunkUtil.markBlockSkillValid(block);
             }, yOffset);
 
         }
