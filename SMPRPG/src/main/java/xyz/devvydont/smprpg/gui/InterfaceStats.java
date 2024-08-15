@@ -15,11 +15,15 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
+import xyz.devvydont.smprpg.entity.LeveledPlayer;
 import xyz.devvydont.smprpg.entity.base.LeveledEntity;
 import xyz.devvydont.smprpg.listeners.DamageOverrideListener;
+import xyz.devvydont.smprpg.skills.SkillInstance;
 import xyz.devvydont.smprpg.util.attributes.AttributeUtil;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
 import xyz.devvydont.smprpg.util.formatting.ChatUtil;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
+import xyz.devvydont.smprpg.util.formatting.MinecraftStringUtils;
 import xyz.devvydont.smprpg.util.formatting.Symbols;
 
 
@@ -155,15 +159,34 @@ public class InterfaceStats extends PrivateInterface {
         return paper;
     }
 
+    private List<Component> getSkillDisplay(LeveledPlayer player) {
+
+        List<Component> display = new ArrayList<>();
+        display.add(Component.empty());
+        for (SkillInstance skill : player.getSkills())
+            display.add(
+                    ComponentUtil.getColoredComponent(skill.getType().getDisplayName() + " " + skill.getLevel(), NamedTextColor.AQUA)
+                            .append(ComponentUtil.getDefaultText(" - "))
+                            .append(ComponentUtil.getColoredComponent(MinecraftStringUtils.formatNumber(skill.getExperienceProgress()), NamedTextColor.GREEN))
+                            .append(ComponentUtil.getDefaultText("/"))
+                            .append(ComponentUtil.getColoredComponent(MinecraftStringUtils.formatNumber(skill.getNextExperienceThreshold()), NamedTextColor.GOLD))
+                            .append(ComponentUtil.getDefaultText(" ("))
+                            .append(ComponentUtil.getColoredComponent(MinecraftStringUtils.formatNumber(skill.getExperience()) + "XP", NamedTextColor.DARK_GRAY))
+                            .append(ComponentUtil.getDefaultText(")"))
+            );
+        display.add(Component.empty());
+        display.add(ComponentUtil.getDefaultText("Skill Average: ").append(ComponentUtil.getColoredComponent(String.format("%.2f", player.getAverageSkillLevel()), NamedTextColor.GOLD)));
+        return display;
+    }
+
     public ItemStack getMisc() {
         ItemStack paper = new ItemStack(Material.PAPER);
         ItemMeta meta = paper.getItemMeta();
 
-        meta.displayName(viewing.name().color(NamedTextColor.AQUA).append(Component.text("'s info").color(NamedTextColor.GRAY)).decoration(TextDecoration.ITALIC, false));
+        meta.displayName(viewing.name().color(NamedTextColor.AQUA).append(Component.text("'s Skills").color(NamedTextColor.GRAY)).decoration(TextDecoration.ITALIC, false));
         List<Component> lore = new ArrayList<>();
         lore.add(Component.empty());
-        lore.add(Component.text("todo"));
-
+        lore.addAll(getSkillDisplay(plugin.getEntityService().getPlayerInstance(owner)));
         meta.lore(ChatUtil.cleanItalics(lore));
         paper.setItemMeta(meta);
         return paper;
