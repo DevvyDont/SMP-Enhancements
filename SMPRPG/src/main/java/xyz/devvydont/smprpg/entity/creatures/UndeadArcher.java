@@ -38,6 +38,7 @@ public class UndeadArcher extends CustomEntityInstance {
                 new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.MYSTBLOOM_CHESTPLATE), 350, this),
                 new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.MYSTBLOOM_LEGGINGS), 350, this),
                 new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.MYSTBLOOM_BOOTS), 350, this),
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.MYSTBLOOM_KUNAI), 350, this),
                 new ChancedItemDrop(plugin.getItemService().getCustomItem(Material.BONE), 2, this)
         );
     }

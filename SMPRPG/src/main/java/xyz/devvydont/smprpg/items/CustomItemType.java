@@ -57,10 +57,7 @@ import xyz.devvydont.smprpg.items.blueprints.sets.inferno.InfernoHelmet;
 import xyz.devvydont.smprpg.items.blueprints.sets.inferno.InfernoLeggings;
 import xyz.devvydont.smprpg.items.blueprints.sets.infinity.*;
 import xyz.devvydont.smprpg.items.blueprints.sets.iron.IronBow;
-import xyz.devvydont.smprpg.items.blueprints.sets.mystbloom.MystbloomBoots;
-import xyz.devvydont.smprpg.items.blueprints.sets.mystbloom.MystbloomChestplate;
-import xyz.devvydont.smprpg.items.blueprints.sets.mystbloom.MystbloomHelmet;
-import xyz.devvydont.smprpg.items.blueprints.sets.mystbloom.MystbloomLeggings;
+import xyz.devvydont.smprpg.items.blueprints.sets.mystbloom.*;
 import xyz.devvydont.smprpg.items.blueprints.sets.mystic.LuxeBoots;
 import xyz.devvydont.smprpg.items.blueprints.sets.mystic.LuxeChestplate;
 import xyz.devvydont.smprpg.items.blueprints.sets.mystic.LuxeHelmet;
@@ -184,6 +181,7 @@ public enum CustomItemType {
     MYSTBLOOM_CHESTPLATE("Mystbloom Chestplate", Material.LEATHER_CHESTPLATE, ItemRarity.EPIC, MystbloomChestplate.class),
     MYSTBLOOM_LEGGINGS("Mystbloom Leggings",     Material.LEATHER_LEGGINGS,   ItemRarity.EPIC, MystbloomLeggings.class),
     MYSTBLOOM_BOOTS("Mystbloom Boots",           Material.LEATHER_BOOTS,      ItemRarity.EPIC, MystbloomBoots.class),
+    MYSTBLOOM_KUNAI("Mystbloom Kunai",           Material.IRON_SWORD,         ItemRarity.EPIC, MystbloomKunai.class),
 
     // NEO_FRONTIER SET
     NEO_FRONTIER_HELMET("Neo Frontier Helmet",         Material.IRON_HELMET,        NeoFrontierHelmet.class),
