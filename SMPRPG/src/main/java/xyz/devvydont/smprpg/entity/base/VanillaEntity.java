@@ -48,7 +48,7 @@ public class VanillaEntity extends EnemyEntity {
             return 0;
 
         double x = Math.abs(64.0 - entity.getLocation().getY());
-        return (int) (x / 10);
+        return (int) (x / 20);
     }
 
     /**

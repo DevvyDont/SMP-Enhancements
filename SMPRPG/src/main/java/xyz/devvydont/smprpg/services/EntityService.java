@@ -84,6 +84,8 @@ public class EntityService implements BaseService, Listener {
 
         plugin.getLogger().info(String.format("Registered %s custom entity types", entityResolver.size()));
 
+        vanillaEntityHandlers.put(EntityType.ZOMBIE, LeveledZombie.class);
+        vanillaEntityHandlers.put(EntityType.SKELETON, LeveledSkeleton.class);
         vanillaEntityHandlers.put(EntityType.SPIDER, LeveledSpider.class);
         vanillaEntityHandlers.put(EntityType.CAVE_SPIDER, LeveledSpider.class);
         vanillaEntityHandlers.put(EntityType.CREEPER, LeveledCreeper.class);
