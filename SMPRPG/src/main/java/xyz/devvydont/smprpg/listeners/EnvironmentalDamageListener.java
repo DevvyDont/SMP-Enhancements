@@ -74,7 +74,7 @@ public class EnvironmentalDamageListener implements Listener {
             return;
 
         float distance = event.getEntity().getFallDistance();
-        LeveledEntity entity = plugin.getEntityService().getEntityInstance((LivingEntity) event.getEntity());
+        LeveledEntity entity = plugin.getEntityService().getEntityInstance(event.getEntity());
 
         double safeFall = 3;
         if (entity.getEntity() instanceof Attributable attributable) {
@@ -84,7 +84,7 @@ public class EnvironmentalDamageListener implements Listener {
         }
 
         // Add a half heart of fall damage per block fallen past the safe fall distance
-        double damage = entity.getHalfHeartValue() * (distance - safeFall);
+        double damage = entity.getHalfHeartValue() * (distance - safeFall) / 2;
         if (damage <= 0) {
             event.setCancelled(true);
             return;
