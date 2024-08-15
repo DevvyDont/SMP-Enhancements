@@ -41,6 +41,7 @@ import xyz.devvydont.smprpg.items.interfaces.*;
 import xyz.devvydont.smprpg.reforge.ReforgeBase;
 import xyz.devvydont.smprpg.reforge.ReforgeType;
 import xyz.devvydont.smprpg.util.crafting.ItemUtil;
+import xyz.devvydont.smprpg.util.crafting.MaterialWrapper;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
@@ -253,6 +254,28 @@ public class ItemService implements BaseService, Listener {
 
         // Go back through all items and find recipe links, kind of ugly but this will save us computation time
         for (SMPItemBlueprint blueprint : getCustomBlueprints()) {
+
+            // If a blueprint is compressable, then the first material in the chain will unlock all the recipes.
+            if (blueprint instanceof Compressable compressable) {
+
+                MaterialWrapper firstElement = compressable.getCompressionFlow().getFirst().getMaterial();
+
+                if (firstElement.isCustom()) {
+
+                    List<NamespacedKey> recipes = customItemToRecipeUnlocks.getOrDefault(firstElement.getCustom(), new ArrayList<>());
+                    recipes.addAll(compressable.getAllRecipeKeys());
+                    customItemToRecipeUnlocks.put(firstElement.getCustom(), recipes);
+
+                } else {
+
+                    List<NamespacedKey> recipes = materialToRecipeUnlocks.getOrDefault(firstElement.getVanilla(), new ArrayList<>());
+                    recipes.addAll(compressable.getAllRecipeKeys());
+                    materialToRecipeUnlocks.put(firstElement.getVanilla(), recipes);
+
+                }
+
+            }
+
             if (blueprint instanceof Craftable craftable) {
                 for (ItemStack unlockedBy : craftable.unlockedBy()) {
                     SMPItemBlueprint unlockBlueprint = getBlueprint(unlockedBy);
