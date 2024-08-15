@@ -26,7 +26,7 @@ public class ItemSword extends VanillaAttributeItem implements ToolBreakable {
         return switch (material) {
             case NETHERITE_SWORD -> 750.0;
             case TRIDENT -> 50.0;
-            case DIAMOND_SWORD -> 225;
+            case DIAMOND_SWORD -> 190;
             case GOLDEN_SWORD -> 90.0;
             case IRON_SWORD -> 55.0;
             case STONE_SWORD -> 35.0;

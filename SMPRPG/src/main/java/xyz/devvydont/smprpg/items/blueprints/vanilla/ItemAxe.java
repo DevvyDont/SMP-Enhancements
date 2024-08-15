@@ -25,7 +25,7 @@ public class ItemAxe extends VanillaAttributeItem implements ToolBreakable {
     public static double getAxeDamage(Material material) {
         return switch (material) {
             case NETHERITE_AXE -> 900.0;
-            case DIAMOND_AXE -> 310.0;
+            case DIAMOND_AXE -> 250.0;
             case GOLDEN_AXE -> 120.0;
             case IRON_AXE -> 75.0;
             case STONE_AXE -> 48.0;
