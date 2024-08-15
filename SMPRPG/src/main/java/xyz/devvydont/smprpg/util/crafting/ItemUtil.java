@@ -67,6 +67,39 @@ public class ItemUtil {
     }
 
     /**
+     * Given an amount of coins to drop, determine the best type of coin and stack size to use to estimate the amount
+     * of coins desired.
+     *
+     * @param itemService
+     * @param coins
+     * @return
+     */
+    public static ItemStack getOptimalCoinStack(ItemService itemService, int coins) {
+
+        // Loop through all the coins types and do math to see which coin we can make have the highest stack size
+        // while still capturing all the value of the emeralds.
+
+        for (int i = COINS.length - 1; i >= 0; i--) {
+
+            CustomItemType coinType = COINS[i];
+            CustomItemCoin coin = (CustomItemCoin) itemService.getBlueprint(coinType);
+
+            // If this coin is 10x the value of the coins we are trying to show go down a tier
+            if (coin.getValue() > coins * 10)
+                continue;
+
+            // We have a good coin to use.
+            int stackSize = (int) Math.ceil((double)coins / coin.getValue());
+            ItemStack coinItem = coin.generate();
+            coinItem.setAmount(stackSize);
+            return coinItem;
+        }
+
+        // We are trying to generate something too small, use a copper coin
+        return itemService.getBlueprint(CustomItemType.COPPER_COIN).generate();
+    }
+
+    /**
      * Given an item stack that is meant to be present in a villager trade, return a replacement for the item
      * if it is needed. If the item is valid, it is simply returned back.
      * Mainly used to convert emeralds into coins.

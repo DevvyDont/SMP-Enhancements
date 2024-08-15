@@ -32,6 +32,7 @@ import xyz.devvydont.smprpg.events.CustomChancedItemDropSuccessEvent;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemRarity;
 import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
+import xyz.devvydont.smprpg.util.crafting.ItemUtil;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
 import xyz.devvydont.smprpg.util.items.ChancedItemDrop;
 import xyz.devvydont.smprpg.util.items.DropFireworkTask;
@@ -268,13 +269,17 @@ public class DropsService implements BaseService, Listener {
         if (!(event.getEntity() instanceof Enemy))
             return;
 
-        // Only every other mob will drop coins
-        if (Math.random() < .2)
+        // Only a select amount of mobs will drop coins
+        if (Math.random() < .25)
             return;
 
         LeveledEntity leveled = SMPRPG.getInstance().getEntityService().getEntityInstance(event.getEntity());
-        ItemStack money = plugin.getItemService().getCustomItem(CustomItemType.COPPER_COIN);
-        money.setAmount(leveled.getLevel() / 10 + 1 + (int)(Math.random()*2));
+        ItemStack money = ItemUtil.getOptimalCoinStack(plugin.getItemService(), leveled.getLevel());
+
+        // Some chance to add more money
+        if (Math.random() < .5)
+            money.setAmount(money.getAmount()+1);
+
         event.getDrops().add(money);
     }
 
