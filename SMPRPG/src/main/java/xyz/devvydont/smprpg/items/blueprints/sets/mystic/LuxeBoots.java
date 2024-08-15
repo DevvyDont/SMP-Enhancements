@@ -7,6 +7,7 @@ import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.interfaces.Dyeable;
 import xyz.devvydont.smprpg.services.ItemService;
+import xyz.devvydont.smprpg.util.crafting.builders.BootsRecipe;
 import xyz.devvydont.smprpg.util.crafting.builders.ChestplateRecipe;
 
 public class LuxeBoots extends LuxeArmorSet implements Dyeable {
@@ -32,7 +33,7 @@ public class LuxeBoots extends LuxeArmorSet implements Dyeable {
 
     @Override
     public CraftingRecipe getCustomRecipe() {
-        return new ChestplateRecipe(this, itemService.getCustomItem(Material.LAPIS_BLOCK), generate()).build();
+        return new BootsRecipe(this, itemService.getCustomItem(Material.LAPIS_BLOCK), generate()).build();
     }
 
     @Override
