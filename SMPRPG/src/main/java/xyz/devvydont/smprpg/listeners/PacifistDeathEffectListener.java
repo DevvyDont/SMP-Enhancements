@@ -8,6 +8,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.world.LootGenerateEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import xyz.devvydont.smprpg.SMPRPG;
@@ -134,7 +135,7 @@ public class PacifistDeathEffectListener implements Listener {
      * @param event
      */
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
-    public void onRespawn(PlayerDeathEvent event) {
+    public void onRespawn(PlayerRespawnEvent event) {
         givePacifistEffect(event.getPlayer(), 60*5);
     }
 
