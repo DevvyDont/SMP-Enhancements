@@ -23,7 +23,9 @@ import java.util.Random;
  * Represents something that may appear in a loot table.
  * The "chance" is the percent chance that this item is rolled FOR EVERY SLOT in an inventory.
  * The "rolls" is how many times to roll for this member, meaning it can show up multiple times when being rolled.
- * The min and max constraints allow you to define a range of the item stack quantity that it can spawn in
+ * The min and max constraints allow you to define a range of the item stack quantity that it can spawn in.
+ *
+ * Currently, these are only used for chests and stuff
  */
 public class LootTableMember implements LootSource {
 
@@ -32,7 +34,6 @@ public class LootTableMember implements LootSource {
     private int max = 1;
     private int rolls = 1;
     private float chance = 1;
-    private boolean influencedByLuck = true;
     private boolean wantEnchants = false;
     private int enchantPower = 15;
 
@@ -65,13 +66,9 @@ public class LootTableMember implements LootSource {
         return this;
     }
 
-    public LootTableMember useLuck(boolean influenced) {
-        this.influencedByLuck = influenced;
-        return this;
-    }
-
     public LootTableMember withEnchants(boolean wantEnchants, int power) {
         this.wantEnchants = wantEnchants;
+        this.enchantPower = power;
         return this;
     }
 
@@ -95,10 +92,6 @@ public class LootTableMember implements LootSource {
         return chance;
     }
 
-    public boolean isInfluencedByLuck() {
-        return influencedByLuck;
-    }
-
     public boolean isWantEnchants() {
         return wantEnchants;
     }
@@ -116,11 +109,6 @@ public class LootTableMember implements LootSource {
 
     @Nullable
     public ItemStack roll(Player player) {
-
-        float luck = (float) player.getAttribute(Attribute.GENERIC_LUCK).getValue();
-        float chance = getChance();
-        if (isInfluencedByLuck())
-            chance *= (luck) / 100.0f + 1.0f;
 
         ItemStack reward = getItem().clone();
         reward.setAmount((int)(Math.random() * getMax()) + getMin());
