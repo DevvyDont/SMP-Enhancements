@@ -215,8 +215,6 @@ public class MagicExperienceListener implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onAnvilPrepare(PrepareAnvilEvent event) {
 
-        AnvilInventory anvil = event.getInventory();
-
         if (event.getResult() == null)
             return;
 
@@ -225,7 +223,7 @@ public class MagicExperienceListener implements Listener {
         if (blueprint instanceof Attributeable attributeable)
             multiplier = attributeable.getPowerRating();
         ItemStack result = event.getResult();
-        stowExperience(result, anvil.getRepairCostAmount() * multiplier);
+        stowExperience(result, event.getView().getRepairCost() * multiplier);
         event.setResult(result);
     }
 

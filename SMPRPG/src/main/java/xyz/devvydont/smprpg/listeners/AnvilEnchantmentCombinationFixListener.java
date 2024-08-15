@@ -122,7 +122,7 @@ public class AnvilEnchantmentCombinationFixListener implements Listener {
      */
     @EventHandler(priority = EventPriority.LOWEST)
     public void onAnvilPreperation(PrepareAnvilEvent event) {
-        event.getInventory().setMaximumRepairCost(999999);
+        event.getView().setMaximumRepairCost(999_999);
     }
 
     /**
@@ -143,6 +143,7 @@ public class AnvilEnchantmentCombinationFixListener implements Listener {
             return;
 
         // We know we have items in both slots, let's set result to null to be safe and prevent unwanted behavior
+        event.getView().setRepairCost(1);
         event.setResult(null);
 
         // We have to support books being supplied to us.
@@ -162,11 +163,14 @@ public class AnvilEnchantmentCombinationFixListener implements Listener {
         // Perform the combination!!!
         EnchantmentCombination combination = combineEnchantments(firstItemStack, secondItemStack);
         // If the cost is 0, that means this enchantment combination got nothing done
-        if (combination.cost() <= 0)
+        if (combination.cost() <= 0) {
+            event.getView().setRepairCost(1);
+            event.setResult(null);
             return;
+        }
 
         event.setResult(combination.result());
-        event.getInventory().setRepairCostAmount(combination.cost());
+        event.getView().setRepairCost(combination.cost());
     }
 
 }
