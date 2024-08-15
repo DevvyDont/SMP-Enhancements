@@ -296,13 +296,13 @@ public abstract class LeveledEntity implements LootSource {
     public double getCombatExperienceMultiplier() {
 
         if (entity instanceof Boss)
-            return 50;
+            return 100;
 
         else if (entity instanceof Animals)
             return 1;
 
         else if (entity instanceof Creature)
-            return 5;
+            return 10;
 
         return 0;
     }
