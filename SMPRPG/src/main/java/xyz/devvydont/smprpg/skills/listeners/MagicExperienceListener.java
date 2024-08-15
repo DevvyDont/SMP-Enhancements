@@ -1,5 +1,6 @@
 package xyz.devvydont.smprpg.skills.listeners;
 
+import com.destroystokyo.paper.event.player.PlayerPickupExperienceEvent;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -226,6 +227,13 @@ public class MagicExperienceListener implements Listener {
         ItemStack result = event.getResult();
         stowExperience(result, anvil.getRepairCostAmount() * multiplier);
         event.setResult(result);
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    public void onPickupExperience(PlayerPickupExperienceEvent event) {
+        int exp = event.getExperienceOrb().getExperience();
+        LeveledPlayer player = plugin.getEntityService().getPlayerInstance(event.getPlayer());
+        player.getMagicSkill().addExperience(exp, SkillExperienceGainEvent.ExperienceSource.XP);
     }
 
 
