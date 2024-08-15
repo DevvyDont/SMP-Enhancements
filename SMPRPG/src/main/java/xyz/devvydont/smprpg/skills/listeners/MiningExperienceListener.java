@@ -54,8 +54,8 @@ public class MiningExperienceListener implements Listener {
             case MEDIUM_AMETHYST_BUD -> 25;
             case SMALL_AMETHYST_BUD -> 35;
 
-            case LAPIS_LAZULI -> 15;
-            case REDSTONE -> 15;
+            case LAPIS_LAZULI -> 8;
+            case REDSTONE -> 8;
 
             case REDSTONE_BLOCK -> 35;
 
