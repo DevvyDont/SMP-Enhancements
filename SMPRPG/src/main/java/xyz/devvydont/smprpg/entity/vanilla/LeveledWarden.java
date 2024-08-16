@@ -4,10 +4,12 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.Listener;
 import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
+import xyz.devvydont.smprpg.entity.base.BossInstance;
 import xyz.devvydont.smprpg.entity.base.VanillaEntity;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.util.items.ChancedItemDrop;
@@ -17,7 +19,7 @@ import xyz.devvydont.smprpg.util.items.QuantityLootDrop;
 import java.util.Collection;
 import java.util.List;
 
-public class LeveledWarden extends VanillaEntity implements Listener {
+public class LeveledWarden extends BossInstance implements Listener {
 
 
     public LeveledWarden(SMPRPG plugin, Entity entity) {
@@ -35,18 +37,23 @@ public class LeveledWarden extends VanillaEntity implements Listener {
     }
 
     @Override
-    public double calculateBaseHealthMultiplier() {
-        return 1.0;
-    }
-
-    @Override
-    public double calculateBaseDamageMultiplier() {
-        return 1.0;
-    }
-
-    @Override
     public double calculateBaseAttackDamage() {
         return 25_000;
+    }
+
+    @Override
+    public String getClassKey() {
+        return VanillaEntity.VANILLA_CLASS_KEY;
+    }
+
+    @Override
+    public EntityType getDefaultEntityType() {
+        return EntityType.WARDEN;
+    }
+
+    @Override
+    public String getDefaultName() {
+        return "Warden";
     }
 
     @Override
@@ -57,12 +64,12 @@ public class LeveledWarden extends VanillaEntity implements Listener {
     @Override
     public @Nullable Collection<LootDrop> getItemDrops() {
         return List.of(
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.PRELUDE_HELMET), 100, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.PRELUDE_CHESTPLATE), 100, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.PRELUDE_LEGGINGS), 100, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.PRELUDE_BOOTS), 100, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.PREMIUM_ECHO_SHARD), 5, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.ENCHANTED_ECHO_SHARD), 45, this),
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.PRELUDE_HELMET), 400, this),
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.PRELUDE_CHESTPLATE), 400, this),
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.PRELUDE_LEGGINGS), 400, this),
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.PRELUDE_BOOTS), 400, this),
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.PREMIUM_ECHO_SHARD), 25, this),
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.ENCHANTED_ECHO_SHARD), 125, this),
                 new QuantityLootDrop(plugin.getItemService().getCustomItem(Material.ECHO_SHARD), 2, 7, this)
         );
     }
