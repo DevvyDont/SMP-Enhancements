@@ -76,6 +76,16 @@ public class LootListener implements Listener {
         if (!(event.getEntity() instanceof Player player))
             return;
 
+        // Wipe emeralds from chests.
+        for (ItemStack item : event.getLoot().stream().toList()) {
+            if (item.getType().equals(Material.EMERALD)) {
+                event.getLoot().remove(item);
+                ItemStack shard = new ItemStack(Material.AMETHYST_SHARD);
+                shard.setAmount(item.getAmount());
+                event.getLoot().add(shard);
+            }
+        }
+
         // Attempt to find a structure this chest is contained in
         GeneratedStructure containedStructure = null;
         Location location = event.getLootContext().getLocation();
