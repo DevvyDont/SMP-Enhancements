@@ -44,6 +44,7 @@ import xyz.devvydont.smprpg.items.blueprints.sets.emerald.EmeraldBoots;
 import xyz.devvydont.smprpg.items.blueprints.sets.emerald.EmeraldChestplate;
 import xyz.devvydont.smprpg.items.blueprints.sets.emerald.EmeraldHelmet;
 import xyz.devvydont.smprpg.items.blueprints.sets.emerald.EmeraldLeggings;
+import xyz.devvydont.smprpg.items.blueprints.sets.exiled.ExiledCrossbow;
 import xyz.devvydont.smprpg.items.blueprints.sets.forsaken.ForsakenBoots;
 import xyz.devvydont.smprpg.items.blueprints.sets.forsaken.ForsakenChestplate;
 import xyz.devvydont.smprpg.items.blueprints.sets.forsaken.ForsakenHelmet;
@@ -315,6 +316,10 @@ public enum CustomItemType {
     NETHERITE_BOW("Netherite Bow", Material.BOW, ItemRarity.RARE,      NetheriteBow.class),
     DIAMOND_BOW("Diamond Bow",     Material.BOW, ItemRarity.UNCOMMON,  DiamondBow.class),
     IRON_BOW(   "Iron Bow",        Material.BOW, ItemRarity.COMMON,    IronBow.class),
+
+    // EXILED SET
+    EXILED_CROSSBOW("Exiled Crossbow", Material.CROSSBOW, ItemRarity.EPIC,  ExiledCrossbow.class),
+    EXILED_AXE("Exiled Axe", Material.IRON_AXE, ItemRarity.EPIC,  ExiledCrossbow.class),
 
     // MISC TOOLS
     GRAPPLING_HOOK("Grappling Hook", Material.FISHING_ROD, ItemRarity.RARE, GrapplingHook.class),
