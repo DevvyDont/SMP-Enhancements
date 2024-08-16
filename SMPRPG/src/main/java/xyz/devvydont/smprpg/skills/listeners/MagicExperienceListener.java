@@ -24,6 +24,7 @@ import xyz.devvydont.smprpg.enchantments.CustomEnchantment;
 import xyz.devvydont.smprpg.entity.LeveledPlayer;
 import xyz.devvydont.smprpg.events.skills.SkillExperienceGainEvent;
 import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
+import xyz.devvydont.smprpg.items.blueprints.vanilla.ItemEnchantedBook;
 import xyz.devvydont.smprpg.items.interfaces.Attributeable;
 
 public class MagicExperienceListener implements Listener {
@@ -218,12 +219,26 @@ public class MagicExperienceListener implements Listener {
         if (event.getResult() == null)
             return;
 
-        SMPItemBlueprint blueprint = plugin.getItemService().getBlueprint(event.getResult());
+        // If the repair cost is too high for the player to forge it don't stow exp
+        if (event.getView().getRepairCost() > ((Player)event.getView().getPlayer()).getLevel())
+            return;
+
+        ItemStack result = event.getResult();
+
+        SMPItemBlueprint blueprint = plugin.getItemService().getBlueprint(result);
         int multiplier = 1;
         if (blueprint instanceof Attributeable attributeable)
             multiplier = attributeable.getPowerRating();
-        ItemStack result = event.getResult();
-        stowExperience(result, event.getView().getRepairCost() * multiplier);
+        else if (blueprint instanceof ItemEnchantedBook book && book.getEnchantment(result.getItemMeta()) != null)
+            multiplier = book.getRarity(result).ordinal() + 3;
+
+        int exp = event.getView().getRepairCost() * multiplier;
+
+        // Something isn't right if we have this much....
+        if (exp > 5000)
+            exp = 5000;
+
+        stowExperience(result, exp);
         event.setResult(result);
     }
 

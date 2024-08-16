@@ -79,6 +79,10 @@ public class EnchantmentCalculator {
         return blueprint instanceof VanillaItemBlueprint && item.getType().equals(Material.BOOK);
     }
 
+    public static boolean isEnchantedBook(SMPItemBlueprint blueprint, ItemStack item) {
+        return blueprint instanceof VanillaItemBlueprint && item.getType().equals(Material.ENCHANTED_BOOK);
+    }
+
     public boolean enchantmentIsAllowed(CustomEnchantment enchantment, Collection<Enchantment> previous) {
 
         // Is the enchantment a low enough skill requirement to apply?
@@ -94,7 +98,6 @@ public class EnchantmentCalculator {
         // Do we have a book? Any enchantment is allowed...
         if (isBook(blueprint, item))
             return true;
-
 
         // Can this enchantment apply to this item according to minecraft's vanilla logic (if vanilla item)?
         if (blueprint instanceof VanillaItemBlueprint && !enchantment.getEnchantment().canEnchantItem(getItem()))

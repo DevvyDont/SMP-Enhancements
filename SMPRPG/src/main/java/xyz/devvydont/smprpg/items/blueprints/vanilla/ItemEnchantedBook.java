@@ -8,6 +8,7 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.items.ItemRarity;
 import xyz.devvydont.smprpg.items.base.VanillaItemBlueprint;
 import xyz.devvydont.smprpg.services.ItemService;
@@ -18,7 +19,6 @@ import java.util.List;
 import java.util.Map;
 
 public class ItemEnchantedBook extends VanillaItemBlueprint {
-
 
     public ItemEnchantedBook(ItemService itemService, ItemStack item) {
         super(itemService, item);
@@ -33,6 +33,18 @@ public class ItemEnchantedBook extends VanillaItemBlueprint {
     @Override
     public int getMaxAllowedEnchantments(ItemMeta meta) {
         return 1;
+    }
+
+    @Nullable
+    public Enchantment getEnchantment(ItemMeta meta) {
+
+        if (!(meta instanceof EnchantmentStorageMeta storage))
+            return null;
+
+        if (storage.getStoredEnchants().isEmpty())
+            return null;
+
+        return storage.getStoredEnchants().keySet().iterator().next();
     }
 
     @Override

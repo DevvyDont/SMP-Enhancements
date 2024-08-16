@@ -59,7 +59,7 @@ public class VanillaItemBlueprint extends SMPItemBlueprint {
 
     @Override
     public boolean isItemOfType(ItemStack itemStack) {
-        return itemStack.isSimilar(itemStack);
+        return this.item.isSimilar(itemStack);
     }
 
     /**

@@ -1,8 +1,10 @@
 package xyz.devvydont.smprpg.listeners;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -17,6 +19,9 @@ import xyz.devvydont.smprpg.enchantments.CustomEnchantment;
 import xyz.devvydont.smprpg.enchantments.calculator.EnchantmentCalculator;
 import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
 import xyz.devvydont.smprpg.items.base.VanillaItemBlueprint;
+import xyz.devvydont.smprpg.items.blueprints.vanilla.ItemEnchantedBook;
+import xyz.devvydont.smprpg.util.formatting.ChatUtil;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
 
 import java.util.*;
 
@@ -43,6 +48,14 @@ public class AnvilEnchantmentCombinationFixListener implements Listener {
         SMPItemBlueprint inputBlueprint = SMPRPG.getInstance().getItemService().getBlueprint(input);
         SMPItemBlueprint combineBlueprint = SMPRPG.getInstance().getItemService().getBlueprint(combine);
 
+        // Edge case, do we have two different types of enchanted books? We can't do this
+        if (inputBlueprint instanceof ItemEnchantedBook inputBook && combineBlueprint instanceof ItemEnchantedBook combineBook) {
+            Enchantment inputEnchantment = inputBook.getEnchantment(input.getItemMeta());
+            Enchantment combineEnchantment = combineBook.getEnchantment(combine.getItemMeta());
+            if (inputEnchantment != null && !inputEnchantment.equals(combineEnchantment))
+                return new EnchantmentCombination(input, 0);
+        }
+
         // Grab the enchantments we are trying to apply to the first item
         List<CustomEnchantment> toApply = new ArrayList<>();
 
@@ -65,6 +78,7 @@ public class AnvilEnchantmentCombinationFixListener implements Listener {
         int cost = 0;
         ItemStack result = input.clone();
         Collections.shuffle(toApply);
+        boolean resultIsDifferent = false;
         for (CustomEnchantment enchantment : toApply) {
 
             int levelPresent = result.getEnchantmentLevel(enchantment.getEnchantment());
@@ -75,6 +89,18 @@ public class AnvilEnchantmentCombinationFixListener implements Listener {
                 levelPresent = meta.getStoredEnchantLevel(enchantment.getEnchantment());
             if (combine.getItemMeta() instanceof EnchantmentStorageMeta meta)
                 levelToUse = meta.getStoredEnchantLevel(enchantment.getEnchantment());
+
+            // Skip this enchantment if it is not valid for the input item if it is not a book.
+            if (!(inputBlueprint instanceof ItemEnchantedBook) && !inputBlueprint.getItemClassification().getItemTagKeys().contains(enchantment.getItemTypeTag()))
+                continue;
+
+            // Skip this enchantment if the input already contains a conflicting enchant.
+            boolean conflicts = false;
+            for (Enchantment appliedEnchantment : result.getEnchantments().keySet())
+                if (!appliedEnchantment.equals(enchantment.getEnchantment()) && appliedEnchantment.conflictsWith(enchantment.getEnchantment()))
+                    conflicts = true;
+            if (conflicts)
+                continue;
 
             // Skip this enchantment if a higher level is already present.
             if (levelPresent > levelToUse)
@@ -103,8 +129,13 @@ public class AnvilEnchantmentCombinationFixListener implements Listener {
             } else
                 result.addUnsafeEnchantment(enchantment.getEnchantment(), levelToUse);
 
+            resultIsDifferent = true;
             cost += enchantment.getMinimumCost().additionalPerLevelCost() * levelToUse + enchantment.getMinimumCost().baseCost();
         }
+
+        // Did we even make a change? mark this combo as invalid
+        if (!resultIsDifferent)
+            return new EnchantmentCombination(result, 0);
 
         // Now add on the repair cost from the item
         if (result.getItemMeta() instanceof Repairable repairable)
@@ -149,8 +180,8 @@ public class AnvilEnchantmentCombinationFixListener implements Listener {
         // We have to support books being supplied to us.
         SMPItemBlueprint firstBlueprint = plugin.getItemService().getBlueprint(firstItemStack);
         SMPItemBlueprint secondBlueprint = plugin.getItemService().getBlueprint(secondItemStack);
-        boolean inputIsBook = EnchantmentCalculator.isBook(firstBlueprint, firstItemStack);
-        boolean combineItemIsBook = EnchantmentCalculator.isBook(secondBlueprint, secondItemStack);
+        boolean inputIsBook = EnchantmentCalculator.isEnchantedBook(firstBlueprint, firstItemStack);
+        boolean combineItemIsBook = EnchantmentCalculator.isEnchantedBook(secondBlueprint, secondItemStack);
 
         // If the first item is a book and the second item is a non book, we can't do anything
         if (inputIsBook && !combineItemIsBook)
@@ -169,8 +200,52 @@ public class AnvilEnchantmentCombinationFixListener implements Listener {
             return;
         }
 
+        // Is the player allowed to perform this combination? Check if all the enchants are unlocked by them.
+        List<Component> information = new ArrayList<>();
+        information.add(Component.empty());
+        boolean allowed = true;
+        int magicLevel = plugin.getEntityService().getPlayerInstance((Player)event.getView().getPlayer()).getMagicSkill().getLevel();
+
+        Set<Map.Entry<Enchantment, Integer>> enchantmentsToAnalyze = plugin.getItemService().getBlueprint(combination.result()) instanceof ItemEnchantedBook ? ((EnchantmentStorageMeta)combination.result().getItemMeta()).getStoredEnchants().entrySet() : combination.result().getEnchantments().entrySet();
+        for (Map.Entry<Enchantment, Integer> entries : enchantmentsToAnalyze) {
+
+            // Magic skill req met?
+            CustomEnchantment enchantment = plugin.getEnchantmentService().getEnchantment(entries.getKey());
+            int requirement = enchantment.getSkillRequirement();
+            if (requirement > magicLevel) {
+                information.add(ComponentUtil.getColoredComponent("- Need Magic " + requirement + " to apply locked enchantment ", NamedTextColor.RED).append(enchantment.getDisplayName().color(enchantment.getEnchantColor())));
+                allowed = false;
+                continue;
+            }
+
+            // Level of enchant is too high?
+            // Determine how many levels we have over the requirement and what magic level would give us the max level
+            double percentage = (double) (entries.getValue()-1) / enchantment.getMaxLevel();
+            int enchantLevelRequirement = (int) (percentage * (99-requirement) + requirement);
+            enchantLevelRequirement = Math.min(99, enchantLevelRequirement);
+            if (enchantLevelRequirement > magicLevel){
+                information.add(ComponentUtil.getColoredComponent("- Need Magic " + enchantLevelRequirement + " to apply high level enchantment ", NamedTextColor.RED).append(enchantment.getEnchantment().displayName(entries.getValue()).color(enchantment.getEnchantColor())));
+                allowed = false;
+            }
+
+        }
+
+        information.add(Component.empty());
+        information.add(ComponentUtil.getDefaultText("Experience Cost: ").append(ComponentUtil.getColoredComponent(combination.cost() + " Levels", NamedTextColor.GREEN)));
+
+        if (!allowed)
+            event.getView().setRepairCost(999_999);
+        else
+            event.getView().setRepairCost(combination.cost);
+
+        combination.result().editMeta(meta -> {
+            List<Component> newMeta = meta.lore();
+            newMeta.addAll(information);
+            meta.lore(ChatUtil.cleanItalics(newMeta));
+            if (meta instanceof Repairable repairable)
+                repairable.setRepairCost(repairable.getRepairCost()+2);
+        });
         event.setResult(combination.result());
-        event.getView().setRepairCost(combination.cost());
     }
 
 }
