@@ -186,7 +186,11 @@ public class InterfaceStats extends PrivateInterface {
         meta.displayName(viewing.name().color(NamedTextColor.AQUA).append(Component.text("'s Skills").color(NamedTextColor.GRAY)).decoration(TextDecoration.ITALIC, false));
         List<Component> lore = new ArrayList<>();
         lore.add(Component.empty());
-        lore.addAll(getSkillDisplay(plugin.getEntityService().getPlayerInstance(owner)));
+
+        if (getViewing() instanceof Player player)
+            lore.addAll(getSkillDisplay(plugin.getEntityService().getPlayerInstance(player)));
+        else
+            lore.add(ComponentUtil.getColoredComponent("Only players have skills!", NamedTextColor.RED));
         meta.lore(ChatUtil.cleanItalics(lore));
         paper.setItemMeta(meta);
         return paper;

@@ -730,16 +730,6 @@ public class ItemService implements BaseService, Listener {
     }
 
     /**
-     * When we smelt an item make sure to fix it!
-     *
-     * @param event
-     */
-    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
-    public void onSmeltItem(FurnaceSmeltEvent event) {
-        ensureItemStackUpdated(event.getResult());
-    }
-
-    /**
      * Don't ever let custom items be smithed into something else in a smithing table.
      *
      * ALSO
@@ -971,6 +961,13 @@ public class ItemService implements BaseService, Listener {
         if (event.getCurrentItem() == null || event.getCurrentItem().getType() == Material.AIR)
             return;
 
+        if (event.getClickedInventory() == null)
+            return;
+
+        if (event.getClickedInventory().getType().equals(InventoryType.CHEST))
+            return;
+
+        ensureItemStackUpdated(event.getCurrentItem());
         discoverRecipesForItem((Player) event.getWhoClicked(), event.getCurrentItem());
     }
 
