@@ -199,6 +199,9 @@ public enum CustomEntityType {
             case TEST_ZOMBIE -> Material.ROTTEN_FLESH;
             case TEST_SKELETON -> Material.BONE;
             case WITHERED_SERAPH -> Material.NETHERITE_HOE;
+            case MANSION_SPIDER -> Material.STRING;
+            case WOODLAND_EXILE -> Material.CROSSBOW;
+            case WOODLAND_BERSERKER -> Material.IRON_AXE;
             default -> Material.SKELETON_SKULL;
         };
     }
