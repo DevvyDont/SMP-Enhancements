@@ -11,6 +11,7 @@ import xyz.devvydont.smprpg.items.blueprints.debug.SpawnerEditorBlueprint;
 import xyz.devvydont.smprpg.items.blueprints.debug.SpiderRepellentBlueprint;
 import xyz.devvydont.smprpg.items.blueprints.economy.CustomItemCoin;
 import xyz.devvydont.smprpg.items.blueprints.equipment.GrapplingHook;
+import xyz.devvydont.smprpg.items.blueprints.food.PotatoChip;
 import xyz.devvydont.smprpg.items.blueprints.food.StaleBread;
 import xyz.devvydont.smprpg.items.blueprints.misc.DeathCertificate;
 import xyz.devvydont.smprpg.items.blueprints.resources.EmptyBlueprint;
@@ -44,6 +45,7 @@ import xyz.devvydont.smprpg.items.blueprints.sets.emerald.EmeraldBoots;
 import xyz.devvydont.smprpg.items.blueprints.sets.emerald.EmeraldChestplate;
 import xyz.devvydont.smprpg.items.blueprints.sets.emerald.EmeraldHelmet;
 import xyz.devvydont.smprpg.items.blueprints.sets.emerald.EmeraldLeggings;
+import xyz.devvydont.smprpg.items.blueprints.sets.exiled.ExiledAxe;
 import xyz.devvydont.smprpg.items.blueprints.sets.exiled.ExiledCrossbow;
 import xyz.devvydont.smprpg.items.blueprints.sets.forsaken.ForsakenBoots;
 import xyz.devvydont.smprpg.items.blueprints.sets.forsaken.ForsakenChestplate;
@@ -319,13 +321,14 @@ public enum CustomItemType {
 
     // EXILED SET
     EXILED_CROSSBOW("Exiled Crossbow", Material.CROSSBOW, ItemRarity.EPIC,  ExiledCrossbow.class),
-    EXILED_AXE("Exiled Axe", Material.IRON_AXE, ItemRarity.EPIC,  ExiledCrossbow.class),
+    EXILED_AXE("Exiled Axe", Material.IRON_AXE, ItemRarity.EPIC,  ExiledAxe.class),
 
     // MISC TOOLS
     GRAPPLING_HOOK("Grappling Hook", Material.FISHING_ROD, ItemRarity.RARE, GrapplingHook.class),
 
     // FOOD
     STALE_BREAD("Stale Bread", Material.BREAD, ItemRarity.COMMON, StaleBread.class),
+    POTATO_CHIP("Potato Chips", Material.RAW_GOLD, ItemRarity.COMMON, PotatoChip.class),
 
     // COMPRESSED MINING MATERIALS
 

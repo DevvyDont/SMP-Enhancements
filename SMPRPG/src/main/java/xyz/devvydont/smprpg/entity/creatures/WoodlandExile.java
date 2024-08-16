@@ -36,6 +36,7 @@ public class WoodlandExile extends CustomEntityInstance {
     @Override
     public @Nullable Collection<LootDrop> getItemDrops() {
         return List.of(
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.POTATO_CHIP), 2, this),
                 new ChancedItemDrop(plugin.getItemService().getCustomItem(Material.EMERALD), 5, this),
                 new ChancedItemDrop(plugin.getItemService().getCustomItem(Material.EMERALD_BLOCK), 90, this),
                 new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.ENCHANTED_EMERALD), 1000, this),
