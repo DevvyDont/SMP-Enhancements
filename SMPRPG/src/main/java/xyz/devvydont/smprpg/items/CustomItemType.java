@@ -3,6 +3,9 @@ package xyz.devvydont.smprpg.items;
 import org.bukkit.Material;
 import xyz.devvydont.smprpg.items.base.CustomHeadBlueprint;
 import xyz.devvydont.smprpg.items.base.CustomItemBlueprint;
+import xyz.devvydont.smprpg.items.blueprints.charms.LuckyCharm;
+import xyz.devvydont.smprpg.items.blueprints.charms.SpeedCharm;
+import xyz.devvydont.smprpg.items.blueprints.charms.StrengthCharm;
 import xyz.devvydont.smprpg.items.blueprints.debug.EntityAnalyzer;
 import xyz.devvydont.smprpg.items.blueprints.debug.SpawnerEditorBlueprint;
 import xyz.devvydont.smprpg.items.blueprints.debug.SpiderRepellentBlueprint;
@@ -302,6 +305,11 @@ public enum CustomItemType {
     PRELUDE_CHESTPLATE("Prelude to Chaos Chestplate",     Material.NETHERITE_CHESTPLATE, ItemRarity.LEGENDARY,  PreludeChestplate.class),
     PRELUDE_LEGGINGS(  "Prelude to Chaos Leggings",       Material.NETHERITE_LEGGINGS,   ItemRarity.LEGENDARY,  PreludeLeggings.class),
     PRELUDE_BOOTS(     "Prelude to Chaos Boots",          Material.NETHERITE_BOOTS,      ItemRarity.LEGENDARY,  PreludeBoots.class),
+
+    // CHARMS
+    SPEED_CHARM("Speed Charm",       Material.TOTEM_OF_UNDYING, ItemRarity.LEGENDARY, SpeedCharm.class),
+    STRENGTH_CHARM("Strength Charm", Material.TOTEM_OF_UNDYING, ItemRarity.EPIC,      StrengthCharm.class),
+    LUCKY_CHARM("Lucky Charm",       Material.TOTEM_OF_UNDYING, ItemRarity.EPIC,      LuckyCharm.class),
 
     // BOWS
     NETHERITE_BOW("Netherite Bow", Material.BOW, ItemRarity.RARE,      NetheriteBow.class),

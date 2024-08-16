@@ -39,55 +39,55 @@ public enum ReforgeType {
     ERROR(UnimplementedReforge.class, ItemClassification.ITEM),
 
     // HP oriented
-    HEALTHY(HealthyReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS),
-    HEARTY(HeartyReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS),
+    HEALTHY(HealthyReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS, ItemClassification.CHARM),
+    HEARTY(HeartyReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS, ItemClassification.CHARM),
 
     // ARMOR oriented
-    DURABLE(DurableReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS),
-    FORTIFIED(FortifiedReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS),
+    DURABLE(DurableReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS, ItemClassification.CHARM),
+    FORTIFIED(FortifiedReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS, ItemClassification.CHARM),
 
     // KNOCKBACK oriented
-    FIRM(FirmReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS),
-    HEAVY(HeavyReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS),
-    HEFTY(HeftyReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS),
+    FIRM(FirmReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS, ItemClassification.CHARM),
+    HEAVY(HeavyReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS, ItemClassification.CHARM),
+    HEFTY(HeftyReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS, ItemClassification.CHARM),
 
     // DPS for armor
-    SAVAGE(SavageReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS),
-    STRONG(StrongReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS),
+    SAVAGE(SavageReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS, ItemClassification.CHARM),
+    STRONG(StrongReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS, ItemClassification.CHARM),
 
     // ALL AROUND ARMOR
-    POLISHED(PolishedReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS),
-    ANCIENT(AncientReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS),
+    POLISHED(PolishedReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS, ItemClassification.CHARM),
+    ANCIENT(AncientReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS, ItemClassification.CHARM),
 
     // Movement Speed oriented
-    LIGHT(LightReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS),
-    SWIFT(SwiftReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS),
-    AGILE(AgileReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS),
+    LIGHT(LightReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS, ItemClassification.CHARM),
+    SWIFT(SwiftReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS, ItemClassification.CHARM),
+    AGILE(AgileReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS, ItemClassification.CHARM),
 
     // Mining/Dig speed oriented
-    QUICK(QuickReforge.class, ItemClassification.TOOL),
-    HASTY(HastyReforge.class, ItemClassification.TOOL),
+    QUICK(QuickReforge.class, ItemClassification.TOOL, ItemClassification.CHARM),
+    HASTY(HastyReforge.class, ItemClassification.TOOL, ItemClassification.CHARM),
 
     // Luck oriented
-    LUCKY(LuckyReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS, ItemClassification.FISHING_ROD, ItemClassification.TOOL),
-    COPIOUS(CopiousReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS, ItemClassification.FISHING_ROD, ItemClassification.TOOL),
+    LUCKY(LuckyReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS, ItemClassification.FISHING_ROD, ItemClassification.TOOL, ItemClassification.CHARM),
+    COPIOUS(CopiousReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS, ItemClassification.FISHING_ROD, ItemClassification.TOOL, ItemClassification.CHARM),
 
     // DAMAGE (melee)
-    SPICY(SpicyReforge.class, ItemClassification.SWORD, ItemClassification.AXE, ItemClassification.MACE, ItemClassification.BOW),
-    SHARP(SharpReforge.class, ItemClassification.SWORD, ItemClassification.AXE, ItemClassification.MACE, ItemClassification.TOOL),
-    POWERFUL(PowerfulReforge.class, ItemClassification.BOW, ItemClassification.TOOL),
-    DULL(DullReforge.class, ItemClassification.SWORD),
-    SLUGGISH(SluggishReforge.class, ItemClassification.SWORD, ItemClassification.AXE, ItemClassification.MACE),
-    STINGING(StingingReforge.class, ItemClassification.SWORD, ItemClassification.AXE, ItemClassification.MACE, ItemClassification.BOW),
+    SPICY(SpicyReforge.class, ItemClassification.SWORD, ItemClassification.AXE, ItemClassification.MACE, ItemClassification.BOW, ItemClassification.CHARM),
+    SHARP(SharpReforge.class, ItemClassification.SWORD, ItemClassification.AXE, ItemClassification.MACE, ItemClassification.TOOL, ItemClassification.CHARM),
+    POWERFUL(PowerfulReforge.class, ItemClassification.BOW, ItemClassification.TOOL, ItemClassification.CHARM),
+    DULL(DullReforge.class, ItemClassification.SWORD, ItemClassification.CHARM),
+    SLUGGISH(SluggishReforge.class, ItemClassification.SWORD, ItemClassification.AXE, ItemClassification.MACE, ItemClassification.CHARM),
+    STINGING(StingingReforge.class, ItemClassification.SWORD, ItemClassification.AXE, ItemClassification.MACE, ItemClassification.BOW, ItemClassification.CHARM),
 
-    RAPID(RapidReforge.class, ItemClassification.SWORD, ItemClassification.AXE, ItemClassification.MACE),
+    RAPID(RapidReforge.class, ItemClassification.SWORD, ItemClassification.AXE, ItemClassification.MACE, ItemClassification.CHARM),
 
     // REACH
-    REACHING(ReachingReforge.class, ItemClassification.TOOL, ItemClassification.SWORD, ItemClassification.AXE, ItemClassification.MACE, ItemClassification.FISHING_ROD),
-    EXTENDED(ExtendedReforge.class, ItemClassification.TOOL, ItemClassification.SWORD, ItemClassification.AXE, ItemClassification.MACE, ItemClassification.FISHING_ROD),
+    REACHING(ReachingReforge.class, ItemClassification.TOOL, ItemClassification.SWORD, ItemClassification.AXE, ItemClassification.MACE, ItemClassification.FISHING_ROD, ItemClassification.CHARM),
+    EXTENDED(ExtendedReforge.class, ItemClassification.TOOL, ItemClassification.SWORD, ItemClassification.AXE, ItemClassification.MACE, ItemClassification.FISHING_ROD, ItemClassification.CHARM),
 
     // META reforges, only dropped from rare drops
-    ACCELERATED(AcceleratedReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS),  // MAX Movement Speed
+    ACCELERATED(AcceleratedReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS, ItemClassification.CHARM),  // MAX Movement Speed
 //    OVERCLOCKED(UnimplementedReforge.class, ItemClassification.TOOL),  // MAX Dig speed
 //    EPHEMERAL(UnimplementedReforge.class, ItemClassification.SWORD, ItemClassification.AXE, ItemClassification.MACE),    // MAX Attack Speed
 //    IMMORTAL(UnimplementedReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS),     // MAX DEF armor

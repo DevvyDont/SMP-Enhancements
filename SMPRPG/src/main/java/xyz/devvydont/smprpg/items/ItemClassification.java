@@ -32,6 +32,7 @@ public enum ItemClassification {
     // Misc stuff, shields, totems, things meant to be held and not worn
     EQUIPMENT(ItemTypeTagKeys.ENCHANTABLE_VANISHING),
     // Stuff used for crafting mainly, like ores and stuff
+    CHARM(ItemTypeTagKeys.ENCHANTABLE_VANISHING),
     MATERIAL,
     // Stuff that can be eaten
     CONSUMABLE,
@@ -69,7 +70,8 @@ public enum ItemClassification {
             case LEATHER_LEGGINGS, NETHERITE_LEGGINGS, DIAMOND_LEGGINGS, CHAINMAIL_LEGGINGS, GOLDEN_LEGGINGS, IRON_LEGGINGS -> LEGGINGS;
             case NETHERITE_BOOTS, DIAMOND_BOOTS, CHAINMAIL_BOOTS, GOLDEN_BOOTS, IRON_BOOTS, LEATHER_BOOTS -> BOOTS;
             case FISHING_ROD -> FISHING_ROD;
-            case SHIELD, TOTEM_OF_UNDYING -> EQUIPMENT;
+            case SHIELD -> EQUIPMENT;
+            case TOTEM_OF_UNDYING -> CHARM;
             case DIAMOND_PICKAXE, GOLDEN_PICKAXE, IRON_PICKAXE, NETHERITE_PICKAXE, STONE_PICKAXE, WOODEN_PICKAXE,
                  DIAMOND_SHOVEL, GOLDEN_SHOVEL, IRON_SHOVEL, NETHERITE_SHOVEL, STONE_SHOVEL, WOODEN_SHOVEL,
                  DIAMOND_HOE, WOODEN_HOE, STONE_HOE, NETHERITE_HOE, GOLDEN_HOE, IRON_HOE -> TOOL;
