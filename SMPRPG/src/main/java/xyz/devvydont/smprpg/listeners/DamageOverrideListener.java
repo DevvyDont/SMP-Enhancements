@@ -1,6 +1,7 @@
 package xyz.devvydont.smprpg.listeners;
 
 import org.bukkit.Effect;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.World;
 import org.bukkit.attribute.Attributable;
@@ -13,6 +14,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.base.LeveledEntity;
@@ -216,7 +218,7 @@ public class DamageOverrideListener implements Listener {
         // Handle the case where the entity dealing damage doesn't even have the attack attribute, we have to set
         // the damage of the event manually
         if (dealer instanceof LivingEntity && ((LivingEntity) dealer).getAttribute(Attribute.GENERIC_ATTACK_DAMAGE) == null)
-            event.setDamage(plugin.getEntityService().getEntityInstance((LivingEntity) dealer).getBaseAttackDamage());
+            event.setDamage(plugin.getEntityService().getEntityInstance(dealer).getBaseAttackDamage());
 
         CustomEntityDamageByEntityEvent eventWrapper = new CustomEntityDamageByEntityEvent(event, damaged, dealer, projectile);
         eventWrapper.callEvent();
@@ -258,5 +260,29 @@ public class DamageOverrideListener implements Listener {
         }
 
         event.setFinalDamage(newDamage);
+    }
+
+    @EventHandler
+    public void onMeleeDamageHoldingBow(EntityDamageByEntityEvent event) {
+
+        if (!(event.getDamager() instanceof LivingEntity living))
+            return;
+
+        if (living.getEquipment() == null)
+            return;
+
+        // If two entities did direct damage to each other and one is holding a bow, we need to apply a penalty
+        boolean holdingBow = false;
+
+        ItemStack mainHand = living.getEquipment().getItemInMainHand();
+        ItemStack offHand = living.getEquipment().getItemInOffHand();
+        if (!mainHand.getType().equals(Material.AIR) && plugin.getItemService().getBlueprint(mainHand).getItemClassification().isBow())
+            holdingBow = true;
+        if (!offHand.getType().equals(Material.AIR) && plugin.getItemService().getBlueprint(offHand).getItemClassification().isBow())
+            holdingBow = true;
+
+        // 95% damage reduction
+        if (holdingBow)
+            event.setDamage(event.getFinalDamage() * .05);
     }
 }

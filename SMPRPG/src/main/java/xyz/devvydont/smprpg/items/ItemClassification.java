@@ -113,4 +113,11 @@ public enum ItemClassification {
     public Collection<TagKey<ItemType>> getItemTagKeys() {
         return keys;
     }
+
+    public boolean isBow() {
+        return switch (this) {
+            case BOW, CROSSBOW -> true;
+            default -> false;
+        };
+    }
 }
