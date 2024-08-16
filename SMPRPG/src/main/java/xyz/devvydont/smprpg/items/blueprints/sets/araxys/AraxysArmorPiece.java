@@ -17,7 +17,7 @@ import xyz.devvydont.smprpg.services.ItemService;
 import java.util.Collection;
 import java.util.List;
 
-public abstract class AraxysArmorPiece extends CustomArmorBlueprint implements ToolBreakable, Dyeable, Trimmable, Craftable {
+public abstract class AraxysArmorPiece extends CustomArmorBlueprint implements ToolBreakable, Dyeable, Trimmable {
 
     public static final int POWER = 30;
 
@@ -30,15 +30,6 @@ public abstract class AraxysArmorPiece extends CustomArmorBlueprint implements T
         return POWER;
     }
 
-    @Override
-    public NamespacedKey getRecipeKey() {
-        return new NamespacedKey(SMPRPG.getInstance(), getCustomItemType().getKey() + "-recipe");
-    }
-
-    @Override
-    public Collection<ItemStack> unlockedBy() {
-        return List.of(itemService.getCustomItem(CustomItemType.ENCHANTED_STRING));
-    }
 
     @Override
     public Color getColor() {

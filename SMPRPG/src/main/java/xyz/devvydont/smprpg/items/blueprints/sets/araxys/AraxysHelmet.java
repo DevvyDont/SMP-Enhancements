@@ -19,7 +19,7 @@ import xyz.devvydont.smprpg.util.crafting.builders.HelmetRecipe;
 import java.util.Collection;
 import java.util.List;
 
-public class AraxysHelmet extends CustomFakeHelmetBlueprint implements Craftable, ToolBreakable {
+public class AraxysHelmet extends CustomFakeHelmetBlueprint implements ToolBreakable {
 
     public AraxysHelmet(ItemService itemService, CustomItemType type) {
         super(itemService, type);
@@ -37,21 +37,6 @@ public class AraxysHelmet extends CustomFakeHelmetBlueprint implements Craftable
     @Override
     public int getPowerRating() {
         return AraxysArmorPiece.POWER;
-    }
-
-    @Override
-    public NamespacedKey getRecipeKey() {
-        return new NamespacedKey(SMPRPG.getInstance(), getCustomItemType().getKey() + "-recipe");
-    }
-
-    @Override
-    public CraftingRecipe getCustomRecipe() {
-        return new HelmetRecipe(this, itemService.getCustomItem(CustomItemType.ENCHANTED_STRING), generate()).build();
-    }
-
-    @Override
-    public Collection<ItemStack> unlockedBy() {
-        return List.of(itemService.getCustomItem(Material.STRING));
     }
 
     @Override

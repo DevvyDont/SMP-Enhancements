@@ -18,10 +18,7 @@ import xyz.devvydont.smprpg.items.blueprints.sets.amethyst.AmethystBoots;
 import xyz.devvydont.smprpg.items.blueprints.sets.amethyst.AmethystChestplate;
 import xyz.devvydont.smprpg.items.blueprints.sets.amethyst.AmethystHelmet;
 import xyz.devvydont.smprpg.items.blueprints.sets.amethyst.AmethystLeggings;
-import xyz.devvydont.smprpg.items.blueprints.sets.araxys.AraxysBoots;
-import xyz.devvydont.smprpg.items.blueprints.sets.araxys.AraxysChestplate;
-import xyz.devvydont.smprpg.items.blueprints.sets.araxys.AraxysHelmet;
-import xyz.devvydont.smprpg.items.blueprints.sets.araxys.AraxysLeggings;
+import xyz.devvydont.smprpg.items.blueprints.sets.araxys.*;
 import xyz.devvydont.smprpg.items.blueprints.sets.bedrock.BedrockBoots;
 import xyz.devvydont.smprpg.items.blueprints.sets.bedrock.BedrockChestplate;
 import xyz.devvydont.smprpg.items.blueprints.sets.bedrock.BedrockHelmet;
@@ -231,6 +228,7 @@ public enum CustomItemType {
     ARAXYS_CHESTPLATE("Araxys Chestplate", Material.CHAINMAIL_CHESTPLATE, ItemRarity.EPIC, AraxysChestplate.class),
     ARAXYS_LEGGINGS("Araxys Leggings",     Material.CHAINMAIL_LEGGINGS,   ItemRarity.EPIC, AraxysLeggings.class),
     ARAXYS_BOOTS("Araxys Boots",           Material.CHAINMAIL_BOOTS,      ItemRarity.EPIC, AraxysBoots.class),
+    ARAXYS_CLAW("Araxys Claw",             Material.SHEARS,               ItemRarity.EPIC, AraxysClaw.class),
 
     // NEPTUNE SET
     NEPTUNE_HELMET("Neptune Helmet",         Material.ICE,                ItemRarity.LEGENDARY, NeptuneHelmet.class),

@@ -11,7 +11,8 @@ import java.util.List;
 
 public enum ItemClassification {
 
-    SWORD(ItemTypeTagKeys.ENCHANTABLE_WEAPON, ItemTypeTagKeys.ENCHANTABLE_SHARP_WEAPON, ItemTypeTagKeys.ENCHANTABLE_DURABILITY, ItemTypeTagKeys.ENCHANTABLE_VANISHING),
+    WEAPON(ItemTypeTagKeys.ENCHANTABLE_WEAPON, ItemTypeTagKeys.ENCHANTABLE_SHARP_WEAPON, ItemTypeTagKeys.ENCHANTABLE_DURABILITY, ItemTypeTagKeys.ENCHANTABLE_VANISHING),
+    SWORD(ItemTypeTagKeys.ENCHANTABLE_WEAPON, ItemTypeTagKeys.ENCHANTABLE_SHARP_WEAPON, ItemTypeTagKeys.ENCHANTABLE_DURABILITY, ItemTypeTagKeys.ENCHANTABLE_VANISHING, ItemTypeTagKeys.ENCHANTABLE_SWORD),
     TRIDENT(ItemTypeTagKeys.ENCHANTABLE_WEAPON, ItemTypeTagKeys.ENCHANTABLE_SHARP_WEAPON, ItemTypeTagKeys.ENCHANTABLE_DURABILITY, ItemTypeTagKeys.ENCHANTABLE_VANISHING, ItemTypeTagKeys.ENCHANTABLE_TRIDENT),
     MACE(ItemTypeTagKeys.ENCHANTABLE_MACE, ItemTypeTagKeys.ENCHANTABLE_WEAPON, ItemTypeTagKeys.ENCHANTABLE_DURABILITY, ItemTypeTagKeys.ENCHANTABLE_VANISHING),
     // Both bows and crossbows
@@ -95,7 +96,7 @@ public enum ItemClassification {
 
     public boolean reforgeable() {
         return switch (this) {
-            case TRIDENT, SWORD, BOW, CROSSBOW, AXE, HELMET, CHESTPLATE, LEGGINGS, BOOTS, EQUIPMENT, TOOL -> true;
+            case WEAPON, TRIDENT, SWORD, BOW, CROSSBOW, AXE, HELMET, CHESTPLATE, LEGGINGS, BOOTS, EQUIPMENT, TOOL -> true;
             default -> false;
         };
     }

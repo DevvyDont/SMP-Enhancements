@@ -109,4 +109,24 @@ public class CustomEntityInstance extends EnemyEntity {
         equipment.setLeggingsDropChance(0);
         equipment.setBootsDropChance(0);
     }
+
+    /**
+     * Sets it so that this entity has not equipment.
+     */
+    protected void removeEquipment() {
+
+        if (!(entity instanceof LivingEntity living))
+            return;
+
+        EntityEquipment equipment = living.getEquipment();
+        if (equipment == null)
+            return;
+
+        equipment.setItemInMainHand(null);
+        equipment.setItemInOffHand(null);
+        equipment.setHelmet(null);
+        equipment.setChestplate(null);
+        equipment.setLeggings(null);
+        equipment.setBoots(null);
+    }
 }

@@ -29,11 +29,6 @@ public class AraxysLeggings extends AraxysArmorPiece {
     }
 
     @Override
-    public CraftingRecipe getCustomRecipe() {
-        return new LeggingsRecipe(this, itemService.getCustomItem(CustomItemType.ENCHANTED_STRING), generate()).build();
-    }
-
-    @Override
     public ItemClassification getItemClassification() {
         return ItemClassification.LEGGINGS;
     }

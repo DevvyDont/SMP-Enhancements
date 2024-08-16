@@ -5,29 +5,41 @@ import org.bukkit.Material;
 import org.bukkit.block.Biome;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.generator.structure.Structure;
 import org.bukkit.persistence.PersistentDataType;
 import xyz.devvydont.smprpg.entity.base.CustomEntityInstance;
 import xyz.devvydont.smprpg.entity.base.LeveledEntity;
 import xyz.devvydont.smprpg.entity.base.NPCEntity;
-import xyz.devvydont.smprpg.entity.creatures.CastleDweller;
-import xyz.devvydont.smprpg.entity.creatures.TestZombie;
-import xyz.devvydont.smprpg.entity.creatures.UndeadArcher;
-import xyz.devvydont.smprpg.entity.creatures.WitheredSeraph;
+import xyz.devvydont.smprpg.entity.creatures.*;
 import xyz.devvydont.smprpg.entity.npc.ReforgeNPC;
-import xyz.devvydont.smprpg.entity.spawning.BiomeSpawnCondition;
-import xyz.devvydont.smprpg.entity.spawning.EntitySpawnCondition;
-import xyz.devvydont.smprpg.entity.spawning.EntitySpawner;
-import xyz.devvydont.smprpg.entity.spawning.ImpossibleSpawnCondition;
+import xyz.devvydont.smprpg.entity.spawning.*;
 import xyz.devvydont.smprpg.services.EntityService;
 
 // Enums to use for the retrieval, storage, and statistics of "custom" entities.
 public enum CustomEntityType {
 
+    // Mobs that spawn in castles.
     CASTLE_DWELLER(EntityType.ZOMBIE_VILLAGER, "Castle Dweller",
             15, 900, 80, CastleDweller.class),
 
     UNDEAD_ARCHER(EntityType.SKELETON, "Undead Archer",
             15, 750, 60, UndeadArcher.class),
+
+    // Mobs that spawn in woodland mansions.
+    MANSION_SPIDER(EntityType.SPIDER, "Mansion Spider",
+            25, 3_000, 290,
+            new EntitySpawnCondition[]{new StructureSpawnCondition(Structure.MANSION)}, 20,
+            MansionSpider.class),
+
+    WOODLAND_EXILE(EntityType.PILLAGER, "Woodland Exile",
+            25, 3_500, 315,
+            new EntitySpawnCondition[]{new StructureSpawnCondition(Structure.MANSION)}, 35,
+            WoodlandExile.class),
+
+    WOODLAND_BERSERKER(EntityType.VINDICATOR, "Woodland Berserker",
+            25, 3_250, 450,
+            new EntitySpawnCondition[]{new StructureSpawnCondition(Structure.MANSION)}, 35,
+            WoodlandExile.class),
 
     // Wither skeletons that spawn on the end island
     WITHERED_SERAPH(EntityType.WITHER_SKELETON, "Withered Seraph",

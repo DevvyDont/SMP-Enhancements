@@ -30,11 +30,6 @@ public class AraxysBoots extends AraxysArmorPiece {
     }
 
     @Override
-    public CraftingRecipe getCustomRecipe() {
-        return new BootsRecipe(this, itemService.getCustomItem(CustomItemType.ENCHANTED_STRING), generate()).build();
-    }
-
-    @Override
     public ItemClassification getItemClassification() {
         return ItemClassification.BOOTS;
     }
