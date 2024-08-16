@@ -3,6 +3,7 @@ package xyz.devvydont.smprpg.listeners;
 import org.bukkit.attribute.Attributable;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
+import org.bukkit.damage.DamageType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -61,8 +62,22 @@ public class EnvironmentalDamageListener implements Listener {
         if (!causeIsPercentage(event.getCause()))
             return;
 
-        LeveledEntity entity = plugin.getEntityService().getEntityInstance((LivingEntity) event.getEntity());
+        LeveledEntity entity = plugin.getEntityService().getEntityInstance(event.getEntity());
         event.setDamage(entity.getHalfHeartValue() * getEnvironmentalDamagePercentage(event.getCause()));
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onPoisonDeath(EntityDamageEvent event) {
+
+        // Save players from getting poisoned to death
+        if (!event.getCause().equals(EntityDamageEvent.DamageCause.POISON))
+            return;
+
+        if (!(event.getEntity() instanceof LivingEntity living))
+            return;
+
+        if (event.getFinalDamage() > living.getHealth())
+            event.setDamage(Math.max(0, living.getHealth() - 1));
     }
 
     @EventHandler
