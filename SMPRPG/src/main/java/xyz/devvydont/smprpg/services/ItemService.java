@@ -15,6 +15,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.enchantment.EnchantItemEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -989,6 +990,17 @@ public class ItemService implements BaseService, Listener {
         if (event.getDamage() > 0)
             event.setDamage(1);
 
+    }
+
+    @EventHandler
+    public void onPlaceCustomItem(BlockPlaceEvent event) {
+
+        ItemStack item = event.getItemInHand();
+        SMPItemBlueprint blueprint = getBlueprint(item);
+
+        // If this item is a custom item, don't allow it to be placed!!!
+        if (blueprint.isCustom())
+            event.setCancelled(true);
     }
 
 
