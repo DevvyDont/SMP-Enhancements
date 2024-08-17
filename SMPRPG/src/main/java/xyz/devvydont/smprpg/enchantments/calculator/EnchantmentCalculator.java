@@ -99,12 +99,8 @@ public class EnchantmentCalculator {
         if (isBook(blueprint, item))
             return true;
 
-        // Can this enchantment apply to this item according to minecraft's vanilla logic (if vanilla item)?
-        if (blueprint instanceof VanillaItemBlueprint && !enchantment.getEnchantment().canEnchantItem(getItem()))
-            return false;
-
-        // Can this enchantment apply to this item according to our logic (if custom item?
-        if (blueprint instanceof CustomItemBlueprint && !blueprint.getItemClassification().getItemTagKeys().contains(enchantment.getItemTypeTag()))
+        // Can this enchantment apply to this item class?
+        if (!blueprint.getItemClassification().getItemTagKeys().contains(enchantment.getItemTypeTag()))
             return false;
 
         // Is there already a conflicting enchant?
