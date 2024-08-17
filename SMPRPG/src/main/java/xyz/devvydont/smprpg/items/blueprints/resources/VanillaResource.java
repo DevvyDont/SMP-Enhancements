@@ -143,14 +143,14 @@ public class VanillaResource extends VanillaItemBlueprint implements Sellable {
         materialWorthMap.put(Material.NETHERITE_BLOCK, 81000);
 
         // Materials from mobs.
-        materialWorthMap.put(Material.ROTTEN_FLESH, 2);
-        materialWorthMap.put(Material.BONE, 2);
-        materialWorthMap.put(Material.STRING, 2);
-        materialWorthMap.put(Material.SPIDER_EYE, 2);
-        materialWorthMap.put(Material.PHANTOM_MEMBRANE, 10);
-        materialWorthMap.put(Material.GUNPOWDER, 3);
-        materialWorthMap.put(Material.SLIME_BALL, 5);
-        materialWorthMap.put(Material.PRISMARINE_SHARD, 3);
+        materialWorthMap.put(Material.ROTTEN_FLESH, 6);
+        materialWorthMap.put(Material.BONE, 6);
+        materialWorthMap.put(Material.STRING, 8);
+        materialWorthMap.put(Material.SPIDER_EYE, 4);
+        materialWorthMap.put(Material.PHANTOM_MEMBRANE, 35);
+        materialWorthMap.put(Material.GUNPOWDER, 9);
+        materialWorthMap.put(Material.SLIME_BALL, 12);
+        materialWorthMap.put(Material.PRISMARINE_SHARD, 14);
         materialWorthMap.put(Material.NAUTILUS_SHELL, 100);
         materialWorthMap.put(Material.ECHO_SHARD, 250);
         materialWorthMap.put(Material.BLAZE_ROD, 25);

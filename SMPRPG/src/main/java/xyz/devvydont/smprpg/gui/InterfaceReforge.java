@@ -41,14 +41,14 @@ public class InterfaceReforge extends PrivateInterface {
 
     public int getReforgeCost(ItemRarity rarity) {
         return switch (rarity) {
-            case COMMON -> 100;
-            case UNCOMMON -> 250;
-            case RARE -> 500;
-            case EPIC -> 1_000;
-            case LEGENDARY -> 2_500;
-            case MYTHIC -> 5_000;
-            case DIVINE -> 10_000;
-            default -> 25_000;
+            case COMMON -> 250;
+            case UNCOMMON -> 500;
+            case RARE -> 1000;
+            case EPIC -> 2500;
+            case LEGENDARY -> 5000;
+            case MYTHIC -> 10000;
+            case DIVINE -> 25000;
+            default -> 50000;
         };
     }
 

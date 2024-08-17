@@ -29,7 +29,7 @@ public class ItemUtil {
      * @param emeralds
      */
     public static int emeraldsToCoins(int emeralds) {
-        return (int) Math.round(Math.pow(emeralds+5, 2.5));
+        return (int) Math.round(Math.pow(emeralds+12, 2.5));
     }
 
     /**
