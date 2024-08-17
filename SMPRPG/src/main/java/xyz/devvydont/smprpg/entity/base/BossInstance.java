@@ -43,6 +43,7 @@ public abstract class BossInstance extends EnemyEntity {
         return switch (rank) {
             case 1 -> NamedTextColor.YELLOW;
             case 2 -> NamedTextColor.WHITE;
+            case 3 -> TextColor.color(0x65350F);  // Brown
             default -> NamedTextColor.GRAY;
         };
     }
@@ -154,6 +155,10 @@ public abstract class BossInstance extends EnemyEntity {
         scoreboard = new SimpleGlobalScoreboard(cloneScoreboard(), getNametagPowerComponent().append(getDisplaynameNametagComponent()));
         scoreboardUpdateTask = SMPRPG.getInstance().getServer().getScheduler().runTaskTimer(SMPRPG.getInstance(), this::updateScoreboard, 0, 20L);
         heal();
+
+        // Bosses are going to be hit quickly by multiple people at the same time. Remove i-frames from the boss
+        if (entity instanceof LivingEntity living)
+            living.setMaximumNoDamageTicks(0);
     }
 
     @Override
@@ -189,9 +194,8 @@ public abstract class BossInstance extends EnemyEntity {
             p.playSound(p.getLocation(), Sound.ENTITY_CHICKEN_EGG, .2f, 1);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onDamage(EntityDamageEvent event) {
-
 
         if (!entity.equals(event.getEntity()))
             return;
