@@ -29,10 +29,10 @@ public class MansionSpider extends CustomEntityInstance {
                 new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.ARAXYS_CLAW), 750, this),
                 new ChancedItemDrop(plugin.getItemService().getCustomItem(Material.STRING), 2, this),
                 new ChancedItemDrop(plugin.getItemService().getCustomItem(Material.SPIDER_EYE), 2, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.PREMIUM_STRING), 35, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.PREMIUM_SPIDER_EYE), 55, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.ENCHANTED_STRING), 125, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.ENCHANTED_SPIDER_EYE), 225, this)
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.PREMIUM_STRING), 110, this),
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.PREMIUM_SPIDER_EYE), 70, this),
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.ENCHANTED_STRING), 1100, this),
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.ENCHANTED_SPIDER_EYE), 700, this)
         );
     }
 }
