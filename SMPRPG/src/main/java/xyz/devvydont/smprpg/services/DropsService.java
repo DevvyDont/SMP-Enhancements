@@ -252,8 +252,11 @@ public class DropsService implements BaseService, Listener {
         event.getEntity().setOwner(owner);
         event.getEntity().customName(name.append(ComponentUtil.getColoredComponent(" (" + p.getName() + ")", NamedTextColor.DARK_GRAY)));
         event.getEntity().setCanMobPickup(false);
-        event.getEntity().setUnlimitedLifetime(true);
         event.getEntity().setInvulnerable(true);
+
+        // If the item is rare or higher, set it to never expire.
+        if (rarity.ordinal() >= ItemRarity.RARE.ordinal())
+            event.getEntity().setUnlimitedLifetime(true);
 
         // If this is a drop and the rarity is above rare, add the firework task
         if (getFlag(item).equals(DropFlag.LOOT) && rarity.ordinal() >= ItemRarity.RARE.ordinal())
