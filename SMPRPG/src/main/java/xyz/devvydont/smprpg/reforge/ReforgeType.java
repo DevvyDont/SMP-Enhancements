@@ -73,32 +73,32 @@ public enum ReforgeType {
     COPIOUS(CopiousReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS, ItemClassification.FISHING_ROD, ItemClassification.TOOL, ItemClassification.CHARM),
 
     // DAMAGE (melee)
-    SPICY(SpicyReforge.class, ItemClassification.SWORD, ItemClassification.AXE, ItemClassification.MACE, ItemClassification.BOW, ItemClassification.CHARM),
-    SHARP(SharpReforge.class, ItemClassification.SWORD, ItemClassification.AXE, ItemClassification.MACE, ItemClassification.TOOL, ItemClassification.CHARM),
-    POWERFUL(PowerfulReforge.class, ItemClassification.BOW, ItemClassification.TOOL, ItemClassification.CHARM),
+    SPICY(SpicyReforge.class, ItemClassification.SWORD, ItemClassification.TRIDENT, ItemClassification.WEAPON, ItemClassification.AXE, ItemClassification.MACE, ItemClassification.BOW, ItemClassification.CROSSBOW, ItemClassification.CHARM),
+    SHARP(SharpReforge.class, ItemClassification.SWORD, ItemClassification.TRIDENT, ItemClassification.WEAPON, ItemClassification.AXE, ItemClassification.MACE, ItemClassification.TOOL, ItemClassification.CHARM),
+    POWERFUL(PowerfulReforge.class, ItemClassification.BOW, ItemClassification.CROSSBOW, ItemClassification.TOOL, ItemClassification.CHARM),
     DULL(DullReforge.class, ItemClassification.SWORD, ItemClassification.CHARM),
-    SLUGGISH(SluggishReforge.class, ItemClassification.SWORD, ItemClassification.AXE, ItemClassification.MACE, ItemClassification.CHARM),
-    STINGING(StingingReforge.class, ItemClassification.SWORD, ItemClassification.AXE, ItemClassification.MACE, ItemClassification.BOW, ItemClassification.CHARM),
+    SLUGGISH(SluggishReforge.class, ItemClassification.SWORD, ItemClassification.TRIDENT, ItemClassification.WEAPON, ItemClassification.AXE, ItemClassification.MACE, ItemClassification.CHARM),
+    STINGING(StingingReforge.class, ItemClassification.SWORD, ItemClassification.TRIDENT, ItemClassification.WEAPON, ItemClassification.AXE, ItemClassification.MACE, ItemClassification.BOW, ItemClassification.CROSSBOW, ItemClassification.CHARM),
 
-    RAPID(RapidReforge.class, ItemClassification.SWORD, ItemClassification.AXE, ItemClassification.MACE, ItemClassification.CHARM),
+    RAPID(RapidReforge.class, ItemClassification.SWORD, ItemClassification.TRIDENT, ItemClassification.WEAPON, ItemClassification.AXE, ItemClassification.MACE, ItemClassification.CHARM),
 
     // REACH
-    REACHING(ReachingReforge.class, ItemClassification.TOOL, ItemClassification.SWORD, ItemClassification.AXE, ItemClassification.MACE, ItemClassification.FISHING_ROD, ItemClassification.CHARM),
-    EXTENDED(ExtendedReforge.class, ItemClassification.TOOL, ItemClassification.SWORD, ItemClassification.AXE, ItemClassification.MACE, ItemClassification.FISHING_ROD, ItemClassification.CHARM),
+    REACHING(ReachingReforge.class, ItemClassification.TOOL, ItemClassification.SWORD, ItemClassification.TRIDENT, ItemClassification.WEAPON, ItemClassification.AXE, ItemClassification.MACE, ItemClassification.FISHING_ROD, ItemClassification.CHARM),
+    EXTENDED(ExtendedReforge.class, ItemClassification.TOOL, ItemClassification.SWORD, ItemClassification.TRIDENT, ItemClassification.WEAPON, ItemClassification.AXE, ItemClassification.MACE, ItemClassification.FISHING_ROD, ItemClassification.CHARM),
 
     // META reforges, only dropped from rare drops
     ACCELERATED(AcceleratedReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS, ItemClassification.CHARM),  // MAX Movement Speed
 //    OVERCLOCKED(UnimplementedReforge.class, ItemClassification.TOOL),  // MAX Dig speed
-//    EPHEMERAL(UnimplementedReforge.class, ItemClassification.SWORD, ItemClassification.AXE, ItemClassification.MACE),    // MAX Attack Speed
+//    EPHEMERAL(UnimplementedReforge.class, ItemClassification.SWORD, ItemClassification.TRIDENT, ItemClassification.WEAPON, ItemClassification.AXE, ItemClassification.MACE),    // MAX Attack Speed
 //    IMMORTAL(UnimplementedReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS),     // MAX DEF armor
 //    TITANIC(UnimplementedReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS),      // MAX Knockback/Toughness
 //    VIGOROUS(UnimplementedReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS),     // MAX HP armor
 //    FORTUITOUS(UnimplementedReforge.class, ItemClassification.TOOL),   // MAX Luck
-//    PROTRACTED(UnimplementedReforge.class, ItemClassification.TOOL, ItemClassification.SWORD, ItemClassification.AXE, ItemClassification.MACE),   // MAX reach
+//    PROTRACTED(UnimplementedReforge.class, ItemClassification.TOOL, ItemClassification.SWORD, ItemClassification.TRIDENT, ItemClassification.WEAPON, ItemClassification.AXE, ItemClassification.MACE),   // MAX reach
 //
 //    RENOWNED(UnimplementedReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS),     // All around armor
-//    FABLED(UnimplementedReforge.class, ItemClassification.SWORD, ItemClassification.AXE, ItemClassification.MACE),       // All around melee
-//    DEMONIC(UnimplementedReforge.class, ItemClassification.BOW),      // All around ranged
+//    FABLED(UnimplementedReforge.class, ItemClassification.SWORD, ItemClassification.TRIDENT, ItemClassification.WEAPON, ItemClassification.AXE, ItemClassification.MACE),       // All around melee
+//    DEMONIC(UnimplementedReforge.class, ItemClassification.BOW, ItemClassification.CROSSBOW),      // All around ranged
 
     ;
 
