@@ -13,6 +13,8 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.ItemRarity;
@@ -82,7 +84,7 @@ public class InterfaceReforge extends PrivateInterface {
         SMPItemBlueprint blueprint = plugin.getItemService().getBlueprint(input);
 
         // Is this item not able to receive a reforge?
-        if (getRandomReforge(blueprint.getItemClassification()).getType().equals(ReforgeType.ERROR)) {
+        if (getRandomReforge(blueprint.getItemClassification(), blueprint.getReforgeType(input.getItemMeta())).getType().equals(ReforgeType.ERROR)) {
             lore.add(Component.empty());
             lore.add(Component.text("This item cannot be reforged!").color(NamedTextColor.RED));
             anvil.editMeta(meta -> {
@@ -120,39 +122,68 @@ public class InterfaceReforge extends PrivateInterface {
         return 5;
     }
 
-    public ReforgeBase getRandomReforge(ItemClassification classification) {
+    /**
+     * Randomly rolls a reforge.
+     *
+     * @param classification The classification of the item that is being reforged.
+     * @param exclude The reforge type to exclude when rolling a reforge. Can be null to consider all available reforges.
+     * @return An randomly selected instance of a registered ReforgeBase singleton that is compatible with the classification.
+     */
+    public @NotNull ReforgeBase getRandomReforge(ItemClassification classification, @Nullable ReforgeType exclude) {
 
+        // Construct a list of reforges to choose from by looping through all reforges and analyzing its compatibility.
         List<ReforgeBase> choices = new ArrayList<>();
-        for (ReforgeType type : ReforgeType.values())
-            if (type.isRollable() && type.isAllowed(classification))
-                choices.add(SMPRPG.getInstance().getItemService().getReforge(type));
+        for (ReforgeType type : ReforgeType.values()) {
 
+            // Do we want to exclude this reforge?
+            if (type.equals(exclude))
+                continue;
+
+            // Is this reforge allowed to be rolled in a reforge station?
+            if (!type.isRollable())
+                continue;
+
+            // Is this reforge allowed for this item type?
+            if (!type.isAllowed(classification))
+                continue;
+
+            // Valid!
+            choices.add(SMPRPG.getInstance().getItemService().getReforge(type));
+        }
+
+        // If we found no valid reforges, default to the error reforge type. Error reforge type should be handled by caller
         if (choices.isEmpty())
             return SMPRPG.getInstance().getItemService().getReforge(ReforgeType.ERROR);
 
+        // Return a random choice
         return choices.get((int) (Math.random()*choices.size()));
     }
 
     public void reforge() {
 
+        // Check if we have an item in the input
         ItemStack item = getItem(INPUT_SLOT);
         if (item == null)
             return;
 
+        // Check if this item is able to store attributes. Reforges can't add attributes to attributeless items!
         SMPItemBlueprint blueprint = plugin.getItemService().getBlueprint(item);
         if (!(blueprint instanceof Attributeable attributeable))
             return;
 
+        // Analyze the current reforge on the gear and determine if we can even roll another reforge without erroring
+        ReforgeType currentReforgeType = blueprint.getReforgeType(item.getItemMeta());
+        ReforgeBase newReforge = getRandomReforge(blueprint.getItemClassification(), currentReforgeType);
+        boolean success = !newReforge.getType().equals(ReforgeType.ERROR);
+
+        // Determine if we can afford this reforge
         int cost = getReforgeCost(blueprint.getRarity(item));
-
-        ReforgeBase reforge = getRandomReforge(blueprint.getItemClassification());
-        boolean success = !reforge.getType().equals(ReforgeType.ERROR);
-
         if (getBalance() < cost)
             success = false;
 
+        // Apply reforge and take their money if we had no issues
         if (success) {
-            reforge.apply(item);
+            newReforge.apply(item);
             spendMoney(cost);
         }
 

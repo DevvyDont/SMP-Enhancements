@@ -96,13 +96,6 @@ public enum ItemClassification {
         };
     }
 
-    public boolean reforgeable() {
-        return switch (this) {
-            case WEAPON, TRIDENT, SWORD, BOW, CROSSBOW, AXE, HELMET, CHESTPLATE, LEGGINGS, BOOTS, EQUIPMENT, TOOL -> true;
-            default -> false;
-        };
-    }
-
     public boolean isArmor() {
         return switch (this) {
             case HELMET, CHESTPLATE, LEGGINGS, BOOTS -> true;

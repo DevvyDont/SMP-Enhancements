@@ -25,6 +25,7 @@ import xyz.devvydont.smprpg.items.ItemRarity;
 import xyz.devvydont.smprpg.items.interfaces.Edible;
 import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
 import xyz.devvydont.smprpg.reforge.ReforgeBase;
+import xyz.devvydont.smprpg.reforge.ReforgeType;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.formatting.ChatUtil;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
@@ -74,9 +75,31 @@ public abstract class SMPItemBlueprint {
         return getRarity(meta).applyDecoration(Component.text(getReforgePrefix(meta) + getItemName(meta))).decoration(TextDecoration.ITALIC, false);
     }
 
+    /**
+     * Retrieves the currently applied reforge singleton instance contained on this reforge.
+     * If this item doesn't have a reforge, null is returned
+     *
+     * @param meta ItemMeta contained on an item stack
+     * @return a Reforge singleton if the ItemMeta has a reforge type stored in it
+     */
     @Nullable
     public ReforgeBase getReforge(ItemMeta meta) {
         return itemService.getReforge(meta);
+    }
+
+    /**
+     * Retrieves the currently applied reforge type contained on this reforge.
+     * If this item doesn't have a reforge, null is returned
+     *
+     * @param meta ItemMeta contained on an item stack
+     * @return a ReforgeType enum if the ItemMeta has a reforge type stored in it
+     */
+    @Nullable
+    public ReforgeType getReforgeType(ItemMeta meta) {
+        ReforgeBase reforge = getReforge(meta);
+        if (reforge == null)
+            return null;
+        return reforge.getType();
     }
 
     public boolean isReforged(ItemMeta meta) {
