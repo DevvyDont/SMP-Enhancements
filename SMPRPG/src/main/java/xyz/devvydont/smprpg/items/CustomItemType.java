@@ -72,6 +72,8 @@ import xyz.devvydont.smprpg.items.blueprints.sets.neofrontier.NeoFrontierHelmet;
 import xyz.devvydont.smprpg.items.blueprints.sets.neofrontier.NeoFrontierLeggings;
 import xyz.devvydont.smprpg.items.blueprints.sets.neptune.*;
 import xyz.devvydont.smprpg.items.blueprints.sets.netherite.NetheriteBow;
+import xyz.devvydont.smprpg.items.blueprints.sets.phantom.EvoriDreamwings;
+import xyz.devvydont.smprpg.items.blueprints.sets.phantom.PhantomWings;
 import xyz.devvydont.smprpg.items.blueprints.sets.prelude.PreludeBoots;
 import xyz.devvydont.smprpg.items.blueprints.sets.prelude.PreludeChestplate;
 import xyz.devvydont.smprpg.items.blueprints.sets.prelude.PreludeHelmet;
@@ -309,6 +311,10 @@ public enum CustomItemType {
     PRELUDE_LEGGINGS(  "Prelude to Chaos Leggings",       Material.NETHERITE_LEGGINGS,   ItemRarity.LEGENDARY,  PreludeLeggings.class),
     PRELUDE_BOOTS(     "Prelude to Chaos Boots",          Material.NETHERITE_BOOTS,      ItemRarity.LEGENDARY,  PreludeBoots.class),
 
+    // ELYTRAS
+    PHANTOM_WINGS("Phantom Wings", Material.ELYTRA, ItemRarity.UNCOMMON, PhantomWings.class),
+    EVORI_DREAMWINGS("Evori Dreamwings", Material.ELYTRA, ItemRarity.EPIC, EvoriDreamwings.class),
+
     // CHARMS
     SPEED_CHARM("Speed Charm",       Material.TOTEM_OF_UNDYING, ItemRarity.LEGENDARY, SpeedCharm.class),
     STRENGTH_CHARM("Strength Charm", Material.TOTEM_OF_UNDYING, ItemRarity.EPIC,      StrengthCharm.class),
@@ -437,6 +443,10 @@ public enum CustomItemType {
     // GUNPOWDER
     PREMIUM_GUNPOWDER("Premium Gunpowder", Material.GUNPOWDER, ItemRarity.UNCOMMON, true, GunpowderFamilyBlueprint.class),
     ENCHANTED_GUNPOWDER("Enchanted Gunpowder", Material.GUNPOWDER, ItemRarity.RARE, true, GunpowderFamilyBlueprint.class),
+
+    // MEMBRANES
+    PREMIUM_MEMBRANE("Premium Membrane", Material.PHANTOM_MEMBRANE, ItemRarity.UNCOMMON, true, PhantomMembraneFamilyBlueprint.class),
+    ENCHANTED_MEMBRANE("Enchanted Membrane", Material.PHANTOM_MEMBRANE, ItemRarity.RARE, true, PhantomMembraneFamilyBlueprint.class),
 
     // PRISMARINE SHARD
     PREMIUM_PRISMARINE_SHARD("Premium Prismarine Shard", Material.PRISMARINE_SHARD, ItemRarity.UNCOMMON, true, PrismarineShardFamilyBlueprint.class),
