@@ -33,7 +33,8 @@ public enum ItemRarity {
     public static ItemRarity ofVanillaMaterial(Material material) {
         return switch (material) {
 
-            case DIAMOND_SWORD, DIAMOND_HOE, DIAMOND_PICKAXE, DIAMOND_SHOVEL, DIAMOND_AXE,
+            case FISHING_ROD,  // temp until new rods come out
+                 DIAMOND_SWORD, DIAMOND_HOE, DIAMOND_PICKAXE, DIAMOND_SHOVEL, DIAMOND_AXE,
                  DIAMOND_BOOTS, DIAMOND_CHESTPLATE, DIAMOND_HELMET, DIAMOND_LEGGINGS,
                  EMERALD, EMERALD_ORE, QUARTZ_BLOCK, OBSIDIAN,
                  COAL_BLOCK, COPPER_BLOCK, IRON_BLOCK, GLOWSTONE, AMETHYST_BLOCK, GOLD_BLOCK,

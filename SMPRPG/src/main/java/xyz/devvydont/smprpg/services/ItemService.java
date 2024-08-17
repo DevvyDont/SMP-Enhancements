@@ -222,6 +222,8 @@ public class ItemService implements BaseService, Listener {
         registerVanillaMaterialResolver(Material.DIAMOND_HORSE_ARMOR, ItemArmor.class);
         registerVanillaMaterialResolver(Material.WOLF_ARMOR, ItemArmor.class);
 
+        registerVanillaMaterialResolver(Material.FISHING_ROD, ItemFishingRod.class);
+
         registerVanillaMaterialResolver(Material.MACE, ItemMace.class);
 
         registerVanillaMaterialResolver(Material.ENCHANTED_BOOK, ItemEnchantedBook.class);
