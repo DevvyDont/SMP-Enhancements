@@ -46,4 +46,5 @@ public class LoyaltyEnchantment extends UnchangedEnchantment {
     public int getSkillRequirement() {
         return 22;
     }
+
 }

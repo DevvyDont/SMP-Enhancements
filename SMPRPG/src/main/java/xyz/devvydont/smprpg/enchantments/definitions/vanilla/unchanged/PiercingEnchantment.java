@@ -1,7 +1,11 @@
 package xyz.devvydont.smprpg.enchantments.definitions.vanilla.unchanged;
 
+import io.papermc.paper.registry.RegistryKey;
 import io.papermc.paper.registry.TypedKey;
+import io.papermc.paper.registry.keys.EnchantmentKeys;
 import io.papermc.paper.registry.keys.tags.ItemTypeTagKeys;
+import io.papermc.paper.registry.set.RegistryKeySet;
+import io.papermc.paper.registry.set.RegistrySet;
 import io.papermc.paper.registry.tag.TagKey;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -36,5 +40,16 @@ public class PiercingEnchantment extends UnchangedEnchantment {
     @Override
     public int getSkillRequirement() {
         return 24;
+    }
+
+    /**
+     * A set of enchantments that this enchantment conflicts with.
+     * If there are none, this enchantment has no conflicts
+     *
+     * @return
+     */
+    @NotNull
+    public RegistryKeySet<Enchantment> getConflictingEnchantments() {
+        return RegistrySet.keySet(RegistryKey.ENCHANTMENT, EnchantmentKeys.MULTISHOT);
     }
 }

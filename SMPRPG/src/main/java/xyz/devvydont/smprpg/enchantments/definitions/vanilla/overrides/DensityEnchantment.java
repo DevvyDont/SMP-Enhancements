@@ -1,10 +1,13 @@
 package xyz.devvydont.smprpg.enchantments.definitions.vanilla.overrides;
 
+import io.papermc.paper.registry.RegistryKey;
 import io.papermc.paper.registry.TypedKey;
 import io.papermc.paper.registry.data.EnchantmentRegistryEntry;
 import io.papermc.paper.registry.event.RegistryFreezeEvent;
+import io.papermc.paper.registry.keys.EnchantmentKeys;
 import io.papermc.paper.registry.keys.tags.ItemTypeTagKeys;
 import io.papermc.paper.registry.set.RegistryKeySet;
+import io.papermc.paper.registry.set.RegistrySet;
 import io.papermc.paper.registry.tag.TagKey;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -94,5 +97,16 @@ public class DensityEnchantment extends VanillaEnchantment implements Listener {
 
         int damage = getDamagePerBlock(density);
         event.setFinalDamage(event.getFinalDamage() + damage);
+    }
+
+    /**
+     * A set of enchantments that this enchantment conflicts with.
+     * If there are none, this enchantment has no conflicts
+     *
+     * @return
+     */
+    @NotNull
+    public RegistryKeySet<Enchantment> getConflictingEnchantments() {
+        return RegistrySet.keySet(RegistryKey.ENCHANTMENT, EnchantmentKeys.BREACH);
     }
 }

@@ -3,8 +3,10 @@ package xyz.devvydont.smprpg.enchantments.definitions.vanilla;
 import io.papermc.paper.plugin.bootstrap.BootstrapContext;
 import io.papermc.paper.registry.TypedKey;
 import io.papermc.paper.registry.event.RegistryEvents;
+import io.papermc.paper.registry.set.RegistryKeySet;
 import net.kyori.adventure.key.Key;
 import org.bukkit.enchantments.Enchantment;
+import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.enchantments.CustomEnchantment;
 
@@ -30,6 +32,7 @@ public abstract class VanillaEnchantment extends CustomEnchantment {
                         .anvilCost(getAnvilCost())
                         .maxLevel(getMaxLevel())
                         .weight(getWeight())
+                        .exclusiveWith(getConflictingEnchantments())
                         .minimumCost(getMinimumCost())
                         .maximumCost(getMaximumCost()))
                 // Configure the handled to only be called for the Vanilla sharpness enchantment.
