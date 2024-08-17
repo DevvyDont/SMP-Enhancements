@@ -38,11 +38,11 @@ public class EntityHelpers {
             case ZOGLIN -> 25;
 
             case VEX -> 15;
-            case VINDICATOR -> 15;
-            case PILLAGER -> 15;
-            case RAVAGER -> 20;
-            case ILLUSIONER -> 15;
-            case EVOKER -> 15;
+            case VINDICATOR -> 10;
+            case PILLAGER -> 10;
+            case RAVAGER -> 15;
+            case ILLUSIONER -> 10;
+            case EVOKER -> 12;
 
             case HUSK -> 5;
             case STRAY -> 5;
@@ -51,9 +51,9 @@ public class EntityHelpers {
             case ELDER_GUARDIAN -> 30;
             case GUARDIAN -> 25;
 
-            case IRON_GOLEM -> 20;
-            case VILLAGER -> 15;
-            case ZOMBIE_VILLAGER -> 15;
+            case IRON_GOLEM -> 10;
+            case VILLAGER -> 10;
+            case ZOMBIE_VILLAGER -> 10;
 
             default -> 1;
         };
