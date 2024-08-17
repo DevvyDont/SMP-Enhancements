@@ -250,7 +250,7 @@ public class DamageOverrideListener implements Listener {
             Attributable receiver = (Attributable) event.getDamaged();
 
             // Apply the entity's defense attribute
-            LeveledEntity leveledEntity = plugin.getEntityService().getEntityInstance((LivingEntity) event.getDamaged());
+            LeveledEntity leveledEntity = plugin.getEntityService().getEntityInstance(event.getDamaged());
             newDamage *= calculateDefenseDamageMultiplier(leveledEntity.getDefense());
 
             // Apply the entity's true defense attribute
@@ -284,5 +284,30 @@ public class DamageOverrideListener implements Listener {
         // 95% damage reduction
         if (holdingBow)
             event.setDamage(event.getFinalDamage() * .05);
+
     }
+
+    /*
+     * When players deal melee damage, we need to more aggressively decrease their damage output since Minecraft's
+     * vanilla formula is not good enough for inflated damage numbers. The reasoning for this is to reward well-timed
+     * hits and to prevent spam clicking DPS abuse on bosses since they don't have i-frames.
+     */
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+    public void onPlayerAttackWhileOnCooldown(EntityDamageByEntityEvent event) {
+
+        // Is the entity dealing damage a player? We only care about players.
+        if (!(event.getDamager() instanceof Player player))
+            return;
+
+        float cooldown = player.getAttackCooldown();
+
+        // Is the player on cooldown? Don't do anything if they are dealing a full damage hit.
+        // If the player was *close enough* then allow vanilla Minecraft's damage rules for damage reduction.
+        if (cooldown >= 0.9f)
+            return;
+
+        // This player was well below the threshold for us to consider dealing full damage, apply some math to reduce it.
+        event.setDamage(Math.sqrt(event.getFinalDamage()));
+    }
+
 }
