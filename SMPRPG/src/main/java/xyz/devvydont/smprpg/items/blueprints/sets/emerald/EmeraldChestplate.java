@@ -15,7 +15,7 @@ public class EmeraldChestplate extends EmeraldArmorSet {
 
     @Override
     public CraftingRecipe getCustomRecipe() {
-        return new ChestplateRecipe(this, itemService.getCustomItem(Material.EMERALD), generate()).build();
+        return new ChestplateRecipe(this, itemService.getCustomItem(EmeraldArmorSet.INGREDIENT), generate()).build();
     }
 
     @Override

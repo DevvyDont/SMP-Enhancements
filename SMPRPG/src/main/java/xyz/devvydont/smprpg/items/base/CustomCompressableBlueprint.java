@@ -11,16 +11,19 @@ import org.bukkit.inventory.recipe.CraftingBookCategory;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
+import xyz.devvydont.smprpg.items.blueprints.resources.VanillaResource;
 import xyz.devvydont.smprpg.items.interfaces.Compressable;
+import xyz.devvydont.smprpg.items.interfaces.Sellable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.crafting.CompressionRecipeMember;
+import xyz.devvydont.smprpg.util.crafting.MaterialWrapper;
 import xyz.devvydont.smprpg.util.formatting.MinecraftStringUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public abstract class CustomCompressableBlueprint extends CustomItemBlueprint implements Compressable {
+public abstract class CustomCompressableBlueprint extends CustomItemBlueprint implements Compressable, Sellable {
 
     public CustomCompressableBlueprint(ItemService itemService, CustomItemType type) {
         super(itemService, type);
@@ -155,5 +158,27 @@ public abstract class CustomCompressableBlueprint extends CustomItemBlueprint im
             amount *= compressionRecipeMember.getAmount();
         }
         return amount;
+    }
+
+    @Override
+    public int getWorth(ItemMeta meta) {
+        return getWorth();
+    }
+
+    @Override
+    public int getWorth() {
+        // Get the worth of the worst item in the crafting chain, and multiply it by the compressed amount.
+        int amount = getCompressedAmount();
+        int worth = 0;
+        MaterialWrapper firstMaterial = getCompressionFlow().getFirst().getMaterial();
+
+        // If the item is vanilla, then the worth is just the value of the vanilla material.
+        if (firstMaterial.isVanilla())
+            worth = VanillaResource.getMaterialValue(firstMaterial.material());
+        // If the item is custom check if the blueprint is sellable and use that.
+        else if (firstMaterial.isCustom() && itemService.getBlueprint(firstMaterial.getCustom()) instanceof Sellable sellable)
+            worth = sellable.getWorth();
+
+        return amount * worth;
     }
 }

@@ -22,6 +22,8 @@ import java.util.List;
 
 public abstract class LuxeArmorSet extends CustomArmorBlueprint implements Craftable, Trimmable, ToolBreakable {
 
+    public static CustomItemType ingredient = CustomItemType.ENCHANTED_LAPIS;
+
     public LuxeArmorSet(ItemService itemService, CustomItemType type) {
         super(itemService, type);
     }

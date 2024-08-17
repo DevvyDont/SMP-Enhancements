@@ -301,5 +301,14 @@ public class AttributeUtil {
         return sum;
     }
 
+    public static int calculateValue(int power, ItemRarity rarity) {
+        int rarityMultiplier = (int) Math.pow(rarity.ordinal()+1, 2);
+        int powerMultiplier = (int) Math.pow(power, 2);
+        return powerMultiplier * rarityMultiplier;
+    }
+
+    public static int calculateValue(int power, ItemRarity rarity, ItemMeta meta) {
+        return calculateValue(power, rarity);
+    }
 
 }

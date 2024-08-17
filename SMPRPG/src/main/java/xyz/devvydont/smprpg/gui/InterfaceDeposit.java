@@ -14,6 +14,7 @@ import org.bukkit.inventory.ItemStack;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
 import xyz.devvydont.smprpg.items.blueprints.economy.CustomItemCoin;
+import xyz.devvydont.smprpg.items.interfaces.Sellable;
 import xyz.devvydont.smprpg.util.formatting.ChatUtil;
 
 public class InterfaceDeposit extends PrivateInterface {
@@ -31,12 +32,15 @@ public class InterfaceDeposit extends PrivateInterface {
             if (item == null)
                 continue;
 
-            SMPItemBlueprint potentialCoinType = plugin.getItemService().getBlueprint(item);
-            if (!(potentialCoinType instanceof CustomItemCoin))
+            SMPItemBlueprint potentialSellablleItem = plugin.getItemService().getBlueprint(item);
+            if (!(potentialSellablleItem instanceof Sellable sellable))
                 continue;
 
-            CustomItemCoin coin = (CustomItemCoin) potentialCoinType;
-            value += coin.getValue(item);
+            int worth = sellable.getWorth() * item.getAmount();
+            if (worth <= 0)
+                continue;
+
+            value += worth;
             item.setAmount(0);
         }
 
@@ -44,7 +48,7 @@ public class InterfaceDeposit extends PrivateInterface {
             return;
 
         plugin.getEconomyService().addMoney(owner, value);
-        owner.sendMessage(ChatUtil.getSuccessMessage(String.format("Deposited %d coins into your account!", value)));
+        owner.sendMessage(ChatUtil.getSuccessMessage(String.format("You sold %d worth of items!", value)));
         Component balMessage = Component.text("Your balance is now ").color(NamedTextColor.GRAY)
                 .append(Component.text(plugin.getEconomyService().formatMoney(owner)).color(NamedTextColor.GOLD));
         owner.sendMessage(ChatUtil.getGenericMessage(balMessage));
@@ -53,7 +57,7 @@ public class InterfaceDeposit extends PrivateInterface {
 
     @Override
     public void initializeDefaultState() {
-        inventoryView.setTitle(ChatColor.GREEN + "Add coins to deposit them!");
+        inventoryView.setTitle(ChatColor.GREEN + "Add items to sell them!");
         inventory.clear();
         border(InterfaceUtil.getInterfaceBorder());
         inventory.setMaxStackSize(100);
@@ -61,7 +65,7 @@ public class InterfaceDeposit extends PrivateInterface {
 
     @Override
     public Inventory createInventory() {
-        return Bukkit.createInventory(owner, 3*9);
+        return Bukkit.createInventory(owner, 5*9);
     }
 
     @Override
@@ -85,8 +89,8 @@ public class InterfaceDeposit extends PrivateInterface {
             return;
         }
 
-        // If the item clicked is not a coin, we can't do anything with it.
-        if (!(plugin.getItemService().getBlueprint(event.getCurrentItem()) instanceof CustomItemCoin)) {
+        // If the item clicked is not sellable, we can't do anything with it.
+        if (!(plugin.getItemService().getBlueprint(event.getCurrentItem()) instanceof Sellable sellable)) {
             event.setCancelled(true);
             return;
         }
@@ -100,4 +104,5 @@ public class InterfaceDeposit extends PrivateInterface {
         performDeposit();
         super.handleInventoryClose(event);
     }
+
 }

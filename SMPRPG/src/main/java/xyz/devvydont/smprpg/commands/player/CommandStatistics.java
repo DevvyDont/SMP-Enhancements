@@ -12,6 +12,7 @@ import xyz.devvydont.smprpg.gui.InterfaceStats;
 import xyz.devvydont.smprpg.util.formatting.ChatUtil;
 
 import java.util.Collection;
+import java.util.List;
 
 public class CommandStatistics extends CommandBase {
 
@@ -40,5 +41,12 @@ public class CommandStatistics extends CommandBase {
         InterfaceStats gui = new InterfaceStats(SMPRPG.getInstance(), (Player) commandSender, player);
         gui.open();
         commandSender.sendMessage(ChatUtil.getSuccessMessage("Opened statistics!"));
+    }
+
+    @Override
+    public Collection<String> getAliases() {
+        return List.of(
+                "stats"
+        );
     }
 }

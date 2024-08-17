@@ -10,6 +10,9 @@ import xyz.devvydont.smprpg.commands.CommandBase;
 import xyz.devvydont.smprpg.gui.InterfaceDeposit;
 import xyz.devvydont.smprpg.util.formatting.ChatUtil;
 
+import java.util.Collection;
+import java.util.List;
+
 
 public class CommandDeposit extends CommandBase {
 
@@ -34,5 +37,13 @@ public class CommandDeposit extends CommandBase {
         gui.open();
 
         player.sendMessage(ChatUtil.getSuccessMessage("Success!"));
+    }
+
+    @Override
+    public Collection<String> getAliases() {
+        return List.of(
+                "sell",
+                "quicksell"
+        );
     }
 }

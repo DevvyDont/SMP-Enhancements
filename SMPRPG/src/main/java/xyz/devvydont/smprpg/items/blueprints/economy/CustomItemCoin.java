@@ -15,13 +15,14 @@ import xyz.devvydont.smprpg.items.base.CustomItemBlueprint;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
+import xyz.devvydont.smprpg.items.interfaces.Sellable;
 import xyz.devvydont.smprpg.services.EconomyService;
 import xyz.devvydont.smprpg.services.ItemService;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CustomItemCoin extends CustomItemBlueprint implements Listener {
+public class CustomItemCoin extends CustomItemBlueprint implements Sellable, Listener {
 
     private final int value;
 
@@ -45,28 +46,24 @@ public class CustomItemCoin extends CustomItemBlueprint implements Listener {
         this.value = getCoinValue(coin);
     }
 
-    public int getValue() {
-        return value;
-    }
-
     /**
      * Similar to getValue(), but calculates the value of a coin based on a singular itemstack stack size.
-     * If this is a coin, it will be some non-negative integer. If it isn't a coin, it will have 0 value.
+     * If this is a coin, it will be some non-negative integer.
      *
-     * @param itemStack
+     * @param stack The item stack of coins
      * @return
      */
-    public int getValue(ItemStack itemStack) {
+    public int getStackValue(ItemStack stack) {
+        return getWorth(stack.getItemMeta()) * stack.getAmount();
+    }
 
-        // Retrieve the blueprint of this potential custom item.
-        SMPItemBlueprint blueprint = itemService.getBlueprint(itemStack);
+    @Override
+    public int getWorth(ItemMeta meta) {
+        return getWorth();
+    }
 
-        // If this custom item is not a coin, it is worth 0
-        if (!(blueprint instanceof CustomItemCoin))
-            return 0;
-
-        // Multiply value of coin against stack size
-        return itemStack.getAmount() * ((CustomItemCoin) blueprint).getValue();
+    public int getWorth() {
+        return value;
     }
 
     @Override
@@ -91,7 +88,7 @@ public class CustomItemCoin extends CustomItemBlueprint implements Listener {
                 Component.text("Worth of ").color(NamedTextColor.GRAY)
                         .append(getNameComponent(meta))
                         .append(Component.text(": ").color(NamedTextColor.GRAY))
-                        .append(Component.text(EconomyService.formatMoney(getValue())).color(NamedTextColor.GOLD))
+                        .append(Component.text(EconomyService.formatMoney(getWorth())).color(NamedTextColor.GOLD))
         );
 
         return lines;
@@ -127,4 +124,5 @@ public class CustomItemCoin extends CustomItemBlueprint implements Listener {
         super.updateMeta(meta);
         meta.setMaxStackSize(99);
     }
+
 }

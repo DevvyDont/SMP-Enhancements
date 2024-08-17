@@ -32,7 +32,7 @@ public class LuxeChestplate extends LuxeArmorSet implements Dyeable {
 
     @Override
     public CraftingRecipe getCustomRecipe() {
-        return new ChestplateRecipe(this, itemService.getCustomItem(Material.LAPIS_BLOCK), generate()).build();
+        return new ChestplateRecipe(this, itemService.getCustomItem(LuxeArmorSet.ingredient), generate()).build();
     }
 
     @Override

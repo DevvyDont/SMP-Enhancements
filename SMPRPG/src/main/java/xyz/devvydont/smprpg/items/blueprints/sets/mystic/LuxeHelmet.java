@@ -30,6 +30,6 @@ public class LuxeHelmet extends LuxeArmorSet {
 
     @Override
     public CraftingRecipe getCustomRecipe() {
-        return new HelmetRecipe(this, itemService.getCustomItem(Material.LAPIS_BLOCK), generate()).build();
+        return new HelmetRecipe(this, itemService.getCustomItem(LuxeArmorSet.ingredient), generate()).build();
     }
 }

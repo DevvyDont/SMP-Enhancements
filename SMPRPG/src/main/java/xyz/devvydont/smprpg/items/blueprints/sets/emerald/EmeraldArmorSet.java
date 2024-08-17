@@ -22,6 +22,8 @@ import java.util.List;
 
 public abstract class EmeraldArmorSet extends CustomArmorBlueprint implements ToolBreakable, Trimmable, Craftable {
 
+    public static Material INGREDIENT = Material.EMERALD_BLOCK;
+
 
     public EmeraldArmorSet(ItemService itemService, CustomItemType type) {
         super(itemService, type);

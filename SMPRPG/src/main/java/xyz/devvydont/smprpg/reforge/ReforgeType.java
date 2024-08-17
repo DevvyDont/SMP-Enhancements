@@ -83,8 +83,8 @@ public enum ReforgeType {
     RAPID(RapidReforge.class, ItemClassification.SWORD, ItemClassification.TRIDENT, ItemClassification.WEAPON, ItemClassification.AXE, ItemClassification.MACE, ItemClassification.CHARM),
 
     // REACH
-    REACHING(ReachingReforge.class, ItemClassification.TOOL, ItemClassification.SWORD, ItemClassification.TRIDENT, ItemClassification.WEAPON, ItemClassification.AXE, ItemClassification.MACE, ItemClassification.FISHING_ROD, ItemClassification.CHARM),
-    EXTENDED(ExtendedReforge.class, ItemClassification.TOOL, ItemClassification.SWORD, ItemClassification.TRIDENT, ItemClassification.WEAPON, ItemClassification.AXE, ItemClassification.MACE, ItemClassification.FISHING_ROD, ItemClassification.CHARM),
+    REACHING(ReachingReforge.class, ItemClassification.TOOL, ItemClassification.SWORD, ItemClassification.TRIDENT, ItemClassification.WEAPON, ItemClassification.AXE, ItemClassification.MACE, ItemClassification.CHARM),
+    EXTENDED(ExtendedReforge.class, ItemClassification.TOOL, ItemClassification.SWORD, ItemClassification.TRIDENT, ItemClassification.WEAPON, ItemClassification.AXE, ItemClassification.MACE, ItemClassification.CHARM),
 
     // META reforges, only dropped from rare drops
     ACCELERATED(AcceleratedReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS, ItemClassification.CHARM),  // MAX Movement Speed

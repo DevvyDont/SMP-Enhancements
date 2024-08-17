@@ -15,7 +15,7 @@ public class EmeraldBoots extends EmeraldArmorSet {
 
     @Override
     public CraftingRecipe getCustomRecipe() {
-        return new BootsRecipe(this, itemService.getCustomItem(Material.EMERALD), generate()).build();
+        return new BootsRecipe(this, itemService.getCustomItem(EmeraldArmorSet.INGREDIENT), generate()).build();
     }
 
     @Override

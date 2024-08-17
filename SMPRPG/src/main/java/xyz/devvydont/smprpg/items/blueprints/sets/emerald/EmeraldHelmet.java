@@ -15,7 +15,7 @@ public class EmeraldHelmet extends EmeraldArmorSet {
 
     @Override
     public CraftingRecipe getCustomRecipe() {
-        return new HelmetRecipe(this, itemService.getCustomItem(Material.EMERALD), generate()).build();
+        return new HelmetRecipe(this, itemService.getCustomItem(EmeraldArmorSet.INGREDIENT), generate()).build();
     }
 
     @Override

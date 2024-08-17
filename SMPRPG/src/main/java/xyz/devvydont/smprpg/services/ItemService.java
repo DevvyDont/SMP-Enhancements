@@ -38,6 +38,7 @@ import xyz.devvydont.smprpg.items.*;
 import xyz.devvydont.smprpg.items.base.CustomItemBlueprint;
 import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
 import xyz.devvydont.smprpg.items.base.VanillaItemBlueprint;
+import xyz.devvydont.smprpg.items.blueprints.resources.VanillaResource;
 import xyz.devvydont.smprpg.items.blueprints.vanilla.*;
 import xyz.devvydont.smprpg.items.interfaces.*;
 import xyz.devvydont.smprpg.reforge.ReforgeBase;
@@ -228,6 +229,10 @@ public class ItemService implements BaseService, Listener {
 
         registerVanillaMaterialResolver(Material.ENCHANTED_BOOK, ItemEnchantedBook.class);
 
+        // Register vanilla items that should have a sell price.
+        for (Map.Entry<Material, Integer> entry : VanillaResource.getMaterialWorthMap().entrySet())
+            registerVanillaMaterialResolver(entry.getKey(), VanillaResource.class);
+
         // Loop through all the custom items and use reflection to register a handler
         for (CustomItemType customItemType : CustomItemType.values()) {
 
@@ -311,6 +316,10 @@ public class ItemService implements BaseService, Listener {
 
     private void registerVanillaMaterialResolver(Material material, Class<? extends VanillaItemBlueprint> wrapper) {
         plugin.getLogger().finest(String.format("Assigned vanilla material %s with wrapper class %s", material.name(), wrapper.getName()));
+
+        if (vanillaBlueprintResolver.containsKey(material))
+            throw new IllegalStateException("Already registered material " + material + " with wrapper " + vanillaBlueprintResolver.get(material).getName());
+
         vanillaBlueprintResolver.put(material, wrapper);
     }
 

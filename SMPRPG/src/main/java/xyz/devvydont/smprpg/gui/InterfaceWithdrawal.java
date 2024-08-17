@@ -40,7 +40,7 @@ public class InterfaceWithdrawal extends PrivateInterface {
 
         // Can we not afford even one of these coins?
         int balance = plugin.getEconomyService().getMoney(owner);
-        if (coin.getValue() > balance) {
+        if (coin.getWorth() > balance) {
             owner.sendMessage(ChatUtil.getErrorMessage("You cannot afford to withdrawal this coin."));
             owner.playSound(owner.getLocation(), Sound.ENTITY_VILLAGER_NO, 1f, 1f);
             return;
@@ -48,12 +48,12 @@ public class InterfaceWithdrawal extends PrivateInterface {
 
         // Determine how much this person is desiring to take out. This is a combination of clicked item and click type.
         int actualStackSize = desiredStackSize;
-        int toTakeOut = coin.getValue() * actualStackSize;
+        int toTakeOut = coin.getWorth() * actualStackSize;
 
         // If they are trying to take more than their account balance, decrement their stack size of coins until we can afford it.
         while (toTakeOut > balance) {
             actualStackSize--;
-            toTakeOut = coin.getValue() * actualStackSize;
+            toTakeOut = coin.getWorth() * actualStackSize;
         }
 
         // I don't think this can ever happen but just in case we somehow underflow
@@ -102,13 +102,13 @@ public class InterfaceWithdrawal extends PrivateInterface {
         for (CustomItemCoin coin : COINS) {
             slot++;
             // If they can afford the coin add the coin there
-            if (playerBalance >= coin.getValue()) {
+            if (playerBalance >= coin.getWorth()) {
                 inventory.setItem(slot, coin.generate());
                 continue;
             }
 
             // They cannot afford the coin, add filler
-            inventory.setItem(slot, InterfaceUtil.getNamedItem(Material.CLAY_BALL, Component.text(String.format("You are %s short!", EconomyService.formatMoney(playerBalance-coin.getValue()))).color(NamedTextColor.RED)));
+            inventory.setItem(slot, InterfaceUtil.getNamedItem(Material.CLAY_BALL, Component.text(String.format("You are %s short!", EconomyService.formatMoney(playerBalance-coin.getWorth()))).color(NamedTextColor.RED)));
         }
 
     }

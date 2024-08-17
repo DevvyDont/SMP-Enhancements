@@ -2,10 +2,13 @@ package xyz.devvydont.smprpg.items.base;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.w3c.dom.Attr;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.attribute.AttributeModifierType;
 import xyz.devvydont.smprpg.items.interfaces.Attributeable;
+import xyz.devvydont.smprpg.items.interfaces.Sellable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.attributes.AttributeUtil;
 import xyz.devvydont.smprpg.util.formatting.Symbols;
@@ -21,11 +24,21 @@ import java.util.List;
  * Also, all children of this class can be "prefixed", where a player can reforge an item for small additional
  * stat bonuses. Only one may be applied
  */
-public abstract class CustomAttributeItem extends CustomItemBlueprint implements Attributeable {
+public abstract class CustomAttributeItem extends CustomItemBlueprint implements Attributeable, Sellable {
 
 
     public CustomAttributeItem(ItemService itemService, CustomItemType type) {
         super(itemService, type);
+    }
+
+    @Override
+    public int getWorth() {
+        return AttributeUtil.calculateValue(getPowerRating(), getDefaultRarity());
+    }
+
+    @Override
+    public int getWorth(ItemMeta meta) {
+        return getWorth();
     }
 
     @Override

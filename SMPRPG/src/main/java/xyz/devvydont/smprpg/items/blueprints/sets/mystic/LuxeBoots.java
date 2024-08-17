@@ -33,7 +33,7 @@ public class LuxeBoots extends LuxeArmorSet implements Dyeable {
 
     @Override
     public CraftingRecipe getCustomRecipe() {
-        return new BootsRecipe(this, itemService.getCustomItem(Material.LAPIS_BLOCK), generate()).build();
+        return new BootsRecipe(this, itemService.getCustomItem(LuxeArmorSet.ingredient), generate()).build();
     }
 
     @Override

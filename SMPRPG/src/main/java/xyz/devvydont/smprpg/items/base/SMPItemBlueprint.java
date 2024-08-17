@@ -17,15 +17,18 @@ import org.bukkit.inventory.meta.Repairable;
 import org.bukkit.inventory.meta.components.FoodComponent;
 import org.bukkit.inventory.meta.components.ToolComponent;
 import org.jetbrains.annotations.Nullable;
+import oshi.util.FormatUtil;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.enchantments.CustomEnchantment;
 import xyz.devvydont.smprpg.enchantments.calculator.EnchantmentCalculator;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.ItemRarity;
 import xyz.devvydont.smprpg.items.interfaces.Edible;
+import xyz.devvydont.smprpg.items.interfaces.Sellable;
 import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
 import xyz.devvydont.smprpg.reforge.ReforgeBase;
 import xyz.devvydont.smprpg.reforge.ReforgeType;
+import xyz.devvydont.smprpg.services.EconomyService;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.formatting.ChatUtil;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
@@ -314,8 +317,13 @@ public abstract class SMPItemBlueprint {
             );
         }
 
-        // Now, rarity
+        // Now, value and rarity
         lore.add(Component.empty());
+        if (this instanceof Sellable sellable) {
+            int value = sellable.getWorth(meta);
+            if (value > 0)
+                lore.add(ComponentUtil.getDefaultText("Sell Value: ").append(ComponentUtil.getColoredComponent(EconomyService.formatMoney(sellable.getWorth(meta)), NamedTextColor.GOLD)));
+        }
         lore.add(getRarity(meta).applyDecoration(Component.text(getRarity(meta).name() + " " + getItemClassification().name().replace("_", " "))).decoration(TextDecoration.BOLD, true));
 
         meta.lore(ChatUtil.cleanItalics(lore));

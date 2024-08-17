@@ -31,7 +31,7 @@ public class LuxeLeggings extends LuxeArmorSet {
 
     @Override
     public CraftingRecipe getCustomRecipe() {
-        return new LeggingsRecipe(this, itemService.getCustomItem(Material.LAPIS_BLOCK), generate()).build();
+        return new LeggingsRecipe(this, itemService.getCustomItem(LuxeArmorSet.ingredient), generate()).build();
     }
 
     @Override
