@@ -1,28 +1,20 @@
 package xyz.devvydont.smprpg.entity;
 
 import com.destroystokyo.paper.event.entity.EntityAddToWorldEvent;
-import com.destroystokyo.paper.event.entity.EntityRemoveFromWorldEvent;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDismountEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
-import org.joml.Vector3f;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.base.LeveledEntity;
 import xyz.devvydont.smprpg.items.interfaces.Attributeable;
@@ -31,17 +23,12 @@ import xyz.devvydont.smprpg.skills.SkillInstance;
 import xyz.devvydont.smprpg.skills.SkillType;
 import xyz.devvydont.smprpg.util.formatting.ChatUtil;
 import xyz.devvydont.smprpg.util.formatting.PlayerChatInformation;
-import xyz.devvydont.smprpg.util.formatting.Symbols;
-import xyz.devvydont.smprpg.util.world.TransformationUtil;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 
 public class LeveledPlayer extends LeveledEntity implements Listener {
-
-    private TextDisplay info;
 
     private int seed;
 
@@ -71,7 +58,7 @@ public class LeveledPlayer extends LeveledEntity implements Listener {
     /**
      * Used for various random elements, such as the enchanting table
      *
-     * @return
+     * @return a seed to use for RNG factors (such as enchanting tables)
      */
     public int getSeed() {
         return seed;
@@ -186,7 +173,7 @@ public class LeveledPlayer extends LeveledEntity implements Listener {
     /**
      * The amount of base health a player has
      *
-     * @return
+     * @return the starting health as an integer for a player when they first join the server
      */
     public int getBaseHealth() {
         return 100;
@@ -195,11 +182,11 @@ public class LeveledPlayer extends LeveledEntity implements Listener {
     /**
      * The amount of hearts to render for the player, certain aspects can increase this
      *
-     * @return
+     * @return An integer acting as the amount of HP to display to the player in half hearts.
      */
     public int getHealthScale() {
 
-        // When someone achieves max HP of 1000, they should have 3 rows of hearts (displays as 60 hp)
+        // When someone achieves max HP of 2500, they should have 3 rows of hearts (displays as 60 hp)
         // When someone is at starting HP of 100, they should only have 5 hearts (displays as 10 hp)
 
         // If we are under 200 HP, we achieve 1 scale point for every 10 HP (200HP = 20 scale points)
@@ -238,11 +225,13 @@ public class LeveledPlayer extends LeveledEntity implements Listener {
         // Update max health to 100 while maintaining their current HP
         double percent = getHealthPercentage();
         updateBaseAttribute(Attribute.GENERIC_MAX_HEALTH, getBaseHealth());
-        // Set knockback resistance attributes so that percentages work correctly
-        updateBaseAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE, .01);
-        updateBaseAttribute(Attribute.GENERIC_EXPLOSION_KNOCKBACK_RESISTANCE, .01);
-        updateBaseAttribute(Attribute.PLAYER_SWEEPING_DAMAGE_RATIO, .01);
         setHealthPercentage(percent);
+
+        // Set mic default base attributes that players should have
+        updateBaseAttribute(Attribute.GENERIC_ATTACK_DAMAGE, 5);
+        updateBaseAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE, .05);
+        updateBaseAttribute(Attribute.GENERIC_EXPLOSION_KNOCKBACK_RESISTANCE, .05);
+        updateBaseAttribute(Attribute.PLAYER_SWEEPING_DAMAGE_RATIO, .05);
 
         // Make sure we aren't overloading their UI with hearts
         getPlayer().setHealthScale(getHealthScale());
