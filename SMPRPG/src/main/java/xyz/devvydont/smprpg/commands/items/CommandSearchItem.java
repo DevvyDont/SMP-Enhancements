@@ -35,7 +35,7 @@ public class CommandSearchItem extends CommandBase {
 
         String query = "";
         if (strings.length > 0)
-            query = strings[0].toLowerCase();
+            query = strings[0].toLowerCase().replace("_", " ");
         InterfaceItemBrowser gui = new InterfaceItemBrowser(SMPRPG.getInstance(), player, query);
         gui.open();
 

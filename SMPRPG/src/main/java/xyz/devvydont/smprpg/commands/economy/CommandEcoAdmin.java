@@ -10,6 +10,8 @@ import xyz.devvydont.smprpg.commands.CommandBase;
 import xyz.devvydont.smprpg.services.EconomyService;
 import xyz.devvydont.smprpg.util.formatting.ChatUtil;
 
+import java.util.Collection;
+
 public class CommandEcoAdmin extends CommandBase {
 
     public CommandEcoAdmin(String name) {
@@ -81,6 +83,20 @@ public class CommandEcoAdmin extends CommandBase {
         else
             commandSourceStack.getSender().sendMessage(ChatUtil.getErrorMessage("Failed! " + target.getName() + " probably has insufficient funds or that amount of money is not allowed. Balance is " + EconomyService.formatMoney(economyService.getMoney(target))));
 
+    }
+
+    @Override
+    protected Collection<String> determineSuggestions(int argumentIndex, String input) {
+
+        // Subcommand
+        if (argumentIndex == 0)
+            return generateArgumentCollection(input, "set", "add", "take");
+
+        // Amount
+        if (argumentIndex == 2)
+            return generateArgumentCollection(input, "10", "25", "50", "100", "1000", "5000", "9999", "75000");
+
+        return super.determineSuggestions(argumentIndex, input);
     }
 
     @Override
