@@ -16,6 +16,7 @@ import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.base.CustomItemBlueprint;
+import xyz.devvydont.smprpg.items.interfaces.Sellable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
 
@@ -23,7 +24,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-public class DeathCertificate extends CustomItemBlueprint implements Listener {
+public class DeathCertificate extends CustomItemBlueprint implements Listener, Sellable {
 
     private NamespacedKey locationKey;
     private NamespacedKey playerKey;
@@ -122,5 +123,15 @@ public class DeathCertificate extends CustomItemBlueprint implements Listener {
         updateMeta(paper);
 
         event.getPlayer().getInventory().addItem(paper);
+    }
+
+    @Override
+    public int getWorth() {
+        return 1;
+    }
+
+    @Override
+    public int getWorth(ItemMeta meta) {
+        return 1;
     }
 }

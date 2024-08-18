@@ -40,7 +40,7 @@ public class EnchantedMilkBucket extends ChargedItemBlueprint implements Listene
 
     @Override
     public int maxCharges(ItemMeta meta) {
-        return 64;
+        return 32;
     }
 
     @Override

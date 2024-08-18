@@ -42,6 +42,7 @@ public class VanillaResource extends VanillaItemBlueprint implements Sellable {
         materialWorthMap.put(Material.RED_SAND, 1);
         materialWorthMap.put(Material.RED_SANDSTONE, 1);
         materialWorthMap.put(Material.DIRT, 1);
+        materialWorthMap.put(Material.GRAVEL, 1);
         materialWorthMap.put(Material.OBSIDIAN, 30);
         materialWorthMap.put(Material.CRYING_OBSIDIAN, 40);
 
@@ -145,6 +146,7 @@ public class VanillaResource extends VanillaItemBlueprint implements Sellable {
         // Materials from mobs.
         materialWorthMap.put(Material.ROTTEN_FLESH, 6);
         materialWorthMap.put(Material.BONE, 6);
+        materialWorthMap.put(Material.ARROW, 7);
         materialWorthMap.put(Material.STRING, 8);
         materialWorthMap.put(Material.SPIDER_EYE, 4);
         materialWorthMap.put(Material.PHANTOM_MEMBRANE, 35);
@@ -160,10 +162,19 @@ public class VanillaResource extends VanillaItemBlueprint implements Sellable {
         materialWorthMap.put(Material.SHULKER_SHELL, 290);
 
         // Materials from farming.
-        materialWorthMap.put(Material.WHEAT_SEEDS, 1);
-        materialWorthMap.put(Material.MELON_SEEDS, 1);
-        materialWorthMap.put(Material.PUMPKIN_SEEDS, 1);
-        materialWorthMap.put(Material.BEETROOT_SEEDS, 1);
+        materialWorthMap.put(Material.WHEAT_SEEDS, 2);
+        materialWorthMap.put(Material.MELON_SEEDS, 2);
+        materialWorthMap.put(Material.PUMPKIN_SEEDS, 2);
+        materialWorthMap.put(Material.BEETROOT_SEEDS, 2);
+        materialWorthMap.put(Material.COCOA_BEANS, 2);
+        materialWorthMap.put(Material.ACACIA_SAPLING, 2);
+        materialWorthMap.put(Material.BAMBOO_SAPLING, 2);
+        materialWorthMap.put(Material.BIRCH_SAPLING, 2);
+        materialWorthMap.put(Material.OAK_SAPLING, 2);
+        materialWorthMap.put(Material.SPRUCE_SAPLING, 2);
+        materialWorthMap.put(Material.CHERRY_SAPLING, 2);
+        materialWorthMap.put(Material.JUNGLE_SAPLING, 2);
+        materialWorthMap.put(Material.COOKIE, 15);
 
         materialWorthMap.put(Material.WHEAT, 3);
         materialWorthMap.put(Material.BREAD, 7);
