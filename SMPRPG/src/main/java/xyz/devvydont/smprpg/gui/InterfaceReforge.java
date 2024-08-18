@@ -16,6 +16,7 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
+import xyz.devvydont.smprpg.entity.LeveledPlayer;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.ItemRarity;
 import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
@@ -185,6 +186,8 @@ public class InterfaceReforge extends PrivateInterface {
         if (success) {
             newReforge.apply(item);
             spendMoney(cost);
+            LeveledPlayer player = SMPRPG.getInstance().getEntityService().getPlayerInstance(owner);
+            player.getMagicSkill().addExperience((blueprint.getRarity(item).ordinal()+1) * attributeable.getPowerRating() / 10);
         }
 
         Location soundOrigin = owner.getLocation().add(owner.getLocation().getDirection().normalize().multiply(2));
