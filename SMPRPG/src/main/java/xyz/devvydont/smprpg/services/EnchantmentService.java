@@ -178,8 +178,15 @@ public class EnchantmentService implements BaseService, Listener {
         // Debug print out the level unlocks of all the enchants
         List<CustomEnchantment> sortedByUnlock = new ArrayList<>(enchantments.values());
         sortedByUnlock.sort(Comparator.comparingInt(CustomEnchantment::getSkillRequirement));
-        for (CustomEnchantment e : sortedByUnlock)
-            SMPRPG.getInstance().getLogger().fine(PlainTextComponentSerializer.plainText().serialize(e.getDisplayName()) + ": " + e.getSkillRequirement());
+        StringBuilder sb = new StringBuilder();
+        sb.append("\n");
+        for (CustomEnchantment e : sortedByUnlock) {
+            sb.append("**" + PlainTextComponentSerializer.plainText().serialize(e.getDisplayName()) + "** (Magic Requirement: " + e.getSkillRequirement() + " Enchantment Range: 1->" + e.getMaxLevel() + "):");
+            sb.append("\n");
+            sb.append(PlainTextComponentSerializer.plainText().serialize(e.build(1).getDescription()) + "\n" + PlainTextComponentSerializer.plainText().serialize(e.build(e.getMaxLevel()).getDescription()));
+            sb.append("\n\n");
+        }
+        SMPRPG.getInstance().getLogger().fine(sb.toString());
 
         return true;
     }
