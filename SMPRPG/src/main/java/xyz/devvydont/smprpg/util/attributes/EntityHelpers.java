@@ -15,8 +15,6 @@ public class EntityHelpers {
         return switch (entityType) {
 
             case WARDEN -> 99;
-            case PIGLIN_BRUTE -> 80;
-            case PIGLIN -> 75;
 
             case BREEZE -> 65;
             case BOGGED -> 65;
@@ -28,13 +26,16 @@ public class EntityHelpers {
             case ENDERMAN -> 40;
             case SILVERFISH -> 30;
 
-            case BLAZE -> 30;
-            case WITHER_SKELETON -> 30;
-            case MAGMA_CUBE -> 25;
+            case PIGLIN_BRUTE -> 45;
+
+            case PIGLIN -> 30;
+            case BLAZE -> 35;
+            case WITHER_SKELETON -> 35;
+            case MAGMA_CUBE -> 30;
             case ZOMBIFIED_PIGLIN -> 25;
             case STRIDER -> 30;
             case GHAST -> 25;
-            case HOGLIN -> 25;
+            case HOGLIN -> 30;
             case ZOGLIN -> 25;
 
             case VEX -> 15;
