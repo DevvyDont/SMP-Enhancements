@@ -34,7 +34,8 @@ public class ActionBarService implements BaseService, Listener {
     public enum ActionBarSource {
         SKILL,
         STRUCTURE,
-        PACIFIST
+        PACIFIST,
+        MISC
     }
 
     private final SMPRPG plugin;

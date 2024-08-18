@@ -308,7 +308,7 @@ public abstract class SMPItemBlueprint {
             lore.addAll(getFooterComponent(meta));
 
         // Durability if the item has it
-        if (meta instanceof Damageable damageable && damageable.hasMaxDamage()) {
+        if (meta instanceof Damageable damageable && damageable.hasMaxDamage() && !meta.isUnbreakable() && !(this instanceof ChargedItemBlueprint)) {
             lore.add(Component.empty());
             lore.add(
                     ComponentUtil.getDefaultText("Durability: ")
