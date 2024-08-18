@@ -10,6 +10,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import xyz.devvydont.smprpg.SMPRPG;
+import xyz.devvydont.smprpg.entity.base.BossInstance;
 import xyz.devvydont.smprpg.entity.base.LeveledEntity;
 
 public class EnvironmentalDamageListener implements Listener {
@@ -63,6 +64,14 @@ public class EnvironmentalDamageListener implements Listener {
             return;
 
         LeveledEntity entity = plugin.getEntityService().getEntityInstance(event.getEntity());
+
+        // Bosses don't take env damage as long as it isn't explosive
+        boolean isExplosive = event.getCause().equals(EntityDamageEvent.DamageCause.BLOCK_EXPLOSION) || event.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_EXPLOSION);
+        if (entity instanceof BossInstance && !isExplosive) {
+            event.setCancelled(true);
+            return;
+        }
+
         event.setDamage(entity.getHalfHeartValue() * getEnvironmentalDamagePercentage(event.getCause()));
     }
 
