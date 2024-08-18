@@ -36,6 +36,13 @@ public class PolishedReforge extends ReforgeBase {
         return .02f;
     }
 
+
+    public static float getLuckBonus(ItemRarity rarity) {
+        if (rarity.ordinal() >= ItemRarity.EPIC.ordinal())
+            return .02f;
+        return .01f;
+    }
+
     @Override
     public Collection<AttributeEntry> getAttributeModifiersWithRarity(ItemRarity rarity) {
         return List.of(
@@ -44,7 +51,8 @@ public class PolishedReforge extends ReforgeBase {
                 new AdditiveAttributeEntry(AttributeWrapper.ARMOR, rarity.ordinal() >= ItemRarity.EPIC.ordinal() ? 3 : 2),
                 new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, getMovementSpeedBonus(rarity)),
                 new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, getMovementSpeedBonus(rarity)),
-                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, getStrengthBonus(rarity))
+                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, getStrengthBonus(rarity)),
+                new ScalarAttributeEntry(AttributeWrapper.LUCK, getLuckBonus(rarity))
         );
     }
 
