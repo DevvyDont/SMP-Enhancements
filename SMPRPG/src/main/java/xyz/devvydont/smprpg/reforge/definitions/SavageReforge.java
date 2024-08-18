@@ -37,8 +37,8 @@ public class SavageReforge extends ReforgeBase {
     @Override
     public List<Component> getDescription() {
         return List.of(
-                ComponentUtil.getDefaultText("Boosts damage at the"),
-                ComponentUtil.getDefaultText("expense of survivability")
+                ComponentUtil.getDefaultText("Boosts damage significantly at"),
+                ComponentUtil.getDefaultText("the expense of survivability")
         );
     }
 
