@@ -1014,5 +1014,28 @@ public class ItemService implements BaseService, Listener {
             event.setCancelled(true);
     }
 
+    /*
+     * We never want to allow players to cook custom items.
+     */
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void onSmelt(FurnaceSmeltEvent event) {
+
+        // Custom item? Make it so it never cooks
+        if (getBlueprint(event.getSource()).isCustom())
+            event.setCancelled(true);
+    }
+
+    /*
+     * We never want to allow players to cook custom items.
+     */
+    @EventHandler
+    public void onSmeltCustomItem(FurnaceStartSmeltEvent event) {
+
+        // Custom item? Make it so it never cooks
+        if (getBlueprint(event.getSource()).isCustom())
+            event.setTotalCookTime(999_999);
+
+    }
+
 
 }
