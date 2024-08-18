@@ -135,6 +135,7 @@ public final class SMPRPG extends JavaPlugin implements Listener {
         new DimensionPortalLockingListener(this);
         new TrialChamberFixListener(this);
         new PacifistDeathEffectListener(this);
+        new PvPListener();
 
         new StructureEntitySpawnListener(this);
         new LootListener(this);
