@@ -301,14 +301,14 @@ public class AttributeUtil {
         return sum;
     }
 
-    public static int calculateValue(int power, ItemRarity rarity) {
+    public static int calculateValue(int power, ItemRarity rarity, boolean isCraftable) {
         int rarityMultiplier = (int) Math.pow(rarity.ordinal()+1, 2);
         int powerMultiplier = (int) Math.pow(power, 2);
-        return powerMultiplier * rarityMultiplier;
+        return powerMultiplier * rarityMultiplier / (isCraftable ? 8 : 1);
     }
 
-    public static int calculateValue(int power, ItemRarity rarity, ItemMeta meta) {
-        return calculateValue(power, rarity);
+    public static int calculateValue(int power, ItemRarity rarity, ItemMeta meta, boolean isCraftable) {
+        return calculateValue(power, rarity, isCraftable);
     }
 
 }

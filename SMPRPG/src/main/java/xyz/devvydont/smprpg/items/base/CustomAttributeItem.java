@@ -8,6 +8,7 @@ import org.w3c.dom.Attr;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.attribute.AttributeModifierType;
 import xyz.devvydont.smprpg.items.interfaces.Attributeable;
+import xyz.devvydont.smprpg.items.interfaces.Craftable;
 import xyz.devvydont.smprpg.items.interfaces.Sellable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.attributes.AttributeUtil;
@@ -33,7 +34,7 @@ public abstract class CustomAttributeItem extends CustomItemBlueprint implements
 
     @Override
     public int getWorth() {
-        return AttributeUtil.calculateValue(getPowerRating(), getDefaultRarity());
+        return AttributeUtil.calculateValue(getPowerRating(), getDefaultRarity(), this instanceof Craftable);
     }
 
     @Override
