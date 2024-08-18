@@ -6,6 +6,7 @@ import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomArmorBlueprint;
+import xyz.devvydont.smprpg.items.interfaces.Craftable;
 import xyz.devvydont.smprpg.items.interfaces.Dyeable;
 import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
 import xyz.devvydont.smprpg.items.interfaces.Trimmable;
@@ -15,7 +16,7 @@ import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
 import java.util.Collection;
 import java.util.List;
 
-public abstract class NeptuneArmorSet extends CustomArmorBlueprint implements ToolBreakable, Dyeable, Trimmable {
+public abstract class NeptuneArmorSet extends CustomArmorBlueprint implements ToolBreakable, Dyeable, Trimmable, Craftable {
 
     public static final int POWER_LEVEL = 40;
     public static final int OXYGEN_BONUS = 20;
@@ -23,6 +24,11 @@ public abstract class NeptuneArmorSet extends CustomArmorBlueprint implements To
 
     public NeptuneArmorSet(ItemService itemService, CustomItemType type) {
         super(itemService, type);
+    }
+
+    @Override
+    public boolean wantNerfedSellPrice() {
+        return false;
     }
 
     @Override

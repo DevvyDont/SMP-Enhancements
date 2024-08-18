@@ -3,6 +3,8 @@ package xyz.devvydont.smprpg.items;
 import org.bukkit.Material;
 import xyz.devvydont.smprpg.items.base.CustomHeadBlueprint;
 import xyz.devvydont.smprpg.items.base.CustomItemBlueprint;
+import xyz.devvydont.smprpg.items.blueprints.boss.DiamondToolRod;
+import xyz.devvydont.smprpg.items.blueprints.boss.NeptunesConch;
 import xyz.devvydont.smprpg.items.blueprints.charms.LuckyCharm;
 import xyz.devvydont.smprpg.items.blueprints.charms.SpeedCharm;
 import xyz.devvydont.smprpg.items.blueprints.charms.StrengthCharm;
@@ -15,6 +17,7 @@ import xyz.devvydont.smprpg.items.blueprints.food.PotatoChip;
 import xyz.devvydont.smprpg.items.blueprints.food.StaleBread;
 import xyz.devvydont.smprpg.items.blueprints.misc.DeathCertificate;
 import xyz.devvydont.smprpg.items.blueprints.resources.EmptyBlueprint;
+import xyz.devvydont.smprpg.items.blueprints.resources.SellableResource;
 import xyz.devvydont.smprpg.items.blueprints.resources.crafting.DraconicCrystal;
 import xyz.devvydont.smprpg.items.blueprints.resources.mining.*;
 import xyz.devvydont.smprpg.items.blueprints.resources.mob.*;
@@ -248,6 +251,7 @@ public enum CustomItemType {
     NEPTUNE_LEGGINGS("Neptune Leggings",     Material.LEATHER_LEGGINGS,   ItemRarity.LEGENDARY, NeptuneLeggings.class),
     NEPTUNE_BOOTS("Neptune Boots",           Material.LEATHER_BOOTS,      ItemRarity.LEGENDARY, NeptuneBoots.class),
     NEPTUNE_TRIDENT("Neptune's Trident",     Material.TRIDENT,            ItemRarity.LEGENDARY, NeptuneTrident.class),
+    NEPTUNE_BOW("Neptune's Bow",             Material.BOW,                ItemRarity.LEGENDARY, NeptuneBow.class),
 
     // QUARTZ
     QUARTZ_HELMET("Quartz Helmet",         Material.IRON_HELMET,        ItemRarity.RARE, QuartzHelmet.class),
@@ -498,6 +502,14 @@ public enum CustomItemType {
     PREMIUM_SHULKER_SHELL("Premium Shulker Shell", Material.SHULKER_SHELL, ItemRarity.RARE, true, ShulkerFamilyBlueprint.class),
     ENCHANTED_SHULKER_SHELL("Enchanted Shulker Shell", Material.SHULKER_SHELL, ItemRarity.EPIC, true, ShulkerFamilyBlueprint.class),
 
+    // GUARDIAN
+    DIAMOND_TOOL_ROD("Diamond Tool Rod", Material.BREEZE_ROD, ItemRarity.UNCOMMON, DiamondToolRod.class),
+    NEPTUNES_CONCH("Neptune's Conch Shell", Material.NAUTILUS_SHELL, ItemRarity.EPIC, true, NeptunesConch.class),
+    PLUTO_FRAGMENT("Pluto Fragment", Material.PRISMARINE_SHARD, ItemRarity.RARE, true, 4000),
+    PLUTOS_ARTIFACT("Pluto's Artifact", "d919c3488fe9f4934429856fb43f860b8dab6096482e8632050810f44ef7cb17", ItemRarity.EPIC, PlutosArtifact.class),
+    JUPITER_CRYSTAL("Jupiter Crystal", Material.PRISMARINE_CRYSTALS, ItemRarity.RARE, true, 1000),
+    JUPITERS_ARTIFACT("Jupiter's Artifact", "e19e936ae7b42d666eed981c8f44cc7f1872b45f5d3faac38e34fa226800f3ef", ItemRarity.EPIC, JupiterArtifact.class),
+
     // DRAGON
     DRAGON_SCALES(   "Dragon Scales",    Material.PHANTOM_MEMBRANE, ItemRarity.RARE, true),
     DRACONIC_CRYSTAL("Draconic Crystal", "c145dd7e0a35db50c9a4bdc465ca1235356fc5dd470737d2a74ea99cc1525bdb", ItemRarity.EPIC, DraconicCrystal.class),
@@ -558,6 +570,7 @@ public enum CustomItemType {
     public final Material material;
     public final ItemRarity rarity;
     public final boolean glow;
+    public int defaultWorth = 0;
     public final Class<? extends CustomItemBlueprint> handler;
 
     public static final int MODEL_DATA_OFFSET = 0x849FFB;
@@ -634,6 +647,15 @@ public enum CustomItemType {
         this.rarity = rarity;
         this.glow = glow;
         this.handler = handler;
+    }
+
+    CustomItemType(String name, Material material, ItemRarity rarity, boolean glow, int defaultWorth) {
+        this.name = name;
+        this.material = material;
+        this.rarity = rarity;
+        this.glow = glow;
+        this.defaultWorth = defaultWorth;
+        this.handler = SellableResource.class;
     }
 
     public String getKey() {

@@ -32,9 +32,13 @@ public abstract class CustomAttributeItem extends CustomItemBlueprint implements
         super(itemService, type);
     }
 
+    public boolean wantNerfedSellPrice() {
+        return true;
+    }
+
     @Override
     public int getWorth() {
-        return AttributeUtil.calculateValue(getPowerRating(), getDefaultRarity(), this instanceof Craftable);
+        return AttributeUtil.calculateValue(getPowerRating(), getDefaultRarity(), this instanceof Craftable && wantNerfedSellPrice());
     }
 
     @Override

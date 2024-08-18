@@ -88,7 +88,7 @@ public class VanillaResource extends VanillaItemBlueprint implements Sellable {
         materialWorthMap.put(Material.PRISMARINE, 1);
         materialWorthMap.put(Material.PRISMARINE_BRICKS, 1);
         materialWorthMap.put(Material.DARK_PRISMARINE, 1);
-        materialWorthMap.put(Material.PRISMARINE_CRYSTALS, 3);
+        materialWorthMap.put(Material.PRISMARINE_CRYSTALS, 15);
 
         // Materials from mining. These are used for gear sets so make sure they don't generate infinite money glitch
         materialWorthMap.put(Material.COAL, 10);
@@ -150,7 +150,7 @@ public class VanillaResource extends VanillaItemBlueprint implements Sellable {
         materialWorthMap.put(Material.PHANTOM_MEMBRANE, 35);
         materialWorthMap.put(Material.GUNPOWDER, 9);
         materialWorthMap.put(Material.SLIME_BALL, 12);
-        materialWorthMap.put(Material.PRISMARINE_SHARD, 14);
+        materialWorthMap.put(Material.PRISMARINE_SHARD, 15);
         materialWorthMap.put(Material.NAUTILUS_SHELL, 100);
         materialWorthMap.put(Material.ECHO_SHARD, 250);
         materialWorthMap.put(Material.BLAZE_ROD, 25);

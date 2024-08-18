@@ -121,7 +121,7 @@ public class FoodUtil {
         };
     }
 
-    private record FoodEffectWrapper (PotionEffect effect, float probability){ }
+    public record FoodEffectWrapper (PotionEffect effect, float probability){ }
 
     public static List<FoodEffectWrapper> getVanillaFoodEffects(Material material) {
 
