@@ -310,4 +310,23 @@ public class DamageOverrideListener implements Listener {
         event.setDamage(Math.sqrt(event.getFinalDamage()));
     }
 
+    /*
+     * It is annoying that baby enemies deal the same damage as normal ones since they are annoying to hit.
+     * Apply an -80% damage reduction if an entity is a baby.
+     */
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onBabyEntityDealtDamage(EntityDamageByEntityEvent event) {
+
+        // Only look for entities that can be a baby
+        if (!(event.getDamager() instanceof Ageable ageable))
+            return;
+
+        // Only look for babies
+        if (ageable.isAdult())
+            return;
+
+        // Apply damage debuff
+        event.setDamage(event.getFinalDamage() * .2);
+    }
+
 }
