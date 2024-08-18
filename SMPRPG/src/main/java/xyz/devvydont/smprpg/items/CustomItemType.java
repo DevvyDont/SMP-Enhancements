@@ -41,6 +41,10 @@ import xyz.devvydont.smprpg.items.blueprints.sets.elderflame.ElderflameBoots;
 import xyz.devvydont.smprpg.items.blueprints.sets.elderflame.ElderflameChestplate;
 import xyz.devvydont.smprpg.items.blueprints.sets.elderflame.ElderflameHelmet;
 import xyz.devvydont.smprpg.items.blueprints.sets.elderflame.ElderflameLeggings;
+import xyz.devvydont.smprpg.items.blueprints.sets.emberclad.EmbercladBoots;
+import xyz.devvydont.smprpg.items.blueprints.sets.emberclad.EmbercladChestplate;
+import xyz.devvydont.smprpg.items.blueprints.sets.emberclad.EmbercladHelmet;
+import xyz.devvydont.smprpg.items.blueprints.sets.emberclad.EmbercladLeggings;
 import xyz.devvydont.smprpg.items.blueprints.sets.emerald.EmeraldBoots;
 import xyz.devvydont.smprpg.items.blueprints.sets.emerald.EmeraldChestplate;
 import xyz.devvydont.smprpg.items.blueprints.sets.emerald.EmeraldHelmet;
@@ -256,6 +260,12 @@ public enum CustomItemType {
     RADIANT_CHESTPLATE("Radiant Chestplate", Material.IRON_CHESTPLATE,  ItemRarity.RARE, RadiantChestplate.class),
     RADIANT_LEGGINGS(  "Radiant Leggings",   Material.IRON_LEGGINGS,    ItemRarity.RARE, RadiantLeggings.class),
     RADIANT_BOOTS(     "Radiant Boots",      Material.IRON_BOOTS,       ItemRarity.RARE, RadiantBoots.class),
+
+    // EMBERCLAD
+    EMBERCLAD_HELMET(    "Emberclad Helmet",     Material.GOLDEN_HELMET, ItemRarity.RARE, EmbercladHelmet.class),
+    EMBERCLAD_CHESTPLATE("Emberclad Chestplate", Material.GOLDEN_CHESTPLATE, ItemRarity.RARE, EmbercladChestplate.class),
+    EMBERCLAD_LEGGINGS(  "Emberclad Leggings",   Material.GOLDEN_LEGGINGS, ItemRarity.RARE, EmbercladLeggings.class),
+    EMBERCLAD_BOOTS(     "Emberclad Boots",      Material.GOLDEN_BOOTS, ItemRarity.RARE, EmbercladBoots.class),
 
     // INFERNO
     INFERNO_HELMET("Inferno Helmet",         Material.GOLDEN_HELMET,     ItemRarity.EPIC, InfernoHelmet.class),
