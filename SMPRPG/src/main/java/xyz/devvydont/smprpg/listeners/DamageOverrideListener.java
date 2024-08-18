@@ -303,7 +303,7 @@ public class DamageOverrideListener implements Listener {
 
         // Is the player on cooldown? Don't do anything if they are dealing a full damage hit.
         // If the player was *close enough* then allow vanilla Minecraft's damage rules for damage reduction.
-        if (cooldown >= 0.9f)
+        if (cooldown >= 0.5f)
             return;
 
         // This player was well below the threshold for us to consider dealing full damage, apply some math to reduce it.
