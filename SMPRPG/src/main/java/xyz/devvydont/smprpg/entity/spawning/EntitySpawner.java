@@ -22,6 +22,7 @@ import xyz.devvydont.smprpg.entity.base.LeveledEntity;
 import xyz.devvydont.smprpg.util.persistence.PersistentSpawnerOptionsDatatype;
 
 import java.util.*;
+import java.util.logging.Level;
 
 public class EntitySpawner extends CustomEntityInstance implements Listener {
 
@@ -157,6 +158,21 @@ public class EntitySpawner extends CustomEntityInstance implements Listener {
             display.setInterpolationDelay(0);
             display.setInterpolationDuration(UPDATE_PERIOD);
             entity.getWorld().spawnParticle(Particle.END_ROD, entity.getX(), entity.getY(), entity.getZ(), 5, .2, .1, .2, 0);
+
+            for (LeveledEntity tracked : spawned.values().stream().toList()) {
+
+                if (!tracked.getEntity().isValid()) {
+                    spawned.remove(tracked.getEntity().getUniqueId());
+                    continue;
+                }
+
+                if (tracked.getEntity().getTicksLived() > 600 * 20) {
+                    tracked.getEntity().remove();
+                    spawned.remove(tracked.getEntity().getUniqueId());
+                }
+
+            }
+
 
             if (tick % 5 == 0) {
                 attemptSpawnMob();
