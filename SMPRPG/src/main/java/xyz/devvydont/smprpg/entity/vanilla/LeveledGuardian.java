@@ -20,8 +20,15 @@ public class LeveledGuardian extends VanillaEntity {
     }
 
     @Override
+    public double calculateBaseHealthMultiplier() {
+        return .6;
+    }
+
+    @Override
     public @Nullable Collection<LootDrop> getItemDrops() {
         return List.of(
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.SOGGY_LETTUCE), 2, this),
+
                 new QuantityLootDrop(plugin.getItemService().getCustomItem(Material.PRISMARINE_SHARD), 1, 3, this),
                 new QuantityLootDrop(plugin.getItemService().getCustomItem(Material.PRISMARINE_CRYSTALS), 1, 3, this),
                 new ChancedItemDrop(plugin.getItemService().getCustomItem(Material.DIAMOND), 10, this),
@@ -34,7 +41,7 @@ public class LeveledGuardian extends VanillaEntity {
                 new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.ENCHANTED_PRISMARINE_CRYSTAL), 110, this),
                 new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.ENCHANTED_DIAMOND_BLOCK), 15000, this),
 
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.NEPTUNES_CONCH), 75, this),
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.NEPTUNES_CONCH), 60, this),
 
                 // Extremely rare pity drops
                 new ChancedItemDrop(SMPRPG.getInstance().getItemService().getCustomItem(CustomItemType.NEPTUNE_HELMET), 200_000, this),

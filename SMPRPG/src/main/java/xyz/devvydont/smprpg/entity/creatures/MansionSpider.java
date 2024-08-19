@@ -22,6 +22,7 @@ public class MansionSpider extends CustomEntityInstance {
     @Override
     public @Nullable Collection<LootDrop> getItemDrops() {
         return List.of(
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.COTTON_CANDY), 2, this),
                 new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.ARAXYS_HELMET), 750, this),
                 new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.ARAXYS_CHESTPLATE), 750, this),
                 new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.ARAXYS_LEGGINGS), 750, this),

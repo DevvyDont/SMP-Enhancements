@@ -14,7 +14,9 @@ import xyz.devvydont.smprpg.items.blueprints.debug.SpiderRepellentBlueprint;
 import xyz.devvydont.smprpg.items.blueprints.economy.CustomItemCoin;
 import xyz.devvydont.smprpg.items.blueprints.equipment.EnchantedMilkBucket;
 import xyz.devvydont.smprpg.items.blueprints.equipment.GrapplingHook;
+import xyz.devvydont.smprpg.items.blueprints.food.CottonCandy;
 import xyz.devvydont.smprpg.items.blueprints.food.PotatoChip;
+import xyz.devvydont.smprpg.items.blueprints.food.SoggyLettuce;
 import xyz.devvydont.smprpg.items.blueprints.food.StaleBread;
 import xyz.devvydont.smprpg.items.blueprints.misc.DeathCertificate;
 import xyz.devvydont.smprpg.items.blueprints.resources.EmptyBlueprint;
@@ -123,6 +125,7 @@ import xyz.devvydont.smprpg.items.blueprints.sets.snowfall.SnowfallChestplate;
 import xyz.devvydont.smprpg.items.blueprints.sets.snowfall.SnowfallHelmet;
 import xyz.devvydont.smprpg.items.blueprints.sets.snowfall.SnowfallLeggings;
 import xyz.devvydont.smprpg.items.blueprints.sets.special.SpaceHelmet;
+import xyz.devvydont.smprpg.items.blueprints.sets.special.SquidHelmet;
 import xyz.devvydont.smprpg.items.blueprints.sets.undead.UndeadBoots;
 import xyz.devvydont.smprpg.items.blueprints.sets.undead.UndeadChestplate;
 import xyz.devvydont.smprpg.items.blueprints.sets.undead.UndeadHelmet;
@@ -345,11 +348,14 @@ public enum CustomItemType {
     EXILED_AXE("Exiled Axe", Material.IRON_AXE, ItemRarity.EPIC,  ExiledAxe.class),
 
     // MISC TOOLS
+    SQUID_HELMET("Squid Helmet", "464bdc6f600656511bef596c1a16aab1d3f5dbaae8bee19d5c04de0db21ce92c", ItemRarity.RARE, SquidHelmet.class),
     GRAPPLING_HOOK("Grappling Hook", Material.FISHING_ROD, ItemRarity.RARE, GrapplingHook.class),
 
     // FOOD
     STALE_BREAD("Stale Bread", Material.BREAD, ItemRarity.COMMON, StaleBread.class),
     POTATO_CHIP("Potato Chips", Material.RAW_GOLD, ItemRarity.COMMON, PotatoChip.class),
+    COTTON_CANDY("Cotton Candy", Material.PINK_DYE, ItemRarity.COMMON, CottonCandy.class),
+    SOGGY_LETTUCE("Soggy Lettuce", Material.GREEN_DYE, ItemRarity.COMMON, SoggyLettuce.class),
 
     // COMPRESSED MINING MATERIALS
 
@@ -462,6 +468,10 @@ public enum CustomItemType {
     // MEMBRANES
     PREMIUM_MEMBRANE("Premium Membrane", Material.PHANTOM_MEMBRANE, ItemRarity.UNCOMMON, true, PhantomMembraneFamilyBlueprint.class),
     ENCHANTED_MEMBRANE("Enchanted Membrane", Material.PHANTOM_MEMBRANE, ItemRarity.RARE, true, PhantomMembraneFamilyBlueprint.class),
+
+    // INK SAC
+    PREMIUM_INK_SAC("Premium Ink Sac", Material.INK_SAC, ItemRarity.UNCOMMON, true, InkSacFamilyBlueprint.class),
+    ENCHANTED_INK_SAC("Enchanted Ink Sac", Material.INK_SAC, ItemRarity.RARE, true, InkSacFamilyBlueprint.class),
 
     // PRISMARINE SHARD
     PREMIUM_PRISMARINE_SHARD("Premium Prismarine Shard", Material.PRISMARINE_SHARD, ItemRarity.UNCOMMON, true, PrismarineShardFamilyBlueprint.class),
