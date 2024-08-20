@@ -58,7 +58,8 @@ public abstract class LeveledEntity implements LootSource {
         return switch (entity) {
             case Boss boss -> NamedTextColor.DARK_PURPLE;
             case Enemy enemy -> NamedTextColor.RED;
-            case Tameable tameable when tameable.isTamed() -> NamedTextColor.GREEN;
+            case Tameable tameable when tameable.isTamed() -> NamedTextColor.AQUA;
+            case Animals animals -> NamedTextColor.DARK_GREEN;
             case null, default -> NamedTextColor.WHITE;
         };
     }
@@ -92,15 +93,15 @@ public abstract class LeveledEntity implements LootSource {
     public Component getHealthNametagComponent() {
 
         int hp;
-        if (getHp() <= 0)
+        if (getTotalHp() <= 0)
             hp = 0;
-        else if (getHp() > 0 && getHp() < 1)
+        else if (getTotalHp() > 0 && getTotalHp() < 1)
             hp = 1;
         else
-            hp = (int)getHp();
+            hp = (int) getTotalHp();
         int maxHp = (int)Math.round(getMaxHp());
 
-        TextColor hpTextColor = getChatColorFromHealth(getHp(), getMaxHp());
+        TextColor hpTextColor = getChatColorFromHealth(getTotalHp(), getMaxHp());
 
         return Component.text(" " + MinecraftStringUtils.formatNumber(hp)).color(hpTextColor)
                 .append(Component.text("/").color(NamedTextColor.GRAY))
@@ -146,6 +147,12 @@ public abstract class LeveledEntity implements LootSource {
     }
 
     public double getHp() {
+        if (entity instanceof LivingEntity living)
+            return living.getHealth();
+        return 0;
+    }
+
+    public double getTotalHp() {
         if (entity instanceof LivingEntity living)
             return living.getHealth() + getAbsorptionHealth();
         return 0;
@@ -293,22 +300,41 @@ public abstract class LeveledEntity implements LootSource {
         living.setHealth(getMaxHp() * Math.max(0, Math.min(1.0, percentage)));
     }
 
+    /**
+     * How much should we multiply the combat experience for this enemy by?
+     *
+     * @return
+     */
     public double getCombatExperienceMultiplier() {
 
         if (entity instanceof Boss)
-            return 100;
+            return 75;
 
         else if (entity instanceof Animals)
-            return 1;
+            return .8;
 
         else if (entity instanceof Creature)
-            return 7;
+            return 3;
 
         return 0;
     }
 
+    /**
+     * How much combat experience should be awarded for killing this entity?
+     *
+     * @return
+     */
     public int getCombatExperienceDropped() {
         return (int) (getLevel() * getCombatExperienceMultiplier());
+    }
+
+    /**
+     * How much experience should we drop as vanilla experience orbs?
+     *
+     * @return
+     */
+    public int getMinecraftExperienceDropped() {
+        return getLevel();
     }
 
     /**
