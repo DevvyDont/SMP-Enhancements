@@ -1,6 +1,7 @@
 package xyz.devvydont.smprpg.items.blueprints.resources.mining;
 
 import org.bukkit.Material;
+import org.bukkit.inventory.meta.ItemMeta;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.base.CustomCompressableBlueprint;
 import xyz.devvydont.smprpg.services.ItemService;
@@ -27,5 +28,12 @@ public class NetheriteFamilyBlueprint extends CustomCompressableBlueprint {
     @Override
     public List<CompressionRecipeMember> getCompressionFlow() {
         return COMPRESSION_FLOW;
+    }
+
+    @Override
+    public void updateMeta(ItemMeta meta) {
+        super.updateMeta(meta);
+        meta.setFireResistant(true);
+        updateLore(meta);
     }
 }

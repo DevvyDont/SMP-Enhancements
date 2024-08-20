@@ -41,6 +41,16 @@ public enum CustomEntityType {
             new EntitySpawnCondition[]{new StructureSpawnCondition(Structure.MANSION)}, 35,
             WoodlandExile.class),
 
+    PALACE_THUG(EntityType.WITHER_SKELETON, "Palace Thug",
+            35, 7_500, 920,
+            new EntitySpawnCondition[]{new StructureSpawnCondition(Structure.FORTRESS)}, 10,
+            PalaceThug.class),
+
+    FIERY_SYLPH(EntityType.BLAZE, "Fiery Sylph",
+            35, 7_000, 1000,
+            new EntitySpawnCondition[]{new StructureSpawnCondition(Structure.FORTRESS)}, 10,
+            FierySylph.class),
+
     // Wither skeletons that spawn on the end island
     WITHERED_SERAPH(EntityType.WITHER_SKELETON, "Withered Seraph",
             45, 16_000, 1800,
@@ -202,6 +212,8 @@ public enum CustomEntityType {
             case MANSION_SPIDER -> Material.STRING;
             case WOODLAND_EXILE -> Material.CROSSBOW;
             case WOODLAND_BERSERKER -> Material.IRON_AXE;
+            case FIERY_SYLPH -> Material.BLAZE_ROD;
+            case PALACE_THUG -> Material.DIAMOND_BLOCK;
             default -> Material.SKELETON_SKULL;
         };
     }

@@ -1,5 +1,15 @@
 package xyz.devvydont.smprpg.items.blueprints.sets.reaver;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
@@ -8,22 +18,41 @@ import xyz.devvydont.smprpg.items.base.CustomFakeHelmetBlueprint;
 import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
+import xyz.devvydont.smprpg.util.items.AbilityUtil;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class ReaverHelmet extends CustomFakeHelmetBlueprint implements ToolBreakable {
+public class ReaverHelmet extends CustomFakeHelmetBlueprint implements ToolBreakable, Listener {
 
     public ReaverHelmet(ItemService itemService, CustomItemType type) {
         super(itemService, type);
     }
 
     @Override
+    public void updateMeta(ItemMeta meta) {
+        super.updateMeta(meta);
+        meta.setFireResistant(true);
+        updateLore(meta);
+    }
+
+    @Override
+    public List<Component> getDescriptionComponent(ItemMeta meta) {
+        List<Component> components = new ArrayList<>(super.getDescriptionComponent(meta));
+        components.add(Component.empty());
+        components.add(AbilityUtil.getAbilityComponent("Necrotic (Passive)"));
+        components.add(ComponentUtil.getDefaultText("Resists ").append(ComponentUtil.getColoredComponent("-" + ReaverArmorSet.WITHER_RESIST + "%", NamedTextColor.GREEN)).append(ComponentUtil.getDefaultText(" of wither damage")));
+        return components;
+    }
+
+    @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 165),
-                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 120),
-                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .2)
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 150),
+                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 80),
+                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .25)
         );
     }
 
@@ -35,5 +64,26 @@ public class ReaverHelmet extends CustomFakeHelmetBlueprint implements ToolBreak
     @Override
     public int getMaxDurability() {
         return ReaverArmorSet.DURABILITY;
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onTakeWitherDamageWhileWearing(EntityDamageEvent event) {
+
+        // Only listen to wither damage
+        if (!event.getCause().equals(EntityDamageEvent.DamageCause.WITHER))
+            return;
+
+        // Check if we are wearing the set
+        if (!(event.getEntity() instanceof Player player))
+            return;
+
+        // Loop through all armor pieces, if its either null, air, or not the type of this item we do not care
+        ItemStack item = player.getInventory().getHelmet();
+        if (item == null || item.getType().equals(Material.AIR) || !isItemOfType(item))
+            return;
+
+        // We are wearing the armor, decrease the damage
+        double multiplier = 1 - (ReaverArmorSet.WITHER_RESIST / 100.0);
+        event.setDamage(event.getFinalDamage() * multiplier);
     }
 }

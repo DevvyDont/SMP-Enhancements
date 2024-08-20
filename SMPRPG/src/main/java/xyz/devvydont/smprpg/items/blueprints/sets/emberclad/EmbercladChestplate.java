@@ -25,7 +25,8 @@ public class EmbercladChestplate extends EmbercladArmorSet {
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 210),
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 100),
-                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .2)
+                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .2),
+                new ScalarAttributeEntry(AttributeWrapper.BURNING_TIME, -.25)
         );
     }
 

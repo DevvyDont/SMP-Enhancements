@@ -1,6 +1,7 @@
 package xyz.devvydont.smprpg.items.blueprints.sets.emberclad;
 
 import org.bukkit.inventory.EquipmentSlotGroup;
+import org.bukkit.inventory.meta.ItemMeta;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
@@ -20,6 +21,13 @@ public class EmbercladAxe extends CustomAttributeItem implements ToolBreakable {
 
     public EmbercladAxe(ItemService itemService, CustomItemType type) {
         super(itemService, type);
+    }
+
+    @Override
+    public void updateMeta(ItemMeta meta) {
+        super.updateMeta(meta);
+        meta.setFireResistant(true);
+        updateLore(meta);
     }
 
     @Override

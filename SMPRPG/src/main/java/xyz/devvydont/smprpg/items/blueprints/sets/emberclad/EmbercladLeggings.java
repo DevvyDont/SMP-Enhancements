@@ -24,7 +24,8 @@ public class EmbercladLeggings extends EmbercladArmorSet {
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 180),
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 90),
-                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .15)
+                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .15),
+                new ScalarAttributeEntry(AttributeWrapper.BURNING_TIME, -.25)
         );
     }
 

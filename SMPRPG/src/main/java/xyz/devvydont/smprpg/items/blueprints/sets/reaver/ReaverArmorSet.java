@@ -1,5 +1,15 @@
 package xyz.devvydont.smprpg.items.blueprints.sets.reaver;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
@@ -9,17 +19,31 @@ import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
 import xyz.devvydont.smprpg.items.interfaces.Trimmable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
+import xyz.devvydont.smprpg.util.items.AbilityUtil;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public abstract class ReaverArmorSet extends CustomArmorBlueprint implements ToolBreakable, Trimmable {
+public abstract class ReaverArmorSet extends CustomArmorBlueprint implements ToolBreakable, Trimmable, Listener {
 
-    public static final int POWER = 45;
-    public static final int DURABILITY = 20_000;
+    public static final int POWER = 40;
+    public static final int DURABILITY = 70_000;
+
+    public static final int WITHER_RESIST = 20;
 
     public ReaverArmorSet(ItemService itemService, CustomItemType type) {
         super(itemService, type);
+    }
+
+    @Override
+    public List<Component> getDescriptionComponent(ItemMeta meta) {
+        List<Component> components = new ArrayList<>(super.getDescriptionComponent(meta));
+        components.add(Component.empty());
+        components.add(AbilityUtil.getAbilityComponent("Necrotic (Passive)"));
+        components.add(ComponentUtil.getDefaultText("Resists ").append(ComponentUtil.getColoredComponent("-" + WITHER_RESIST + "%", NamedTextColor.GREEN)).append(ComponentUtil.getDefaultText(" of wither damage")));
+        return components;
     }
 
     @Override
@@ -27,7 +51,8 @@ public abstract class ReaverArmorSet extends CustomArmorBlueprint implements Too
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, getDefense()),
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, getHealth()),
-                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, getStrength())
+                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, getStrength()),
+                new AdditiveAttributeEntry(AttributeWrapper.KNOCKBACK_RESISTANCE, .2)
         );
     }
 
@@ -45,5 +70,33 @@ public abstract class ReaverArmorSet extends CustomArmorBlueprint implements Too
     @Override
     public int getMaxDurability() {
         return DURABILITY;
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onTakeWitherDamageWhileWearing(EntityDamageEvent event) {
+
+        // Only listen to wither damage
+        if (!event.getCause().equals(EntityDamageEvent.DamageCause.WITHER))
+            return;
+
+        // Check if we are wearing the set
+        if (!(event.getEntity() instanceof Player player))
+            return;
+
+        // Loop through all armor pieces, if its either null, air, or not the type of this item we do not care
+        for (ItemStack item : player.getInventory().getArmorContents())
+            if (item == null || item.getType().equals(Material.AIR) || !isItemOfType(item))
+                return;
+
+        // We are wearing the armor, decrease the damage
+        double multiplier = 1 - (WITHER_RESIST/100.0);
+        event.setDamage(event.getFinalDamage() * multiplier);
+    }
+
+    @Override
+    public void updateMeta(ItemMeta meta) {
+        super.updateMeta(meta);
+        meta.setFireResistant(true);
+        updateLore(meta);
     }
 }

@@ -24,7 +24,8 @@ public class EmbercladBoots extends EmbercladArmorSet {
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 100),
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 50),
-                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .12)
+                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .12),
+                new ScalarAttributeEntry(AttributeWrapper.BURNING_TIME, -.25)
         );
     }
 

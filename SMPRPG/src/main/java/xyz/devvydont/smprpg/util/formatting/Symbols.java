@@ -17,4 +17,5 @@ public class Symbols {
     public static final String RIGHT_ARROW = "➔";
     public static final String POINT = "⏵";
 
+    public static final String FIRE = "♨";
 }

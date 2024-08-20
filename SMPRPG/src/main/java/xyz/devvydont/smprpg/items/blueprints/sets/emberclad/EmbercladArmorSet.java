@@ -3,6 +3,7 @@ package xyz.devvydont.smprpg.items.blueprints.sets.emberclad;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.trim.TrimMaterial;
 import org.bukkit.inventory.meta.trim.TrimPattern;
 import xyz.devvydont.smprpg.SMPRPG;
@@ -23,6 +24,13 @@ public abstract class EmbercladArmorSet extends CustomArmorBlueprint implements 
 
     public EmbercladArmorSet(ItemService itemService, CustomItemType type) {
         super(itemService, type);
+    }
+
+    @Override
+    public void updateMeta(ItemMeta meta) {
+        super.updateMeta(meta);
+        meta.setFireResistant(true);
+        updateLore(meta);
     }
 
     @Override

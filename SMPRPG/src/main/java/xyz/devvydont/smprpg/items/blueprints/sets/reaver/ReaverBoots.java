@@ -16,17 +16,17 @@ public class ReaverBoots extends ReaverArmorSet implements Dyeable {
 
     @Override
     public int getDefense() {
-        return 125;
+        return 100;
     }
 
     @Override
     public int getHealth() {
-        return 90;
+        return 70;
     }
 
     @Override
     public double getStrength() {
-        return .2;
+        return .25;
     }
 
     @Override

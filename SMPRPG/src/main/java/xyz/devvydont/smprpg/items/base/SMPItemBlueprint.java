@@ -317,6 +317,10 @@ public abstract class SMPItemBlueprint {
             );
         }
 
+        // Fire resistance?
+        if (meta.isFireResistant())
+            lore.add(ComponentUtil.getColoredComponent(Symbols.FIRE + "Fire Resistant", NamedTextColor.GOLD));
+
         // Now, value and rarity
         lore.add(Component.empty());
         if (this instanceof Sellable sellable) {
@@ -353,6 +357,10 @@ public abstract class SMPItemBlueprint {
 
         if (this instanceof Edible edible)
             meta.setFood(edible.getFoodComponent());
+
+        // Set all items to burn in fire by default if this item is custom.
+        if (isCustom())
+            meta.setFireResistant(false);
 
         // Update the lore to display
         updateLore(meta);

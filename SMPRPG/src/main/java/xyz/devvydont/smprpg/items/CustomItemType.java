@@ -4,6 +4,7 @@ import org.bukkit.Material;
 import xyz.devvydont.smprpg.items.base.CustomHeadBlueprint;
 import xyz.devvydont.smprpg.items.base.CustomItemBlueprint;
 import xyz.devvydont.smprpg.items.blueprints.boss.DiamondToolRod;
+import xyz.devvydont.smprpg.items.blueprints.boss.InfernoArrow;
 import xyz.devvydont.smprpg.items.blueprints.boss.NeptunesConch;
 import xyz.devvydont.smprpg.items.blueprints.charms.LuckyCharm;
 import xyz.devvydont.smprpg.items.blueprints.charms.SpeedCharm;
@@ -14,10 +15,7 @@ import xyz.devvydont.smprpg.items.blueprints.debug.SpiderRepellentBlueprint;
 import xyz.devvydont.smprpg.items.blueprints.economy.CustomItemCoin;
 import xyz.devvydont.smprpg.items.blueprints.equipment.EnchantedMilkBucket;
 import xyz.devvydont.smprpg.items.blueprints.equipment.GrapplingHook;
-import xyz.devvydont.smprpg.items.blueprints.food.CottonCandy;
-import xyz.devvydont.smprpg.items.blueprints.food.PotatoChip;
-import xyz.devvydont.smprpg.items.blueprints.food.SoggyLettuce;
-import xyz.devvydont.smprpg.items.blueprints.food.StaleBread;
+import xyz.devvydont.smprpg.items.blueprints.food.*;
 import xyz.devvydont.smprpg.items.blueprints.misc.DeathCertificate;
 import xyz.devvydont.smprpg.items.blueprints.resources.EmptyBlueprint;
 import xyz.devvydont.smprpg.items.blueprints.resources.SellableResource;
@@ -47,10 +45,7 @@ import xyz.devvydont.smprpg.items.blueprints.sets.elderflame.ElderflameBoots;
 import xyz.devvydont.smprpg.items.blueprints.sets.elderflame.ElderflameChestplate;
 import xyz.devvydont.smprpg.items.blueprints.sets.elderflame.ElderflameHelmet;
 import xyz.devvydont.smprpg.items.blueprints.sets.elderflame.ElderflameLeggings;
-import xyz.devvydont.smprpg.items.blueprints.sets.emberclad.EmbercladBoots;
-import xyz.devvydont.smprpg.items.blueprints.sets.emberclad.EmbercladChestplate;
-import xyz.devvydont.smprpg.items.blueprints.sets.emberclad.EmbercladHelmet;
-import xyz.devvydont.smprpg.items.blueprints.sets.emberclad.EmbercladLeggings;
+import xyz.devvydont.smprpg.items.blueprints.sets.emberclad.*;
 import xyz.devvydont.smprpg.items.blueprints.sets.emerald.EmeraldBoots;
 import xyz.devvydont.smprpg.items.blueprints.sets.emerald.EmeraldChestplate;
 import xyz.devvydont.smprpg.items.blueprints.sets.emerald.EmeraldHelmet;
@@ -96,10 +91,7 @@ import xyz.devvydont.smprpg.items.blueprints.sets.radiant.RadiantBoots;
 import xyz.devvydont.smprpg.items.blueprints.sets.radiant.RadiantChestplate;
 import xyz.devvydont.smprpg.items.blueprints.sets.radiant.RadiantHelmet;
 import xyz.devvydont.smprpg.items.blueprints.sets.radiant.RadiantLeggings;
-import xyz.devvydont.smprpg.items.blueprints.sets.reaver.ReaverBoots;
-import xyz.devvydont.smprpg.items.blueprints.sets.reaver.ReaverChestplate;
-import xyz.devvydont.smprpg.items.blueprints.sets.reaver.ReaverHelmet;
-import xyz.devvydont.smprpg.items.blueprints.sets.reaver.ReaverLeggings;
+import xyz.devvydont.smprpg.items.blueprints.sets.reaver.*;
 import xyz.devvydont.smprpg.items.blueprints.sets.redstone.RedstoneBoots;
 import xyz.devvydont.smprpg.items.blueprints.sets.redstone.RedstoneChestplate;
 import xyz.devvydont.smprpg.items.blueprints.sets.redstone.RedstoneHelmet;
@@ -124,6 +116,7 @@ import xyz.devvydont.smprpg.items.blueprints.sets.snowfall.SnowfallBoots;
 import xyz.devvydont.smprpg.items.blueprints.sets.snowfall.SnowfallChestplate;
 import xyz.devvydont.smprpg.items.blueprints.sets.snowfall.SnowfallHelmet;
 import xyz.devvydont.smprpg.items.blueprints.sets.snowfall.SnowfallLeggings;
+import xyz.devvydont.smprpg.items.blueprints.sets.special.MagmaHelmet;
 import xyz.devvydont.smprpg.items.blueprints.sets.special.SpaceHelmet;
 import xyz.devvydont.smprpg.items.blueprints.sets.special.SquidHelmet;
 import xyz.devvydont.smprpg.items.blueprints.sets.undead.UndeadBoots;
@@ -270,22 +263,28 @@ public enum CustomItemType {
     RADIANT_BOOTS(     "Radiant Boots",      Material.IRON_BOOTS,       ItemRarity.RARE, RadiantBoots.class),
 
     // EMBERCLAD
-    EMBERCLAD_HELMET(    "Emberclad Helmet",     Material.GOLDEN_HELMET, ItemRarity.RARE, EmbercladHelmet.class),
+    EMBERCLAD_HELMET(    "Emberclad Helmet",     Material.GOLDEN_HELMET,     ItemRarity.RARE, EmbercladHelmet.class),
     EMBERCLAD_CHESTPLATE("Emberclad Chestplate", Material.GOLDEN_CHESTPLATE, ItemRarity.RARE, EmbercladChestplate.class),
-    EMBERCLAD_LEGGINGS(  "Emberclad Leggings",   Material.GOLDEN_LEGGINGS, ItemRarity.RARE, EmbercladLeggings.class),
-    EMBERCLAD_BOOTS(     "Emberclad Boots",      Material.GOLDEN_BOOTS, ItemRarity.RARE, EmbercladBoots.class),
+    EMBERCLAD_LEGGINGS(  "Emberclad Leggings",   Material.GOLDEN_LEGGINGS,   ItemRarity.RARE, EmbercladLeggings.class),
+    EMBERCLAD_BOOTS(     "Emberclad Boots",      Material.GOLDEN_BOOTS,      ItemRarity.RARE, EmbercladBoots.class),
+    EMBERCLAD_AXE(       "Emberclad Axe",        Material.GOLDEN_AXE,        ItemRarity.RARE, EmbercladAxe.class),
+
+    BOILING_PICKAXE(       "Boiling Pickaxe",        Material.NETHERITE_PICKAXE,        ItemRarity.EPIC, BoilingPickaxe.class),
+
+    INFERNO_ARROW("Inferno Arrow", Material.SPECTRAL_ARROW, ItemRarity.EPIC, InfernoArrow.class),
 
     // INFERNO
-    INFERNO_HELMET("Inferno Helmet",         Material.GOLDEN_HELMET,     ItemRarity.EPIC, InfernoHelmet.class),
-    INFERNO_CHESTPLATE("Inferno Chestplate", Material.GOLDEN_CHESTPLATE, ItemRarity.EPIC, InfernoChestplate.class),
-    INFERNO_LEGGINGS("Inferno Leggings",     Material.GOLDEN_LEGGINGS,   ItemRarity.EPIC, InfernoLeggings.class),
-    INFERNO_BOOTS("Inferno Boots",           Material.GOLDEN_BOOTS,      ItemRarity.EPIC, InfernoBoots.class),
+    INFERNO_HELMET("Inferno Helmet",         Material.GOLDEN_HELMET,     ItemRarity.LEGENDARY, InfernoHelmet.class),
+    INFERNO_CHESTPLATE("Inferno Chestplate", Material.GOLDEN_CHESTPLATE, ItemRarity.LEGENDARY, InfernoChestplate.class),
+    INFERNO_LEGGINGS("Inferno Leggings",     Material.GOLDEN_LEGGINGS,   ItemRarity.LEGENDARY, InfernoLeggings.class),
+    INFERNO_BOOTS("Inferno Boots",           Material.GOLDEN_BOOTS,      ItemRarity.LEGENDARY, InfernoBoots.class),
 
     // REAVER
     REAVER_HELMET("Reaver Helmet",         Material.BLACK_STAINED_GLASS, ItemRarity.EPIC, ReaverHelmet.class),
     REAVER_CHESTPLATE("Reaver Chestplate", Material.LEATHER_CHESTPLATE,  ItemRarity.EPIC, ReaverChestplate.class),
     REAVER_LEGGINGS("Reaver Leggings",     Material.NETHERITE_LEGGINGS,  ItemRarity.EPIC, ReaverLeggings.class),
     REAVER_BOOTS("Reaver Boots",           Material.LEATHER_BOOTS,       ItemRarity.EPIC, ReaverBoots.class),
+    REAVER_KNIFE("Reaver Knife",           Material.NETHERITE_SWORD,     ItemRarity.EPIC, ReaverKnife.class),
 
     // FORSAKEN
     FORSAKEN_HELMET(    "Forsaken Helmet",     Material.NETHERITE_HELMET,    ItemRarity.LEGENDARY, ForsakenHelmet.class),
@@ -349,6 +348,7 @@ public enum CustomItemType {
 
     // MISC TOOLS
     SQUID_HELMET("Squid Helmet", "464bdc6f600656511bef596c1a16aab1d3f5dbaae8bee19d5c04de0db21ce92c", ItemRarity.RARE, SquidHelmet.class),
+    MAGMA_HELMET("Magma Helmet", "eaa9228bc7ac94b3631ff0f43db6b4e2d0f50a107f592538ae704e197fe1239d", ItemRarity.RARE, MagmaHelmet.class),
     GRAPPLING_HOOK("Grappling Hook", Material.FISHING_ROD, ItemRarity.RARE, GrapplingHook.class),
 
     // FOOD
@@ -356,6 +356,8 @@ public enum CustomItemType {
     POTATO_CHIP("Potato Chips", Material.RAW_GOLD, ItemRarity.COMMON, PotatoChip.class),
     COTTON_CANDY("Cotton Candy", Material.PINK_DYE, ItemRarity.COMMON, CottonCandy.class),
     SOGGY_LETTUCE("Soggy Lettuce", Material.GREEN_DYE, ItemRarity.COMMON, SoggyLettuce.class),
+    STOLEN_APPLE("Stolen Apple", Material.APPLE, ItemRarity.COMMON, StolenApples.class),
+    CHILI_PEPPER("Chili Pepper", Material.GOLDEN_CARROT, ItemRarity.COMMON, ChiliPepper.class),
 
     // COMPRESSED MINING MATERIALS
 
