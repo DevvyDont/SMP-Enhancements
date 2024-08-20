@@ -150,6 +150,11 @@ public abstract class BossInstance extends EnemyEntity {
     }
 
     @Override
+    public int getMinecraftExperienceDropped() {
+        return super.getMinecraftExperienceDropped() * 20;
+    }
+
+    @Override
     public void setup() {
         super.setup();
         scoreboard = new SimpleGlobalScoreboard(cloneScoreboard(), getNametagPowerComponent().append(getDisplaynameNametagComponent()));
@@ -237,7 +242,7 @@ public abstract class BossInstance extends EnemyEntity {
         if (!scoreboard.showing(event.getPlayer()))
             return;
 
-        if (event.getPlayer().getLocation().distance(entity.getLocation()) < 400)
+        if (event.getPlayer().getLocation().distance(entity.getLocation()) < 200)
             return;
 
         scoreboard.hide(event.getPlayer());

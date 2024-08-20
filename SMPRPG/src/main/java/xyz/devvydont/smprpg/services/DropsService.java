@@ -28,6 +28,7 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
+import xyz.devvydont.smprpg.entity.LeveledPlayer;
 import xyz.devvydont.smprpg.entity.base.EnemyEntity;
 import xyz.devvydont.smprpg.entity.base.LeveledEntity;
 import xyz.devvydont.smprpg.events.CustomChancedItemDropSuccessEvent;
@@ -308,6 +309,10 @@ public class DropsService implements BaseService, Listener {
         // Clear the drops from the vanilla roll if desired
         if (!entity.hasVanillaDrops())
             event.getDrops().clear();
+
+        // Set experience dropped to the level of the entity if it is not a player
+        if (!(entity instanceof LeveledPlayer))
+            event.setDroppedExp(entity.getMinecraftExperienceDropped());
 
         // Drop override?
         if (entity.getItemDrops() == null)
