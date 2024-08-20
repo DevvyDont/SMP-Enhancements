@@ -1,12 +1,15 @@
 package xyz.devvydont.smprpg.items.blueprints.sets.quartz;
 
 import org.bukkit.Color;
+import org.bukkit.inventory.CraftingRecipe;
 import org.bukkit.inventory.meta.trim.TrimMaterial;
 import org.bukkit.inventory.meta.trim.TrimPattern;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.interfaces.Dyeable;
 import xyz.devvydont.smprpg.services.ItemService;
+import xyz.devvydont.smprpg.util.crafting.builders.BootsRecipe;
+import xyz.devvydont.smprpg.util.crafting.builders.ChestplateRecipe;
 
 public class QuartzBoots extends QuartzArmorSet implements Dyeable {
 
@@ -42,5 +45,10 @@ public class QuartzBoots extends QuartzArmorSet implements Dyeable {
     @Override
     public Color getColor() {
         return Color.fromRGB(0xf9fff3);
+    }
+
+    @Override
+    public CraftingRecipe getCustomRecipe() {
+        return new BootsRecipe(this, itemService.getCustomItem(CustomItemType.ENCHANTED_QUARTZ), generate()).build();
     }
 }
