@@ -43,8 +43,8 @@ public class VanillaResource extends VanillaItemBlueprint implements Sellable {
         materialWorthMap.put(Material.RED_SANDSTONE, 1);
         materialWorthMap.put(Material.DIRT, 1);
         materialWorthMap.put(Material.GRAVEL, 1);
-        materialWorthMap.put(Material.OBSIDIAN, 30);
-        materialWorthMap.put(Material.CRYING_OBSIDIAN, 40);
+        materialWorthMap.put(Material.OBSIDIAN, 45);
+        materialWorthMap.put(Material.CRYING_OBSIDIAN, 60);
 
         // Materials from trees.
         materialWorthMap.put(Material.BAMBOO, 1);
@@ -104,8 +104,8 @@ public class VanillaResource extends VanillaItemBlueprint implements Sellable {
         materialWorthMap.put(Material.COPPER_ORE, 6);
         materialWorthMap.put(Material.DEEPSLATE_COPPER_ORE, 6);
 
-        materialWorthMap.put(Material.IRON_INGOT, 15);
-        materialWorthMap.put(Material.IRON_BLOCK, 135);
+        materialWorthMap.put(Material.IRON_INGOT, 36);
+        materialWorthMap.put(Material.IRON_BLOCK, 324);
         materialWorthMap.put(Material.IRON_ORE, 7);
         materialWorthMap.put(Material.DEEPSLATE_IRON_ORE, 7);
         materialWorthMap.put(Material.RAW_IRON, 7);
@@ -155,7 +155,7 @@ public class VanillaResource extends VanillaItemBlueprint implements Sellable {
         materialWorthMap.put(Material.PRISMARINE_SHARD, 15);
         materialWorthMap.put(Material.NAUTILUS_SHELL, 100);
         materialWorthMap.put(Material.ECHO_SHARD, 250);
-        materialWorthMap.put(Material.BLAZE_ROD, 25);
+        materialWorthMap.put(Material.BLAZE_ROD, 35);
         materialWorthMap.put(Material.MAGMA_CREAM, 25);
         materialWorthMap.put(Material.NETHER_STAR, 5000);
         materialWorthMap.put(Material.ENDER_PEARL, 40);

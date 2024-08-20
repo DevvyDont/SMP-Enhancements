@@ -3,6 +3,7 @@ package xyz.devvydont.smprpg.items.blueprints.sets.emberclad;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Item;
@@ -10,9 +11,13 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockDropItemEvent;
+import org.bukkit.inventory.CraftingRecipe;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.recipe.CraftingBookCategory;
+import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
@@ -21,6 +26,7 @@ import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomAttributeItem;
 import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
 import xyz.devvydont.smprpg.items.blueprints.vanilla.ItemPickaxe;
+import xyz.devvydont.smprpg.items.interfaces.Craftable;
 import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
@@ -29,7 +35,7 @@ import xyz.devvydont.smprpg.util.items.AbilityUtil;
 
 import java.util.*;
 
-public class BoilingPickaxe extends CustomAttributeItem implements Listener, ToolBreakable {
+public class BoilingPickaxe extends CustomAttributeItem implements Listener, ToolBreakable, Craftable {
 
     public static final Map<Material, Material> autoSmeltMap = new HashMap<>();
 
@@ -45,6 +51,11 @@ public class BoilingPickaxe extends CustomAttributeItem implements Listener, Too
 
     public BoilingPickaxe(ItemService itemService, CustomItemType type) {
         super(itemService, type);
+    }
+
+    @Override
+    public int getWorth() {
+        return 48_000;
     }
 
     @Override
@@ -121,5 +132,32 @@ public class BoilingPickaxe extends CustomAttributeItem implements Listener, Too
             drop.setItemStack(updatedItem);
         }
 
+    }
+
+    @Override
+    public NamespacedKey getRecipeKey() {
+        return new NamespacedKey(SMPRPG.getInstance(), getCustomItemType().getKey() + "-recipe");
+    }
+
+    @Override
+    public CraftingRecipe getCustomRecipe() {
+        ShapedRecipe recipe = new ShapedRecipe(getRecipeKey(), generate());
+        recipe.shape(
+                "iii",
+                " s ",
+                " s "
+        );
+        recipe.setIngredient('i', itemService.getCustomItem(CustomItemType.BOILING_INGOT));
+        recipe.setIngredient('s', itemService.getCustomItem(CustomItemType.OBSIDIAN_TOOL_ROD));
+        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+        return recipe;
+    }
+
+    @Override
+    public Collection<ItemStack> unlockedBy() {
+        return List.of(
+                itemService.getCustomItem(CustomItemType.BOILING_INGOT),
+                itemService.getCustomItem(CustomItemType.OBSIDIAN_TOOL_ROD)
+        );
     }
 }

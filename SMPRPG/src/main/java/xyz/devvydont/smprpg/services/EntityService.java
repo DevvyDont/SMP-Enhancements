@@ -96,6 +96,9 @@ public class EntityService implements BaseService, Listener {
         vanillaEntityHandlers.put(EntityType.ELDER_GUARDIAN, LeveledElderGuardian.class);
         vanillaEntityHandlers.put(EntityType.WARDEN, LeveledWarden.class);
 
+        vanillaEntityHandlers.put(EntityType.BLAZE, LeveledBlaze.class);
+        vanillaEntityHandlers.put(EntityType.WITHER_SKELETON, LeveledWitherSkeleton.class);
+
         vanillaEntityHandlers.put(EntityType.VILLAGER, LeveledVillager.class);
 
         vanillaEntityHandlers.put(EntityType.ARMOR_STAND, LeveledArmorStand.class);

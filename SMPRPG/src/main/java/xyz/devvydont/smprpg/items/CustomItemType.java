@@ -271,6 +271,9 @@ public enum CustomItemType {
 
     BOILING_PICKAXE(       "Boiling Pickaxe",        Material.NETHERITE_PICKAXE,        ItemRarity.EPIC, BoilingPickaxe.class),
 
+    OBSIDIAN_TOOL_ROD("Obsidian Tool Rod", Material.STICK, ItemRarity.RARE, true, ObsidianToolRod.class),
+    BOILING_INGOT("Boiling Ingot", Material.GOLD_INGOT, ItemRarity.RARE, true, BoilingIngot.class),
+
     INFERNO_ARROW("Inferno Arrow", Material.SPECTRAL_ARROW, ItemRarity.EPIC, InfernoArrow.class),
 
     // INFERNO
@@ -372,6 +375,9 @@ public enum CustomItemType {
     DOUBLE_COMPRESSED_DEEPSLATE( "Double Compressed Deepslate",  Material.COBBLED_DEEPSLATE, ItemRarity.UNCOMMON,      true, DeepslateFamilyBlueprint.class),
     ENCHANTED_DEEPSLATE(  "Enchanted Deepslate",                 Material.COBBLED_DEEPSLATE, ItemRarity.UNCOMMON,      true, DeepslateFamilyBlueprint.class),
     DEEPSLATE_SINGULARITY("Deepslate Singularity",               Material.BEDROCK,           ItemRarity.RARE, true, DeepslateFamilyBlueprint.class),
+
+    COMPRESSED_OBSIDIAN("Compressed Obsidian", Material.OBSIDIAN, ItemRarity.UNCOMMON, true, ObsidianFamilyBlueprint.class),
+    ENCHANTED_OBSIDIAN("Enchanted Obsidian", Material.OBSIDIAN, ItemRarity.RARE, true, ObsidianFamilyBlueprint.class),
 
     // COAL
     ENCHANTED_COAL("Enchanted Coal",                Material.COAL,       ItemRarity.RARE,      true, CoalFamilyBlueprint.class),
