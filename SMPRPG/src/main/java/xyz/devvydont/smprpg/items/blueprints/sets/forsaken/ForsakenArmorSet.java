@@ -1,5 +1,6 @@
 package xyz.devvydont.smprpg.items.blueprints.sets.forsaken;
 
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.trim.TrimMaterial;
 import org.bukkit.inventory.meta.trim.TrimPattern;
 import xyz.devvydont.smprpg.items.CustomItemType;
@@ -23,6 +24,13 @@ public abstract class ForsakenArmorSet extends CustomArmorBlueprint implements T
     }
 
     @Override
+    public void updateMeta(ItemMeta meta) {
+        super.updateMeta(meta);
+        meta.setFireResistant(true);
+        updateLore(meta);
+    }
+
+    @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, getDefense()),
@@ -42,7 +50,7 @@ public abstract class ForsakenArmorSet extends CustomArmorBlueprint implements T
 
     @Override
     public int getMaxDurability() {
-        return 35_000;
+        return 90_000;
     }
 
     @Override

@@ -33,7 +33,7 @@ public class LeveledElderGuardian extends BossInstance {
 
     @Override
     public double calculateBaseHealth() {
-        return 150_000;
+        return 180_000;
     }
 
     @Override

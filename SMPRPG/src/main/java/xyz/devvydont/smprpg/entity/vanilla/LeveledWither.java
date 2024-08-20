@@ -30,7 +30,7 @@ public class LeveledWither extends BossInstance {
 
     @Override
     public double calculateBaseAttackDamage() {
-        return 950;
+        return 1450;
     }
 
     @Override
@@ -50,19 +50,32 @@ public class LeveledWither extends BossInstance {
 
     @Override
     public double calculateBaseHealth() {
-        return 150_000;
+        return 300_000;
     }
 
     @Override
     public @Nullable Collection<LootDrop> getItemDrops() {
         return List.of(
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.FORSAKEN_HELMET), 50, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.FORSAKEN_CHESTPLATE), 50, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.FORSAKEN_LEGGINGS), 50, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.FORSAKEN_BOOTS), 50, this),
+                new QuantityLootDrop(plugin.getItemService().getCustomItem(Material.SOUL_SAND), 1, 2, this),
+                new QuantityLootDrop(plugin.getItemService().getCustomItem(Material.OBSIDIAN), 1, 3, this),
+                new QuantityLootDrop(plugin.getItemService().getCustomItem(Material.COAL), 1, 3, this),
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(Material.WITHER_SKELETON_SKULL), 5, this),
+
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.COMPRESSED_OBSIDIAN), 14, this),
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.ENCHANTED_OBSIDIAN), 90, this),
+
                 new ChancedItemDrop(plugin.getItemService().getCustomItem(Material.NETHER_STAR), 2, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.PREMIUM_NETHER_STAR), 20, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.ENCHANTED_NETHER_STAR), 300, this)
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.PREMIUM_NETHER_STAR), 40, this),
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.ENCHANTED_NETHER_STAR), 750, this),
+
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.FORSAKEN_HELMET), 120, this),
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.FORSAKEN_CHESTPLATE), 120, this),
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.FORSAKEN_LEGGINGS), 120, this),
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.FORSAKEN_BOOTS), 120, this),
+
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(Material.NETHERITE_INGOT), 80, this),
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(Material.NETHERITE_BLOCK), 900, this),
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.ENCHANTED_NETHERITE), 10_000, this)
         );
     }
 
