@@ -8,6 +8,7 @@ import io.papermc.paper.registry.set.RegistryKeySet;
 import io.papermc.paper.registry.tag.TagKey;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.AbstractArrow;
 import org.bukkit.entity.Arrow;
@@ -93,6 +94,13 @@ public class InfinityEnchantment extends VanillaEnchantment implements Listener 
 
         // If we don't have infinity, then we use vanilla's logic
         if (infinityLevel <= 0)
+            return;
+
+        // The arrow was not an arrow affected by infinity. Use vanilla's logic.
+        if (event.getConsumable() == null)
+            return;
+
+        if (!event.getConsumable().getType().equals(Material.ARROW))
             return;
 
         // RNG for saving arrow. If this check evaluates to true, we use vanilla's logic for saving an arrow with infinity.
