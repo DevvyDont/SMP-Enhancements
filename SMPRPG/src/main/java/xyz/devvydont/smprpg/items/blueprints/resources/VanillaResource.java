@@ -208,10 +208,15 @@ public class VanillaResource extends VanillaItemBlueprint implements Sellable {
         materialWorthMap.put(Material.BASALT, 1);
         materialWorthMap.put(Material.SMOOTH_BASALT, 1);
         materialWorthMap.put(Material.NETHERRACK, 1);
-        materialWorthMap.put(Material.NETHER_BRICKS, 1);
-        materialWorthMap.put(Material.RED_NETHER_BRICKS, 1);
-        materialWorthMap.put(Material.SOUL_SAND, 2);
-        materialWorthMap.put(Material.SOUL_SOIL, 2);
+        materialWorthMap.put(Material.NETHER_BRICKS, 2);
+        materialWorthMap.put(Material.RED_NETHER_BRICKS, 3);
+        materialWorthMap.put(Material.SOUL_SAND, 7);
+        materialWorthMap.put(Material.SOUL_SOIL, 5);
+        materialWorthMap.put(Material.GLOWSTONE_DUST, 12);
+        materialWorthMap.put(Material.QUARTZ, 9);
+        materialWorthMap.put(Material.QUARTZ_BLOCK, 36);
+
+        materialWorthMap.put(Material.WITHER_SKELETON_SKULL, 5000);
 
         // Materials found in the end.
         materialWorthMap.put(Material.END_STONE, 2);

@@ -12,11 +12,11 @@ import java.util.List;
 public class GlowstoneFamilyBlueprint extends CustomCompressableBlueprint {
 
     public static final List<CompressionRecipeMember> COMPRESSION_FLOW = List.of(
-            new CompressionRecipeMember(new MaterialWrapper(Material.GLOWSTONE_DUST)),
-            new CompressionRecipeMember(new MaterialWrapper(Material.GLOWSTONE)),
-            new CompressionRecipeMember(new MaterialWrapper(CustomItemType.ENCHANTED_GLOWSTONE)),
-            new CompressionRecipeMember(new MaterialWrapper(CustomItemType.ENCHANTED_GLOWSTONE_BLOCK)),
-            new CompressionRecipeMember(new MaterialWrapper(CustomItemType.GLOWSTONE_SINGULARITY))
+            new CompressionRecipeMember(new MaterialWrapper(Material.GLOWSTONE_DUST), 4),
+            new CompressionRecipeMember(new MaterialWrapper(Material.GLOWSTONE), 9),
+            new CompressionRecipeMember(new MaterialWrapper(CustomItemType.ENCHANTED_GLOWSTONE), 9),
+            new CompressionRecipeMember(new MaterialWrapper(CustomItemType.ENCHANTED_GLOWSTONE_BLOCK), 9),
+            new CompressionRecipeMember(new MaterialWrapper(CustomItemType.GLOWSTONE_SINGULARITY), 9)
     );
 
     public GlowstoneFamilyBlueprint(ItemService itemService, CustomItemType type) {
