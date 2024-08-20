@@ -1,5 +1,6 @@
 package xyz.devvydont.smprpg.entity.base;
 
+import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.*;
@@ -51,6 +52,14 @@ public class VanillaEntity extends EnemyEntity {
         return (int) (x / 20);
     }
 
+    public int getMinimumEnvironmentLevel(World.Environment environment) {
+        return switch (environment) {
+            case NETHER -> 25;
+            case THE_END -> 55;
+            default -> 1;
+        };
+    }
+
     /**
      * This is the default handling for entities that do not have a defined class handler.
      * All default enemies will start with a level of 1.
@@ -63,7 +72,7 @@ public class VanillaEntity extends EnemyEntity {
     @Override
     public int getDefaultLevel() {
         int level = EntityHelpers.getMinimumLevel(getDefaultEntityType());
-
+        level = Math.max(level, getMinimumEnvironmentLevel(entity.getLocation().getWorld().getEnvironment()));
         level += (int) (Math.random() * 6);
 
         level += getLevelDistanceBoost();
