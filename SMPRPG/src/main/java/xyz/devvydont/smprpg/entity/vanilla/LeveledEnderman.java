@@ -20,8 +20,8 @@ import java.util.List;
 
 public class LeveledEnderman extends VanillaEntity implements Listener {
 
-    public static final int MINIMUM_LEVEL = 40;
-    public static final int END_MINIMUM_LEVEL = 50;
+    public static final int MINIMUM_LEVEL = 50;
+    public static final int END_MINIMUM_LEVEL = 60;
 
     public LeveledEnderman(SMPRPG plugin, Entity entity) {
         super(plugin, entity);

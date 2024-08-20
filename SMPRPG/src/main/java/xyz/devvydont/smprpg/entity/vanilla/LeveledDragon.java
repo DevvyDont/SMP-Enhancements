@@ -30,13 +30,13 @@ public class LeveledDragon extends BossInstance {
 
     @Override
     public int getDefaultLevel() {
-        return 50;
+        return 60;
     }
 
 
     @Override
     public double calculateBaseAttackDamage() {
-        return 2000;
+        return 4000;
     }
 
     @Override
@@ -55,7 +55,7 @@ public class LeveledDragon extends BossInstance {
     }
 
     public double calculateBaseHealth() {
-        return 300_000;
+        return 500_000;
     }
 
     @Override

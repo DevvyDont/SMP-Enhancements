@@ -40,7 +40,7 @@ public class StructureEntitySpawnListener implements Listener {
         minimumStructureLevels.put(Structure.ANCIENT_CITY,    99);  // Ancient cities are the hardest content in the game
         minimumStructureLevels.put(Structure.BASTION_REMNANT, 80);  // Piglins in bastions are meant to be terrifying to make netherite scary to obtain
         minimumStructureLevels.put(Structure.TRIAL_CHAMBERS,  70);  // Trial chambers are endgame-ish
-        minimumStructureLevels.put(Structure.END_CITY,        60);  // The end
+        minimumStructureLevels.put(Structure.END_CITY,        65);  // The end
         minimumStructureLevels.put(Structure.STRONGHOLD,      45);  // The end
         minimumStructureLevels.put(Structure.FORTRESS,        35);  // If the nether is 25, these should be ~10ish above
         minimumStructureLevels.put(Structure.MONUMENT,        30);  // Midgame boss
