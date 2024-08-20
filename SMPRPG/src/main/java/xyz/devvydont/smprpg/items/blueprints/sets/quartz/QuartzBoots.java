@@ -9,7 +9,6 @@ import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.interfaces.Dyeable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.crafting.builders.BootsRecipe;
-import xyz.devvydont.smprpg.util.crafting.builders.ChestplateRecipe;
 
 public class QuartzBoots extends QuartzArmorSet implements Dyeable {
 
@@ -24,7 +23,12 @@ public class QuartzBoots extends QuartzArmorSet implements Dyeable {
 
     @Override
     public int getHealth() {
-        return 25;
+        return 60;
+    }
+
+    @Override
+    public int getStrength() {
+        return 10;
     }
 
     @Override

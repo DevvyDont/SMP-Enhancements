@@ -10,7 +10,6 @@ import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
 import xyz.devvydont.smprpg.util.crafting.builders.ChestplateRecipe;
-import xyz.devvydont.smprpg.util.crafting.builders.HelmetRecipe;
 
 import java.util.Collection;
 import java.util.List;
@@ -24,10 +23,10 @@ public class ElderflameChestplate extends ElderflameArmorSet {
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 475),
-                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 340),
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 400),
+                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 315),
                 new AdditiveAttributeEntry(AttributeWrapper.ARMOR, 4),
-                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .35),
+                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .6),
                 new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, .1),
                 new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, .2)
         );

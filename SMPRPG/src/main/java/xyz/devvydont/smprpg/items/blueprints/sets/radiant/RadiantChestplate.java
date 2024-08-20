@@ -10,7 +10,6 @@ import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
 import xyz.devvydont.smprpg.util.crafting.builders.ChestplateRecipe;
-import xyz.devvydont.smprpg.util.crafting.builders.HelmetRecipe;
 
 import java.util.Collection;
 import java.util.List;
@@ -24,9 +23,9 @@ public class RadiantChestplate extends RadiantArmorSet {
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 210),
-                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 105),
-                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .25)
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 80),
+                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 100),
+                new ScalarAttributeEntry(AttributeWrapper.LUCK, .25)
         );
     }
 

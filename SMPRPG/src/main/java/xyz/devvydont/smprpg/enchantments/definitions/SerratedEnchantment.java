@@ -18,7 +18,15 @@ import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
 public class SerratedEnchantment extends CustomEnchantment implements Listener {
 
     public static int getAdditionalPercentageIncrease(int level) {
-        return level * 15;
+        return switch (level) {
+            case 0 -> 0;
+            case 1 -> 30;
+            case 2 -> 75;
+            case 3 -> 140;
+            case 4 -> 225;
+            case 5 -> 300;
+            default -> getAdditionalPercentageIncrease(5) + 100 * (level-5);
+        };
     }
 
     public SerratedEnchantment(String id) {

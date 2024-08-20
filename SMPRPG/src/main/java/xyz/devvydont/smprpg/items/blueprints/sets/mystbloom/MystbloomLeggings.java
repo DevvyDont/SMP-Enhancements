@@ -25,9 +25,9 @@ public class MystbloomLeggings extends MystbloomArmorSet {
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 110),
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 105),
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 20),
-                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .05)
+                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .15)
         );
     }
 }

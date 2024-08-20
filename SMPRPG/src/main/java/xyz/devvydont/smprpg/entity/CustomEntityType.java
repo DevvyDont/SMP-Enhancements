@@ -42,12 +42,12 @@ public enum CustomEntityType {
             WoodlandExile.class),
 
     PALACE_THUG(EntityType.WITHER_SKELETON, "Palace Thug",
-            35, 7_500, 920,
+            35, 7_500, 950,
             new EntitySpawnCondition[]{new StructureSpawnCondition(Structure.FORTRESS)}, 10,
             PalaceThug.class),
 
     FIERY_SYLPH(EntityType.BLAZE, "Fiery Sylph",
-            35, 7_000, 1000,
+            35, 7_000, 900,
             new EntitySpawnCondition[]{new StructureSpawnCondition(Structure.FORTRESS)}, 10,
             FierySylph.class),
 

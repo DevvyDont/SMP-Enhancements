@@ -23,6 +23,6 @@ public class SmiteLeggings extends SmiteArmorSet {
 
     @Override
     public int getDefense() {
-        return 50;
+        return 45;
     }
 }

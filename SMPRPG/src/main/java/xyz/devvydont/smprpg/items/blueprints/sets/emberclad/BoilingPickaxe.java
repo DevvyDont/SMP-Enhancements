@@ -78,7 +78,7 @@ public class BoilingPickaxe extends CustomAttributeItem implements Listener, Too
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, 250),
+                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, 45),
                 new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, ItemPickaxe.PICKAXE_ATTACK_SPEED_DEBUFF),
                 new MultiplicativeAttributeEntry(Attribute.PLAYER_BLOCK_BREAK_SPEED, .10)
         );

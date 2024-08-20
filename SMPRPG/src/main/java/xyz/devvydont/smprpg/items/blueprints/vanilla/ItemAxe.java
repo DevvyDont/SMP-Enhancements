@@ -24,12 +24,12 @@ public class ItemAxe extends VanillaAttributeItem implements ToolBreakable {
 
     public static double getAxeDamage(Material material) {
         return switch (material) {
-            case NETHERITE_AXE -> 900.0;
-            case DIAMOND_AXE -> 250.0;
-            case GOLDEN_AXE -> 120.0;
-            case IRON_AXE -> 75.0;
-            case STONE_AXE -> 48.0;
-            case WOODEN_AXE -> 32.0;
+            case NETHERITE_AXE -> 210;
+            case DIAMOND_AXE -> 90;
+            case GOLDEN_AXE -> 36;
+            case IRON_AXE -> 22;
+            case STONE_AXE -> 16;
+            case WOODEN_AXE -> 14;
 
             default -> 0;
         };
@@ -37,12 +37,12 @@ public class ItemAxe extends VanillaAttributeItem implements ToolBreakable {
 
     public static int getAxeRating(Material material) {
         return switch (material) {
-            case NETHERITE_AXE -> 45;
-            case DIAMOND_AXE -> 25;
-            case GOLDEN_AXE -> 12;
-            case IRON_AXE -> 7;
-            case STONE_AXE -> 3;
-            case WOODEN_AXE -> 2;
+            case NETHERITE_AXE -> ToolsUtil.NETHERITE_TOOL_POWER;
+            case DIAMOND_AXE -> ToolsUtil.DIAMOND_TOOL_POWER;
+            case GOLDEN_AXE -> ToolsUtil.GOLD_TOOL_POWER;
+            case IRON_AXE -> ToolsUtil.IRON_TOOL_POWER;
+            case STONE_AXE -> ToolsUtil.STONE_TOOL_POWER;
+            case WOODEN_AXE -> ToolsUtil.WOOD_TOOL_POWER;
             default -> 1;
         };
     }

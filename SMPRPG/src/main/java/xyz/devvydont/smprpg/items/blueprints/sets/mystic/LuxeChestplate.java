@@ -17,12 +17,12 @@ public class LuxeChestplate extends LuxeArmorSet implements Dyeable {
 
     @Override
     public int getDefense() {
-        return 80;
+        return 60;
     }
 
     @Override
     public int getHealth() {
-        return 10;
+        return 30;
     }
 
     @Override

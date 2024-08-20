@@ -30,9 +30,9 @@ public class RedstoneHelmet extends CustomFakeHelmetBlueprint implements ToolBre
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 40),
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 35),
                 new ScalarAttributeEntry(Attribute.GENERIC_MOVEMENT_SPEED, .05),
-                new MultiplicativeAttributeEntry(Attribute.GENERIC_ATTACK_SPEED, .05)
+                new MultiplicativeAttributeEntry(Attribute.GENERIC_ATTACK_SPEED, .10)
         );
     }
 

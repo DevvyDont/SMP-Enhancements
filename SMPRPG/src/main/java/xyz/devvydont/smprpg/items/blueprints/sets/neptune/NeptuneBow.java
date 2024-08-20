@@ -33,7 +33,7 @@ public class NeptuneBow extends CustomAttributeItem implements ToolBreakable, Cr
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, 650)
+                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, 160)
         );
     }
 

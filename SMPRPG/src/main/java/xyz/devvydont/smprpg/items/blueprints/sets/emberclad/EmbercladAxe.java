@@ -33,7 +33,7 @@ public class EmbercladAxe extends CustomAttributeItem implements ToolBreakable {
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, 650),
+                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, 220),
                 new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, ItemAxe.AXE_ATTACK_SPEED_DEBUFF)
         );
     }
@@ -55,6 +55,6 @@ public class EmbercladAxe extends CustomAttributeItem implements ToolBreakable {
 
     @Override
     public int getMaxDurability() {
-        return 50_000;
+        return 30_000;
     }
 }

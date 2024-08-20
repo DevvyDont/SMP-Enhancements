@@ -26,9 +26,9 @@ public class MystbloomChestplate extends MystbloomArmorSet {
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 130),
-                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 25),
-                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .10)
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 115),
+                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 20),
+                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .15)
         );
     }
 }

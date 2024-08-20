@@ -20,7 +20,7 @@ public class RedstoneChestplate extends RedstoneArmorSet {
 
     @Override
     public int getDefense() {
-        return 60;
+        return 50;
     }
 
     @Override

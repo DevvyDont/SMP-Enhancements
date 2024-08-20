@@ -29,12 +29,15 @@ import java.util.List;
 public abstract class ReaverArmorSet extends CustomArmorBlueprint implements ToolBreakable, Trimmable, Listener {
 
     public static final int POWER = 40;
-    public static final int DURABILITY = 70_000;
-
-    public static final int WITHER_RESIST = 20;
+    public static final int DURABILITY = 40_000;
+    public static final int WITHER_RESIST = 15;
 
     public ReaverArmorSet(ItemService itemService, CustomItemType type) {
         super(itemService, type);
+    }
+
+    public int getWitherResistance() {
+        return WITHER_RESIST;
     }
 
     @Override
@@ -42,7 +45,7 @@ public abstract class ReaverArmorSet extends CustomArmorBlueprint implements Too
         List<Component> components = new ArrayList<>(super.getDescriptionComponent(meta));
         components.add(Component.empty());
         components.add(AbilityUtil.getAbilityComponent("Necrotic (Passive)"));
-        components.add(ComponentUtil.getDefaultText("Resists ").append(ComponentUtil.getColoredComponent("-" + WITHER_RESIST + "%", NamedTextColor.GREEN)).append(ComponentUtil.getDefaultText(" of wither damage")));
+        components.add(ComponentUtil.getDefaultText("Resists ").append(ComponentUtil.getColoredComponent("-" + getWitherResistance() + "%", NamedTextColor.GREEN)).append(ComponentUtil.getDefaultText(" of wither damage")));
         return components;
     }
 
@@ -52,7 +55,7 @@ public abstract class ReaverArmorSet extends CustomArmorBlueprint implements Too
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, getDefense()),
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, getHealth()),
                 new ScalarAttributeEntry(AttributeWrapper.STRENGTH, getStrength()),
-                new AdditiveAttributeEntry(AttributeWrapper.KNOCKBACK_RESISTANCE, .2)
+                new AdditiveAttributeEntry(AttributeWrapper.KNOCKBACK_RESISTANCE, .15)
         );
     }
 
@@ -89,7 +92,7 @@ public abstract class ReaverArmorSet extends CustomArmorBlueprint implements Too
                 return;
 
         // We are wearing the armor, decrease the damage
-        double multiplier = 1 - (WITHER_RESIST/100.0);
+        double multiplier = 1 - (getWitherResistance()/100.0);
         event.setDamage(event.getFinalDamage() * multiplier);
     }
 

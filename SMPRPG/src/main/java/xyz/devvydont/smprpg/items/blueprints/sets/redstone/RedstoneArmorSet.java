@@ -28,7 +28,7 @@ import java.util.List;
 public abstract class RedstoneArmorSet extends CustomArmorBlueprint implements ToolBreakable, Dyeable, Trimmable, Craftable {
 
     public static final int POWER = 15;
-    public static final int DURABILITY = 3_300;
+    public static final int DURABILITY = 12_500;
 
     public static final CustomItemType INGREDIENT = CustomItemType.ENCHANTED_REDSTONE;
 
@@ -42,7 +42,7 @@ public abstract class RedstoneArmorSet extends CustomArmorBlueprint implements T
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, getDefense()),
                 new ScalarAttributeEntry(Attribute.GENERIC_MOVEMENT_SPEED, .05),
-                new MultiplicativeAttributeEntry(Attribute.GENERIC_ATTACK_SPEED, .05)
+                new MultiplicativeAttributeEntry(Attribute.GENERIC_ATTACK_SPEED, .10)
         );
     }
 

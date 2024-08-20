@@ -24,6 +24,6 @@ public class SmiteChestplate extends SmiteArmorSet {
 
     @Override
     public int getDefense() {
-        return 60;
+        return 45;
     }
 }

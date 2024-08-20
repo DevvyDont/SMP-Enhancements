@@ -18,12 +18,17 @@ public class QuartzChestplate extends QuartzArmorSet implements Dyeable {
 
     @Override
     public int getDefense() {
-        return 190;
+        return 115;
     }
 
     @Override
     public int getHealth() {
-        return 60;
+        return 85;
+    }
+
+    @Override
+    public int getStrength() {
+        return 25;
     }
 
     @Override

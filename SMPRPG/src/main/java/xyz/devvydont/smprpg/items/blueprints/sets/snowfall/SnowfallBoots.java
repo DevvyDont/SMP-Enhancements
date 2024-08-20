@@ -20,10 +20,10 @@ public class SnowfallBoots extends SnowfallArmorSet {
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 260),
-                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 175),
-                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .2),
-                new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, .25)
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 355),
+                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 250),
+                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .45),
+                new ScalarAttributeEntry(AttributeWrapper.LUCK, .25)
         );
     }
 

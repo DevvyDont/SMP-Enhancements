@@ -37,7 +37,7 @@ public abstract class BedrockArmorSet extends CustomArmorBlueprint implements To
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, getDefense()),
                 new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, -.2),
                 new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, -.25),
-                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .15)
+                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .25)
         );
     }
 

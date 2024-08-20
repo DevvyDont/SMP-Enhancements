@@ -18,6 +18,6 @@ public abstract class ValiantArmorSet extends CustomArmorBlueprint implements To
 
     @Override
     public int getMaxDurability() {
-        return 80_000;
+        return 85_000;
     }
 }

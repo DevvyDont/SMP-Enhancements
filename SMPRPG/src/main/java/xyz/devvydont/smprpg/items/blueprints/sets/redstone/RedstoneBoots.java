@@ -25,6 +25,6 @@ public class RedstoneBoots extends RedstoneArmorSet {
 
     @Override
     public int getDefense() {
-        return 30;
+        return 35;
     }
 }

@@ -22,10 +22,10 @@ public class PreludeLeggings extends PreludeArmorSet {
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 920),
-                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 460),
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 730),
+                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 380),
                 new AdditiveAttributeEntry(AttributeWrapper.ARMOR, 6),
-                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .4),
+                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .75),
                 new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, .2),
                 new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, .2)
         );

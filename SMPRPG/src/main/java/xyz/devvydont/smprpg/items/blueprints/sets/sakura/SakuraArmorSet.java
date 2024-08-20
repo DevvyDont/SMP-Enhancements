@@ -16,7 +16,7 @@ import java.util.List;
 public abstract class SakuraArmorSet extends CustomArmorBlueprint implements ToolBreakable, Craftable {
 
     public static final int POWER = 7;
-    public static final int DURABILITY = 4000;
+    public static final int DURABILITY = 1_200;
 
     public SakuraArmorSet(ItemService itemService, CustomItemType type) {
         super(itemService, type);

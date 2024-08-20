@@ -23,9 +23,10 @@ public class RadiantBoots extends RadiantArmorSet {
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 90),
-                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 45),
-                new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, .20)
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 50),
+                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 70),
+                new ScalarAttributeEntry(AttributeWrapper.LUCK, .25),
+                new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, .1)
         );
     }
 

@@ -58,7 +58,7 @@ public class PalaceThug extends CustomEntityInstance {
                 new ChancedItemDrop(SMPRPG.getInstance().getItemService().getCustomItem(CustomItemType.COMPRESSED_OBSIDIAN), 75, this),
                 new ChancedItemDrop(SMPRPG.getInstance().getItemService().getCustomItem(CustomItemType.ENCHANTED_OBSIDIAN), 500, this),
 
-                new ChancedItemDrop(SMPRPG.getInstance().getItemService().getCustomItem(Material.WITHER_SKELETON_SKULL), 150, this)
+                new ChancedItemDrop(SMPRPG.getInstance().getItemService().getCustomItem(Material.WITHER_SKELETON_SKULL), 300, this)
         );
     }
 }

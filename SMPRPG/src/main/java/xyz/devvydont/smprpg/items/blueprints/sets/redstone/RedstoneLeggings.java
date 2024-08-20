@@ -24,6 +24,6 @@ public class RedstoneLeggings extends RedstoneArmorSet {
 
     @Override
     public int getDefense() {
-        return 50;
+        return 45;
     }
 }

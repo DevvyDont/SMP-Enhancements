@@ -56,6 +56,6 @@ public abstract class SlimyArmorSet extends CustomArmorBlueprint implements Craf
 
     @Override
     public int getMaxDurability() {
-        return 7500;
+        return 12_000;
     }
 }

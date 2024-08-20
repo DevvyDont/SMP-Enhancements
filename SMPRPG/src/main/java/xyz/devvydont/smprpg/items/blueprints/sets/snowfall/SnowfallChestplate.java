@@ -21,10 +21,10 @@ public class SnowfallChestplate extends SnowfallArmorSet {
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 600),
-                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 410),
-                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .4),
-                new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, .25)
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 480),
+                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 350),
+                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .45),
+                new ScalarAttributeEntry(AttributeWrapper.LUCK, .25)
         );
     }
 

@@ -22,10 +22,10 @@ public class PreludeChestplate extends PreludeArmorSet {
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 1080),
-                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 540),
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 890),
+                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 450),
                 new AdditiveAttributeEntry(AttributeWrapper.ARMOR, 6),
-                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .5),
+                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .9),
                 new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, .1),
                 new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, .3)
         );

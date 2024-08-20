@@ -32,7 +32,7 @@ public class DiamondBow extends CustomAttributeItem implements Craftable, ToolBr
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(Attribute.GENERIC_ATTACK_DAMAGE, 210)
+                new AdditiveAttributeEntry(Attribute.GENERIC_ATTACK_DAMAGE, 75)
         );
     }
 

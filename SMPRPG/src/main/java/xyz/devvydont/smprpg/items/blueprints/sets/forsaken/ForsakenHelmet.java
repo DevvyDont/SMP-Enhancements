@@ -12,17 +12,17 @@ public class ForsakenHelmet extends ForsakenArmorSet {
 
     @Override
     public int getDefense() {
-        return 205;
+        return 170;
     }
 
     @Override
     public int getHealth() {
-        return 155;
+        return 150;
     }
 
     @Override
     public double getStrength() {
-        return .25;
+        return .35;
     }
 
     @Override

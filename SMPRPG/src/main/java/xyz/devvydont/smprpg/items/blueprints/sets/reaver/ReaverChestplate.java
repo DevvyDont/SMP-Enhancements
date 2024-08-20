@@ -17,7 +17,7 @@ public class ReaverChestplate extends ReaverArmorSet implements Dyeable {
 
     @Override
     public int getDefense() {
-        return 240;
+        return 170;
     }
 
     @Override

@@ -59,7 +59,7 @@ public class LeveledWither extends BossInstance {
                 new QuantityLootDrop(plugin.getItemService().getCustomItem(Material.SOUL_SAND), 1, 2, this),
                 new QuantityLootDrop(plugin.getItemService().getCustomItem(Material.OBSIDIAN), 1, 3, this),
                 new QuantityLootDrop(plugin.getItemService().getCustomItem(Material.COAL), 1, 3, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(Material.WITHER_SKELETON_SKULL), 150, this),
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(Material.WITHER_SKELETON_SKULL), 300, this),
 
                 new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.COMPRESSED_OBSIDIAN), 14, this),
                 new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.ENCHANTED_OBSIDIAN), 90, this),

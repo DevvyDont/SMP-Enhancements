@@ -24,10 +24,9 @@ public class ValiantBoots extends ValiantArmorSet implements Trimmable {
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 330),
-                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 200),
-                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .25),
-                new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, .25)
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 450),
+                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 280),
+                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .5)
         );
     }
 

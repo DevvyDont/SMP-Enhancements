@@ -25,7 +25,7 @@ public class ExiledAxe extends CustomAttributeItem implements ToolBreakable {
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, 500),
+                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, 160),
                 new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, ItemAxe.AXE_ATTACK_SPEED_DEBUFF),
                 new ScalarAttributeEntry(AttributeWrapper.MINING_EFFICIENCY, .25)
         );

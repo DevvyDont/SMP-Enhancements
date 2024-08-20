@@ -22,7 +22,7 @@ public class ExiledCrossbow extends CustomAttributeItem implements ToolBreakable
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, 380)
+                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, 150)
         );
     }
 

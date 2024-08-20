@@ -30,7 +30,7 @@ public abstract class QuartzArmorSet extends CustomArmorBlueprint implements Tri
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, getDefense()),
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, getHealth()),
-                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .04)
+                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, getStrength()/100.0)
         );
     }
 
@@ -38,14 +38,16 @@ public abstract class QuartzArmorSet extends CustomArmorBlueprint implements Tri
 
     public abstract int getHealth();
 
+    public abstract int getStrength();
+
     @Override
     public int getPowerRating() {
-        return 30;
+        return 32;
     }
 
     @Override
     public int getMaxDurability() {
-        return 10_000;
+        return 25_000;
     }
 
     @Override

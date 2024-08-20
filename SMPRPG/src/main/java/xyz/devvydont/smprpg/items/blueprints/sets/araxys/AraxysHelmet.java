@@ -28,9 +28,10 @@ public class AraxysHelmet extends CustomFakeHelmetBlueprint implements ToolBreak
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 115),
-                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 25),
-                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .2)
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 100),
+                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 60),
+                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .25),
+                new ScalarAttributeEntry(AttributeWrapper.LUCK, .1)
         );
     }
 
@@ -41,6 +42,6 @@ public class AraxysHelmet extends CustomFakeHelmetBlueprint implements ToolBreak
 
     @Override
     public int getMaxDurability() {
-        return 35_000;
+        return AraxysArmorPiece.DURABILITY;
     }
 }

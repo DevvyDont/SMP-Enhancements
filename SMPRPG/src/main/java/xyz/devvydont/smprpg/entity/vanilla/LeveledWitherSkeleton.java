@@ -42,7 +42,7 @@ public class LeveledWitherSkeleton extends VanillaEntity {
                 new ChancedItemDrop(SMPRPG.getInstance().getItemService().getCustomItem(CustomItemType.COMPRESSED_OBSIDIAN), 165, this),
                 new ChancedItemDrop(SMPRPG.getInstance().getItemService().getCustomItem(CustomItemType.ENCHANTED_OBSIDIAN), 1250, this),
 
-                new ChancedItemDrop(SMPRPG.getInstance().getItemService().getCustomItem(Material.WITHER_SKELETON_SKULL), 150, this)
+                new ChancedItemDrop(SMPRPG.getInstance().getItemService().getCustomItem(Material.WITHER_SKELETON_SKULL), 300, this)
         );
     }
 

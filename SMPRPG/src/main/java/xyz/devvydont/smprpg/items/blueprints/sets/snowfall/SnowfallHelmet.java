@@ -20,9 +20,9 @@ public class SnowfallHelmet extends SnowfallArmorSet {
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 350),
-                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 230),
-                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .25),
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 380),
+                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 275),
+                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .45),
                 new ScalarAttributeEntry(AttributeWrapper.LUCK, .25)
         );
     }

@@ -26,7 +26,7 @@ public class MystbloomBoots extends MystbloomArmorSet {
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 60),
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 80),
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 10),
                 new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .05),
                 new AdditiveAttributeEntry(Attribute.GENERIC_SAFE_FALL_DISTANCE, 5)

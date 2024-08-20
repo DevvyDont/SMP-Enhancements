@@ -16,12 +16,12 @@ public class LuxeLeggings extends LuxeArmorSet {
 
     @Override
     public int getDefense() {
-        return 70;
+        return 55;
     }
 
     @Override
     public int getHealth() {
-        return 10;
+        return 35;
     }
 
     @Override

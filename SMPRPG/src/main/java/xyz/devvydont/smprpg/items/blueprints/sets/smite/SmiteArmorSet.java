@@ -28,7 +28,8 @@ public abstract class SmiteArmorSet extends CustomArmorBlueprint implements Tool
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, getDefense()),
                 new AdditiveAttributeEntry(AttributeWrapper.EXPLOSION_KNOCKBACK_RESISTANCE, .25),
-                new ScalarAttributeEntry(AttributeWrapper.BURNING_TIME, -.2)
+                new ScalarAttributeEntry(AttributeWrapper.BURNING_TIME, -.2),
+                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .1)
         );
     }
 
@@ -41,7 +42,7 @@ public abstract class SmiteArmorSet extends CustomArmorBlueprint implements Tool
 
     @Override
     public int getMaxDurability() {
-        return 4_500;
+        return 4_000;
     }
 
     @Override

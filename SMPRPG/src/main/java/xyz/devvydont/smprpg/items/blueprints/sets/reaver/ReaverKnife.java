@@ -31,7 +31,7 @@ public class ReaverKnife extends CustomAttributeItem implements ToolBreakable, L
         super(itemService, type);
     }
 
-    public static final int WITHER_SKULL_BOOST = 3;
+    public static final int WITHER_SKULL_BOOST = 5;
 
     @Override
     public void updateMeta(ItemMeta meta) {
@@ -46,13 +46,14 @@ public class ReaverKnife extends CustomAttributeItem implements ToolBreakable, L
         components.add(Component.empty());
         components.add(AbilityUtil.getAbilityComponent("Decapitator (Passive)"));
         components.add(ComponentUtil.getDefaultText("Wither Skeleton Skull drops are ").append(ComponentUtil.getColoredComponent(WITHER_SKULL_BOOST + "x", NamedTextColor.GREEN)).append(ComponentUtil.getDefaultText(" more common")));
+        components.add(ComponentUtil.getDefaultText("when killing ").append(ComponentUtil.getColoredComponent("Wither", NamedTextColor.DARK_RED)).append(ComponentUtil.getDefaultText(" type enemies with this weapon")));
         return components;
     }
 
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, 650),
+                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, 200),
                 new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, -.25)
         );
     }

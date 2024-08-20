@@ -26,9 +26,9 @@ public class BlessedEnchantment extends CustomEnchantment implements Listener {
     public static int getPercentageIncrease(int level) {
         return switch (level) {
             case 0 -> 0;
-            case 1 -> 30;
-            case 2 -> 75;
-            case 3 -> 140;
+            case 1 -> 40;
+            case 2 -> 95;
+            case 3 -> 150;
             case 4 -> 225;
             case 5 -> 300;
             default -> getPercentageIncrease(5) + 100 * (level-5);

@@ -16,7 +16,6 @@ import java.util.List;
 
 public class AraxysClaw extends CustomAttributeItem implements ToolBreakable {
 
-
     public AraxysClaw(ItemService itemService, CustomItemType type) {
         super(itemService, type);
     }
@@ -24,14 +23,14 @@ public class AraxysClaw extends CustomAttributeItem implements ToolBreakable {
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, 400),
+                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, 120),
                 new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, -.25)
         );
     }
 
     @Override
     public int getMaxDurability() {
-        return 35_000;
+        return AraxysArmorPiece.DURABILITY;
     }
 
     @Override

@@ -27,11 +27,11 @@ public class SlimyHelmet extends CustomFakeHelmetBlueprint implements Craftable,
     }
 
     public int getDefense() {
-        return 30;
+        return 10;
     }
 
     public int getHealth() {
-        return 10;
+        return 30;
     }
 
 

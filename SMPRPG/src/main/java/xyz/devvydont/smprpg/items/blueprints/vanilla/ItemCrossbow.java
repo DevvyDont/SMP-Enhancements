@@ -28,7 +28,7 @@ public class ItemCrossbow extends VanillaAttributeItem implements ToolBreakable 
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(Attribute.GENERIC_ATTACK_DAMAGE, 75)
+                new AdditiveAttributeEntry(Attribute.GENERIC_ATTACK_DAMAGE, 25)
         );
     }
 
@@ -44,6 +44,6 @@ public class ItemCrossbow extends VanillaAttributeItem implements ToolBreakable 
 
     @Override
     public int getMaxDurability() {
-        return 35_000;
+        return 5000;
     }
 }

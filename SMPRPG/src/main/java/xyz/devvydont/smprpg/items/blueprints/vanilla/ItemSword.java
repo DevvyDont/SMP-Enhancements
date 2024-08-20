@@ -24,26 +24,26 @@ public class ItemSword extends VanillaAttributeItem implements ToolBreakable {
 
     public static double getSwordDamage(Material material) {
         return switch (material) {
-            case NETHERITE_SWORD -> 750.0;
-            case TRIDENT -> 50.0;
-            case DIAMOND_SWORD -> 190;
-            case GOLDEN_SWORD -> 90.0;
-            case IRON_SWORD -> 55.0;
-            case STONE_SWORD -> 35.0;
-            case WOODEN_SWORD -> 25.0;
+            case NETHERITE_SWORD -> 175.0;
+            case TRIDENT -> 20.0;
+            case DIAMOND_SWORD -> 60;
+            case GOLDEN_SWORD -> 24;
+            case IRON_SWORD -> 16;
+            case STONE_SWORD -> 12;
+            case WOODEN_SWORD -> 10;
             default -> 0;
         };
     }
 
     public static int getSwordRating(Material material) {
         return switch (material) {
-            case NETHERITE_SWORD -> 45;
+            case NETHERITE_SWORD -> ToolsUtil.NETHERITE_TOOL_POWER;
             case TRIDENT -> 10;
-            case DIAMOND_SWORD -> 25;
-            case GOLDEN_SWORD -> 12;
-            case IRON_SWORD -> 7;
-            case STONE_SWORD -> 3;
-            case WOODEN_SWORD -> 2;
+            case DIAMOND_SWORD -> ToolsUtil.DIAMOND_TOOL_POWER;
+            case GOLDEN_SWORD -> ToolsUtil.GOLD_TOOL_POWER;
+            case IRON_SWORD -> ToolsUtil.IRON_TOOL_POWER;
+            case STONE_SWORD -> ToolsUtil.STONE_TOOL_POWER;
+            case WOODEN_SWORD -> ToolsUtil.WOOD_TOOL_POWER;
             default -> 1;
         };
     }

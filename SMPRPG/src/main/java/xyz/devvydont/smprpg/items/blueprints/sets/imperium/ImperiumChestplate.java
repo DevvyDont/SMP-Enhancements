@@ -13,12 +13,12 @@ public class ImperiumChestplate extends ImperiumArmorSet {
 
     @Override
     public int getDefense() {
-        return 350;
+        return 375;
     }
 
     @Override
     public int getHealth() {
-        return 250;
+        return 300;
     }
 
     @Override

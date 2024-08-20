@@ -20,10 +20,10 @@ public class SnowfallLeggings extends SnowfallArmorSet {
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 520),
-                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 350),
-                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .25),
-                new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, .2)
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 455),
+                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 320),
+                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .45),
+                new ScalarAttributeEntry(AttributeWrapper.LUCK, .25)
         );
     }
 

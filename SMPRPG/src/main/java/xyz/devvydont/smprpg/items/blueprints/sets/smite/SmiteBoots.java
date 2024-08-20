@@ -23,6 +23,6 @@ public class SmiteBoots extends SmiteArmorSet {
 
     @Override
     public int getDefense() {
-        return 30;
+        return 35;
     }
 }

@@ -29,12 +29,12 @@ public abstract class RadiantArmorSet extends CustomArmorBlueprint implements To
 
     @Override
     public int getPowerRating() {
-        return 35;
+        return 34;
     }
 
     @Override
     public int getMaxDurability() {
-        return 15_000;
+        return 27_500;
     }
 
     @Override

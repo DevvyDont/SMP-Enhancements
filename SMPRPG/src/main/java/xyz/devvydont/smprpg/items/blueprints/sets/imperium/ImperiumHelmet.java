@@ -13,12 +13,12 @@ public class ImperiumHelmet extends ImperiumArmorSet {
 
     @Override
     public int getDefense() {
-        return 195;
+        return 300;
     }
 
     @Override
     public int getHealth() {
-        return 150;
+        return 240;
     }
 
     @Override

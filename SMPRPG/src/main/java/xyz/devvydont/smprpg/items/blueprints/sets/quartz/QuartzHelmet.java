@@ -6,7 +6,6 @@ import org.bukkit.inventory.meta.trim.TrimPattern;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.util.crafting.builders.ChestplateRecipe;
 import xyz.devvydont.smprpg.util.crafting.builders.HelmetRecipe;
 
 public class QuartzHelmet extends QuartzArmorSet {
@@ -17,12 +16,17 @@ public class QuartzHelmet extends QuartzArmorSet {
 
     @Override
     public int getDefense() {
-        return 110;
+        return 90;
     }
 
     @Override
     public int getHealth() {
-        return 35;
+        return 65;
+    }
+
+    @Override
+    public int getStrength() {
+        return 15;
     }
 
     @Override

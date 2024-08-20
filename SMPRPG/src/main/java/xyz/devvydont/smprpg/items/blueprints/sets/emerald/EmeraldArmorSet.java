@@ -34,13 +34,15 @@ public abstract class EmeraldArmorSet extends CustomArmorBlueprint implements To
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, getDefense()),
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, getHealth()),
-                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .07)
+                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, getStrength()/100.0)
         );
     }
 
     public abstract int getDefense();
 
     public abstract int getHealth();
+
+    public abstract int getStrength();
 
     @Override
     public NamespacedKey getRecipeKey() {
@@ -56,12 +58,12 @@ public abstract class EmeraldArmorSet extends CustomArmorBlueprint implements To
 
     @Override
     public int getPowerRating() {
-        return 30;
+        return 28;
     }
 
     @Override
     public int getMaxDurability() {
-        return 9_500;
+        return 22_000;
     }
 
     @Override

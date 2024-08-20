@@ -22,10 +22,10 @@ public class PreludeBoots extends PreludeArmorSet {
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 470),
-                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 240),
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 640),
+                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 330),
                 new AdditiveAttributeEntry(AttributeWrapper.ARMOR, 4),
-                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .35),
+                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .6),
                 new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, .3),
                 new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, .15)
         );

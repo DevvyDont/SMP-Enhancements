@@ -4,12 +4,9 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.trim.TrimMaterial;
-import org.bukkit.inventory.meta.trim.TrimPattern;
 import xyz.devvydont.smprpg.items.CustomItemType;
-import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
-import xyz.devvydont.smprpg.items.attribute.AttributeModifierType;
 import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomArmorBlueprint;
 import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
@@ -59,13 +56,13 @@ public abstract class UnstableArmorSet extends CustomArmorBlueprint implements T
 
     @Override
     public int getPowerRating() {
-        return 55;
+        return 65;
     }
 
 
     @Override
     public int getMaxDurability() {
-        return 20_000;
+        return 60_000;
     }
 
     @Override

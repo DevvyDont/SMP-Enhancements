@@ -24,12 +24,12 @@ public class ItemHoe extends VanillaAttributeItem implements ToolBreakable {
 
     public static double getHoeDamage(Material material) {
         return switch (material) {
-            case NETHERITE_HOE -> 190.0;
-            case DIAMOND_HOE -> 90.0;
-            case GOLDEN_HOE -> 18.0;
-            case IRON_HOE -> 12.0;
-            case STONE_HOE -> 5.0;
-            case WOODEN_HOE -> 4.0;
+            case NETHERITE_HOE -> 60;
+            case DIAMOND_HOE -> 10;
+            case GOLDEN_HOE -> 6;
+            case IRON_HOE -> 3;
+            case STONE_HOE -> 2.0;
+            case WOODEN_HOE -> 1.0;
             default -> 0;
         };
     }
@@ -47,12 +47,12 @@ public class ItemHoe extends VanillaAttributeItem implements ToolBreakable {
 
     public static int getHoeRating(Material material) {
         return switch (material) {
-            case NETHERITE_HOE -> 45;
-            case DIAMOND_HOE -> 25;
-            case GOLDEN_HOE -> 12;
-            case IRON_HOE -> 7;
-            case STONE_HOE -> 3;
-            case WOODEN_HOE -> 2;
+            case NETHERITE_HOE -> ToolsUtil.NETHERITE_TOOL_POWER;
+            case DIAMOND_HOE -> ToolsUtil.DIAMOND_TOOL_POWER;
+            case GOLDEN_HOE -> ToolsUtil.GOLD_TOOL_POWER;
+            case IRON_HOE -> ToolsUtil.IRON_TOOL_POWER;
+            case STONE_HOE -> ToolsUtil.STONE_TOOL_POWER;
+            case WOODEN_HOE -> ToolsUtil.WOOD_TOOL_POWER;
             default -> 1;
         };
     }

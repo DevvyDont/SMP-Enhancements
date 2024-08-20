@@ -23,12 +23,12 @@ public class NeptuneLeggings extends NeptuneArmorSet {
 
     @Override
     public int getDefense() {
-        return 200;
+        return 140;
     }
 
     @Override
     public int getHealth() {
-        return 130;
+        return 115;
     }
 
     @Override

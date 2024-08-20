@@ -22,9 +22,9 @@ public class EmbercladLeggings extends EmbercladArmorSet {
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 180),
-                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 90),
-                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .15),
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 125),
+                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 110),
+                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .24),
                 new ScalarAttributeEntry(AttributeWrapper.BURNING_TIME, -.25)
         );
     }

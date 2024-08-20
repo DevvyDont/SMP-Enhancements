@@ -50,8 +50,8 @@ public class ReaverHelmet extends CustomFakeHelmetBlueprint implements ToolBreak
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 150),
-                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 80),
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 135),
+                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 120),
                 new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .25)
         );
     }

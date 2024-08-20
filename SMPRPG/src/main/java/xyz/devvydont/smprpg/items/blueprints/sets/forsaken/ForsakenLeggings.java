@@ -12,17 +12,17 @@ public class ForsakenLeggings extends ForsakenArmorSet {
 
     @Override
     public int getDefense() {
-        return 310;
+        return 200;
     }
 
     @Override
     public int getHealth() {
-        return 230;
+        return 175;
     }
 
     @Override
     public double getStrength() {
-        return .3;
+        return .4;
     }
 
     @Override

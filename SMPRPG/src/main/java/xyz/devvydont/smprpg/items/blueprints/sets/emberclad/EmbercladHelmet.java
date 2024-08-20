@@ -23,9 +23,9 @@ public class EmbercladHelmet extends EmbercladArmorSet {
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 120),
-                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 60),
-                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .12),
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 105),
+                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 90),
+                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .2),
                 new ScalarAttributeEntry(AttributeWrapper.BURNING_TIME, -.25)
         );
     }

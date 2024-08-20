@@ -21,9 +21,9 @@ public class ValiantLeggings extends ValiantArmorSet {
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 650),
-                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 400),
-                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .3)
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 580),
+                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 360),
+                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .5)
         );
     }
 

@@ -25,11 +25,16 @@ public class EmeraldBoots extends EmeraldArmorSet {
 
     @Override
     public int getDefense() {
-        return 70;
+        return 80;
     }
 
     @Override
     public int getHealth() {
-        return 10;
+        return 45;
+    }
+
+    @Override
+    public int getStrength() {
+        return 5;
     }
 }

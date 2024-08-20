@@ -46,12 +46,12 @@ public abstract class InfernoArmorSet extends CustomArmorBlueprint implements To
 
     @Override
     public int getPowerRating() {
-        return 50;
+        return 55;
     }
 
     @Override
     public int getMaxDurability() {
-        return 90_000;
+        return 60_000;
     }
 
     @Override

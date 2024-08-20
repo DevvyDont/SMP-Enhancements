@@ -12,6 +12,7 @@ import xyz.devvydont.smprpg.items.base.VanillaAttributeItem;
 import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
+import xyz.devvydont.smprpg.util.items.ToolsUtil;
 
 import java.util.*;
 
@@ -60,10 +61,10 @@ public class ItemArmor extends VanillaAttributeItem implements ToolBreakable {
             case DIAMOND_LEGGINGS -> 175;
             case DIAMOND_BOOTS -> 90;
 
-            case NETHERITE_HELMET -> 150;
-            case NETHERITE_CHESTPLATE -> 260;
-            case NETHERITE_LEGGINGS -> 230;
-            case NETHERITE_BOOTS -> 120;
+            case NETHERITE_HELMET -> 100;
+            case NETHERITE_CHESTPLATE -> 130;
+            case NETHERITE_LEGGINGS -> 125;
+            case NETHERITE_BOOTS -> 95;
 
             default -> 0;
         };
@@ -95,10 +96,10 @@ public class ItemArmor extends VanillaAttributeItem implements ToolBreakable {
     public static double getHealthFromMaterial(Material material) {
 
         return switch (material) {
-            case NETHERITE_HELMET -> 110;
-            case NETHERITE_CHESTPLATE -> 180;
-            case NETHERITE_LEGGINGS -> 150;
-            case NETHERITE_BOOTS -> 100;
+            case NETHERITE_HELMET -> 90;
+            case NETHERITE_CHESTPLATE -> 110;
+            case NETHERITE_LEGGINGS -> 100;
+            case NETHERITE_BOOTS -> 80;
 
             case DIAMOND_HELMET -> 10;
             case DIAMOND_CHESTPLATE -> 10;
@@ -113,15 +114,15 @@ public class ItemArmor extends VanillaAttributeItem implements ToolBreakable {
     public static double getDamageFromMaterial(Material material) {
 
         return switch (material) {
-            case NETHERITE_HELMET -> .1;
-            case NETHERITE_CHESTPLATE -> .1;
-            case NETHERITE_LEGGINGS -> .1;
-            case NETHERITE_BOOTS -> .1;
+            case NETHERITE_HELMET -> .18;
+            case NETHERITE_CHESTPLATE -> .3;
+            case NETHERITE_LEGGINGS -> .2;
+            case NETHERITE_BOOTS -> .12;
 
-            case DIAMOND_HELMET -> .05;
-            case DIAMOND_CHESTPLATE -> .05;
-            case DIAMOND_LEGGINGS -> .05;
-            case DIAMOND_BOOTS -> .05;
+            case DIAMOND_HELMET -> .04;
+            case DIAMOND_CHESTPLATE -> .08;
+            case DIAMOND_LEGGINGS -> .06;
+            case DIAMOND_BOOTS -> .02;
 
             default -> 0;
         };
@@ -139,15 +140,15 @@ public class ItemArmor extends VanillaAttributeItem implements ToolBreakable {
 
         return switch (material) {
 
-            case ELYTRA -> 50;
-            case NETHERITE_HELMET, NETHERITE_CHESTPLATE, NETHERITE_LEGGINGS, NETHERITE_BOOTS -> 45;
+            case ELYTRA -> 64;
+            case NETHERITE_HELMET, NETHERITE_CHESTPLATE, NETHERITE_LEGGINGS, NETHERITE_BOOTS -> ToolsUtil.NETHERITE_TOOL_POWER;
 
             case WOLF_ARMOR -> 30;
-            case DIAMOND_HELMET, DIAMOND_CHESTPLATE, DIAMOND_LEGGINGS, DIAMOND_BOOTS, DIAMOND_HORSE_ARMOR -> 22;
-            case GOLDEN_HELMET, GOLDEN_CHESTPLATE, GOLDEN_LEGGINGS, GOLDEN_BOOTS, GOLDEN_HORSE_ARMOR -> 15;
-            case IRON_HELMET, IRON_CHESTPLATE, IRON_LEGGINGS, IRON_BOOTS, IRON_HORSE_ARMOR -> 10;
-            case CHAINMAIL_HELMET, CHAINMAIL_CHESTPLATE, CHAINMAIL_LEGGINGS, CHAINMAIL_BOOTS, TURTLE_HELMET -> 7;
-            case LEATHER_HELMET, LEATHER_CHESTPLATE, LEATHER_LEGGINGS, LEATHER_BOOTS, LEATHER_HORSE_ARMOR -> 5;
+            case DIAMOND_HELMET, DIAMOND_CHESTPLATE, DIAMOND_LEGGINGS, DIAMOND_BOOTS, DIAMOND_HORSE_ARMOR -> ToolsUtil.DIAMOND_TOOL_POWER;
+            case GOLDEN_HELMET, GOLDEN_CHESTPLATE, GOLDEN_LEGGINGS, GOLDEN_BOOTS, GOLDEN_HORSE_ARMOR -> ToolsUtil.GOLD_TOOL_POWER;
+            case IRON_HELMET, IRON_CHESTPLATE, IRON_LEGGINGS, IRON_BOOTS, IRON_HORSE_ARMOR -> ToolsUtil.IRON_TOOL_POWER;
+            case CHAINMAIL_HELMET, CHAINMAIL_CHESTPLATE, CHAINMAIL_LEGGINGS, CHAINMAIL_BOOTS, TURTLE_HELMET -> 6;
+            case LEATHER_HELMET, LEATHER_CHESTPLATE, LEATHER_LEGGINGS, LEATHER_BOOTS, LEATHER_HORSE_ARMOR -> 4;
 
             default -> 1;
         };
@@ -157,7 +158,7 @@ public class ItemArmor extends VanillaAttributeItem implements ToolBreakable {
     public static int getMaxDurability(Material material) {
         return switch (material) {
 
-            case ELYTRA -> 42_000;
+            case ELYTRA -> 50_000;
 
             case NETHERITE_HELMET -> 30_600;
             case NETHERITE_CHESTPLATE -> 32_000;

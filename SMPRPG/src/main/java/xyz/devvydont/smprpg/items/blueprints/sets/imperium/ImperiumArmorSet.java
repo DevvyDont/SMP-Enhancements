@@ -28,7 +28,7 @@ public abstract class ImperiumArmorSet extends CustomArmorBlueprint implements T
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, getDefense()),
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, getHealth()),
-                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .2),
+                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .45),
                 new AdditiveAttributeEntry(AttributeWrapper.KNOCKBACK_RESISTANCE, .25)
         );
     }
@@ -40,12 +40,12 @@ public abstract class ImperiumArmorSet extends CustomArmorBlueprint implements T
 
     @Override
     public int getPowerRating() {
-        return 55;
+        return 65;
     }
 
     @Override
     public int getMaxDurability() {
-        return 25_000;
+        return 60_000;
     }
 
     @Override
