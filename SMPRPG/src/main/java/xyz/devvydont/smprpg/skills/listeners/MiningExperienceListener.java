@@ -24,7 +24,7 @@ public class MiningExperienceListener implements Listener {
         return switch (item.getType()) {
 
             case END_STONE, STONE, COBBLESTONE, COBBLED_DEEPSLATE, SAND, RED_SAND, SANDSTONE, RED_SANDSTONE, CLAY, MYCELIUM, GRASS_BLOCK, DIRT, GRAVEL, DEEPSLATE, TUFF, NETHERRACK, BLACKSTONE, BASALT, SMOOTH_BASALT, CRIMSON_NYLIUM, WARPED_NYLIUM -> 1;
-            case ANDESITE, DIORITE, GRANITE, CALCITE, QUARTZ_BLOCK, BONE_BLOCK, SOUL_SAND, SOUL_SOIL, ICE, PACKED_ICE -> 2;
+            case ANDESITE, DIORITE, GRANITE, CALCITE, BONE_BLOCK, SOUL_SAND, SOUL_SOIL, ICE, PACKED_ICE -> 2;
 
             case SEA_LANTERN -> 25;
             case PRISMARINE -> 2;
@@ -71,11 +71,14 @@ public class MiningExperienceListener implements Listener {
             case GOLD_BLOCK -> 110;
             case EMERALD_BLOCK -> 1500;
 
-            case MAGMA_BLOCK -> 40;
+            case MAGMA_BLOCK -> 9;
+            case GOLD_NUGGET -> 10;
             case NETHER_GOLD_ORE -> 65;
             case GLOWSTONE -> 55;
             case NETHER_QUARTZ_ORE -> 60;
-            case ANCIENT_DEBRIS -> 900;
+            case QUARTZ -> 15;
+            case QUARTZ_BLOCK -> 50;
+            case ANCIENT_DEBRIS -> 500;
 
 
             default -> 0;
