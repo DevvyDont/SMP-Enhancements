@@ -17,7 +17,7 @@ import xyz.devvydont.smprpg.util.items.QuantityLootDrop;
 import java.util.Collection;
 import java.util.List;
 
-public class LeveledWither extends BossInstance implements Listener {
+public class LeveledWither extends BossInstance {
 
     public LeveledWither(SMPRPG plugin, Entity entity) {
         super(plugin, entity);

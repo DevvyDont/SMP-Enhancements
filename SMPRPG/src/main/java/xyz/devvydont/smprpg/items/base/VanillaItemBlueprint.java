@@ -59,7 +59,8 @@ public class VanillaItemBlueprint extends SMPItemBlueprint {
 
     @Override
     public boolean isItemOfType(ItemStack itemStack) {
-        return this.item.isSimilar(itemStack);
+        // This item is of this type as long as it is a vanilla item and matches the material.
+        return itemService.getBlueprint(itemStack) instanceof VanillaItemBlueprint && itemStack.getType().equals(item.getType());
     }
 
     /**

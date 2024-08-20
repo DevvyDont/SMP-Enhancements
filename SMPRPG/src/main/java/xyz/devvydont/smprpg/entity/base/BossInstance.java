@@ -11,6 +11,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -28,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public abstract class BossInstance extends EnemyEntity {
+public abstract class BossInstance extends EnemyEntity implements Listener {
 
     private record PlayerDamageEntry (Player player, int damage){}
 
@@ -142,6 +143,11 @@ public abstract class BossInstance extends EnemyEntity {
         }
 
         return scoreboard;
+    }
+
+    @Override
+    public double getHalfHeartValue() {
+        return Math.max(2, getMaxHp() / 300.0);
     }
 
     @Override

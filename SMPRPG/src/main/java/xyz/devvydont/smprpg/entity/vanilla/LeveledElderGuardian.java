@@ -20,7 +20,7 @@ import xyz.devvydont.smprpg.util.items.QuantityLootDrop;
 import java.util.Collection;
 import java.util.List;
 
-public class LeveledElderGuardian extends BossInstance implements Listener {
+public class LeveledElderGuardian extends BossInstance {
 
     public LeveledElderGuardian(SMPRPG plugin, Entity entity) {
         super(plugin, entity);

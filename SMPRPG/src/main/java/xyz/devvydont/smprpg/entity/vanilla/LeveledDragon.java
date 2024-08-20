@@ -22,7 +22,7 @@ import xyz.devvydont.smprpg.util.items.QuantityLootDrop;
 import java.util.Collection;
 import java.util.List;
 
-public class LeveledDragon extends BossInstance implements Listener {
+public class LeveledDragon extends BossInstance {
 
     public LeveledDragon(SMPRPG plugin, Entity entity) {
         super(plugin, entity);
