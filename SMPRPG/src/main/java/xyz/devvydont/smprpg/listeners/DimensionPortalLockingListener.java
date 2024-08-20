@@ -10,6 +10,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityPortalEnterEvent;
 import xyz.devvydont.smprpg.SMPRPG;
+import xyz.devvydont.smprpg.entity.LeveledPlayer;
 
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
@@ -25,6 +26,9 @@ public class DimensionPortalLockingListener implements Listener {
 
     public static final Date NETHER_LOCK = generateDate(7, 20, 2024);
     public static final Date END_LOCK = generateDate(7, 25, 2024);
+
+    public static final int NETHER_COMBAT_REQUIREMENT = 20;
+    public static final int END_COMBAT_REQUIREMENT = 36;
 
     public static final int MESSAGE_COOLDOWN = 1000;
 
@@ -57,6 +61,18 @@ public class DimensionPortalLockingListener implements Listener {
         return sb.toString().trim();
     }
 
+    private void sendCombatTooLowMessage(LeveledPlayer player, String dimension, int requirement) {
+
+        // Don't do anything if we are on cooldown
+        long now = System.currentTimeMillis();
+        long cooldown = messageCooldown.getOrDefault(player.getPlayer().getUniqueId(), 0L);
+        if (cooldown > now)
+            return;
+
+        messageCooldown.put(player.getPlayer().getUniqueId(), now + MESSAGE_COOLDOWN);
+        player.getPlayer().sendMessage(Component.text("You must be Combat Skill Level " + requirement + " to enter the " + dimension + " dimension! ", NamedTextColor.RED));
+    }
+
     private void sendTimeDiffMessage(Entity entity, String dimension, Date lockedUntil) {
 
         // Dont send messages to non-players
@@ -78,13 +94,18 @@ public class DimensionPortalLockingListener implements Listener {
     @EventHandler
     public void onAttemptDimensionTeleport(EntityPortalEnterEvent event) {
 
-        // If the player is in creative mode, allow a bypass
-        if (event.getEntity() instanceof Player && ((Player) event.getEntity()).getGameMode().equals(GameMode.CREATIVE))
+        // Ignore if this is not a player
+        if (!(event.getEntity() instanceof Player player))
             return;
 
-        // If the portal is not a nether or end portal, ignore
+        // If the player is in creative mode, allow a bypass
+        if (player.getGameMode().equals(GameMode.CREATIVE))
+            return;
+
+        // Handle the portal we are entering
         PortalType portal = event.getPortalType();
         Date now = new Date();
+        LeveledPlayer leveledPlayer = plugin.getEntityService().getPlayerInstance(player);
 
         // If this is a nether portal check the date
         if (portal.equals(PortalType.NETHER)) {
@@ -92,15 +113,34 @@ public class DimensionPortalLockingListener implements Listener {
             if (now.before(NETHER_LOCK)) {
                 event.setCancelled(true);
                 sendTimeDiffMessage(event.getEntity(), "Nether", NETHER_LOCK);
+                return;
             }
+
+            // Too low?
+            if (leveledPlayer.getCombatSkill().getLevel() < NETHER_COMBAT_REQUIREMENT) {
+                event.setCancelled(true);
+                sendCombatTooLowMessage(leveledPlayer, "Nether", NETHER_COMBAT_REQUIREMENT);
+                return;
+            }
+
             return;
         }
 
         if (portal.equals(PortalType.ENDER)) {
+
             if (now.before(END_LOCK)) {
                 event.setCancelled(true);
                 sendTimeDiffMessage(event.getEntity(), "End", END_LOCK);
+                return;
             }
+
+            // Too low?
+            if (leveledPlayer.getCombatSkill().getLevel() < END_COMBAT_REQUIREMENT) {
+                event.setCancelled(true);
+                sendCombatTooLowMessage(leveledPlayer, "End", END_COMBAT_REQUIREMENT);
+                return;
+            }
+
         }
     }
 
