@@ -83,8 +83,8 @@ public class CustomEntityInstance extends EnemyEntity {
         ItemStack item = new ItemStack(material);
         item.editMeta(meta -> {
             meta.setAttributeModifiers(null);
-            meta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier(new NamespacedKey("smprpg", "dummy-attribute"), 0.01, AttributeModifier.Operation.ADD_SCALAR, EquipmentSlotGroup.ANY));
-            meta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier(new NamespacedKey("smprpg", "dummy-attribute"), 0.01, AttributeModifier.Operation.ADD_SCALAR, EquipmentSlotGroup.ANY));
+            meta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier(new NamespacedKey("smprpg", "dummy-attribute"), 0, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlotGroup.ANY));
+            meta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier(new NamespacedKey("smprpg", "dummy-attribute"), 0, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlotGroup.ANY));
         });
         plugin.getItemService().setIgnoreMetaUpdate(item);
         return item;
