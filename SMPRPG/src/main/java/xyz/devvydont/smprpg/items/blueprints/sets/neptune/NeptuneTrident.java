@@ -52,7 +52,7 @@ public class NeptuneTrident extends CustomAttributeItem implements ToolBreakable
 
     @Override
     public EquipmentSlotGroup getActiveSlot() {
-        return EquipmentSlotGroup.HAND;
+        return EquipmentSlotGroup.MAINHAND;
     }
 
     @Override
