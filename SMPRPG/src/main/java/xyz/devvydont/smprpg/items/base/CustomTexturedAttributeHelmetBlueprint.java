@@ -16,6 +16,7 @@ import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import xyz.devvydont.smprpg.enchantments.definitions.vanilla.overrides.UnbreakingEnchantment;
 import xyz.devvydont.smprpg.items.CustomItemType;
+import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.attribute.AttributeModifierType;
 import xyz.devvydont.smprpg.items.interfaces.Attributeable;
 import xyz.devvydont.smprpg.items.interfaces.Craftable;
@@ -132,5 +133,10 @@ public abstract class CustomTexturedAttributeHelmetBlueprint extends CustomHeadB
 
         damageable.setDamage(damageable.getDamage()+1);
         helmet.setItemMeta(damageable);
+    }
+
+    @Override
+    public ItemClassification getItemClassification() {
+        return ItemClassification.HELMET;
     }
 }
