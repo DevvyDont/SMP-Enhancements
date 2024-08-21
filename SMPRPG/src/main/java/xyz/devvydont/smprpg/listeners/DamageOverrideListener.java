@@ -10,10 +10,7 @@ import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityShootBowEvent;
-import org.bukkit.event.entity.ProjectileLaunchEvent;
+import org.bukkit.event.entity.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import xyz.devvydont.smprpg.SMPRPG;
@@ -248,6 +245,26 @@ public class DamageOverrideListener implements Listener {
         AttributeInstance damage = warden.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE);
         double adjustedDamage = getDifficultyAdjustedDamage(event.getEntity().getWorld(), damage != null ? damage.getValue() : 15);
         event.setDamage(adjustedDamage);
+    }
+
+    /*
+     * Some entities can explode. The damage done should scale based on the level of the entity.
+     */
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+    public void onEntityExplosionDamage(EntityDamageByEntityEvent event) {
+
+        if (!event.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_EXPLOSION))
+            return;
+
+        if (!(event.getEntity() instanceof LivingEntity living))
+            return;
+
+        LeveledEntity leveledEntity = plugin.getEntityService().getEntityInstance(living);
+//        int level = leveledEntity.getLevel();
+
+        // Convert the vanilla mc damage to a multiplier. If we divide by 20, we can say that it would one shot a player in vanilla.
+        double power = event.getFinalDamage() / 20.0;
+        event.setDamage((leveledEntity.getLevel() * leveledEntity.getLevel() + 50) * power);
     }
 
     /**
