@@ -38,7 +38,7 @@ public class AttributeUtil {
             return 0;
 
         // Armor toughness is capped at 20, so we need to actually manually check for it by analyzing armor
-        if (attribute.equals(Attribute.GENERIC_ARMOR_TOUGHNESS))
+        if (attribute.equals(Attribute.GENERIC_ARMOR_TOUGHNESS) && instance.getValue() > 1)
             return calculateAttributeBonus(instance.getModifiers(), 0).getTotal();
 
         return instance.getValue();
