@@ -1,6 +1,5 @@
 package xyz.devvydont.smprpg.listeners;
 
-import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.World;
@@ -14,6 +13,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
+import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import xyz.devvydont.smprpg.SMPRPG;
@@ -26,10 +26,31 @@ import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
  */
 public class DamageOverrideListener implements Listener {
 
+    // How much to decrease damage by depending on the difficulty.
+    public static final float EASY_DAMAGE_MULTIPLIER = .25f;
+    public static final float NORMAL_DAMAGE_MULITPLIER = .5f;
+    public static final float HARD_DAMAGE_MULTIPLIER = 1f;
+
     // How effective defense is. The lower the number, the better damage reduction from defense is.
     public static final int DEFENSE_FACTOR = 100;
 
-    private NamespacedKey ARROW_DAMAGE_TAG;
+    // What should be the attack cooldown threshold to use vanilla's logic?
+    private final static float COOLDOWN_FORGIVENESS_THRESHOLD = 0.6f;
+
+    // Used to store the amount of damage an arrow entity should do.
+    private final NamespacedKey PROJECTILE_DAMAGE_TAG;
+    // The base damage of an arrow if it was not assigned one when it is launched. This could happen in the event
+    // that we do not set a damage value on an arrow entity when it is fired from any source.
+    private final static double BASE_ARROW_DAMAGE = 5;
+    // The force factor to apply to an arrow's force to decide if this arrow was a fully charged
+    // arrow shot. In vanilla minecraft, fully charged bow shots have a force of 3.0
+    private final static double BOW_FORCE_FACTOR = 3.0;
+    // The force factor to assume for entities. Entities do not have "bow force" in the same way
+    // that players do, so we can make one up here. They also typically do not shoot as forceful as players.
+    private final static double AI_BOW_FORCE_FACTOR = 1.75;
+    // The velocity an arrow needs to be travelling to deal "maximum" damage. Arrows traveling this fast
+    // will deal exactly the amount of damage of the attack damage stat that was applied to it when it was shot.
+    private final static double MAX_ARROW_DAMAGE_VELOCITY = 60.0;
 
     /**
      * Given a defense attribute value, return the multiplier of some damage to take.
@@ -73,7 +94,7 @@ public class DamageOverrideListener implements Listener {
         this.plugin = plugin;
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
 
-        ARROW_DAMAGE_TAG = new NamespacedKey(plugin, "arrow-damage");
+        PROJECTILE_DAMAGE_TAG = new NamespacedKey(plugin, "arrow-damage");
     }
 
     /**
@@ -85,35 +106,35 @@ public class DamageOverrideListener implements Listener {
      */
     private double getDifficultyAdjustedDamage(World world, double damage) {
         return switch (world.getDifficulty()) {
-            case PEACEFUL -> 0.25 * damage;
-            case EASY -> 0.5 * damage;
-            case NORMAL -> 0.75 * damage;
-            default -> damage;
+            case PEACEFUL -> EASY_DAMAGE_MULTIPLIER * damage * .5;
+            case EASY -> EASY_DAMAGE_MULTIPLIER * damage;
+            case NORMAL -> NORMAL_DAMAGE_MULITPLIER * damage;
+            case HARD -> HARD_DAMAGE_MULTIPLIER * damage;
         };
     }
 
     /**
-     * Given an arrow entity, return its tagged modified damage. Returns 6 by default if this arrow is not tagged.
+     * Given an arrow entity, return its tagged modified damage. Returns 5 by default if this arrow is not tagged.
      *
-     * @param arrow
+     * @param projectile
      * @return
      */
-    public double getBaseArrowDamage(Arrow arrow) {
-        return arrow.getPersistentDataContainer().getOrDefault(ARROW_DAMAGE_TAG, PersistentDataType.DOUBLE, 6.0);
+    public double getBaseProjectileDamage(Projectile projectile) {
+        return projectile.getPersistentDataContainer().getOrDefault(PROJECTILE_DAMAGE_TAG, PersistentDataType.DOUBLE, BASE_ARROW_DAMAGE);
     }
 
     /**
      * Given an arrow and a damage value, set the arrow's base damage to deal upon impact.
      *
-     * @param arrow
+     * @param projectile
      * @param damage
      */
-    public void setBaseArrowDamage(Entity arrow, double damage) {
-        arrow.getPersistentDataContainer().set(ARROW_DAMAGE_TAG, PersistentDataType.DOUBLE, damage);
+    public void setBaseProjectileDamage(Entity projectile, double damage) {
+        projectile.getPersistentDataContainer().set(PROJECTILE_DAMAGE_TAG, PersistentDataType.DOUBLE, damage);
     }
 
     /**
-     * Used to tag arrows with the proper damage value based on the attack damage stat of the player.
+     * Used to tag arrows with the proper damage value based on the attack damage stat of the shooter.
      *
      * @param event
      */
@@ -131,13 +152,13 @@ public class DamageOverrideListener implements Listener {
         // If this was a player, consider bow force.
         // Based on how charged the bow was, apply a percentage to the arrow's damage. (Fully charged = full damage)
         if (event.getEntity() instanceof Player)
-            arrowDamage *= (event.getForce() / 3.0);
+            arrowDamage *= (event.getForce() / BOW_FORCE_FACTOR);
         // If this wasn't a player, consider difficulty and give the arrow a 2x boost to nullify velocity falloff since entities don't shoot arrows that travel at max speed
         else
-            arrowDamage = getDifficultyAdjustedDamage(event.getEntity().getWorld(), arrowDamage) * 2;
+            arrowDamage = getDifficultyAdjustedDamage(event.getEntity().getWorld(), arrowDamage) * AI_BOW_FORCE_FACTOR;
 
         // Set the damage.
-        setBaseArrowDamage(event.getProjectile(), arrowDamage);
+        setBaseProjectileDamage(event.getProjectile(), arrowDamage);
     }
 
     /**
@@ -147,29 +168,75 @@ public class DamageOverrideListener implements Listener {
      *
      * @param event
      */
-    @EventHandler(priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onArrowDamageReceived(EntityDamageByEntityEvent event) {
 
-        double MAX_ARROW_VELOCITY = 60.0;
-
         // Ignore events not involving an arrow harming something.
-        if (!(event.getDamager() instanceof Arrow))
+        if (!(event.getDamager() instanceof AbstractArrow arrow))
             return;
 
         // Retrieve the base damage of this arrow assuming this arrow is at max velocity.
-        Arrow arrow = (Arrow) event.getDamager();
-        double baseArrowDamage = getBaseArrowDamage(arrow);
+        double baseArrowDamage = getBaseProjectileDamage(arrow);
 
+        // Convert the velocity to m/s by using the tick rate of the server
         double arrowVelocity = arrow.getVelocity().length() * 20;
-        double arrowForce = arrowVelocity / MAX_ARROW_VELOCITY;
+        double arrowForce = arrowVelocity / MAX_ARROW_DAMAGE_VELOCITY;
         double newArrowDamage = baseArrowDamage * arrowForce;
 
         // Multiply the base damage of this event by how fast this arrow is going compared to the "max" velocity
         event.setDamage(newArrowDamage);
     }
 
-    // Fixes sonic boom attack from wardens to use their attack damage stat rather than a fixed amount
-    @EventHandler(priority = EventPriority.LOWEST)
+    /*
+     * When entities launch projectiles, the attack damage stat of the entity needs to be
+     * transferred to the projectile, so we can listen for it when it deals damage.
+     */
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+    public void onEntityNonArrowProjectileLaunch(ProjectileLaunchEvent event) {
+
+        // Ignore arrows. This is handled in its own case.
+        if (event.getEntity() instanceof AbstractArrow)
+            return;
+
+        // See if there was an entity that launched this projectile that can have attributes.
+        if (!(event.getEntity().getShooter() instanceof LivingEntity living))
+            return;
+
+        // See if they have an attack damage stat
+        AttributeInstance attack = living.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE);
+        if (attack == null)
+            return;
+
+        // This projectile should do the damage of the attack stat.
+        setBaseProjectileDamage(event.getEntity(), attack.getValue());
+    }
+
+    /*
+     * Used to listen for when a damage tagged projectile is dealing damage to an entity.
+     * This method ignores arrows as that is handled somewhere else.
+     */
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+    public void onEntityDamagedByNonArrowProjectile(EntityDamageByEntityEvent event) {
+
+        // We only want to listen to projectile damage events.
+        if (!event.getCause().equals(EntityDamageEvent.DamageCause.PROJECTILE))
+            return;
+
+        if (!(event.getDamager() instanceof Projectile projectile))
+            return;
+
+        // Do not handle arrows. That is done somewhere else.
+        if (projectile instanceof AbstractArrow)
+            return;
+
+        // Set the damage of the event to the damage that the projectile is supposed to do
+        event.setDamage(getBaseProjectileDamage(projectile));
+    }
+
+    /*
+     * Fixes sonic boom attack from wardens to use their attack damage stat rather than a fixed amount
+     */
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onSonicBoom(EntityDamageByEntityEvent event) {
 
         if (!event.getCause().equals(EntityDamageEvent.DamageCause.SONIC_BOOM))
@@ -184,19 +251,21 @@ public class DamageOverrideListener implements Listener {
     }
 
     /**
-     * Where most of the magic happens. This event is going to be called literally any time an entity deals damage
-     * to another entity. When this happens, we simply just do the following:
-     *
+     * Hook into when two entities are damaging each other, and construct a custom event where
+     * the entity dealing damage is instead set to the entity that *caused* the damage to occur.
+     * This makes it much easier to intercept events such as a player shooting a zombie with
+     * a bow, as it does the work of backtracking a projectile shooter back to the player.
      *
      * @param event
      */
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onVanillaDamageEntityVsEntity(EntityDamageByEntityEvent event) {
 
         // Handle the case where the source is a projectile. If it is, there is potential that
         // we are getting shot by a bow.
         Entity damaged = event.getEntity();
         Entity dealer = event.getDamager();
+
         Projectile projectile = null;
 
         // Handle the case where a projectile was thrown by an entity and configure the correct damage dealer
@@ -204,15 +273,8 @@ public class DamageOverrideListener implements Listener {
             projectile = (Projectile) dealer;
 
             // If this projectile sourced from something else, use that instead
-            if (projectile.getShooter() instanceof LivingEntity) {
+            if (projectile.getShooter() instanceof LivingEntity)
                 dealer = (Entity) projectile.getShooter();
-                LeveledEntity leveledDealer = plugin.getEntityService().getEntityInstance((LivingEntity) dealer);
-                double damage = leveledDealer.getBaseAttackDamage();
-                // If the shooter was NOT a player and the projectile was NOT an arrow, adjust the damage.
-                // This is so things like blazes or snowmen etc can deal proper damage.
-                if (!(dealer instanceof Player) && !(projectile instanceof Arrow))
-                    event.setDamage(getDifficultyAdjustedDamage(dealer.getWorld(), damage));
-            }
         }
 
         // Handle the case where the entity dealing damage doesn't even have the attack attribute, we have to set
@@ -220,6 +282,7 @@ public class DamageOverrideListener implements Listener {
         if (dealer instanceof LivingEntity && ((LivingEntity) dealer).getAttribute(Attribute.GENERIC_ATTACK_DAMAGE) == null)
             event.setDamage(plugin.getEntityService().getEntityInstance(dealer).getBaseAttackDamage());
 
+        // Call the event and check if it is canceled for any reason.
         CustomEntityDamageByEntityEvent eventWrapper = new CustomEntityDamageByEntityEvent(event, damaged, dealer, projectile);
         eventWrapper.callEvent();
         if (eventWrapper.isCancelled())
@@ -229,40 +292,55 @@ public class DamageOverrideListener implements Listener {
     }
 
     /**
-     * Where most of the magic happens. This event is going to be called literally any time an entity deals damage
-     * to another entity. When this happens, we simply just do the following:
+     * Handle the effectiveness of defense while wearing armor.
+     * Analyze the total defense of the entity who is taking damage, multiply the damage
+     * by their resistance multiplier.
      *
-     *  - Find the attack damage of the damage dealer
-     *  - Find the defense of the damage receiver
-     *  - Change the damage by multiplying the damage by the resistance
-     *  - Apply any post processing effects
+     * Since this is a multiplicative operation, this should run almost last.
      *
      * @param event
      */
-    @EventHandler
-    public void onEntityDamageEntity(CustomEntityDamageByEntityEvent event) {
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+    public void onEntityDamageEntityWithDefense(CustomEntityDamageByEntityEvent event) {
 
         // Since we are only really overriding how armor and resistance works, let's use the raw damage
         double newDamage = event.getFinalDamage();
 
         // Using the defense of the receiver, reduce the damage
         if (event.getDamaged() instanceof Attributable) {
-            Attributable receiver = (Attributable) event.getDamaged();
-
             // Apply the entity's defense attribute
             LeveledEntity leveledEntity = plugin.getEntityService().getEntityInstance(event.getDamaged());
             newDamage *= calculateDefenseDamageMultiplier(leveledEntity.getDefense());
-
-            // Apply the entity's true defense attribute
-            AttributeInstance armor = receiver.getAttribute(AttributeWrapper.ARMOR.getAttribute());
-            if (armor != null)
-                newDamage -= armor.getValue();
         }
 
         event.setFinalDamage(newDamage);
     }
 
+    /*
+     * Entities with the "armor" attribute should take off some damage additively at the very end of all damage calculations.
+     */
     @EventHandler
+    public void onEntityDamagedEntityWithArmor(EntityDamageByEntityEvent event) {
+
+        if (!(event.getEntity() instanceof LivingEntity living))
+            return;
+
+        AttributeInstance armor = living.getAttribute(Attribute.GENERIC_ARMOR);
+        if (armor == null)
+            return;
+
+        double damage = event.getFinalDamage();
+        damage -= armor.getValue();
+        damage = Math.max(1, damage);
+        event.setDamage(damage);
+    }
+
+    /*
+     * Currently, bows have a strength stat that can work as a melee stat which is not intended due
+     * to the constraints of minecraft's attribute system. If an entity is holding a bow and does melee damage,
+     * they should be severely nerfed.
+     */
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onMeleeDamageHoldingBow(EntityDamageByEntityEvent event) {
 
         if (!(event.getDamager() instanceof LivingEntity living))
@@ -303,11 +381,13 @@ public class DamageOverrideListener implements Listener {
 
         // Is the player on cooldown? Don't do anything if they are dealing a full damage hit.
         // If the player was *close enough* then allow vanilla Minecraft's damage rules for damage reduction.
-        if (cooldown >= 0.5f)
+        if (cooldown >= COOLDOWN_FORGIVENESS_THRESHOLD)
             return;
 
+        double newDamage = Math.sqrt(event.getFinalDamage());
+
         // This player was well below the threshold for us to consider dealing full damage, apply some math to reduce it.
-        event.setDamage(Math.sqrt(event.getFinalDamage()));
+        event.setDamage(newDamage);
     }
 
     /*

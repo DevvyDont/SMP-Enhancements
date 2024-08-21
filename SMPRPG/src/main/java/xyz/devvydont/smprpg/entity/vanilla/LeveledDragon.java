@@ -50,7 +50,7 @@ public class LeveledDragon extends BossInstance {
     }
 
     @Override
-    public String getDefaultName() {
+    public String getEntityName() {
         return "Ender Dragon";
     }
 

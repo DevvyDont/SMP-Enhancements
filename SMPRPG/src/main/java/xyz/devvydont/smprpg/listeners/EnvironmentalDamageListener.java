@@ -1,5 +1,7 @@
 package xyz.devvydont.smprpg.listeners;
 
+import net.kyori.adventure.text.Component;
+import org.bukkit.Bukkit;
 import org.bukkit.attribute.Attributable;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
@@ -16,6 +18,15 @@ import xyz.devvydont.smprpg.entity.base.LeveledEntity;
 public class EnvironmentalDamageListener implements Listener {
 
     final SMPRPG plugin;
+
+    public static boolean shouldGiveIFrames(EntityDamageEvent.DamageCause cause) {
+
+        return switch (cause) {
+            case FIRE, LAVA, MELTING, DRAGON_BREATH, HOT_FLOOR, FIRE_TICK, CRAMMING, SUFFOCATION, CONTACT, CAMPFIRE, WORLD_BORDER, STARVATION, VOID, DRYOUT -> true;
+            default -> false;
+        };
+
+    }
 
     /**
      * Environmental damage causes % damage to health since health can get out of control
@@ -140,5 +151,19 @@ public class EnvironmentalDamageListener implements Listener {
 
         // Take the vanilla damage and 5x it
         event.setDamage(event.getFinalDamage() * 5);
+    }
+
+    /*
+     * Since entities can take lots of damage very rapidly, we need to add some iframes to certain damage events so
+     * they don't take an absurd amount of damage very quickly.
+     */
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onTakeRapidEnvironmentalDamage(EntityDamageEvent event) {
+
+        if (!(event.getEntity() instanceof LivingEntity living))
+            return;
+
+        if (shouldGiveIFrames(event.getCause()))
+            Bukkit.getScheduler().runTaskLater(plugin, () -> living.setNoDamageTicks(10), 0);
     }
 }

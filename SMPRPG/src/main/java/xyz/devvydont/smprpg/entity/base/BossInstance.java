@@ -40,6 +40,11 @@ public abstract class BossInstance extends EnemyEntity implements Listener {
         super(plugin, entity);
     }
 
+    @Override
+    public int getInvincibilityTicks() {
+        return 0;
+    }
+
     private TextColor getPlaceColor(int rank) {
         return switch (rank) {
             case 1 -> NamedTextColor.YELLOW;
@@ -163,7 +168,7 @@ public abstract class BossInstance extends EnemyEntity implements Listener {
     @Override
     public void setup() {
         super.setup();
-        scoreboard = new SimpleGlobalScoreboard(cloneScoreboard(), getNametagPowerComponent().append(getDisplaynameNametagComponent()));
+        scoreboard = new SimpleGlobalScoreboard(cloneScoreboard(), generateNametagComponent().append(getDisplaynameNametagComponent()));
         scoreboardUpdateTask = SMPRPG.getInstance().getServer().getScheduler().runTaskTimer(SMPRPG.getInstance(), this::updateScoreboard, 0, 20L);
         heal();
 
@@ -193,7 +198,7 @@ public abstract class BossInstance extends EnemyEntity implements Listener {
 
         // We died!!!
         Bukkit.broadcast(ComponentUtil.getDefaultText("-----------------------------"));
-        Bukkit.broadcast(getNametagPowerComponent().append(getDisplaynameNametagComponent()).append(ComponentUtil.getColoredComponent(" Defeated!", getEntityNametagColor())));
+        Bukkit.broadcast(generateNametagComponent().append(getDisplaynameNametagComponent()).append(ComponentUtil.getColoredComponent(" Defeated!", determineNametagColor())));
         Bukkit.broadcast(Component.empty());
         Bukkit.broadcast(Component.text(plugin.getChatService().getPlayerDisplayname(player)).append(ComponentUtil.getDefaultText(" dealt the final blow!")));
         Bukkit.broadcast(Component.empty());

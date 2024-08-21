@@ -25,6 +25,11 @@ public class VanillaEntity extends EnemyEntity {
     }
 
     @Override
+    public int getInvincibilityTicks() {
+        return 0;
+    }
+
+    @Override
     public String getClassKey() {
         return VANILLA_CLASS_KEY;
     }
@@ -35,7 +40,7 @@ public class VanillaEntity extends EnemyEntity {
     }
 
     @Override
-    public String getDefaultName() {
+    public String getEntityName() {
         return MinecraftStringUtils.getTitledString(entity.getType().name());
     }
 

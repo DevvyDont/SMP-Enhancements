@@ -35,7 +35,7 @@ public class ReforgeNPC extends NPCEntity {
     }
 
     @Override
-    public String getDefaultName() {
+    public String getEntityName() {
         return "Gear Blacksmith";
     }
 

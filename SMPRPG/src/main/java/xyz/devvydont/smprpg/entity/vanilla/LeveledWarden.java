@@ -52,12 +52,12 @@ public class LeveledWarden extends BossInstance {
     }
 
     @Override
-    public String getDefaultName() {
+    public String getEntityName() {
         return "Warden";
     }
 
     @Override
-    public TextColor getEntityNametagColor() {
+    public TextColor determineNametagColor() {
         return NamedTextColor.DARK_PURPLE;
     }
 

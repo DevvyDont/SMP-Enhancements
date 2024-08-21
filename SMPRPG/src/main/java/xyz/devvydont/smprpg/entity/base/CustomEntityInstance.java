@@ -35,6 +35,11 @@ public class CustomEntityInstance extends EnemyEntity {
         setNoDropEquipment();
     }
 
+    @Override
+    public int getInvincibilityTicks() {
+        return 0;
+    }
+
     public CustomEntityType getEntityType() {
         return entityType;
     }
@@ -50,7 +55,7 @@ public class CustomEntityInstance extends EnemyEntity {
     }
 
     @Override
-    public String getDefaultName() {
+    public String getEntityName() {
         return entityType.name;
     }
 

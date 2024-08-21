@@ -30,31 +30,124 @@ public abstract class LeveledEntity implements LootSource {
         this.entity = entity;
     }
 
+    /**
+     * Invincibility ticks are essentially how many ticks an entity is invulnerable for when taking damage.
+     * Setting this to lower values allows entities to be hit at a much quicker rate.
+     *
+     * @return the amount of ticks to be invulnerable for when taking damage
+     */
+    public abstract int getInvincibilityTicks();
+
+    /**
+     * Calculates how much damage this entity should do when dealing damage.
+     *
+     * @return The damage this entity should do
+     */
+    public abstract double calculateBaseAttackDamage();
+
+    /**
+     * Class keys are the persistent data that we store on entities so that we can associate a Minecraft entity with
+     * a class in our plugin. Gets the class key to store on an entity to persist entity types
+     *
+     * @return This entity's class key
+     */
+    public abstract String getClassKey();
+
+    /**
+     * Gets the default Minecraft entity type to associate with this class when initially spawning one.
+     * This can be anything except a Player
+     *
+     * @return The vanilla Minecraft entity type to default to when spawning this entity
+     */
+    public abstract EntityType getDefaultEntityType();
+
+
+    /**
+     * Gets the entity name to display in the name tag.
+     *
+     * @return A string representing this entity's name.
+     */
+    public abstract String getEntityName();
+
+    /**
+     * Returns the default level of this entity given certain circumstances
+     *
+     * @return an integer representing the default level of an entity type
+     */
+    public abstract int getDefaultLevel();
+
+
+    /**
+     * Using getLevel(), set this entity's attributes
+     */
+    public abstract void updateAttributes();
+
+    /**
+     * Setup this entity. This is called any time an entity instance is attached to a vanilla Minecraft entity.
+     */
     public void setup() {
         addPersistentEntityClassTag();
         updateAttributes();
         dimNametag();
         updateNametag();
+        if (entity instanceof LivingEntity living)
+            setupLivingEnitity(living);
     }
 
+    /**
+     * Ran as a part of the setup phase but only if the entity attached to this instance is a LivingEntity.
+     * Used to prevent many annoying isinstance checks since 99% of the entities that use this class will
+     * be living entities, but there are a few exceptions we need to handle.
+     *
+     * @param living this.entity but safely casted to a LivingEntity instance.
+     */
+    public void setupLivingEnitity(LivingEntity living) {
+        living.setMaximumNoDamageTicks(getInvincibilityTicks());
+    }
+
+    /**
+     * Called when this wrapper instance is being detached from the entity. This can either be due to chunk unloading,
+     * the entity dying, or being transformed into another entity.
+     */
+    public void cleanup() {
+    }
+
+    /**
+     * Tags the attached entity with the class tag defined in this class so that in the event of a chunk unload
+     * and/or server restart, we can re-associate this entity back with its proper custom wrapper instance.
+     */
     public void addPersistentEntityClassTag() {
         // Tag this entity with its class key so it can be found later
         entity.getPersistentDataContainer().set(plugin.getEntityService().getClassNamespacedKey(), PersistentDataType.STRING, getClassKey());
     }
 
+    /**
+     * Spigot API hack to mimic the sneaking nametag behavior of players but on normal entities. This allows us
+     * to effectively "turn off" the wallhacks you get by seeing entity nametags in caves below the world.
+     */
     public void dimNametag() {
         entity.setSneaking(true);
     }
 
+    /**
+     * Used to reverse the Spigot API hack of dimming nametags. Sets the nametag back to its default state of showing
+     * like a normal nametag.
+     */
     public void brightenNametag() {
         entity.setSneaking(false);
     }
+
 
     public Entity getEntity() {
         return entity;
     }
 
-    public TextColor getEntityNametagColor() {
+    /**
+     * Default behavior for determining a name color for the name portion in the nametag.
+     *
+     * @return
+     */
+    public TextColor determineNametagColor() {
         return switch (entity) {
             case Boss boss -> NamedTextColor.DARK_PURPLE;
             case Enemy enemy -> NamedTextColor.RED;
@@ -64,6 +157,13 @@ public abstract class LeveledEntity implements LootSource {
         };
     }
 
+    /**
+     * Helper method to determine a color to associate with a certain health percentage given HP and max HP
+     *
+     * @param hp The HP of the entity
+     * @param maxHp The max HP of an entity
+     * @return A text color to associate with a certain percentage of health
+     */
     public static TextColor getChatColorFromHealth(double hp, double maxHp) {
         double percent = hp / maxHp;
         if (percent <= 0)
@@ -80,16 +180,31 @@ public abstract class LeveledEntity implements LootSource {
             return NamedTextColor.AQUA;
     }
 
-    public Component getNametagPowerComponent() {
+    /**
+     * Generates the bracketed power component to display in a nametag. This is usually the prefix
+     *
+     * @return A Component of the current entity level
+     */
+    public Component generateNametagComponent() {
         return Component.text("[").color(NamedTextColor.GRAY)
                 .append(Component.text(Symbols.POWER + getLevel()).color(NamedTextColor.YELLOW))
                 .append(Component.text("] ").color(NamedTextColor.GRAY));
     }
 
+    /**
+     * Generates the name portion of a nametag.
+     *
+     * @return A component representing the name portion of a nametag
+     */
     public Component getDisplaynameNametagComponent() {
-        return Component.text(getDefaultName()).color(getEntityNametagColor());
+        return Component.text(getEntityName()).color(determineNametagColor());
     }
 
+    /**
+     * Generates the health portion of a nametag based on the current health state of the entity.
+     *
+     * @return A component representing the health of the entity
+     */
     public Component getHealthNametagComponent() {
 
         int hp;
@@ -114,7 +229,7 @@ public abstract class LeveledEntity implements LootSource {
      */
     public void updateNametag() {
         entity.setCustomNameVisible(true);
-        entity.customName(getNametagPowerComponent().append(getDisplaynameNametagComponent()).append(getHealthNametagComponent()));
+        entity.customName(generateNametagComponent().append(getDisplaynameNametagComponent()).append(getHealthNametagComponent()));
     }
 
     /**
@@ -146,18 +261,33 @@ public abstract class LeveledEntity implements LootSource {
         setAbsorptionHealth(hp);
     }
 
+    /**
+     * Gets this entity's health. This does not factor in absorption health, for TOTAL health use getTotalHp()
+     *
+     * @return a double representing the entity's health
+     */
     public double getHp() {
         if (entity instanceof LivingEntity living)
             return living.getHealth();
         return 0;
     }
 
+    /**
+     * Get this entity's total health. This includes absorption health.
+     *
+     * @return a double representing the enitity's total amount of health
+     */
     public double getTotalHp() {
         if (entity instanceof LivingEntity living)
             return living.getHealth() + getAbsorptionHealth();
         return 0;
     }
 
+    /**
+     * Gets the entity's max health.
+     *
+     * @return a double representing this entity's max health
+     */
     public double getMaxHp() {
         if (entity instanceof LivingEntity living)
             return living.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
@@ -165,8 +295,8 @@ public abstract class LeveledEntity implements LootSource {
     }
 
     /**
-     * The current value of HP this player's half of heart is HP wise
-     * This amount of HP is used a lot for damage such as fall damage, burning, and regeneration values
+     * Calculates how much a "half heart" is for this entity. Things such as environmental damage/explosions need
+     * to factor in a portion of max HP since health numbers can get pretty high
      *
      * @return
      */
@@ -174,11 +304,18 @@ public abstract class LeveledEntity implements LootSource {
         return getMaxHp() / 20.0;
     }
 
+    /**
+     * Some entities can regenerate health in certain circumstances. Depending on the reason, we should adjust how
+     * much health to regenerate while using the half heart value of this entity in most circumstances.
+     *
+     * @param reason The reason why this entity is regenerating health
+     * @return How much health should be regenerated
+     */
     public double getRegenerationAmount(EntityRegainHealthEvent.RegainReason reason) {
         return getHalfHeartValue();
     }
 
-    public abstract double calculateBaseAttackDamage();
+
 
     /**
      * Attempts to find the attack damage statistic stored on this entity. If not stored, we will calculate it ourselves.
@@ -197,28 +334,10 @@ public abstract class LeveledEntity implements LootSource {
         return calculateBaseAttackDamage();
     }
 
-
-    public void cleanup() {
-    }
-
-
-    public abstract String getClassKey();
-
-    public abstract EntityType getDefaultEntityType();
-
-    public abstract String getDefaultName();
-
-    /**
-     * Returns the default level of this entity given certain circumstances
-     *
-     * @return
-     */
-    public abstract int getDefaultLevel();
-
     /**
      * Returns the level set to this entity. If not present, default to whatever the set default is.
      *
-     * @return
+     * @return an integer representing the current level of this entity
      */
     public int getLevel() {
 
@@ -233,7 +352,7 @@ public abstract class LeveledEntity implements LootSource {
      * Sets the level stored on this entity. If you wish to update the entity's attributes as well, call
      * updateAttributes() afterward.
      *
-     * @param level
+     * @param level The level to set the entity to
      */
     public void setLevel(int level) {
         entity.getPersistentDataContainer().set(plugin.getEntityService().getLevelNamespacedKey(), PersistentDataType.INTEGER, level);
@@ -246,6 +365,14 @@ public abstract class LeveledEntity implements LootSource {
         setLevel(getDefaultLevel());
     }
 
+    /**
+     * Helper method to make it quicker to set the value of an attribute on an entity. Exception safe way to do this:
+     *      entity.getAttribute(attribute).setBaseValue(value)
+     * Also ensures that the entity will have the attribute registered to them if it is not already
+     *
+     * @param attribute The attribute to modify
+     * @param value The value to set the base value of the attribute to
+     */
     protected void updateBaseAttribute(Attribute attribute, double value) {
 
         if (!(entity instanceof LivingEntity living))
@@ -263,10 +390,8 @@ public abstract class LeveledEntity implements LootSource {
     }
 
     /**
-     * Using getLevel(), set this entity's attributes
+     * Helper method to heal the entity back to full HP.
      */
-    public abstract void updateAttributes();
-
     public void heal() {
 
         if (!(entity instanceof LivingEntity living))
@@ -278,7 +403,7 @@ public abstract class LeveledEntity implements LootSource {
 
     /**
      * Takes a look at the armor this entity is wearing and determines the defense of the items.
-     * @return
+     * @return an integer representing defense.
      */
     public int getDefense() {
 
@@ -363,7 +488,7 @@ public abstract class LeveledEntity implements LootSource {
      */
     @Override
     public Component getAsComponent() {
-        return ComponentUtil.getDefaultText("defeating a(n) ").append(ComponentUtil.getColoredComponent(getDefaultName(), NamedTextColor.RED));
+        return ComponentUtil.getDefaultText("defeating a(n) ").append(ComponentUtil.getColoredComponent(getEntityName(), NamedTextColor.RED));
     }
 
     /**

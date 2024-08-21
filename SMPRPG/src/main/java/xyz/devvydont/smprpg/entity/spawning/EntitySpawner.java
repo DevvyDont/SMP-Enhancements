@@ -297,7 +297,7 @@ public class EntitySpawner extends CustomEntityInstance implements Listener {
     }
 
     @Override
-    public Component getNametagPowerComponent() {
+    public Component generateNametagComponent() {
         return Component.empty();
     }
 

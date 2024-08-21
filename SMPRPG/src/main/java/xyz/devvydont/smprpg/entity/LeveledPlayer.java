@@ -111,6 +111,11 @@ public class LeveledPlayer extends LeveledEntity implements Listener {
     }
 
     @Override
+    public int getInvincibilityTicks() {
+        return 10;
+    }
+
+    @Override
     public String getClassKey() {
         return "player";
     }
@@ -121,7 +126,7 @@ public class LeveledPlayer extends LeveledEntity implements Listener {
     }
 
     @Override
-    public String getDefaultName() {
+    public String getEntityName() {
         return entity.getName();
     }
 
@@ -225,7 +230,9 @@ public class LeveledPlayer extends LeveledEntity implements Listener {
         // Update max health to 100 while maintaining their current HP
         double percent = getHealthPercentage();
         updateBaseAttribute(Attribute.GENERIC_MAX_HEALTH, getBaseHealth());
-        setHealthPercentage(percent);
+
+        if (percent > .01)
+            setHealthPercentage(percent);
 
         // Set mic default base attributes that players should have
         updateBaseAttribute(Attribute.GENERIC_ATTACK_DAMAGE, 5);

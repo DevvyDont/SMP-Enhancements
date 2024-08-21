@@ -37,10 +37,10 @@ public abstract class NPCEntity extends CustomEntityInstance implements Listener
      * @return
      */
     @Override
-    public abstract String getDefaultName();
+    public abstract String getEntityName();
 
     @Override
-    public TextColor getEntityNametagColor() {
+    public TextColor determineNametagColor() {
         return NamedTextColor.WHITE;
     }
 
@@ -50,7 +50,7 @@ public abstract class NPCEntity extends CustomEntityInstance implements Listener
      * @return
      */
     @Override
-    public Component getNametagPowerComponent() {
+    public Component generateNametagComponent() {
         return Component.text("[").color(NamedTextColor.GRAY)
                 .append(Component.text("NPC").color(NamedTextColor.YELLOW))
                 .append(Component.text("] ").color(NamedTextColor.GRAY));

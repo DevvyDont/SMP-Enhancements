@@ -20,7 +20,7 @@ public class LeveledVillager extends VanillaEntity {
     }
 
     @Override
-    public String getDefaultName() {
+    public String getEntityName() {
 
         if (entity instanceof Villager villager) {
             Villager.Profession profession = villager.getProfession();
@@ -28,6 +28,6 @@ public class LeveledVillager extends VanillaEntity {
                 return MinecraftStringUtils.getTitledString(profession.key().value());
         }
 
-        return super.getDefaultName();
+        return super.getEntityName();
     }
 }

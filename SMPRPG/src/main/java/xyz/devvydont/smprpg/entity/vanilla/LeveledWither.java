@@ -44,7 +44,7 @@ public class LeveledWither extends BossInstance {
     }
 
     @Override
-    public String getDefaultName() {
+    public String getEntityName() {
         return "Wither";
     }
 

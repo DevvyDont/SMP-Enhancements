@@ -52,12 +52,12 @@ public class LeveledElderGuardian extends BossInstance {
     }
 
     @Override
-    public String getDefaultName() {
+    public String getEntityName() {
         return "Elder Guardian";
     }
 
     @Override
-    public TextColor getEntityNametagColor() {
+    public TextColor determineNametagColor() {
         return NamedTextColor.DARK_PURPLE;
     }
 
