@@ -6,6 +6,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.w3c.dom.Attr;
 import xyz.devvydont.smprpg.items.CustomItemType;
+import xyz.devvydont.smprpg.items.ItemRarity;
 import xyz.devvydont.smprpg.items.attribute.AttributeModifierType;
 import xyz.devvydont.smprpg.items.interfaces.Attributeable;
 import xyz.devvydont.smprpg.items.interfaces.Craftable;
@@ -33,7 +34,7 @@ public abstract class CustomAttributeItem extends CustomItemBlueprint implements
     }
 
     public boolean wantNerfedSellPrice() {
-        return true;
+        return getDefaultRarity().ordinal() < ItemRarity.EPIC.ordinal();
     }
 
     @Override

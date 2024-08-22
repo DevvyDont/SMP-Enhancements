@@ -2,7 +2,6 @@ package xyz.devvydont.smprpg.items.blueprints.sets.inferno;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.damage.DamageSource;
 import org.bukkit.damage.DamageType;
@@ -10,14 +9,14 @@ import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.CraftingRecipe;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataType;
-import org.bukkit.projectiles.ProjectileSource;
+import org.bukkit.inventory.recipe.CraftingBookCategory;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
@@ -26,6 +25,7 @@ import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomAttributeItem;
+import xyz.devvydont.smprpg.items.interfaces.Craftable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
 import xyz.devvydont.smprpg.util.formatting.ChatUtil;
@@ -34,7 +34,7 @@ import xyz.devvydont.smprpg.util.items.AbilityUtil;
 
 import java.util.*;
 
-public class InfernoSaber extends CustomAttributeItem implements Listener {
+public class InfernoSaber extends CustomAttributeItem implements Listener, Craftable {
 
     public static final int COOLDOWN = 3;
     public static final int COST = 150;
@@ -91,6 +91,28 @@ public class InfernoSaber extends CustomAttributeItem implements Listener {
     @Override
     public EquipmentSlotGroup getActiveSlot() {
         return EquipmentSlotGroup.MAINHAND;
+    }
+
+
+    @Override
+    public NamespacedKey getRecipeKey() {
+        return new NamespacedKey(SMPRPG.getInstance(), getCustomItemType().getKey() + "-recipe");
+    }
+
+    @Override
+    public CraftingRecipe getCustomRecipe() {
+        ShapedRecipe recipe = new ShapedRecipe(getRecipeKey(), generate());
+        recipe.shape("r", "r", "r");
+        recipe.setIngredient('r', ItemService.getItem(InfernoArmorSet.CRAFTING_COMPONENT));
+        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+        return recipe;
+    }
+
+    @Override
+    public Collection<ItemStack> unlockedBy() {
+        return List.of(
+                ItemService.getItem(InfernoArmorSet.CRAFTING_COMPONENT)
+        );
     }
 
     public boolean canUse(Player player) {

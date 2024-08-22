@@ -96,6 +96,11 @@ public abstract class BossInstance extends EnemyEntity implements Listener {
 
     private void updateScoreboard() {
 
+        if (scoreboard == null) {
+            cleanupScoreboard();
+            return;
+        }
+
         List<Component> lines = new ArrayList<>();
 
         // Add HP description, 3 lines
@@ -186,9 +191,7 @@ public abstract class BossInstance extends EnemyEntity implements Listener {
     @Override
     public void cleanup() {
         super.cleanup();
-        scoreboard.cleanup();
-        scoreboardUpdateTask.cancel();
-        scoreboard = null;
+        cleanupScoreboard();
     }
 
     private void cleanupScoreboard() {

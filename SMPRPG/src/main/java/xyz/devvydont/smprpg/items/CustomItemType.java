@@ -53,10 +53,7 @@ import xyz.devvydont.smprpg.items.blueprints.sets.emerald.EmeraldHelmet;
 import xyz.devvydont.smprpg.items.blueprints.sets.emerald.EmeraldLeggings;
 import xyz.devvydont.smprpg.items.blueprints.sets.exiled.ExiledAxe;
 import xyz.devvydont.smprpg.items.blueprints.sets.exiled.ExiledCrossbow;
-import xyz.devvydont.smprpg.items.blueprints.sets.forsaken.ForsakenBoots;
-import xyz.devvydont.smprpg.items.blueprints.sets.forsaken.ForsakenChestplate;
-import xyz.devvydont.smprpg.items.blueprints.sets.forsaken.ForsakenHelmet;
-import xyz.devvydont.smprpg.items.blueprints.sets.forsaken.ForsakenLeggings;
+import xyz.devvydont.smprpg.items.blueprints.sets.forsaken.*;
 import xyz.devvydont.smprpg.items.blueprints.sets.imperium.ImperiumBoots;
 import xyz.devvydont.smprpg.items.blueprints.sets.imperium.ImperiumChestplate;
 import xyz.devvydont.smprpg.items.blueprints.sets.imperium.ImperiumHelmet;
@@ -282,6 +279,10 @@ public enum CustomItemType {
     INFERNO_SABER("Inferno Saber",           Material.BLAZE_ROD,         ItemRarity.LEGENDARY, InfernoSaber.class),
     INFERNO_SHORTBOW("Inferno Shortbow",     Material.BOW,               ItemRarity.LEGENDARY, InfernoShortbow.class),
 
+    SCORCHING_STRING("Scorching String", Material.STRING, ItemRarity.RARE, true, ScorchingString.class),
+    INFERNO_RESIDUE("Inferno Residue", Material.ORANGE_DYE, ItemRarity.RARE, true, InfernoResidue.class),
+    INFERNO_REMNANT("Inferno Remnant", "391a40e212d620de62babfac5488746d0ab4c28e7a8c2263662161723674cc28", ItemRarity.EPIC, InfernoRemnant.class),
+
     // REAVER
     REAVER_HELMET("Reaver Helmet",         Material.BLACK_STAINED_GLASS, ItemRarity.EPIC, ReaverHelmet.class),
     REAVER_CHESTPLATE("Reaver Chestplate", Material.LEATHER_CHESTPLATE,  ItemRarity.EPIC, ReaverChestplate.class),
@@ -294,6 +295,7 @@ public enum CustomItemType {
     FORSAKEN_CHESTPLATE("Forsaken Chestplate", Material.LEATHER_CHESTPLATE,  ItemRarity.LEGENDARY, ForsakenChestplate.class),
     FORSAKEN_LEGGINGS(  "Forsaken Leggings",   Material.NETHERITE_LEGGINGS,  ItemRarity.LEGENDARY, ForsakenLeggings.class),
     FORSAKEN_BOOTS(     "Forsaken Boots",      Material.LEATHER_BOOTS,       ItemRarity.LEGENDARY, ForsakenBoots.class),
+    FORSAKEN_CUTLASS(     "Forsaken Cutlass",  Material.NETHERITE_SWORD,     ItemRarity.LEGENDARY, ForsakenCutlass.class),
 
     // UNSTABLE
     UNSTABLE_HELMET(    "Unstable Helmet",     Material.NETHERITE_HELMET,    ItemRarity.EPIC, UnstableHelmet.class),
