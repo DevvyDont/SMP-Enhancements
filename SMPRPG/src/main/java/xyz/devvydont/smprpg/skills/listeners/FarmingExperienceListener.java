@@ -1,14 +1,10 @@
 package xyz.devvydont.smprpg.skills.listeners;
 
-import io.papermc.paper.event.block.BlockBreakBlockEvent;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Ageable;
-import org.bukkit.craftbukkit.block.impl.CraftReed;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -16,22 +12,13 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockGrowEvent;
 import org.bukkit.event.player.PlayerHarvestBlockEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.metadata.FixedMetadataValue;
-import org.bukkit.metadata.MetadataValue;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitScheduler;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.LeveledPlayer;
 import xyz.devvydont.smprpg.events.skills.SkillExperienceGainEvent;
-import xyz.devvydont.smprpg.skills.SkillGlobals;
 import xyz.devvydont.smprpg.skills.SkillInstance;
-import xyz.devvydont.smprpg.skills.rewards.FarmingSkillRewards;
 import xyz.devvydont.smprpg.util.world.ChunkUtil;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
 
 public class FarmingExperienceListener implements Listener {
 

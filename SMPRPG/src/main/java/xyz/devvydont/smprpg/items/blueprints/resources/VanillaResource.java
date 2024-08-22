@@ -111,6 +111,7 @@ public class VanillaResource extends VanillaItemBlueprint implements Sellable {
         materialWorthMap.put(Material.RAW_IRON, 7);
 
         materialWorthMap.put(Material.GOLD_INGOT, 70);
+        materialWorthMap.put(Material.GOLD_NUGGET, 7);
         materialWorthMap.put(Material.GOLD_BLOCK, 630);
         materialWorthMap.put(Material.DEEPSLATE_GOLD_ORE, 35);
         materialWorthMap.put(Material.GOLD_ORE, 35);
