@@ -26,7 +26,7 @@ public class ItemArmor extends VanillaAttributeItem implements ToolBreakable {
 
         return switch (material) {
 
-            case ELYTRA -> 50;
+            case ELYTRA -> 150;
 
             case LEATHER_HORSE_ARMOR -> 100;
             case IRON_HORSE_ARMOR -> 250;
@@ -96,6 +96,9 @@ public class ItemArmor extends VanillaAttributeItem implements ToolBreakable {
     public static double getHealthFromMaterial(Material material) {
 
         return switch (material) {
+
+            case ELYTRA -> 100;
+
             case NETHERITE_HELMET -> 90;
             case NETHERITE_CHESTPLATE -> 110;
             case NETHERITE_LEGGINGS -> 100;
@@ -140,7 +143,7 @@ public class ItemArmor extends VanillaAttributeItem implements ToolBreakable {
 
         return switch (material) {
 
-            case ELYTRA -> 64;
+            case ELYTRA -> 62;
             case NETHERITE_HELMET, NETHERITE_CHESTPLATE, NETHERITE_LEGGINGS, NETHERITE_BOOTS -> ToolsUtil.NETHERITE_TOOL_POWER;
 
             case WOLF_ARMOR -> 30;

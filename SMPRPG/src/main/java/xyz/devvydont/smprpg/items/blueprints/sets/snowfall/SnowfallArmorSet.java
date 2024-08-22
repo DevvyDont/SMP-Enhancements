@@ -16,7 +16,7 @@ public abstract class SnowfallArmorSet extends CustomArmorBlueprint implements T
 
     @Override
     public int getPowerRating() {
-        return 75;
+        return 70;
     }
 
     @Override

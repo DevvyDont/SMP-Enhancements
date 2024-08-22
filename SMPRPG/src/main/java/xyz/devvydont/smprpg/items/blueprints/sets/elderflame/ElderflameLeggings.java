@@ -23,8 +23,8 @@ public class ElderflameLeggings extends ElderflameArmorSet {
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 370),
-                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 295),
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 315),
+                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 265),
                 new AdditiveAttributeEntry(AttributeWrapper.ARMOR, 3),
                 new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .5),
                 new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, .2),

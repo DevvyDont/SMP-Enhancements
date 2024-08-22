@@ -58,12 +58,12 @@ public abstract class EmeraldArmorSet extends CustomArmorBlueprint implements To
 
     @Override
     public int getPowerRating() {
-        return 28;
+        return 24;
     }
 
     @Override
     public int getMaxDurability() {
-        return 22_000;
+        return 20_000;
     }
 
     @Override

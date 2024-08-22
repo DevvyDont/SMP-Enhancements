@@ -5,7 +5,6 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.CraftingRecipe;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.ShapedRecipe;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
@@ -36,7 +35,7 @@ public class PhantomWings extends CustomAttributeItem implements ToolBreakable, 
 
     @Override
     public int getPowerRating() {
-        return 5;
+        return 10;
     }
 
     @Override
@@ -56,7 +55,7 @@ public class PhantomWings extends CustomAttributeItem implements ToolBreakable, 
 
     @Override
     public CraftingRecipe getCustomRecipe() {
-        return new ChestplateRecipe(this, itemService.getCustomItem(Material.PHANTOM_MEMBRANE), generate()).build();
+        return new ChestplateRecipe(this, itemService.getCustomItem(CustomItemType.PREMIUM_MEMBRANE), generate()).build();
     }
 
     @Override

@@ -33,15 +33,15 @@ public class NeptuneHelmet extends CustomFakeHelmetBlueprint implements ToolBrea
     }
 
     public int getDefense() {
-        return 120;
+        return 100;
     }
 
     public int getHealth() {
-        return 95;
+        return 65;
     }
 
     public int getStrength() {
-        return 25;
+        return 20;
     }
 
 

@@ -15,6 +15,8 @@ import java.util.List;
 
 public abstract class ForsakenArmorSet extends ReaverArmorSet {
 
+    public static final int POWER = 50;
+
     public ForsakenArmorSet(ItemService itemService, CustomItemType type) {
         super(itemService, type);
     }
@@ -40,7 +42,7 @@ public abstract class ForsakenArmorSet extends ReaverArmorSet {
 
     @Override
     public int getPowerRating() {
-        return 50;
+        return POWER;
     }
 
     @Override

@@ -30,12 +30,12 @@ public class InfernoHelmet extends InfernoArmorSet {
 
     @Override
     public int getDefense() {
-        return 230;
+        return 200;
     }
 
     @Override
     public int getHealth() {
-        return 200;
+        return 175;
     }
 
     @Override

@@ -23,10 +23,10 @@ public class ElderflameChestplate extends ElderflameArmorSet {
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 400),
-                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 315),
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 300),
+                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 250),
                 new AdditiveAttributeEntry(AttributeWrapper.ARMOR, 4),
-                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .6),
+                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .5),
                 new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, .1),
                 new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, .2)
         );

@@ -1,6 +1,5 @@
 package xyz.devvydont.smprpg.items.blueprints.sets.emerald;
 
-import org.bukkit.Material;
 import org.bukkit.inventory.CraftingRecipe;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
@@ -25,16 +24,16 @@ public class EmeraldChestplate extends EmeraldArmorSet {
 
     @Override
     public int getDefense() {
-        return 110;
+        return 95;
     }
 
     @Override
     public int getHealth() {
-        return 65;
+        return 25;
     }
 
     @Override
     public int getStrength() {
-        return 25;
+        return 20;
     }
 }

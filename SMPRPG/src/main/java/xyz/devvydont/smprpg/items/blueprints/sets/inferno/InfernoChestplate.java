@@ -31,12 +31,12 @@ public class InfernoChestplate extends InfernoArmorSet {
 
     @Override
     public int getDefense() {
-        return 295;
+        return 250;
     }
 
     @Override
     public int getHealth() {
-        return 255;
+        return 220;
     }
 
     @Override

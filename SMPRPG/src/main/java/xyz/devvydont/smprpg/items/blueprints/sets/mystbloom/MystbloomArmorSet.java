@@ -12,13 +12,15 @@ import xyz.devvydont.smprpg.services.ItemService;
 
 public abstract class MystbloomArmorSet extends CustomArmorBlueprint implements Dyeable, Trimmable, ToolBreakable {
 
+    public static final int POWER = 15;
+
     public MystbloomArmorSet(ItemService itemService, CustomItemType type) {
         super(itemService, type);
     }
 
     @Override
     public int getPowerRating() {
-        return 20;
+        return POWER;
     }
 
     @Override
@@ -28,7 +30,7 @@ public abstract class MystbloomArmorSet extends CustomArmorBlueprint implements 
 
     @Override
     public int getMaxDurability() {
-        return 20_000;
+        return 12_500;
     }
 
     @Override

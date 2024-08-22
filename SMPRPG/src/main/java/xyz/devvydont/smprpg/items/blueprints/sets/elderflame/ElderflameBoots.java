@@ -25,8 +25,8 @@ public class ElderflameBoots extends ElderflameArmorSet implements Dyeable {
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 290),
-                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 285),
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 240),
+                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 200),
                 new AdditiveAttributeEntry(AttributeWrapper.ARMOR, 2),
                 new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .3),
                 new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, .3),

@@ -24,14 +24,14 @@ public class MystbloomKunai extends CustomAttributeItem implements ToolBreakable
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(Attribute.GENERIC_ATTACK_DAMAGE, 60),
+                new AdditiveAttributeEntry(Attribute.GENERIC_ATTACK_DAMAGE, 45),
                 new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, -.35)
         );
     }
 
     @Override
     public int getPowerRating() {
-        return 20;
+        return MystbloomArmorSet.POWER;
     }
     @Override
     public ItemClassification getItemClassification() {

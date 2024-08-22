@@ -18,9 +18,9 @@ import java.util.List;
 
 public abstract class NeptuneArmorSet extends CustomArmorBlueprint implements ToolBreakable, Dyeable, Trimmable, Craftable {
 
-    public static final int POWER_LEVEL = 35;
+    public static final int POWER_LEVEL = 30;
     public static final int OXYGEN_BONUS = 20;
-    public static final int DURABILITY = 30_000;
+    public static final int DURABILITY = 25_000;
 
     public NeptuneArmorSet(ItemService itemService, CustomItemType type) {
         super(itemService, type);
@@ -37,7 +37,8 @@ public abstract class NeptuneArmorSet extends CustomArmorBlueprint implements To
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, getDefense()),
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, getHealth()),
                 new ScalarAttributeEntry(AttributeWrapper.STRENGTH, getStrength()/100.0),
-                new AdditiveAttributeEntry(AttributeWrapper.OXYGEN_BONUS, OXYGEN_BONUS)
+                new AdditiveAttributeEntry(AttributeWrapper.OXYGEN_BONUS, OXYGEN_BONUS),
+                new ScalarAttributeEntry(AttributeWrapper.BURNING_TIME, -.1)
         );
     }
 

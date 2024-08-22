@@ -19,7 +19,7 @@ import java.util.List;
 
 public abstract class EmbercladArmorSet extends CustomArmorBlueprint implements ToolBreakable, Craftable, Trimmable {
 
-    public static final int POWER = 37;
+    public static final int POWER = 33;
     public static final CustomItemType INGREDIENT = CustomItemType.PREMIUM_BLAZE_ROD;
 
     public EmbercladArmorSet(ItemService itemService, CustomItemType type) {

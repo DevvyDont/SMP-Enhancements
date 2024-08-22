@@ -41,7 +41,7 @@ public class BlazeBoss extends CustomBossInstance {
                 new ChancedItemDrop(ItemService.getItem(CustomItemType.INFERNO_CHESTPLATE), 115, this),
                 new ChancedItemDrop(ItemService.getItem(CustomItemType.INFERNO_LEGGINGS), 115, this),
                 new ChancedItemDrop(ItemService.getItem(CustomItemType.INFERNO_BOOTS), 115, this),
-                new ChancedItemDrop(ItemService.getItem(CustomItemType.INFERNO_BLADE), 145, this),
+                new ChancedItemDrop(ItemService.getItem(CustomItemType.INFERNO_SABER), 145, this),
                 new ChancedItemDrop(ItemService.getItem(CustomItemType.INFERNO_SHORTBOW), 145, this)
         );
     }

@@ -278,7 +278,7 @@ public enum CustomItemType {
     INFERNO_CHESTPLATE("Inferno Chestplate", Material.GOLDEN_CHESTPLATE, ItemRarity.LEGENDARY, InfernoChestplate.class),
     INFERNO_LEGGINGS("Inferno Leggings",     Material.GOLDEN_LEGGINGS,   ItemRarity.LEGENDARY, InfernoLeggings.class),
     INFERNO_BOOTS("Inferno Boots",           Material.GOLDEN_BOOTS,      ItemRarity.LEGENDARY, InfernoBoots.class),
-    INFERNO_BLADE("Inferno Blade",           Material.BLAZE_ROD,         ItemRarity.LEGENDARY, InfernoBlade.class),
+    INFERNO_SABER("Inferno Saber",           Material.BLAZE_ROD,         ItemRarity.LEGENDARY, InfernoSaber.class),
     INFERNO_SHORTBOW("Inferno Shortbow",     Material.BOW,               ItemRarity.LEGENDARY, InfernoShortbow.class),
 
     // REAVER
@@ -331,7 +331,7 @@ public enum CustomItemType {
     PRELUDE_BOOTS(     "Prelude to Chaos Boots",          Material.NETHERITE_BOOTS,      ItemRarity.LEGENDARY,  PreludeBoots.class),
 
     // ELYTRAS
-    PHANTOM_WINGS("Phantom Wings", Material.ELYTRA, ItemRarity.UNCOMMON, PhantomWings.class),
+    PHANTOM_WINGS("Phantom Wings", Material.ELYTRA, ItemRarity.RARE, PhantomWings.class),
     EVORI_DREAMWINGS("Evori Dreamwings", Material.ELYTRA, ItemRarity.EPIC, EvoriDreamwings.class),
 
     // CHARMS

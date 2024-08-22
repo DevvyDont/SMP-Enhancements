@@ -68,6 +68,6 @@ public class EvoriDreamwings extends CustomAttributeItem implements ToolBreakabl
 
     @Override
     public int getMaxDurability() {
-        return 2500;
+        return 5000;
     }
 }

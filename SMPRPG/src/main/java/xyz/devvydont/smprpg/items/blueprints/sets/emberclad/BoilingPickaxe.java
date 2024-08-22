@@ -86,7 +86,7 @@ public class BoilingPickaxe extends CustomAttributeItem implements Listener, Too
 
     @Override
     public int getPowerRating() {
-        return 40;
+        return 35;
     }
 
     @Override

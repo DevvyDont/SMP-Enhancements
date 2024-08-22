@@ -56,13 +56,13 @@ public abstract class UnstableArmorSet extends CustomArmorBlueprint implements T
 
     @Override
     public int getPowerRating() {
-        return 65;
+        return 60;
     }
 
 
     @Override
     public int getMaxDurability() {
-        return 60_000;
+        return 56_000;
     }
 
     @Override

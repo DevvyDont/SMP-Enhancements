@@ -23,8 +23,8 @@ public class ElderflameHelmet extends ElderflameArmorSet {
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 315),
-                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 250),
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 270),
+                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 225),
                 new AdditiveAttributeEntry(AttributeWrapper.ARMOR, 3),
                 new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .35),
                 new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, .1),

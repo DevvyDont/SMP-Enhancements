@@ -17,7 +17,7 @@ import java.util.List;
 
 public abstract class InfernoArmorSet extends CustomArmorBlueprint implements ToolBreakable, Trimmable {
 
-    public static final int POWER = 55;
+    public static final int POWER = 50;
 
 
     public InfernoArmorSet(ItemService itemService, CustomItemType type) {
@@ -53,7 +53,7 @@ public abstract class InfernoArmorSet extends CustomArmorBlueprint implements To
 
     @Override
     public int getMaxDurability() {
-        return 60_000;
+        return 50_000;
     }
 
     @Override

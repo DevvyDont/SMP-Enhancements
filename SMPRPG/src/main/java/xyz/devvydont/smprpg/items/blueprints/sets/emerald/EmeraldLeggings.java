@@ -25,16 +25,16 @@ public class EmeraldLeggings extends EmeraldArmorSet {
 
     @Override
     public int getDefense() {
-        return 105;
+        return 85;
     }
 
     @Override
     public int getHealth() {
-        return 60;
+        return 25;
     }
 
     @Override
     public int getStrength() {
-        return 20;
+        return 18;
     }
 }

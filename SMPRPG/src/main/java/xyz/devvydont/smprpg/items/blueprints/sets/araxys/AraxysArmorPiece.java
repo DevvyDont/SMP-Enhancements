@@ -19,7 +19,7 @@ import java.util.List;
 
 public abstract class AraxysArmorPiece extends CustomArmorBlueprint implements ToolBreakable, Dyeable, Trimmable {
 
-    public static final int POWER = 30;
+    public static final int POWER = 25;
     public static final int DURABILITY = 27_500;
 
     public AraxysArmorPiece(ItemService itemService, CustomItemType type) {

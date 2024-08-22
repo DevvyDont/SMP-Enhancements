@@ -28,8 +28,8 @@ import java.util.List;
 
 public abstract class ReaverArmorSet extends CustomArmorBlueprint implements ToolBreakable, Trimmable, Listener {
 
-    public static final int POWER = 40;
-    public static final int DURABILITY = 40_000;
+    public static final int POWER = 35;
+    public static final int DURABILITY = 32_000;
     public static final int WITHER_RESIST = 15;
 
     public ReaverArmorSet(ItemService itemService, CustomItemType type) {
@@ -46,6 +46,7 @@ public abstract class ReaverArmorSet extends CustomArmorBlueprint implements Too
         components.add(Component.empty());
         components.add(AbilityUtil.getAbilityComponent("Necrotic (Passive)"));
         components.add(ComponentUtil.getDefaultText("Resists ").append(ComponentUtil.getColoredComponent("-" + getWitherResistance() + "%", NamedTextColor.GREEN)).append(ComponentUtil.getDefaultText(" of wither damage")));
+        components.add(ComponentUtil.getColoredComponent("(stacks multiplicatively)", NamedTextColor.DARK_GRAY));
         return components;
     }
 

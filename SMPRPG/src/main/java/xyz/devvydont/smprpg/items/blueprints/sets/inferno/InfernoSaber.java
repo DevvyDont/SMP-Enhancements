@@ -4,7 +4,6 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.damage.DamageSource;
 import org.bukkit.damage.DamageType;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Fireball;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -16,9 +15,6 @@ import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import xyz.devvydont.smprpg.SMPRPG;
-import xyz.devvydont.smprpg.entity.CustomEntityType;
-import xyz.devvydont.smprpg.entity.spawning.EntitySpawner;
-import xyz.devvydont.smprpg.gui.spawner.InterfaceSpawnerMainMenu;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
@@ -36,20 +32,20 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class InfernoBlade extends CustomAttributeItem implements Listener {
+public class InfernoSaber extends CustomAttributeItem implements Listener {
 
     public static final int COOLDOWN = 3;
     public static final int COST = 150;
     public static final int DAMAGE = 15_000;
 
-    public InfernoBlade(ItemService itemService, CustomItemType type) {
+    public InfernoSaber(ItemService itemService, CustomItemType type) {
         super(itemService, type);
     }
 
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, 400),
+                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, 300),
                 new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, -.6),
                 new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, .25)
         );

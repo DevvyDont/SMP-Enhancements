@@ -20,7 +20,7 @@ public class InfernoShortbow extends CustomShortbow {
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, 350),
+                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, 270),
                 new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, -.25)
         );
     }

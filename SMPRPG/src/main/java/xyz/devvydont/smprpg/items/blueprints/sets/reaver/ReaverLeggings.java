@@ -15,12 +15,12 @@ public class ReaverLeggings extends ReaverArmorSet {
 
     @Override
     public int getDefense() {
-        return 160;
+        return 135;
     }
 
     @Override
     public int getHealth() {
-        return 140;
+        return 110;
     }
 
     @Override

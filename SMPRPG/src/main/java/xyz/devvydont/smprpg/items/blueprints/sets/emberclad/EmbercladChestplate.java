@@ -23,9 +23,9 @@ public class EmbercladChestplate extends EmbercladArmorSet {
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 135),
-                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 90),
-                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .26),
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 115),
+                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 80),
+                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .24),
                 new ScalarAttributeEntry(AttributeWrapper.BURNING_TIME, -.25)
         );
     }

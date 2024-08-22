@@ -23,7 +23,7 @@ public class AraxysClaw extends CustomAttributeItem implements ToolBreakable {
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, 120),
+                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, 100),
                 new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, -.25)
         );
     }

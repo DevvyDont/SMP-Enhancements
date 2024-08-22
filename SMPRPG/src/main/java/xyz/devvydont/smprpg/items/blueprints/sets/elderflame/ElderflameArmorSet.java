@@ -23,7 +23,7 @@ public abstract class ElderflameArmorSet extends CustomArmorBlueprint implements
 
     @Override
     public int getPowerRating() {
-        return 65;
+        return 60;
     }
 
     @Override
