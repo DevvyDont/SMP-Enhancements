@@ -1,7 +1,6 @@
 package xyz.devvydont.smprpg.entity.vanilla;
 
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.base.VanillaEntity;
 
@@ -9,6 +8,21 @@ public class LeveledArmorStand extends VanillaEntity {
 
     public LeveledArmorStand(SMPRPG plugin, Entity entity) {
         super(plugin, entity);
+    }
+
+    @Override
+    public int getMinecraftExperienceDropped() {
+        return 0;
+    }
+
+    @Override
+    public int getCombatExperienceDropped() {
+        return 0;
+    }
+
+    @Override
+    public double getCombatExperienceMultiplier() {
+        return 0;
     }
 
     @Override
