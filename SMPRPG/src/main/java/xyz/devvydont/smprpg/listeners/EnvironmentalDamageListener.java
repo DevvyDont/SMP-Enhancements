@@ -140,19 +140,6 @@ public class EnvironmentalDamageListener implements Listener {
         event.setDamage(event.getFinalDamage() * 5);
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
-    public void onPotionDamage(EntityDamageEvent event) {
-
-        if (!(event.getEntity() instanceof LivingEntity))
-            return;
-
-        if (!event.getCause().equals(EntityDamageEvent.DamageCause.MAGIC))
-            return;
-
-        // Take the vanilla damage and 5x it
-        event.setDamage(event.getFinalDamage() * 5);
-    }
-
     /*
      * Since entities can take lots of damage very rapidly, we need to add some iframes to certain damage events so
      * they don't take an absurd amount of damage very quickly.
