@@ -36,7 +36,7 @@ public class MiningExperienceListener implements Listener {
                     case COAL_ORE, COAL -> 8;
                     case DEEPSLATE_COAL_ORE -> 15;
 
-                    case COPPER_ORE, RAW_COPPER, COPPER_INGOT -> 10;
+                    case COPPER_ORE, RAW_COPPER, COPPER_INGOT -> 2;
                     case DEEPSLATE_COPPER_ORE -> 20;
 
                     case IRON_ORE, RAW_IRON, IRON_INGOT -> 15;
