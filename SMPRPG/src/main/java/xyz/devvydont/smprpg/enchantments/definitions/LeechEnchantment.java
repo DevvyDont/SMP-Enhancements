@@ -15,6 +15,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.inventory.EquipmentSlotGroup;
@@ -22,11 +23,21 @@ import org.bukkit.inventory.ItemType;
 import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.enchantments.CustomEnchantment;
 import xyz.devvydont.smprpg.enchantments.EnchantmentUtil;
+import xyz.devvydont.smprpg.events.CustomEntityDamageByEntityEvent;
 
 public class LeechEnchantment extends CustomEnchantment implements Listener {
 
-    public static int getLifestealPercent(int level) {
-        return level;
+    public static double getLifestealPercent(int level) {
+        return switch (level){
+            case 1 -> 0.2;
+            case 2 -> 0.35;
+            case 3 -> 0.65;
+            case 4 -> 0.95;
+            case 5 -> 1.25;
+            case 6 -> 1.60;
+            case 7 -> 2;
+            default -> level * .25 + getLifestealPercent(5);
+        };
     }
 
     public LeechEnchantment(String id) {
@@ -42,7 +53,7 @@ public class LeechEnchantment extends CustomEnchantment implements Listener {
     public @NotNull Component getDescription() {
         return Component.text("Heal ").color(NamedTextColor.GRAY)
                 .append(Component.text("+" + getLifestealPercent(getLevel()) + "%").color(NamedTextColor.GREEN)
-                .append(Component.text(" of max health when killing an enemy").color(NamedTextColor.GRAY))
+                .append(Component.text(" of max health when hurting an enemy").color(NamedTextColor.GRAY))
                 );
     }
 
@@ -77,25 +88,22 @@ public class LeechEnchantment extends CustomEnchantment implements Listener {
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onPlayerLeechedEntity(EntityDeathEvent event) {
+    public void onPlayerLeechedEntity(CustomEntityDamageByEntityEvent event) {
 
-        Player killer = event.getEntity().getKiller();
-
-        // Did a player kill this entity?
-        if (killer == null)
+        if (!(event.getDealer() instanceof Player player))
             return;
 
-        AttributeInstance maxHP = killer.getAttribute(Attribute.GENERIC_MAX_HEALTH);
+        AttributeInstance maxHP = player.getAttribute(Attribute.GENERIC_MAX_HEALTH);
         if (maxHP == null)
             return;
 
         // Is this player holding the enchantment?
-        int leechLevels = EnchantmentUtil.getHoldingEnchantLevel(this, EquipmentSlotGroup.HAND, killer.getEquipment());
+        int leechLevels = EnchantmentUtil.getHoldingEnchantLevel(this, EquipmentSlotGroup.HAND, player.getEquipment());
         if (leechLevels <= 0)
             return;
 
         // Heal for a percentage of their max HP
-        killer.heal(getLifestealPercent(leechLevels) / 100.0 * maxHP.getValue(), EntityRegainHealthEvent.RegainReason.CUSTOM);
-        killer.getWorld().playSound(event.getEntity().getEyeLocation(), Sound.ENTITY_BAT_DEATH, .05f, 2.0f);
+        player.heal(getLifestealPercent(leechLevels) / 100.0 * maxHP.getValue(), EntityRegainHealthEvent.RegainReason.CUSTOM);
+        player.getWorld().playSound(event.getDamaged(), Sound.BLOCK_LAVA_POP, .05f, 2.0f);
     }
 }
