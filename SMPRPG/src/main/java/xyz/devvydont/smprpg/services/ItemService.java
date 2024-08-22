@@ -431,6 +431,9 @@ public class ItemService implements BaseService, Listener {
         if (itemStack == null)
             return null;
 
+        if (itemStack.getItemMeta() == null)
+            return null;
+
         if (!itemStack.hasItemMeta())
             return null;
 

@@ -15,6 +15,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.base.LeveledEntity;
 import xyz.devvydont.smprpg.events.CustomEntityDamageByEntityEvent;
@@ -24,6 +26,10 @@ import xyz.devvydont.smprpg.services.BaseService;
  * Overrides all instances of vanilla damage that is desired to fit our new attribute logic
  */
 public class EntityDamageCalculatorService implements Listener, BaseService {
+
+    /*
+     * STATIC CONSTANTS (SETTINGS)
+     */
 
     // How much to decrease damage by depending on the difficulty.
     public static final float EASY_DAMAGE_MULTIPLIER = .25f;
@@ -50,6 +56,17 @@ public class EntityDamageCalculatorService implements Listener, BaseService {
     // The velocity an arrow needs to be travelling to deal "maximum" damage. Arrows traveling this fast
     // will deal exactly the amount of damage of the attack damage stat that was applied to it when it was shot.
     public final static double MAX_ARROW_DAMAGE_VELOCITY = 60.0;
+
+    // How much percentage of damage to increase per level of strength an entity has.
+    public final static double DAMAGE_PERCENT_PER_LEVEL_STRENGTH_EFFECT = 25;
+    // How much defense per level of resistance is applied when an entity has the resistance effect.
+    // This will actually end up being implemented in LeveledEntity#getDefense() for convenience.
+    // todo temporarily set to 0 until i can figure out how to override vanilla logic
+    public final static int DEFENSE_PER_LEVEL_RESISTANCE_EFFECT = 0;
+
+    /*
+     * STATIC HELPER METHODS
+     */
 
     /**
      * Given a defense attribute value, return the multiplier of some damage to take.
@@ -94,6 +111,9 @@ public class EntityDamageCalculatorService implements Listener, BaseService {
         PROJECTILE_DAMAGE_TAG = new NamespacedKey(plugin, "arrow-damage");
     }
 
+    /*
+     * SERVICE BOILERPLATE
+     */
 
     @Override
     public boolean setup() {
@@ -110,6 +130,10 @@ public class EntityDamageCalculatorService implements Listener, BaseService {
     public boolean required() {
         return true;
     }
+
+    /*
+     * HELPER METHODS
+     */
 
     /**
      * The difficulty of the world affects the damage multiplier in some cases, we should account for that
@@ -146,6 +170,10 @@ public class EntityDamageCalculatorService implements Listener, BaseService {
     public void setBaseProjectileDamage(Entity projectile, double damage) {
         projectile.getPersistentDataContainer().set(PROJECTILE_DAMAGE_TAG, PersistentDataType.DOUBLE, damage);
     }
+
+    /*
+     * PROJECTILE/BOW RELATED DAMAGE EVENTS
+     */
 
     /**
      * Used to tag arrows with the proper damage value based on the attack damage stat of the shooter.
@@ -252,6 +280,10 @@ public class EntityDamageCalculatorService implements Listener, BaseService {
     }
 
     /*
+     * MISC ENTITY DAMAGE SOURCE EVENTS (WARDEN BEAMS, CREEPER EXPLOSIONS ETC)
+     */
+
+    /*
      * Fixes sonic boom attack from wardens to use their attack damage stat rather than a fixed amount
      */
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
@@ -287,6 +319,10 @@ public class EntityDamageCalculatorService implements Listener, BaseService {
         double power = event.getFinalDamage() / 20.0;
         event.setDamage((leveledEntity.getLevel() * leveledEntity.getLevel() + 50) * power);
     }
+
+    /*
+     * MAIN DAMAGE CALCULATIONS
+     */
 
     /**
      * Hook into when two entities are damaging each other, and construct a custom event where
@@ -374,6 +410,10 @@ public class EntityDamageCalculatorService implements Listener, BaseService {
     }
 
     /*
+     * DAMAGE "FIXES" (Bow stacking exploit, attacking on cooldowns, etc.)
+     */
+
+    /*
      * Currently, bows have a strength stat that can work as a melee stat which is not intended due
      * to the constraints of minecraft's attribute system. If an entity is holding a bow and does melee damage,
      * they should be severely nerfed.
@@ -429,6 +469,10 @@ public class EntityDamageCalculatorService implements Listener, BaseService {
     }
 
     /*
+     * ENTITY STATE DAMAGE FACTORS (an entity being a baby = deal less damage)
+     */
+
+    /*
      * It is annoying that baby enemies deal the same damage as normal ones since they are annoying to hit.
      * Apply an -80% damage reduction if an entity is a baby.
      */
@@ -445,6 +489,27 @@ public class EntityDamageCalculatorService implements Listener, BaseService {
 
         // Apply damage debuff
         event.setDamage(event.getFinalDamage() * .2);
+    }
+
+    /*
+     * STATUS EFFECT HANDLING (strength potion effect, resistance potion effect etc.)
+     */
+
+    /*
+     * When something attacks something else and has the strength potion effect, apply some more damage to the event.
+     */
+    @EventHandler
+    public void onEntityAttackedWithStrength(CustomEntityDamageByEntityEvent event) {
+
+        if (!(event.getDealer() instanceof LivingEntity living))
+            return;
+
+        PotionEffect strength = living.getPotionEffect(PotionEffectType.STRENGTH);
+        if (strength == null)
+            return;
+
+        int level = strength.getAmplifier() + 1;
+        event.setFinalDamage(event.getFinalDamage() * (level * DAMAGE_PERCENT_PER_LEVEL_STRENGTH_EFFECT / 100.0 + 1));
     }
 
 }

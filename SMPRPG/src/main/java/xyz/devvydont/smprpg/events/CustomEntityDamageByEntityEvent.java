@@ -84,10 +84,12 @@ public class CustomEntityDamageByEntityEvent extends Event implements Cancellabl
      */
     public void clearVanillaDamageModifiers() {
 
-        // Attempt to set the ARMOR modification to 0, if this fails then the entity couldn't have had armor anyway
-        try {
-            originalEvent.setDamage(EntityDamageEvent.DamageModifier.ARMOR, 0);
-        } catch (UnsupportedOperationException ignored) {}
+        // Attempt to set the all vanilla modifications to 0, if this fails then the entity couldn't have had armor anyway
+        for (EntityDamageEvent.DamageModifier mod : EntityDamageEvent.DamageModifier.values()) {
+            try {
+                originalEvent.setDamage(mod, 0);
+            } catch (UnsupportedOperationException ignored) {}
+        }
     }
 
     public Audience getAudience() {

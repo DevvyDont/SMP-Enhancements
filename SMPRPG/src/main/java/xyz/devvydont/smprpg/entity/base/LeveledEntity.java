@@ -8,8 +8,11 @@ import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.*;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
+import xyz.devvydont.smprpg.listeners.EntityDamageCalculatorService;
 import xyz.devvydont.smprpg.util.attributes.AttributeUtil;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
@@ -402,7 +405,25 @@ public abstract class LeveledEntity implements LootSource {
     }
 
     /**
-     * Takes a look at the armor this entity is wearing and determines the defense of the items.
+     * Calculates how much defense we have accumulated from effects. (Resistance potion effect)
+     *
+     * @return an integer of how much bonus defense this entity has. 0 if they don't have Resistance.
+     */
+    public int getDefenseFromEffects() {
+        if (!(getEntity() instanceof LivingEntity living))
+            return 0;
+
+        PotionEffect resistance = living.getPotionEffect(PotionEffectType.RESISTANCE);
+        if (resistance == null)
+            return 0;
+
+        int level = resistance.getAmplifier() + 1;
+
+        return EntityDamageCalculatorService.DEFENSE_PER_LEVEL_RESISTANCE_EFFECT * level;
+    }
+
+    /**
+     * Takes a look at the armor this entity is wearing and determines the defense of the items and effects we have.
      * @return an integer representing defense.
      */
     public int getDefense() {
@@ -410,7 +431,7 @@ public abstract class LeveledEntity implements LootSource {
         if (!(getEntity() instanceof LivingEntity living))
             return 0;
 
-        return (int) AttributeUtil.getAttributeValue(AttributeWrapper.DEFENSE.getAttribute(), living);
+        return (int) AttributeUtil.getAttributeValue(AttributeWrapper.DEFENSE.getAttribute(), living) + getDefenseFromEffects();
     }
 
     public double getHealthPercentage() {
