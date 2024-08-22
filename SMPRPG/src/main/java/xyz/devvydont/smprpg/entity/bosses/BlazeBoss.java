@@ -28,7 +28,8 @@ public class BlazeBoss extends CustomBossInstance {
     @Override
     public void updateAttributes() {
         super.updateAttributes();
-        updateBaseAttribute(Attribute.GENERIC_SCALE, 10);
+        updateBaseAttribute(Attribute.GENERIC_SCALE, 9);
+        updateBaseAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE, 1);
     }
 
     @Override

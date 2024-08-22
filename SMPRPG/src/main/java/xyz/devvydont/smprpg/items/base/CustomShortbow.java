@@ -98,6 +98,7 @@ public abstract class CustomShortbow extends CustomAttributeItem implements List
             if (inventoryItem.getType().equals(Material.SPECTRAL_ARROW)) {
                 consumable = inventoryItem;
                 arrowClass = SpectralArrow.class;
+                break;
             }
 
         }

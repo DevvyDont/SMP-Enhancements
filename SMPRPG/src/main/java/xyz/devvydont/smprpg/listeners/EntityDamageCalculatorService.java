@@ -2,6 +2,7 @@ package xyz.devvydont.smprpg.listeners;
 
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.attribute.Attributable;
 import org.bukkit.attribute.Attribute;
@@ -187,6 +188,10 @@ public class EntityDamageCalculatorService implements Listener, BaseService {
         // Ignore events not involving an arrow harming something.
         if (!(event.getDamager() instanceof AbstractArrow arrow))
             return;
+
+        // Send ding noise to player if it was a non PVP interaction
+        if (event.getDamageSource().getCausingEntity() instanceof Player player && !(event.getEntity() instanceof Player))
+            player.playSound(player.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1, .8f);
 
         // Retrieve the base damage of this arrow assuming this arrow is at max velocity.
         double baseArrowDamage = getBaseProjectileDamage(arrow);

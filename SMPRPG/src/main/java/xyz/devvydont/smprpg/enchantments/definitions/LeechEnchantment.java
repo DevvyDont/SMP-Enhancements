@@ -104,6 +104,6 @@ public class LeechEnchantment extends CustomEnchantment implements Listener {
 
         // Heal for a percentage of their max HP
         player.heal(getLifestealPercent(leechLevels) / 100.0 * maxHP.getValue(), EntityRegainHealthEvent.RegainReason.CUSTOM);
-        player.getWorld().playSound(event.getDamaged(), Sound.BLOCK_LAVA_POP, .05f, 2.0f);
+        player.getWorld().playSound(event.getDamaged(), Sound.BLOCK_LAVA_POP, .3f, 1.75f);
     }
 }
