@@ -64,6 +64,8 @@ public class LeveledElderGuardian extends BossInstance {
     @Override
     public @Nullable Collection<LootDrop> getItemDrops() {
         return List.of(
+
+                // Drop pool from the normal guardians
                 new QuantityLootDrop(SMPRPG.getInstance().getItemService().getCustomItem(CustomItemType.SOGGY_LETTUCE), 1, 3, this),
 
                 new QuantityLootDrop(plugin.getItemService().getCustomItem(Material.PRISMARINE_SHARD), 1, 2, this),
@@ -78,6 +80,7 @@ public class LeveledElderGuardian extends BossInstance {
                 new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.ENCHANTED_PRISMARINE_CRYSTAL), 95, this),
                 new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.ENCHANTED_DIAMOND_BLOCK), 10_000, this),
 
+                // Gear drops
                 new ChancedItemDrop(SMPRPG.getInstance().getItemService().getCustomItem(CustomItemType.NEPTUNE_HELMET), 110, this),
                 new ChancedItemDrop(SMPRPG.getInstance().getItemService().getCustomItem(CustomItemType.NEPTUNE_CHESTPLATE), 110, this),
                 new ChancedItemDrop(SMPRPG.getInstance().getItemService().getCustomItem(CustomItemType.NEPTUNE_LEGGINGS), 110, this),
@@ -93,6 +96,7 @@ public class LeveledElderGuardian extends BossInstance {
                 new ChancedItemDrop(SMPRPG.getInstance().getItemService().getCustomItem(CustomItemType.PLUTO_FRAGMENT), 3, this),
                 new ChancedItemDrop(SMPRPG.getInstance().getItemService().getCustomItem(CustomItemType.PLUTOS_ARTIFACT), 100, this),
 
+                // Rare chance to be able to summon it again
                 new ChancedItemDrop(SMPRPG.getInstance().getItemService().getCustomItem(CustomItemType.NEPTUNES_CONCH), 25, this)
         );
     }

@@ -9,6 +9,7 @@ import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.*;
 import org.bukkit.inventory.ItemStack;
@@ -16,12 +17,12 @@ import org.bukkit.persistence.PersistentDataType;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.base.LeveledEntity;
 import xyz.devvydont.smprpg.events.CustomEntityDamageByEntityEvent;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
+import xyz.devvydont.smprpg.services.BaseService;
 
 /**
  * Overrides all instances of vanilla damage that is desired to fit our new attribute logic
  */
-public class DamageOverrideListener implements Listener {
+public class EntityDamageCalculatorService implements Listener, BaseService {
 
     // How much to decrease damage by depending on the difficulty.
     public static final float EASY_DAMAGE_MULTIPLIER = .25f;
@@ -32,22 +33,22 @@ public class DamageOverrideListener implements Listener {
     public static final int DEFENSE_FACTOR = 100;
 
     // What should be the attack cooldown threshold to use vanilla's logic?
-    private final static float COOLDOWN_FORGIVENESS_THRESHOLD = 0.6f;
+    public final static float COOLDOWN_FORGIVENESS_THRESHOLD = 0.6f;
 
     // Used to store the amount of damage an arrow entity should do.
-    private final NamespacedKey PROJECTILE_DAMAGE_TAG;
+    public final NamespacedKey PROJECTILE_DAMAGE_TAG;
     // The base damage of an arrow if it was not assigned one when it is launched. This could happen in the event
     // that we do not set a damage value on an arrow entity when it is fired from any source.
-    private final static double BASE_ARROW_DAMAGE = 5;
+    public final static double BASE_ARROW_DAMAGE = 5;
     // The force factor to apply to an arrow's force to decide if this arrow was a fully charged
     // arrow shot. In vanilla minecraft, fully charged bow shots have a force of 3.0
-    private final static double BOW_FORCE_FACTOR = 3.0;
+    public final static double BOW_FORCE_FACTOR = 3.0;
     // The force factor to assume for entities. Entities do not have "bow force" in the same way
     // that players do, so we can make one up here. They also typically do not shoot as forceful as players.
-    private final static double AI_BOW_FORCE_FACTOR = 1.75;
+    public final static double AI_BOW_FORCE_FACTOR = 1.75;
     // The velocity an arrow needs to be travelling to deal "maximum" damage. Arrows traveling this fast
     // will deal exactly the amount of damage of the attack damage stat that was applied to it when it was shot.
-    private final static double MAX_ARROW_DAMAGE_VELOCITY = 60.0;
+    public final static double MAX_ARROW_DAMAGE_VELOCITY = 60.0;
 
     /**
      * Given a defense attribute value, return the multiplier of some damage to take.
@@ -87,11 +88,26 @@ public class DamageOverrideListener implements Listener {
 
     SMPRPG plugin;
 
-    public DamageOverrideListener(SMPRPG plugin) {
+    public EntityDamageCalculatorService(SMPRPG plugin) {
         this.plugin = plugin;
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
-
         PROJECTILE_DAMAGE_TAG = new NamespacedKey(plugin, "arrow-damage");
+    }
+
+
+    @Override
+    public boolean setup() {
+        plugin.getServer().getPluginManager().registerEvents(this, plugin);
+        return true;
+    }
+
+    @Override
+    public void cleanup() {
+        HandlerList.unregisterAll(this);
+    }
+
+    @Override
+    public boolean required() {
+        return true;
     }
 
     /**

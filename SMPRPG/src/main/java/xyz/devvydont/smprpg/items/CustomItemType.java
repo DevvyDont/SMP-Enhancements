@@ -60,10 +60,7 @@ import xyz.devvydont.smprpg.items.blueprints.sets.imperium.ImperiumBoots;
 import xyz.devvydont.smprpg.items.blueprints.sets.imperium.ImperiumChestplate;
 import xyz.devvydont.smprpg.items.blueprints.sets.imperium.ImperiumHelmet;
 import xyz.devvydont.smprpg.items.blueprints.sets.imperium.ImperiumLeggings;
-import xyz.devvydont.smprpg.items.blueprints.sets.inferno.InfernoBoots;
-import xyz.devvydont.smprpg.items.blueprints.sets.inferno.InfernoChestplate;
-import xyz.devvydont.smprpg.items.blueprints.sets.inferno.InfernoHelmet;
-import xyz.devvydont.smprpg.items.blueprints.sets.inferno.InfernoLeggings;
+import xyz.devvydont.smprpg.items.blueprints.sets.inferno.*;
 import xyz.devvydont.smprpg.items.blueprints.sets.infinity.*;
 import xyz.devvydont.smprpg.items.blueprints.sets.iron.IronBow;
 import xyz.devvydont.smprpg.items.blueprints.sets.mystbloom.*;
@@ -281,6 +278,8 @@ public enum CustomItemType {
     INFERNO_CHESTPLATE("Inferno Chestplate", Material.GOLDEN_CHESTPLATE, ItemRarity.LEGENDARY, InfernoChestplate.class),
     INFERNO_LEGGINGS("Inferno Leggings",     Material.GOLDEN_LEGGINGS,   ItemRarity.LEGENDARY, InfernoLeggings.class),
     INFERNO_BOOTS("Inferno Boots",           Material.GOLDEN_BOOTS,      ItemRarity.LEGENDARY, InfernoBoots.class),
+    INFERNO_BLADE("Inferno Blade",           Material.BLAZE_ROD,         ItemRarity.LEGENDARY, InfernoBlade.class),
+    INFERNO_SHORTBOW("Inferno Shortbow",     Material.BOW,               ItemRarity.LEGENDARY, InfernoShortbow.class),
 
     // REAVER
     REAVER_HELMET("Reaver Helmet",         Material.BLACK_STAINED_GLASS, ItemRarity.EPIC, ReaverHelmet.class),

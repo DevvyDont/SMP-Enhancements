@@ -17,6 +17,7 @@ public enum ItemClassification {
     MACE(ItemTypeTagKeys.ENCHANTABLE_MACE, ItemTypeTagKeys.ENCHANTABLE_WEAPON, ItemTypeTagKeys.ENCHANTABLE_DURABILITY, ItemTypeTagKeys.ENCHANTABLE_VANISHING),
     // Both bows and crossbows
     BOW(ItemTypeTagKeys.ENCHANTABLE_DURABILITY, ItemTypeTagKeys.ENCHANTABLE_VANISHING, ItemTypeTagKeys.ENCHANTABLE_BOW, ItemTypeTagKeys.ENCHANTABLE_WEAPON),
+    SHORTBOW(ItemTypeTagKeys.ENCHANTABLE_DURABILITY, ItemTypeTagKeys.ENCHANTABLE_VANISHING, ItemTypeTagKeys.ENCHANTABLE_BOW, ItemTypeTagKeys.ENCHANTABLE_WEAPON),
     CROSSBOW(ItemTypeTagKeys.ENCHANTABLE_DURABILITY, ItemTypeTagKeys.ENCHANTABLE_VANISHING, ItemTypeTagKeys.ENCHANTABLE_CROSSBOW, ItemTypeTagKeys.ENCHANTABLE_WEAPON),
     // Some combat focused, some harvest focused
     AXE(ItemTypeTagKeys.ENCHANTABLE_WEAPON, ItemTypeTagKeys.ENCHANTABLE_SHARP_WEAPON, ItemTypeTagKeys.ENCHANTABLE_MINING, ItemTypeTagKeys.ENCHANTABLE_DURABILITY, ItemTypeTagKeys.ENCHANTABLE_VANISHING),
@@ -109,7 +110,7 @@ public enum ItemClassification {
 
     public boolean isBow() {
         return switch (this) {
-            case BOW, CROSSBOW -> true;
+            case BOW, CROSSBOW, SHORTBOW -> true;
             default -> false;
         };
     }

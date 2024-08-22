@@ -22,7 +22,7 @@ public class RapidReforge extends ReforgeBase {
     @Override
     public Collection<AttributeEntry> getAttributeModifiersWithRarity(ItemRarity rarity) {
         return List.of(
-                new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, .1 * rarity.ordinal() + .2)
+                new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, .1 * rarity.ordinal() + .25)
         );
     }
 

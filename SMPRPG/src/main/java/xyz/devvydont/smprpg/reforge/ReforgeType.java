@@ -60,7 +60,7 @@ public enum ReforgeType {
     ANCIENT(AncientReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS, ItemClassification.CHARM),
 
     // Movement Speed oriented
-    LIGHT(LightReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS, ItemClassification.CHARM, ItemClassification.FISHING_ROD, ItemClassification.BOW, ItemClassification.CROSSBOW),
+    LIGHT(LightReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS, ItemClassification.CHARM, ItemClassification.FISHING_ROD, ItemClassification.BOW, ItemClassification.SHORTBOW, ItemClassification.CROSSBOW),
     SWIFT(SwiftReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS, ItemClassification.CHARM, ItemClassification.FISHING_ROD),
     AGILE(AgileReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS, ItemClassification.CHARM, ItemClassification.FISHING_ROD),
 
@@ -69,18 +69,18 @@ public enum ReforgeType {
     HASTY(HastyReforge.class, ItemClassification.TOOL, ItemClassification.CHARM, ItemClassification.AXE),
 
     // Luck oriented
-    LUCKY(LuckyReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS, ItemClassification.FISHING_ROD, ItemClassification.TOOL, ItemClassification.CHARM, ItemClassification.SWORD, ItemClassification.BOW, ItemClassification.CROSSBOW, ItemClassification.AXE, ItemClassification.TRIDENT, ItemClassification.MACE),
-    COPIOUS(CopiousReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS, ItemClassification.FISHING_ROD, ItemClassification.TOOL, ItemClassification.CHARM, ItemClassification.SWORD, ItemClassification.BOW, ItemClassification.CROSSBOW, ItemClassification.AXE, ItemClassification.TRIDENT, ItemClassification.MACE),
+    LUCKY(LuckyReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS, ItemClassification.FISHING_ROD, ItemClassification.TOOL, ItemClassification.CHARM, ItemClassification.SWORD, ItemClassification.BOW, ItemClassification.SHORTBOW, ItemClassification.CROSSBOW, ItemClassification.AXE, ItemClassification.TRIDENT, ItemClassification.MACE),
+    COPIOUS(CopiousReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS, ItemClassification.FISHING_ROD, ItemClassification.TOOL, ItemClassification.CHARM, ItemClassification.SWORD, ItemClassification.BOW, ItemClassification.SHORTBOW, ItemClassification.CROSSBOW, ItemClassification.AXE, ItemClassification.TRIDENT, ItemClassification.MACE),
 
     // DAMAGE (melee)
-    SPICY(SpicyReforge.class, ItemClassification.SWORD, ItemClassification.TRIDENT, ItemClassification.WEAPON, ItemClassification.AXE, ItemClassification.MACE, ItemClassification.BOW, ItemClassification.CROSSBOW, ItemClassification.CHARM),
+    SPICY(SpicyReforge.class, ItemClassification.SWORD, ItemClassification.TRIDENT, ItemClassification.WEAPON, ItemClassification.AXE, ItemClassification.MACE, ItemClassification.BOW, ItemClassification.SHORTBOW, ItemClassification.CROSSBOW, ItemClassification.CHARM),
     SHARP(SharpReforge.class, ItemClassification.SWORD, ItemClassification.TRIDENT, ItemClassification.WEAPON, ItemClassification.AXE, ItemClassification.MACE, ItemClassification.TOOL, ItemClassification.CHARM),
-    POWERFUL(PowerfulReforge.class, ItemClassification.BOW, ItemClassification.CROSSBOW, ItemClassification.TOOL, ItemClassification.CHARM),
+    POWERFUL(PowerfulReforge.class, ItemClassification.BOW, ItemClassification.SHORTBOW, ItemClassification.CROSSBOW, ItemClassification.TOOL, ItemClassification.CHARM),
     DULL(DullReforge.class, ItemClassification.SWORD, ItemClassification.CHARM),
-    SLUGGISH(SluggishReforge.class, ItemClassification.SWORD, ItemClassification.TRIDENT, ItemClassification.WEAPON, ItemClassification.AXE, ItemClassification.MACE, ItemClassification.CHARM),
-    STINGING(StingingReforge.class, ItemClassification.SWORD, ItemClassification.TRIDENT, ItemClassification.WEAPON, ItemClassification.AXE, ItemClassification.MACE, ItemClassification.BOW, ItemClassification.CROSSBOW, ItemClassification.CHARM),
+    SLUGGISH(SluggishReforge.class, ItemClassification.SWORD, ItemClassification.TRIDENT, ItemClassification.WEAPON, ItemClassification.AXE, ItemClassification.MACE, ItemClassification.CHARM, ItemClassification.SHORTBOW),
+    STINGING(StingingReforge.class, ItemClassification.SWORD, ItemClassification.TRIDENT, ItemClassification.WEAPON, ItemClassification.AXE, ItemClassification.MACE, ItemClassification.BOW, ItemClassification.SHORTBOW, ItemClassification.CROSSBOW, ItemClassification.CHARM),
 
-    RAPID(RapidReforge.class, ItemClassification.SWORD, ItemClassification.TRIDENT, ItemClassification.WEAPON, ItemClassification.AXE, ItemClassification.MACE, ItemClassification.CHARM),
+    RAPID(RapidReforge.class, ItemClassification.SWORD, ItemClassification.TRIDENT, ItemClassification.WEAPON, ItemClassification.AXE, ItemClassification.MACE, ItemClassification.SHORTBOW, ItemClassification.CHARM),
 
     // REACH
     REACHING(ReachingReforge.class, ItemClassification.TOOL, ItemClassification.SWORD, ItemClassification.TRIDENT, ItemClassification.WEAPON, ItemClassification.AXE, ItemClassification.MACE, ItemClassification.CHARM),
@@ -98,7 +98,7 @@ public enum ReforgeType {
 //
 //    RENOWNED(UnimplementedReforge.class, ItemClassification.HELMET, ItemClassification.CHESTPLATE, ItemClassification.LEGGINGS, ItemClassification.BOOTS),     // All around armor
 //    FABLED(UnimplementedReforge.class, ItemClassification.SWORD, ItemClassification.TRIDENT, ItemClassification.WEAPON, ItemClassification.AXE, ItemClassification.MACE),       // All around melee
-//    DEMONIC(UnimplementedReforge.class, ItemClassification.BOW, ItemClassification.CROSSBOW),      // All around ranged
+//    DEMONIC(UnimplementedReforge.class, ItemClassification.BOW, ItemClassification.SHORTBOW, ItemClassification.CROSSBOW),      // All around ranged
 
     ;
 

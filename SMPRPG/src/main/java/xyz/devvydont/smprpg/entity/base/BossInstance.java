@@ -41,6 +41,11 @@ public abstract class BossInstance extends EnemyEntity implements Listener {
     }
 
     @Override
+    public TextColor determineNametagColor() {
+        return NamedTextColor.DARK_PURPLE;
+    }
+
+    @Override
     public int getInvincibilityTicks() {
         return 0;
     }
@@ -166,20 +171,29 @@ public abstract class BossInstance extends EnemyEntity implements Listener {
     }
 
     @Override
+    public double getCombatExperienceMultiplier() {
+        return 40;
+    }
+
+    @Override
     public void setup() {
         super.setup();
         scoreboard = new SimpleGlobalScoreboard(cloneScoreboard(), generateNametagComponent().append(getDisplaynameNametagComponent()));
         scoreboardUpdateTask = SMPRPG.getInstance().getServer().getScheduler().runTaskTimer(SMPRPG.getInstance(), this::updateScoreboard, 0, 20L);
         heal();
-
-        // Bosses are going to be hit quickly by multiple people at the same time. Remove i-frames from the boss
-        if (entity instanceof LivingEntity living)
-            living.setMaximumNoDamageTicks(0);
     }
 
     @Override
     public void cleanup() {
         super.cleanup();
+        scoreboard.cleanup();
+        scoreboardUpdateTask.cancel();
+        scoreboard = null;
+    }
+
+    private void cleanupScoreboard() {
+        if (scoreboard == null)
+            return;
         scoreboard.cleanup();
         scoreboardUpdateTask.cancel();
         scoreboard = null;

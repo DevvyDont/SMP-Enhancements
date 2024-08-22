@@ -278,7 +278,7 @@ public class EntitySpawner extends CustomEntityInstance implements Listener {
         if (!types.isEmpty())
             type = types.getFirst();
 
-        CustomEntityInstance instance = plugin.getEntityService().spawnCustomEntity(type, location);
+        LeveledEntity instance = plugin.getEntityService().spawnCustomEntity(type, location);
         if (instance == null)
             return;
 

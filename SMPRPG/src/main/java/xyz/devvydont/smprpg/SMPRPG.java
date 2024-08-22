@@ -26,6 +26,7 @@ public final class SMPRPG extends JavaPlugin implements Listener {
         return INSTANCE;
     }
 
+    EntityDamageCalculatorService entityDamageCalculatorService;
     EconomyService economyService;
     ChatService chatService;
     ItemService itemService;
@@ -37,6 +38,10 @@ public final class SMPRPG extends JavaPlugin implements Listener {
     UnstableListenersService unstableListenersService;
 
     List<BaseService> services;
+
+    public EntityDamageCalculatorService getEntityDamageCalculatorService() {
+        return entityDamageCalculatorService;
+    }
 
     public EconomyService getEconomyService() {
         return economyService;
@@ -97,6 +102,9 @@ public final class SMPRPG extends JavaPlugin implements Listener {
 
         services = new ArrayList<>();
 
+        entityDamageCalculatorService = new EntityDamageCalculatorService(this);
+        registerService(entityDamageCalculatorService);
+
         economyService = new EconomyService(this);
         registerService(economyService);
 
@@ -126,7 +134,6 @@ public final class SMPRPG extends JavaPlugin implements Listener {
 
         getServer().getPluginManager().registerEvents(this, this);
 
-        new DamageOverrideListener(this);
         new EnvironmentalDamageListener(this);
         new AbsorptionDamageFix(this);
         new HealthRegenerationListener(this);

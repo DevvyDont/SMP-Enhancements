@@ -27,10 +27,7 @@ import org.bukkit.scoreboard.*;
 import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.*;
-import xyz.devvydont.smprpg.entity.base.CustomEntityInstance;
-import xyz.devvydont.smprpg.entity.base.EnemyEntity;
-import xyz.devvydont.smprpg.entity.base.LeveledEntity;
-import xyz.devvydont.smprpg.entity.base.VanillaEntity;
+import xyz.devvydont.smprpg.entity.base.*;
 import xyz.devvydont.smprpg.entity.vanilla.*;
 import xyz.devvydont.smprpg.events.LeveledEntitySpawnEvent;
 import xyz.devvydont.smprpg.util.formatting.DamagePopupUtil;
@@ -248,7 +245,7 @@ public class EntityService implements BaseService, Listener {
     }
 
     @Nullable
-    public CustomEntityInstance spawnCustomEntity(CustomEntityType type, Location location) {
+    public LeveledEntity spawnCustomEntity(CustomEntityType type, Location location) {
 
         Entity entity = location.getWorld().spawnEntity(location, type.entityType, CreatureSpawnEvent.SpawnReason.CUSTOM, e -> {
             e.getPersistentDataContainer().set(getClassNamespacedKey(), PersistentDataType.STRING, type.key());
@@ -261,7 +258,7 @@ public class EntityService implements BaseService, Listener {
 
         // Reflection hacks
         try {
-            CustomEntityInstance customEntity = (CustomEntityInstance) type.entityHandler.getConstructor(SMPRPG.class, Entity.class, CustomEntityType.class).newInstance(plugin, entity, type);
+            LeveledEntity customEntity = type.entityHandler.getConstructor(SMPRPG.class, Entity.class, CustomEntityType.class).newInstance(plugin, entity, type);
             customEntity.updateAttributes();
             trackEntity(customEntity);
             return customEntity;
@@ -518,7 +515,7 @@ public class EntityService implements BaseService, Listener {
 
         // Pick a random entity to make
         CustomEntityType newEntity = choices.get((int) (Math.random()*choices.size()));
-        CustomEntityInstance entity = this.spawnCustomEntity(newEntity, event.getLocation());
+        LeveledEntity entity = this.spawnCustomEntity(newEntity, event.getLocation());
         if (entity == null)
             return;
 

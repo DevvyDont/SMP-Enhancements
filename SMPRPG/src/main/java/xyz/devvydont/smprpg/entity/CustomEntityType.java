@@ -10,6 +10,7 @@ import org.bukkit.persistence.PersistentDataType;
 import xyz.devvydont.smprpg.entity.base.CustomEntityInstance;
 import xyz.devvydont.smprpg.entity.base.LeveledEntity;
 import xyz.devvydont.smprpg.entity.base.NPCEntity;
+import xyz.devvydont.smprpg.entity.bosses.BlazeBoss;
 import xyz.devvydont.smprpg.entity.creatures.*;
 import xyz.devvydont.smprpg.entity.npc.ReforgeNPC;
 import xyz.devvydont.smprpg.entity.spawning.*;
@@ -50,6 +51,9 @@ public enum CustomEntityType {
             35, 7_000, 900,
             new EntitySpawnCondition[]{new StructureSpawnCondition(Structure.FORTRESS)}, 10,
             FierySylph.class),
+
+    INFERNAL_PHOENIX(EntityType.BLAZE, "Infernal Phoenix",
+            50, 500_000, 3000, BlazeBoss.class),
 
     // Wither skeletons that spawn on the end island
     WITHERED_SERAPH(EntityType.WITHER_SKELETON, "Withered Seraph",
@@ -214,6 +218,7 @@ public enum CustomEntityType {
             case WOODLAND_BERSERKER -> Material.IRON_AXE;
             case FIERY_SYLPH -> Material.BLAZE_ROD;
             case PALACE_THUG -> Material.DIAMOND_BLOCK;
+            case INFERNAL_PHOENIX -> Material.BLAZE_POWDER;
             default -> Material.SKELETON_SKULL;
         };
     }

@@ -53,8 +53,32 @@ public class ItemService implements BaseService, Listener {
 
     // Integer to tag items with whenever we update them to prevent unnecessary work
     public static final int VERSION = 1;
-
     public static final int VERSION_NO_UPDATE = -1;
+
+    // Shortcut methods to do very common operations much less verbosely. This instance should always be a singleton
+    // so static method calls like this are designed to be safe.
+
+    /**
+     * Given a custom item type enum, retrieve a default ItemStack of the custom item type.
+     *
+     * @param type The type of item you want
+     * @return an ItemStack instance freshly generated of the type desired
+     */
+    public static ItemStack getItem(CustomItemType type) {
+        return SMPRPG.getInstance().getItemService().getCustomItem(type);
+    }
+
+    /**
+     * Given a Bukkit material, return a vanilla instanced ItemStack with properly updated metadata.
+     *
+     * @param material The Minecraft material to retrieve
+     * @return An ItemStack instance freshly generated of the vanilla material desired
+     */
+    public static ItemStack getItem(Material material) {
+        return SMPRPG.getInstance().getItemService().getCustomItem(material);
+    }
+
+    // End shortcut static methods
 
     SMPRPG plugin;
     public final NamespacedKey ITEM_VERSION_KEY;
