@@ -14,7 +14,13 @@ public class ForagingExperienceListener implements Listener {
 
     public static int getBaseExperienceForBlock(Block block) {
 
-        return switch (block.getType()) {
+        double dimensionMultiplier = switch (block.getWorld().getEnvironment()) {
+            case NETHER -> 1.5;
+            case THE_END -> 2;
+            default -> 1;
+        };
+
+        int exp = switch (block.getType()) {
 
             case CHORUS_FLOWER -> 50;
             case CHORUS_PLANT -> 30;
@@ -32,6 +38,7 @@ public class ForagingExperienceListener implements Listener {
             default -> 0;
         };
 
+        return (int) (exp * dimensionMultiplier);
     }
 
 

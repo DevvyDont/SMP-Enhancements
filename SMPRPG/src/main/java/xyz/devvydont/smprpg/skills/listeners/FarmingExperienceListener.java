@@ -3,6 +3,7 @@ package xyz.devvydont.smprpg.skills.listeners;
 import io.papermc.paper.event.block.BlockBreakBlockEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Ageable;
@@ -113,13 +114,19 @@ public class FarmingExperienceListener implements Listener {
         player.getFarmingSkill().addExperience(exp, SkillExperienceGainEvent.ExperienceSource.HARVEST);
     }
 
-    private int getExperienceForDrops(Collection<ItemStack> drops) {
+    private int getExperienceForDrops(Collection<ItemStack> drops, World.Environment environment) {
+
+        double multiplier = switch (environment) {
+            case NETHER -> 1.5;
+            case THE_END -> 2;
+            default -> 1;
+        };
 
         // Loop through every drop from breaking this block and award XP
         int exp = 0;
         for (ItemStack item : drops)
             exp += getExperienceValue(item);
-        return exp;
+        return (int) (exp * multiplier);
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
@@ -139,7 +146,7 @@ public class FarmingExperienceListener implements Listener {
         }
 
         // Loop through every drop from breaking this block and award XP
-        int exp = getExperienceForDrops(event.getBlock().getDrops(event.getPlayer().getInventory().getItemInMainHand(), event.getPlayer()));
+        int exp = getExperienceForDrops(event.getBlock().getDrops(event.getPlayer().getInventory().getItemInMainHand(), event.getPlayer()), event.getPlayer().getWorld().getEnvironment());
         if (exp <= 0)
             return;
 
@@ -191,7 +198,7 @@ public class FarmingExperienceListener implements Listener {
                 block.getWorld().playSound(block.getLocation(), block.getBlockSoundGroup().getBreakSound(), 1, 1);
                 Collection<ItemStack> laterDrops = block.getDrops(tool);
                 if (!ChunkUtil.isBlockSkillInvalid(block))
-                    farming.addExperience(getExperienceForDrops(laterDrops), SkillExperienceGainEvent.ExperienceSource.HARVEST);
+                    farming.addExperience(getExperienceForDrops(laterDrops, block.getWorld().getEnvironment()), SkillExperienceGainEvent.ExperienceSource.HARVEST);
                 block.setType(Material.AIR, false);
                 for (ItemStack drop : laterDrops)
                     block.getWorld().dropItemNaturally(block.getLocation(), drop);
