@@ -96,6 +96,15 @@ public class ActionBarService implements BaseService, Listener {
                 .append(ComponentUtil.getColoredComponent(Symbols.HEART, NamedTextColor.RED));
     }
 
+    private Component getDefenseComponent(final Player player) {
+
+        // We need to calculate defense since it is not storable on the player
+        int def = plugin.getEntityService().getPlayerInstance(player).getDefense();
+        return ComponentUtil.getColoredComponent(def + "", NamedTextColor.DARK_GREEN)
+                .append(ComponentUtil.getColoredComponent(Symbols.SHIELD, NamedTextColor.GRAY));
+
+    }
+
     private Component getPowerComponent(final Player player) {
         LeveledPlayer p = plugin.getEntityService().getPlayerInstance(player);
         return ChatUtil.getBracketedPowerComponent(p.getLevel());
@@ -108,6 +117,11 @@ public class ActionBarService implements BaseService, Listener {
 
         // Check for components
         Map<ActionBarSource, ActionBarComponent> playersComponents = getPlayerComponents(player);
+
+        // If we are displaying more than 1 extra component, omit defense
+        if (playersComponents.size() <= 1)
+            message = message.append(Component.text(" | ").color(NamedTextColor.GRAY)).append(getDefenseComponent(player));
+
         for (Map.Entry<ActionBarSource, ActionBarComponent> entry : playersComponents.entrySet())
             message = message.append(Component.text(" | ").color(NamedTextColor.GRAY)).append(entry.getValue().display());
 

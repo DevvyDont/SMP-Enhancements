@@ -17,7 +17,7 @@ import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.LeveledPlayer;
 import xyz.devvydont.smprpg.entity.base.LeveledEntity;
-import xyz.devvydont.smprpg.listeners.DamageOverrideListener;
+import xyz.devvydont.smprpg.listeners.EntityDamageCalculatorService;
 import xyz.devvydont.smprpg.skills.SkillInstance;
 import xyz.devvydont.smprpg.util.attributes.AttributeUtil;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
@@ -92,7 +92,7 @@ public class InterfaceStats extends PrivateInterface {
 
         double hp = viewing.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
         int def = entity.getDefense();
-        double ehp = DamageOverrideListener.calculateEffectiveHealth(hp, def);
+        double ehp = EntityDamageCalculatorService.calculateEffectiveHealth(hp, def);
 
         for (AttributeWrapper attributeWrapper : AttributeWrapper.values()) {
 
@@ -124,7 +124,7 @@ public class InterfaceStats extends PrivateInterface {
             if (attributeWrapper.equals(AttributeWrapper.DEFENSE)) {
                 lore.add(Component.text("- Effective Health: ").color(NamedTextColor.YELLOW)
                         .append(Component.text(String.format("%d ", (int)ehp)).color(NamedTextColor.GREEN))
-                        .append(Component.text(String.format("EHP=%dHP/%.2fDEF%%", (int)hp, DamageOverrideListener.calculateResistancePercentage(def)*100)).color(NamedTextColor.DARK_GRAY))
+                        .append(Component.text(String.format("EHP=%dHP/%.2fDEF%%", (int)hp, EntityDamageCalculatorService.calculateResistancePercentage(def)*100)).color(NamedTextColor.DARK_GRAY))
                 );
             }
 
