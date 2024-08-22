@@ -2,7 +2,6 @@ package xyz.devvydont.smprpg.services;
 
 import com.destroystokyo.paper.event.inventory.PrepareResultEvent;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TextReplacementConfig;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Keyed;
@@ -17,7 +16,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.enchantment.EnchantItemEvent;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.ItemMergeEvent;
 import org.bukkit.event.entity.ItemSpawnEvent;
@@ -38,6 +36,7 @@ import xyz.devvydont.smprpg.items.*;
 import xyz.devvydont.smprpg.items.base.CustomItemBlueprint;
 import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
 import xyz.devvydont.smprpg.items.base.VanillaItemBlueprint;
+import xyz.devvydont.smprpg.items.blueprints.debug.LegacyItemBlueprint;
 import xyz.devvydont.smprpg.items.blueprints.resources.VanillaResource;
 import xyz.devvydont.smprpg.items.blueprints.vanilla.*;
 import xyz.devvydont.smprpg.items.interfaces.*;
@@ -552,10 +551,10 @@ public class ItemService implements BaseService, Listener {
         if (key == null)
             return getVanillaBlueprint(itemStack);
 
-        // Retreive the custom item type. If this is also null, that means this key was not valid. Assume vanilla.
+        // Retreive the custom item type. If this is also null, that means this key was not valid. This item is legacy
         CustomItemType type = getItemTypeFromKey(key);
         if (type == null)
-            return getVanillaBlueprint(itemStack);
+            return getBlueprint(CustomItemType.LEGACY_ITEM);
 
         return getBlueprint(type);
     }

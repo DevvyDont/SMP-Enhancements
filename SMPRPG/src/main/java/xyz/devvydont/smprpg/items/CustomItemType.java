@@ -10,6 +10,7 @@ import xyz.devvydont.smprpg.items.blueprints.charms.LuckyCharm;
 import xyz.devvydont.smprpg.items.blueprints.charms.SpeedCharm;
 import xyz.devvydont.smprpg.items.blueprints.charms.StrengthCharm;
 import xyz.devvydont.smprpg.items.blueprints.debug.EntityAnalyzer;
+import xyz.devvydont.smprpg.items.blueprints.debug.LegacyItemBlueprint;
 import xyz.devvydont.smprpg.items.blueprints.debug.SpawnerEditorBlueprint;
 import xyz.devvydont.smprpg.items.blueprints.debug.SpiderRepellentBlueprint;
 import xyz.devvydont.smprpg.items.blueprints.economy.CustomItemCoin;
@@ -581,6 +582,7 @@ public enum CustomItemType {
 
     SPAWNER_EDITING_WAND("Spawner Editor Wand", Material.BREEZE_ROD, ItemRarity.SPECIAL, true, SpawnerEditorBlueprint.class),
 
+    LEGACY_ITEM("Legacy Item", Material.PAPER, ItemRarity.SPECIAL, LegacyItemBlueprint.class),
     DUMMY_SMITHING_RESULT("DUMMY SMITHING RESULT", Material.BARRIER, ItemRarity.SPECIAL)
     ;
 
