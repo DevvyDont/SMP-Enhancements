@@ -27,7 +27,7 @@ import xyz.devvydont.smprpg.events.CustomEntityDamageByEntityEvent;
 public class BaneOfArthropodsEnchantment extends VanillaEnchantment implements Listener {
 
     public static int getPercentageIncrease(int level) {
-        return level * 45;
+        return SmiteEnchantment.getPercentageIncrease(level);
     }
 
     public static boolean isArthropod(EntityType type) {

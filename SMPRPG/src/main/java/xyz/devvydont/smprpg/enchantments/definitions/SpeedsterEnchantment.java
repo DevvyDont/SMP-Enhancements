@@ -87,6 +87,6 @@ public class SpeedsterEnchantment extends CustomEnchantment implements Attribute
 
     @Override
     public int getPowerRating() {
-        return getLevel() / 2 + 1;
+        return 1;
     }
 }

@@ -46,7 +46,7 @@ public class PowerEnchantment extends VanillaEnchantment implements AttributeEnc
 
     @Override
     public int getPowerRating() {
-        return getLevel();
+        return getLevel()/2;
     }
 
     @Override

@@ -16,6 +16,7 @@ import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemType;
 import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.enchantments.base.AttributeEnchantment;
+import xyz.devvydont.smprpg.enchantments.definitions.HeartyEnchantment;
 import xyz.devvydont.smprpg.enchantments.definitions.vanilla.VanillaEnchantment;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
@@ -28,15 +29,8 @@ import java.util.List;
 public class ProtectionEnchantment extends VanillaEnchantment implements AttributeEnchantment {
 
     public static int getProtection(int level) {
-        return switch (level) {
-            case 0 -> 0;
-            case 1, 2, 3, 4 -> level * 10;
-            case 5, 6, 7 -> level * 15;
-            case 8, 9 -> level * 20;
-            default -> level * 25;
-        };
+        return HeartyEnchantment.getHealthIncrease(level);
     }
-
 
     public ProtectionEnchantment(TypedKey<Enchantment> key) {
         super(key);
@@ -98,7 +92,7 @@ public class ProtectionEnchantment extends VanillaEnchantment implements Attribu
 
     @Override
     public int getPowerRating() {
-        return getLevel();
+        return getLevel()/2;
     }
 
     /**

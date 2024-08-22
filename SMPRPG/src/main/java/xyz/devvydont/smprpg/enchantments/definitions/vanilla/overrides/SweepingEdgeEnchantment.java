@@ -90,6 +90,6 @@ public class SweepingEdgeEnchantment extends VanillaEnchantment implements Attri
 
     @Override
     public int getPowerRating() {
-        return getLevel()/2;
+        return 1;
     }
 }

@@ -97,7 +97,7 @@ public class FeatherFallingEnchantment extends VanillaEnchantment implements Att
 
     @Override
     public int getPowerRating() {
-        return 0;
+        return getLevel()/5;
     }
 
     @EventHandler

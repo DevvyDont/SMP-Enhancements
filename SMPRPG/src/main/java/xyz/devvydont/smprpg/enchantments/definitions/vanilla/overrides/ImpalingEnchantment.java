@@ -33,15 +33,7 @@ public class ImpalingEnchantment extends VanillaEnchantment implements Listener 
     }
 
     public static int getDamagePercentageMultiplier(int level) {
-        return switch (level) {
-            case 0 -> 0;
-            case 1 -> 30;
-            case 2 -> 75;
-            case 3 -> 125;
-            case 4 -> 200;
-            case 5 -> 300;
-            default -> getDamagePercentageMultiplier(5) + (level-4)*100;
-        };
+        return SmiteEnchantment.getPercentageIncrease(level);
     }
 
     @Override
