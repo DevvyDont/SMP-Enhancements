@@ -16,7 +16,7 @@ import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
 
 public class ProficientEnchantment extends CustomEnchantment implements Listener {
 
-    public static final int PERCENT_PER_LEVEL = 10;
+    public static final int PERCENT_PER_LEVEL = 5;
 
     /**
      * Gets the level of proficiency a certain sum of levels will grant. Keep in mind that this enchantment can stack
@@ -58,7 +58,7 @@ public class ProficientEnchantment extends CustomEnchantment implements Listener
 
     @Override
     public int getMaxLevel() {
-        return 10;
+        return 5;
     }
 
     @Override
