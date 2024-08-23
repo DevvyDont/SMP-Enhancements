@@ -12,7 +12,7 @@ import java.util.List;
 public class QuartzFamilyBlueprint extends CustomCompressableBlueprint {
 
     public static final List<CompressionRecipeMember> COMPRESSION_FLOW = List.of(
-            new CompressionRecipeMember(new MaterialWrapper(Material.QUARTZ)),
+            new CompressionRecipeMember(new MaterialWrapper(Material.QUARTZ), 4),
             new CompressionRecipeMember(new MaterialWrapper(Material.QUARTZ_BLOCK)),
             new CompressionRecipeMember(new MaterialWrapper(CustomItemType.ENCHANTED_QUARTZ)),
             new CompressionRecipeMember(new MaterialWrapper(CustomItemType.ENCHANTED_QUARTZ_BLOCK)),
