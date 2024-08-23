@@ -22,6 +22,14 @@ public class LegacyItemBlueprint extends CustomItemBlueprint {
         super(itemService, type);
     }
 
+    private String resolveItemName(ItemMeta meta) {
+        String key = itemService.getItemKey(meta);
+
+        if (key == null)
+            return "???";
+        return key;
+    }
+
     /**
      * Override the updateMeta method to not actually modify any item properties except the lore to show our
      * message.
@@ -35,7 +43,7 @@ public class LegacyItemBlueprint extends CustomItemBlueprint {
 
     @Override
     public String getItemName(ItemMeta meta) {
-        return itemService.getItemKey(meta) + " (Legacy)";
+        return resolveItemName(meta) + " (Legacy)";
     }
 
     @Override
@@ -49,7 +57,7 @@ public class LegacyItemBlueprint extends CustomItemBlueprint {
                 ComponentUtil.getDefaultText("anymore. If you believe this is an"),
                 ComponentUtil.getDefaultText("error, contact a server admin."),
                 Component.empty(),
-                ComponentUtil.getDefaultText("Item Key: ").append(ComponentUtil.getColoredComponent(itemService.getItemKey(meta), NamedTextColor.GREEN))
+                ComponentUtil.getDefaultText("Item Key: ").append(ComponentUtil.getColoredComponent(resolveItemName(meta), NamedTextColor.GREEN))
         );
     }
 
