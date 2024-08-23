@@ -1,8 +1,10 @@
 package xyz.devvydont.smprpg.items.base;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -13,14 +15,20 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.event.player.PlayerInteractAtEntityEvent;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemDamageEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BundleMeta;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
+import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.enchantments.definitions.vanilla.overrides.UnbreakingEnchantment;
+import xyz.devvydont.smprpg.entity.vanilla.LeveledArmorStand;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.services.ItemService;
@@ -160,7 +168,7 @@ public abstract class CustomFakeHelmetBlueprint extends CustomAttributeItem impl
      *
      * @param event
      */
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onInteract(PlayerInteractEvent event) {
 
         // Ignore left clicks
@@ -172,6 +180,29 @@ public abstract class CustomFakeHelmetBlueprint extends CustomAttributeItem impl
 
         // We are interacting with this item.
         handleInteract(event);
+    }
+
+    /*
+     * When a player clicks an armor stand holding this helmet, we should set the helmet of the armor stand to this.
+     */
+    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
+    public void onInteractWithArmorStand(PlayerInteractAtEntityEvent event) {
+
+        ItemStack item = event.getPlayer().getInventory().getItem(event.getHand());
+
+        if (!isItemOfType(item))
+            return;
+
+        if (!(event.getRightClicked() instanceof ArmorStand armorStand))
+            return;
+
+        if (!(SMPRPG.getInstance().getEntityService().getEntityInstance(armorStand) instanceof LeveledArmorStand))
+            return;
+
+        ItemStack oldHelmet = armorStand.getEquipment().getHelmet();
+        armorStand.getEquipment().setHelmet(item);
+        event.getPlayer().getInventory().setItem(event.getHand(), oldHelmet);
+        event.setCancelled(true);
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
