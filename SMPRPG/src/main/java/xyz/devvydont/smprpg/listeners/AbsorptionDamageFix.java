@@ -40,12 +40,11 @@ public class AbsorptionDamageFix implements Listener {
         if (entity.getAbsorptionHealth() <= 0)
             return;
 
-        event.setDamage(EntityDamageEvent.DamageModifier.ABSORPTION, 0);
-        DamagePopupUtil.spawnTextPopup(living.getEyeLocation(), (int) event.getFinalDamage(), DamagePopupUtil.PopupType.DAMAGE_ARMOR);
-        entity.updateAbsorptionHealth(-event.getFinalDamage());
+        DamagePopupUtil.spawnTextPopup(living.getEyeLocation(), (int) event.getDamage(), DamagePopupUtil.PopupType.DAMAGE_ARMOR);
+        entity.updateAbsorptionHealth(-event.getDamage());
         if (entity.getAbsorptionHealth() <= 0)
             crackEntityArmor(living);
-        event.setDamage(0.01);
+        event.setDamage(EntityDamageEvent.DamageModifier.BASE, 0.01);
     }
 
 }

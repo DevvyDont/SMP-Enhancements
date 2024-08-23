@@ -419,7 +419,21 @@ public abstract class LeveledEntity implements LootSource {
 
         int level = resistance.getAmplifier() + 1;
 
-        return EntityDamageCalculatorService.DEFENSE_PER_LEVEL_RESISTANCE_EFFECT * level;
+        double multiplier = EntityDamageCalculatorService.DEFENSE_PERCENT_PER_LEVEL_RESISTANCE_EFFECT * level + 1.0;
+        return (int) (getBaseDefense() * multiplier);
+    }
+
+    /**
+     * Retrieves the defense on this entity only based on gear that is equipped.
+     *
+     * @return an integer representing how much defense they have.
+     */
+    public int getBaseDefense() {
+
+        if (!(getEntity() instanceof LivingEntity living))
+            return 0;
+
+        return (int) AttributeUtil.getAttributeValue(AttributeWrapper.DEFENSE.getAttribute(), living);
     }
 
     /**
@@ -427,11 +441,7 @@ public abstract class LeveledEntity implements LootSource {
      * @return an integer representing defense.
      */
     public int getDefense() {
-
-        if (!(getEntity() instanceof LivingEntity living))
-            return 0;
-
-        return (int) AttributeUtil.getAttributeValue(AttributeWrapper.DEFENSE.getAttribute(), living) + getDefenseFromEffects();
+        return getBaseDefense() + getDefenseFromEffects();
     }
 
     public double getHealthPercentage() {

@@ -101,7 +101,7 @@ public class SmiteEnchantment extends VanillaEnchantment implements Listener {
             return;
 
         double multiplier = 1.0 + (getPercentageIncrease(level) / 100.0);
-        event.setFinalDamage(event.getFinalDamage() * multiplier);
+        event.multiplyDamage(multiplier);
     }
 
     /**

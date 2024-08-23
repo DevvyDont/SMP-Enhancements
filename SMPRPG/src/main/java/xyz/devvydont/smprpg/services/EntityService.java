@@ -369,7 +369,7 @@ public class EntityService implements BaseService, Listener {
             return;
 
         // Construct the damage popup
-        DamagePopupUtil.spawnTextPopup(((LivingEntity) event.getEntity()).getEyeLocation(), (int)Math.round(event.getFinalDamage()), DamagePopupUtil.PopupType.DAMAGE);
+        DamagePopupUtil.spawnTextPopup(((LivingEntity) event.getEntity()).getEyeLocation(), (int)Math.round(event.getDamage()), DamagePopupUtil.PopupType.DAMAGE);
 
         // Update the entity's nametag
         LeveledEntity leveled = getEntityInstance(event.getEntity());
@@ -487,7 +487,7 @@ public class EntityService implements BaseService, Listener {
 
         // Show the nametag and track the damage dealt if it is a monster
         if (leveled instanceof EnemyEntity enemy)
-            enemy.addDamageDealtByEntity(player, (int)event.getFinalDamage());
+            enemy.addDamageDealtByEntity(player, (int)event.getDamage());
 
         leveled.brightenNametag();
     }

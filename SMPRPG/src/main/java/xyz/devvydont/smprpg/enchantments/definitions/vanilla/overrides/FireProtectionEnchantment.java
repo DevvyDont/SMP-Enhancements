@@ -95,7 +95,7 @@ public class FireProtectionEnchantment extends VanillaEnchantment implements Lis
             return;
 
         double multiplier = 1 - getFireResistancePercent(fireRes) / 100.0;
-        event.setDamage(event.getDamage() * multiplier);
+        event.setDamage(EntityDamageEvent.DamageModifier.BASE, event.getDamage() * multiplier);
     }
 
     /**

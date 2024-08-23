@@ -96,7 +96,7 @@ public class DensityEnchantment extends VanillaEnchantment implements Listener {
             return;
 
         int damage = getDamagePerBlock(density);
-        event.setFinalDamage(event.getFinalDamage() + damage);
+        event.addDamage(damage);
     }
 
     /**

@@ -282,7 +282,7 @@ public class DropsService implements BaseService, Listener {
         if (firework.getEntitySpawnReason() != CreatureSpawnEvent.SpawnReason.CUSTOM)
             return;
 
-        event.setDamage(0);
+        event.setDamage(EntityDamageEvent.DamageModifier.BASE, 0);
         event.setCancelled(true);
     }
 

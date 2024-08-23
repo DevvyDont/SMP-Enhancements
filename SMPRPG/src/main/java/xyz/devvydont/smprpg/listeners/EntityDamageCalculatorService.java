@@ -1,9 +1,6 @@
 package xyz.devvydont.smprpg.listeners;
 
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
-import org.bukkit.Sound;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.attribute.Attributable;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
@@ -58,11 +55,11 @@ public class EntityDamageCalculatorService implements Listener, BaseService {
     public final static double MAX_ARROW_DAMAGE_VELOCITY = 60.0;
 
     // How much percentage of damage to increase per level of strength an entity has.
-    public final static double DAMAGE_PERCENT_PER_LEVEL_STRENGTH_EFFECT = 25;
+    public final static double DAMAGE_PERCENT_PER_LEVEL_STRENGTH_EFFECT = 20;
     // How much defense per level of resistance is applied when an entity has the resistance effect.
     // This will actually end up being implemented in LeveledEntity#getDefense() for convenience.
     // todo temporarily set to 0 until i can figure out how to override vanilla logic
-    public final static int DEFENSE_PER_LEVEL_RESISTANCE_EFFECT = 0;
+    public final static int DEFENSE_PERCENT_PER_LEVEL_RESISTANCE_EFFECT = 20;
 
     /*
      * STATIC HELPER METHODS
@@ -171,6 +168,90 @@ public class EntityDamageCalculatorService implements Listener, BaseService {
         projectile.getPersistentDataContainer().set(PROJECTILE_DAMAGE_TAG, PersistentDataType.DOUBLE, damage);
     }
 
+    /**
+     * Helper method that determines if a certain damage cause should use the entity's strength stat as a base
+     * damage point. We do this so that we can properly override vanilla minecraft's mechanics such as resistance,
+     * armor plating, strength, and vanilla enchantments so we can define those attributes ourselves.
+     *
+     * @param cause The damage cause of an EntityDamageEvent
+     * @return true if we should use strength, false if we should use vanilla's logic or handle it somewhere else.
+     */
+    private boolean useStrengthAttribute(EntityDamageEvent.DamageCause cause) {
+
+        // If this is environmental damage, we don't need to worry about the case
+        if (EnvironmentalDamageListener.getEnvironmentalDamagePercentage(cause) > 0)
+            return false;
+
+        // Used as a whitelist for certain cases where two entities are damaging each other
+        return switch (cause) {
+            case DRAGON_BREATH, ENTITY_SWEEP_ATTACK, ENTITY_EXPLOSION, ENTITY_ATTACK, SONIC_BOOM -> true;
+            default -> false;
+        };
+
+    }
+
+    /*
+     * GENERAL DAMAGE
+     */
+
+    /*
+     * The very first entry point into our damage calculations. If an entity is dealing damage to another one, set the
+     * damage of the attack to the strength stat of the entity.
+     */
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void onEntityDealDamageToAnotherEntity(EntityDamageByEntityEvent event) {
+
+        // Depending on the cause of the damage, determine whether we should use strength or not
+        if (!useStrengthAttribute(event.getCause()))
+            return;
+
+        // If the entity that dealt this damage is not an entity that could potentially have a damage stat, we cannot
+        // set the very base damage of the attack.
+        if (!(event.getDamageSource().getCausingEntity() instanceof LivingEntity dealer))
+            return;
+
+        AttributeInstance attack = dealer.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE);
+
+        // Do they have an attack damage stat? If they don't, we cannot determine an attack to set.
+        if (attack == null)
+            return;
+
+        // Set the damage
+        event.setDamage(EntityDamageEvent.DamageModifier.BASE, attack.getValue());
+    }
+
+    /*
+     * Handle criticals. Critical attacks have a 50% damage boost.
+     */
+    @EventHandler(priority = EventPriority.LOW)
+    public void onCriticalDamageDealt(EntityDamageByEntityEvent event) {
+
+        if (!event.isCritical())
+            return;
+
+        event.setDamage(EntityDamageEvent.DamageModifier.BASE, event.getDamage() * 1.5);
+    }
+
+    /*
+     * Handle damage boosting effects. For now, this is just the strength potion effect.
+     */
+    @EventHandler
+    public void onDamageDealtWithStrength(CustomEntityDamageByEntityEvent event) {
+
+        if (!useStrengthAttribute(event.getVanillaCause()))
+            return;
+
+        if (!(event.getDealer() instanceof LivingEntity living))
+            return;
+
+        PotionEffect strength = living.getPotionEffect(PotionEffectType.STRENGTH);
+        if (strength == null)
+            return;
+
+        double multiplier = (strength.getAmplifier() + 1) * DAMAGE_PERCENT_PER_LEVEL_STRENGTH_EFFECT / 100.0 + 1.0;
+        event.multiplyDamage(multiplier);
+    }
+
     /*
      * PROJECTILE/BOW RELATED DAMAGE EVENTS
      */
@@ -230,7 +311,7 @@ public class EntityDamageCalculatorService implements Listener, BaseService {
         double newArrowDamage = baseArrowDamage * arrowForce;
 
         // Multiply the base damage of this event by how fast this arrow is going compared to the "max" velocity
-        event.setDamage(newArrowDamage);
+        event.setDamage(EntityDamageEvent.DamageModifier.BASE, newArrowDamage);
     }
 
     /*
@@ -276,29 +357,12 @@ public class EntityDamageCalculatorService implements Listener, BaseService {
             return;
 
         // Set the damage of the event to the damage that the projectile is supposed to do
-        event.setDamage(getBaseProjectileDamage(projectile));
+        event.setDamage(EntityDamageEvent.DamageModifier.BASE, getBaseProjectileDamage(projectile));
     }
 
     /*
      * MISC ENTITY DAMAGE SOURCE EVENTS (WARDEN BEAMS, CREEPER EXPLOSIONS ETC)
      */
-
-    /*
-     * Fixes sonic boom attack from wardens to use their attack damage stat rather than a fixed amount
-     */
-    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
-    public void onSonicBoom(EntityDamageByEntityEvent event) {
-
-        if (!event.getCause().equals(EntityDamageEvent.DamageCause.SONIC_BOOM))
-            return;
-
-        if (!(event.getDamager() instanceof Warden warden))
-            return;
-
-        AttributeInstance damage = warden.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE);
-        double adjustedDamage = getDifficultyAdjustedDamage(event.getEntity().getWorld(), damage != null ? damage.getValue() : 15);
-        event.setDamage(adjustedDamage);
-    }
 
     /*
      * Some entities can explode. The damage done should scale based on the level of the entity.
@@ -316,8 +380,8 @@ public class EntityDamageCalculatorService implements Listener, BaseService {
 //        int level = leveledEntity.getLevel();
 
         // Convert the vanilla mc damage to a multiplier. If we divide by 20, we can say that it would one shot a player in vanilla.
-        double power = event.getFinalDamage() / 20.0;
-        event.setDamage((leveledEntity.getLevel() * leveledEntity.getLevel() + 50) * power);
+        double power = event.getDamage() / 20.0;
+        event.setDamage(EntityDamageEvent.DamageModifier.BASE, (leveledEntity.getLevel() * leveledEntity.getLevel() + 50) * power);
     }
 
     /*
@@ -332,7 +396,7 @@ public class EntityDamageCalculatorService implements Listener, BaseService {
      *
      * @param event
      */
-    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
+    @EventHandler(ignoreCancelled = true)
     public void onVanillaDamageEntityVsEntity(EntityDamageByEntityEvent event) {
 
         // Handle the case where the source is a projectile. If it is, there is potential that
@@ -351,18 +415,13 @@ public class EntityDamageCalculatorService implements Listener, BaseService {
                 dealer = (Entity) projectile.getShooter();
         }
 
-        // Handle the case where the entity dealing damage doesn't even have the attack attribute, we have to set
-        // the damage of the event manually
-        if (dealer instanceof LivingEntity && ((LivingEntity) dealer).getAttribute(Attribute.GENERIC_ATTACK_DAMAGE) == null)
-            event.setDamage(plugin.getEntityService().getEntityInstance(dealer).getBaseAttackDamage());
-
         // Call the event and check if it is canceled for any reason.
         CustomEntityDamageByEntityEvent eventWrapper = new CustomEntityDamageByEntityEvent(event, damaged, dealer, projectile);
         eventWrapper.callEvent();
         if (eventWrapper.isCancelled())
             return;
 
-        event.setDamage(eventWrapper.getFinalDamage());
+        event.setDamage(EntityDamageEvent.DamageModifier.BASE, eventWrapper.getFinalDamage());
     }
 
     /**
@@ -377,36 +436,33 @@ public class EntityDamageCalculatorService implements Listener, BaseService {
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void onEntityDamageEntityWithDefense(CustomEntityDamageByEntityEvent event) {
 
-        // Since we are only really overriding how armor and resistance works, let's use the raw damage
-        double newDamage = event.getFinalDamage();
-
         // Using the defense of the receiver, reduce the damage
         if (event.getDamaged() instanceof Attributable) {
             // Apply the entity's defense attribute
             LeveledEntity leveledEntity = plugin.getEntityService().getEntityInstance(event.getDamaged());
-            newDamage *= calculateDefenseDamageMultiplier(leveledEntity.getDefense());
+            event.multiplyDamage(calculateDefenseDamageMultiplier(leveledEntity.getDefense()));
         }
 
-        event.setFinalDamage(newDamage);
     }
 
     /*
      * Entities with the "armor" attribute should take off some damage additively at the very end of all damage calculations.
      */
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onEntityDamagedEntityWithArmor(EntityDamageByEntityEvent event) {
 
         if (!(event.getEntity() instanceof LivingEntity living))
             return;
 
+        LeveledEntity leveled = plugin.getEntityService().getEntityInstance(living);
+
         AttributeInstance armor = living.getAttribute(Attribute.GENERIC_ARMOR);
         if (armor == null)
             return;
 
-        double damage = event.getFinalDamage();
-        damage -= armor.getValue();
-        damage = Math.max(1, damage);
-        event.setDamage(damage);
+        // Armor changes how much iframes we get for this attack
+        int iframeTicks = (int) armor.getValue();
+        Bukkit.getScheduler().runTaskLater(plugin, () -> living.setNoDamageTicks(leveled.getInvincibilityTicks() + iframeTicks), 0);
     }
 
     /*
@@ -439,7 +495,7 @@ public class EntityDamageCalculatorService implements Listener, BaseService {
 
         // 95% damage reduction
         if (holdingBow)
-            event.setDamage(event.getFinalDamage() * .05);
+            event.setDamage(EntityDamageEvent.DamageModifier.BASE, event.getDamage() * .05);
 
     }
 
@@ -462,10 +518,10 @@ public class EntityDamageCalculatorService implements Listener, BaseService {
         if (cooldown >= COOLDOWN_FORGIVENESS_THRESHOLD)
             return;
 
-        double newDamage = Math.sqrt(event.getFinalDamage());
+        double newDamage = Math.sqrt(event.getDamage());
 
         // This player was well below the threshold for us to consider dealing full damage, apply some math to reduce it.
-        event.setDamage(newDamage);
+        event.setDamage(EntityDamageEvent.DamageModifier.BASE, newDamage);
     }
 
     /*
@@ -488,28 +544,7 @@ public class EntityDamageCalculatorService implements Listener, BaseService {
             return;
 
         // Apply damage debuff
-        event.setDamage(event.getFinalDamage() * .2);
-    }
-
-    /*
-     * STATUS EFFECT HANDLING (strength potion effect, resistance potion effect etc.)
-     */
-
-    /*
-     * When something attacks something else and has the strength potion effect, apply some more damage to the event.
-     */
-    @EventHandler
-    public void onEntityAttackedWithStrength(CustomEntityDamageByEntityEvent event) {
-
-        if (!(event.getDealer() instanceof LivingEntity living))
-            return;
-
-        PotionEffect strength = living.getPotionEffect(PotionEffectType.STRENGTH);
-        if (strength == null)
-            return;
-
-        int level = strength.getAmplifier() + 1;
-        event.setFinalDamage(event.getFinalDamage() * (level * DAMAGE_PERCENT_PER_LEVEL_STRENGTH_EFFECT / 100.0 + 1));
+        event.setDamage(EntityDamageEvent.DamageModifier.BASE, event.getDamage() * .2);
     }
 
 }

@@ -85,8 +85,8 @@ public class StabilizedEnchantment extends CustomEnchantment implements Listener
         if (level <= 0)
             return;
 
-        double multiplier = 1.0 + (getPercentageIncrease(level) / 100.0);
-        event.setFinalDamage(event.getFinalDamage() * multiplier);
+        double multiplier = 1.0 + getPercentageIncrease(level) / 100.0;
+        event.multiplyDamage(multiplier);
     }
 
 }

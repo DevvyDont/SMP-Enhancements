@@ -91,8 +91,7 @@ public class SerratedEnchantment extends CustomEnchantment implements Listener {
         if (level <= 0)
             return;
 
-        double multi = getAdditionalPercentageIncrease(level) / 100.0 + 1.0;
-        int newDamage = (int) (event.getFinalDamage() * multi);
-        event.setFinalDamage(newDamage);
+        double multi = getAdditionalPercentageIncrease(level) / 100.0;
+        event.addScalarDamage(multi);
     }
 }

@@ -24,13 +24,13 @@ public class ItemSword extends VanillaAttributeItem implements ToolBreakable {
 
     public static double getSwordDamage(Material material) {
         return switch (material) {
-            case NETHERITE_SWORD -> 175.0;
+            case NETHERITE_SWORD -> 170;
             case TRIDENT -> 20.0;
             case DIAMOND_SWORD -> 60;
             case GOLDEN_SWORD -> 24;
             case IRON_SWORD -> 16;
-            case STONE_SWORD -> 12;
-            case WOODEN_SWORD -> 10;
+            case STONE_SWORD -> 7;
+            case WOODEN_SWORD -> 5;
             default -> 0;
         };
     }

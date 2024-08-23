@@ -33,16 +33,22 @@ public class CustomEntityDamageByEntityEvent extends Event implements Cancellabl
     private final Audience audience;
 
     private double originalDamage;
-    private double finalDamage;
+
+    private double additiveDamage = 0;
+    private double scalarDamage = 1.0;
+    private double multiplicativeDamage = 1.0;
 
     public CustomEntityDamageByEntityEvent(EntityDamageByEntityEvent originalEvent, Entity damaged, Entity dealer, @Nullable Projectile projectile) {
         this.originalEvent = originalEvent;
         this.originalDamage = originalEvent.getDamage();
-        this.finalDamage = originalDamage;
         this.damaged = damaged;
         this.dealer = dealer;
         this.projectile = projectile;
         audience = Audience.audience(damaged, dealer);
+    }
+
+    public EntityDamageEvent.DamageCause getVanillaCause() {
+        return originalEvent.getCause();
     }
 
     public EntityDamageByEntityEvent getOriginalEvent() {
@@ -70,26 +76,33 @@ public class CustomEntityDamageByEntityEvent extends Event implements Cancellabl
         return originalDamage;
     }
 
+    public void addDamage(double damage) {
+        additiveDamage += damage;
+    }
+
+    public void removeDamage(double damage) {
+        additiveDamage -= damage;
+    }
+
+    public void addScalarDamage(double multiplier) {
+        scalarDamage += multiplier;
+    }
+
+    public void removeScalarDamage(double multiplier) {
+        scalarDamage -= multiplier;
+    }
+
+    public void multiplyDamage(double multiplier) {
+        multiplicativeDamage *= multiplier;
+    }
+
     public double getFinalDamage() {
-        return finalDamage;
-    }
 
-    public void setFinalDamage(double finalDamage) {
-        this.finalDamage = finalDamage;
-        clearVanillaDamageModifiers();
-    }
-
-    /**
-     * Hopefully this becomes fully deprecated out of the API soon, very annoying
-     */
-    public void clearVanillaDamageModifiers() {
-
-        // Attempt to set the all vanilla modifications to 0, if this fails then the entity couldn't have had armor anyway
-        for (EntityDamageEvent.DamageModifier mod : EntityDamageEvent.DamageModifier.values()) {
-            try {
-                originalEvent.setDamage(mod, 0);
-            } catch (UnsupportedOperationException ignored) {}
-        }
+        double damage = originalDamage;
+        damage += additiveDamage;
+        damage *= scalarDamage;
+        damage *= multiplicativeDamage;
+        return damage;
     }
 
     public Audience getAudience() {

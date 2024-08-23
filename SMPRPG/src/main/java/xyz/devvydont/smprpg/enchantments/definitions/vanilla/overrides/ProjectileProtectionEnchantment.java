@@ -88,7 +88,7 @@ public class ProjectileProtectionEnchantment extends VanillaEnchantment implemen
             return;
 
         double multiplier = 1 - getProjectileResistancePercent(projRes) / 100.0;
-        event.setDamage(event.getDamage() * multiplier);
+        event.setDamage(EntityDamageEvent.DamageModifier.BASE, event.getDamage() * multiplier);
     }
 
     /**

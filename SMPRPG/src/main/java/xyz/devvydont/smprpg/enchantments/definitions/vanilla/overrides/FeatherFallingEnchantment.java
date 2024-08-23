@@ -111,7 +111,7 @@ public class FeatherFallingEnchantment extends VanillaEnchantment implements Att
             return;
 
         double resist = 1 - getFallResistPercent(featherFallingLevel) / 100.0;
-        event.setDamage(event.getDamage() * resist);
+        event.setDamage(EntityDamageEvent.DamageModifier.BASE, event.getDamage() * resist);
         event.getEntity().getWorld().playSound(event.getEntity().getLocation(), Sound.BLOCK_WOOL_BREAK, 1, 1.5f);
     }
 }

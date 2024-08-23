@@ -35,7 +35,7 @@ public class EnvironmentalDamageListener implements Listener {
      * @param cause
      * @return
      */
-    public double getEnvironmentalDamagePercentage(EntityDamageEvent.DamageCause cause) {
+    public static double getEnvironmentalDamagePercentage(EntityDamageEvent.DamageCause cause) {
 
         return switch (cause) {
 
@@ -65,7 +65,55 @@ public class EnvironmentalDamageListener implements Listener {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
+    /**
+     * Hopefully this becomes fully deprecated out of the API soon, very annoying to deal with.
+     * We call this to completely ignore any sort of vanilla damage interaction. We are in charge of everything
+     */
+    public static void clearVanillaDamageModifiers(EntityDamageEvent event) {
+
+        // Attempt to set the all vanilla modifications to 0, if this fails then the entity couldn't have had armor anyway
+        for (EntityDamageEvent.DamageModifier mod : EntityDamageEvent.DamageModifier.values()) {
+
+            if (mod.equals(EntityDamageEvent.DamageModifier.BASE))
+                continue;
+
+            if (!event.isApplicable(mod))
+                continue;
+
+            event.setDamage(mod, 0);
+        }
+    }
+
+    /*
+     * Only used to remove vanilla damage modifiers from the game. We are in full control of how damage is calculated.
+     */
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void onEntityTakeDamage(EntityDamageEvent event) {
+        clearVanillaDamageModifiers(event);
+    }
+
+    /*
+     * Do it again after all calculations are done to reset any modifiers that were applied.
+     */
     @EventHandler
+    public void onEntityTakeDamageFinal(EntityDamageEvent event) {
+        clearVanillaDamageModifiers(event);
+    }
+
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void onExplosiveDamage(EntityDamageEvent event) {
+
+        if (!(event.getEntity() instanceof LivingEntity))
+            return;
+
+        if (!event.getCause().equals(EntityDamageEvent.DamageCause.BLOCK_EXPLOSION))
+            return;
+
+        // Take the vanilla damage and 5x it
+        event.setDamage(EntityDamageEvent.DamageModifier.BASE, event.getDamage() * 5);
+    }
+
+    @EventHandler(priority = EventPriority.LOW)
     public void onPercentageBasedEnvironmentalDamage(EntityDamageEvent event) {
 
         if (!(event.getEntity() instanceof LivingEntity))
@@ -83,21 +131,7 @@ public class EnvironmentalDamageListener implements Listener {
             return;
         }
 
-        event.setDamage(entity.getHalfHeartValue() * getEnvironmentalDamagePercentage(event.getCause()));
-    }
-
-    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-    public void onPoisonDeath(EntityDamageEvent event) {
-
-        // Save players from getting poisoned to death
-        if (!event.getCause().equals(EntityDamageEvent.DamageCause.POISON))
-            return;
-
-        if (!(event.getEntity() instanceof LivingEntity living))
-            return;
-
-        if (event.getFinalDamage() > living.getHealth())
-            event.setDamage(Math.max(0, living.getHealth() - 1));
+        event.setDamage(EntityDamageEvent.DamageModifier.BASE, entity.getHalfHeartValue() * getEnvironmentalDamagePercentage(event.getCause()));
     }
 
     @EventHandler
@@ -124,20 +158,21 @@ public class EnvironmentalDamageListener implements Listener {
             event.setCancelled(true);
             return;
         }
-        event.setDamage(damage);
+        event.setDamage(EntityDamageEvent.DamageModifier.BASE, damage);
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
-    public void onExplosiveDamage(EntityDamageEvent event) {
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onPoisonDeath(EntityDamageEvent event) {
 
-        if (!(event.getEntity() instanceof LivingEntity))
+        // Save players from getting poisoned to death
+        if (!event.getCause().equals(EntityDamageEvent.DamageCause.POISON))
             return;
 
-        if (!event.getCause().equals(EntityDamageEvent.DamageCause.BLOCK_EXPLOSION))
+        if (!(event.getEntity() instanceof LivingEntity living))
             return;
 
-        // Take the vanilla damage and 5x it
-        event.setDamage(event.getFinalDamage() * 5);
+        if (event.getDamage() > living.getHealth())
+            event.setDamage(EntityDamageEvent.DamageModifier.BASE, Math.max(0, living.getHealth() - 1));
     }
 
     /*

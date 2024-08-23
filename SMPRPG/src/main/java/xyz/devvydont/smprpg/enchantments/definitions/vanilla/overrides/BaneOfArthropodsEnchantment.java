@@ -100,7 +100,7 @@ public class BaneOfArthropodsEnchantment extends VanillaEnchantment implements L
             return;
 
         double multiplier = 1.0 + (getPercentageIncrease(level) / 100.0);
-        event.setFinalDamage(event.getFinalDamage() * multiplier);
+        event.multiplyDamage(multiplier);
     }
 
     /**

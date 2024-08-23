@@ -116,7 +116,7 @@ public class BlastProtectionEnchantment extends VanillaEnchantment implements At
             return;
 
         double multiplier = Math.max(0, 1.0 - (getExplosiveProtectionPercent(blast) / 100.0));
-        event.setDamage(event.getDamage() * multiplier);
+        event.setDamage(EntityDamageEvent.DamageModifier.BASE, event.getDamage() * multiplier);
     }
 
     /**

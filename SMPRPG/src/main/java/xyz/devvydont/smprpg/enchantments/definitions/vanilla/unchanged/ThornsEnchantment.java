@@ -69,9 +69,9 @@ public class ThornsEnchantment extends UnchangedEnchantment implements Listener 
 
         // This probably means it was a mob like the guardian
         if (thornsLevel <= 0) {
-            event.setDamage(20);
+            event.setDamage(EntityDamageEvent.DamageModifier.BASE, 20);
         } else {
-            event.setDamage(getReflectDamage(thornsLevel));
+            event.setDamage(EntityDamageEvent.DamageModifier.BASE, getReflectDamage(thornsLevel));
         }
     }
 }

@@ -94,7 +94,7 @@ public abstract class ReaverArmorSet extends CustomArmorBlueprint implements Too
 
         // We are wearing the armor, decrease the damage
         double multiplier = 1 - (getWitherResistance()/100.0);
-        event.setDamage(event.getFinalDamage() * multiplier);
+        event.setDamage(EntityDamageEvent.DamageModifier.BASE, event.getDamage() * multiplier);
     }
 
     @Override
