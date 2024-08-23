@@ -144,8 +144,14 @@ public class MagicExperienceListener implements Listener {
         for (CustomEnchantment enchantment : plugin.getEnchantmentService().getCustomEnchantments(event.getEnchantsToAdd()))
             exp += enchantment.getMagicExperience();
 
+        // Magic multiplier if the item has a power rating
+        double multiplier = 1.0;
+        SMPItemBlueprint blueprint = plugin.getItemService().getBlueprint(event.getItem());
+        if (blueprint instanceof Attributeable attributeable)
+            multiplier += attributeable.getPowerRating() / 15.0;
+
         LeveledPlayer player = plugin.getEntityService().getPlayerInstance(event.getEnchanter());
-        player.getMagicSkill().addExperience(exp, SkillExperienceGainEvent.ExperienceSource.ENCHANT);
+        player.getMagicSkill().addExperience((int) (exp*multiplier), SkillExperienceGainEvent.ExperienceSource.ENCHANT);
     }
 
     @EventHandler(priority = EventPriority.MONITOR)

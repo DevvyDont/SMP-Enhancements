@@ -200,7 +200,7 @@ public class EnchantmentCalculator {
 
         int cost = calculateSlotCost(slot);
         SMPItemBlueprint blueprint = SMPRPG.getInstance().getItemService().getBlueprint(item);
-        int numEnchantsWanted = Math.min(blueprint.getMaxAllowedEnchantments(item.getItemMeta()), cost / 5 + 1);
+        int numEnchantsWanted = Math.min(blueprint.getMaxAllowedEnchantments(item.getItemMeta()), cost / 6 + 1);
 
         // While we have enchants to give, add to the item
         while (numEnchantsWanted > 0) {
