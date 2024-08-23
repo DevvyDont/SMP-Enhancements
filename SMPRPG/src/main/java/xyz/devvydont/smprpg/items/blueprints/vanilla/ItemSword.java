@@ -27,10 +27,10 @@ public class ItemSword extends VanillaAttributeItem implements ToolBreakable {
             case NETHERITE_SWORD -> 170;
             case TRIDENT -> 20.0;
             case DIAMOND_SWORD -> 60;
-            case GOLDEN_SWORD -> 24;
-            case IRON_SWORD -> 16;
-            case STONE_SWORD -> 7;
-            case WOODEN_SWORD -> 5;
+            case GOLDEN_SWORD -> 30;
+            case IRON_SWORD -> 20;
+            case STONE_SWORD -> 10;
+            case WOODEN_SWORD -> 7;
             default -> 0;
         };
     }

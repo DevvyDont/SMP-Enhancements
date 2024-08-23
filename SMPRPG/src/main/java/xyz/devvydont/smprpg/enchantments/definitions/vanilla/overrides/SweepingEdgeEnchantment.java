@@ -73,7 +73,7 @@ public class SweepingEdgeEnchantment extends VanillaEnchantment implements Attri
 
     @Override
     public int getSkillRequirement() {
-        return 8;
+        return 17;
     }
 
     @Override

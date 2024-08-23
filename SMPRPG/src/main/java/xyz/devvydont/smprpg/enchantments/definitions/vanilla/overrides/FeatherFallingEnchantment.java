@@ -79,7 +79,7 @@ public class FeatherFallingEnchantment extends VanillaEnchantment implements Att
 
     @Override
     public int getSkillRequirement() {
-        return 10;
+        return 9;
     }
 
     @Override

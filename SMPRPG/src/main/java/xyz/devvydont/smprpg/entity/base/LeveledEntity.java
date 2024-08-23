@@ -419,7 +419,7 @@ public abstract class LeveledEntity implements LootSource {
 
         int level = resistance.getAmplifier() + 1;
 
-        double multiplier = EntityDamageCalculatorService.DEFENSE_PERCENT_PER_LEVEL_RESISTANCE_EFFECT * level + 1.0;
+        double multiplier = EntityDamageCalculatorService.DEFENSE_PERCENT_PER_LEVEL_RESISTANCE_EFFECT * level / 100.0;
         return (int) (getBaseDefense() * multiplier);
     }
 

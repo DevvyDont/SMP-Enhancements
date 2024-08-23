@@ -66,7 +66,7 @@ public class ClimbingEnchantment extends CustomEnchantment implements AttributeE
 
     @Override
     public int getSkillRequirement() {
-        return 12;
+        return 38;
     }
 
     @Override

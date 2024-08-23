@@ -79,7 +79,7 @@ public class BossTracingEnchantment extends CustomEnchantment implements Listene
 
     @Override
     public int getSkillRequirement() {
-        return 30;
+        return 35;
     }
 
     public class HomingArrowTask extends BukkitRunnable {

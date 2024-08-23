@@ -26,10 +26,10 @@ public class ItemAxe extends VanillaAttributeItem implements ToolBreakable {
         return switch (material) {
             case NETHERITE_AXE -> 200;
             case DIAMOND_AXE -> 90;
-            case GOLDEN_AXE -> 36;
-            case IRON_AXE -> 22;
-            case STONE_AXE -> 11;
-            case WOODEN_AXE -> 7;
+            case GOLDEN_AXE -> 40;
+            case IRON_AXE -> 28;
+            case STONE_AXE -> 16;
+            case WOODEN_AXE -> 15;
 
             default -> 0;
         };

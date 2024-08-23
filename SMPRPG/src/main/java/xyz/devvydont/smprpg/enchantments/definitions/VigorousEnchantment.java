@@ -1,66 +1,53 @@
 package xyz.devvydont.smprpg.enchantments.definitions;
 
-import io.papermc.paper.registry.data.EnchantmentRegistryEntry;
-import io.papermc.paper.registry.event.RegistryFreezeEvent;
 import io.papermc.paper.registry.keys.tags.ItemTypeTagKeys;
-import io.papermc.paper.registry.set.RegistryKeySet;
 import io.papermc.paper.registry.tag.TagKey;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemType;
 import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.enchantments.CustomEnchantment;
 import xyz.devvydont.smprpg.enchantments.base.AttributeEnchantment;
-import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeModifierType;
-import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
-import xyz.devvydont.smprpg.util.formatting.Symbols;
+import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
+import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
 
 import java.util.Collection;
 import java.util.List;
 
-public class HeartyEnchantment extends CustomEnchantment implements AttributeEnchantment {
+public class VigorousEnchantment extends CustomEnchantment implements AttributeEnchantment {
 
-    public static int getHealthIncrease(int level) {
+    public static int getMiningSpeed(int level) {
         return switch (level) {
-          case 0 -> 0;
-          case 1 -> 5;
-          case 2 -> 10;
-          case 3 -> 15;
-          case 4 -> 20;
-          case 5 -> 30;
-          case 6 -> 40;
-          case 7 -> 50;
-          case 8 -> 65;
-          case 9 -> 80;
-          case 10 -> 100;
-          default -> getHealthIncrease(10) + 25*(level - 10);
+            case 0 -> 0;
+            case 1 -> 15;
+            case 2 -> 30;
+            case 3 -> 50;
+            default -> 30 * level + getMiningSpeed(3);
         };
     }
 
-    public HeartyEnchantment(String id) {
+    public VigorousEnchantment(String id) {
         super(id);
     }
 
     @Override
     public @NotNull Component getDisplayName() {
-        return Component.text("Hearty");
+        return Component.text("Vigorous");
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Increases max HP by ").color(NamedTextColor.GRAY)
-                .append(Component.text("+" + getHealthIncrease(getLevel())).color(NamedTextColor.GREEN))
-                .append(ComponentUtil.getColoredComponent(Symbols.HEART, NamedTextColor.RED));
+        return Component.text("Increases mining speed by ").color(NamedTextColor.GRAY)
+                .append(Component.text("+" + getMiningSpeed(getLevel()) + "%").color(NamedTextColor.GREEN)
+                );
     }
 
     @Override
     public TagKey<ItemType> getItemTypeTag() {
-        return ItemTypeTagKeys.ENCHANTABLE_ARMOR;
+        return ItemTypeTagKeys.ENCHANTABLE_CHEST_ARMOR;
     }
 
     @Override
@@ -70,22 +57,22 @@ public class HeartyEnchantment extends CustomEnchantment implements AttributeEnc
 
     @Override
     public int getMaxLevel() {
-        return 10;
+        return 3;
     }
 
     @Override
     public int getWeight() {
-        return 4;
+        return 3;
     }
 
     @Override
     public EquipmentSlotGroup getEquipmentSlotGroup() {
-        return EquipmentSlotGroup.ARMOR;
+        return EquipmentSlotGroup.CHEST;
     }
 
     @Override
     public int getSkillRequirement() {
-        return 10;
+        return 45;
     }
 
     @Override
@@ -96,12 +83,13 @@ public class HeartyEnchantment extends CustomEnchantment implements AttributeEnc
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(Attribute.GENERIC_MAX_HEALTH, getHealthIncrease(getLevel()))
+                new ScalarAttributeEntry(AttributeWrapper.MINING_SPEED, getMiningSpeed(getLevel()) / 100.0)
         );
     }
 
     @Override
     public int getPowerRating() {
-        return getLevel() / 2 + 1;
+        return 0;
     }
+
 }

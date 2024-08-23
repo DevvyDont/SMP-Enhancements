@@ -38,6 +38,6 @@ public class QuickChargeEnchantment extends UnchangedEnchantment {
 
     @Override
     public int getSkillRequirement() {
-        return 29;
+        return 37;
     }
 }

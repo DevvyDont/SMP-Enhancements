@@ -11,6 +11,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityPortalEnterEvent;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.LeveledPlayer;
+import xyz.devvydont.smprpg.util.formatting.ChatUtil;
 
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
@@ -27,8 +28,8 @@ public class DimensionPortalLockingListener implements Listener {
     public static final Date NETHER_LOCK = generateDate(7, 20, 2024);
     public static final Date END_LOCK = generateDate(7, 30, 2024);
 
-    public static final int NETHER_COMBAT_REQUIREMENT = 20;
-    public static final int END_COMBAT_REQUIREMENT = 36;
+    public static final int NETHER_SKILL_REQUIREMENT = 20;
+    public static final int END_SKILL_REQUIREMENT = 36;
 
     public static final int MESSAGE_COOLDOWN = 1000;
 
@@ -61,7 +62,7 @@ public class DimensionPortalLockingListener implements Listener {
         return sb.toString().trim();
     }
 
-    private void sendCombatTooLowMessage(LeveledPlayer player, String dimension, int requirement) {
+    private void sendSkillTooLowMessage(LeveledPlayer player, String dimension, int requirement) {
 
         // Don't do anything if we are on cooldown
         long now = System.currentTimeMillis();
@@ -70,7 +71,7 @@ public class DimensionPortalLockingListener implements Listener {
             return;
 
         messageCooldown.put(player.getPlayer().getUniqueId(), now + MESSAGE_COOLDOWN);
-        player.getPlayer().sendMessage(Component.text("You must be Combat Skill Level " + requirement + " to enter the " + dimension + " dimension! ", NamedTextColor.RED));
+        player.getPlayer().sendMessage(ChatUtil.getErrorMessage("You must have a Skill Average of " + requirement + " to enter the " + dimension + " dimension! You can check your progress by using /skill"));
     }
 
     private void sendTimeDiffMessage(Entity entity, String dimension, Date lockedUntil) {
@@ -88,7 +89,7 @@ public class DimensionPortalLockingListener implements Listener {
         messageCooldown.put(entity.getUniqueId(), now + MESSAGE_COOLDOWN);
         long diff = lockedUntil.getTime() - new Date().getTime();
         Component timeDiff = Component.text(formatTimeDifference(Duration.of(diff, ChronoUnit.MILLIS)), NamedTextColor.DARK_RED);
-        entity.sendMessage(Component.text("You cannot enter the " + dimension + " dimension for another ", NamedTextColor.RED).append(timeDiff));
+        entity.sendMessage(ChatUtil.getErrorMessage("You cannot enter the " + dimension + " dimension for another ").append(timeDiff));
     }
 
     @EventHandler
@@ -117,9 +118,9 @@ public class DimensionPortalLockingListener implements Listener {
             }
 
             // Too low?
-            if (leveledPlayer.getCombatSkill().getLevel() < NETHER_COMBAT_REQUIREMENT) {
+            if (leveledPlayer.getAverageSkillLevel() < NETHER_SKILL_REQUIREMENT) {
                 event.setCancelled(true);
-                sendCombatTooLowMessage(leveledPlayer, "Nether", NETHER_COMBAT_REQUIREMENT);
+                sendSkillTooLowMessage(leveledPlayer, "Nether", NETHER_SKILL_REQUIREMENT);
                 return;
             }
 
@@ -135,9 +136,9 @@ public class DimensionPortalLockingListener implements Listener {
             }
 
             // Too low?
-            if (leveledPlayer.getCombatSkill().getLevel() < END_COMBAT_REQUIREMENT) {
+            if (leveledPlayer.getAverageSkillLevel() < END_SKILL_REQUIREMENT) {
                 event.setCancelled(true);
-                sendCombatTooLowMessage(leveledPlayer, "End", END_COMBAT_REQUIREMENT);
+                sendSkillTooLowMessage(leveledPlayer, "End", END_SKILL_REQUIREMENT);
                 return;
             }
 

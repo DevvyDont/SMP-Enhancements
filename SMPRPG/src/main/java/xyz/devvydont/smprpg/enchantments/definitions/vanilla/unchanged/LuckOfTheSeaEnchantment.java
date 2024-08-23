@@ -35,6 +35,6 @@ public class LuckOfTheSeaEnchantment extends UnchangedEnchantment {
 
     @Override
     public int getSkillRequirement() {
-        return 7;
+        return 36;
     }
 }

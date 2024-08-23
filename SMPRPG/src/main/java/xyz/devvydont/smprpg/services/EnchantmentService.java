@@ -95,11 +95,23 @@ public class EnchantmentService implements BaseService, Listener {
     public final static CustomEnchantment PROFICIENT = new ProficientEnchantment("proficient");
     public final static CustomEnchantment CLIMBING = new ClimbingEnchantment("climbing");
     public final static CustomEnchantment SERRATED = new SerratedEnchantment("serrated");
+    public final static CustomEnchantment SNIPE = new SnipeEnchantment("snipe");
+    public final static CustomEnchantment VELOCITY = new VelocityEnchantment("velocity");
+    public final static CustomEnchantment FIRST_STRIKE = new FirstStrikeEnchantment("first_strike");
+    public final static CustomEnchantment DOUBLE_TAP = new DoubleTapEnchantment("double_tap");
+    public final static CustomEnchantment EXECUTE = new ExecuteEnchantment("execute");
+    public final static CustomEnchantment SYPHON = new SyphonEnchantment("syphon");
+    public final static CustomEnchantment CALAMITY = new CalamityEnchantment("calamity");
+    public final static CustomEnchantment WISDOM = new WisdomEnchantment("wisdom");
+    public final static CustomEnchantment VITALITY = new VitalityEnchantment("vitality");
+    public final static CustomEnchantment VIGOROUS = new VigorousEnchantment("vigorous");
+    public final static CustomEnchantment TELEKINESIS_BLESSING = new TelekinesisBlessing("telekinesis");
 
     public final static CustomEnchantment[] CUSTOM_ENCHANTMENTS = {
 
             // Blessings
             KEEPING_BLESSING,
+            TELEKINESIS_BLESSING,
 
             // Curses
             BINDING_CURSE,
@@ -110,26 +122,38 @@ public class EnchantmentService implements BaseService, Listener {
             POWER,
             SMITE,
             BANE_OF_ARTHROPODS,
-            SERRATED,
-            EFFICIENCY,
 
             BLESSED,
             STABILIZED,
 
-            AQUA_AFFINITY,
+            SERRATED,
+            EFFICIENCY,
+            FIRST_STRIKE,
+            DOUBLE_TAP,
+            EXECUTE,
+
+            INFINITY,
+
+            PROTECTION,
             BLAST_PROTECTION,
+            FIRE_PROTECTION,
+            PROJECTILE_PROTECTION,
+            HEARTY,
+            VITALITY,
+            CALAMITY,
+            WISDOM,
+
+            AQUA_AFFINITY,
             BREACH,
             CHANNELING,
             DENSITY,
             DEPTH_STRIDER,
             FEATHER_FALLING,
             FIRE_ASPECT,
-            FIRE_PROTECTION,
             FLAME,
             FORTUNE,
             FROST_WALKER,
             IMPALING,
-            INFINITY,
             KNOCKBACK,
             LOOTING,
             LOYALTY,
@@ -137,8 +161,6 @@ public class EnchantmentService implements BaseService, Listener {
             LURE,
             MULTISHOT,
             PIERCING,
-            PROJECTILE_PROTECTION,
-            PROTECTION,
             PUNCH,
             QUICK_CHARGE,
             RESPIRATION,
@@ -153,12 +175,15 @@ public class EnchantmentService implements BaseService, Listener {
             MENDING,
 
             CLIMBING,
+            VIGOROUS,
             FORTUITY,
-            HEARTY,
             LEECH,
+            SYPHON,
             PROFICIENT,
             SPEEDSTER,
             TRACING,
+            SNIPE,
+            VELOCITY
     };
 
     public final Map<Enchantment, CustomEnchantment> enchantments = new HashMap<>();
@@ -186,7 +211,7 @@ public class EnchantmentService implements BaseService, Listener {
             sb.append(PlainTextComponentSerializer.plainText().serialize(e.build(1).getDescription()) + "\n" + PlainTextComponentSerializer.plainText().serialize(e.build(e.getMaxLevel()).getDescription()));
             sb.append("\n\n");
         }
-        SMPRPG.getInstance().getLogger().fine(sb.toString());
+        SMPRPG.getInstance().getLogger().warning(sb.toString());
 
         return true;
     }

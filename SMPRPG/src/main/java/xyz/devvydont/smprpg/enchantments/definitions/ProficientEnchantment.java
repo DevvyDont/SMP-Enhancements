@@ -73,7 +73,7 @@ public class ProficientEnchantment extends CustomEnchantment implements Listener
 
     @Override
     public int getSkillRequirement() {
-        return 17;
+        return 22;
     }
 
     @EventHandler

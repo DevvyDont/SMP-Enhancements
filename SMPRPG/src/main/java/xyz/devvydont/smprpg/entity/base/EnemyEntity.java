@@ -14,6 +14,7 @@ public abstract class EnemyEntity extends LeveledEntity {
 
     // Tracks damage done by players (and other entities if desired)
     private Map<UUID, Integer> damageTracker = new HashMap<>();
+    private Map<UUID, Integer> hitTracker = new HashMap<>();
 
     public EnemyEntity(SMPRPG plugin, Entity entity) {
         super(plugin, entity);
@@ -22,11 +23,21 @@ public abstract class EnemyEntity extends LeveledEntity {
     /**
      * Gets how much damage another entity has dealt to this entity
      *
-     * @param entity
+     * @param entity The entity we are querying damage for
      * @return
      */
     public int getDamageDealtByEntity(Entity entity) {
-        return damageTracker.get(entity.getUniqueId());
+        return damageTracker.getOrDefault(entity.getUniqueId(), 0);
+    }
+
+    /**
+     * Gets how many times another entity has hit this entity.
+     *
+     * @param entity The entity we are querying hits for
+     * @return
+     */
+    public int getNumberOfHitsDealtByEntity(Entity entity) {
+        return hitTracker.getOrDefault(entity.getUniqueId(), 0);
     }
 
     /**
@@ -38,8 +49,11 @@ public abstract class EnemyEntity extends LeveledEntity {
      */
     public int addDamageDealtByEntity(Entity entity, int damage) {
         int old = damageTracker.getOrDefault(entity.getUniqueId(), 0);
+        int oldHits = hitTracker.getOrDefault(entity.getUniqueId(), 0);
         int _new = damage + old;
+        oldHits++;
         damageTracker.put(entity.getUniqueId(), _new);
+        hitTracker.put(entity.getUniqueId(), oldHits);
         return _new;
     }
 

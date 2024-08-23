@@ -85,12 +85,11 @@ public class ActionBarService implements BaseService, Listener {
 
     private Component getHealthComponent(final Player player) {
 
-        AttributeInstance healthAttribute = player.getAttribute(Attribute.GENERIC_MAX_HEALTH);
-        int maxHP = healthAttribute != null ? (int) Math.ceil(healthAttribute.getValue()) : 20;
-        int HP = (int) Math.ceil(player.getHealth());
-
-        TextColor color = LeveledEntity.getChatColorFromHealth(HP, maxHP);
-        return ComponentUtil.getColoredComponent(HP + "", color)
+        LeveledPlayer leveledPlayer = plugin.getEntityService().getPlayerInstance(player);
+        int hp = (int) Math.ceil(leveledPlayer.getTotalHp());
+        int maxHP = (int) leveledPlayer.getMaxHp();
+        TextColor color = LeveledEntity.getChatColorFromHealth(hp, maxHP);
+        return ComponentUtil.getColoredComponent(hp + "", color)
                 .append(ComponentUtil.getDefaultText("/"))
                 .append(ComponentUtil.getColoredComponent(maxHP + "", NamedTextColor.GREEN))
                 .append(ComponentUtil.getColoredComponent(Symbols.HEART, NamedTextColor.RED));

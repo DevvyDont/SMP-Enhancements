@@ -12,13 +12,11 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.damage.DamageSource;
 import org.bukkit.damage.DamageType;
-import org.bukkit.entity.Enemy;
-import org.bukkit.entity.Firework;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Warden;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockDropItemEvent;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.player.PlayerAttemptPickupItemEvent;
 import org.bukkit.inventory.ItemStack;
@@ -55,7 +53,8 @@ public class DropsService implements BaseService, Listener {
     public enum DropFlag {
         NULL,
         DEATH,
-        LOOT
+        LOOT,
+        TELEKINESIS_FAIL
         ;
 
         public static DropFlag fromInt(int flag) {
@@ -227,7 +226,7 @@ public class DropsService implements BaseService, Listener {
      *
      * @param event
      */
-    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void onItemSpawn(ItemSpawnEvent event) {
 
         // Set the rarity glow of the item
@@ -286,21 +285,6 @@ public class DropsService implements BaseService, Listener {
         event.setCancelled(true);
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-    public void onDropCoins(EntityDeathEvent event) {
-
-        // Add some coins to the drop depending on the level of entity that was killed if the mob was hostile
-        if (!(event.getEntity() instanceof Enemy))
-            return;
-
-        LeveledEntity leveled = SMPRPG.getInstance().getEntityService().getEntityInstance(event.getEntity());
-
-        // Some chance to add more money
-        if (Math.random() < .33)
-            event.getDrops().add(ItemUtil.getOptimalCoinStack(plugin.getItemService(), leveled.getLevel()));
-
-    }
-
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onEntityHasDrops(EntityDeathEvent event) {
 
@@ -346,14 +330,24 @@ public class DropsService implements BaseService, Listener {
             // Loop through all the droppable items from the entity
             for (LootDrop drop : entity.getItemDrops()) {
 
+                List<ItemStack> allInvolvedPlayersDrops = new ArrayList<>();
+
                 // Test for items to drop
                 Collection<ItemStack> roll = drop.roll(player, player.getInventory().getItemInMainHand(), damageRatio);
+                if (roll != null)
+                    allInvolvedPlayersDrops.addAll(roll);
+
+                // Now test for coins
+                // Some chance to add more money
+                if (Math.random() < .33)
+                    allInvolvedPlayersDrops.add(ItemUtil.getOptimalCoinStack(plugin.getItemService(), entity.getLevel()));
+
                 // If we didn't roll anything skip
-                if (roll == null || roll.isEmpty())
+                if (allInvolvedPlayersDrops.isEmpty())
                     continue;
 
                 // Tag all the drops as loot drops
-                for (ItemStack item : roll) {
+                for (ItemStack item : allInvolvedPlayersDrops) {
                     item.editMeta(meta -> {
                         setOwner(meta, player);
                         setFlag(meta, DropFlag.LOOT);
@@ -361,10 +355,29 @@ public class DropsService implements BaseService, Listener {
                 }
 
                 // Extend the list of items
-                event.getDrops().addAll(roll);
+                event.getDrops().addAll(allInvolvedPlayersDrops);
             }
 
 
+        }
+
+    }
+
+    /*
+     * When a player breaks a block and causes items to drop, mark it as loot for the player so they own it.
+     */
+    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
+    public void onBlockDroppedItemEvent(BlockDropItemEvent event) {
+
+        // Tag all the drops as loot drops
+        for (Item itemEntity : event.getItems()) {
+            ItemStack item = itemEntity.getItemStack();
+            plugin.getItemService().ensureItemStackUpdated(item);
+            item.editMeta(meta -> {
+                setOwner(meta, event.getPlayer());
+                setFlag(meta, DropFlag.LOOT);
+            });
+            itemEntity.setItemStack(item);
         }
 
     }

@@ -78,7 +78,7 @@ public class FireProtectionEnchantment extends VanillaEnchantment implements Lis
 
     @Override
     public int getSkillRequirement() {
-        return 9;
+        return 21;
     }
 
     @EventHandler(priority = EventPriority.HIGH)

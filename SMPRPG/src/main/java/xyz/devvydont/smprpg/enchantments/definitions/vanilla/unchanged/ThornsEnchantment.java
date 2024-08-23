@@ -7,6 +7,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -64,6 +65,12 @@ public class ThornsEnchantment extends UnchangedEnchantment implements Listener 
 
         if (!(event.getDamager() instanceof LivingEntity living))
             return;
+
+        // If this is player on player, cancel it for the sake of PVE annoyance
+        if (event.getEntity() instanceof Player && event.getDamageSource().getCausingEntity() instanceof Player) {
+            event.setCancelled(true);
+            return;
+        }
 
         int thornsLevel = EnchantmentUtil.getWornEnchantLevel(getEnchantment(), living.getEquipment());
 

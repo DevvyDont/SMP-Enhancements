@@ -20,6 +20,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ItemType;
 import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.enchantments.CustomEnchantment;
+import xyz.devvydont.smprpg.enchantments.EnchantmentRarity;
+import xyz.devvydont.smprpg.services.EnchantmentService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
 
 public class KeepingBlessing extends CustomEnchantment implements Listener {
@@ -40,10 +42,10 @@ public class KeepingBlessing extends CustomEnchantment implements Listener {
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("This item ").color(NamedTextColor.GRAY)
-                .append(Component.text("will not").color(NamedTextColor.AQUA))
-                .append(Component.text(" drop from ").color(NamedTextColor.GRAY))
-                .append(Component.text("death").color(NamedTextColor.DARK_RED));
+        return Component.text("This item is ").color(NamedTextColor.GRAY)
+                .append(Component.text("soulbound").color(NamedTextColor.DARK_PURPLE))
+                .append(Component.text(" and will not drop from ").color(NamedTextColor.GRAY))
+                .append(Component.text("death").color(NamedTextColor.RED));
     }
 
     @Override
@@ -63,7 +65,7 @@ public class KeepingBlessing extends CustomEnchantment implements Listener {
 
     @Override
     public int getWeight() {
-        return 2;
+        return EnchantmentRarity.BLESSING.getWeight();
     }
 
     @Override
@@ -78,7 +80,7 @@ public class KeepingBlessing extends CustomEnchantment implements Listener {
 
     @Override
     public @NotNull RegistryKeySet<Enchantment> getConflictingEnchantments() {
-        return RegistrySet.keySet(RegistryKey.ENCHANTMENT, EnchantmentKeys.VANISHING_CURSE);
+        return RegistrySet.keySet(RegistryKey.ENCHANTMENT, EnchantmentKeys.VANISHING_CURSE, EnchantmentService.TELEKINESIS_BLESSING.getTypedKey());
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
