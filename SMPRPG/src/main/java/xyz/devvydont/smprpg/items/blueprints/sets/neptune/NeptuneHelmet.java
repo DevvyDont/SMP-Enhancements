@@ -56,7 +56,8 @@ public class NeptuneHelmet extends CustomFakeHelmetBlueprint implements ToolBrea
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, getDefense()),
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, getHealth()),
                 new ScalarAttributeEntry(AttributeWrapper.STRENGTH, getStrength()/100.0),
-                new AdditiveAttributeEntry(AttributeWrapper.OXYGEN_BONUS, NeptuneArmorSet.OXYGEN_BONUS)
+                new AdditiveAttributeEntry(AttributeWrapper.OXYGEN_BONUS, NeptuneArmorSet.OXYGEN_BONUS),
+                new ScalarAttributeEntry(AttributeWrapper.BURNING_TIME, -.1)
         );
     }
 
