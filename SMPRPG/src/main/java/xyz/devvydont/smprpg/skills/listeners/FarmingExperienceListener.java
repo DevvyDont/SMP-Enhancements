@@ -10,6 +10,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockGrowEvent;
+import org.bukkit.event.block.BlockPistonExtendEvent;
 import org.bukkit.event.player.PlayerHarvestBlockEvent;
 import org.bukkit.inventory.ItemStack;
 import xyz.devvydont.smprpg.SMPRPG;
@@ -36,44 +37,44 @@ public class FarmingExperienceListener implements Listener {
 
             case COCOA_BEANS -> 1;
 
-            case GLOW_BERRIES, SWEET_BERRIES -> 6;
+            case GLOW_BERRIES, SWEET_BERRIES -> 3;
 
             case BROWN_MUSHROOM, RED_MUSHROOM, DEAD_BUSH -> 3;
 
-            case SPORE_BLOSSOM -> 34;
+            case SPORE_BLOSSOM -> 7;
 
             case BAMBOO -> 2;
 
             case BROWN_MUSHROOM_BLOCK, RED_MUSHROOM_BLOCK -> 21;
 
-            case SEA_PICKLE -> 45;
+            case SEA_PICKLE -> 5;
 
-            case CRIMSON_FUNGUS, WARPED_FUNGUS -> 65;
+            case CRIMSON_FUNGUS, WARPED_FUNGUS -> 4;
 
-            case WITHER_ROSE -> 20;
+            case WITHER_ROSE -> 6;
 
-            case MELON -> 12;
-            case MELON_SLICE -> 4;
+            case MELON -> 6;
+            case MELON_SLICE -> 1;
             case MELON_SEEDS -> 1;
 
-            case PUMPKIN -> 10;
+            case PUMPKIN -> 6;
             case PUMPKIN_SEEDS -> 1;
 
             case BEETROOT, BEETROOTS -> 3;
             case BEETROOT_SEEDS -> 1;
 
-            case TORCHFLOWER, TORCHFLOWER_CROP -> 15;
+            case TORCHFLOWER, TORCHFLOWER_CROP -> 7;
             case TORCHFLOWER_SEEDS -> 1;
 
-            case WHEAT -> 6;
+            case WHEAT -> 4;
             case WHEAT_SEEDS -> 1;
 
-            case CARROT, CARROTS, POTATO, POTATOES -> 5;
+            case CARROT, CARROTS, POTATO, POTATOES -> 3;
 
-            case NETHER_WART -> 13;
+            case NETHER_WART -> 6;
 
-            case SUGAR_CANE -> 5;
-            case CACTUS -> 8;
+            case SUGAR_CANE -> 2;
+            case CACTUS -> 5;
 
             default -> 0;
         };
@@ -104,8 +105,8 @@ public class FarmingExperienceListener implements Listener {
     private int getExperienceForDrops(Collection<ItemStack> drops, World.Environment environment) {
 
         double multiplier = switch (environment) {
-            case NETHER -> 1.5;
-            case THE_END -> 2;
+            case NETHER -> 1.2;
+            case THE_END -> 1.5;
             default -> 1;
         };
 
@@ -149,6 +150,22 @@ public class FarmingExperienceListener implements Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onGrow(BlockGrowEvent event) {
         ChunkUtil.markBlockSkillValid(event.getBlock());
+    }
+
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
+    public void onPistonShove(BlockPistonExtendEvent event) {
+
+        // Carry over the validity of blocks in the direction that the piston is extending.
+        for (Block block : event.getBlocks()) {
+
+            Block newPosition = block.getRelative(event.getDirection());
+
+            // If the current block we are checking is not valid for skills, then carry it over to the position we are
+            // extending to. Otherwise, we can just ignore
+            if (ChunkUtil.isBlockSkillInvalid(block))
+                ChunkUtil.markBlockSkillInvalid(newPosition);
+        }
+
     }
 
     /**

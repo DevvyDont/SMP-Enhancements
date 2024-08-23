@@ -174,10 +174,11 @@ public abstract class CustomEnchantment implements Cloneable {
     }
 
     public int getMagicExperience() {
-        // 20-50 XP for level bonus
-        int levelBonus = (int) (getLevel()/(double)getMaxLevel() * 80 + 20);
+        // 50-500 XP for level bonus
+        int levelBonus = (int) (getLevel()/(double)getMaxLevel() * 500 + 50);
         // Rarity multiplier, rarer enchants provide better bonuses
-        int rarityBonus = (int) (1.0 / (getWeight() + 1.0)) * 50;
+        // can get 50-500 xp for this as well
+        int rarityBonus = (int) (1.0 / (getWeight() + 1.0)) * 500;
 
         return levelBonus + rarityBonus;
     }

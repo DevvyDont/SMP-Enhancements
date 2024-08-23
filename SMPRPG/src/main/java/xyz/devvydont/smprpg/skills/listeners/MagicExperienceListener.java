@@ -137,12 +137,12 @@ public class MagicExperienceListener implements Listener {
         if (event.isCancelled())
             return;
 
-        int exp = event.getExpLevelCost() + 10;
+        // Set a base experience earning for this enchant. At the start it is just the level of enchant we are performing.
+        int exp = event.getExpLevelCost() + 20;
+
+        // Loop through every enchant and see how much magic experience it gives.
         for (CustomEnchantment enchantment : plugin.getEnchantmentService().getCustomEnchantments(event.getEnchantsToAdd()))
             exp += enchantment.getMagicExperience();
-
-        // Multiply it by the exp cost
-        exp *= (int) (event.getExpLevelCost() + 1.0);
 
         LeveledPlayer player = plugin.getEntityService().getPlayerInstance(event.getEnchanter());
         player.getMagicSkill().addExperience(exp, SkillExperienceGainEvent.ExperienceSource.ENCHANT);

@@ -18,67 +18,67 @@ public class MiningExperienceListener implements Listener {
 
     public static int getBaseExperienceForDrop(ItemStack item, World.Environment environment) {
 
-        double dimensionMultiplier = environment.equals(World.Environment.THE_END) ? 2 :
-                environment.equals(World.Environment.NETHER) ? 1.5 : 1;
+        double dimensionMultiplier = environment.equals(World.Environment.THE_END) ? 1.5 :
+                environment.equals(World.Environment.NETHER) ? 1.2 : 1;
 
         return (int) (switch (item.getType()) {
 
                     case END_STONE, STONE, COBBLESTONE, COBBLED_DEEPSLATE, SAND, RED_SAND, SANDSTONE, RED_SANDSTONE, CLAY, MYCELIUM, GRASS_BLOCK, DIRT, GRAVEL, DEEPSLATE, TUFF, NETHERRACK, BLACKSTONE, BASALT, SMOOTH_BASALT, CRIMSON_NYLIUM, WARPED_NYLIUM -> 1;
                     case ANDESITE, DIORITE, GRANITE, CALCITE, BONE_BLOCK, SOUL_SAND, SOUL_SOIL, ICE, PACKED_ICE -> 2;
 
-                    case SEA_LANTERN -> 25;
+                    case SEA_LANTERN -> 10;
                     case PRISMARINE -> 2;
-                    case PRISMARINE_BRICKS, DARK_PRISMARINE -> 3;
-                    case WET_SPONGE -> 100;
+                    case PRISMARINE_BRICKS, DARK_PRISMARINE -> 2;
+                    case WET_SPONGE -> 25;
 
-                    case BLUE_ICE -> 4;
+                    case BLUE_ICE -> 2;
 
-                    case COAL_ORE, COAL -> 8;
-                    case DEEPSLATE_COAL_ORE -> 15;
+                    case COAL_ORE, COAL -> 5;
+                    case DEEPSLATE_COAL_ORE -> 7;
 
                     case COPPER_ORE, RAW_COPPER, COPPER_INGOT -> 2;
-                    case DEEPSLATE_COPPER_ORE -> 20;
+                    case DEEPSLATE_COPPER_ORE -> 8;
 
-                    case IRON_ORE, RAW_IRON, IRON_INGOT -> 15;
-                    case IRON_BLOCK -> 25;
-                    case DEEPSLATE_IRON_ORE -> 28;
+                    case IRON_ORE, RAW_IRON, IRON_INGOT -> 7;
+                    case IRON_BLOCK -> 9;
+                    case DEEPSLATE_IRON_ORE -> 12;
 
-                    case GOLD_ORE, RAW_GOLD, GOLD_INGOT -> 24;
-                    case DEEPSLATE_GOLD_ORE -> 45;
+                    case GOLD_ORE, RAW_GOLD, GOLD_INGOT -> 12;
+                    case DEEPSLATE_GOLD_ORE -> 14;
 
-                    case OBSIDIAN -> 80;
-                    case CRYING_OBSIDIAN -> 150;
+                    case OBSIDIAN -> 20;
+                    case CRYING_OBSIDIAN -> 24;
 
-                    case AMETHYST_BLOCK -> 7;
+                    case AMETHYST_BLOCK -> 4;
                     case LARGE_AMETHYST_BUD -> 15;
-                    case MEDIUM_AMETHYST_BUD -> 25;
-                    case SMALL_AMETHYST_BUD -> 35;
+                    case MEDIUM_AMETHYST_BUD -> 20;
+                    case SMALL_AMETHYST_BUD -> 25;
 
-                    case LAPIS_LAZULI -> 8;
-                    case REDSTONE -> 8;
+                    case LAPIS_LAZULI -> 3;
+                    case REDSTONE -> 4;
 
-                    case REDSTONE_BLOCK -> 35;
+                    case REDSTONE_BLOCK -> 15;
 
-                    case LAPIS_ORE, REDSTONE_ORE -> 45;
-                    case DEEPSLATE_LAPIS_ORE, DEEPSLATE_REDSTONE_ORE -> 70;
+                    case LAPIS_ORE, REDSTONE_ORE -> 18;
+                    case DEEPSLATE_LAPIS_ORE, DEEPSLATE_REDSTONE_ORE -> 21;
 
-                    case DIAMOND_ORE, DIAMOND -> 100;
-                    case DEEPSLATE_DIAMOND_ORE -> 180;
+                    case DIAMOND_ORE, DIAMOND -> 25;
+                    case DEEPSLATE_DIAMOND_ORE -> 30;
 
-                    case EMERALD_ORE, EMERALD -> 500;
-                    case DEEPSLATE_EMERALD_ORE -> 850;
+                    case EMERALD_ORE, EMERALD -> 100;
+                    case DEEPSLATE_EMERALD_ORE -> 120;
 
-                    case GOLD_BLOCK -> 110;
-                    case EMERALD_BLOCK -> 1500;
+                    case GOLD_BLOCK -> 45;
+                    case EMERALD_BLOCK -> 200;
 
-                    case MAGMA_BLOCK -> 9;
-                    case GOLD_NUGGET -> 10;
-                    case NETHER_GOLD_ORE -> 65;
-                    case GLOWSTONE -> 55;
-                    case NETHER_QUARTZ_ORE -> 60;
-                    case QUARTZ -> 15;
-                    case QUARTZ_BLOCK -> 50;
-                    case ANCIENT_DEBRIS -> 500;
+                    case MAGMA_BLOCK -> 2;
+                    case GOLD_NUGGET -> 5;
+                    case NETHER_GOLD_ORE -> 30;
+                    case GLOWSTONE -> 15;
+                    case NETHER_QUARTZ_ORE -> 30;
+                    case QUARTZ -> 10;
+                    case QUARTZ_BLOCK -> 15;
+                    case ANCIENT_DEBRIS -> 150;
 
 
                     default -> 0;
