@@ -64,11 +64,20 @@ public class InfernoArrow extends CustomItemBlueprint implements Sellable, Liste
     }
 
     public List<Component> getDescriptionComponent(ItemMeta meta) {
+
+        Component bossName = ComponentUtil.getColoredComponent("Infernal Phoenix", NamedTextColor.DARK_PURPLE);
+        Component instructions = ComponentUtil.getColoredComponent("shot in lava", NamedTextColor.GOLD);
+        // If boss spawns aren't enabled, obfuscate the instructions
+        if (!ALLOW_SPAWNING){
+            bossName = bossName.decorate(TextDecoration.OBFUSCATED);
+            instructions = instructions.decorate(TextDecoration.OBFUSCATED);
+        }
+
         List<Component> components = new ArrayList<>(super.getDescriptionComponent(meta));
         components.add(ComponentUtil.getDefaultText("Used to summon an ")
-                .append(ComponentUtil.getColoredComponent("Infernal Phoenix", NamedTextColor.DARK_PURPLE).decorate(TextDecoration.OBFUSCATED)));
+                .append(bossName));
         components.add(ComponentUtil.getDefaultText("when ")
-                .append(ComponentUtil.getColoredComponent("shot in lava", NamedTextColor.GOLD).decorate(TextDecoration.OBFUSCATED))
+                .append(instructions)
                 .append(ComponentUtil.getDefaultText(" in the "))
                 .append(ComponentUtil.getColoredComponent("Nether", NamedTextColor.RED)));
         return components;
