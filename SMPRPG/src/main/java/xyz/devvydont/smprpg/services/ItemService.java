@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
@@ -40,6 +41,7 @@ import xyz.devvydont.smprpg.items.blueprints.debug.LegacyItemBlueprint;
 import xyz.devvydont.smprpg.items.blueprints.resources.VanillaResource;
 import xyz.devvydont.smprpg.items.blueprints.vanilla.*;
 import xyz.devvydont.smprpg.items.interfaces.*;
+import xyz.devvydont.smprpg.items.listeners.ShieldBlockingListener;
 import xyz.devvydont.smprpg.reforge.ReforgeBase;
 import xyz.devvydont.smprpg.reforge.ReforgeType;
 import xyz.devvydont.smprpg.util.crafting.ItemUtil;
@@ -93,6 +95,8 @@ public class ItemService implements BaseService, Listener {
 
     private final List<Recipe> registeredRecipes;
 
+    private final List<Listener> listeners;
+
     public ItemService(SMPRPG plugin) {
         this.plugin = plugin;
         ITEM_VERSION_KEY = new NamespacedKey(plugin, "item-version");
@@ -103,8 +107,33 @@ public class ItemService implements BaseService, Listener {
         blueprints = new HashMap<>();
         keyMappings = new HashMap<>();
         reforges = new HashMap<>();
+        listeners = new ArrayList<>();
 
         registeredRecipes = new ArrayList<>();
+
+        registerListeners();
+    }
+
+    /*
+     * Registers listeners associated with custom items. This is for things such as abilities, shield blocking, etc.
+     */
+    private void registerListeners() {
+        cleanupListeners();
+
+        listeners.add(new ShieldBlockingListener());
+
+        // Register all the listeners.
+        for (Listener listener : listeners)
+            plugin.getServer().getPluginManager().registerEvents(listener, plugin);
+    }
+
+    /*
+     * Tells all the listeners to stop functioning
+     */
+    private void cleanupListeners() {
+        for (Listener listener : listeners)
+            HandlerList.unregisterAll(listener);
+        listeners.clear();
     }
 
     /**
@@ -159,6 +188,9 @@ public class ItemService implements BaseService, Listener {
                 for (NamespacedKey key : ((Compressable) blueprint).getAllRecipeKeys())
                     plugin.getServer().removeRecipe(key);
         }
+
+        // Tell all the listeners to stop doing things.
+        cleanupListeners();
     }
 
     @Override
@@ -174,6 +206,7 @@ public class ItemService implements BaseService, Listener {
         registerVanillaMaterialResolver(Material.IRON_SWORD, ItemSword.class);
         registerVanillaMaterialResolver(Material.DIAMOND_SWORD, ItemSword.class);
         registerVanillaMaterialResolver(Material.NETHERITE_SWORD, ItemSword.class);
+        registerVanillaMaterialResolver(Material.SHIELD, ItemShield.class);
 
         registerVanillaMaterialResolver(Material.TRIDENT, ItemSword.class);
 

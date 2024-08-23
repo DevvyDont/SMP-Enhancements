@@ -25,6 +25,7 @@ import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.ItemRarity;
 import xyz.devvydont.smprpg.items.interfaces.Edible;
 import xyz.devvydont.smprpg.items.interfaces.Sellable;
+import xyz.devvydont.smprpg.items.interfaces.Shieldable;
 import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
 import xyz.devvydont.smprpg.reforge.ReforgeBase;
 import xyz.devvydont.smprpg.reforge.ReforgeType;
@@ -284,6 +285,7 @@ public abstract class SMPItemBlueprint {
         return meta.hasEnchants();
     }
 
+    // todo move this into a renderItemLore() method in the item service or something
     public void updateLore(ItemMeta meta) {
 
         List<Component> lore = new ArrayList<>();
@@ -292,6 +294,13 @@ public abstract class SMPItemBlueprint {
         if (!getDescriptionComponent(meta).isEmpty()) {
             lore.add(Component.empty());
             lore.addAll(getDescriptionComponent(meta));
+        }
+
+        // If this item is a shield add the shield stats
+        if (this instanceof Shieldable shieldable) {
+            lore.add(Component.empty());
+            lore.add(ComponentUtil.getDefaultText("Blocking Resistance: ").append(Component.text("-" + (int)(shieldable.getDamageBlockingPercent() * 100) + "%", NamedTextColor.GREEN)));
+            lore.add(ComponentUtil.getDefaultText("Blocking Delay: ").append(Component.text("+" + (shieldable.getShieldDelay() / 20.0) + "s", NamedTextColor.RED)));
         }
 
         // First, enchants. Are we not forcing glow? Only display enchants when we are not forcing glow (and have some).
