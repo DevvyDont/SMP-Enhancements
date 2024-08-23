@@ -4,29 +4,18 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Color;
-import org.bukkit.Material;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.ItemType;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.Repairable;
 import org.bukkit.inventory.meta.components.FoodComponent;
-import org.bukkit.inventory.meta.components.ToolComponent;
 import org.jetbrains.annotations.Nullable;
-import oshi.util.FormatUtil;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.enchantments.CustomEnchantment;
-import xyz.devvydont.smprpg.enchantments.calculator.EnchantmentCalculator;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.ItemRarity;
-import xyz.devvydont.smprpg.items.interfaces.Edible;
-import xyz.devvydont.smprpg.items.interfaces.Sellable;
-import xyz.devvydont.smprpg.items.interfaces.Shieldable;
-import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
+import xyz.devvydont.smprpg.items.interfaces.*;
 import xyz.devvydont.smprpg.reforge.ReforgeBase;
 import xyz.devvydont.smprpg.reforge.ReforgeType;
 import xyz.devvydont.smprpg.services.EconomyService;
@@ -39,7 +28,6 @@ import xyz.devvydont.smprpg.util.items.FoodUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * The base class for every single item in the game. All items and blueprints will inherit from this
@@ -183,7 +171,7 @@ public abstract class SMPItemBlueprint {
             Component name = enchantment.getEnchantment().displayName(enchantment.getLevel()).color(enchantment.getEnchantColor());
             name = Component.text(Symbols.ENCHANTMENT + " ").color(NamedTextColor.LIGHT_PURPLE).append(name);
             lines.add(name);
-            if (meta.getEnchants().size() <= 8)
+            if (meta.getEnchants().size() <= 9)
                 lines.add(enchantment.getDescription());
         }
         lines.add(ComponentUtil.getColoredComponent("Enchantments: " + meta.getEnchants().size() + "/" + getMaxAllowedEnchantments(meta), NamedTextColor.DARK_GRAY));
@@ -307,6 +295,12 @@ public abstract class SMPItemBlueprint {
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         if (hasEnchants(meta))
             lore.addAll(getEnchantsComponent(meta));
+
+        // If this item holds experience
+        if (this instanceof ExperienceThrowable holder) {
+            lore.add(Component.empty());
+            lore.add(ComponentUtil.getDefaultText("Stored Experience: ").append(Component.text(MinecraftStringUtils.formatNumber(holder.getExperience()) + "XP", NamedTextColor.GREEN)));
+        }
 
         // Edibility if this item has it
         if (meta.hasFood())

@@ -18,6 +18,7 @@ import xyz.devvydont.smprpg.items.blueprints.equipment.EnchantedMilkBucket;
 import xyz.devvydont.smprpg.items.blueprints.equipment.GrapplingHook;
 import xyz.devvydont.smprpg.items.blueprints.food.*;
 import xyz.devvydont.smprpg.items.blueprints.misc.DeathCertificate;
+import xyz.devvydont.smprpg.items.blueprints.potion.ExperienceBottle;
 import xyz.devvydont.smprpg.items.blueprints.resources.EmptyBlueprint;
 import xyz.devvydont.smprpg.items.blueprints.resources.SellableResource;
 import xyz.devvydont.smprpg.items.blueprints.resources.crafting.DraconicCrystal;
@@ -363,6 +364,13 @@ public enum CustomItemType {
     SOGGY_LETTUCE("Soggy Lettuce", Material.GREEN_DYE, ItemRarity.COMMON, SoggyLettuce.class),
     STOLEN_APPLE("Stolen Apple", Material.APPLE, ItemRarity.COMMON, StolenApples.class),
     CHILI_PEPPER("Chili Pepper", Material.GOLDEN_CARROT, ItemRarity.COMMON, ChiliPepper.class),
+
+    // EXP BOTTLES
+    EXPERIENCE_BOTTLE("Experience Bottle", Material.EXPERIENCE_BOTTLE, ItemRarity.COMMON, ExperienceBottle.class),  // normal lapis
+    LARGE_EXPERIENCE_BOTTLE("Large Experience Bottle", Material.EXPERIENCE_BOTTLE, ItemRarity.UNCOMMON, ExperienceBottle.class),  // block of lapis
+    HEFTY_EXPERIENCE_BOTTLE("Hefty Experience Bottle", Material.EXPERIENCE_BOTTLE, ItemRarity.RARE, ExperienceBottle.class),  // ench lapis
+    GIGANTIC_EXPERIENCE_BOTTLE("Gigantic Experience Bottle", Material.EXPERIENCE_BOTTLE, ItemRarity.EPIC, ExperienceBottle.class),  // ench block of lapis
+    COLOSSAL_EXPERIENCE_BOTTLE("Colossal Experience Bottle", Material.EXPERIENCE_BOTTLE, ItemRarity.LEGENDARY, ExperienceBottle.class),  // lapis singularity
 
     // COMPRESSED MINING MATERIALS
 

@@ -41,6 +41,7 @@ import xyz.devvydont.smprpg.items.blueprints.debug.LegacyItemBlueprint;
 import xyz.devvydont.smprpg.items.blueprints.resources.VanillaResource;
 import xyz.devvydont.smprpg.items.blueprints.vanilla.*;
 import xyz.devvydont.smprpg.items.interfaces.*;
+import xyz.devvydont.smprpg.items.listeners.ExperienceBottleListener;
 import xyz.devvydont.smprpg.items.listeners.ShieldBlockingListener;
 import xyz.devvydont.smprpg.reforge.ReforgeBase;
 import xyz.devvydont.smprpg.reforge.ReforgeType;
@@ -121,6 +122,7 @@ public class ItemService implements BaseService, Listener {
         cleanupListeners();
 
         listeners.add(new ShieldBlockingListener());
+        listeners.add(new ExperienceBottleListener());
 
         // Register all the listeners.
         for (Listener listener : listeners)
