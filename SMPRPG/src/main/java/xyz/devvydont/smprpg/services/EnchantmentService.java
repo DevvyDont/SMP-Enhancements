@@ -369,7 +369,7 @@ public class EnchantmentService implements BaseService, Listener {
             event.getOffers()[entry.getKey().ordinal()] = !entry.getValue().isEmpty() ? entry.getValue().getFirst() : null;
     }
 
-    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onEnchant(EnchantItemEvent event) {
 
         Map<EnchantmentCalculator.EnchantmentSlot, List<EnchantmentOffer>> allOffers = calculatorCache.get(event.getEnchanter().getUniqueId());
@@ -380,6 +380,10 @@ public class EnchantmentService implements BaseService, Listener {
         event.getEnchantsToAdd().clear();
         for (EnchantmentOffer offer : clickedOffers)
             event.getEnchantsToAdd().put(offer.getEnchantment(), offer.getEnchantmentLevel());
+
+        int levels = event.getExpLevelCost();
+        event.setExpLevelCost(0);
+        event.getEnchanter().setLevel(event.getEnchanter().getLevel() - levels);
 
         SMPRPG.getInstance().getEntityService().getPlayerInstance(event.getEnchanter()).shuffleSeed();
 
