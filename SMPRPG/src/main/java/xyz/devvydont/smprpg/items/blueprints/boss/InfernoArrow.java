@@ -39,7 +39,8 @@ public class InfernoArrow extends CustomItemBlueprint implements Sellable, Liste
         SUCCESS("Success!"),
         WRONG_DIMENSION("This only works in the Nether!"),
         NO_LAVA("This arrow must be shot into lava!"),
-        NO_ROOM("There is not enough space!")
+        NO_ROOM("There is not enough space!"),
+        NOT_ENABLED("You are not prepared for this encounter yet...")
         ;
 
         String message;
@@ -55,6 +56,8 @@ public class InfernoArrow extends CustomItemBlueprint implements Sellable, Liste
     // How much should the arrow velocity be dampened by when colliding with a block and reflecting?
     private static final double ARROW_VELOCITY_BLOCK_DAMPENING = .2;
     private static final double ARROW_VELOCITY_ENTITY_DAMPENING = .5;
+
+    private static boolean ALLOW_SPAWNING = false;
 
     public InfernoArrow(ItemService itemService, CustomItemType type) {
         super(itemService, type);
@@ -116,6 +119,10 @@ public class InfernoArrow extends CustomItemBlueprint implements Sellable, Liste
             if (!block.getRelative(BlockFace.UP, 10).getType().equals(Material.AIR))
                 return InfernoSpawnResult.NO_ROOM;
         // end todo
+
+        // Is the boss enabled?
+        if (!ALLOW_SPAWNING)
+            return InfernoSpawnResult.NOT_ENABLED;
 
         // Passed all checks!
         return InfernoSpawnResult.SUCCESS;
