@@ -80,7 +80,7 @@ public class KeepingBlessing extends CustomEnchantment implements Listener {
 
     @Override
     public @NotNull RegistryKeySet<Enchantment> getConflictingEnchantments() {
-        return RegistrySet.keySet(RegistryKey.ENCHANTMENT, EnchantmentKeys.VANISHING_CURSE, EnchantmentService.TELEKINESIS_BLESSING.getTypedKey());
+        return RegistrySet.keySet(RegistryKey.ENCHANTMENT, EnchantmentKeys.VANISHING_CURSE, EnchantmentService.TELEKINESIS_BLESSING.getTypedKey(), EnchantmentService.MERCY_BLESSING.getTypedKey());
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)

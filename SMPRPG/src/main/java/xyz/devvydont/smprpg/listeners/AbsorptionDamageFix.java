@@ -27,14 +27,14 @@ public class AbsorptionDamageFix implements Listener {
         entity.getWorld().playSound(entity.getEyeLocation(), Sound.BLOCK_GLASS_BREAK, 1f, 1.5f);
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.HIGH)
     public void onEntityDamage(EntityDamageEvent event) {
 
         if (!(event.getEntity() instanceof LivingEntity))
             return;
 
         LivingEntity living = (LivingEntity) event.getEntity();
-        LeveledEntity entity = plugin.getEntityService().getEntityInstance((LivingEntity) event.getEntity());
+        LeveledEntity entity = plugin.getEntityService().getEntityInstance(event.getEntity());
 
         // If they don't have absorption don't do anything
         if (entity.getAbsorptionHealth() <= 0)

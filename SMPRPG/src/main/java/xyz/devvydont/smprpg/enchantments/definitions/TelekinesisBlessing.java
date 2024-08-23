@@ -89,7 +89,7 @@ public class TelekinesisBlessing extends CustomEnchantment implements Listener {
 
     @Override
     public @NotNull RegistryKeySet<Enchantment> getConflictingEnchantments() {
-        return RegistrySet.keySet(RegistryKey.ENCHANTMENT, EnchantmentService.KEEPING_BLESSING.getTypedKey());
+        return RegistrySet.keySet(RegistryKey.ENCHANTMENT, EnchantmentService.KEEPING_BLESSING.getTypedKey(), EnchantmentService.MERCY_BLESSING.getTypedKey());
     }
 
     /*

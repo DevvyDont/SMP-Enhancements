@@ -85,6 +85,8 @@ public class EnchantmentService implements BaseService, Listener {
 
     // Custom enchantments
     public final static CustomEnchantment KEEPING_BLESSING = new KeepingBlessing("keeping");
+    public final static CustomEnchantment TELEKINESIS_BLESSING = new TelekinesisBlessing("telekinesis");
+    public final static CustomEnchantment MERCY_BLESSING = new MercyBlessing("mercy");
     public final static CustomEnchantment FORTUITY = new FortuityEnchantment("fortuity");
     public final static CustomEnchantment HEARTY = new HeartyEnchantment("hearty");
     public final static CustomEnchantment SPEEDSTER = new SpeedsterEnchantment("speedster");
@@ -105,13 +107,13 @@ public class EnchantmentService implements BaseService, Listener {
     public final static CustomEnchantment WISDOM = new WisdomEnchantment("wisdom");
     public final static CustomEnchantment VITALITY = new VitalityEnchantment("vitality");
     public final static CustomEnchantment VIGOROUS = new VigorousEnchantment("vigorous");
-    public final static CustomEnchantment TELEKINESIS_BLESSING = new TelekinesisBlessing("telekinesis");
 
     public final static CustomEnchantment[] CUSTOM_ENCHANTMENTS = {
 
             // Blessings
             KEEPING_BLESSING,
             TELEKINESIS_BLESSING,
+            MERCY_BLESSING,
 
             // Curses
             BINDING_CURSE,
