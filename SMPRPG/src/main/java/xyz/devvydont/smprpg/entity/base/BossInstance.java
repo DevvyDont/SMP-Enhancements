@@ -172,7 +172,7 @@ public abstract class BossInstance extends EnemyEntity implements Listener {
 
     @Override
     public int getMinecraftExperienceDropped() {
-        return super.getMinecraftExperienceDropped() * 20;
+        return super.getMinecraftExperienceDropped() * 18;
     }
 
     @Override
