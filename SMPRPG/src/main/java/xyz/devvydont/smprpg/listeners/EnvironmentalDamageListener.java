@@ -14,6 +14,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.base.BossInstance;
 import xyz.devvydont.smprpg.entity.base.LeveledEntity;
+import xyz.devvydont.smprpg.util.formatting.MinecraftStringUtils;
 
 public class EnvironmentalDamageListener implements Listener {
 
@@ -95,8 +96,9 @@ public class EnvironmentalDamageListener implements Listener {
     /*
      * Do it again after all calculations are done to reset any modifiers that were applied.
      */
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onEntityTakeDamageFinal(EntityDamageEvent event) {
+        Bukkit.broadcast(Component.text(event.getCause() + " - " + MinecraftStringUtils.formatNumber((long) event.getDamage())));
         clearVanillaDamageModifiers(event);
     }
 

@@ -1,5 +1,6 @@
 package xyz.devvydont.smprpg.listeners;
 
+import net.kyori.adventure.text.Component;
 import org.bukkit.*;
 import org.bukkit.attribute.Attributable;
 import org.bukkit.attribute.Attribute;
@@ -363,26 +364,6 @@ public class EntityDamageCalculatorService implements Listener, BaseService {
     /*
      * MISC ENTITY DAMAGE SOURCE EVENTS (WARDEN BEAMS, CREEPER EXPLOSIONS ETC)
      */
-
-    /*
-     * Some entities can explode. The damage done should scale based on the level of the entity.
-     */
-    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
-    public void onEntityExplosionDamage(EntityDamageByEntityEvent event) {
-
-        if (!event.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_EXPLOSION))
-            return;
-
-        if (!(event.getEntity() instanceof LivingEntity living))
-            return;
-
-        LeveledEntity leveledEntity = plugin.getEntityService().getEntityInstance(living);
-//        int level = leveledEntity.getLevel();
-
-        // Convert the vanilla mc damage to a multiplier. If we divide by 20, we can say that it would one shot a player in vanilla.
-        double power = event.getDamage() / 20.0;
-        event.setDamage(EntityDamageEvent.DamageModifier.BASE, (leveledEntity.getLevel() * leveledEntity.getLevel() + 50) * power);
-    }
 
     /*
      * MAIN DAMAGE CALCULATIONS
