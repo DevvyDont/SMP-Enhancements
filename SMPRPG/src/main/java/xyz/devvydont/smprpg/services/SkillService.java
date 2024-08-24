@@ -3,7 +3,10 @@ package xyz.devvydont.smprpg.services;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.LeveledPlayer;
 import xyz.devvydont.smprpg.skills.SkillGlobals;
@@ -79,5 +82,10 @@ public class SkillService implements BaseService, Listener {
                     if (reward instanceof ProgressiveAttributeReward)
                         reward.apply(player.getPlayer(), skill.getType());
 
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onPlayerJoin(PlayerJoinEvent event) {
+        syncSkillAttributes(plugin.getEntityService().getPlayerInstance(event.getPlayer()));
     }
 }
