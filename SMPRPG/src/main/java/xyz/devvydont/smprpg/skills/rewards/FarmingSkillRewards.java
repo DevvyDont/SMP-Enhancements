@@ -9,7 +9,7 @@ public class FarmingSkillRewards extends SkillRewardContainer {
     public static final int HP_PER_LEVEL = 2;
 
     public static final int SECONDARY_STAT_LEVEL_DIFF = 2;
-    public static final int STR_PER_2_LEVEL = 4;
+    public static final int STR_PER_2_LEVEL = 5;
 
     @Override
     public void initializeRewards() {

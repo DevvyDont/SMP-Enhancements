@@ -6,7 +6,7 @@ import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
 
 public class WoodcuttingSkillRewards extends SkillRewardContainer {
 
-    public static final int STRENGTH_PER_LEVEL = 3;
+    public static final int STRENGTH_PER_LEVEL = 4;
     public static final int HP_PER_5_LEVEL = 10;
 
     public static final int SECONDARY_LEVEL_DIFFERENCE = 5;
