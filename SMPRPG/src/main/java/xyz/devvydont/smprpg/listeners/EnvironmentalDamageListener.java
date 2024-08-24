@@ -185,6 +185,10 @@ public class EnvironmentalDamageListener implements Listener {
         if (!(event.getEntity() instanceof LivingEntity living))
             return;
 
+        // If this is a boss, don't do it
+        if (plugin.getEntityService().getEntityInstance(living) instanceof BossInstance)
+            return;
+
         if (shouldGiveIFrames(event.getCause()))
             Bukkit.getScheduler().runTaskLater(plugin, () -> living.setNoDamageTicks(10), 0);
     }
