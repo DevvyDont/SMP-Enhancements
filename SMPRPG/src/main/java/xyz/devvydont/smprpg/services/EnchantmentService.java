@@ -382,8 +382,7 @@ public class EnchantmentService implements BaseService, Listener {
             event.getEnchantsToAdd().put(offer.getEnchantment(), offer.getEnchantmentLevel());
 
         // Hack to make it "seem" like we are taking all the experience
-        int levelsToTake = event.getExpLevelCost() - event.whichButton() + 1;
-        event.getEnchanter().setLevel(event.getEnchanter().getLevel() - levelsToTake);
+        final int newLevel = event.getEnchanter().getLevel() - event.getExpLevelCost();
 
         SMPRPG.getInstance().getEntityService().getPlayerInstance(event.getEnchanter()).shuffleSeed();
 
@@ -396,6 +395,7 @@ public class EnchantmentService implements BaseService, Listener {
            ItemStack result = inv.getItem();
            SMPRPG.getInstance().getItemService().ensureItemStackUpdated(result);
            inv.setItem(result);
+           event.getEnchanter().setLevel(newLevel);
         }, 0L);
     }
 
