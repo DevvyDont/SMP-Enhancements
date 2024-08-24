@@ -327,6 +327,11 @@ public class DropsService implements BaseService, Listener {
             damageRatio /= entity.getDamageRatioRequirement();
             damageRatio = Math.min(damageRatio, 1.0);
 
+            // Now test for coins
+            // Some chance to add more money
+            if (Math.random() < .33)
+                event.getDrops().add(ItemUtil.getOptimalCoinStack(plugin.getItemService(), entity.getLevel()));
+
             // Loop through all the droppable items from the entity
             for (LootDrop drop : entity.getItemDrops()) {
 
@@ -336,11 +341,6 @@ public class DropsService implements BaseService, Listener {
                 Collection<ItemStack> roll = drop.roll(player, player.getInventory().getItemInMainHand(), damageRatio);
                 if (roll != null)
                     allInvolvedPlayersDrops.addAll(roll);
-
-                // Now test for coins
-                // Some chance to add more money
-                if (Math.random() < .33)
-                    allInvolvedPlayersDrops.add(ItemUtil.getOptimalCoinStack(plugin.getItemService(), entity.getLevel()));
 
                 // If we didn't roll anything skip
                 if (allInvolvedPlayersDrops.isEmpty())
