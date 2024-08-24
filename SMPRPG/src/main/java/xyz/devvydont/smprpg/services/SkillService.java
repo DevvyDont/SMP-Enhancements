@@ -44,6 +44,8 @@ public class SkillService implements BaseService, Listener {
             plugin.getLogger().fine("Skill Requirement for Level " + i + ": " + xp + " (" + sum + ")");
         }
 
+        plugin.getServer().getPluginManager().registerEvents(this, plugin);
+
         return true;
     }
 
