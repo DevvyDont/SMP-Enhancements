@@ -9,10 +9,7 @@ import xyz.devvydont.smprpg.items.blueprints.boss.NeptunesConch;
 import xyz.devvydont.smprpg.items.blueprints.charms.LuckyCharm;
 import xyz.devvydont.smprpg.items.blueprints.charms.SpeedCharm;
 import xyz.devvydont.smprpg.items.blueprints.charms.StrengthCharm;
-import xyz.devvydont.smprpg.items.blueprints.debug.EntityAnalyzer;
-import xyz.devvydont.smprpg.items.blueprints.debug.LegacyItemBlueprint;
-import xyz.devvydont.smprpg.items.blueprints.debug.SpawnerEditorBlueprint;
-import xyz.devvydont.smprpg.items.blueprints.debug.SpiderRepellentBlueprint;
+import xyz.devvydont.smprpg.items.blueprints.debug.*;
 import xyz.devvydont.smprpg.items.blueprints.economy.CustomItemCoin;
 import xyz.devvydont.smprpg.items.blueprints.equipment.EnchantedMilkBucket;
 import xyz.devvydont.smprpg.items.blueprints.equipment.GrapplingHook;
@@ -581,6 +578,7 @@ public enum CustomItemType {
     INFINITY_LEGGINGS(  "Infinity Leggings",   Material.NETHERITE_LEGGINGS,   ItemRarity.TRANSCENDENT, InfinityLeggings.class),
     INFINITY_BOOTS(     "Infinity Boots",      Material.NETHERITE_BOOTS,      ItemRarity.TRANSCENDENT, InfinityBoots.class),
     INFINITY_SWORD(     "Infinity Sword",      Material.NETHERITE_SWORD,      ItemRarity.TRANSCENDENT, InfinitySword.class),
+    HEARTY_HELMET("Hearty Helmet", Material.NETHERITE_HELMET, ItemRarity.TRANSCENDENT, HeartyHelmet.class),
 
     BURGER("Burger", "545440bd8a551aea344d81bf398c9f7cfbaaad582b184785abf0ac1d1d78bb26", ItemRarity.SPECIAL),
 
