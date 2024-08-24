@@ -88,9 +88,18 @@ public abstract class ReaverArmorSet extends CustomArmorBlueprint implements Too
             return;
 
         // Loop through all armor pieces, if its either null, air, or not the type of this item we do not care
-        for (ItemStack item : player.getInventory().getArmorContents())
-            if (item == null || item.getType().equals(Material.AIR) || !isItemOfType(item))
-                return;
+        boolean foundItem = false;
+        for (ItemStack item : player.getInventory().getArmorContents()) {
+            if (item == null || item.getType().equals(Material.AIR))
+                continue;
+
+            // If this is our item, we want to continue w/ the damage reduction
+            if (isItemOfType(item))
+                foundItem = true;
+        }
+
+        if (!foundItem)
+            return;
 
         // We are wearing the armor, decrease the damage
         double multiplier = 1 - (getWitherResistance()/100.0);
