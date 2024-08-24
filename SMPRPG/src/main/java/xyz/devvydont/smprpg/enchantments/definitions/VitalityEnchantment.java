@@ -11,6 +11,7 @@ import xyz.devvydont.smprpg.enchantments.CustomEnchantment;
 import xyz.devvydont.smprpg.enchantments.base.AttributeEnchantment;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeModifierType;
+import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
 
@@ -85,7 +86,7 @@ public class VitalityEnchantment extends CustomEnchantment implements AttributeE
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, getStrength(getLevel()) / 100.0)
+                new MultiplicativeAttributeEntry(AttributeWrapper.STRENGTH, getStrength(getLevel()) / 100.0)
         );
     }
 

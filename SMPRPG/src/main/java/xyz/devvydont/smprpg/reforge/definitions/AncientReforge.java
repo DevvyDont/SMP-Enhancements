@@ -50,7 +50,7 @@ public class AncientReforge extends ReforgeBase {
                 new AdditiveAttributeEntry(AttributeWrapper.ARMOR, rarity.ordinal() >= ItemRarity.EPIC.ordinal() ? 2 : 1),
                 new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, getMovementSpeedBonus(rarity)),
                 new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, getMovementSpeedBonus(rarity)),
-                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, getStrengthBonus(rarity)),
+                new MultiplicativeAttributeEntry(AttributeWrapper.STRENGTH, getStrengthBonus(rarity)),
                 new ScalarAttributeEntry(AttributeWrapper.LUCK, getLuckBonus(rarity))
         );
     }

@@ -26,7 +26,7 @@ public class SluggishReforge extends ReforgeBase {
     @Override
     public Collection<AttributeEntry> getAttributeModifiersWithRarity(ItemRarity rarity) {
         return List.of(
-                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, getDamageBonus(rarity)),
+                new MultiplicativeAttributeEntry(AttributeWrapper.STRENGTH, getDamageBonus(rarity)),
                 new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, -.5f)
         );
     }

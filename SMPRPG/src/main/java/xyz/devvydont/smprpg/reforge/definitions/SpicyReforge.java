@@ -26,7 +26,7 @@ public class SpicyReforge extends ReforgeBase {
     @Override
     public Collection<AttributeEntry> getAttributeModifiersWithRarity(ItemRarity rarity) {
         return List.of(
-                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, getDamageBonus(rarity)),
+                new MultiplicativeAttributeEntry(AttributeWrapper.STRENGTH, getDamageBonus(rarity)),
                 new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, .05f)
         );
     }
