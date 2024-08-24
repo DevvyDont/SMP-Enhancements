@@ -55,7 +55,7 @@ public class LeveledDragon extends BossInstance {
     }
 
     public double calculateBaseHealth() {
-        return 500_000;
+        return 3_000_000;
     }
 
     @Override

@@ -33,7 +33,7 @@ public class LeveledWarden extends BossInstance {
 
     @Override
     public double calculateBaseHealth() {
-        return 2_500_000;
+        return 10_000_000;
     }
 
     @Override

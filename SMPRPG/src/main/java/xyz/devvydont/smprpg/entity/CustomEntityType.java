@@ -53,7 +53,7 @@ public enum CustomEntityType {
             FierySylph.class),
 
     INFERNAL_PHOENIX(EntityType.BLAZE, "Infernal Phoenix",
-            50, 500_000, 3000, BlazeBoss.class),
+            50, 1_500_000, 2500, BlazeBoss.class),
 
     // Wither skeletons that spawn on the end island
     WITHERED_SERAPH(EntityType.WITHER_SKELETON, "Withered Seraph",

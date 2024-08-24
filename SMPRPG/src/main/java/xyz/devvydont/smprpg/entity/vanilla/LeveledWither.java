@@ -50,7 +50,7 @@ public class LeveledWither extends BossInstance {
 
     @Override
     public double calculateBaseHealth() {
-        return 300_000;
+        return 1_000_000;
     }
 
     @Override
