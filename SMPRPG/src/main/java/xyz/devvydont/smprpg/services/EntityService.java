@@ -344,6 +344,11 @@ public class EntityService implements BaseService, Listener {
         LeveledEntity leveled = getPlayerInstance(event.getPlayer());
         leveled.updateAttributes();
         trackEntity(leveled);
+
+        // Fix every item in their inventory
+        for (ItemStack item : event.getPlayer().getInventory().getContents())
+            if (item != null && !item.getType().equals(Material.AIR))
+                plugin.getItemService().ensureItemStackUpdated(item);
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
