@@ -580,6 +580,8 @@ public enum CustomItemType {
     INFINITY_SWORD(     "Infinity Sword",      Material.NETHERITE_SWORD,      ItemRarity.TRANSCENDENT, InfinitySword.class),
     HEARTY_HELMET("Hearty Helmet", Material.NETHERITE_HELMET, ItemRarity.TRANSCENDENT, HeartyHelmet.class),
 
+    GAME_BREAKER("Game Breaker", Material.TNT, ItemRarity.SPECIAL, true, GameBreaker.class),
+
     BURGER("Burger", "545440bd8a551aea344d81bf398c9f7cfbaaad582b184785abf0ac1d1d78bb26", ItemRarity.SPECIAL),
 
     SPACE_HELMET("Space Helmet", Material.RED_STAINED_GLASS, ItemRarity.SPECIAL, true, SpaceHelmet.class),

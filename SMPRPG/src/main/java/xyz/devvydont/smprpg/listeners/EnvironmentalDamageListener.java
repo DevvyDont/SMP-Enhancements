@@ -98,7 +98,6 @@ public class EnvironmentalDamageListener implements Listener {
      */
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onEntityTakeDamageFinal(EntityDamageEvent event) {
-        Bukkit.broadcast(Component.text(event.getCause() + " - " + MinecraftStringUtils.formatNumber((long) event.getDamage())));
         clearVanillaDamageModifiers(event);
     }
 
