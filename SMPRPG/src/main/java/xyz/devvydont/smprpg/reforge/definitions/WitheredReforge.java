@@ -43,7 +43,7 @@ public class WitheredReforge extends ReforgeBase implements Listener {
     public List<Component> getDescription() {
         return List.of(
                 ComponentUtil.getDefaultText("Provides a").append(ComponentUtil.getColoredComponent(" SIGNIFICANT", NamedTextColor.GOLD)).append(ComponentUtil.getDefaultText(" boost")),
-                ComponentUtil.getDefaultText("in attack damage and movement speed"),
+                ComponentUtil.getDefaultText("in attack damage and attack speed"),
                 Component.empty(),
                 Component.text("Withered Bonus", NamedTextColor.BLUE),
                 ComponentUtil.getDefaultText("Deal ").append(Component.text("2x", NamedTextColor.GREEN)).append(ComponentUtil.getDefaultText(" damage to enemies who")),
