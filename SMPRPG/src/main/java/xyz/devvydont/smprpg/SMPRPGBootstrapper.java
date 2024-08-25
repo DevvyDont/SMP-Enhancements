@@ -9,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.commands.CommandBase;
 import xyz.devvydont.smprpg.commands.economy.*;
 import xyz.devvydont.smprpg.commands.entity.CommandSummon;
+import xyz.devvydont.smprpg.commands.inventory.CommandPeek;
 import xyz.devvydont.smprpg.commands.items.CommandGiveItem;
 import xyz.devvydont.smprpg.commands.items.CommandSearchItem;
 import xyz.devvydont.smprpg.commands.player.CommandReforge;
@@ -33,7 +34,8 @@ public class SMPRPGBootstrapper implements PluginBootstrap {
                 new CommandSkill("skill"),
                 new CommandSummon("summon"),
                 new CommandReforge("reforge"),
-                new CommandWhatAmIHolding("whatamiholding")
+                new CommandWhatAmIHolding("whatamiholding"),
+                new CommandPeek("peek")
         };
 
         LifecycleEventManager<BootstrapContext> manager = context.getLifecycleManager();

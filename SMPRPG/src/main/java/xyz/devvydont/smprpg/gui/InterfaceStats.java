@@ -5,6 +5,7 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.LivingEntity;
@@ -41,6 +42,7 @@ public class InterfaceStats extends PrivateInterface {
     public static final int OFF_HAND_SLOT = 22;
 
     public static final int STATS_SLOT = 20;
+    public static final int INVENTORY_SLOT = 11;
     public static final int MISC_INFO = 29;
 
     private final LivingEntity viewing;
@@ -179,8 +181,8 @@ public class InterfaceStats extends PrivateInterface {
         return display;
     }
 
-    public ItemStack getMisc() {
-        ItemStack paper = new ItemStack(Material.PAPER);
+    public ItemStack getSkills() {
+        ItemStack paper = new ItemStack(Material.IRON_PICKAXE);
         ItemMeta meta = paper.getItemMeta();
 
         meta.displayName(viewing.name().color(NamedTextColor.AQUA).append(Component.text("'s Skills").color(NamedTextColor.GRAY)).decoration(TextDecoration.ITALIC, false));
@@ -194,6 +196,20 @@ public class InterfaceStats extends PrivateInterface {
         meta.lore(ChatUtil.cleanItalics(lore));
         paper.setItemMeta(meta);
         return paper;
+    }
+
+    public ItemStack getInventory() {
+        ItemStack chest = new ItemStack(Material.CHEST);
+        ItemMeta meta = chest.getItemMeta();
+
+        meta.displayName(viewing.name().color(NamedTextColor.AQUA).append(Component.text("'s Full Inventory").color(NamedTextColor.GOLD)).decoration(TextDecoration.ITALIC, false));
+        List<Component> lore = List.of(
+                Component.empty(),
+                Component.text("Click to view their entire inventory and Ender Chest!", NamedTextColor.GRAY)
+        );
+        meta.lore(ChatUtil.cleanItalics(lore));
+        chest.setItemMeta(meta);
+        return chest;
     }
 
 
@@ -211,7 +227,8 @@ public class InterfaceStats extends PrivateInterface {
             case MAIN_HAND_SLOT -> viewing.getEquipment().getItemInMainHand();
             case OFF_HAND_SLOT -> viewing.getEquipment().getItemInOffHand();
             case STATS_SLOT -> getStats();
-            case MISC_INFO -> getMisc();
+            case INVENTORY_SLOT -> getInventory();
+            case MISC_INFO -> getSkills();
             default -> null;
         };
     }
@@ -225,6 +242,7 @@ public class InterfaceStats extends PrivateInterface {
             case BOOTS_SLOT -> name.append(Component.text(" is not wearing boots").color(NamedTextColor.RED));
             case MAIN_HAND_SLOT -> name.append(Component.text(" is not holding anything").color(NamedTextColor.RED));
             case OFF_HAND_SLOT -> name.append(Component.text(" is not holding anything in their off hand").color(NamedTextColor.RED));
+            case INVENTORY_SLOT -> name.append(Component.text(" does not have an inventory").color(NamedTextColor.RED));
             case STATS_SLOT -> name.append(Component.text(" does not have stats").color(NamedTextColor.RED));
             case MISC_INFO -> name.append(Component.text(" does not have information").color(NamedTextColor.RED));
             default -> Component.empty();
@@ -265,5 +283,13 @@ public class InterfaceStats extends PrivateInterface {
     public void handleInventoryClick(InventoryClickEvent event) {
         super.handleInventoryClick(event);
         event.setCancelled(true);
+
+        if (inventory.equals(event.getClickedInventory()) && event.getSlot() == INVENTORY_SLOT && viewing instanceof Player player) {
+            owner.playSound(owner.getLocation(), Sound.BLOCK_CHEST_OPEN, 1, 1);
+            owner.closeInventory();
+            var gui = new InterfaceInventoryPeek(plugin, owner);
+            gui.open();
+            gui.showPlayer(player);
+        }
     }
 }
