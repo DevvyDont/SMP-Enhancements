@@ -24,15 +24,15 @@ import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
 public class BossTracingEnchantment extends CustomEnchantment implements Listener {
 
     public static int getActivationDistance(int level) {
-        return (level-1) * 15 + 10;
+        return (level-1) * 15 + 5;
     }
 
     public static int getVelocityDecay(int level) {
-        return level * 3 + 93;
+        return level * 3 + 92;
     }
 
     public static int getTimeout(int level) {
-        return level * 5 + 10;
+        return level * 5 + 5;
     }
 
     public BossTracingEnchantment(String id) {

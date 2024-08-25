@@ -2,9 +2,8 @@ package xyz.devvydont.smprpg.reforge.definitions;
 
 import net.kyori.adventure.text.Component;
 import xyz.devvydont.smprpg.items.ItemRarity;
-import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
-import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
+import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
 import xyz.devvydont.smprpg.reforge.ReforgeBase;
 import xyz.devvydont.smprpg.reforge.ReforgeType;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
@@ -23,7 +22,7 @@ public class LuckyReforge extends ReforgeBase {
     @Override
     public Collection<AttributeEntry> getAttributeModifiersWithRarity(ItemRarity rarity) {
         return List.of(
-                new ScalarAttributeEntry(AttributeWrapper.LUCK, rarity.ordinal() * .01 + .04)
+                new MultiplicativeAttributeEntry(AttributeWrapper.LUCK, rarity.ordinal() * .01 + .04)
         );
     }
 

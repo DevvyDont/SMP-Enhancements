@@ -20,10 +20,10 @@ public class SnipeEnchantment extends CustomEnchantment implements Listener {
     public static int getDamageIncreasePercentPerBlock(int level) {
         return switch (level) {
             case 0 -> 0;
-            case 1 -> 2;
-            case 2 -> 5;
-            case 3 -> 10;
-            default -> getDamageIncreasePercentPerBlock(3) + 5 * level;
+            case 1 -> 1;
+            case 2 -> 3;
+            case 3 -> 5;
+            default -> getDamageIncreasePercentPerBlock(3) + 2 * level;
         };
     }
 

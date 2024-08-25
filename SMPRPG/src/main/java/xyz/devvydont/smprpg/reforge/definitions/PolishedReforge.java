@@ -52,7 +52,7 @@ public class PolishedReforge extends ReforgeBase {
                 new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, getMovementSpeedBonus(rarity)),
                 new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, getMovementSpeedBonus(rarity)),
                 new ScalarAttributeEntry(AttributeWrapper.STRENGTH, getStrengthBonus(rarity)),
-                new ScalarAttributeEntry(AttributeWrapper.LUCK, getLuckBonus(rarity))
+                new MultiplicativeAttributeEntry(AttributeWrapper.LUCK, getLuckBonus(rarity))
         );
     }
 

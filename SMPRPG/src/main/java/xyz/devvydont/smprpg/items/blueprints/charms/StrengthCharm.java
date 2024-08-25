@@ -22,7 +22,7 @@ public class StrengthCharm extends CustomFakeTotem {
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new MultiplicativeAttributeEntry(AttributeWrapper.STRENGTH, .5)
+                new MultiplicativeAttributeEntry(AttributeWrapper.STRENGTH, .3)
         );
     }
 

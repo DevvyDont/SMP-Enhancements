@@ -16,7 +16,7 @@ import xyz.devvydont.smprpg.enchantments.CustomEnchantment;
 public class VelocityEnchantment extends CustomEnchantment implements Listener {
 
     public static int getSpeedIncrease(int level) {
-        return level * 6;
+        return level * 4;
     }
 
     public VelocityEnchantment(String id) {

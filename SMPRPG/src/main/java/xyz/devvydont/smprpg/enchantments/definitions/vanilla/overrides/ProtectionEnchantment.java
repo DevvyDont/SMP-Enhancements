@@ -29,7 +29,20 @@ import java.util.List;
 public class ProtectionEnchantment extends VanillaEnchantment implements AttributeEnchantment {
 
     public static int getProtection(int level) {
-        return HeartyEnchantment.getHealthIncrease(level);
+        return switch (level) {
+            case 0 -> 0;
+            case 1 -> 4;
+            case 2 -> 8;
+            case 3 -> 15;
+            case 4 -> 24;
+            case 5 -> 36;
+            case 6 -> 48;
+            case 7 -> 60;
+            case 8 -> 72;
+            case 9 -> 85;
+            case 10 -> 100;
+            default -> getProtection(10) + 15*(level - 10);
+        };
     }
 
     public ProtectionEnchantment(TypedKey<Enchantment> key) {

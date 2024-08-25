@@ -4,7 +4,7 @@ import org.bukkit.inventory.EquipmentSlotGroup;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
-import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
+import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomFakeTotem;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
@@ -21,7 +21,7 @@ public class LuckyCharm extends CustomFakeTotem {
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new ScalarAttributeEntry(AttributeWrapper.LUCK, 1)
+                new MultiplicativeAttributeEntry(AttributeWrapper.LUCK, .3)
         );
     }
 
