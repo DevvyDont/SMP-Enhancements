@@ -72,10 +72,13 @@ public class LeveledWither extends BossInstance {
                 new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.FORSAKEN_CHESTPLATE), 120, this),
                 new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.FORSAKEN_LEGGINGS), 120, this),
                 new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.FORSAKEN_BOOTS), 120, this),
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.FORSAKEN_CUTLASS), 145, this),
 
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(Material.NETHERITE_INGOT), 100, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(Material.NETHERITE_BLOCK), 1100, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.ENCHANTED_NETHERITE), 13_000, this)
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.DESOLATED_STONE), 80, this),
+
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(Material.NETHERITE_INGOT), 70, this),
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(Material.NETHERITE_BLOCK), 900, this),
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.ENCHANTED_NETHERITE), 15_000, this)
         );
     }
 
