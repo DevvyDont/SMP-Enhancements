@@ -28,6 +28,7 @@ import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomAttributeItem;
 import xyz.devvydont.smprpg.items.blueprints.vanilla.ItemSword;
 import xyz.devvydont.smprpg.items.interfaces.Craftable;
+import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
@@ -37,7 +38,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class ForsakenCutlass extends CustomAttributeItem implements Listener, Craftable {
+public class ForsakenCutlass extends CustomAttributeItem implements Listener, Craftable, ToolBreakable {
 
     public static final int WITHER_APPLY_CHANCE = 20;
     public static final int WITHER_APPLY_SECONDS = 10;
@@ -101,6 +102,11 @@ public class ForsakenCutlass extends CustomAttributeItem implements Listener, Cr
         return List.of(
                 ItemService.getItem(Material.NETHER_STAR)
         );
+    }
+
+    @Override
+    public int getMaxDurability() {
+        return ForsakenArmorSet.DURABILITY;
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
