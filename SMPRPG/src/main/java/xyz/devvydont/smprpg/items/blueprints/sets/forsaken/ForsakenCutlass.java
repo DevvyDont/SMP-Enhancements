@@ -60,8 +60,8 @@ public class ForsakenCutlass extends CustomAttributeItem implements Listener, Cr
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, 220),
-                new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, ItemSword.SWORD_ATTACK_SPEED_DEBUFF)
+                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, 200),
+                new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, -.3)
         );
     }
 
