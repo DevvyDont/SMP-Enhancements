@@ -38,11 +38,11 @@ public class ExperienceBottle extends CustomItemBlueprint implements ExperienceT
 
     public static int getExperienceForBottle(CustomItemType bottleType) {
         return switch (bottleType) {
-            case EXPERIENCE_BOTTLE -> 10;
-            case LARGE_EXPERIENCE_BOTTLE -> 100;
-            case HEFTY_EXPERIENCE_BOTTLE -> 1_000;
-            case GIGANTIC_EXPERIENCE_BOTTLE -> 10_000;
-            case COLOSSAL_EXPERIENCE_BOTTLE -> 100_000;
+            case EXPERIENCE_BOTTLE -> 20;
+            case LARGE_EXPERIENCE_BOTTLE -> 200;
+            case HEFTY_EXPERIENCE_BOTTLE -> 2_000;
+            case GIGANTIC_EXPERIENCE_BOTTLE -> 20_000;
+            case COLOSSAL_EXPERIENCE_BOTTLE -> 200_000;
             default -> 0;
         };
     }
