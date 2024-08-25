@@ -34,6 +34,7 @@ public enum ItemClassification {
     EQUIPMENT(ItemTypeTagKeys.ENCHANTABLE_VANISHING),
     // Stuff used for crafting mainly, like ores and stuff
     CHARM(ItemTypeTagKeys.ENCHANTABLE_VANISHING),
+    REFORGE_STONE,
     MATERIAL,
     // Stuff that can be eaten
     CONSUMABLE,

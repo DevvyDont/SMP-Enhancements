@@ -147,4 +147,18 @@ public abstract class ReforgeBase implements Keyed, AttributeModifierContainer {
         blueprint.updateMeta(item);
     }
 
+    /**
+     * Checks if an item has this reforge currently equipped
+     *
+     * @param item an ItemStack to check a reforge against
+     * @return true if the item has this reforge, false otherwise
+     */
+    public boolean hasReforge(ItemStack item) {
+        ReforgeBase applied = SMPRPG.getInstance().getItemService().getReforge(item);
+        if (applied == null)
+            return false;
+
+        return applied.getType().equals(getType());
+    }
+
 }

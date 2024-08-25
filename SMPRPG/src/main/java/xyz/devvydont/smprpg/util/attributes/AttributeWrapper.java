@@ -3,6 +3,10 @@ package xyz.devvydont.smprpg.util.attributes;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.attribute.Attribute;
+import org.w3c.dom.Attr;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Used to associate additional information alongside attributes.
@@ -170,9 +174,6 @@ public enum AttributeWrapper {
     ZOMBIE_REINFORCEMENTS(Attribute.ZOMBIE_SPAWN_REINFORCEMENTS, "Zombie Reinforcements", AttributeType.SPECIAL)
     ;
 
-
-
-
     public enum AttributeType {
         POSITIVE,  // Having a positive value of this attribute means it helps the entity
         NEGATIVE,  // Having a negative value of this attribute means it helps the entity
@@ -212,6 +213,17 @@ public enum AttributeWrapper {
 
     public Component getDescription() {
         return description;
+    }
+
+    private static final Map<Attribute, AttributeWrapper> attributeWrappers = new HashMap<>();
+
+    static {
+        for (AttributeWrapper wrapper : AttributeWrapper.values())
+            attributeWrappers.put(wrapper.getAttribute(), wrapper);
+    }
+
+    public static AttributeWrapper ofAttribute(Attribute attribute) {
+        return attributeWrappers.get(attribute);
     }
 
 }

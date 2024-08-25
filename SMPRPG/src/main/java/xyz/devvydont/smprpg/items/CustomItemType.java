@@ -11,6 +11,7 @@ import xyz.devvydont.smprpg.items.blueprints.charms.SpeedCharm;
 import xyz.devvydont.smprpg.items.blueprints.charms.StrengthCharm;
 import xyz.devvydont.smprpg.items.blueprints.debug.*;
 import xyz.devvydont.smprpg.items.blueprints.economy.CustomItemCoin;
+import xyz.devvydont.smprpg.items.blueprints.equipment.DesolatedStone;
 import xyz.devvydont.smprpg.items.blueprints.equipment.EnchantedMilkBucket;
 import xyz.devvydont.smprpg.items.blueprints.equipment.GrapplingHook;
 import xyz.devvydont.smprpg.items.blueprints.food.*;
@@ -294,6 +295,7 @@ public enum CustomItemType {
     FORSAKEN_LEGGINGS(  "Forsaken Leggings",   Material.NETHERITE_LEGGINGS,  ItemRarity.LEGENDARY, ForsakenLeggings.class),
     FORSAKEN_BOOTS(     "Forsaken Boots",      Material.LEATHER_BOOTS,       ItemRarity.LEGENDARY, ForsakenBoots.class),
     FORSAKEN_CUTLASS(     "Forsaken Cutlass",  Material.NETHERITE_SWORD,     ItemRarity.LEGENDARY, ForsakenCutlass.class),
+    DESOLATED_STONE(     "Desolated Stone", "895a05992afa37b3806b81f0003ca617b3c1cbb9170a2309115b9c6a03eb73af", ItemRarity.LEGENDARY, DesolatedStone.class),
 
     // UNSTABLE
     UNSTABLE_HELMET(    "Unstable Helmet",     Material.NETHERITE_HELMET,    ItemRarity.EPIC, UnstableHelmet.class),

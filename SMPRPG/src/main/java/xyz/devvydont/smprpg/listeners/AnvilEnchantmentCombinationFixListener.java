@@ -20,6 +20,9 @@ import xyz.devvydont.smprpg.enchantments.calculator.EnchantmentCalculator;
 import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
 import xyz.devvydont.smprpg.items.base.VanillaItemBlueprint;
 import xyz.devvydont.smprpg.items.blueprints.vanilla.ItemEnchantedBook;
+import xyz.devvydont.smprpg.items.interfaces.ReforgeApplicator;
+import xyz.devvydont.smprpg.reforge.ReforgeBase;
+import xyz.devvydont.smprpg.reforge.ReforgeType;
 import xyz.devvydont.smprpg.util.formatting.ChatUtil;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
 
@@ -246,6 +249,41 @@ public class AnvilEnchantmentCombinationFixListener implements Listener {
                 repairable.setRepairCost(repairable.getRepairCost()+2);
         });
         event.setResult(combination.result());
+    }
+
+    /*
+     * Listen for when we are trying to apply a reforge to an item. This should calculate AFTER we do our enchantment
+     * combining shenanigans since this case is much simpler.
+     */
+    @EventHandler(priority = EventPriority.HIGH)
+    public void onCombineReforgeWithItem(PrepareAnvilEvent event) {
+
+        // First, we need to make sure we are trying to do something valid before we can proceed.
+        // Are both item slots filled?
+        if (event.getInventory().getFirstItem() == null || event.getInventory().getSecondItem() == null)
+            return;
+
+        // Is the second slot a reforge stone?
+        if (!(plugin.getItemService().getBlueprint(event.getInventory().getSecondItem()) instanceof ReforgeApplicator reforgeApplicator))
+            return;
+
+        // Can the first item have the reforge applied to it? And is the reforge actually valid?
+        ReforgeType reforgeType = reforgeApplicator.getReforgeType();
+        ReforgeBase reforge = plugin.getItemService().getReforge(reforgeType);
+        if (reforge == null)
+            return;
+
+        SMPItemBlueprint input = plugin.getItemService().getBlueprint(event.getInventory().getFirstItem());
+        // Can this reforge type be applied to this type of item?
+        if (!reforgeType.isAllowed(input.getItemClassification()))
+            return;
+
+        // The item input is allowed to have this reforge stone's reforge. Let's set a result for them to choose if
+        // they want.
+        ItemStack result = event.getInventory().getFirstItem().clone();
+        reforge.apply(result);
+        event.setResult(result);
+        event.getView().setRepairCost(reforgeApplicator.getExperienceCost());
     }
 
 }

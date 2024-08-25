@@ -81,6 +81,22 @@ public class AttributeUtil {
         return Component.text(" (" + result.formatTotal(forcePercent) + ")").color(color);
     }
 
+    /*
+     * Some attributes should force display as percents since that is how minecraft treats them. An example of this
+     * is fall damage multiplier.
+     */
+    public static boolean forceAttributePercentage(AttributeWrapper wrapper) {
+        return forceAttributePercentage(wrapper.getAttribute());
+    }
+
+    /*
+     * Some attributes should force display as percents since that is how minecraft treats them. An example of this
+     * is fall damage multiplier.
+     */
+    public static boolean forceAttributePercentage(Attribute attribute) {
+        return attribute.equals(Attribute.GENERIC_KNOCKBACK_RESISTANCE) || attribute.equals(Attribute.GENERIC_EXPLOSION_KNOCKBACK_RESISTANCE) || attribute.equals(Attribute.PLAYER_SWEEPING_DAMAGE_RATIO) || attribute.equals(Attribute.PLAYER_MINING_EFFICIENCY) || attribute.equals(Attribute.PLAYER_SUBMERGED_MINING_SPEED);
+    }
+
     /**
      * Returns a component section to display in the lore of the item.
      * This section will contain the data that displays item stats based on the attributes that are applied to the item.
@@ -112,7 +128,7 @@ public class AttributeUtil {
                     base = 0;
 
             AttributeUtil.AttributeCalculationResult result = AttributeUtil.calculateAttributeBonus(modifers, base);
-            boolean forcePercent = wrapper.equals(AttributeWrapper.KNOCKBACK_RESISTANCE) || wrapper.equals(AttributeWrapper.EXPLOSION_KNOCKBACK_RESISTANCE) || wrapper.equals(AttributeWrapper.SWEEPING) || wrapper.equals(AttributeWrapper.MINING_EFFICIENCY) || wrapper.equals(AttributeWrapper.MINING_SPEED);
+            boolean forcePercent = forceAttributePercentage(wrapper);
             Component line = AttributeUtil.formatAttribute(wrapper, result, forcePercent);
 
             // Perform a calculation on only reforge attribute modifiers

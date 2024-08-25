@@ -157,15 +157,16 @@ public class ItemService implements BaseService, Listener {
     public boolean setup() {
         plugin.getLogger().info("Setting up Item Service");
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
+
+        registerReforges();
+        plugin.getLogger().info(String.format("Successfully registered %d reforges", reforges.size()));
+
         int recipeCount = countRecipes();
         registerCustomItems();
         plugin.getLogger().info(String.format("Successfully associated %d vanilla materials with blueprints", vanillaBlueprintResolver.size()));
         plugin.getLogger().info(String.format("Successfully registered %d custom item blueprints", blueprints.size()));
         int postCustomRegisteredRecipeCount = countRecipes();
         plugin.getLogger().info(String.format("Successfully registered %d custom crafting recipes", postCustomRegisteredRecipeCount-recipeCount));
-
-        registerReforges();
-        plugin.getLogger().info(String.format("Successfully registered %d reforges", reforges.size()));
 
         int preCompressionRecipeCount = countRecipes();
         registerCompressionCraftingChains();
@@ -666,6 +667,15 @@ public class ItemService implements BaseService, Listener {
             return null;
 
         return reforges.get(appliedReforgeKey);
+    }
+
+    @Nullable
+    public ReforgeBase getReforge(ItemStack item) {
+
+        if (item == null || item.getType().equals(Material.AIR) || !item.hasItemMeta())
+            return null;
+
+        return getReforge(item.getItemMeta());
     }
 
     public boolean hasReforge(ItemMeta meta) {
