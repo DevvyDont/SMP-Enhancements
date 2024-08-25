@@ -157,7 +157,9 @@ public class VanillaResource extends VanillaItemBlueprint implements Sellable {
         materialWorthMap.put(Material.NAUTILUS_SHELL, 100);
         materialWorthMap.put(Material.ECHO_SHARD, 250);
         materialWorthMap.put(Material.BLAZE_ROD, 35);
+        materialWorthMap.put(Material.BLAZE_POWDER, 16);
         materialWorthMap.put(Material.MAGMA_CREAM, 25);
+        materialWorthMap.put(Material.MAGMA_BLOCK, 6);
         materialWorthMap.put(Material.NETHER_STAR, 5000);
         materialWorthMap.put(Material.ENDER_PEARL, 40);
         materialWorthMap.put(Material.SHULKER_SHELL, 290);
@@ -218,6 +220,23 @@ public class VanillaResource extends VanillaItemBlueprint implements Sellable {
         materialWorthMap.put(Material.QUARTZ_BLOCK, 36);
 
         materialWorthMap.put(Material.WITHER_SKELETON_SKULL, 5000);
+
+        materialWorthMap.put(Material.MOSSY_STONE_BRICKS, 4);
+        materialWorthMap.put(Material.STONE_SLAB, 1);
+        materialWorthMap.put(Material.STONE_BRICK_SLAB, 1);
+        materialWorthMap.put(Material.STONE_BRICK_STAIRS, 1);
+        materialWorthMap.put(Material.STONE_BRICK_WALL, 1);
+        materialWorthMap.put(Material.MOSSY_STONE_BRICK_WALL, 1);
+        materialWorthMap.put(Material.ANDESITE_WALL, 1);
+        materialWorthMap.put(Material.BLACKSTONE_WALL, 1);
+        materialWorthMap.put(Material.DEEPSLATE_BRICK_WALL, 1);
+        materialWorthMap.put(Material.DEEPSLATE_TILE_WALL, 1);
+        materialWorthMap.put(Material.COBBLESTONE_WALL, 1);
+        materialWorthMap.put(Material.ANDESITE_SLAB, 1);
+        materialWorthMap.put(Material.ANDESITE_STAIRS, 1);
+        materialWorthMap.put(Material.POLISHED_ANDESITE, 1);
+        materialWorthMap.put(Material.POLISHED_ANDESITE_SLAB, 1);
+        materialWorthMap.put(Material.POLISHED_ANDESITE_STAIRS, 1);
 
         // Materials found in the end.
         materialWorthMap.put(Material.END_STONE, 2);
