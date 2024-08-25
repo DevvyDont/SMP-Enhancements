@@ -8,6 +8,7 @@ import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
+import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.damage.DamageSource;
@@ -22,6 +23,7 @@ import org.bukkit.event.player.PlayerAttemptPickupItemEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataHolder;
 import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 import org.jetbrains.annotations.Nullable;
@@ -64,13 +66,40 @@ public class DropsService implements BaseService, Listener {
         }
     }
 
+    // How long items will last on the ground in seconds when marked as a drop.
+    public static int COMMON_EXPIRE_SECONDS = 60 * 60;    // 1hr
+    public static int UNCOMMON_EXPIRE_SECONDS = 90 * 60;  // 1.5hr
+    public static int RARE_EXPIRE_SECONDS = 60 * 60 * 5;  // 5hr
+    public static int EPIC_EXPIRE_SECONDS = 60 * 60 * 12; // 12hr
+    public static int LEGENDARY_EXPIRE_SECONDS = 60 * 60 * 24; // 24hr
+
+    /*
+     * Helper method to determine how long an item should last based on its rarity
+     */
+    public static long getMillisecondsUntilExpiry(ItemRarity rarity) {
+        return switch (rarity) {
+            case COMMON -> COMMON_EXPIRE_SECONDS;
+            case UNCOMMON -> UNCOMMON_EXPIRE_SECONDS;
+            case RARE -> RARE_EXPIRE_SECONDS;
+            case EPIC -> EPIC_EXPIRE_SECONDS;
+            default -> LEGENDARY_EXPIRE_SECONDS;
+        } * 1000L;
+    }
+
     private final SMPRPG plugin;
 
     // The owner tag for a drop, drops cannot be picked up by players unless they own it
     private final NamespacedKey OWNER_UUID_KEY;
+    private final NamespacedKey OWNER_NAME_KEY;
 
     // The flag that an owner tag drop has. 1 = Death, 2 = Drop
     private final NamespacedKey DROP_FLAG_KEY;
+
+    // A timestamp on when this drop should expire from the world and disappear. Varying rarity items have different times.
+    private final NamespacedKey DROP_EXPIRE_KEY;
+
+    // A task that runs every second to check if an item should expire or not.
+    private BukkitRunnable itemTimerTask = null;
 
     public static final Map<ItemRarity, Team> rarityToTeam = new HashMap<>();
 
@@ -78,7 +107,9 @@ public class DropsService implements BaseService, Listener {
         this.plugin = plugin;
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
         this.OWNER_UUID_KEY = new NamespacedKey(plugin, "drop-owner-uuid");
+        this.OWNER_NAME_KEY = new NamespacedKey(plugin, "drop-owner-name");
         this.DROP_FLAG_KEY = new NamespacedKey(plugin, "drop-flag");
+        this.DROP_EXPIRE_KEY = new NamespacedKey(plugin, "expiry");
 
         Scoreboard scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
         rarityToTeam.clear();
@@ -114,6 +145,7 @@ public class DropsService implements BaseService, Listener {
      * @param player
      */
     public void setOwner(PersistentDataHolder holder, Player player) {
+        holder.getPersistentDataContainer().set(OWNER_NAME_KEY, PersistentDataType.STRING, player.getName());
         holder.getPersistentDataContainer().set(getItemOwnerKey(), UUIDPersistentDataType.INSTANCE, player.getUniqueId());
     }
 
@@ -123,6 +155,7 @@ public class DropsService implements BaseService, Listener {
      * @param holder
      */
     public void removeOwner(PersistentDataHolder holder) {
+        holder.getPersistentDataContainer().remove(OWNER_NAME_KEY);
         holder.getPersistentDataContainer().remove(getItemOwnerKey());
     }
 
@@ -135,6 +168,17 @@ public class DropsService implements BaseService, Listener {
     @Nullable
     public UUID getOwner(PersistentDataViewHolder holder) {
         return holder.getPersistentDataContainer().get(getItemOwnerKey(), UUIDPersistentDataType.INSTANCE);
+    }
+
+    /**
+     * Gets the String name of the owner of this PDC. If no owner, null is returned
+     *
+     * @param holder
+     * @return
+     */
+    @Nullable
+    public String getOwnerName(PersistentDataViewHolder holder) {
+        return holder.getPersistentDataContainer().get(OWNER_NAME_KEY, PersistentDataType.STRING);
     }
 
     /**
@@ -156,6 +200,34 @@ public class DropsService implements BaseService, Listener {
         holder.getPersistentDataContainer().set(getDropFlagKey(), PersistentDataType.INTEGER, flag.ordinal());
     }
 
+    /*
+     * Checks if a PDC has an expiry timestamp set.
+     */
+    public boolean hasExpiryTimestamp(PersistentDataViewHolder holder) {
+        return holder.getPersistentDataContainer().has(DROP_EXPIRE_KEY, PersistentDataType.LONG);
+    }
+
+    /*
+     * Gets the expiry timestamp set on an item using System.currentTimeMillis()
+     */
+    public long getExpiryTimestamp(PersistentDataViewHolder holder) {
+        return holder.getPersistentDataContainer().getOrDefault(DROP_EXPIRE_KEY, PersistentDataType.LONG, 0L);
+    }
+
+    /*
+     * Flags a PDC holder to have an expiry timestamp at a certain timestamp using System.currentTimeMillis()
+     */
+    public void setExpiryTimestamp(PersistentDataHolder holder, long timestamp) {
+        holder.getPersistentDataContainer().set(DROP_EXPIRE_KEY, PersistentDataType.LONG, timestamp);
+    }
+
+    /*
+     * Removes the expiry field from an item. It is not needed anymore once it is picked up by a player.
+     */
+    public void removeExpiryTimestamp(PersistentDataHolder holder) {
+        holder.getPersistentDataContainer().remove(DROP_EXPIRE_KEY);
+    }
+
     public void removeFlag(PersistentDataHolder holder) {
         holder.getPersistentDataContainer().remove(getDropFlagKey());
     }
@@ -163,20 +235,68 @@ public class DropsService implements BaseService, Listener {
     public void removeAllTags(PersistentDataHolder holder) {
         removeOwner(holder);
         removeFlag(holder);
+        removeExpiryTimestamp(holder);
     }
 
     public void removeAllTags(ItemStack itemStack) {
         itemStack.editMeta(this::removeAllTags);
     }
 
+    private String stringifyTime(long seconds) {
+
+        if (seconds < 60)
+            return seconds + "s";
+
+        if (seconds < 3600)
+            return seconds / 60 + "m";
+
+        return seconds / 3600 + "h";
+    }
+
     @Override
     public boolean setup() {
+        itemTimerTask = new BukkitRunnable() {
+            @Override
+            public void run() {
+                long now = System.currentTimeMillis();
+                for (World world : Bukkit.getWorlds()) {
+                    for (Item item : world.getEntitiesByClass(Item.class)) {
+
+                        // If this item doesn't have the expiry tag, we can't do anything with it
+                        if (!hasExpiryTimestamp(item))
+                            continue;
+
+                        // This item has an expiry time, see if it has expired, if it has then remove it
+                        long expiresAt = getExpiryTimestamp(item);
+                        if (expiresAt < now) {
+                            item.remove();
+                            continue;
+                        }
+
+                        // If it hasn't expired yet, update the name of the item
+                        String rawName = getOwnerName(item);
+                        if (rawName == null)
+                            rawName = "???";
+
+                        Component name = Component.text(" (" + rawName + ")", NamedTextColor.DARK_GRAY);
+                        String timeleft = stringifyTime((expiresAt - now) / 1000);
+                        Component time = Component.text(" (" + timeleft + ")", NamedTextColor.DARK_GRAY);
+                        Component itemName = plugin.getItemService().getBlueprint(item.getItemStack()).getNameComponent(item.getItemStack().getItemMeta());
+                        item.customName(time.append(itemName).append(name.decoration(TextDecoration.OBFUSCATED, false)));
+                    }
+                }
+            }
+        };
+        itemTimerTask.runTaskTimer(plugin, 0, 20);
         return true;
     }
 
     @Override
     public void cleanup() {
+        if (itemTimerTask != null)
+            itemTimerTask.cancel();
 
+        itemTimerTask = null;
     }
 
     @Override
@@ -213,8 +333,10 @@ public class DropsService implements BaseService, Listener {
         // Go through all the drops on the player and tag it as being owned
         for (ItemStack drop : event.getDrops()) {
             drop.editMeta(meta -> {
+                ItemRarity rarity = plugin.getItemService().getBlueprint(drop).getRarity(drop);
                 setOwner(meta, event.getPlayer());
                 setFlag(meta, DropFlag.DEATH);
+                setExpiryTimestamp(meta, System.currentTimeMillis() + getMillisecondsUntilExpiry(rarity));
             });
         }
     }
@@ -254,9 +376,10 @@ public class DropsService implements BaseService, Listener {
         event.getEntity().setCanMobPickup(false);
         event.getEntity().setInvulnerable(true);
 
-        // If the item is rare or higher, set it to never expire.
-        if (rarity.ordinal() >= ItemRarity.RARE.ordinal())
-            event.getEntity().setUnlimitedLifetime(true);
+        // Items expire when we tell them to, so let bukkit never decide for us
+        event.getEntity().setUnlimitedLifetime(true);
+        setExpiryTimestamp(event.getEntity(), getExpiryTimestamp(event.getEntity().getItemStack()));
+        setOwner(event.getEntity(), p);
 
         // If this is a drop and the rarity is above rare, add the firework task
         if (getFlag(item).equals(DropFlag.LOOT) && rarity.ordinal() >= ItemRarity.RARE.ordinal())
@@ -349,8 +472,10 @@ public class DropsService implements BaseService, Listener {
                 // Tag all the drops as loot drops
                 for (ItemStack item : allInvolvedPlayersDrops) {
                     item.editMeta(meta -> {
+                        ItemRarity rarity = plugin.getItemService().getBlueprint(item).getRarity(item);
                         setOwner(meta, player);
                         setFlag(meta, DropFlag.LOOT);
+                        setExpiryTimestamp(meta, System.currentTimeMillis() + getMillisecondsUntilExpiry(rarity));
                     });
                 }
 
@@ -374,8 +499,10 @@ public class DropsService implements BaseService, Listener {
             ItemStack item = itemEntity.getItemStack();
             plugin.getItemService().ensureItemStackUpdated(item);
             item.editMeta(meta -> {
+                ItemRarity rarity = plugin.getItemService().getBlueprint(item).getRarity(item);
                 setOwner(meta, event.getPlayer());
                 setFlag(meta, DropFlag.LOOT);
+                setExpiryTimestamp(meta, System.currentTimeMillis() + getMillisecondsUntilExpiry(rarity));
             });
             itemEntity.setItemStack(item);
         }
