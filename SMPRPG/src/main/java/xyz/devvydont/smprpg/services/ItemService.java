@@ -203,6 +203,8 @@ public class ItemService implements BaseService, Listener {
 
     private void registerCustomItems() {
 
+        registerVanillaMaterialResolver(Material.SHEARS, ItemShears.class);
+
         registerVanillaMaterialResolver(Material.WOODEN_SWORD, ItemSword.class);
         registerVanillaMaterialResolver(Material.STONE_SWORD, ItemSword.class);
         registerVanillaMaterialResolver(Material.GOLDEN_SWORD, ItemSword.class);
