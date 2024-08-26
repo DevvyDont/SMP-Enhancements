@@ -27,12 +27,12 @@ public class BlessedEnchantment extends CustomEnchantment implements Listener {
     public static int getPercentageIncrease(int level) {
         return switch (level) {
             case 0 -> 0;
-            case 1 -> 20;
-            case 2 -> 50;
-            case 3 -> 80;
-            case 4 -> 110;
-            case 5 -> 150;
-            default -> getPercentageIncrease(5) + 100 * (level-5);
+            case 1 -> 10;
+            case 2 -> 25;
+            case 3 -> 40;
+            case 4 -> 65;
+            case 5 -> 80;
+            default -> getPercentageIncrease(5) + 80 * (level-5);
         };
     }
 
@@ -66,7 +66,7 @@ public class BlessedEnchantment extends CustomEnchantment implements Listener {
 
     @Override
     public int getWeight() {
-        return EnchantmentRarity.UNCOMMON.getWeight();
+        return EnchantmentRarity.RARE.getWeight();
     }
 
     @Override

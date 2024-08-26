@@ -21,14 +21,14 @@ public class SerratedEnchantment extends CustomEnchantment implements Listener {
     public static int getAdditionalPercentageIncrease(int level) {
         return switch (level) {
             case 0 -> 0;
-            case 1 -> 20;
-            case 2 -> 45;
-            case 3 -> 75;
-            case 4 -> 125;
-            case 5 -> 155;
-            case 6 -> 200;
-            case 7 -> 250;
-            default -> getAdditionalPercentageIncrease(5) + 50 * (level-7);
+            case 1 -> 10;
+            case 2 -> 20;
+            case 3 -> 30;
+            case 4 -> 45;
+            case 5 -> 60;
+            case 6 -> 75;
+            case 7 -> 100;
+            default -> getAdditionalPercentageIncrease(5) + 25 * (level-7);
         };
     }
 

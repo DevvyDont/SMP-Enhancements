@@ -26,11 +26,11 @@ public class DoubleTapEnchantment extends CustomEnchantment implements Listener 
     public static int getFirstHitDamage(int level) {
         return switch (level) {
             case 0 -> 0;
-            case 1 -> 25;
-            case 2 -> 40;
-            case 3 -> 60;
-            case 4 -> 80;
-            case 5 -> 100;
+            case 1 -> 20;
+            case 2 -> 35;
+            case 3 -> 45;
+            case 4 -> 65;
+            case 5 -> 90;
             default -> getFirstHitDamage(5) + 20 * level;
         };
     }

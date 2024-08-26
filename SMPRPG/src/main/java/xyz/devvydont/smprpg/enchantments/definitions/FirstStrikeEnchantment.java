@@ -25,12 +25,12 @@ public class FirstStrikeEnchantment extends CustomEnchantment implements Listene
 
     public static int getFirstHitDamage(int level) {
         return switch (level) {
-            case 0 -> 50;
-            case 1 -> 65;
-            case 2 -> 80;
-            case 3 -> 100;
-            case 4 -> 120;
-            case 5 -> 150;
+            case 0 -> 0;
+            case 1 -> 25;
+            case 2 -> 40;
+            case 3 -> 55;
+            case 4 -> 75;
+            case 5 -> 100;
             default -> getFirstHitDamage(5) + 20 * level;
         };
     }
