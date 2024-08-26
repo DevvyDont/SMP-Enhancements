@@ -303,8 +303,8 @@ public class EnchantmentService implements BaseService, Listener {
         return enchantList;
     }
 
-    public EnchantmentCalculator getCalculator(ItemStack item, int bookshelfBonus, int magicLevel, int seed) {
-        return new EnchantmentCalculator(item, bookshelfBonus, magicLevel, seed);
+    public EnchantmentCalculator getCalculator(ItemStack item, int bookshelfBonus, int magicLevel) {
+        return new EnchantmentCalculator(item, bookshelfBonus, magicLevel);
     }
 
     // Caches calculator queries so that the EnchantItemEvent can use results from PrepareItemEnchantEvent
@@ -359,7 +359,7 @@ public class EnchantmentService implements BaseService, Listener {
     public void onEnchantPrepare(PrepareItemEnchantEvent event) {
 
         LeveledPlayer player = SMPRPG.getInstance().getEntityService().getPlayerInstance(event.getEnchanter());
-        EnchantmentCalculator calculator = getCalculator(event.getItem(), event.getEnchantmentBonus(), player.getMagicSkill().getLevel(), player.getSeed());
+        EnchantmentCalculator calculator = getCalculator(event.getItem(), event.getEnchantmentBonus(), player.getMagicSkill().getLevel());
 
         // Calculate enchantments to give and update costs and previews
         Map<EnchantmentCalculator.EnchantmentSlot, List<EnchantmentOffer>> offers = calculator.calculate();
@@ -383,8 +383,6 @@ public class EnchantmentService implements BaseService, Listener {
 
         // Hack to make it "seem" like we are taking all the experience
         final int newLevel = event.getEnchanter().getLevel() - event.getExpLevelCost();
-
-        SMPRPG.getInstance().getEntityService().getPlayerInstance(event.getEnchanter()).shuffleSeed();
 
         BukkitScheduler scheduler = SMPRPG.getInstance().getServer().getScheduler();
         scheduler.runTaskLater(SMPRPG.getInstance(), () -> {

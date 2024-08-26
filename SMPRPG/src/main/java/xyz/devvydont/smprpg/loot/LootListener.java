@@ -107,7 +107,7 @@ public class LootListener implements Listener {
 
             // We have enchants, completely re roll them
             loot.removeEnchantments();
-            EnchantmentCalculator calculator = new EnchantmentCalculator(loot, EnchantmentCalculator.MAX_BOOKSHELF_BONUS, structureLevel, new Random().nextInt(Integer.MAX_VALUE));
+            EnchantmentCalculator calculator = new EnchantmentCalculator(loot, EnchantmentCalculator.MAX_BOOKSHELF_BONUS, structureLevel);
             List<EnchantmentOffer> offers = calculator.calculate().get(EnchantmentCalculator.EnchantmentSlot.EXPENSIVE);
             for (EnchantmentOffer offer : offers)
                 loot.addUnsafeEnchantment(offer.getEnchantment(), offer.getEnchantmentLevel());

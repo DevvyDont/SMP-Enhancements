@@ -26,11 +26,8 @@ import xyz.devvydont.smprpg.util.formatting.PlayerChatInformation;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Random;
 
 public class LeveledPlayer extends LeveledEntity implements Listener {
-
-    private int seed;
 
     // Used as a shortcut for skill modification
     private final SkillInstance combatSkill;
@@ -50,23 +47,8 @@ public class LeveledPlayer extends LeveledEntity implements Listener {
         this.farmingSkill = plugin.getSkillService().getNewSkillInstance(entity, SkillType.FARMING);
         this.woodcuttingSkill = plugin.getSkillService().getNewSkillInstance(entity, SkillType.WOODCUTTING);
         this.magicSkill = plugin.getSkillService().getNewSkillInstance(entity, SkillType.MAGIC);
-
-        shuffleSeed();
     }
 
-
-    /**
-     * Used for various random elements, such as the enchanting table
-     *
-     * @return a seed to use for RNG factors (such as enchanting tables)
-     */
-    public int getSeed() {
-        return seed;
-    }
-
-    public void shuffleSeed() {
-        seed = new Random().nextInt();
-    }
 
     public SkillInstance getCombatSkill() {
         return combatSkill;

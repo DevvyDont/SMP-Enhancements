@@ -49,12 +49,12 @@ public class EnchantmentCalculator {
      * @param bookshelfBonus Bookshelves used for enchants from 0-32, used to improve the power of enchants
      * @param magicLevel determines what enchantments are allowed to be rolled based on every enchantments skill req.
      */
-    public EnchantmentCalculator(ItemStack item, int bookshelfBonus, int magicLevel, int seed) {
+    public EnchantmentCalculator(ItemStack item, int bookshelfBonus, int magicLevel) {
         this.item = item;
         this.powerLevel = bookshelfBonus;
         this.magicLevel = magicLevel;
 
-        this.rng = new Random(seed);
+        this.rng = new Random();
     }
 
 

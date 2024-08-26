@@ -99,7 +99,7 @@ public class LootTableMember implements LootSource {
     public void enchantItem(ItemStack item) {
 
         // Make an enchantment calculator and use the best option possible with the desired enchanting level
-        EnchantmentCalculator calculator = new EnchantmentCalculator(item, EnchantmentCalculator.MAX_BOOKSHELF_BONUS, enchantPower, new Random().nextInt(Integer.MAX_VALUE));
+        EnchantmentCalculator calculator = new EnchantmentCalculator(item, EnchantmentCalculator.MAX_BOOKSHELF_BONUS, enchantPower);
         List<EnchantmentOffer> results = calculator.calculate().get(EnchantmentCalculator.EnchantmentSlot.EXPENSIVE);
 
         // Apply them!
