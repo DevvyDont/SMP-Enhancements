@@ -438,12 +438,16 @@ public class EntityDamageCalculatorService implements Listener, BaseService {
         LeveledEntity leveled = plugin.getEntityService().getEntityInstance(living);
 
         AttributeInstance armor = living.getAttribute(Attribute.GENERIC_ARMOR);
-        if (armor == null)
-            return;
+        int iframeTicks = 0;
 
         // Armor changes how much iframes we get for this attack
-        int iframeTicks = (int) armor.getValue();
-        Bukkit.getScheduler().runTaskLater(plugin, () -> living.setNoDamageTicks(leveled.getInvincibilityTicks() + iframeTicks), 0);
+        if (armor != null)
+            iframeTicks = (int) armor.getValue();
+
+        final int noDamageTicks = leveled.getInvincibilityTicks() + iframeTicks;
+        
+        living.setNoDamageTicks(noDamageTicks);
+        Bukkit.getScheduler().runTaskLater(plugin, () -> living.setNoDamageTicks(noDamageTicks), 0);
     }
 
     /*
