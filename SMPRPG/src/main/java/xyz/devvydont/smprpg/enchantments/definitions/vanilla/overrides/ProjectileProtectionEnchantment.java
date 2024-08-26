@@ -20,6 +20,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemType;
 import org.jetbrains.annotations.NotNull;
+import xyz.devvydont.smprpg.enchantments.EnchantmentRarity;
 import xyz.devvydont.smprpg.enchantments.EnchantmentUtil;
 import xyz.devvydont.smprpg.enchantments.definitions.vanilla.VanillaEnchantment;
 
@@ -61,7 +62,7 @@ public class ProjectileProtectionEnchantment extends VanillaEnchantment implemen
 
     @Override
     public int getWeight() {
-        return 1;
+        return EnchantmentRarity.UNCOMMON.getWeight();
     }
 
     @Override

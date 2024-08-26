@@ -12,6 +12,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemType;
 import org.jetbrains.annotations.NotNull;
+import xyz.devvydont.smprpg.enchantments.EnchantmentRarity;
 import xyz.devvydont.smprpg.enchantments.EnchantmentUtil;
 import xyz.devvydont.smprpg.enchantments.definitions.vanilla.VanillaEnchantment;
 import xyz.devvydont.smprpg.events.CustomEntityDamageByEntityEvent;
@@ -56,7 +57,7 @@ public class ImpalingEnchantment extends VanillaEnchantment implements Listener 
 
     @Override
     public int getWeight() {
-        return 2;
+        return EnchantmentRarity.UNCOMMON.getWeight();
     }
 
     @Override

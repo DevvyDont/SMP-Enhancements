@@ -16,6 +16,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemType;
 import org.jetbrains.annotations.NotNull;
+import xyz.devvydont.smprpg.enchantments.EnchantmentRarity;
 import xyz.devvydont.smprpg.enchantments.base.AttributeEnchantment;
 import xyz.devvydont.smprpg.enchantments.definitions.vanilla.VanillaEnchantment;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
@@ -34,16 +35,16 @@ public class SharpnessEnchantment extends VanillaEnchantment implements Attribut
     public static int getDamageIncrease(int level) {
         return switch (level) {
             case 0 -> 0;
-            case 1 -> 40;
-            case 2 -> 80;
-            case 3 -> 120;
-            case 4 -> 160;
-            case 5 -> 200;
-            case 6 -> 250;
-            case 7 -> 300;
-            case 8 -> 350;
-            case 9 -> 400;
-            case 10 -> 500;
+            case 1 -> 20;
+            case 2 -> 40;
+            case 3 -> 60;
+            case 4 -> 80;
+            case 5 -> 100;
+            case 6 -> 125;
+            case 7 -> 150;
+            case 8 -> 175;
+            case 9 -> 200;
+            case 10 -> 250;
             default -> getDamageIncrease(10) + 100 * (level-10);
         };
     }
@@ -94,7 +95,7 @@ public class SharpnessEnchantment extends VanillaEnchantment implements Attribut
 
     @Override
     public int getWeight() {
-        return 4;
+        return EnchantmentRarity.COMMON.getWeight();
     }
 
     @Override

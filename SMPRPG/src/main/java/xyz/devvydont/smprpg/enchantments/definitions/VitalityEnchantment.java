@@ -8,6 +8,7 @@ import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemType;
 import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.enchantments.CustomEnchantment;
+import xyz.devvydont.smprpg.enchantments.EnchantmentRarity;
 import xyz.devvydont.smprpg.enchantments.base.AttributeEnchantment;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeModifierType;
@@ -65,7 +66,7 @@ public class VitalityEnchantment extends CustomEnchantment implements AttributeE
 
     @Override
     public int getWeight() {
-        return 2;
+        return EnchantmentRarity.UNCOMMON.getWeight();
     }
 
     @Override

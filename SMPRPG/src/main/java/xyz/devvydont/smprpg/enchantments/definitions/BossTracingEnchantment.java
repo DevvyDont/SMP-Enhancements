@@ -17,6 +17,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.enchantments.CustomEnchantment;
+import xyz.devvydont.smprpg.enchantments.EnchantmentRarity;
 import xyz.devvydont.smprpg.enchantments.EnchantmentUtil;
 import xyz.devvydont.smprpg.entity.base.BossInstance;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
@@ -69,7 +70,7 @@ public class BossTracingEnchantment extends CustomEnchantment implements Listene
 
     @Override
     public int getWeight() {
-        return 1;
+        return EnchantmentRarity.UNCOMMON.getWeight();
     }
 
     @Override

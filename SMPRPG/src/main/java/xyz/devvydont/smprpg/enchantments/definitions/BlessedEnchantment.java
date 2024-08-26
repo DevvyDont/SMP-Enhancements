@@ -14,6 +14,7 @@ import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemType;
 import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.enchantments.CustomEnchantment;
+import xyz.devvydont.smprpg.enchantments.EnchantmentRarity;
 import xyz.devvydont.smprpg.enchantments.EnchantmentUtil;
 import xyz.devvydont.smprpg.events.CustomEntityDamageByEntityEvent;
 
@@ -65,7 +66,7 @@ public class BlessedEnchantment extends CustomEnchantment implements Listener {
 
     @Override
     public int getWeight() {
-        return 5;
+        return EnchantmentRarity.UNCOMMON.getWeight();
     }
 
     @Override

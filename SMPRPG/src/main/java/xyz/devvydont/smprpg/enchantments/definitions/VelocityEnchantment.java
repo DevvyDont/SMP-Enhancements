@@ -12,6 +12,7 @@ import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemType;
 import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.enchantments.CustomEnchantment;
+import xyz.devvydont.smprpg.enchantments.EnchantmentRarity;
 
 public class VelocityEnchantment extends CustomEnchantment implements Listener {
 
@@ -51,7 +52,7 @@ public class VelocityEnchantment extends CustomEnchantment implements Listener {
 
     @Override
     public int getWeight() {
-        return 2;
+        return EnchantmentRarity.UNCOMMON.getWeight();
     }
 
     @Override

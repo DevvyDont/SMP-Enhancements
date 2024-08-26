@@ -15,6 +15,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemType;
 import org.jetbrains.annotations.NotNull;
+import xyz.devvydont.smprpg.enchantments.EnchantmentRarity;
 
 /**
  * Acts as a wrapper for vanilla enchantments with no extra behavior. Allows us to define descriptions for them
@@ -54,7 +55,7 @@ public abstract class UnchangedEnchantment extends VanillaEnchantment {
 
     @Override
     public int getWeight() {
-        return 2;
+        return EnchantmentRarity.UNCOMMON.getWeight();
     }
 
     @Override

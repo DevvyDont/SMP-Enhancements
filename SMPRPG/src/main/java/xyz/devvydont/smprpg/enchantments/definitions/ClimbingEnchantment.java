@@ -8,6 +8,7 @@ import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemType;
 import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.enchantments.CustomEnchantment;
+import xyz.devvydont.smprpg.enchantments.EnchantmentRarity;
 import xyz.devvydont.smprpg.enchantments.base.AttributeEnchantment;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeModifierType;
@@ -56,7 +57,7 @@ public class ClimbingEnchantment extends CustomEnchantment implements AttributeE
 
     @Override
     public int getWeight() {
-        return 4;
+        return EnchantmentRarity.UNCOMMON.getWeight();
     }
 
     @Override

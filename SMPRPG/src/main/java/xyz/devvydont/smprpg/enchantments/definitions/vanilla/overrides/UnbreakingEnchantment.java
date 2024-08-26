@@ -12,6 +12,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemType;
 import org.jetbrains.annotations.NotNull;
+import xyz.devvydont.smprpg.enchantments.EnchantmentRarity;
 import xyz.devvydont.smprpg.enchantments.definitions.vanilla.VanillaEnchantment;
 
 public class UnbreakingEnchantment extends VanillaEnchantment {
@@ -53,7 +54,7 @@ public class UnbreakingEnchantment extends VanillaEnchantment {
 
     @Override
     public int getWeight() {
-        return 4;
+        return EnchantmentRarity.COMMON.getWeight();
     }
 
     @Override

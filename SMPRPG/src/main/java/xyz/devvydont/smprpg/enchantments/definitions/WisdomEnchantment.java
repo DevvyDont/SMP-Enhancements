@@ -12,6 +12,7 @@ import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemType;
 import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.enchantments.CustomEnchantment;
+import xyz.devvydont.smprpg.enchantments.EnchantmentRarity;
 import xyz.devvydont.smprpg.enchantments.EnchantmentUtil;
 
 public class WisdomEnchantment extends CustomEnchantment implements Listener {
@@ -63,7 +64,7 @@ public class WisdomEnchantment extends CustomEnchantment implements Listener {
 
     @Override
     public int getWeight() {
-        return 3;
+        return EnchantmentRarity.UNCOMMON.getWeight();
     }
 
     @Override
