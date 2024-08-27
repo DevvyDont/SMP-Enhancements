@@ -7,6 +7,7 @@ import xyz.devvydont.smprpg.config.ConfigManager;
 import xyz.devvydont.smprpg.loot.LootListener;
 import xyz.devvydont.smprpg.services.*;
 import xyz.devvydont.smprpg.listeners.*;
+import xyz.devvydont.smprpg.util.animations.AnimationService;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -36,6 +37,7 @@ public final class SMPRPG extends JavaPlugin implements Listener {
     DropsService dropsService;
     ActionBarService actionBarService;
     UnstableListenersService unstableListenersService;
+    AnimationService animationService;
 
     List<BaseService> services;
 
@@ -77,6 +79,10 @@ public final class SMPRPG extends JavaPlugin implements Listener {
 
     public UnstableListenersService getUnstableListenersService() {
         return unstableListenersService;
+    }
+
+    public AnimationService getAnimationService() {
+        return animationService;
     }
 
     public void checkServerSettings() {
@@ -131,6 +137,8 @@ public final class SMPRPG extends JavaPlugin implements Listener {
 
         unstableListenersService =  new UnstableListenersService(this);
         registerService(unstableListenersService);
+
+        animationService =  new AnimationService(this);
 
         getServer().getPluginManager().registerEvents(this, this);
 
