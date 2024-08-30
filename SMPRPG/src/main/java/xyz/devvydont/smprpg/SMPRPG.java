@@ -4,6 +4,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import xyz.devvydont.smprpg.config.ConfigManager;
+import xyz.devvydont.smprpg.effects.services.SpecialEffectService;
 import xyz.devvydont.smprpg.loot.LootListener;
 import xyz.devvydont.smprpg.services.*;
 import xyz.devvydont.smprpg.listeners.*;
@@ -32,6 +33,7 @@ public final class SMPRPG extends JavaPlugin implements Listener {
     ItemService itemService;
     EnchantmentService enchantmentService;
     EntityService entityService;
+    SpecialEffectService specialEffectsService;
     SkillService skillService;
     DropsService dropsService;
     ActionBarService actionBarService;
@@ -61,6 +63,10 @@ public final class SMPRPG extends JavaPlugin implements Listener {
 
     public EntityService getEntityService() {
         return entityService;
+    }
+
+    public SpecialEffectService getSpecialEffectsService() {
+        return specialEffectsService;
     }
 
     public SkillService getSkillService() {
@@ -120,6 +126,9 @@ public final class SMPRPG extends JavaPlugin implements Listener {
         entityService = new EntityService(this);
         registerService(entityService);
 
+        specialEffectsService = new SpecialEffectService(this);
+        registerService(specialEffectsService);
+
         skillService = new SkillService(this);
         registerService(skillService);
 
@@ -141,7 +150,6 @@ public final class SMPRPG extends JavaPlugin implements Listener {
         new AnvilEnchantmentCombinationFixListener(this);
         new DimensionPortalLockingListener(this);
         new TrialChamberFixListener(this);
-        new PacifistDeathEffectListener(this);
         new PvPListener();
 
         new StructureEntitySpawnListener(this);

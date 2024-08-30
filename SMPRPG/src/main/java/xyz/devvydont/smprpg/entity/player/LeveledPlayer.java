@@ -1,4 +1,4 @@
-package xyz.devvydont.smprpg.entity;
+package xyz.devvydont.smprpg.entity.player;
 
 import com.destroystokyo.paper.event.entity.EntityAddToWorldEvent;
 import net.kyori.adventure.text.Component;
