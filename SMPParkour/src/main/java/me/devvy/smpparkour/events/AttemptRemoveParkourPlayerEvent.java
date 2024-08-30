@@ -5,14 +5,14 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-public class AttemptEnterParkourWorldEvent extends Event implements Cancellable {
+public class AttemptRemoveParkourPlayerEvent extends Event implements Cancellable {
 
     private static final HandlerList HANDLERS_LIST = new HandlerList();
     private boolean isCancelled = false;
     private Player player;
-    private String reason = "You cannot enter parkour world right now!";
+    private String reason = "You cannot leave parkour world right now!";
 
-    public AttemptEnterParkourWorldEvent(Player player){
+    public AttemptRemoveParkourPlayerEvent(Player player){
         this.player = player;
     }
 

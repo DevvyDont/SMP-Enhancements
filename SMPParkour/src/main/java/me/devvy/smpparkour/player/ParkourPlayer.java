@@ -22,7 +22,6 @@ import static me.devvy.smpparkour.player.ParkourTimer.PLAYER_TIMER_DECIMAL_FORMA
 public class ParkourPlayer {
 
     private final Player player;  // We don't track offline players so we can do this smile
-    private final PlayerStateRollback rollbackState;  // What to revert to when we are done
     private final ParkourTimer timer;
     private Checkpoint currentCheckpoint;
     private boolean practicing = false;
@@ -31,7 +30,6 @@ public class ParkourPlayer {
 
     public ParkourPlayer(Player player) {
         this.player = player;
-        this.rollbackState = new PlayerStateRollback(player);
         this.timer = new ParkourTimer(this);
     }
 
@@ -39,9 +37,6 @@ public class ParkourPlayer {
         return player;
     }
 
-    public PlayerStateRollback getRollbackState() {
-        return rollbackState;
-    }
 
     public ParkourTimer getTimer() {
         return timer;
@@ -86,27 +81,18 @@ public class ParkourPlayer {
         SMPParkour.getInstance().getScoreboardUtil().addPlayer(player);
 
         // Perform teleport, send messages/play sounds
-        player.sendMessage(Component.text("Joining parkour world, inventory stowed", NamedTextColor.YELLOW));
         player.teleport(SMPParkour.getInstance().getParkourWorld().getSpawnLocation());
-        player.playSound(player.getPlayer().getLocation(), Sound.ENTITY_CHICKEN_EGG, 1, 1);
-        SMPParkour.getInstance().getParkourWorld().playSound(player.getPlayer().getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1, 1);
+        SMPParkour.getInstance().getParkourWorld().playSound(player.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1, 1);
     }
 
     /**
      * What should we do if the player is leaving parkour world?
      */
     public void exit() {
-        // Give them their inventory back, health, gamemode, levels, location etc, stop the timer task
         SMPParkour.getInstance().getScoreboardUtil().removePlayer(player);
         player.setAllowFlight(false);
-        rollbackState.restore(player);
         timer.cancel();
         player.playerListName(player.displayName());
-
-        // Tell them what happened and play a cute sound
-        player.sendMessage(Component.text("Leaving parkour world, inventory restored", NamedTextColor.YELLOW));
-        player.playSound(player.getPlayer().getLocation(), Sound.ENTITY_CHICKEN_EGG, 1, 1);
-        SMPParkour.getInstance().getParkourWorld().playSound(player.getPlayer().getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1, 1);
     }
 
     public void setLobbyLoadout() {

@@ -35,7 +35,7 @@ public class MapManager implements Listener {
 
     public MapManager() {
 
-        map = MapYamlUtil.loadFromYaml(new File(Bukkit.getWorldContainer() + "/" + SMPParkour.PARKOUR_WORLD_FOLDER_NAME, "parkour.yml"));
+        map = MapYamlUtil.loadFromYaml(new File(Bukkit.getWorldContainer() + "/" + SMPParkour.getInstance().getParkourWorld().getName(), "parkour.yml"));
         MapYamlUtil.saveToYaml(map);
 
         SMPParkour.getInstance().getServer().getPluginManager().registerEvents(this, SMPParkour.getInstance());

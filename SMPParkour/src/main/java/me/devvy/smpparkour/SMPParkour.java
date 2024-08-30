@@ -1,6 +1,5 @@
 package me.devvy.smpparkour;
 
-import me.devvy.smpparkour.commands.ParkourWorldCommand;
 import me.devvy.smpparkour.config.ConfigManager;
 import me.devvy.smpparkour.items.ItemManager;
 import me.devvy.smpparkour.listeners.ParkourCompletedListener;
@@ -18,13 +17,6 @@ public final class SMPParkour extends JavaPlugin {
 
     public static SMPParkour getInstance() {
         return INSTANCE;
-    }
-
-    public static final String PARKOUR_WORLD_FOLDER_NAME = "pk_infinity";
-    private World parkourWorld;
-
-    public World getParkourWorld() {
-        return parkourWorld;
     }
 
     private PlayerManager playerManager;
@@ -60,7 +52,7 @@ public final class SMPParkour extends JavaPlugin {
 
         ConfigManager.initConfig();
 
-        loadParkourWorld();
+        initializeParkourWorlds();
 
         // Setup the managers and listeners
         playerManager = new PlayerManager();
@@ -70,12 +62,6 @@ public final class SMPParkour extends JavaPlugin {
         announcer = new Announcer();
 
         new ParkourCompletedListener();
-
-        // Setup commands
-        ParkourWorldCommand parkourWorldCommand = new ParkourWorldCommand();
-        getCommand("parkour").setExecutor(parkourWorldCommand);
-        getCommand("parkour").setTabCompleter(parkourWorldCommand);
-
     }
 
     @Override
@@ -83,59 +69,41 @@ public final class SMPParkour extends JavaPlugin {
         playerManager.cleanup();
         itemManager.cleanup();
         mapManager.cleanup();
-
-        unloadParkourWorld();
     }
 
-    public void loadParkourWorld() {
+    public void initializeParkourWorlds() {
 
-        getLogger().info("Loading parkour world!");
+        getLogger().info("Initializing parkour worlds!");
 
-        // Load the world
-        WorldCreator wc = new WorldCreator(PARKOUR_WORLD_FOLDER_NAME);
-        wc.generateStructures(false);
-        wc.type(WorldType.FLAT);
-        parkourWorld = Bukkit.createWorld(wc);
+        for (World world : getServer().getWorlds()) {
+            // World settings
+            world.setPVP(false);
+            world.setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, false);
+            world.setGameRule(GameRule.DISABLE_RAIDS, true);
+            world.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
+            world.setGameRule(GameRule.DO_ENTITY_DROPS, false);
+            world.setGameRule(GameRule.DO_FIRE_TICK, false);
+            world.setGameRule(GameRule.DO_INSOMNIA, false);
+            world.setGameRule(GameRule.DO_MOB_LOOT, false);
+            world.setGameRule(GameRule.DO_MOB_SPAWNING, false);
+            world.setGameRule(GameRule.DO_TRADER_SPAWNING, false);
+            world.setGameRule(GameRule.DO_WARDEN_SPAWNING, false);
+            world.setGameRule(GameRule.DO_PATROL_SPAWNING, false);
+            world.setGameRule(GameRule.DO_WEATHER_CYCLE, false);
+            world.setGameRule(GameRule.FALL_DAMAGE, false);
+            world.setGameRule(GameRule.MOB_GRIEFING, false);
+            world.setGameRule(GameRule.KEEP_INVENTORY, true);
+            world.setGameRule(GameRule.SPAWN_RADIUS, 0);
+            world.setGameRule(GameRule.DO_IMMEDIATE_RESPAWN,true);
 
-        if (parkourWorld == null)
-            throw new IllegalStateException("Build world failed to load, aborting enabling of plugin");
+            world.getWorldBorder().setCenter(world.getSpawnLocation());
+            world.getWorldBorder().setSize(400);
 
-        // World settings
-        parkourWorld.setPVP(false);
-        parkourWorld.setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, false);
-        parkourWorld.setGameRule(GameRule.DISABLE_RAIDS, true);
-        parkourWorld.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
-        parkourWorld.setGameRule(GameRule.DO_ENTITY_DROPS, false);
-        parkourWorld.setGameRule(GameRule.DO_FIRE_TICK, false);
-        parkourWorld.setGameRule(GameRule.DO_INSOMNIA, false);
-        parkourWorld.setGameRule(GameRule.DO_MOB_LOOT, false);
-        parkourWorld.setGameRule(GameRule.DO_MOB_SPAWNING, false);
-        parkourWorld.setGameRule(GameRule.DO_TRADER_SPAWNING, false);
-        parkourWorld.setGameRule(GameRule.DO_WARDEN_SPAWNING, false);
-        parkourWorld.setGameRule(GameRule.DO_PATROL_SPAWNING, false);
-        parkourWorld.setGameRule(GameRule.DO_WEATHER_CYCLE, false);
-        parkourWorld.setGameRule(GameRule.FALL_DAMAGE, false);
-        parkourWorld.setGameRule(GameRule.MOB_GRIEFING, false);
-        parkourWorld.setGameRule(GameRule.KEEP_INVENTORY, true);
-        parkourWorld.setGameRule(GameRule.SPAWN_RADIUS, 0);
-        parkourWorld.setGameRule(GameRule.DO_IMMEDIATE_RESPAWN,true);
-
-        parkourWorld.getWorldBorder().setCenter(parkourWorld.getSpawnLocation());
-        parkourWorld.getWorldBorder().setSize(400);
-
-        parkourWorld.setDifficulty(Difficulty.PEACEFUL);
-    }
-
-    public void unloadParkourWorld() {
-
-        if (parkourWorld == null) {
-            getLogger().warning("Tried to disable parkour world but it is already off!");
-            return;
+            world.setDifficulty(Difficulty.PEACEFUL);
         }
+    }
 
-        getLogger().info("Disabling parkour world!");
-        playerManager.cleanup();
-
-        Bukkit.unloadWorld(parkourWorld, true);
+    public World getParkourWorld() {
+        return Bukkit.getWorlds().get(0);
     }
 }

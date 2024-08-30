@@ -1,9 +1,8 @@
 package me.devvy.smpparkour.player;
 
-import io.papermc.paper.event.entity.EntityMoveEvent;
 import me.devvy.smpparkour.SMPParkour;
-import me.devvy.smpparkour.events.AttemptEnterParkourWorldEvent;
-import me.devvy.smpparkour.events.AttemptLeaveParkourWorldEvent;
+import me.devvy.smpparkour.events.AttemptAddParkourPlayerEvent;
+import me.devvy.smpparkour.events.AttemptRemoveParkourPlayerEvent;
 import org.bukkit.Sound;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
@@ -24,8 +23,10 @@ public class PlayerManager implements Listener {
 
     public PlayerManager() {
         SMPParkour.getInstance().getServer().getPluginManager().registerEvents(this, SMPParkour.getInstance());
-
         new TablistDisplay(this).runTaskTimer(SMPParkour.getInstance(), 1, 10);
+
+        for (Player player : SMPParkour.getInstance().getServer().getOnlinePlayers())
+            addParkourPlayer(player);
     }
 
     public ParkourPlayer getParkourPlayer(Player player) {
@@ -36,12 +37,12 @@ public class PlayerManager implements Listener {
         return playerTracker.values();
     }
 
-    public void warpToParkourWorld(Player player) {
+    public void addParkourPlayer(Player player) {
 
         if (playerTracker.containsKey(player.getUniqueId()))
-            throw new IllegalStateException("Player " + player.getName() + " is already at parkour world!");
+            throw new IllegalStateException("Player " + player.getName() + " is already a parkour player!");
 
-        AttemptEnterParkourWorldEvent event = new AttemptEnterParkourWorldEvent(player);
+        AttemptAddParkourPlayerEvent event = new AttemptAddParkourPlayerEvent(player);
         event.callEvent();
         if (event.isCancelled())
             throw new IllegalStateException(event.getReason());
@@ -50,12 +51,12 @@ public class PlayerManager implements Listener {
         getParkourPlayer(player).enter();
     }
 
-    public void warpOutParkourWorld(Player player) {
+    public void removeParkourPlayer(Player player) {
 
         if (!playerTracker.containsKey(player.getUniqueId()))
-            throw new IllegalStateException("Player " + player.getName() + " is not at parkour world!");
+            throw new IllegalStateException("Player " + player.getName() + " is not a parkour player!");
 
-        AttemptLeaveParkourWorldEvent event = new AttemptLeaveParkourWorldEvent(player);
+        AttemptRemoveParkourPlayerEvent event = new AttemptRemoveParkourPlayerEvent(player);
         event.callEvent();
         if (event.isCancelled())
             throw new IllegalStateException(event.getReason());
@@ -64,17 +65,32 @@ public class PlayerManager implements Listener {
         pp.exit();
     }
 
-    public void clearParkourWorld() {
+    public void clearParkourPlayers() {
 
         for (ParkourPlayer pp : playerTracker.values())
-            warpOutParkourWorld(pp.getPlayer());
+            removeParkourPlayer(pp.getPlayer());
 
         playerTracker.clear();
     }
 
 
     public void cleanup() {
-        clearParkourWorld();
+        clearParkourPlayers();
+    }
+
+    @EventHandler
+    public void onPlayerJoin(PlayerJoinEvent event) {
+        addParkourPlayer(event.getPlayer());
+    }
+
+    @EventHandler
+    public void onQuit(PlayerQuitEvent event) {
+
+        ParkourPlayer pkp = getParkourPlayer(event.getPlayer());
+        if (pkp == null)
+            return;
+
+        removeParkourPlayer(event.getPlayer());
     }
 
     @EventHandler
@@ -143,28 +159,7 @@ public class PlayerManager implements Listener {
         event.setCancelled(true);
     }
 
-    @EventHandler
-    public void onQuit(PlayerQuitEvent event) {
 
-        ParkourPlayer pkp = getParkourPlayer(event.getPlayer());
-        if (pkp == null)
-            return;
-
-        warpOutParkourWorld(event.getPlayer());
-    }
-
-    @EventHandler
-    public void onWarpedOut(PlayerChangedWorldEvent event) {
-
-        ParkourPlayer pkp = getParkourPlayer(event.getPlayer());
-        if (pkp == null)
-            return;
-
-        if (event.getPlayer().getWorld() == SMPParkour.getInstance().getParkourWorld())
-            return;
-
-        warpOutParkourWorld(event.getPlayer());
-    }
 
     @EventHandler
     public void onRespawn(PlayerRespawnEvent event) {
