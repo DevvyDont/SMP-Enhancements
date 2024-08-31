@@ -26,7 +26,7 @@ public class DimensionPortalLockingListener implements Listener {
     }
 
     public static final Date NETHER_LOCK = generateDate(7, 20, 2024);
-    public static final Date END_LOCK = generateDate(7, 30, 2024);
+    public static final Date END_LOCK = generateDate(8, 7, 2024);
 
     public static final int NETHER_SKILL_REQUIREMENT = 20;
     public static final int END_SKILL_REQUIREMENT = 36;
