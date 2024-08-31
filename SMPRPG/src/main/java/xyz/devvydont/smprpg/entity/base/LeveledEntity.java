@@ -519,7 +519,7 @@ public abstract class LeveledEntity implements LootSource {
      */
     @Override
     public Component getAsComponent() {
-        return ComponentUtils.getDefaultText("defeating a(n) ").append(ComponentUtils.getColoredComponent(getEntityName(), NamedTextColor.RED));
+        return ComponentUtils.create("defeating a(n) ").append(ComponentUtils.create(getEntityName(), NamedTextColor.RED));
     }
 
     /**

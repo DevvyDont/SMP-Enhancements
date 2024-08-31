@@ -28,8 +28,8 @@ public class QuickReforge extends ReforgeBase {
     @Override
     public List<Component> getDescription() {
         return List.of(
-                ComponentUtils.getDefaultText("Slightly increases mining speed"),
-                ComponentUtils.getDefaultText("when breaking blocks meant for this tool")
+                ComponentUtils.create("Slightly increases mining speed"),
+                ComponentUtils.create("when breaking blocks meant for this tool")
         );
     }
 

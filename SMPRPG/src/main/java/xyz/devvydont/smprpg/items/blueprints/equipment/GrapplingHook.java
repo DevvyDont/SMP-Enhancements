@@ -44,8 +44,8 @@ public class GrapplingHook extends CustomAttributeItem implements Listener, Craf
     public List<Component> getDescriptionComponent(ItemMeta meta) {
         return List.of(
                 AbilityUtil.getAbilityComponent("Grapple"),
-                ComponentUtils.getDefaultText("Use to propel yourself"),
-                ComponentUtils.getDefaultText("when reeling in!"),
+                ComponentUtils.create("Use to propel yourself"),
+                ComponentUtils.create("when reeling in!"),
                 AbilityUtil.getCooldownComponent(COOLDOWN + "s")
         );
     }

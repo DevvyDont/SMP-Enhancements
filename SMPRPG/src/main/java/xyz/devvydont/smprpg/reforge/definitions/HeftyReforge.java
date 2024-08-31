@@ -55,9 +55,9 @@ public class HeftyReforge extends ReforgeBase {
     @Override
     public List<Component> getDescription() {
         return List.of(
-                ComponentUtils.getDefaultText("Provides a generous boost"),
-                ComponentUtils.getDefaultText("to knockback resistance and strength"),
-                ComponentUtils.getDefaultText("at the cost of general speed")
+                ComponentUtils.create("Provides a generous boost"),
+                ComponentUtils.create("to knockback resistance and strength"),
+                ComponentUtils.create("at the cost of general speed")
         );
     }
 

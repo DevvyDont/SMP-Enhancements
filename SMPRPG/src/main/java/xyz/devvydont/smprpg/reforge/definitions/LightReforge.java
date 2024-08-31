@@ -38,7 +38,7 @@ public class LightReforge extends ReforgeBase {
     @Override
     public List<Component> getDescription() {
         return List.of(
-                ComponentUtils.getDefaultText("Moderately increases movement/attack speed")
+                ComponentUtils.create("Moderately increases movement/attack speed")
         );
     }
 

@@ -29,7 +29,7 @@ public class ReachingReforge extends ReforgeBase {
     @Override
     public List<Component> getDescription() {
         return List.of(
-                ComponentUtils.getDefaultText("Slightly increases reach distance")
+                ComponentUtils.create("Slightly increases reach distance")
         );
     }
 

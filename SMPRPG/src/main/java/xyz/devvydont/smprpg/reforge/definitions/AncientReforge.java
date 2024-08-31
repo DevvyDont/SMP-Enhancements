@@ -58,8 +58,8 @@ public class AncientReforge extends ReforgeBase {
     @Override
     public List<Component> getDescription() {
         return List.of(
-                ComponentUtils.getDefaultText("Provides a moderate"),
-                ComponentUtils.getDefaultText("boost for all stats")
+                ComponentUtils.create("Provides a moderate"),
+                ComponentUtils.create("boost for all stats")
 
         );
     }

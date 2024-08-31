@@ -63,7 +63,7 @@ public class BoilingPickaxe extends CustomAttributeItem implements Listener, Too
         List<Component> components = new ArrayList<>(super.getDescriptionComponent(meta));
         components.add(Component.empty());
         components.add(AbilityUtil.getAbilityComponent("Boiling Touch (Passive)"));
-        components.add(ComponentUtils.getDefaultText("Automatically ").append(ComponentUtils.getColoredComponent("smelts", NamedTextColor.RED)).append(ComponentUtils.getDefaultText(" blocks broken")));
+        components.add(ComponentUtils.create("Automatically ").append(ComponentUtils.create("smelts", NamedTextColor.RED)).append(ComponentUtils.create(" blocks broken")));
         return components;
     }
 

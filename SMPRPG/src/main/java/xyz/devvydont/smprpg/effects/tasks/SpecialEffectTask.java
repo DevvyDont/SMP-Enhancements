@@ -78,8 +78,8 @@ public abstract class SpecialEffectTask extends BukkitRunnable {
         if (expired)
             time = getExpiredComponent();
         else
-            time = ComponentUtils.getColoredComponent(timestring, getTimerColor());
-        return getNameComponent().append(ComponentUtils.getDefaultText(" - ")).append(time);
+            time = ComponentUtils.create(timestring, getTimerColor());
+        return getNameComponent().append(ComponentUtils.create(" - ")).append(time);
     }
 
     public void sendActionBar() {

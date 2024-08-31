@@ -31,9 +31,9 @@ public class SpawnerEditorBlueprint extends CustomItemBlueprint implements Liste
     @Override
     public List<Component> getFooterComponent(ItemMeta meta) {
         return List.of(
-                ComponentUtils.getDefaultText("Used to interact with"),
-                ComponentUtils.getDefaultText("and edit custom spawner"),
-                ComponentUtils.getDefaultText("entities in the world")
+                ComponentUtils.create("Used to interact with"),
+                ComponentUtils.create("and edit custom spawner"),
+                ComponentUtils.create("entities in the world")
         );
     }
 

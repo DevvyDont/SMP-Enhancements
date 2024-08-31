@@ -59,8 +59,8 @@ public class PolishedReforge extends ReforgeBase {
     @Override
     public List<Component> getDescription() {
         return List.of(
-                ComponentUtils.getDefaultText("Provides a small boost"),
-                ComponentUtils.getDefaultText("for all stats")
+                ComponentUtils.create("Provides a small boost"),
+                ComponentUtils.create("for all stats")
 
         );
     }

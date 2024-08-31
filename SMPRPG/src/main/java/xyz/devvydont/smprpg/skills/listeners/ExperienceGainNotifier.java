@@ -35,14 +35,14 @@ public class ExperienceGainNotifier implements Listener {
         String oldLevel = String.valueOf(newLevel-1);
         String newLevelStr = String.valueOf(newLevel);
         player.sendMessage(Component.empty());
-        player.sendMessage(ComponentUtils.getAlertMessage(ComponentUtils.getColoredComponent("SKILL LEVEL UP!!!", NamedTextColor.GOLD).decoration(TextDecoration.BOLD, true), NamedTextColor.AQUA));
-        player.sendMessage(ComponentUtils.getDefaultText("--------------------------"));
-        player.sendMessage(ComponentUtils.getColoredComponent("   " + type.getDisplayName() + " ", NamedTextColor.AQUA).append(ComponentUtils.getUpgradeComponent(oldLevel, newLevelStr, NamedTextColor.AQUA)));
+        player.sendMessage(ComponentUtils.getAlertMessage(ComponentUtils.create("SKILL LEVEL UP!!!", NamedTextColor.GOLD).decoration(TextDecoration.BOLD, true), NamedTextColor.AQUA));
+        player.sendMessage(ComponentUtils.create("--------------------------"));
+        player.sendMessage(ComponentUtils.create("   " + type.getDisplayName() + " ", NamedTextColor.AQUA).append(ComponentUtils.getUpgradeComponent(oldLevel, newLevelStr, NamedTextColor.AQUA)));
         player.sendMessage(Component.empty());
-        player.sendMessage(ComponentUtils.getColoredComponent("   Rewards:", NamedTextColor.GREEN));
+        player.sendMessage(ComponentUtils.create("   Rewards:", NamedTextColor.GREEN));
         for (SkillReward reward : skill.getRewards(newLevel))
-            player.sendMessage(ComponentUtils.getDefaultText("    " + Symbols.POINT + " ").append(reward.getDisplayName()));
-        player.sendMessage(ComponentUtils.getDefaultText("--------------------------"));
+            player.sendMessage(ComponentUtils.create("    " + Symbols.POINT + " ").append(reward.getDisplayName()));
+        player.sendMessage(ComponentUtils.create("--------------------------"));
         player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 2);
     }
 
@@ -74,8 +74,8 @@ public class ExperienceGainNotifier implements Listener {
         if (event.getSource().equals(SkillExperienceGainEvent.ExperienceSource.XP))
             return;
 
-        Component component = ComponentUtils.getColoredComponent(event.getSkillType().getDisplayName() + " " + event.getSkill().getLevel(), NamedTextColor.AQUA)
-                .append(ComponentUtils.getDefaultText(" | "))
+        Component component = ComponentUtils.create(event.getSkillType().getDisplayName() + " " + event.getSkill().getLevel(), NamedTextColor.AQUA)
+                .append(ComponentUtils.create(" | "))
                 .append(Component.text(MinecraftStringUtils.formatNumber(event.getSkill().getExperienceProgress())).color(NamedTextColor.GREEN))
                 .append(Component.text("/" + MinecraftStringUtils.formatNumber(event.getSkill().getNextExperienceThreshold())).color(NamedTextColor.DARK_GRAY))
                 .append(Component.text(" (+" + MinecraftStringUtils.formatNumber(event.getSkill().getCombo()) + ")").color(NamedTextColor.GOLD));

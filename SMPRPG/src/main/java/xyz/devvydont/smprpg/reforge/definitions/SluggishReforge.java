@@ -33,8 +33,8 @@ public class SluggishReforge extends ReforgeBase {
     @Override
     public List<Component> getDescription() {
         return List.of(
-                ComponentUtils.getDefaultText("Majorly decreases attack speed"),
-                ComponentUtils.getDefaultText("for a moderate boost in damage")
+                ComponentUtils.create("Majorly decreases attack speed"),
+                ComponentUtils.create("for a moderate boost in damage")
         );
     }
 

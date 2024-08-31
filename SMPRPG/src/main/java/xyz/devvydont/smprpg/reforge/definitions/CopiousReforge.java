@@ -29,7 +29,7 @@ public class CopiousReforge extends ReforgeBase {
     @Override
     public List<Component> getDescription() {
         return List.of(
-                ComponentUtils.getDefaultText("Moderately boosts luck")
+                ComponentUtils.create("Moderately boosts luck")
         );
     }
 

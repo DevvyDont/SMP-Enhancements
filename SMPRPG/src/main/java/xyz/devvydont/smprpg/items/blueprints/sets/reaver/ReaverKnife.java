@@ -45,8 +45,8 @@ public class ReaverKnife extends CustomAttributeItem implements ToolBreakable, L
         List<Component> components = new ArrayList<>(super.getDescriptionComponent(meta));
         components.add(Component.empty());
         components.add(AbilityUtil.getAbilityComponent("Decapitator (Passive)"));
-        components.add(ComponentUtils.getDefaultText("Wither Skeleton Skull drops are ").append(ComponentUtils.getColoredComponent(WITHER_SKULL_BOOST + "x", NamedTextColor.GREEN)).append(ComponentUtils.getDefaultText(" more common")));
-        components.add(ComponentUtils.getDefaultText("when killing ").append(ComponentUtils.getColoredComponent("Wither", NamedTextColor.DARK_RED)).append(ComponentUtils.getDefaultText(" type enemies with this weapon")));
+        components.add(ComponentUtils.create("Wither Skeleton Skull drops are ").append(ComponentUtils.create(WITHER_SKULL_BOOST + "x", NamedTextColor.GREEN)).append(ComponentUtils.create(" more common")));
+        components.add(ComponentUtils.create("when killing ").append(ComponentUtils.create("Wither", NamedTextColor.DARK_RED)).append(ComponentUtils.create(" type enemies with this weapon")));
         return components;
     }
 

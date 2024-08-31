@@ -31,7 +31,7 @@ public class KeepingBlessing extends CustomEnchantment implements Listener {
 
     @Override
     public @NotNull Component getDisplayName() {
-        return ComponentUtils.getColoredComponent("Blessing of Keeping", NamedTextColor.YELLOW);
+        return ComponentUtils.create("Blessing of Keeping", NamedTextColor.YELLOW);
     }
 
     @Override

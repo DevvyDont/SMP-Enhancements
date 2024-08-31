@@ -52,7 +52,7 @@ public class HeartyEnchantment extends CustomEnchantment implements AttributeEnc
     public @NotNull Component getDescription() {
         return Component.text("Increases max HP by ").color(NamedTextColor.GRAY)
                 .append(Component.text("+" + getHealthIncrease(getLevel())).color(NamedTextColor.GREEN))
-                .append(ComponentUtils.getColoredComponent(Symbols.HEART, NamedTextColor.RED));
+                .append(ComponentUtils.create(Symbols.HEART, NamedTextColor.RED));
     }
 
     @Override

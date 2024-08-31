@@ -28,7 +28,7 @@ public class RapidReforge extends ReforgeBase {
 
     @Override
     public List<Component> getDescription() {
-        return List.of(ComponentUtils.getDefaultText("Greatly improves attack speed"));
+        return List.of(ComponentUtils.create("Greatly improves attack speed"));
     }
 
     @Override

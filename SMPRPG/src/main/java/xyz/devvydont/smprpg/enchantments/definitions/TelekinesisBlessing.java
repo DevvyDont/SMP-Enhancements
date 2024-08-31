@@ -40,7 +40,7 @@ public class TelekinesisBlessing extends CustomEnchantment implements Listener {
 
     @Override
     public @NotNull Component getDisplayName() {
-        return ComponentUtils.getColoredComponent("Blessing of Telekinesis", NamedTextColor.YELLOW);
+        return ComponentUtils.create("Blessing of Telekinesis", NamedTextColor.YELLOW);
     }
 
     @Override

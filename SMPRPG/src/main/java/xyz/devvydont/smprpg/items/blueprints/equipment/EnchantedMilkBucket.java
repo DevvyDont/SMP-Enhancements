@@ -33,8 +33,8 @@ public class EnchantedMilkBucket extends ChargedItemBlueprint implements Listene
     @Override
     public List<Component> getDescriptionComponent(ItemMeta meta) {
         return List.of(
-                ComponentUtils.getDefaultText("Consume to cleanse ").append(ComponentUtils.getColoredComponent("ALL", NamedTextColor.GOLD)),
-                ComponentUtils.getDefaultText("status effects you have!")
+                ComponentUtils.create("Consume to cleanse ").append(ComponentUtils.create("ALL", NamedTextColor.GOLD)),
+                ComponentUtils.create("status effects you have!")
         );
     }
 
@@ -59,7 +59,7 @@ public class EnchantedMilkBucket extends ChargedItemBlueprint implements Listene
         event.getPlayer().getInventory().setItem(event.getHand(), milk);
         event.setCancelled(true);
         event.getPlayer().clearActivePotionEffects();
-        SMPRPG.getInstance().getActionBarService().addActionBarComponent(event.getPlayer(), ActionBarService.ActionBarSource.MISC, ComponentUtils.getColoredComponent("CLEANSED!", NamedTextColor.GREEN), 2);
+        SMPRPG.getInstance().getActionBarService().addActionBarComponent(event.getPlayer(), ActionBarService.ActionBarSource.MISC, ComponentUtils.create("CLEANSED!", NamedTextColor.GREEN), 2);
     }
 
     @Override

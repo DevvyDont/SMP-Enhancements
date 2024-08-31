@@ -28,8 +28,8 @@ public class DurableReforge extends ReforgeBase {
     @Override
     public List<Component> getDescription() {
         return List.of(
-                ComponentUtils.getDefaultText("Provides a small boost"),
-                ComponentUtils.getDefaultText("to defense")
+                ComponentUtils.create("Provides a small boost"),
+                ComponentUtils.create("to defense")
         );
     }
 

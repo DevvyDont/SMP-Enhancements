@@ -42,9 +42,9 @@ public class ProficientEnchantment extends CustomEnchantment implements Listener
 
     @Override
     public @NotNull Component getDescription() {
-        return ComponentUtils.getDefaultText("Increases skill experience gains by ")
-                .append(ComponentUtils.getColoredComponent("+" + getProficiencyPercentIncrease(getLevel()) + "%", NamedTextColor.GREEN))
-                .append(ComponentUtils.getColoredComponent(" (stacks!)", NamedTextColor.DARK_GRAY));
+        return ComponentUtils.create("Increases skill experience gains by ")
+                .append(ComponentUtils.create("+" + getProficiencyPercentIncrease(getLevel()) + "%", NamedTextColor.GREEN))
+                .append(ComponentUtils.create(" (stacks!)", NamedTextColor.DARK_GRAY));
     }
 
     @Override

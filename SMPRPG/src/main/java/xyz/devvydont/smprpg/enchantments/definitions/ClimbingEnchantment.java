@@ -36,8 +36,8 @@ public class ClimbingEnchantment extends CustomEnchantment implements AttributeE
 
     @Override
     public @NotNull Component getDescription() {
-        return ComponentUtils.getDefaultText("Increases block step height by ")
-                .append(ComponentUtils.getColoredComponent(String.format("+%d%%", (int)(getStepIncrease(getLevel())*100)), NamedTextColor.GREEN));
+        return ComponentUtils.create("Increases block step height by ")
+                .append(ComponentUtils.create(String.format("+%d%%", (int)(getStepIncrease(getLevel())*100)), NamedTextColor.GREEN));
     }
 
     @Override

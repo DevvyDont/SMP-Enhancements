@@ -57,10 +57,10 @@ public class InterfaceReforge extends PrivateInterface {
 
     public void spendMoney(int cost) {
         SMPRPG.getInstance().getEconomyService().takeMoney(owner, cost);
-        Component taken = ComponentUtils.getColoredComponent(EconomyService.formatMoney(cost), NamedTextColor.GOLD);
-        Component bal = ComponentUtils.getColoredComponent(EconomyService.formatMoney(getBalance()), NamedTextColor.GOLD);
+        Component taken = ComponentUtils.create(EconomyService.formatMoney(cost), NamedTextColor.GOLD);
+        Component bal = ComponentUtils.create(EconomyService.formatMoney(getBalance()), NamedTextColor.GOLD);
         owner.sendMessage(ComponentUtils.getGenericMessage(
-                taken.append(ComponentUtils.getDefaultText(" has been taken from your account. Your balance is now ")).append(bal)
+                taken.append(ComponentUtils.create(" has been taken from your account. Your balance is now ")).append(bal)
         ));
     }
 
@@ -100,12 +100,12 @@ public class InterfaceReforge extends PrivateInterface {
         lore.add(Component.text("Click to reforge this item!").color(NamedTextColor.GRAY));
         lore.add(Component.empty());
         lore.add(Component.text("Cost: ").color(NamedTextColor.GRAY).append(Component.text(EconomyService.formatMoney(cost)).color(NamedTextColor.GOLD)));
-        lore.add(Component.text("Your balance: ").color(NamedTextColor.GRAY).append(ComponentUtils.getColoredComponent(EconomyService.formatMoney(bal), NamedTextColor.GOLD)));
+        lore.add(Component.text("Your balance: ").color(NamedTextColor.GRAY).append(ComponentUtils.create(EconomyService.formatMoney(bal), NamedTextColor.GOLD)));
         if (cost > bal)
             lore.add(Component.text("Insufficient funds! You cannot afford this!").color(NamedTextColor.RED));
         if (blueprint.isReforged(input.getItemMeta())) {
             lore.add(Component.empty());
-            lore.add(ComponentUtils.getColoredComponent("NOTE: Previous reforge will be overwritten!", NamedTextColor.RED));
+            lore.add(ComponentUtils.create("NOTE: Previous reforge will be overwritten!", NamedTextColor.RED));
         }
         anvil.editMeta(meta -> {
             meta.lore(ComponentUtils.cleanItalics(lore));

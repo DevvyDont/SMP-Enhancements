@@ -30,8 +30,8 @@ public class HastyReforge extends ReforgeBase {
     @Override
     public List<Component> getDescription() {
         return List.of(
-                ComponentUtils.getDefaultText("Moderately increases mining"),
-                ComponentUtils.getDefaultText("speed and efficiency")
+                ComponentUtils.create("Moderately increases mining"),
+                ComponentUtils.create("speed and efficiency")
         );
     }
 

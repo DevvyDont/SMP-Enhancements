@@ -43,10 +43,10 @@ public class SerratedEnchantment extends CustomEnchantment implements Listener {
 
     @Override
     public @NotNull Component getDescription() {
-        return ComponentUtils.getDefaultText("Increases ")
-                .append(ComponentUtils.getColoredComponent("critical hit", NamedTextColor.RED))
-                .append(ComponentUtils.getDefaultText(" damage by an additional "))
-                .append(ComponentUtils.getColoredComponent("+" + getAdditionalPercentageIncrease(getLevel()) + "%", NamedTextColor.GREEN));
+        return ComponentUtils.create("Increases ")
+                .append(ComponentUtils.create("critical hit", NamedTextColor.RED))
+                .append(ComponentUtils.create(" damage by an additional "))
+                .append(ComponentUtils.create("+" + getAdditionalPercentageIncrease(getLevel()) + "%", NamedTextColor.GREEN));
     }
 
     @Override

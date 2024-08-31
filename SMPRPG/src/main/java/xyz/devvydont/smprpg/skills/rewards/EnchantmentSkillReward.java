@@ -31,13 +31,13 @@ public class EnchantmentSkillReward extends SkillReward {
             ret = ret.append(Component.text("\n").append(max.getDescription()).append(Component.text(" (Lv. " + clone.getMaxLevel() + ")").color(NamedTextColor.DARK_GRAY)));
 
         ret = ret.append(Component.text("\n\n"));
-        ret = ret.append(ComponentUtils.getDefaultText("Item Type: ").append(Component.text(MinecraftStringUtils.getTitledString(clone.getItemTypeTag().key().asMinimalString().replace("/", " "))).color(NamedTextColor.GOLD)));
+        ret = ret.append(ComponentUtils.create("Item Type: ").append(Component.text(MinecraftStringUtils.getTitledString(clone.getItemTypeTag().key().asMinimalString().replace("/", " "))).color(NamedTextColor.GOLD)));
         return ret;
     }
 
     @Override
     public Component getDisplayName() {
-        return ComponentUtils.getDefaultText("Unlocked ").decoration(TextDecoration.BOLD, false)
+        return ComponentUtils.create("Unlocked ").decoration(TextDecoration.BOLD, false)
                 .append(enchantment.getDisplayName().color(NamedTextColor.LIGHT_PURPLE).decoration(TextDecoration.BOLD, true).hoverEvent(getHoverComponent()));
     }
 }

@@ -32,7 +32,7 @@ public class AgileReforge extends ReforgeBase {
     @Override
     public List<Component> getDescription() {
         return List.of(
-                ComponentUtils.getDefaultText("Moderately increases movement speed")
+                ComponentUtils.create("Moderately increases movement speed")
         );
     }
 

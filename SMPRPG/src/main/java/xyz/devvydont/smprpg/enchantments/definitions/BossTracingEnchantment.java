@@ -46,10 +46,10 @@ public class BossTracingEnchantment extends CustomEnchantment implements Listene
 
     @Override
     public @NotNull Component getDescription() {
-        return ComponentUtils.getDefaultText("Arrows fired will home onto bosses ")
-                .append(ComponentUtils.getColoredComponent(getActivationDistance(getLevel()) + "m", NamedTextColor.GREEN))
-                .append(ComponentUtils.getDefaultText(" away for "))
-                .append(ComponentUtils.getColoredComponent(getTimeout(getLevel()) + "s", NamedTextColor.GREEN));
+        return ComponentUtils.create("Arrows fired will home onto bosses ")
+                .append(ComponentUtils.create(getActivationDistance(getLevel()) + "m", NamedTextColor.GREEN))
+                .append(ComponentUtils.create(" away for "))
+                .append(ComponentUtils.create(getTimeout(getLevel()) + "s", NamedTextColor.GREEN));
     }
 
     @Override

@@ -33,8 +33,8 @@ public class SpicyReforge extends ReforgeBase {
     @Override
     public List<Component> getDescription() {
         return List.of(
-                ComponentUtils.getDefaultText("Provides a generous boost to"),
-                ComponentUtils.getDefaultText("damage and attack speed")
+                ComponentUtils.create("Provides a generous boost to"),
+                ComponentUtils.create("damage and attack speed")
         );
     }
 

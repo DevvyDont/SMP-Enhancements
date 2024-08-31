@@ -31,7 +31,7 @@ public class StrongReforge extends ReforgeBase {
 
     @Override
     public List<Component> getDescription() {
-        return List.of(ComponentUtils.getDefaultText("Provides a small damage boost"));
+        return List.of(ComponentUtils.create("Provides a small damage boost"));
     }
 
     @Override

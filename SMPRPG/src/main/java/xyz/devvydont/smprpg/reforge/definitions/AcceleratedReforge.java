@@ -37,8 +37,8 @@ public class AcceleratedReforge extends ReforgeBase {
     @Override
     public List<Component> getDescription() {
         return List.of(
-                ComponentUtils.getDefaultText("Provides a").append(ComponentUtils.getColoredComponent(" SIGNIFICANT", NamedTextColor.GOLD)),
-                ComponentUtils.getDefaultText("boost in ").append(ComponentUtils.getColoredComponent("movement/attack speed", NamedTextColor.WHITE))
+                ComponentUtils.create("Provides a").append(ComponentUtils.create(" SIGNIFICANT", NamedTextColor.GOLD)),
+                ComponentUtils.create("boost in ").append(ComponentUtils.create("movement/attack speed", NamedTextColor.WHITE))
         );
     }
 

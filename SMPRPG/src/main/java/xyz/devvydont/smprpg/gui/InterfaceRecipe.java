@@ -76,11 +76,11 @@ public class InterfaceRecipe extends PrivateInterface {
         paper.editMeta(meta -> {
             List<Component> lore = new ArrayList<>();
             lore.add(Component.empty());
-            lore.add(ComponentUtils.getDefaultText("The following items must be"));
-            lore.add(ComponentUtils.getDefaultText("discovered to unlock this recipe"));
+            lore.add(ComponentUtils.create("The following items must be"));
+            lore.add(ComponentUtils.create("discovered to unlock this recipe"));
             lore.add(Component.empty());
             for (ItemStack item : requirements)
-                lore.add(ComponentUtils.getDefaultText("- ").append(item.displayName()));
+                lore.add(ComponentUtils.create("- ").append(item.displayName()));
             meta.lore(ComponentUtils.cleanItalics(lore));
             meta.setEnchantmentGlintOverride(true);
         });

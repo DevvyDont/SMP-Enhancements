@@ -1,7 +1,9 @@
 package xyz.devvydont.smprpg.util.formatting;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.Style;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 
@@ -9,11 +11,43 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class ComponentUtils {
+public final class ComponentUtils {
+    // Colors
+    public static final TextColor TEXT_DEFAULT = NamedTextColor.GRAY;
 
-    public static final TextColor DEFAULT_TEXT = NamedTextColor.GRAY;
+    // Presets
+    public static final TextComponent SPACE = create(" ");
+    public static final TextComponent EMPTY = Component.empty();
+    public static final TextComponent BRACKET_LEFT = create("[", TEXT_DEFAULT);
+    public static final TextComponent BRACKET_RIGHT = create("]", TEXT_DEFAULT);
 
-    public static final TextColor BRACKET_COLOR = NamedTextColor.GRAY;
+
+    /**
+     * Creates a text component with the default styling.
+     *
+     * @param text        The string to turn into a component.
+     * @param decorations Additional decorations to apply to the component.
+     * @return The styled text component.
+     */
+    public static TextComponent create(String text, TextDecoration... decorations) {
+        return create(text, TEXT_DEFAULT, decorations);
+    }
+
+    /**
+     * Creates a text component that's styled with the specified color and decorations.
+     *
+     * @param text        The string to turn into a component.
+     * @param color       The color to apply to the component.
+     * @param decorations Additional decorations to apply to the component.
+     * @return The styled text component.
+     */
+    public static TextComponent create(String text, TextColor color, TextDecoration... decorations) {
+        return Component.text(text, Style.style(color, decorations));
+    }
+
+    // ---------------
+    //   To Refactor
+    // ---------------
 
     /**
      * [!]
@@ -21,9 +55,9 @@ public class ComponentUtils {
      * @return
      */
     public static Component getAlertPrefix(TextColor color) {
-        return Component.text("[").color(BRACKET_COLOR)
+        return Component.text("[").color(TEXT_DEFAULT)
                 .append(Component.text("!").color(color))
-                .append(Component.text("] ").color(BRACKET_COLOR));
+                .append(Component.text("] ").color(TEXT_DEFAULT));
     }
 
     /**
@@ -50,30 +84,13 @@ public class ComponentUtils {
         return getAlertPrefix(alertColor).append(message.color(textColor));
     }
 
-    /**
-     * Returns a simple component with a certain color
-     *
-     * @param text
-     * @param textColor
-     * @return
-     */
-    public static Component getColoredComponent(String text, TextColor textColor) {
-        return Component.text(text).color(textColor);
-    }
 
 
-    /**
-     * Returns a component with default gray text
-     *
-     * @param text
-     * @return
-     */
-    public static Component getDefaultText(String text) {
-        return getColoredComponent(text, DEFAULT_TEXT);
-    }
+
+
 
     public static Component getUpgradeComponent(String old, String _new, TextColor textColor) {
-        return getColoredComponent(old + Symbols.RIGHT_ARROW, NamedTextColor.DARK_GRAY).append(getColoredComponent(_new, textColor));
+        return create(old + Symbols.RIGHT_ARROW, NamedTextColor.DARK_GRAY).append(create(_new, textColor));
     }
 
     public static Component getUpgradeComponent(Component old, Component _new) {

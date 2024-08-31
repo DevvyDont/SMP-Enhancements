@@ -37,7 +37,7 @@ public class InterfaceSpawnerEntitySubmenu extends PrivateInterface {
         backButton = new SpawnerButton() {
             @Override
             public ItemStack getItem(InterfaceSpawnerMainMenu gui) {
-                return InterfaceUtil.getNamedItem(Material.SPECTRAL_ARROW, ComponentUtils.getColoredComponent("Go Back to Main Menu", NamedTextColor.RED));
+                return InterfaceUtil.getNamedItem(Material.SPECTRAL_ARROW, ComponentUtils.create("Go Back to Main Menu", NamedTextColor.RED));
             }
 
             @Override
@@ -62,23 +62,23 @@ public class InterfaceSpawnerEntitySubmenu extends PrivateInterface {
             SpawnerButton button = new SpawnerButton() {
                 @Override
                 public ItemStack getItem(InterfaceSpawnerMainMenu gui) {
-                    ItemStack display = InterfaceUtil.getNamedItem(type.getInterfaceButton(), ComponentUtils.getColoredComponent("Set Weight: ", NamedTextColor.GOLD).append(ComponentUtils.getColoredComponent(type.getName(), NamedTextColor.RED)));
+                    ItemStack display = InterfaceUtil.getNamedItem(type.getInterfaceButton(), ComponentUtils.create("Set Weight: ", NamedTextColor.GOLD).append(ComponentUtils.create(type.getName(), NamedTextColor.RED)));
                     display.editMeta(meta -> {
                         meta.lore(List.of(
                                 Component.empty(),
-                                ComponentUtils.getDefaultText("Current Weight:").append(ComponentUtils.getColoredComponent(" " + gui.getSpawner().getOptions().getWeight(type), NamedTextColor.GREEN)),
+                                ComponentUtils.create("Current Weight:").append(ComponentUtils.create(" " + gui.getSpawner().getOptions().getWeight(type), NamedTextColor.GREEN)),
                                 Component.empty(),
-                                ComponentUtils.getColoredComponent("Default Statistics:", NamedTextColor.GOLD),
-                                ComponentUtils.getPowerComponent(type.getBaseLevel()).append(ComponentUtils.getColoredComponent(" " + type.getName(), NamedTextColor.RED)),
-                                ComponentUtils.getDefaultText("Base Health: ").append(ComponentUtils.getColoredComponent(MinecraftStringUtils.formatNumber(type.getBaseHp()), NamedTextColor.GREEN)).append(ComponentUtils.getColoredComponent(Symbols.HEART, NamedTextColor.RED)),
-                                ComponentUtils.getDefaultText("Base Damage: ").append(ComponentUtils.getColoredComponent(MinecraftStringUtils.formatNumber(type.getBaseDamage()), NamedTextColor.RED)).append(ComponentUtils.getColoredComponent(Symbols.SKULL, NamedTextColor.DARK_GRAY)),
-                                ComponentUtils.getDefaultText("Base Entity: ").append(ComponentUtils.getColoredComponent(type.getEntityType().name(), NamedTextColor.GOLD)),
+                                ComponentUtils.create("Default Statistics:", NamedTextColor.GOLD),
+                                ComponentUtils.getPowerComponent(type.getBaseLevel()).append(ComponentUtils.create(" " + type.getName(), NamedTextColor.RED)),
+                                ComponentUtils.create("Base Health: ").append(ComponentUtils.create(MinecraftStringUtils.formatNumber(type.getBaseHp()), NamedTextColor.GREEN)).append(ComponentUtils.create(Symbols.HEART, NamedTextColor.RED)),
+                                ComponentUtils.create("Base Damage: ").append(ComponentUtils.create(MinecraftStringUtils.formatNumber(type.getBaseDamage()), NamedTextColor.RED)).append(ComponentUtils.create(Symbols.SKULL, NamedTextColor.DARK_GRAY)),
+                                ComponentUtils.create("Base Entity: ").append(ComponentUtils.create(type.getEntityType().name(), NamedTextColor.GOLD)),
                                 Component.empty(),
-                                ComponentUtils.getDefaultText("Left click to increase, Right click to decrease"),
+                                ComponentUtils.create("Left click to increase, Right click to decrease"),
                                 Component.empty(),
-                                ComponentUtils.getDefaultText("Setting a weight of 0 will remove this entity from this spawner"),
-                                ComponentUtils.getDefaultText("Higher weights means this mob is more likely to spawn"),
-                                ComponentUtils.getDefaultText("If only one entity is enabled in a spawner, weight only needs to be 1")
+                                ComponentUtils.create("Setting a weight of 0 will remove this entity from this spawner"),
+                                ComponentUtils.create("Higher weights means this mob is more likely to spawn"),
+                                ComponentUtils.create("If only one entity is enabled in a spawner, weight only needs to be 1")
                         ));
                         meta.lore(ComponentUtils.cleanItalics(meta.lore()));
                         meta.setEnchantmentGlintOverride(gui.getSpawner().getOptions().getWeight(type) > 0);

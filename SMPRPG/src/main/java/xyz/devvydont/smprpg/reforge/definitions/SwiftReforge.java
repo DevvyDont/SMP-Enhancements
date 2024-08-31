@@ -38,8 +38,8 @@ public class SwiftReforge extends ReforgeBase {
     @Override
     public List<Component> getDescription() {
         return List.of(
-                ComponentUtils.getDefaultText("Greatly increases movement speed"),
-                ComponentUtils.getDefaultText("with a small boost in attack speed")
+                ComponentUtils.create("Greatly increases movement speed"),
+                ComponentUtils.create("with a small boost in attack speed")
         );
     }
 

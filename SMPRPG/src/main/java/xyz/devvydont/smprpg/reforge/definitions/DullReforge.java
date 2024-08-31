@@ -34,8 +34,8 @@ public class DullReforge extends ReforgeBase {
     @Override
     public List<Component> getDescription() {
         return List.of(
-                ComponentUtils.getDefaultText("Decreases base damage but increases"),
-                ComponentUtils.getDefaultText("effectiveness of sweeping attacks")
+                ComponentUtils.create("Decreases base damage but increases"),
+                ComponentUtils.create("effectiveness of sweeping attacks")
         );
     }
 

@@ -33,7 +33,7 @@ public class PowerfulReforge extends ReforgeBase {
     @Override
     public List<Component> getDescription() {
         return List.of(
-                ComponentUtils.getDefaultText("Provides small damage boost")
+                ComponentUtils.create("Provides small damage boost")
         );
     }
 

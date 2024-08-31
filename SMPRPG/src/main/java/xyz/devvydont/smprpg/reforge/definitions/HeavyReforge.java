@@ -53,9 +53,9 @@ public class HeavyReforge extends ReforgeBase {
     @Override
     public List<Component> getDescription() {
         return List.of(
-                ComponentUtils.getDefaultText("Provides a moderate boost"),
-                ComponentUtils.getDefaultText("to knockback resistance"),
-                ComponentUtils.getDefaultText("at the cost of movement speed")
+                ComponentUtils.create("Provides a moderate boost"),
+                ComponentUtils.create("to knockback resistance"),
+                ComponentUtils.create("at the cost of movement speed")
         );
     }
 

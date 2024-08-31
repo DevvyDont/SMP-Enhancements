@@ -214,7 +214,7 @@ public class AnvilEnchantmentCombinationFixListener implements Listener {
             CustomEnchantment enchantment = plugin.getEnchantmentService().getEnchantment(entries.getKey());
             int requirement = enchantment.getSkillRequirement();
             if (requirement > magicLevel) {
-                information.add(ComponentUtils.getColoredComponent("- Need Magic " + requirement + " to apply locked enchantment ", NamedTextColor.RED).append(enchantment.getDisplayName().color(enchantment.getEnchantColor())));
+                information.add(ComponentUtils.create("- Need Magic " + requirement + " to apply locked enchantment ", NamedTextColor.RED).append(enchantment.getDisplayName().color(enchantment.getEnchantColor())));
                 allowed = false;
                 continue;
             }
@@ -225,14 +225,14 @@ public class AnvilEnchantmentCombinationFixListener implements Listener {
             int enchantLevelRequirement = (int) (percentage * (99-requirement) + requirement);
             enchantLevelRequirement = Math.min(99, enchantLevelRequirement);
             if (enchantLevelRequirement > magicLevel){
-                information.add(ComponentUtils.getColoredComponent("- Need Magic " + enchantLevelRequirement + " to apply high level enchantment ", NamedTextColor.RED).append(enchantment.getEnchantment().displayName(entries.getValue()).color(enchantment.getEnchantColor())));
+                information.add(ComponentUtils.create("- Need Magic " + enchantLevelRequirement + " to apply high level enchantment ", NamedTextColor.RED).append(enchantment.getEnchantment().displayName(entries.getValue()).color(enchantment.getEnchantColor())));
                 allowed = false;
             }
 
         }
 
         information.add(Component.empty());
-        information.add(ComponentUtils.getDefaultText("Experience Cost: ").append(ComponentUtils.getColoredComponent(combination.cost() + " Levels", NamedTextColor.GREEN)));
+        information.add(ComponentUtils.create("Experience Cost: ").append(ComponentUtils.create(combination.cost() + " Levels", NamedTextColor.GREEN)));
 
         if (!allowed)
             event.getView().setRepairCost(999_999);

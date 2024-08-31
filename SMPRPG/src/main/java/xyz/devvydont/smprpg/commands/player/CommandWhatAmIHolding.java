@@ -35,7 +35,7 @@ public class CommandWhatAmIHolding extends CommandBase {
         }
 
         Component name = Component.text(SMPRPG.getInstance().getChatService().getPlayerDisplayname(player));
-        Component holding = ComponentUtils.getDefaultText(" is holding ");
+        Component holding = ComponentUtils.create(" is holding ");
         Bukkit.broadcast(name.append(holding).append(is.displayName()));
     }
 

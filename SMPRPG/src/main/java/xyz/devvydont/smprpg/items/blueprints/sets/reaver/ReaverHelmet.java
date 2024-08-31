@@ -43,7 +43,7 @@ public class ReaverHelmet extends CustomFakeHelmetBlueprint implements ToolBreak
         List<Component> components = new ArrayList<>(super.getDescriptionComponent(meta));
         components.add(Component.empty());
         components.add(AbilityUtil.getAbilityComponent("Necrotic (Passive)"));
-        components.add(ComponentUtils.getDefaultText("Resists ").append(ComponentUtils.getColoredComponent("-" + ReaverArmorSet.WITHER_RESIST + "%", NamedTextColor.GREEN)).append(ComponentUtils.getDefaultText(" of wither damage")));
+        components.add(ComponentUtils.create("Resists ").append(ComponentUtils.create("-" + ReaverArmorSet.WITHER_RESIST + "%", NamedTextColor.GREEN)).append(ComponentUtils.create(" of wither damage")));
         return components;
     }
 

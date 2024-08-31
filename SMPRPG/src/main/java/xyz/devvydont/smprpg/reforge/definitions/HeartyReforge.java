@@ -28,8 +28,8 @@ public class HeartyReforge extends ReforgeBase {
     @Override
     public List<Component> getDescription() {
         return List.of(
-                ComponentUtils.getDefaultText("Provides a moderate boost"),
-                ComponentUtils.getDefaultText("to maximum health")
+                ComponentUtils.create("Provides a moderate boost"),
+                ComponentUtils.create("to maximum health")
         );
     }
 

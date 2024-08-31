@@ -70,8 +70,8 @@ public class InfernoSaber extends CustomAttributeItem implements Listener, Craft
         List<Component> lines = new ArrayList<>(super.getDescriptionComponent(meta));
         lines.add(Component.empty());
         lines.add(AbilityUtil.getAbilityComponent("Hot Shot (Right Click)"));
-        lines.add(ComponentUtils.getDefaultText("Shoot a ").append(ComponentUtils.getColoredComponent("fireball", NamedTextColor.GOLD)).append(ComponentUtils.getDefaultText(" in the direction")));
-        lines.add(ComponentUtils.getDefaultText("you are looking that deals ").append(ComponentUtils.getColoredComponent(DAMAGE + "", NamedTextColor.RED)).append(ComponentUtils.getDefaultText(" damage")));
+        lines.add(ComponentUtils.create("Shoot a ").append(ComponentUtils.create("fireball", NamedTextColor.GOLD)).append(ComponentUtils.create(" in the direction")));
+        lines.add(ComponentUtils.create("you are looking that deals ").append(ComponentUtils.create(DAMAGE + "", NamedTextColor.RED)).append(ComponentUtils.create(" damage")));
         lines.add(AbilityUtil.getHealthCostComponent(COST));
         lines.add(AbilityUtil.getCooldownComponent(COOLDOWN + "s"));
         return lines;

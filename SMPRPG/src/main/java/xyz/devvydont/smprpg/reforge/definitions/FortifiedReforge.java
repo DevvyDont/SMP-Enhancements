@@ -29,8 +29,8 @@ public class FortifiedReforge extends ReforgeBase  {
     @Override
     public List<Component> getDescription() {
         return List.of(
-                ComponentUtils.getDefaultText("Provides a moderate boost"),
-                ComponentUtils.getDefaultText("to defense")
+                ComponentUtils.create("Provides a moderate boost"),
+                ComponentUtils.create("to defense")
         );
     }
 

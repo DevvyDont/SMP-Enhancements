@@ -40,17 +40,17 @@ public class DeathCertificate extends CustomItemBlueprint implements Listener, S
     private Component getEnvironmentComponent(World.Environment environment) {
 
         return switch (environment) {
-            case THE_END -> ComponentUtils.getColoredComponent("The End", NamedTextColor.LIGHT_PURPLE);
-            case NETHER -> ComponentUtils.getDefaultText("the ").append(ComponentUtils.getColoredComponent("Nether", NamedTextColor.RED));
-            case NORMAL -> ComponentUtils.getDefaultText("the ").append(ComponentUtils.getColoredComponent("Overworld", NamedTextColor.DARK_GREEN));
-            case CUSTOM -> ComponentUtils.getColoredComponent("Some unknown world", NamedTextColor.LIGHT_PURPLE);
+            case THE_END -> ComponentUtils.create("The End", NamedTextColor.LIGHT_PURPLE);
+            case NETHER -> ComponentUtils.create("the ").append(ComponentUtils.create("Nether", NamedTextColor.RED));
+            case NORMAL -> ComponentUtils.create("the ").append(ComponentUtils.create("Overworld", NamedTextColor.DARK_GREEN));
+            case CUSTOM -> ComponentUtils.create("Some unknown world", NamedTextColor.LIGHT_PURPLE);
         };
 
     }
 
     private Component getCoordinatesComponent(int[] location) {
         String str = String.format("%d %d %d", location[0], location[1], location[2]);
-        return ComponentUtils.getColoredComponent(str, NamedTextColor.BLUE);
+        return ComponentUtils.create(str, NamedTextColor.BLUE);
     }
 
     private int[] getPrimitiveLocation(Location location) {
@@ -103,10 +103,10 @@ public class DeathCertificate extends CustomItemBlueprint implements Listener, S
 
         return List.of(
                 Component.empty(),
-                ComponentUtils.getColoredComponent(playerName, NamedTextColor.AQUA).append(ComponentUtils.getDefaultText(" died in ")).append(getEnvironmentComponent(environment)),
-                ComponentUtils.getDefaultText("Coordinates: ").append(getCoordinatesComponent(location)),
+                ComponentUtils.create(playerName, NamedTextColor.AQUA).append(ComponentUtils.create(" died in ")).append(getEnvironmentComponent(environment)),
+                ComponentUtils.create("Coordinates: ").append(getCoordinatesComponent(location)),
                 Component.empty(),
-                ComponentUtils.getColoredComponent("Death occurred at: " + dateString + "EST", NamedTextColor.DARK_GRAY)
+                ComponentUtils.create("Death occurred at: " + dateString + "EST", NamedTextColor.DARK_GRAY)
         );
     }
 

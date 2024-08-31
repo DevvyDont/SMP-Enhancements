@@ -33,7 +33,7 @@ public class StingingReforge extends ReforgeBase {
     @Override
     public List<Component> getDescription() {
         return List.of(
-                ComponentUtils.getDefaultText("Provides a moderate damage boost")
+                ComponentUtils.create("Provides a moderate damage boost")
         );
     }
 

@@ -47,7 +47,7 @@ public class ProgressiveAttributeReward extends SkillReward {
         String perc = operation == AttributeModifier.Operation.ADD_NUMBER ? "" : "%";
         String old = "+" + (getTotalAddition() - getPerLevelAddition()) + perc;
         String _new = "+" + getTotalAddition() + perc;
-        return ComponentUtils.getDefaultText(attribute.getCleanName() + " ").append(ComponentUtils.getUpgradeComponent(old, _new, NamedTextColor.GREEN));
+        return ComponentUtils.create(attribute.getCleanName() + " ").append(ComponentUtils.getUpgradeComponent(old, _new, NamedTextColor.GREEN));
     }
 
     /**

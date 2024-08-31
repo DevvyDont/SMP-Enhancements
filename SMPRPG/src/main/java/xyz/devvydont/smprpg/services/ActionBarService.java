@@ -86,18 +86,18 @@ public class ActionBarService implements BaseService, Listener {
         int hp = (int) Math.ceil(leveledPlayer.getTotalHp());
         int maxHP = (int) leveledPlayer.getMaxHp();
         TextColor color = LeveledEntity.getChatColorFromHealth(hp, maxHP);
-        return ComponentUtils.getColoredComponent(hp + "", color)
-                .append(ComponentUtils.getDefaultText("/"))
-                .append(ComponentUtils.getColoredComponent(maxHP + "", NamedTextColor.GREEN))
-                .append(ComponentUtils.getColoredComponent(Symbols.HEART, NamedTextColor.RED));
+        return ComponentUtils.create(hp + "", color)
+                .append(ComponentUtils.create("/"))
+                .append(ComponentUtils.create(maxHP + "", NamedTextColor.GREEN))
+                .append(ComponentUtils.create(Symbols.HEART, NamedTextColor.RED));
     }
 
     private Component getDefenseComponent(final Player player) {
 
         // We need to calculate defense since it is not storable on the player
         int def = plugin.getEntityService().getPlayerInstance(player).getDefense();
-        return ComponentUtils.getColoredComponent(def + "", NamedTextColor.DARK_GREEN)
-                .append(ComponentUtils.getColoredComponent(Symbols.SHIELD, NamedTextColor.GRAY));
+        return ComponentUtils.create(def + "", NamedTextColor.DARK_GREEN)
+                .append(ComponentUtils.create(Symbols.SHIELD, NamedTextColor.GRAY));
 
     }
 

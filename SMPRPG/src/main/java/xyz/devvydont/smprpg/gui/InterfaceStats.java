@@ -166,17 +166,17 @@ public class InterfaceStats extends PrivateInterface {
         display.add(Component.empty());
         for (SkillInstance skill : player.getSkills())
             display.add(
-                    ComponentUtils.getColoredComponent(skill.getType().getDisplayName() + " " + skill.getLevel(), NamedTextColor.AQUA)
-                            .append(ComponentUtils.getDefaultText(" - "))
-                            .append(ComponentUtils.getColoredComponent(MinecraftStringUtils.formatNumber(skill.getExperienceProgress()), NamedTextColor.GREEN))
-                            .append(ComponentUtils.getDefaultText("/"))
-                            .append(ComponentUtils.getColoredComponent(MinecraftStringUtils.formatNumber(skill.getNextExperienceThreshold()), NamedTextColor.GOLD))
-                            .append(ComponentUtils.getDefaultText(" ("))
-                            .append(ComponentUtils.getColoredComponent(MinecraftStringUtils.formatNumber(skill.getExperience()) + "XP", NamedTextColor.DARK_GRAY))
-                            .append(ComponentUtils.getDefaultText(")"))
+                    ComponentUtils.create(skill.getType().getDisplayName() + " " + skill.getLevel(), NamedTextColor.AQUA)
+                            .append(ComponentUtils.create(" - "))
+                            .append(ComponentUtils.create(MinecraftStringUtils.formatNumber(skill.getExperienceProgress()), NamedTextColor.GREEN))
+                            .append(ComponentUtils.create("/"))
+                            .append(ComponentUtils.create(MinecraftStringUtils.formatNumber(skill.getNextExperienceThreshold()), NamedTextColor.GOLD))
+                            .append(ComponentUtils.create(" ("))
+                            .append(ComponentUtils.create(MinecraftStringUtils.formatNumber(skill.getExperience()) + "XP", NamedTextColor.DARK_GRAY))
+                            .append(ComponentUtils.create(")"))
             );
         display.add(Component.empty());
-        display.add(ComponentUtils.getDefaultText("Skill Average: ").append(ComponentUtils.getColoredComponent(String.format("%.2f", player.getAverageSkillLevel()), NamedTextColor.GOLD)));
+        display.add(ComponentUtils.create("Skill Average: ").append(ComponentUtils.create(String.format("%.2f", player.getAverageSkillLevel()), NamedTextColor.GOLD)));
         return display;
     }
 
@@ -191,7 +191,7 @@ public class InterfaceStats extends PrivateInterface {
         if (getViewing() instanceof Player player)
             lore.addAll(getSkillDisplay(plugin.getEntityService().getPlayerInstance(player)));
         else
-            lore.add(ComponentUtils.getColoredComponent("Only players have skills!", NamedTextColor.RED));
+            lore.add(ComponentUtils.create("Only players have skills!", NamedTextColor.RED));
         meta.lore(ComponentUtils.cleanItalics(lore));
         paper.setItemMeta(meta);
         return paper;

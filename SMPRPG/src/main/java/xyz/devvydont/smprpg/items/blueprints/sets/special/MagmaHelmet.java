@@ -48,7 +48,7 @@ public class MagmaHelmet extends CustomTexturedAttributeHelmetBlueprint implemen
         List<Component> components = new ArrayList<>(super.getDescriptionComponent(meta));
         components.add(Component.empty());
         components.add(AbilityUtil.getAbilityComponent("Heat Proof (Passive)"));
-        components.add(ComponentUtils.getDefaultText("Grants immunity to ").append(ComponentUtils.getColoredComponent(Symbols.FIRE + "fire based", NamedTextColor.RED)).append(ComponentUtils.getDefaultText(" damage")));
+        components.add(ComponentUtils.create("Grants immunity to ").append(ComponentUtils.create(Symbols.FIRE + "fire based", NamedTextColor.RED)).append(ComponentUtils.create(" damage")));
         return components;
     }
 

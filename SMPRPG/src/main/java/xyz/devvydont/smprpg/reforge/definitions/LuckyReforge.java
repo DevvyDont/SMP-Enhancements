@@ -29,7 +29,7 @@ public class LuckyReforge extends ReforgeBase {
     @Override
     public List<Component> getDescription() {
         return List.of(
-                ComponentUtils.getDefaultText("Slightly boosts luck")
+                ComponentUtils.create("Slightly boosts luck")
         );
     }
 

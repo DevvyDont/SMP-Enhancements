@@ -129,7 +129,7 @@ public class LootTableMember implements LootSource {
      */
     @Override
     public Component getAsComponent() {
-        return ComponentUtils.getDefaultText("looting a ").append(ComponentUtils.getColoredComponent("chest!", NamedTextColor.GOLD));
+        return ComponentUtils.create("looting a ").append(ComponentUtils.create("chest!", NamedTextColor.GOLD));
     }
 
 }

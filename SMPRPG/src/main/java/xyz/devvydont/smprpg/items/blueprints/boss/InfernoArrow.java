@@ -63,8 +63,8 @@ public class InfernoArrow extends CustomItemBlueprint implements Sellable, Liste
 
     public List<Component> getDescriptionComponent(ItemMeta meta) {
 
-        Component bossName = ComponentUtils.getColoredComponent("Infernal Phoenix", NamedTextColor.DARK_PURPLE);
-        Component instructions = ComponentUtils.getColoredComponent("shot in lava", NamedTextColor.GOLD);
+        Component bossName = ComponentUtils.create("Infernal Phoenix", NamedTextColor.DARK_PURPLE);
+        Component instructions = ComponentUtils.create("shot in lava", NamedTextColor.GOLD);
         // If boss spawns aren't enabled, obfuscate the instructions
         if (!ALLOW_SPAWNING){
             bossName = bossName.decorate(TextDecoration.OBFUSCATED);
@@ -72,12 +72,12 @@ public class InfernoArrow extends CustomItemBlueprint implements Sellable, Liste
         }
 
         List<Component> components = new ArrayList<>(super.getDescriptionComponent(meta));
-        components.add(ComponentUtils.getDefaultText("Used to summon an ")
+        components.add(ComponentUtils.create("Used to summon an ")
                 .append(bossName));
-        components.add(ComponentUtils.getDefaultText("when ")
+        components.add(ComponentUtils.create("when ")
                 .append(instructions)
-                .append(ComponentUtils.getDefaultText(" in the "))
-                .append(ComponentUtils.getColoredComponent("Nether", NamedTextColor.RED)));
+                .append(ComponentUtils.create(" in the "))
+                .append(ComponentUtils.create("Nether", NamedTextColor.RED)));
         return components;
     }
 
@@ -219,9 +219,9 @@ public class InfernoArrow extends CustomItemBlueprint implements Sellable, Liste
         String playername = SMPRPG.getInstance().getChatService().getPlayerDisplayname(player);
         Bukkit.broadcast(
                 ComponentUtils.getGenericMessage(Component.text(playername)
-                                .append(ComponentUtils.getDefaultText(" summoned an ")))
+                                .append(ComponentUtils.create(" summoned an ")))
                         .append(boss.getDisplaynameNametagComponent())
-                        .append(ComponentUtils.getDefaultText("!"))
+                        .append(ComponentUtils.create("!"))
         );
 
         for (int i = 0; i < 5; i++)

@@ -49,15 +49,15 @@ public class LegacyItemBlueprint extends CustomItemBlueprint {
     @Override
     public List<Component> getDescriptionComponent(ItemMeta meta) {
         return List.of(
-                ComponentUtils.getDefaultText("This item is considered legacy."),
+                ComponentUtils.create("This item is considered legacy."),
                 Component.empty(),
-                ComponentUtils.getDefaultText("The item type tag key has either"),
-                ComponentUtils.getDefaultText("been removed or changed, meaning"),
-                ComponentUtils.getDefaultText("this item does not know what it is"),
-                ComponentUtils.getDefaultText("anymore. If you believe this is an"),
-                ComponentUtils.getDefaultText("error, contact a server admin."),
+                ComponentUtils.create("The item type tag key has either"),
+                ComponentUtils.create("been removed or changed, meaning"),
+                ComponentUtils.create("this item does not know what it is"),
+                ComponentUtils.create("anymore. If you believe this is an"),
+                ComponentUtils.create("error, contact a server admin."),
                 Component.empty(),
-                ComponentUtils.getDefaultText("Item Key: ").append(ComponentUtils.getColoredComponent(resolveItemName(meta), NamedTextColor.GREEN))
+                ComponentUtils.create("Item Key: ").append(ComponentUtils.create(resolveItemName(meta), NamedTextColor.GREEN))
         );
     }
 

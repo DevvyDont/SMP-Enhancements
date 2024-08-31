@@ -45,8 +45,8 @@ public abstract class ReaverArmorSet extends CustomArmorBlueprint implements Too
         List<Component> components = new ArrayList<>(super.getDescriptionComponent(meta));
         components.add(Component.empty());
         components.add(AbilityUtil.getAbilityComponent("Necrotic (Passive)"));
-        components.add(ComponentUtils.getDefaultText("Resists ").append(ComponentUtils.getColoredComponent("-" + getWitherResistance() + "%", NamedTextColor.GREEN)).append(ComponentUtils.getDefaultText(" of wither damage")));
-        components.add(ComponentUtils.getColoredComponent("(stacks multiplicatively)", NamedTextColor.DARK_GRAY));
+        components.add(ComponentUtils.create("Resists ").append(ComponentUtils.create("-" + getWitherResistance() + "%", NamedTextColor.GREEN)).append(ComponentUtils.create(" of wither damage")));
+        components.add(ComponentUtils.create("(stacks multiplicatively)", NamedTextColor.DARK_GRAY));
         return components;
     }
 
