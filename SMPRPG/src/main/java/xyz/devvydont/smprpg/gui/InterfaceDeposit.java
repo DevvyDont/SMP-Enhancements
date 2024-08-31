@@ -48,10 +48,10 @@ public class InterfaceDeposit extends PrivateInterface {
             return;
 
         plugin.getEconomyService().addMoney(owner, value);
-        owner.sendMessage(ComponentUtils.getSuccessMessage(String.format("You sold %s worth of items!", EconomyService.formatMoney(value))));
+        owner.sendMessage(ComponentUtils.success(String.format("You sold %s worth of items!", EconomyService.formatMoney(value))));
         Component balMessage = Component.text("Your balance is now ").color(NamedTextColor.GRAY)
                 .append(Component.text(plugin.getEconomyService().formatMoney(owner)).color(NamedTextColor.GOLD));
-        owner.sendMessage(ComponentUtils.getGenericMessage(balMessage));
+        owner.sendMessage(ComponentUtils.alert(balMessage));
         owner.playSound(owner.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1f, 2f);
     }
 

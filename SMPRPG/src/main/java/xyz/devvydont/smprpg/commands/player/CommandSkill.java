@@ -32,7 +32,7 @@ public class CommandSkill extends CommandBase {
             inst.addExperience(targetExp - inst.getExperience(), SkillExperienceGainEvent.ExperienceSource.UNKNOWN);
         else
             inst.setExperience(targetExp);
-        player.getPlayer().sendMessage(ComponentUtils.getSuccessMessage("Set your " + skill.getDisplayName() + " skill to level " + inst.getLevel()));
+        player.getPlayer().sendMessage(ComponentUtils.success("Set your " + skill.getDisplayName() + " skill to level " + inst.getLevel()));
     }
 
     private List<Component> getSkillDisplay(LeveledPlayer player) {
@@ -75,7 +75,7 @@ public class CommandSkill extends CommandBase {
             if (strings[0].toLowerCase().equalsIgnoreCase("reset")) {
                 for (SkillInstance skill : player.getSkills())
                     skill.setExperience(0);
-                player.getPlayer().sendMessage(ComponentUtils.getSuccessMessage("Reset all of your skills!"));
+                player.getPlayer().sendMessage(ComponentUtils.success("Reset all of your skills!"));
                 SMPRPG.getInstance().getSkillService().syncSkillAttributes(player);
             }
         }
@@ -96,10 +96,10 @@ public class CommandSkill extends CommandBase {
 
                 SMPRPG.getInstance().getSkillService().syncSkillAttributes(player);
             } catch (NumberFormatException ignored) {
-                p.sendMessage(ComponentUtils.getErrorMessage("Invalid level provided. Please provide an actual number"));
+                p.sendMessage(ComponentUtils.error("Invalid level provided. Please provide an actual number"));
                 return;
             } catch (IllegalArgumentException ignored) {
-                p.sendMessage(ComponentUtils.getErrorMessage("Invalid argument provided. Please provide skill type then a level to set it to"));
+                p.sendMessage(ComponentUtils.error("Invalid argument provided. Please provide skill type then a level to set it to"));
                 return;
             }
 

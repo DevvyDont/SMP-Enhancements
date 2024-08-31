@@ -41,7 +41,7 @@ public class InterfaceWithdrawal extends PrivateInterface {
         // Can we not afford even one of these coins?
         int balance = plugin.getEconomyService().getMoney(owner);
         if (coin.getWorth() > balance) {
-            owner.sendMessage(ComponentUtils.getErrorMessage("You cannot afford to withdrawal this coin."));
+            owner.sendMessage(ComponentUtils.error("You cannot afford to withdrawal this coin."));
             owner.playSound(owner.getLocation(), Sound.ENTITY_VILLAGER_NO, 1f, 1f);
             return;
         }
@@ -58,7 +58,7 @@ public class InterfaceWithdrawal extends PrivateInterface {
 
         // I don't think this can ever happen but just in case we somehow underflow
         if (actualStackSize <= 0) {
-            owner.sendMessage(ComponentUtils.getErrorMessage("It seems you can no longer afford this coin."));
+            owner.sendMessage(ComponentUtils.error("It seems you can no longer afford this coin."));
             owner.playSound(owner.getLocation(), Sound.ENTITY_VILLAGER_NO, 1f, 1f);
             return;
         }
@@ -66,7 +66,7 @@ public class InterfaceWithdrawal extends PrivateInterface {
         // Take the money out and tell them
         boolean success = plugin.getEconomyService().takeMoney(owner, toTakeOut);
         if (!success) {
-            owner.sendMessage(ComponentUtils.getErrorMessage("Something went wrong. Transaction was canceled."));
+            owner.sendMessage(ComponentUtils.error("Something went wrong. Transaction was canceled."));
             owner.playSound(owner.getLocation(), Sound.ENTITY_VILLAGER_NO, 1f, 1f);
             return;
         }
@@ -77,10 +77,10 @@ public class InterfaceWithdrawal extends PrivateInterface {
         givePlayerItem(itemDrop);
 
         // Tell them it was successful
-        owner.sendMessage(ComponentUtils.getSuccessMessage(String.format("Withdrew %d coins from your account!", toTakeOut)));
+        owner.sendMessage(ComponentUtils.success(String.format("Withdrew %d coins from your account!", toTakeOut)));
         Component balMessage = Component.text("Your balance is now ").color(NamedTextColor.GRAY)
                 .append(Component.text(plugin.getEconomyService().formatMoney(owner)).color(NamedTextColor.GOLD));
-        owner.sendMessage(ComponentUtils.getGenericMessage(balMessage));
+        owner.sendMessage(ComponentUtils.alert(balMessage));
         owner.playSound(owner.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1f, 2f);
     }
 

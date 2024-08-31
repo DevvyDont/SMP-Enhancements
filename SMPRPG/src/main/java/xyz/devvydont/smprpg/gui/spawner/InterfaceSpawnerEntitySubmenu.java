@@ -55,7 +55,7 @@ public class InterfaceSpawnerEntitySubmenu extends PrivateInterface {
                 continue;
 
             if (position > limit) {
-                owner.sendMessage(ComponentUtils.getErrorMessage("Could not display all entities. Yell at dev to stop being lazy and paginate this GUI!"));
+                owner.sendMessage(ComponentUtils.error("Could not display all entities. Yell at dev to stop being lazy and paginate this GUI!"));
                 break;
             }
 

@@ -25,21 +25,21 @@ public class CommandStatistics extends CommandBase {
         CommandSender commandSender = commandSourceStack.getSender();
 
         if (!(commandSender instanceof Player player)) {
-            commandSender.sendMessage(ComponentUtils.getErrorMessage("You cannot do that as the console!"));
+            commandSender.sendMessage(ComponentUtils.error("You cannot do that as the console!"));
             return;
         }
 
         if (strings.length >= 1) {
             player = Bukkit.getPlayer(strings[0]);
             if (player == null) {
-                commandSender.sendMessage(ComponentUtils.getErrorMessage(String.format("Could not find online player with name %s!", strings[0])));
+                commandSender.sendMessage(ComponentUtils.error(String.format("Could not find online player with name %s!", strings[0])));
                 return;
             }
         }
 
         InterfaceStats gui = new InterfaceStats(SMPRPG.getInstance(), (Player) commandSender, player);
         gui.open();
-        commandSender.sendMessage(ComponentUtils.getSuccessMessage("Opened statistics!"));
+        commandSender.sendMessage(ComponentUtils.success("Opened statistics!"));
     }
 
     @Override

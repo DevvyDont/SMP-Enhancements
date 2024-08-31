@@ -52,7 +52,7 @@ public class SpawnerEditorBlueprint extends CustomItemBlueprint implements Liste
         event.setCancelled(true);
 
         if (!event.getPlayer().isOp()){
-            event.getPlayer().sendMessage(ComponentUtils.getErrorMessage("You must be a server operator to utilize this item as it is a dangerous admin item!"));
+            event.getPlayer().sendMessage(ComponentUtils.error("You must be a server operator to utilize this item as it is a dangerous admin item!"));
             return;
         }
 
@@ -63,18 +63,18 @@ public class SpawnerEditorBlueprint extends CustomItemBlueprint implements Liste
                 nearbySpawners.add(spawner);
 
         if (nearbySpawners.isEmpty()) {
-            event.getPlayer().sendMessage(ComponentUtils.getErrorMessage("Did not detect any spawners near you! Get closer to one and try again :3"));
+            event.getPlayer().sendMessage(ComponentUtils.error("Did not detect any spawners near you! Get closer to one and try again :3"));
             return;
         }
 
         if (nearbySpawners.size() > 1) {
-            event.getPlayer().sendMessage(ComponentUtils.getErrorMessage("Detected too many spawners near you! Try to limit the spawners you are close to!"));
+            event.getPlayer().sendMessage(ComponentUtils.error("Detected too many spawners near you! Try to limit the spawners you are close to!"));
             return;
         }
 
         EntitySpawner spawner = nearbySpawners.getFirst();
 
         new InterfaceSpawnerMainMenu(SMPRPG.getInstance(), event.getPlayer(), spawner).open();
-        event.getPlayer().sendMessage(ComponentUtils.getSuccessMessage("Now editing the spawner you were looking at!"));
+        event.getPlayer().sendMessage(ComponentUtils.success("Now editing the spawner you were looking at!"));
     }
 }

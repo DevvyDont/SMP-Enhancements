@@ -71,7 +71,7 @@ public class DimensionPortalLockingListener implements Listener {
             return;
 
         messageCooldown.put(player.getPlayer().getUniqueId(), now + MESSAGE_COOLDOWN);
-        player.getPlayer().sendMessage(ComponentUtils.getErrorMessage("You must have a Skill Average of " + requirement + " to enter the " + dimension + " dimension! You can check your progress by using /skill"));
+        player.getPlayer().sendMessage(ComponentUtils.error("You must have a Skill Average of " + requirement + " to enter the " + dimension + " dimension! You can check your progress by using /skill"));
     }
 
     private void sendTimeDiffMessage(Entity entity, String dimension, Date lockedUntil) {
@@ -89,7 +89,7 @@ public class DimensionPortalLockingListener implements Listener {
         messageCooldown.put(entity.getUniqueId(), now + MESSAGE_COOLDOWN);
         long diff = lockedUntil.getTime() - new Date().getTime();
         Component timeDiff = Component.text(formatTimeDifference(Duration.of(diff, ChronoUnit.MILLIS)), NamedTextColor.DARK_RED);
-        entity.sendMessage(ComponentUtils.getErrorMessage("You cannot enter the " + dimension + " dimension for another ").append(timeDiff));
+        entity.sendMessage(ComponentUtils.error("You cannot enter the " + dimension + " dimension for another ").append(timeDiff));
     }
 
     @EventHandler

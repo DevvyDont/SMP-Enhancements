@@ -26,7 +26,7 @@ public class CommandDeposit extends CommandBase {
         CommandSender commandSender = commandSourceStack.getSender();
 
         if (!(commandSender instanceof Player)) {
-            commandSender.sendMessage(ComponentUtils.getErrorMessage("You are the console! You cannot do this!"));
+            commandSender.sendMessage(ComponentUtils.error("You are the console! You cannot do this!"));
             return;
         }
 
@@ -35,7 +35,7 @@ public class CommandDeposit extends CommandBase {
         InterfaceDeposit gui = new InterfaceDeposit(SMPRPG.getInstance(), player);
         gui.open();
 
-        player.sendMessage(ComponentUtils.getSuccessMessage("Success!"));
+        player.sendMessage(ComponentUtils.success("Success!"));
     }
 
     @Override

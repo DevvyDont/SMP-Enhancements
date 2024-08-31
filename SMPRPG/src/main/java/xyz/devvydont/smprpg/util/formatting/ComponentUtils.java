@@ -45,46 +45,116 @@ public final class ComponentUtils {
         return Component.text(text, Style.style(color, decorations));
     }
 
-    // ---------------
-    //   To Refactor
-    // ---------------
+    /**
+     * Merges a collection of component into a single component.
+     *
+     * @param components The components to merge together.
+     * @return The result of the merge.
+     */
+    public static Component merge(Component... components) {
+        var noComponentsProvided = components.length == 0;
+        if (noComponentsProvided) {
+            return Component.empty();
+        }
+
+        var oneComponentProvided = components.length == 1;
+        if (oneComponentProvided) {
+            return components[0];
+        }
+
+        var outputComponent = components[0];
+        for (int i = 1; i < components.length; i++) {
+            outputComponent = outputComponent.append(components[i]);
+        }
+        return outputComponent;
+    }
+
+    // -----------
+    //   Presets
+    // -----------
 
     /**
-     * [!]
+     * Creates a text component that's styled like an alert message.
      *
-     * @return
+     * @param message A message alerting the user about something.
+     * @return The styled text component.
      */
-    public static Component getAlertPrefix(TextColor color) {
-        return Component.text("[").color(TEXT_DEFAULT)
-                .append(Component.text("!").color(color))
-                .append(Component.text("] ").color(TEXT_DEFAULT));
+    public static TextComponent alert(String message) {
+        return alert(create(message));
     }
 
     /**
-     * Gets an alert message like: [!] blahblahblah
+     * Creates a text component that's styled like an alert message.
      *
-     * @param message
-     * @param alertColor
-     * @return
+     * @param message A message alerting the user about something.
+     * @param prefixColor The color of the alert prefix.
+     * @return The styled text component.
      */
-    public static Component getAlertMessage(Component message, TextColor alertColor) {
-        return getAlertPrefix(alertColor).append(message);
+    public static TextComponent alert(String message, TextColor prefixColor) {
+        return alert(create(message), prefixColor);
     }
 
     /**
-     * Gets an alert message like: [!] blahblahblah
-     * with the option of providing in a color for the entire message string
+     * Creates a text component that's styled like an alert message.
      *
-     * @param message
-     * @param alertColor
-     * @param textColor
-     * @return
+     * @param message A message alerting the user about something.
+     * @param prefixColor The color of the alert prefix.
+     * @param textColor The color of the alert text.
+     * @return The styled text component.
      */
-    public static Component getAlertMessage(Component message, TextColor alertColor, TextColor textColor) {
-        return getAlertPrefix(alertColor).append(message.color(textColor));
+    public static TextComponent alert(String message, TextColor prefixColor, TextColor textColor) {
+        return alert(create(message, textColor), prefixColor);
     }
 
+    /**
+     * Creates a text component that's styled like an alert message.
+     *
+     * @param message A message alerting the user about something.
+     * @return The styled text component.
+     */
+    public static TextComponent alert(Component message) {
+        return alert(message, TEXT_DEFAULT);
+    }
 
+    /**
+     * Creates a text component that's styled like an alert message.
+     *
+     * @param message A message alerting the user about something.
+     * @param prefixColor The color of the alert prefix.
+     * @return The styled text component.
+     */
+    public static TextComponent alert(Component message, TextColor prefixColor) {
+        return EMPTY
+                .append(BRACKET_LEFT)
+                .append(create("! ", prefixColor))
+                .append(BRACKET_RIGHT)
+                .append(SPACE)
+                .append(message);
+    }
+
+    /**
+     * Creates a text component that's styled like a success message.
+     *
+     * @param text A message explaining the success.
+     * @return The styled text component.
+     */
+    public static Component success(String text) {
+        return alert(text, NamedTextColor.DARK_GREEN, NamedTextColor.GREEN);
+    }
+
+    /**
+     * Creates a text component that's styled like an error message.
+     *
+     * @param text A message explaining the failure.
+     * @return The styled text component.
+     */
+    public static Component error(String text) {
+        return alert(text, NamedTextColor.DARK_RED, NamedTextColor.RED);
+    }
+
+    // -------------
+    //  To Refactor
+    // -------------
 
 
 
@@ -97,44 +167,11 @@ public final class ComponentUtils {
         return old.append(Component.text(Symbols.RIGHT_ARROW)).color(NamedTextColor.DARK_GRAY).append(_new);
     }
 
-    public static Component getPrefix(char symbol, TextColor color) {
-        return Component.text("[").color(NamedTextColor.GRAY)
-                .append(Component.text(symbol).color(color))
-                .append(Component.text("] ").color(NamedTextColor.GRAY));
-    }
 
-    /**
-     * Translates a generic error message from commands into a chat component formatted correctly
-     *
-     * @param text
-     * @return
-     */
-    public static Component getErrorMessage(String text) {
-        return getPrefix('!', NamedTextColor.DARK_RED)
-                .append(Component.text(text).color(NamedTextColor.RED));
-    }
 
-    /**
-     * Translates a generic success message from commands into a chat component formatted correctly
-     *
-     * @param text
-     * @return
-     */
-    public static Component getSuccessMessage(String text) {
-        return getPrefix('!', NamedTextColor.DARK_GREEN)
-                .append(Component.text(text).color(NamedTextColor.GREEN));
-    }
 
-    /**
-     * Given a component, add a prefix. Mainly used for command responses or plugin alerts
-     *
-     * @param component
-     * @return
-     */
-    public static Component getGenericMessage(Component component) {
-        return getPrefix('!', NamedTextColor.YELLOW)
-                .append(component);
-    }
+
+
 
     public static List<Component> cleanItalics(Collection<Component> components) {
 

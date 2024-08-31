@@ -32,7 +32,7 @@ public class CommandBalanceTop extends CommandBase {
 
         CommandSender commandSender = commandSourceStack.getSender();
 
-        commandSender.sendMessage(ComponentUtils.getGenericMessage(Component.text("Querying users...").color(NamedTextColor.GRAY)));
+        commandSender.sendMessage(ComponentUtils.alert(Component.text("Querying users...").color(NamedTextColor.GRAY)));
 
         new BukkitRunnable(){
 

@@ -184,7 +184,7 @@ public abstract class BossInstance extends EnemyEntity implements Listener {
             player.setHealth(0);
         }
 
-        Bukkit.broadcast(ComponentUtils.getGenericMessage(
+        Bukkit.broadcast(ComponentUtils.alert(
                 ComponentUtils.create("The "))
                 .append(generateNametagComponent()).append(getDisplaynameNametagComponent())
                 .append(ComponentUtils.create(" has reigned victorious and wiped out those who challenged it."))

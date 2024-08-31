@@ -22,7 +22,7 @@ public class CommandWithdrawal extends CommandBase {
         CommandSender commandSender = commandSourceStack.getSender();
 
         if (!(commandSender instanceof Player)) {
-            commandSender.sendMessage(ComponentUtils.getErrorMessage("You are the console! You cannot do this!"));
+            commandSender.sendMessage(ComponentUtils.error("You are the console! You cannot do this!"));
             return;
         }
 
@@ -31,6 +31,6 @@ public class CommandWithdrawal extends CommandBase {
         InterfaceWithdrawal gui = new InterfaceWithdrawal(SMPRPG.getInstance(), player);
         gui.open();
 
-        player.sendMessage(ComponentUtils.getSuccessMessage("Success!"));
+        player.sendMessage(ComponentUtils.success("Success!"));
     }
 }

@@ -153,7 +153,7 @@ public class InfernoSaber extends CustomAttributeItem implements Listener, Craft
 
         // Do we have the health to use this?
         if (!canUse(event.getPlayer())) {
-            event.getPlayer().sendMessage(ComponentUtils.getErrorMessage("You do not have enough life in you to use this item!"));
+            event.getPlayer().sendMessage(ComponentUtils.error("You do not have enough life in you to use this item!"));
             return;
         }
 

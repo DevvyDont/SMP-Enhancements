@@ -59,7 +59,7 @@ public class InterfaceReforge extends PrivateInterface {
         SMPRPG.getInstance().getEconomyService().takeMoney(owner, cost);
         Component taken = ComponentUtils.create(EconomyService.formatMoney(cost), NamedTextColor.GOLD);
         Component bal = ComponentUtils.create(EconomyService.formatMoney(getBalance()), NamedTextColor.GOLD);
-        owner.sendMessage(ComponentUtils.getGenericMessage(
+        owner.sendMessage(ComponentUtils.alert(
                 taken.append(ComponentUtils.create(" has been taken from your account. Your balance is now ")).append(bal)
         ));
     }

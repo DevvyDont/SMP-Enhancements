@@ -509,7 +509,10 @@ public class DropsService implements BaseService, Listener {
 
         SMPItemBlueprint blueprint = plugin.getItemService().getBlueprint(event.getItem());
         ItemRarity rarityOfDrop = blueprint.getRarity(event.getItem());
-        Component prefix = ComponentUtils.getAlertMessage(Component.text(rarityOfDrop.name() + " DROP!!! ").decorate(TextDecoration.BOLD), NamedTextColor.YELLOW, rarityOfDrop.color);
+        Component prefix = ComponentUtils.alert(
+                ComponentUtils.create(rarityOfDrop.name() + " DROP!!! ", rarityOfDrop.color, TextDecoration.BOLD),
+                NamedTextColor.YELLOW
+        );
         Component player = ComponentUtils.create(event.getPlayer().getName(), NamedTextColor.AQUA);
         Component item = event.getItem().displayName().hoverEvent(event.getItem().asHoverEvent());
         Component suffix = ComponentUtils.create(" found ").append(item).append(ComponentUtils.create(" from ")).append(event.getSource().getAsComponent()).append(ComponentUtils.create("!"));

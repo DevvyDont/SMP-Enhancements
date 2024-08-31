@@ -110,12 +110,12 @@ public class NeptunesConch extends CustomItemBlueprint implements Listener, Craf
         if (!isItemOfType(consumedItem))
             return;
 
-        Component refused = ComponentUtils.getErrorMessage("Neptune refused your call!");
+        Component refused = ComponentUtils.error("Neptune refused your call!");
 
         // A player consumed the conch. Are they underwater?
         if (!event.getPlayer().isUnderWater()) {
             event.getPlayer().sendMessage(refused);
-            event.getPlayer().sendMessage(ComponentUtils.getGenericMessage(
+            event.getPlayer().sendMessage(ComponentUtils.alert(
                     ComponentUtils.create("You must be")
                             .append(ComponentUtils.create(" underwater", NamedTextColor.BLUE))
                             .append(ComponentUtils.create("!"))
@@ -127,7 +127,7 @@ public class NeptunesConch extends CustomItemBlueprint implements Listener, Craf
         // Are they in a temple?
         if (!isInMonument(event.getPlayer())) {
             event.getPlayer().sendMessage(refused);
-            event.getPlayer().sendMessage(ComponentUtils.getGenericMessage(
+            event.getPlayer().sendMessage(ComponentUtils.alert(
                     ComponentUtils.create("You must be inside an")
                             .append(ComponentUtils.create(" Ocean Monument", NamedTextColor.AQUA))
                             .append(ComponentUtils.create("!"))
@@ -140,7 +140,7 @@ public class NeptunesConch extends CustomItemBlueprint implements Listener, Craf
         event.getPlayer().getWorld().playSound(event.getPlayer().getLocation(), Sound.ENTITY_ELDER_GUARDIAN_CURSE, 1, 1);
         String playername = SMPRPG.getInstance().getChatService().getPlayerDisplayname(event.getPlayer());
         Bukkit.broadcast(
-                ComponentUtils.getGenericMessage(Component.text(playername)
+                ComponentUtils.alert(Component.text(playername)
                         .append(ComponentUtils.create(" summoned an ")))
                         .append(ComponentUtils.create("Elder Guardian", NamedTextColor.DARK_PURPLE))
                         .append(ComponentUtils.create("!"))

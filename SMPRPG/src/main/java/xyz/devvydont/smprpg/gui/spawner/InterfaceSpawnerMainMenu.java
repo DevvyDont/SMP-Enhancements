@@ -53,7 +53,7 @@ public class InterfaceSpawnerMainMenu extends PrivateInterface {
             public void handleClick(InterfaceSpawnerMainMenu gui, Player player, ClickType clickType) {
                 gui.getSpawner().getEntity().remove();
                 player.closeInventory();
-                player.sendMessage(ComponentUtils.getSuccessMessage("Successfully deleted spawner!"));
+                player.sendMessage(ComponentUtils.success("Successfully deleted spawner!"));
             }
         };
 

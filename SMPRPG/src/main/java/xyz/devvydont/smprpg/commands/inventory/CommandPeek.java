@@ -23,18 +23,18 @@ public class CommandPeek extends CommandBase {
             return;
 
         if (args.length == 0) {
-            sender.sendMessage(ComponentUtils.getErrorMessage("Please specify a player you want to peek!"));
+            sender.sendMessage(ComponentUtils.error("Please specify a player you want to peek!"));
             return;
         }
 
         String name = args[0];
         player = Bukkit.getPlayer(name);
         if (player == null) {
-            sender.sendMessage(ComponentUtils.getErrorMessage("Could not find player with the name " + name + ". Please try again"));
+            sender.sendMessage(ComponentUtils.error("Could not find player with the name " + name + ". Please try again"));
             return;
         }
 
-        sender.sendMessage(ComponentUtils.getSuccessMessage("You are now peeking into " + player.getName() + "'s inventory!"));
+        sender.sendMessage(ComponentUtils.success("You are now peeking into " + player.getName() + "'s inventory!"));
         var gui = new InterfaceInventoryPeek(SMPRPG.getInstance(), sender);
         gui.open();
         gui.showPlayer(player);

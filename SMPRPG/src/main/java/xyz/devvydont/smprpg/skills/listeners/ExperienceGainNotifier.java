@@ -35,7 +35,7 @@ public class ExperienceGainNotifier implements Listener {
         String oldLevel = String.valueOf(newLevel-1);
         String newLevelStr = String.valueOf(newLevel);
         player.sendMessage(Component.empty());
-        player.sendMessage(ComponentUtils.getAlertMessage(ComponentUtils.create("SKILL LEVEL UP!!!", NamedTextColor.GOLD).decoration(TextDecoration.BOLD, true), NamedTextColor.AQUA));
+        player.sendMessage(ComponentUtils.alert(ComponentUtils.create("SKILL LEVEL UP!!!", NamedTextColor.GOLD).decoration(TextDecoration.BOLD, true), NamedTextColor.AQUA));
         player.sendMessage(ComponentUtils.create("--------------------------"));
         player.sendMessage(ComponentUtils.create("   " + type.getDisplayName() + " ", NamedTextColor.AQUA).append(ComponentUtils.getUpgradeComponent(oldLevel, newLevelStr, NamedTextColor.AQUA)));
         player.sendMessage(Component.empty());

@@ -35,19 +35,19 @@ public class CommandReforge extends CommandBase {
             try {
                 type = ReforgeType.valueOf(args[0].toUpperCase());
             } catch (IllegalArgumentException e) {
-                player.sendMessage(ComponentUtils.getErrorMessage("Invalid reforge: " + args[0]));
+                player.sendMessage(ComponentUtils.error("Invalid reforge: " + args[0]));
                 return;
             }
 
             ItemStack item = player.getInventory().getItemInMainHand();
             if (item.getType().equals(Material.AIR)) {
-                player.sendMessage(ComponentUtils.getErrorMessage("You are not holding anything!"));
+                player.sendMessage(ComponentUtils.error("You are not holding anything!"));
                 return;
             }
 
             ReforgeBase reforge = SMPRPG.getInstance().getItemService().getReforge(type);
             reforge.apply(item);
-            player.sendMessage(ComponentUtils.getSuccessMessage("Applied the " + type.name() + " reforge!"));
+            player.sendMessage(ComponentUtils.success("Applied the " + type.name() + " reforge!"));
             return;
         }
 

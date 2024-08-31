@@ -198,7 +198,7 @@ public class InfernoArrow extends CustomItemBlueprint implements Sellable, Liste
             drop.setVelocity(arrow.getVelocity().multiply(-1).multiply(ARROW_VELOCITY_BLOCK_DAMPENING));
             arrow.remove();
             if (event.getEntity().getShooter() instanceof Player player)
-                player.sendMessage(ComponentUtils.getErrorMessage(result.getMessage()));
+                player.sendMessage(ComponentUtils.error(result.getMessage()));
             return;
         }
 
@@ -208,7 +208,7 @@ public class InfernoArrow extends CustomItemBlueprint implements Sellable, Liste
 
         LeveledEntity boss = SMPRPG.getInstance().getEntityService().spawnCustomEntity(CustomEntityType.INFERNAL_PHOENIX, arrow.getLocation());
         if (boss == null || !boss.getEntity().isValid()) {
-            player.sendMessage(ComponentUtils.getErrorMessage("Something went wrong and the boss was not spawned."));
+            player.sendMessage(ComponentUtils.error("Something went wrong and the boss was not spawned."));
             return;
         }
 
@@ -218,7 +218,7 @@ public class InfernoArrow extends CustomItemBlueprint implements Sellable, Liste
         player.getWorld().playSound(player.getLocation(), Sound.ENTITY_BLAZE_DEATH, 1, .3f);
         String playername = SMPRPG.getInstance().getChatService().getPlayerDisplayname(player);
         Bukkit.broadcast(
-                ComponentUtils.getGenericMessage(Component.text(playername)
+                ComponentUtils.alert(Component.text(playername)
                                 .append(ComponentUtils.create(" summoned an ")))
                         .append(boss.getDisplaynameNametagComponent())
                         .append(ComponentUtils.create("!"))

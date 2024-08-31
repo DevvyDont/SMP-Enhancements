@@ -35,14 +35,14 @@ public class CommandBalance extends CommandBase {
 
             // If the target still isn't detected, incorrect argument was provided
             if (target == null) {
-                commandSourceStack.getSender().sendMessage(ComponentUtils.getErrorMessage("Could not find player with name " + strings[0]));
+                commandSourceStack.getSender().sendMessage(ComponentUtils.error("Could not find player with name " + strings[0]));
                 return;
             }
         }
 
         // No arguments provided and something that isn't a player is running this command, don't allow this
         else if (!(commandSourceStack.getSender() instanceof Player)) {
-            commandSourceStack.getSender().sendMessage(ComponentUtils.getErrorMessage("You are the console! You have infinite money!"));
+            commandSourceStack.getSender().sendMessage(ComponentUtils.error("You are the console! You have infinite money!"));
             return;
         }
 
@@ -54,7 +54,7 @@ public class CommandBalance extends CommandBase {
         Component reply = Component.text(target.getName()).color(NamedTextColor.AQUA)
                 .append(Component.text("'s balance is ").color(NamedTextColor.GRAY))
                 .append(Component.text(SMPRPG.getInstance().getEconomyService().formatMoney(target)).color(NamedTextColor.GOLD));
-        commandSourceStack.getSender().sendMessage(ComponentUtils.getGenericMessage(reply));
+        commandSourceStack.getSender().sendMessage(ComponentUtils.alert(reply));
     }
 
 }

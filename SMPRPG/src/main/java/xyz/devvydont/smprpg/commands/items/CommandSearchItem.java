@@ -27,7 +27,7 @@ public class CommandSearchItem extends CommandBase {
         CommandSender commandSender = commandSourceStack.getSender();
 
         if (!(commandSender instanceof Player)) {
-            commandSender.sendMessage(ComponentUtils.getErrorMessage("You must be a player to search items!"));
+            commandSender.sendMessage(ComponentUtils.error("You must be a player to search items!"));
             return;
         }
 
@@ -42,7 +42,7 @@ public class CommandSearchItem extends CommandBase {
         if (query.equalsIgnoreCase(""))
             query = "ALL ITEMS";
 
-        commandSender.sendMessage(ComponentUtils.getSuccessMessage("Browsing custom items! Query: " + query));
+        commandSender.sendMessage(ComponentUtils.success("Browsing custom items! Query: " + query));
     }
 
     @Override
