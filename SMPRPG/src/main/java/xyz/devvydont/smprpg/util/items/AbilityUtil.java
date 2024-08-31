@@ -3,7 +3,6 @@ package xyz.devvydont.smprpg.util.items;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
 import xyz.devvydont.smprpg.util.formatting.Symbols;
 
 public class AbilityUtil {

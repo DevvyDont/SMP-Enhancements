@@ -14,7 +14,7 @@ import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeModifierType;
 import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
-import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.Collection;
 import java.util.List;
@@ -36,8 +36,8 @@ public class ClimbingEnchantment extends CustomEnchantment implements AttributeE
 
     @Override
     public @NotNull Component getDescription() {
-        return ComponentUtil.getDefaultText("Increases block step height by ")
-                .append(ComponentUtil.getColoredComponent(String.format("+%d%%", (int)(getStepIncrease(getLevel())*100)), NamedTextColor.GREEN));
+        return ComponentUtils.getDefaultText("Increases block step height by ")
+                .append(ComponentUtils.getColoredComponent(String.format("+%d%%", (int)(getStepIncrease(getLevel())*100)), NamedTextColor.GREEN));
     }
 
     @Override

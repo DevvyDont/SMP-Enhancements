@@ -24,8 +24,7 @@ import xyz.devvydont.smprpg.items.interfaces.Attributeable;
 import xyz.devvydont.smprpg.reforge.ReforgeBase;
 import xyz.devvydont.smprpg.reforge.ReforgeType;
 import xyz.devvydont.smprpg.services.EconomyService;
-import xyz.devvydont.smprpg.util.formatting.ChatUtil;
-import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,10 +57,10 @@ public class InterfaceReforge extends PrivateInterface {
 
     public void spendMoney(int cost) {
         SMPRPG.getInstance().getEconomyService().takeMoney(owner, cost);
-        Component taken = ComponentUtil.getColoredComponent(EconomyService.formatMoney(cost), NamedTextColor.GOLD);
-        Component bal = ComponentUtil.getColoredComponent(EconomyService.formatMoney(getBalance()), NamedTextColor.GOLD);
-        owner.sendMessage(ChatUtil.getGenericMessage(
-                taken.append(ComponentUtil.getDefaultText(" has been taken from your account. Your balance is now ")).append(bal)
+        Component taken = ComponentUtils.getColoredComponent(EconomyService.formatMoney(cost), NamedTextColor.GOLD);
+        Component bal = ComponentUtils.getColoredComponent(EconomyService.formatMoney(getBalance()), NamedTextColor.GOLD);
+        owner.sendMessage(ComponentUtils.getGenericMessage(
+                taken.append(ComponentUtils.getDefaultText(" has been taken from your account. Your balance is now ")).append(bal)
         ));
     }
 
@@ -76,7 +75,7 @@ public class InterfaceReforge extends PrivateInterface {
             lore.add(Component.empty());
             lore.add(Component.text("Input an item to reforge!").color(NamedTextColor.WHITE));
             anvil.editMeta(meta -> {
-                meta.lore(ChatUtil.cleanItalics(lore));
+                meta.lore(ComponentUtils.cleanItalics(lore));
             });
             return anvil;
         }
@@ -88,7 +87,7 @@ public class InterfaceReforge extends PrivateInterface {
             lore.add(Component.empty());
             lore.add(Component.text("This item cannot be reforged!").color(NamedTextColor.RED));
             anvil.editMeta(meta -> {
-                meta.lore(ChatUtil.cleanItalics(lore));
+                meta.lore(ComponentUtils.cleanItalics(lore));
             });
             return anvil.withType(Material.BARRIER);
         }
@@ -101,15 +100,15 @@ public class InterfaceReforge extends PrivateInterface {
         lore.add(Component.text("Click to reforge this item!").color(NamedTextColor.GRAY));
         lore.add(Component.empty());
         lore.add(Component.text("Cost: ").color(NamedTextColor.GRAY).append(Component.text(EconomyService.formatMoney(cost)).color(NamedTextColor.GOLD)));
-        lore.add(Component.text("Your balance: ").color(NamedTextColor.GRAY).append(ComponentUtil.getColoredComponent(EconomyService.formatMoney(bal), NamedTextColor.GOLD)));
+        lore.add(Component.text("Your balance: ").color(NamedTextColor.GRAY).append(ComponentUtils.getColoredComponent(EconomyService.formatMoney(bal), NamedTextColor.GOLD)));
         if (cost > bal)
             lore.add(Component.text("Insufficient funds! You cannot afford this!").color(NamedTextColor.RED));
         if (blueprint.isReforged(input.getItemMeta())) {
             lore.add(Component.empty());
-            lore.add(ComponentUtil.getColoredComponent("NOTE: Previous reforge will be overwritten!", NamedTextColor.RED));
+            lore.add(ComponentUtils.getColoredComponent("NOTE: Previous reforge will be overwritten!", NamedTextColor.RED));
         }
         anvil.editMeta(meta -> {
-            meta.lore(ChatUtil.cleanItalics(lore));
+            meta.lore(ComponentUtils.cleanItalics(lore));
             if (bal >= cost)
                 meta.setEnchantmentGlintOverride(true);
         });

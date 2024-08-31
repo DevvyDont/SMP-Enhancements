@@ -12,8 +12,7 @@ import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.spawning.EntitySpawner;
 import xyz.devvydont.smprpg.gui.InterfaceUtil;
 import xyz.devvydont.smprpg.gui.PrivateInterface;
-import xyz.devvydont.smprpg.util.formatting.ChatUtil;
-import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,13 +38,13 @@ public class InterfaceSpawnerMainMenu extends PrivateInterface {
         deleteButton = new SpawnerButton() {
             @Override
             public ItemStack getItem(InterfaceSpawnerMainMenu gui) {
-                ItemStack display = InterfaceUtil.getNamedItem(Material.BEDROCK, ComponentUtil.getColoredComponent("Delete Spawner", NamedTextColor.RED));
+                ItemStack display = InterfaceUtil.getNamedItem(Material.BEDROCK, ComponentUtils.getColoredComponent("Delete Spawner", NamedTextColor.RED));
                 List<Component> lore = new ArrayList<>();
                 lore.add(Component.empty());
-                lore.add(ComponentUtil.getColoredComponent("Click to remove this spawner from the world!", NamedTextColor.RED));
+                lore.add(ComponentUtils.getColoredComponent("Click to remove this spawner from the world!", NamedTextColor.RED));
                 display.editMeta(meta -> {
                     meta.lore(lore);
-                    meta.lore(ChatUtil.cleanItalics(meta.lore()));
+                    meta.lore(ComponentUtils.cleanItalics(meta.lore()));
                 });
                 return display;
             }
@@ -54,24 +53,24 @@ public class InterfaceSpawnerMainMenu extends PrivateInterface {
             public void handleClick(InterfaceSpawnerMainMenu gui, Player player, ClickType clickType) {
                 gui.getSpawner().getEntity().remove();
                 player.closeInventory();
-                player.sendMessage(ChatUtil.getSuccessMessage("Successfully deleted spawner!"));
+                player.sendMessage(ComponentUtils.getSuccessMessage("Successfully deleted spawner!"));
             }
         };
 
         entriesButton = new SpawnerButton() {
             @Override
             public ItemStack getItem(InterfaceSpawnerMainMenu gui) {
-                ItemStack display = InterfaceUtil.getNamedItem(Material.SKELETON_SKULL, ComponentUtil.getColoredComponent("Edit Entity Choices", NamedTextColor.GOLD));
+                ItemStack display = InterfaceUtil.getNamedItem(Material.SKELETON_SKULL, ComponentUtils.getColoredComponent("Edit Entity Choices", NamedTextColor.GOLD));
                 List<Component> lore = new ArrayList<>();
                 lore.add(Component.empty());
-                lore.add(ComponentUtil.getDefaultText("Currently spawning " + gui.getSpawner().getOptions().getEntries().size() + " entities"));
+                lore.add(ComponentUtils.getDefaultText("Currently spawning " + gui.getSpawner().getOptions().getEntries().size() + " entities"));
                 for (EntitySpawner.SpawnerEntry entry : gui.getSpawner().getOptions().getEntries())
-                    lore.add(ComponentUtil.getDefaultText("- Entity: ").append(ComponentUtil.getColoredComponent(entry.type().name, NamedTextColor.RED)).append(ComponentUtil.getDefaultText(" Weight: ").append(ComponentUtil.getColoredComponent("" + entry.weight(), NamedTextColor.GREEN))));
+                    lore.add(ComponentUtils.getDefaultText("- Entity: ").append(ComponentUtils.getColoredComponent(entry.type().name, NamedTextColor.RED)).append(ComponentUtils.getDefaultText(" Weight: ").append(ComponentUtils.getColoredComponent("" + entry.weight(), NamedTextColor.GREEN))));
                 lore.add(Component.empty());
-                lore.add(ComponentUtil.getColoredComponent("Click to edit!", NamedTextColor.YELLOW));
+                lore.add(ComponentUtils.getColoredComponent("Click to edit!", NamedTextColor.YELLOW));
                 display.editMeta(meta -> {
                     meta.lore(lore);
-                    meta.lore(ChatUtil.cleanItalics(meta.lore()));
+                    meta.lore(ComponentUtils.cleanItalics(meta.lore()));
                 });
                 return display;
             }
@@ -85,18 +84,18 @@ public class InterfaceSpawnerMainMenu extends PrivateInterface {
         levelButton = new SpawnerButton() {
             @Override
             public ItemStack getItem(InterfaceSpawnerMainMenu gui) {
-                ItemStack display = InterfaceUtil.getNamedItem(Material.EXPERIENCE_BOTTLE, ComponentUtil.getColoredComponent("Set Level", NamedTextColor.GOLD));
+                ItemStack display = InterfaceUtil.getNamedItem(Material.EXPERIENCE_BOTTLE, ComponentUtils.getColoredComponent("Set Level", NamedTextColor.GOLD));
                 display.editMeta(meta -> {
                     meta.lore(List.of(
                             Component.empty(),
-                            ComponentUtil.getDefaultText("Current Level:").append(ComponentUtil.getColoredComponent(" " + gui.getSpawner().getOptions().getLevel(), NamedTextColor.GREEN)),
+                            ComponentUtils.getDefaultText("Current Level:").append(ComponentUtils.getColoredComponent(" " + gui.getSpawner().getOptions().getLevel(), NamedTextColor.GREEN)),
                             Component.empty(),
-                            ComponentUtil.getDefaultText("Left click to increase, Right click to decrease"),
+                            ComponentUtils.getDefaultText("Left click to increase, Right click to decrease"),
                             Component.empty(),
-                            ComponentUtil.getDefaultText("The level to attempt to spawn mobs at. Mobs spawned at a different"),
-                            ComponentUtil.getDefaultText("level than their base level may have unexpected statistics however")
+                            ComponentUtils.getDefaultText("The level to attempt to spawn mobs at. Mobs spawned at a different"),
+                            ComponentUtils.getDefaultText("level than their base level may have unexpected statistics however")
                     ));
-                    meta.lore(ChatUtil.cleanItalics(meta.lore()));
+                    meta.lore(ComponentUtils.cleanItalics(meta.lore()));
                 });
                 return display;
             }
@@ -119,18 +118,18 @@ public class InterfaceSpawnerMainMenu extends PrivateInterface {
         rangeButton = new SpawnerButton() {
             @Override
             public ItemStack getItem(InterfaceSpawnerMainMenu gui) {
-                ItemStack display = InterfaceUtil.getNamedItem(Material.SPYGLASS, ComponentUtil.getColoredComponent("Set Spawn Radius", NamedTextColor.GOLD));
+                ItemStack display = InterfaceUtil.getNamedItem(Material.SPYGLASS, ComponentUtils.getColoredComponent("Set Spawn Radius", NamedTextColor.GOLD));
                 display.editMeta(meta -> {
                     meta.lore(List.of(
                             Component.empty(),
-                            ComponentUtil.getDefaultText("Current Radius:").append(ComponentUtil.getColoredComponent(" " + gui.getSpawner().getOptions().getRadius() + " blocks", NamedTextColor.GREEN)),
+                            ComponentUtils.getDefaultText("Current Radius:").append(ComponentUtils.getColoredComponent(" " + gui.getSpawner().getOptions().getRadius() + " blocks", NamedTextColor.GREEN)),
                             Component.empty(),
-                            ComponentUtil.getDefaultText("Left click to increase, Right click to decrease"),
+                            ComponentUtils.getDefaultText("Left click to increase, Right click to decrease"),
                             Component.empty(),
-                            ComponentUtil.getDefaultText("Range is how far away (in blocks) a mob can spawn from the location"),
-                            ComponentUtil.getDefaultText("of this spawner. Y position is ignored as a Y value is calculated dynamically")
+                            ComponentUtils.getDefaultText("Range is how far away (in blocks) a mob can spawn from the location"),
+                            ComponentUtils.getDefaultText("of this spawner. Y position is ignored as a Y value is calculated dynamically")
                     ));
-                    meta.lore(ChatUtil.cleanItalics(meta.lore()));
+                    meta.lore(ComponentUtils.cleanItalics(meta.lore()));
                 });
                 return display;
             }
@@ -153,19 +152,19 @@ public class InterfaceSpawnerMainMenu extends PrivateInterface {
         limitButton = new SpawnerButton() {
             @Override
             public ItemStack getItem(InterfaceSpawnerMainMenu gui) {
-                ItemStack display = InterfaceUtil.getNamedItem(Material.LEVER, ComponentUtil.getColoredComponent("Set Spawn Limit", NamedTextColor.GOLD));
+                ItemStack display = InterfaceUtil.getNamedItem(Material.LEVER, ComponentUtils.getColoredComponent("Set Spawn Limit", NamedTextColor.GOLD));
                 display.editMeta(meta -> {
                     meta.lore(List.of(
                             Component.empty(),
-                            ComponentUtil.getDefaultText("Current Limit:").append(ComponentUtil.getColoredComponent(" " + gui.getSpawner().getOptions().getLimit() + " entities", NamedTextColor.GREEN)),
+                            ComponentUtils.getDefaultText("Current Limit:").append(ComponentUtils.getColoredComponent(" " + gui.getSpawner().getOptions().getLimit() + " entities", NamedTextColor.GREEN)),
                             Component.empty(),
-                            ComponentUtil.getDefaultText("Left click to increase, Right click to decrease"),
+                            ComponentUtils.getDefaultText("Left click to increase, Right click to decrease"),
                             Component.empty(),
-                            ComponentUtil.getDefaultText("Spawner limit is how many entities at a time this specific"),
-                            ComponentUtil.getDefaultText("spawner can add entities to the world. Spawning cycles are"),
-                            ComponentUtil.getDefaultText("skipped when " + gui.getSpawner().getOptions().getLimit() + " entities spawned from this spawner are alive")
+                            ComponentUtils.getDefaultText("Spawner limit is how many entities at a time this specific"),
+                            ComponentUtils.getDefaultText("spawner can add entities to the world. Spawning cycles are"),
+                            ComponentUtils.getDefaultText("skipped when " + gui.getSpawner().getOptions().getLimit() + " entities spawned from this spawner are alive")
                     ));
-                    meta.lore(ChatUtil.cleanItalics(meta.lore()));
+                    meta.lore(ComponentUtils.cleanItalics(meta.lore()));
                 });
                 return display;
             }

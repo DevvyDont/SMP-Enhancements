@@ -18,13 +18,11 @@ import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.enchantments.CustomEnchantment;
 import xyz.devvydont.smprpg.enchantments.calculator.EnchantmentCalculator;
 import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
-import xyz.devvydont.smprpg.items.base.VanillaItemBlueprint;
 import xyz.devvydont.smprpg.items.blueprints.vanilla.ItemEnchantedBook;
 import xyz.devvydont.smprpg.items.interfaces.ReforgeApplicator;
 import xyz.devvydont.smprpg.reforge.ReforgeBase;
 import xyz.devvydont.smprpg.reforge.ReforgeType;
-import xyz.devvydont.smprpg.util.formatting.ChatUtil;
-import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.*;
 
@@ -216,7 +214,7 @@ public class AnvilEnchantmentCombinationFixListener implements Listener {
             CustomEnchantment enchantment = plugin.getEnchantmentService().getEnchantment(entries.getKey());
             int requirement = enchantment.getSkillRequirement();
             if (requirement > magicLevel) {
-                information.add(ComponentUtil.getColoredComponent("- Need Magic " + requirement + " to apply locked enchantment ", NamedTextColor.RED).append(enchantment.getDisplayName().color(enchantment.getEnchantColor())));
+                information.add(ComponentUtils.getColoredComponent("- Need Magic " + requirement + " to apply locked enchantment ", NamedTextColor.RED).append(enchantment.getDisplayName().color(enchantment.getEnchantColor())));
                 allowed = false;
                 continue;
             }
@@ -227,14 +225,14 @@ public class AnvilEnchantmentCombinationFixListener implements Listener {
             int enchantLevelRequirement = (int) (percentage * (99-requirement) + requirement);
             enchantLevelRequirement = Math.min(99, enchantLevelRequirement);
             if (enchantLevelRequirement > magicLevel){
-                information.add(ComponentUtil.getColoredComponent("- Need Magic " + enchantLevelRequirement + " to apply high level enchantment ", NamedTextColor.RED).append(enchantment.getEnchantment().displayName(entries.getValue()).color(enchantment.getEnchantColor())));
+                information.add(ComponentUtils.getColoredComponent("- Need Magic " + enchantLevelRequirement + " to apply high level enchantment ", NamedTextColor.RED).append(enchantment.getEnchantment().displayName(entries.getValue()).color(enchantment.getEnchantColor())));
                 allowed = false;
             }
 
         }
 
         information.add(Component.empty());
-        information.add(ComponentUtil.getDefaultText("Experience Cost: ").append(ComponentUtil.getColoredComponent(combination.cost() + " Levels", NamedTextColor.GREEN)));
+        information.add(ComponentUtils.getDefaultText("Experience Cost: ").append(ComponentUtils.getColoredComponent(combination.cost() + " Levels", NamedTextColor.GREEN)));
 
         if (!allowed)
             event.getView().setRepairCost(999_999);
@@ -244,7 +242,7 @@ public class AnvilEnchantmentCombinationFixListener implements Listener {
         combination.result().editMeta(meta -> {
             List<Component> newMeta = meta.lore();
             newMeta.addAll(information);
-            meta.lore(ChatUtil.cleanItalics(newMeta));
+            meta.lore(ComponentUtils.cleanItalics(newMeta));
             if (meta instanceof Repairable repairable)
                 repairable.setRepairCost(repairable.getRepairCost()+2);
         });

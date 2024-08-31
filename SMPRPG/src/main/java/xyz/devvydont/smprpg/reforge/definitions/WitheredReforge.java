@@ -14,7 +14,7 @@ import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
 import xyz.devvydont.smprpg.reforge.ReforgeBase;
 import xyz.devvydont.smprpg.reforge.ReforgeType;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
-import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.Collection;
 import java.util.List;
@@ -42,12 +42,12 @@ public class WitheredReforge extends ReforgeBase implements Listener {
     @Override
     public List<Component> getDescription() {
         return List.of(
-                ComponentUtil.getDefaultText("Provides a").append(ComponentUtil.getColoredComponent(" SIGNIFICANT", NamedTextColor.GOLD)).append(ComponentUtil.getDefaultText(" boost")),
-                ComponentUtil.getDefaultText("in attack damage and attack speed"),
+                ComponentUtils.getDefaultText("Provides a").append(ComponentUtils.getColoredComponent(" SIGNIFICANT", NamedTextColor.GOLD)).append(ComponentUtils.getDefaultText(" boost")),
+                ComponentUtils.getDefaultText("in attack damage and attack speed"),
                 Component.empty(),
                 Component.text("Withered Bonus", NamedTextColor.BLUE),
-                ComponentUtil.getDefaultText("Deal ").append(Component.text("2x", NamedTextColor.GREEN)).append(ComponentUtil.getDefaultText(" damage to enemies who")),
-                ComponentUtil.getDefaultText("have the ").append(Component.text("withered", NamedTextColor.DARK_RED).append(ComponentUtil.getDefaultText(" potion effect")))
+                ComponentUtils.getDefaultText("Deal ").append(Component.text("2x", NamedTextColor.GREEN)).append(ComponentUtils.getDefaultText(" damage to enemies who")),
+                ComponentUtils.getDefaultText("have the ").append(Component.text("withered", NamedTextColor.DARK_RED).append(ComponentUtils.getDefaultText(" potion effect")))
         );
     }
 

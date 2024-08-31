@@ -18,7 +18,7 @@ import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.base.CustomItemBlueprint;
 import xyz.devvydont.smprpg.items.interfaces.Sellable;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -40,17 +40,17 @@ public class DeathCertificate extends CustomItemBlueprint implements Listener, S
     private Component getEnvironmentComponent(World.Environment environment) {
 
         return switch (environment) {
-            case THE_END -> ComponentUtil.getColoredComponent("The End", NamedTextColor.LIGHT_PURPLE);
-            case NETHER -> ComponentUtil.getDefaultText("the ").append(ComponentUtil.getColoredComponent("Nether", NamedTextColor.RED));
-            case NORMAL -> ComponentUtil.getDefaultText("the ").append(ComponentUtil.getColoredComponent("Overworld", NamedTextColor.DARK_GREEN));
-            case CUSTOM -> ComponentUtil.getColoredComponent("Some unknown world", NamedTextColor.LIGHT_PURPLE);
+            case THE_END -> ComponentUtils.getColoredComponent("The End", NamedTextColor.LIGHT_PURPLE);
+            case NETHER -> ComponentUtils.getDefaultText("the ").append(ComponentUtils.getColoredComponent("Nether", NamedTextColor.RED));
+            case NORMAL -> ComponentUtils.getDefaultText("the ").append(ComponentUtils.getColoredComponent("Overworld", NamedTextColor.DARK_GREEN));
+            case CUSTOM -> ComponentUtils.getColoredComponent("Some unknown world", NamedTextColor.LIGHT_PURPLE);
         };
 
     }
 
     private Component getCoordinatesComponent(int[] location) {
         String str = String.format("%d %d %d", location[0], location[1], location[2]);
-        return ComponentUtil.getColoredComponent(str, NamedTextColor.BLUE);
+        return ComponentUtils.getColoredComponent(str, NamedTextColor.BLUE);
     }
 
     private int[] getPrimitiveLocation(Location location) {
@@ -103,10 +103,10 @@ public class DeathCertificate extends CustomItemBlueprint implements Listener, S
 
         return List.of(
                 Component.empty(),
-                ComponentUtil.getColoredComponent(playerName, NamedTextColor.AQUA).append(ComponentUtil.getDefaultText(" died in ")).append(getEnvironmentComponent(environment)),
-                ComponentUtil.getDefaultText("Coordinates: ").append(getCoordinatesComponent(location)),
+                ComponentUtils.getColoredComponent(playerName, NamedTextColor.AQUA).append(ComponentUtils.getDefaultText(" died in ")).append(getEnvironmentComponent(environment)),
+                ComponentUtils.getDefaultText("Coordinates: ").append(getCoordinatesComponent(location)),
                 Component.empty(),
-                ComponentUtil.getColoredComponent("Death occurred at: " + dateString + "EST", NamedTextColor.DARK_GRAY)
+                ComponentUtils.getColoredComponent("Death occurred at: " + dateString + "EST", NamedTextColor.DARK_GRAY)
         );
     }
 

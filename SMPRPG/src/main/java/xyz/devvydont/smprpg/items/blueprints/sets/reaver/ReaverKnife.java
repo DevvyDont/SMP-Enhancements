@@ -18,7 +18,7 @@ import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
 import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
-import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.items.AbilityUtil;
 
 import java.util.ArrayList;
@@ -45,8 +45,8 @@ public class ReaverKnife extends CustomAttributeItem implements ToolBreakable, L
         List<Component> components = new ArrayList<>(super.getDescriptionComponent(meta));
         components.add(Component.empty());
         components.add(AbilityUtil.getAbilityComponent("Decapitator (Passive)"));
-        components.add(ComponentUtil.getDefaultText("Wither Skeleton Skull drops are ").append(ComponentUtil.getColoredComponent(WITHER_SKULL_BOOST + "x", NamedTextColor.GREEN)).append(ComponentUtil.getDefaultText(" more common")));
-        components.add(ComponentUtil.getDefaultText("when killing ").append(ComponentUtil.getColoredComponent("Wither", NamedTextColor.DARK_RED)).append(ComponentUtil.getDefaultText(" type enemies with this weapon")));
+        components.add(ComponentUtils.getDefaultText("Wither Skeleton Skull drops are ").append(ComponentUtils.getColoredComponent(WITHER_SKULL_BOOST + "x", NamedTextColor.GREEN)).append(ComponentUtils.getDefaultText(" more common")));
+        components.add(ComponentUtils.getDefaultText("when killing ").append(ComponentUtils.getColoredComponent("Wither", NamedTextColor.DARK_RED)).append(ComponentUtils.getDefaultText(" type enemies with this weapon")));
         return components;
     }
 

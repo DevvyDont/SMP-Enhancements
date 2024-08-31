@@ -7,7 +7,7 @@ import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
 import xyz.devvydont.smprpg.reforge.ReforgeBase;
 import xyz.devvydont.smprpg.reforge.ReforgeType;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
-import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.Collection;
 import java.util.List;
@@ -28,7 +28,7 @@ public class RapidReforge extends ReforgeBase {
 
     @Override
     public List<Component> getDescription() {
-        return List.of(ComponentUtil.getDefaultText("Greatly improves attack speed"));
+        return List.of(ComponentUtils.getDefaultText("Greatly improves attack speed"));
     }
 
     @Override

@@ -21,7 +21,7 @@ import xyz.devvydont.smprpg.items.interfaces.Attributeable;
 import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
 import xyz.devvydont.smprpg.skills.SkillInstance;
 import xyz.devvydont.smprpg.skills.SkillType;
-import xyz.devvydont.smprpg.util.formatting.ChatUtil;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.formatting.PlayerChatInformation;
 
 import java.util.Collection;
@@ -242,7 +242,7 @@ public class LeveledPlayer extends LeveledEntity implements Listener {
     public void updateNametag() {
         Team team = getNametagTeam();
         PlayerChatInformation chatInformation = plugin.getChatService().getPlayerInfo(getPlayer());
-        Component newPrefix = ChatUtil.getBracketedPowerComponent(getLevel()).append(Component.text(" "));
+        Component newPrefix = ComponentUtils.getBracketedPowerComponent(getLevel()).append(Component.text(" "));
         team.prefix(newPrefix);
         if (!chatInformation.suffix().isEmpty())
             team.suffix(Component.text(" " + ChatColor.translateAlternateColorCodes('&', chatInformation.prefix()).stripTrailing()));

@@ -15,7 +15,7 @@ import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.listeners.EntityDamageCalculatorService;
 import xyz.devvydont.smprpg.util.attributes.AttributeUtil;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
-import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.formatting.MinecraftStringUtils;
 import xyz.devvydont.smprpg.util.formatting.Symbols;
 import xyz.devvydont.smprpg.util.items.LootDrop;
@@ -519,7 +519,7 @@ public abstract class LeveledEntity implements LootSource {
      */
     @Override
     public Component getAsComponent() {
-        return ComponentUtil.getDefaultText("defeating a(n) ").append(ComponentUtil.getColoredComponent(getEntityName(), NamedTextColor.RED));
+        return ComponentUtils.getDefaultText("defeating a(n) ").append(ComponentUtils.getColoredComponent(getEntityName(), NamedTextColor.RED));
     }
 
     /**

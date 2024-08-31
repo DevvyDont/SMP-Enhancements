@@ -7,7 +7,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.effects.services.SpecialEffectService;
 import xyz.devvydont.smprpg.services.ActionBarService;
-import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 /*
  * Represents a base "effect" that players can have. These are typically referred to as "ailments" and a player can only
@@ -78,8 +78,8 @@ public abstract class SpecialEffectTask extends BukkitRunnable {
         if (expired)
             time = getExpiredComponent();
         else
-            time = ComponentUtil.getColoredComponent(timestring, getTimerColor());
-        return getNameComponent().append(ComponentUtil.getDefaultText(" - ")).append(time);
+            time = ComponentUtils.getColoredComponent(timestring, getTimerColor());
+        return getNameComponent().append(ComponentUtils.getDefaultText(" - ")).append(time);
     }
 
     public void sendActionBar() {

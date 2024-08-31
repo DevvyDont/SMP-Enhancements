@@ -9,7 +9,7 @@ import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.reforge.ReforgeBase;
 import xyz.devvydont.smprpg.reforge.ReforgeType;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
-import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.Collection;
 import java.util.List;
@@ -37,8 +37,8 @@ public class AcceleratedReforge extends ReforgeBase {
     @Override
     public List<Component> getDescription() {
         return List.of(
-                ComponentUtil.getDefaultText("Provides a").append(ComponentUtil.getColoredComponent(" SIGNIFICANT", NamedTextColor.GOLD)),
-                ComponentUtil.getDefaultText("boost in ").append(ComponentUtil.getColoredComponent("movement/attack speed", NamedTextColor.WHITE))
+                ComponentUtils.getDefaultText("Provides a").append(ComponentUtils.getColoredComponent(" SIGNIFICANT", NamedTextColor.GOLD)),
+                ComponentUtils.getDefaultText("boost in ").append(ComponentUtils.getColoredComponent("movement/attack speed", NamedTextColor.WHITE))
         );
     }
 

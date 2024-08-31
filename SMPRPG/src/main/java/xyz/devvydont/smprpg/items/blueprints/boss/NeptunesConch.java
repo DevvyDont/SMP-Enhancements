@@ -7,7 +7,6 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
 import org.bukkit.entity.ElderGuardian;
-import org.bukkit.entity.Guardian;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -31,8 +30,7 @@ import xyz.devvydont.smprpg.items.interfaces.Craftable;
 import xyz.devvydont.smprpg.items.interfaces.Edible;
 import xyz.devvydont.smprpg.items.interfaces.Sellable;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.util.formatting.ChatUtil;
-import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.items.FoodUtil;
 
 import java.util.ArrayList;
@@ -48,9 +46,9 @@ public class NeptunesConch extends CustomItemBlueprint implements Listener, Craf
     @Override
     public List<Component> getDescriptionComponent(ItemMeta meta) {
         List<Component> lore = new ArrayList<>(super.getDescriptionComponent(meta));
-        lore.add(ComponentUtil.getDefaultText("Consume while in an"));
-        lore.add(ComponentUtil.getColoredComponent("Ocean Monument", NamedTextColor.AQUA).append(ComponentUtil.getDefaultText(" while ").append(ComponentUtil.getColoredComponent("underwater", NamedTextColor.BLUE))));
-        lore.add(ComponentUtil.getDefaultText("to summon an ").append(ComponentUtil.getColoredComponent("Elder Guardian", NamedTextColor.DARK_PURPLE).append(ComponentUtil.getDefaultText("!"))));
+        lore.add(ComponentUtils.getDefaultText("Consume while in an"));
+        lore.add(ComponentUtils.getColoredComponent("Ocean Monument", NamedTextColor.AQUA).append(ComponentUtils.getDefaultText(" while ").append(ComponentUtils.getColoredComponent("underwater", NamedTextColor.BLUE))));
+        lore.add(ComponentUtils.getDefaultText("to summon an ").append(ComponentUtils.getColoredComponent("Elder Guardian", NamedTextColor.DARK_PURPLE).append(ComponentUtils.getDefaultText("!"))));
         return lore;
     }
 
@@ -112,15 +110,15 @@ public class NeptunesConch extends CustomItemBlueprint implements Listener, Craf
         if (!isItemOfType(consumedItem))
             return;
 
-        Component refused = ChatUtil.getErrorMessage("Neptune refused your call!");
+        Component refused = ComponentUtils.getErrorMessage("Neptune refused your call!");
 
         // A player consumed the conch. Are they underwater?
         if (!event.getPlayer().isUnderWater()) {
             event.getPlayer().sendMessage(refused);
-            event.getPlayer().sendMessage(ChatUtil.getGenericMessage(
-                    ComponentUtil.getDefaultText("You must be")
-                            .append(ComponentUtil.getColoredComponent(" underwater", NamedTextColor.BLUE))
-                            .append(ComponentUtil.getDefaultText("!"))
+            event.getPlayer().sendMessage(ComponentUtils.getGenericMessage(
+                    ComponentUtils.getDefaultText("You must be")
+                            .append(ComponentUtils.getColoredComponent(" underwater", NamedTextColor.BLUE))
+                            .append(ComponentUtils.getDefaultText("!"))
             ));
             event.setCancelled(true);
             return;
@@ -129,10 +127,10 @@ public class NeptunesConch extends CustomItemBlueprint implements Listener, Craf
         // Are they in a temple?
         if (!isInMonument(event.getPlayer())) {
             event.getPlayer().sendMessage(refused);
-            event.getPlayer().sendMessage(ChatUtil.getGenericMessage(
-                    ComponentUtil.getDefaultText("You must be inside an")
-                            .append(ComponentUtil.getColoredComponent(" Ocean Monument", NamedTextColor.AQUA))
-                            .append(ComponentUtil.getDefaultText("!"))
+            event.getPlayer().sendMessage(ComponentUtils.getGenericMessage(
+                    ComponentUtils.getDefaultText("You must be inside an")
+                            .append(ComponentUtils.getColoredComponent(" Ocean Monument", NamedTextColor.AQUA))
+                            .append(ComponentUtils.getDefaultText("!"))
             ));
             event.setCancelled(true);
             return;
@@ -142,10 +140,10 @@ public class NeptunesConch extends CustomItemBlueprint implements Listener, Craf
         event.getPlayer().getWorld().playSound(event.getPlayer().getLocation(), Sound.ENTITY_ELDER_GUARDIAN_CURSE, 1, 1);
         String playername = SMPRPG.getInstance().getChatService().getPlayerDisplayname(event.getPlayer());
         Bukkit.broadcast(
-                ChatUtil.getGenericMessage(Component.text(playername)
-                        .append(ComponentUtil.getDefaultText(" summoned an ")))
-                        .append(ComponentUtil.getColoredComponent("Elder Guardian", NamedTextColor.DARK_PURPLE))
-                        .append(ComponentUtil.getDefaultText("!"))
+                ComponentUtils.getGenericMessage(Component.text(playername)
+                        .append(ComponentUtils.getDefaultText(" summoned an ")))
+                        .append(ComponentUtils.getColoredComponent("Elder Guardian", NamedTextColor.DARK_PURPLE))
+                        .append(ComponentUtils.getDefaultText("!"))
         );
         ElderGuardian guardian = event.getPlayer().getWorld().spawn(event.getPlayer().getLocation(), ElderGuardian.class, CreatureSpawnEvent.SpawnReason.NATURAL);
         guardian.getWorld().createExplosion(guardian, 2.0f, false, false);

@@ -8,7 +8,7 @@ import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.reforge.ReforgeBase;
 import xyz.devvydont.smprpg.reforge.ReforgeType;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
-import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.Collection;
 import java.util.List;
@@ -38,7 +38,7 @@ public class LightReforge extends ReforgeBase {
     @Override
     public List<Component> getDescription() {
         return List.of(
-                ComponentUtil.getDefaultText("Moderately increases movement/attack speed")
+                ComponentUtils.getDefaultText("Moderately increases movement/attack speed")
         );
     }
 

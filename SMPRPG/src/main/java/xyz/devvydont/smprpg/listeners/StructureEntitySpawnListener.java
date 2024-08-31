@@ -4,19 +4,16 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.generator.structure.GeneratedStructure;
 import org.bukkit.generator.structure.Structure;
 import org.bukkit.scheduler.BukkitRunnable;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.events.LeveledEntitySpawnEvent;
 import xyz.devvydont.smprpg.services.ActionBarService;
-import xyz.devvydont.smprpg.util.formatting.ChatUtil;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.formatting.MinecraftStringUtils;
 
 import java.util.*;
@@ -82,7 +79,7 @@ public class StructureEntitySpawnListener implements Listener {
     private Component getStructureComponent(Player player, GeneratedStructure structure, int power) {
         Component send = Component.text("Currently in").color(NamedTextColor.GRAY)
                 .append(Component.text(" " + MinecraftStringUtils.getTitledString(structure.getStructure().key().value() + " ")).color(NamedTextColor.AQUA)
-                        .append(ChatUtil.getBracketedPowerComponent(power)));
+                        .append(ComponentUtils.getBracketedPowerComponent(power)));
 
         if (power > plugin.getEntityService().getPlayerInstance(player).getLevel())
             send = Component.text("WARNING! ").color(NamedTextColor.RED).append(send);

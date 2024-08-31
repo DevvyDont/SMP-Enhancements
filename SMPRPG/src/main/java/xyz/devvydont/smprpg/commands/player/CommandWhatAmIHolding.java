@@ -10,7 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.commands.CommandBase;
-import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.Collection;
 import java.util.List;
@@ -35,7 +35,7 @@ public class CommandWhatAmIHolding extends CommandBase {
         }
 
         Component name = Component.text(SMPRPG.getInstance().getChatService().getPlayerDisplayname(player));
-        Component holding = ComponentUtil.getDefaultText(" is holding ");
+        Component holding = ComponentUtils.getDefaultText(" is holding ");
         Bukkit.broadcast(name.append(holding).append(is.displayName()));
     }
 

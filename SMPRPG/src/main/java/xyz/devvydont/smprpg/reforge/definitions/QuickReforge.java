@@ -7,7 +7,7 @@ import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.reforge.ReforgeBase;
 import xyz.devvydont.smprpg.reforge.ReforgeType;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
-import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.Collection;
 import java.util.List;
@@ -28,8 +28,8 @@ public class QuickReforge extends ReforgeBase {
     @Override
     public List<Component> getDescription() {
         return List.of(
-                ComponentUtil.getDefaultText("Slightly increases mining speed"),
-                ComponentUtil.getDefaultText("when breaking blocks meant for this tool")
+                ComponentUtils.getDefaultText("Slightly increases mining speed"),
+                ComponentUtils.getDefaultText("when breaking blocks meant for this tool")
         );
     }
 

@@ -9,7 +9,6 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Item;
@@ -19,7 +18,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockDropItemEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.event.entity.ItemSpawnEvent;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ItemType;
@@ -30,7 +28,7 @@ import xyz.devvydont.smprpg.enchantments.EnchantmentRarity;
 import xyz.devvydont.smprpg.services.ActionBarService;
 import xyz.devvydont.smprpg.services.DropsService;
 import xyz.devvydont.smprpg.services.EnchantmentService;
-import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.*;
 
@@ -42,7 +40,7 @@ public class TelekinesisBlessing extends CustomEnchantment implements Listener {
 
     @Override
     public @NotNull Component getDisplayName() {
-        return ComponentUtil.getColoredComponent("Blessing of Telekinesis", NamedTextColor.YELLOW);
+        return ComponentUtils.getColoredComponent("Blessing of Telekinesis", NamedTextColor.YELLOW);
     }
 
     @Override

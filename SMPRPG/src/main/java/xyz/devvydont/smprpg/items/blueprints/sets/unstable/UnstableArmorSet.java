@@ -13,7 +13,7 @@ import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
 import xyz.devvydont.smprpg.items.interfaces.Trimmable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
-import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -49,7 +49,7 @@ public abstract class UnstableArmorSet extends CustomArmorBlueprint implements T
     public List<Component> getFooterComponent(ItemMeta meta) {
         List<Component> footer = new ArrayList<>(super.getFooterComponent(meta));
         footer.add(Component.empty());
-        Component lore = ComponentUtil.getDefaultText("Stats ").append(ComponentUtil.getColoredComponent("randomly", NamedTextColor.LIGHT_PURPLE)).append(ComponentUtil.getDefaultText(" shuffle!"));
+        Component lore = ComponentUtils.getDefaultText("Stats ").append(ComponentUtils.getColoredComponent("randomly", NamedTextColor.LIGHT_PURPLE)).append(ComponentUtils.getDefaultText(" shuffle!"));
         footer.add(lore);
         return footer;
     }

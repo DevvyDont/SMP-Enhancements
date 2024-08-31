@@ -20,8 +20,7 @@ import xyz.devvydont.smprpg.reforge.ReforgeBase;
 import xyz.devvydont.smprpg.reforge.ReforgeType;
 import xyz.devvydont.smprpg.services.EconomyService;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.util.formatting.ChatUtil;
-import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.formatting.MinecraftStringUtils;
 import xyz.devvydont.smprpg.util.formatting.Symbols;
 import xyz.devvydont.smprpg.util.items.FoodUtil;
@@ -174,7 +173,7 @@ public abstract class SMPItemBlueprint {
             if (meta.getEnchants().size() <= 9)
                 lines.add(enchantment.getDescription());
         }
-        lines.add(ComponentUtil.getColoredComponent("Enchantments: " + meta.getEnchants().size() + "/" + getMaxAllowedEnchantments(meta), NamedTextColor.DARK_GRAY));
+        lines.add(ComponentUtils.getColoredComponent("Enchantments: " + meta.getEnchants().size() + "/" + getMaxAllowedEnchantments(meta), NamedTextColor.DARK_GRAY));
         return lines;
     }
 
@@ -186,13 +185,13 @@ public abstract class SMPItemBlueprint {
         FoodComponent food = meta.getFood();
 
         // Consume header + time to eat
-        lines.add(ComponentUtil.getColoredComponent("When consumed: ", NamedTextColor.GOLD).decorate(TextDecoration.BOLD)
-                .append(ComponentUtil.getColoredComponent(String.format("(%.1fs)", food.getEatSeconds()), NamedTextColor.DARK_GRAY).decoration(TextDecoration.BOLD, false)));
+        lines.add(ComponentUtils.getColoredComponent("When consumed: ", NamedTextColor.GOLD).decorate(TextDecoration.BOLD)
+                .append(ComponentUtils.getColoredComponent(String.format("(%.1fs)", food.getEatSeconds()), NamedTextColor.DARK_GRAY).decoration(TextDecoration.BOLD, false)));
 
         // Nutrition
         int saturation = (int) food.getSaturation();
-        lines.add(ComponentUtil.getDefaultText(" - Nutrition: ").append(ComponentUtil.getColoredComponent("+" + food.getNutrition(), NamedTextColor.GREEN)));
-        lines.add(ComponentUtil.getDefaultText(" - Saturation: ").append(ComponentUtil.getColoredComponent("+" + saturation, NamedTextColor.GREEN)));
+        lines.add(ComponentUtils.getDefaultText(" - Nutrition: ").append(ComponentUtils.getColoredComponent("+" + food.getNutrition(), NamedTextColor.GREEN)));
+        lines.add(ComponentUtils.getDefaultText(" - Saturation: ").append(ComponentUtils.getColoredComponent("+" + saturation, NamedTextColor.GREEN)));
 
         // Potion effects
         for (FoodComponent.FoodEffect effect : food.getEffects()) {
@@ -203,10 +202,10 @@ public abstract class SMPItemBlueprint {
             int sec = effect.getEffect().getDuration() / 20;
             String time = String.format(" (%d:%02d)", sec / 60, sec % 60);
             String probability = String.format(" (%d%%)", (int)(effect.getProbability() * 100));
-            lines.add(ComponentUtil.getDefaultText(" - Effect: ")
-                    .append(ComponentUtil.getColoredComponent(name + " " + level, color))
-                    .append(ComponentUtil.getColoredComponent(time, NamedTextColor.DARK_GRAY))
-                    .append(ComponentUtil.getColoredComponent(probability, NamedTextColor.DARK_GRAY)));
+            lines.add(ComponentUtils.getDefaultText(" - Effect: ")
+                    .append(ComponentUtils.getColoredComponent(name + " " + level, color))
+                    .append(ComponentUtils.getColoredComponent(time, NamedTextColor.DARK_GRAY))
+                    .append(ComponentUtils.getColoredComponent(probability, NamedTextColor.DARK_GRAY)));
         }
 
         return lines;
@@ -287,8 +286,8 @@ public abstract class SMPItemBlueprint {
         // If this item is a shield add the shield stats
         if (this instanceof Shieldable shieldable) {
             lore.add(Component.empty());
-            lore.add(ComponentUtil.getDefaultText("Blocking Resistance: ").append(Component.text("-" + (int)(shieldable.getDamageBlockingPercent() * 100) + "%", NamedTextColor.GREEN)));
-            lore.add(ComponentUtil.getDefaultText("Blocking Delay: ").append(Component.text("+" + (shieldable.getShieldDelay() / 20.0) + "s", NamedTextColor.RED)));
+            lore.add(ComponentUtils.getDefaultText("Blocking Resistance: ").append(Component.text("-" + (int)(shieldable.getDamageBlockingPercent() * 100) + "%", NamedTextColor.GREEN)));
+            lore.add(ComponentUtils.getDefaultText("Blocking Delay: ").append(Component.text("+" + (shieldable.getShieldDelay() / 20.0) + "s", NamedTextColor.RED)));
         }
 
         // First, enchants. Are we not forcing glow? Only display enchants when we are not forcing glow (and have some).
@@ -299,7 +298,7 @@ public abstract class SMPItemBlueprint {
         // If this item holds experience
         if (this instanceof ExperienceThrowable holder) {
             lore.add(Component.empty());
-            lore.add(ComponentUtil.getDefaultText("Stored Experience: ").append(Component.text(MinecraftStringUtils.formatNumber(holder.getExperience()) + "XP", NamedTextColor.GREEN)));
+            lore.add(ComponentUtils.getDefaultText("Stored Experience: ").append(Component.text(MinecraftStringUtils.formatNumber(holder.getExperience()) + "XP", NamedTextColor.GREEN)));
         }
 
         // Edibility if this item has it
@@ -314,26 +313,26 @@ public abstract class SMPItemBlueprint {
         if (meta instanceof Damageable damageable && damageable.hasMaxDamage() && !meta.isUnbreakable() && !(this instanceof ChargedItemBlueprint)) {
             lore.add(Component.empty());
             lore.add(
-                    ComponentUtil.getDefaultText("Durability: ")
-                            .append(ComponentUtil.getColoredComponent(MinecraftStringUtils.formatNumber(damageable.getMaxDamage()-damageable.getDamage()), NamedTextColor.RED))
-                            .append(ComponentUtil.getColoredComponent("/" + MinecraftStringUtils.formatNumber(damageable.getMaxDamage()), NamedTextColor.DARK_GRAY))
+                    ComponentUtils.getDefaultText("Durability: ")
+                            .append(ComponentUtils.getColoredComponent(MinecraftStringUtils.formatNumber(damageable.getMaxDamage()-damageable.getDamage()), NamedTextColor.RED))
+                            .append(ComponentUtils.getColoredComponent("/" + MinecraftStringUtils.formatNumber(damageable.getMaxDamage()), NamedTextColor.DARK_GRAY))
             );
         }
 
         // Fire resistance?
         if (meta.isFireResistant())
-            lore.add(ComponentUtil.getColoredComponent(Symbols.FIRE + "Fire Resistant", NamedTextColor.GOLD));
+            lore.add(ComponentUtils.getColoredComponent(Symbols.FIRE + "Fire Resistant", NamedTextColor.GOLD));
 
         // Now, value and rarity
         lore.add(Component.empty());
         if (this instanceof Sellable sellable) {
             int value = sellable.getWorth(meta);
             if (value > 0)
-                lore.add(ComponentUtil.getDefaultText("Sell Value: ").append(ComponentUtil.getColoredComponent(EconomyService.formatMoney(sellable.getWorth(meta)), NamedTextColor.GOLD)));
+                lore.add(ComponentUtils.getDefaultText("Sell Value: ").append(ComponentUtils.getColoredComponent(EconomyService.formatMoney(sellable.getWorth(meta)), NamedTextColor.GOLD)));
         }
         lore.add(getRarity(meta).applyDecoration(Component.text(getRarity(meta).name() + " " + getItemClassification().name().replace("_", " "))).decoration(TextDecoration.BOLD, true));
 
-        meta.lore(ChatUtil.cleanItalics(lore));
+        meta.lore(ComponentUtils.cleanItalics(lore));
     }
 
     /**

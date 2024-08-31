@@ -14,7 +14,7 @@ import xyz.devvydont.smprpg.reforge.ReforgeBase;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.attributes.AttributeUtil;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
-import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.formatting.MinecraftStringUtils;
 
 import java.util.*;
@@ -39,8 +39,8 @@ public abstract class ReforgeStone extends CustomHeadBlueprint implements Reforg
         Component reforgeName = Component.text(getReforgeType().display() + " Reforge", NamedTextColor.BLUE);
 
         // First the description of what this item does.
-        lines.add(ComponentUtil.getDefaultText("Combine this item with equipment in an"));
-        lines.add(ComponentUtil.getDefaultText("anvil to apply the following reforge:"));
+        lines.add(ComponentUtils.getDefaultText("Combine this item with equipment in an"));
+        lines.add(ComponentUtils.getDefaultText("anvil to apply the following reforge:"));
         lines.add(Component.empty());
 
         // The reforge tag that shows up on items when applied
@@ -67,14 +67,14 @@ public abstract class ReforgeStone extends CustomHeadBlueprint implements Reforg
             NamedTextColor numberColor = wrapper.getAttributeType().equals(AttributeWrapper.AttributeType.SPECIAL) ? NamedTextColor.LIGHT_PURPLE :
                     wrapper.getAttributeType().equals(AttributeWrapper.AttributeType.POSITIVE) && number > 0 ? NamedTextColor.GREEN : NamedTextColor.RED;
             Component numberComponent = Component.text(numberSection).color(numberColor);
-            lines.add(ComponentUtil.getDefaultText(AttributeWrapper.ofAttribute(entry.getAttribute()).getCleanName() + ": ").append(numberComponent));
+            lines.add(ComponentUtils.getDefaultText(AttributeWrapper.ofAttribute(entry.getAttribute()).getCleanName() + ": ").append(numberComponent));
         }
         lines.add(Component.text("Example bonuses for " + DISPLAY_RARITY.name() +" item are shown.", NamedTextColor.DARK_GRAY));
         lines.add(Component.text("Results vary based on item rarity!", NamedTextColor.DARK_GRAY));
         lines.add(Component.empty());
         lines.add(Component.text("Valid Equipment:", NamedTextColor.BLUE));
         for (ItemClassification clazz : getReforgeType().getAllowedItems())
-            lines.add(ComponentUtil.getDefaultText("- " + MinecraftStringUtils.getTitledString(clazz.name())));
+            lines.add(ComponentUtils.getDefaultText("- " + MinecraftStringUtils.getTitledString(clazz.name())));
 
         return lines;
     }

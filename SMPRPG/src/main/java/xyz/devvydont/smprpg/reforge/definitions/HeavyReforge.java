@@ -8,7 +8,7 @@ import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.reforge.ReforgeBase;
 import xyz.devvydont.smprpg.reforge.ReforgeType;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
-import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.Collection;
 import java.util.List;
@@ -53,9 +53,9 @@ public class HeavyReforge extends ReforgeBase {
     @Override
     public List<Component> getDescription() {
         return List.of(
-                ComponentUtil.getDefaultText("Provides a moderate boost"),
-                ComponentUtil.getDefaultText("to knockback resistance"),
-                ComponentUtil.getDefaultText("at the cost of movement speed")
+                ComponentUtils.getDefaultText("Provides a moderate boost"),
+                ComponentUtils.getDefaultText("to knockback resistance"),
+                ComponentUtils.getDefaultText("at the cost of movement speed")
         );
     }
 

@@ -33,7 +33,7 @@ import xyz.devvydont.smprpg.events.CustomItemDropRollEvent;
 import xyz.devvydont.smprpg.items.ItemRarity;
 import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
 import xyz.devvydont.smprpg.util.crafting.ItemUtil;
-import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.items.DropFireworkTask;
 import xyz.devvydont.smprpg.util.items.LootDrop;
 import xyz.devvydont.smprpg.util.persistence.UUIDPersistentDataType;
@@ -367,7 +367,7 @@ public class DropsService implements BaseService, Listener {
 
         // Transfer ownership to the item entity, add their name to it, and make it unbreakable
         event.getEntity().setOwner(owner);
-        event.getEntity().customName(name.append(ComponentUtil.getColoredComponent(" (" + p.getName() + ")", NamedTextColor.DARK_GRAY)));
+        event.getEntity().customName(name.append(ComponentUtils.getColoredComponent(" (" + p.getName() + ")", NamedTextColor.DARK_GRAY)));
         event.getEntity().setCanMobPickup(false);
         event.getEntity().setInvulnerable(true);
 
@@ -509,11 +509,11 @@ public class DropsService implements BaseService, Listener {
 
         SMPItemBlueprint blueprint = plugin.getItemService().getBlueprint(event.getItem());
         ItemRarity rarityOfDrop = blueprint.getRarity(event.getItem());
-        Component prefix = ComponentUtil.getAlertMessage(Component.text(rarityOfDrop.name() + " DROP!!! ").decorate(TextDecoration.BOLD), NamedTextColor.YELLOW, rarityOfDrop.color);
-        Component player = ComponentUtil.getColoredComponent(event.getPlayer().getName(), NamedTextColor.AQUA);
+        Component prefix = ComponentUtils.getAlertMessage(Component.text(rarityOfDrop.name() + " DROP!!! ").decorate(TextDecoration.BOLD), NamedTextColor.YELLOW, rarityOfDrop.color);
+        Component player = ComponentUtils.getColoredComponent(event.getPlayer().getName(), NamedTextColor.AQUA);
         Component item = event.getItem().displayName().hoverEvent(event.getItem().asHoverEvent());
-        Component suffix = ComponentUtil.getDefaultText(" found ").append(item).append(ComponentUtil.getDefaultText(" from ")).append(event.getSource().getAsComponent()).append(ComponentUtil.getDefaultText("!"));
-        Component chance = ComponentUtil.getColoredComponent(" (" + event.getFormattedChance() + ")", NamedTextColor.DARK_GRAY);
+        Component suffix = ComponentUtils.getDefaultText(" found ").append(item).append(ComponentUtils.getDefaultText(" from ")).append(event.getSource().getAsComponent()).append(ComponentUtils.getDefaultText("!"));
+        Component chance = ComponentUtils.getColoredComponent(" (" + event.getFormattedChance() + ")", NamedTextColor.DARK_GRAY);
         boolean broadcastServer = rarityOfDrop.ordinal() >= ItemRarity.LEGENDARY.ordinal();
         if (event.getChance() < rarityOfDrop.ordinal() * rarityOfDrop.ordinal() / 100.0)
             broadcastServer = true;
@@ -536,7 +536,7 @@ public class DropsService implements BaseService, Listener {
             return;
 
         // Just show the message to the player since it's not THAT crazy
-        Component message = prefix.append(ComponentUtil.getDefaultText("You")).append(suffix).append(chance);
+        Component message = prefix.append(ComponentUtils.getDefaultText("You")).append(suffix).append(chance);
         event.getPlayer().sendMessage(message);
         event.getPlayer().playSound(event.getPlayer().getLocation(), Sound.ENTITY_CHICKEN_EGG, 1, 1);
     }

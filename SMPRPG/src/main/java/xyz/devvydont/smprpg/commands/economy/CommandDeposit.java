@@ -1,14 +1,13 @@
 package xyz.devvydont.smprpg.commands.economy;
 
 import io.papermc.paper.command.brigadier.CommandSourceStack;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.commands.CommandBase;
 import xyz.devvydont.smprpg.gui.InterfaceDeposit;
-import xyz.devvydont.smprpg.util.formatting.ChatUtil;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.Collection;
 import java.util.List;
@@ -27,7 +26,7 @@ public class CommandDeposit extends CommandBase {
         CommandSender commandSender = commandSourceStack.getSender();
 
         if (!(commandSender instanceof Player)) {
-            commandSender.sendMessage(ChatUtil.getErrorMessage("You are the console! You cannot do this!"));
+            commandSender.sendMessage(ComponentUtils.getErrorMessage("You are the console! You cannot do this!"));
             return;
         }
 
@@ -36,7 +35,7 @@ public class CommandDeposit extends CommandBase {
         InterfaceDeposit gui = new InterfaceDeposit(SMPRPG.getInstance(), player);
         gui.open();
 
-        player.sendMessage(ChatUtil.getSuccessMessage("Success!"));
+        player.sendMessage(ComponentUtils.getSuccessMessage("Success!"));
     }
 
     @Override

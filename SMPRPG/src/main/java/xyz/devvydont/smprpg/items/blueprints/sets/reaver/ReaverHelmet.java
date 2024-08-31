@@ -18,7 +18,7 @@ import xyz.devvydont.smprpg.items.base.CustomFakeHelmetBlueprint;
 import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
-import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.items.AbilityUtil;
 
 import java.util.ArrayList;
@@ -43,7 +43,7 @@ public class ReaverHelmet extends CustomFakeHelmetBlueprint implements ToolBreak
         List<Component> components = new ArrayList<>(super.getDescriptionComponent(meta));
         components.add(Component.empty());
         components.add(AbilityUtil.getAbilityComponent("Necrotic (Passive)"));
-        components.add(ComponentUtil.getDefaultText("Resists ").append(ComponentUtil.getColoredComponent("-" + ReaverArmorSet.WITHER_RESIST + "%", NamedTextColor.GREEN)).append(ComponentUtil.getDefaultText(" of wither damage")));
+        components.add(ComponentUtils.getDefaultText("Resists ").append(ComponentUtils.getColoredComponent("-" + ReaverArmorSet.WITHER_RESIST + "%", NamedTextColor.GREEN)).append(ComponentUtils.getDefaultText(" of wither damage")));
         return components;
     }
 

@@ -12,8 +12,7 @@ import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.ShapedRecipe;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.items.interfaces.Craftable;
-import xyz.devvydont.smprpg.util.formatting.ChatUtil;
-import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -77,12 +76,12 @@ public class InterfaceRecipe extends PrivateInterface {
         paper.editMeta(meta -> {
             List<Component> lore = new ArrayList<>();
             lore.add(Component.empty());
-            lore.add(ComponentUtil.getDefaultText("The following items must be"));
-            lore.add(ComponentUtil.getDefaultText("discovered to unlock this recipe"));
+            lore.add(ComponentUtils.getDefaultText("The following items must be"));
+            lore.add(ComponentUtils.getDefaultText("discovered to unlock this recipe"));
             lore.add(Component.empty());
             for (ItemStack item : requirements)
-                lore.add(ComponentUtil.getDefaultText("- ").append(item.displayName()));
-            meta.lore(ChatUtil.cleanItalics(lore));
+                lore.add(ComponentUtils.getDefaultText("- ").append(item.displayName()));
+            meta.lore(ComponentUtils.cleanItalics(lore));
             meta.setEnchantmentGlintOverride(true);
         });
         plugin.getItemService().setIgnoreMetaUpdate(paper);

@@ -1,7 +1,6 @@
 package xyz.devvydont.smprpg.enchantments.definitions;
 
 import io.papermc.paper.registry.RegistryKey;
-import io.papermc.paper.registry.data.EnchantmentRegistryEntry;
 import io.papermc.paper.registry.keys.EnchantmentKeys;
 import io.papermc.paper.registry.keys.tags.ItemTypeTagKeys;
 import io.papermc.paper.registry.set.RegistryKeySet;
@@ -22,7 +21,7 @@ import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.enchantments.CustomEnchantment;
 import xyz.devvydont.smprpg.enchantments.EnchantmentRarity;
 import xyz.devvydont.smprpg.services.EnchantmentService;
-import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 public class KeepingBlessing extends CustomEnchantment implements Listener {
 
@@ -32,7 +31,7 @@ public class KeepingBlessing extends CustomEnchantment implements Listener {
 
     @Override
     public @NotNull Component getDisplayName() {
-        return ComponentUtil.getColoredComponent("Blessing of Keeping", NamedTextColor.YELLOW);
+        return ComponentUtils.getColoredComponent("Blessing of Keeping", NamedTextColor.YELLOW);
     }
 
     @Override

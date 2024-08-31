@@ -6,19 +6,15 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.Style;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.commands.CommandBase;
 import xyz.devvydont.smprpg.services.EconomyService;
-import xyz.devvydont.smprpg.util.formatting.ChatUtil;
-import xyz.devvydont.smprpg.util.formatting.PlayerChatInformation;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.*;
 
@@ -36,7 +32,7 @@ public class CommandBalanceTop extends CommandBase {
 
         CommandSender commandSender = commandSourceStack.getSender();
 
-        commandSender.sendMessage(ChatUtil.getGenericMessage(Component.text("Querying users...").color(NamedTextColor.GRAY)));
+        commandSender.sendMessage(ComponentUtils.getGenericMessage(Component.text("Querying users...").color(NamedTextColor.GRAY)));
 
         new BukkitRunnable(){
 

@@ -12,8 +12,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.player.LeveledPlayer;
 import xyz.devvydont.smprpg.entity.base.LeveledEntity;
-import xyz.devvydont.smprpg.util.formatting.ChatUtil;
-import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.formatting.Symbols;
 
 import java.util.HashMap;
@@ -87,24 +86,24 @@ public class ActionBarService implements BaseService, Listener {
         int hp = (int) Math.ceil(leveledPlayer.getTotalHp());
         int maxHP = (int) leveledPlayer.getMaxHp();
         TextColor color = LeveledEntity.getChatColorFromHealth(hp, maxHP);
-        return ComponentUtil.getColoredComponent(hp + "", color)
-                .append(ComponentUtil.getDefaultText("/"))
-                .append(ComponentUtil.getColoredComponent(maxHP + "", NamedTextColor.GREEN))
-                .append(ComponentUtil.getColoredComponent(Symbols.HEART, NamedTextColor.RED));
+        return ComponentUtils.getColoredComponent(hp + "", color)
+                .append(ComponentUtils.getDefaultText("/"))
+                .append(ComponentUtils.getColoredComponent(maxHP + "", NamedTextColor.GREEN))
+                .append(ComponentUtils.getColoredComponent(Symbols.HEART, NamedTextColor.RED));
     }
 
     private Component getDefenseComponent(final Player player) {
 
         // We need to calculate defense since it is not storable on the player
         int def = plugin.getEntityService().getPlayerInstance(player).getDefense();
-        return ComponentUtil.getColoredComponent(def + "", NamedTextColor.DARK_GREEN)
-                .append(ComponentUtil.getColoredComponent(Symbols.SHIELD, NamedTextColor.GRAY));
+        return ComponentUtils.getColoredComponent(def + "", NamedTextColor.DARK_GREEN)
+                .append(ComponentUtils.getColoredComponent(Symbols.SHIELD, NamedTextColor.GRAY));
 
     }
 
     private Component getPowerComponent(final Player player) {
         LeveledPlayer p = plugin.getEntityService().getPlayerInstance(player);
-        return ChatUtil.getBracketedPowerComponent(p.getLevel());
+        return ComponentUtils.getBracketedPowerComponent(p.getLevel());
     }
 
     private void display(Player player) {

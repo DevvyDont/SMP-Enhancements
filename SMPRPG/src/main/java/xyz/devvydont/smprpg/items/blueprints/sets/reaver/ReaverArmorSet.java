@@ -19,7 +19,7 @@ import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
 import xyz.devvydont.smprpg.items.interfaces.Trimmable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
-import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.items.AbilityUtil;
 
 import java.util.ArrayList;
@@ -45,8 +45,8 @@ public abstract class ReaverArmorSet extends CustomArmorBlueprint implements Too
         List<Component> components = new ArrayList<>(super.getDescriptionComponent(meta));
         components.add(Component.empty());
         components.add(AbilityUtil.getAbilityComponent("Necrotic (Passive)"));
-        components.add(ComponentUtil.getDefaultText("Resists ").append(ComponentUtil.getColoredComponent("-" + getWitherResistance() + "%", NamedTextColor.GREEN)).append(ComponentUtil.getDefaultText(" of wither damage")));
-        components.add(ComponentUtil.getColoredComponent("(stacks multiplicatively)", NamedTextColor.DARK_GRAY));
+        components.add(ComponentUtils.getDefaultText("Resists ").append(ComponentUtils.getColoredComponent("-" + getWitherResistance() + "%", NamedTextColor.GREEN)).append(ComponentUtils.getDefaultText(" of wither damage")));
+        components.add(ComponentUtils.getColoredComponent("(stacks multiplicatively)", NamedTextColor.DARK_GRAY));
         return components;
     }
 

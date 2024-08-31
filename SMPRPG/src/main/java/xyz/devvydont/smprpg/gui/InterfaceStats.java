@@ -22,8 +22,7 @@ import xyz.devvydont.smprpg.listeners.EntityDamageCalculatorService;
 import xyz.devvydont.smprpg.skills.SkillInstance;
 import xyz.devvydont.smprpg.util.attributes.AttributeUtil;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
-import xyz.devvydont.smprpg.util.formatting.ChatUtil;
-import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.formatting.MinecraftStringUtils;
 import xyz.devvydont.smprpg.util.formatting.Symbols;
 
@@ -132,7 +131,7 @@ public class InterfaceStats extends PrivateInterface {
 
         }
 
-        meta.lore(ChatUtil.cleanItalics(lore));
+        meta.lore(ComponentUtils.cleanItalics(lore));
         skull.setItemMeta(meta);
         return skull;
     }
@@ -155,7 +154,7 @@ public class InterfaceStats extends PrivateInterface {
         for (AttributeWrapper attributeWrapper : AttributeWrapper.values())
             lore.add(Component.text(attributeWrapper.getCleanName()).color(NamedTextColor.GOLD).append(Component.text(" - ").color(NamedTextColor.GRAY).append(attributeWrapper.getDescription())));
 
-        meta.lore(ChatUtil.cleanItalics(lore));
+        meta.lore(ComponentUtils.cleanItalics(lore));
 
         paper.setItemMeta(meta);
         return paper;
@@ -167,17 +166,17 @@ public class InterfaceStats extends PrivateInterface {
         display.add(Component.empty());
         for (SkillInstance skill : player.getSkills())
             display.add(
-                    ComponentUtil.getColoredComponent(skill.getType().getDisplayName() + " " + skill.getLevel(), NamedTextColor.AQUA)
-                            .append(ComponentUtil.getDefaultText(" - "))
-                            .append(ComponentUtil.getColoredComponent(MinecraftStringUtils.formatNumber(skill.getExperienceProgress()), NamedTextColor.GREEN))
-                            .append(ComponentUtil.getDefaultText("/"))
-                            .append(ComponentUtil.getColoredComponent(MinecraftStringUtils.formatNumber(skill.getNextExperienceThreshold()), NamedTextColor.GOLD))
-                            .append(ComponentUtil.getDefaultText(" ("))
-                            .append(ComponentUtil.getColoredComponent(MinecraftStringUtils.formatNumber(skill.getExperience()) + "XP", NamedTextColor.DARK_GRAY))
-                            .append(ComponentUtil.getDefaultText(")"))
+                    ComponentUtils.getColoredComponent(skill.getType().getDisplayName() + " " + skill.getLevel(), NamedTextColor.AQUA)
+                            .append(ComponentUtils.getDefaultText(" - "))
+                            .append(ComponentUtils.getColoredComponent(MinecraftStringUtils.formatNumber(skill.getExperienceProgress()), NamedTextColor.GREEN))
+                            .append(ComponentUtils.getDefaultText("/"))
+                            .append(ComponentUtils.getColoredComponent(MinecraftStringUtils.formatNumber(skill.getNextExperienceThreshold()), NamedTextColor.GOLD))
+                            .append(ComponentUtils.getDefaultText(" ("))
+                            .append(ComponentUtils.getColoredComponent(MinecraftStringUtils.formatNumber(skill.getExperience()) + "XP", NamedTextColor.DARK_GRAY))
+                            .append(ComponentUtils.getDefaultText(")"))
             );
         display.add(Component.empty());
-        display.add(ComponentUtil.getDefaultText("Skill Average: ").append(ComponentUtil.getColoredComponent(String.format("%.2f", player.getAverageSkillLevel()), NamedTextColor.GOLD)));
+        display.add(ComponentUtils.getDefaultText("Skill Average: ").append(ComponentUtils.getColoredComponent(String.format("%.2f", player.getAverageSkillLevel()), NamedTextColor.GOLD)));
         return display;
     }
 
@@ -192,8 +191,8 @@ public class InterfaceStats extends PrivateInterface {
         if (getViewing() instanceof Player player)
             lore.addAll(getSkillDisplay(plugin.getEntityService().getPlayerInstance(player)));
         else
-            lore.add(ComponentUtil.getColoredComponent("Only players have skills!", NamedTextColor.RED));
-        meta.lore(ChatUtil.cleanItalics(lore));
+            lore.add(ComponentUtils.getColoredComponent("Only players have skills!", NamedTextColor.RED));
+        meta.lore(ComponentUtils.cleanItalics(lore));
         paper.setItemMeta(meta);
         return paper;
     }
@@ -207,7 +206,7 @@ public class InterfaceStats extends PrivateInterface {
                 Component.empty(),
                 Component.text("Click to view their entire inventory and Ender Chest!", NamedTextColor.GRAY)
         );
-        meta.lore(ChatUtil.cleanItalics(lore));
+        meta.lore(ComponentUtils.cleanItalics(lore));
         chest.setItemMeta(meta);
         return chest;
     }

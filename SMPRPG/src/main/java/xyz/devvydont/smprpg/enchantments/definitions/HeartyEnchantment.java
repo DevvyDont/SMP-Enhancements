@@ -1,14 +1,10 @@
 package xyz.devvydont.smprpg.enchantments.definitions;
 
-import io.papermc.paper.registry.data.EnchantmentRegistryEntry;
-import io.papermc.paper.registry.event.RegistryFreezeEvent;
 import io.papermc.paper.registry.keys.tags.ItemTypeTagKeys;
-import io.papermc.paper.registry.set.RegistryKeySet;
 import io.papermc.paper.registry.tag.TagKey;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemType;
 import org.jetbrains.annotations.NotNull;
@@ -18,7 +14,7 @@ import xyz.devvydont.smprpg.enchantments.base.AttributeEnchantment;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeModifierType;
-import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.formatting.Symbols;
 
 import java.util.Collection;
@@ -56,7 +52,7 @@ public class HeartyEnchantment extends CustomEnchantment implements AttributeEnc
     public @NotNull Component getDescription() {
         return Component.text("Increases max HP by ").color(NamedTextColor.GRAY)
                 .append(Component.text("+" + getHealthIncrease(getLevel())).color(NamedTextColor.GREEN))
-                .append(ComponentUtil.getColoredComponent(Symbols.HEART, NamedTextColor.RED));
+                .append(ComponentUtils.getColoredComponent(Symbols.HEART, NamedTextColor.RED));
     }
 
     @Override

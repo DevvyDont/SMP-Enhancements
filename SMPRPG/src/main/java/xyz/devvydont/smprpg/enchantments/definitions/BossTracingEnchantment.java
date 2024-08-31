@@ -1,6 +1,5 @@
 package xyz.devvydont.smprpg.enchantments.definitions;
 
-import io.papermc.paper.registry.data.EnchantmentRegistryEntry;
 import io.papermc.paper.registry.keys.tags.ItemTypeTagKeys;
 import io.papermc.paper.registry.tag.TagKey;
 import net.kyori.adventure.text.Component;
@@ -20,7 +19,7 @@ import xyz.devvydont.smprpg.enchantments.CustomEnchantment;
 import xyz.devvydont.smprpg.enchantments.EnchantmentRarity;
 import xyz.devvydont.smprpg.enchantments.EnchantmentUtil;
 import xyz.devvydont.smprpg.entity.base.BossInstance;
-import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 public class BossTracingEnchantment extends CustomEnchantment implements Listener {
 
@@ -47,10 +46,10 @@ public class BossTracingEnchantment extends CustomEnchantment implements Listene
 
     @Override
     public @NotNull Component getDescription() {
-        return ComponentUtil.getDefaultText("Arrows fired will home onto bosses ")
-                .append(ComponentUtil.getColoredComponent(getActivationDistance(getLevel()) + "m", NamedTextColor.GREEN))
-                .append(ComponentUtil.getDefaultText(" away for "))
-                .append(ComponentUtil.getColoredComponent(getTimeout(getLevel()) + "s", NamedTextColor.GREEN));
+        return ComponentUtils.getDefaultText("Arrows fired will home onto bosses ")
+                .append(ComponentUtils.getColoredComponent(getActivationDistance(getLevel()) + "m", NamedTextColor.GREEN))
+                .append(ComponentUtils.getDefaultText(" away for "))
+                .append(ComponentUtils.getColoredComponent(getTimeout(getLevel()) + "s", NamedTextColor.GREEN));
     }
 
     @Override

@@ -17,7 +17,7 @@ import xyz.devvydont.smprpg.services.ActionBarService;
 import xyz.devvydont.smprpg.skills.SkillInstance;
 import xyz.devvydont.smprpg.skills.rewards.SkillReward;
 import xyz.devvydont.smprpg.skills.SkillType;
-import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.formatting.MinecraftStringUtils;
 import xyz.devvydont.smprpg.util.formatting.Symbols;
 
@@ -35,14 +35,14 @@ public class ExperienceGainNotifier implements Listener {
         String oldLevel = String.valueOf(newLevel-1);
         String newLevelStr = String.valueOf(newLevel);
         player.sendMessage(Component.empty());
-        player.sendMessage(ComponentUtil.getAlertMessage(ComponentUtil.getColoredComponent("SKILL LEVEL UP!!!", NamedTextColor.GOLD).decoration(TextDecoration.BOLD, true), NamedTextColor.AQUA));
-        player.sendMessage(ComponentUtil.getDefaultText("--------------------------"));
-        player.sendMessage(ComponentUtil.getColoredComponent("   " + type.getDisplayName() + " ", NamedTextColor.AQUA).append(ComponentUtil.getUpgradeComponent(oldLevel, newLevelStr, NamedTextColor.AQUA)));
+        player.sendMessage(ComponentUtils.getAlertMessage(ComponentUtils.getColoredComponent("SKILL LEVEL UP!!!", NamedTextColor.GOLD).decoration(TextDecoration.BOLD, true), NamedTextColor.AQUA));
+        player.sendMessage(ComponentUtils.getDefaultText("--------------------------"));
+        player.sendMessage(ComponentUtils.getColoredComponent("   " + type.getDisplayName() + " ", NamedTextColor.AQUA).append(ComponentUtils.getUpgradeComponent(oldLevel, newLevelStr, NamedTextColor.AQUA)));
         player.sendMessage(Component.empty());
-        player.sendMessage(ComponentUtil.getColoredComponent("   Rewards:", NamedTextColor.GREEN));
+        player.sendMessage(ComponentUtils.getColoredComponent("   Rewards:", NamedTextColor.GREEN));
         for (SkillReward reward : skill.getRewards(newLevel))
-            player.sendMessage(ComponentUtil.getDefaultText("    " + Symbols.POINT + " ").append(reward.getDisplayName()));
-        player.sendMessage(ComponentUtil.getDefaultText("--------------------------"));
+            player.sendMessage(ComponentUtils.getDefaultText("    " + Symbols.POINT + " ").append(reward.getDisplayName()));
+        player.sendMessage(ComponentUtils.getDefaultText("--------------------------"));
         player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 2);
     }
 
@@ -74,8 +74,8 @@ public class ExperienceGainNotifier implements Listener {
         if (event.getSource().equals(SkillExperienceGainEvent.ExperienceSource.XP))
             return;
 
-        Component component = ComponentUtil.getColoredComponent(event.getSkillType().getDisplayName() + " " + event.getSkill().getLevel(), NamedTextColor.AQUA)
-                .append(ComponentUtil.getDefaultText(" | "))
+        Component component = ComponentUtils.getColoredComponent(event.getSkillType().getDisplayName() + " " + event.getSkill().getLevel(), NamedTextColor.AQUA)
+                .append(ComponentUtils.getDefaultText(" | "))
                 .append(Component.text(MinecraftStringUtils.formatNumber(event.getSkill().getExperienceProgress())).color(NamedTextColor.GREEN))
                 .append(Component.text("/" + MinecraftStringUtils.formatNumber(event.getSkill().getNextExperienceThreshold())).color(NamedTextColor.DARK_GRAY))
                 .append(Component.text(" (+" + MinecraftStringUtils.formatNumber(event.getSkill().getCombo()) + ")").color(NamedTextColor.GOLD));

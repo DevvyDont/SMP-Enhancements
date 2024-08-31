@@ -7,7 +7,7 @@ import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.reforge.ReforgeBase;
 import xyz.devvydont.smprpg.reforge.ReforgeType;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
-import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.Collection;
 import java.util.List;
@@ -28,8 +28,8 @@ public class HeartyReforge extends ReforgeBase {
     @Override
     public List<Component> getDescription() {
         return List.of(
-                ComponentUtil.getDefaultText("Provides a moderate boost"),
-                ComponentUtil.getDefaultText("to maximum health")
+                ComponentUtils.getDefaultText("Provides a moderate boost"),
+                ComponentUtils.getDefaultText("to maximum health")
         );
     }
 

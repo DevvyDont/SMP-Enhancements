@@ -19,7 +19,7 @@ import xyz.devvydont.smprpg.items.base.ChargedItemBlueprint;
 import xyz.devvydont.smprpg.items.interfaces.Craftable;
 import xyz.devvydont.smprpg.services.ActionBarService;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.Collection;
 import java.util.List;
@@ -33,8 +33,8 @@ public class EnchantedMilkBucket extends ChargedItemBlueprint implements Listene
     @Override
     public List<Component> getDescriptionComponent(ItemMeta meta) {
         return List.of(
-                ComponentUtil.getDefaultText("Consume to cleanse ").append(ComponentUtil.getColoredComponent("ALL", NamedTextColor.GOLD)),
-                ComponentUtil.getDefaultText("status effects you have!")
+                ComponentUtils.getDefaultText("Consume to cleanse ").append(ComponentUtils.getColoredComponent("ALL", NamedTextColor.GOLD)),
+                ComponentUtils.getDefaultText("status effects you have!")
         );
     }
 
@@ -59,7 +59,7 @@ public class EnchantedMilkBucket extends ChargedItemBlueprint implements Listene
         event.getPlayer().getInventory().setItem(event.getHand(), milk);
         event.setCancelled(true);
         event.getPlayer().clearActivePotionEffects();
-        SMPRPG.getInstance().getActionBarService().addActionBarComponent(event.getPlayer(), ActionBarService.ActionBarSource.MISC, ComponentUtil.getColoredComponent("CLEANSED!", NamedTextColor.GREEN), 2);
+        SMPRPG.getInstance().getActionBarService().addActionBarComponent(event.getPlayer(), ActionBarService.ActionBarSource.MISC, ComponentUtils.getColoredComponent("CLEANSED!", NamedTextColor.GREEN), 2);
     }
 
     @Override
