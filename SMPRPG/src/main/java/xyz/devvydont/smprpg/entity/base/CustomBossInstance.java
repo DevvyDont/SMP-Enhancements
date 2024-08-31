@@ -1,8 +1,11 @@
 package xyz.devvydont.smprpg.entity.base;
 
+import net.kyori.adventure.bossbar.BossBar;
+import net.kyori.adventure.text.Component;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.CustomEntityType;
 
@@ -13,6 +16,11 @@ public class CustomBossInstance extends BossInstance {
     public CustomBossInstance(SMPRPG plugin, Entity entity, CustomEntityType type) {
         super(plugin, entity);
         this.type = type;
+    }
+
+    @Override
+    public @Nullable BossBar createBossBar() {
+        return BossBar.bossBar(Component.empty(), 1.0f, BossBar.Color.RED, BossBar.Overlay.NOTCHED_10);
     }
 
     @Override

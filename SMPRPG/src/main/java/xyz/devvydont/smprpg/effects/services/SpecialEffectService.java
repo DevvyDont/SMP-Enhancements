@@ -80,7 +80,7 @@ public class SpecialEffectService implements BaseService {
         // Create a task and run it every second and store it
         if (effect instanceof Listener listener)
             plugin.getServer().getPluginManager().registerEvents(listener, plugin);
-        effect.runTaskTimer(plugin, 0, 20);
+        effect.runTaskTimer(plugin, 0, SpecialEffectTask.PERIOD);
         currentTasks.put(player.getUniqueId(), effect);
     }
 
@@ -117,7 +117,7 @@ public class SpecialEffectService implements BaseService {
 
         // Cancel the task, send an expired action bar, and remove the reference to the task
         task.cancel();
-        task.sendActionBar(0);
+        task.sendActionBar(-1);
         task.removed();
         currentTasks.remove(uuid);
 

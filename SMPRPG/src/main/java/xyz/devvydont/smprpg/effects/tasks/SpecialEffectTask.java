@@ -16,9 +16,13 @@ import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
  */
 public abstract class SpecialEffectTask extends BukkitRunnable {
 
+    // How many ticks to wait to run this task. 2 would be every 2 ticks, or 10 times a second.
+    public static final int PERIOD = 2;
+
     protected final SpecialEffectService service;
     protected final Player player;
     int seconds;
+    private int ticks = 0;
 
     public SpecialEffectTask(SpecialEffectService service, Player player, int seconds) {
         this.service = service;
@@ -63,11 +67,14 @@ public abstract class SpecialEffectTask extends BukkitRunnable {
 
     private Component generateComponent(int seconds) {
 
-        int minutes = seconds / 60;
+        int displaySeconds = seconds-1;
+        int minutes = displaySeconds / 60;
 
         boolean expired = seconds <= 0;
         Component time;
         String timestring = String.format("%d:%02d", minutes, seconds % 60);
+        if (displaySeconds <= 59)
+            timestring = String.format("%d.%d", displaySeconds, (9-ticks%10));
         if (expired)
             time = getExpiredComponent();
         else
@@ -86,6 +93,8 @@ public abstract class SpecialEffectTask extends BukkitRunnable {
     @Override
     public void run() {
 
+        ticks++;
+
         // Did they log out or did we lose the reference? Cancel the task if that is the case
         if (!player.isValid()) {
             removed();
@@ -93,6 +102,14 @@ public abstract class SpecialEffectTask extends BukkitRunnable {
             cancel();
             return;
         }
+
+        // If a second has gone by (PERIOD * ticks is divisible by the tick rate of the server), then take a second away
+        if (PERIOD * ticks % 20 == 0)
+            seconds--;
+
+        // Announce to them how much time they have left with this effect
+        tick();
+        sendActionBar();
 
         // If the task expired, remove this task
         if (seconds <= 0) {
@@ -102,11 +119,6 @@ public abstract class SpecialEffectTask extends BukkitRunnable {
             cancel();
             return;
         }
-
-        seconds--;
-        // Announce to them how much time they have left with this effect
-        tick();
-        sendActionBar();
     }
 
 }

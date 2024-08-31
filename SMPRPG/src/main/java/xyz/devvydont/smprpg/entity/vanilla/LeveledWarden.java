@@ -1,5 +1,7 @@
 package xyz.devvydont.smprpg.entity.vanilla;
 
+import net.kyori.adventure.bossbar.BossBar;
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Material;
@@ -24,6 +26,11 @@ public class LeveledWarden extends BossInstance {
 
     public LeveledWarden(SMPRPG plugin, Entity entity) {
         super(plugin, entity);
+    }
+
+    @Override
+    public @Nullable BossBar createBossBar() {
+        return BossBar.bossBar(Component.empty(), 1.0f, BossBar.Color.BLUE, BossBar.Overlay.NOTCHED_20);
     }
 
     @Override

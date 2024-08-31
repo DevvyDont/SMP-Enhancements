@@ -1,5 +1,6 @@
 package xyz.devvydont.smprpg.entity.vanilla;
 
+import net.kyori.adventure.bossbar.BossBar;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -21,6 +22,19 @@ public class LeveledWither extends BossInstance {
 
     public LeveledWither(SMPRPG plugin, Entity entity) {
         super(plugin, entity);
+    }
+
+    @Override
+    public @Nullable BossBar createBossBar() {
+        return null;
+    }
+
+    /*
+     * 5 min
+     */
+    @Override
+    public long getTimeLimit() {
+        return 60L * 5L;
     }
 
     @Override

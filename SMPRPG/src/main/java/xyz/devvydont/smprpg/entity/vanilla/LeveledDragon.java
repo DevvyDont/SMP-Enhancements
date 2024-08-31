@@ -1,5 +1,6 @@
 package xyz.devvydont.smprpg.entity.vanilla;
 
+import net.kyori.adventure.bossbar.BossBar;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.AreaEffectCloud;
 import org.bukkit.entity.Entity;
@@ -26,6 +27,11 @@ public class LeveledDragon extends BossInstance {
 
     public LeveledDragon(SMPRPG plugin, Entity entity) {
         super(plugin, entity);
+    }
+
+    @Override
+    public @Nullable BossBar createBossBar() {
+        return null;
     }
 
     @Override

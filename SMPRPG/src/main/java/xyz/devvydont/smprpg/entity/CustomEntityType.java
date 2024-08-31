@@ -52,6 +52,9 @@ public enum CustomEntityType {
             new EntitySpawnCondition[]{new StructureSpawnCondition(Structure.FORTRESS)}, 10,
             FierySylph.class),
 
+    PHOENIX(EntityType.BLAZE, "Phoenix",
+            50, 20_000, 2250, CustomEntityInstance.class),
+
     INFERNAL_PHOENIX(EntityType.BLAZE, "Infernal Phoenix",
             50, 1_500_000, 2500, BlazeBoss.class),
 

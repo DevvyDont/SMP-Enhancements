@@ -25,7 +25,7 @@ public class ShroudedEffect extends SpecialEffectTask implements Listener {
 
     @Override
     public Component getNameComponent() {
-        return Component.text("Shrouded!", NamedTextColor.GOLD);
+        return Component.text("Shrouded!", NamedTextColor.AQUA);
     }
 
     @Override

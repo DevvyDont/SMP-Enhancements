@@ -29,7 +29,7 @@ public class InfernoShortbow extends CustomShortbow implements Craftable, Sellab
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, 270),
-                new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, -.25)
+                new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, -.4)
         );
     }
 
