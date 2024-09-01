@@ -11,7 +11,9 @@ import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.damage.DamageType;
-import org.bukkit.entity.*;
+import org.bukkit.entity.Firework;
+import org.bukkit.entity.Item;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -25,9 +27,9 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
-import xyz.devvydont.smprpg.entity.player.LeveledPlayer;
 import xyz.devvydont.smprpg.entity.base.EnemyEntity;
 import xyz.devvydont.smprpg.entity.base.LeveledEntity;
+import xyz.devvydont.smprpg.entity.player.LeveledPlayer;
 import xyz.devvydont.smprpg.events.CustomChancedItemDropSuccessEvent;
 import xyz.devvydont.smprpg.events.CustomItemDropRollEvent;
 import xyz.devvydont.smprpg.items.ItemRarity;
@@ -273,9 +275,9 @@ public class DropsService implements BaseService, Listener {
                         if (rawName == null)
                             rawName = "???";
 
-                        Component name = Component.text(" (" + rawName + ")", NamedTextColor.DARK_GRAY);
+                        Component name = ComponentUtils.create(" (" + rawName + ")", NamedTextColor.DARK_GRAY);
                         String timeleft = stringifyTime((expiresAt - now) / 1000);
-                        Component time = Component.text(" (" + timeleft + ")", NamedTextColor.DARK_GRAY);
+                        Component time = ComponentUtils.create(" (" + timeleft + ")", NamedTextColor.DARK_GRAY);
                         Component itemName = plugin.getItemService().getBlueprint(item.getItemStack()).getNameComponent(item.getItemStack().getItemMeta());
                         item.customName(time.append(itemName).append(name.decoration(TextDecoration.OBFUSCATED, false)));
                     }

@@ -17,6 +17,7 @@ import org.bukkit.inventory.ItemType;
 import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.enchantments.EnchantmentUtil;
 import xyz.devvydont.smprpg.enchantments.definitions.vanilla.UnchangedEnchantment;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 public class ThornsEnchantment extends UnchangedEnchantment implements Listener {
 
@@ -35,16 +36,18 @@ public class ThornsEnchantment extends UnchangedEnchantment implements Listener 
 
     @Override
     public @NotNull Component getDisplayName() {
-        return Component.text("Thorns");
+        return ComponentUtils.create("Thorns");
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Provides a ").color(NamedTextColor.GRAY)
-                .append(Component.text(getReflectChance(getLevel()) + "%").color(NamedTextColor.GREEN))
-                .append(Component.text(" chance to reflect ").color(NamedTextColor.GRAY))
-                .append(Component.text(getReflectDamage(getLevel())).color(NamedTextColor.RED))
-                .append(Component.text(" damage when hurt").color(NamedTextColor.GRAY));
+        return ComponentUtils.merge(
+            ComponentUtils.create("Provides a "),
+            ComponentUtils.create(getReflectChance(getLevel()) + "%", NamedTextColor.GREEN),
+            ComponentUtils.create(" chance to reflect "),
+            ComponentUtils.create(String.valueOf(getReflectDamage(getLevel())), NamedTextColor.RED),
+            ComponentUtils.create(" damage when hurt")
+        );
     }
 
     @Override

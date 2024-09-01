@@ -40,7 +40,7 @@ public class InterfaceSpawnerMainMenu extends PrivateInterface {
             public ItemStack getItem(InterfaceSpawnerMainMenu gui) {
                 ItemStack display = InterfaceUtil.getNamedItem(Material.BEDROCK, ComponentUtils.create("Delete Spawner", NamedTextColor.RED));
                 List<Component> lore = new ArrayList<>();
-                lore.add(Component.empty());
+                lore.add(ComponentUtils.EMPTY);
                 lore.add(ComponentUtils.create("Click to remove this spawner from the world!", NamedTextColor.RED));
                 display.editMeta(meta -> {
                     meta.lore(lore);
@@ -62,11 +62,11 @@ public class InterfaceSpawnerMainMenu extends PrivateInterface {
             public ItemStack getItem(InterfaceSpawnerMainMenu gui) {
                 ItemStack display = InterfaceUtil.getNamedItem(Material.SKELETON_SKULL, ComponentUtils.create("Edit Entity Choices", NamedTextColor.GOLD));
                 List<Component> lore = new ArrayList<>();
-                lore.add(Component.empty());
+                lore.add(ComponentUtils.EMPTY);
                 lore.add(ComponentUtils.create("Currently spawning " + gui.getSpawner().getOptions().getEntries().size() + " entities"));
                 for (EntitySpawner.SpawnerEntry entry : gui.getSpawner().getOptions().getEntries())
                     lore.add(ComponentUtils.create("- Entity: ").append(ComponentUtils.create(entry.type().name, NamedTextColor.RED)).append(ComponentUtils.create(" Weight: ").append(ComponentUtils.create("" + entry.weight(), NamedTextColor.GREEN))));
-                lore.add(Component.empty());
+                lore.add(ComponentUtils.EMPTY);
                 lore.add(ComponentUtils.create("Click to edit!", NamedTextColor.YELLOW));
                 display.editMeta(meta -> {
                     meta.lore(lore);
@@ -87,11 +87,11 @@ public class InterfaceSpawnerMainMenu extends PrivateInterface {
                 ItemStack display = InterfaceUtil.getNamedItem(Material.EXPERIENCE_BOTTLE, ComponentUtils.create("Set Level", NamedTextColor.GOLD));
                 display.editMeta(meta -> {
                     meta.lore(List.of(
-                            Component.empty(),
+                            ComponentUtils.EMPTY,
                             ComponentUtils.create("Current Level:").append(ComponentUtils.create(" " + gui.getSpawner().getOptions().getLevel(), NamedTextColor.GREEN)),
-                            Component.empty(),
+                            ComponentUtils.EMPTY,
                             ComponentUtils.create("Left click to increase, Right click to decrease"),
-                            Component.empty(),
+                            ComponentUtils.EMPTY,
                             ComponentUtils.create("The level to attempt to spawn mobs at. Mobs spawned at a different"),
                             ComponentUtils.create("level than their base level may have unexpected statistics however")
                     ));
@@ -121,11 +121,11 @@ public class InterfaceSpawnerMainMenu extends PrivateInterface {
                 ItemStack display = InterfaceUtil.getNamedItem(Material.SPYGLASS, ComponentUtils.create("Set Spawn Radius", NamedTextColor.GOLD));
                 display.editMeta(meta -> {
                     meta.lore(List.of(
-                            Component.empty(),
+                            ComponentUtils.EMPTY,
                             ComponentUtils.create("Current Radius:").append(ComponentUtils.create(" " + gui.getSpawner().getOptions().getRadius() + " blocks", NamedTextColor.GREEN)),
-                            Component.empty(),
+                            ComponentUtils.EMPTY,
                             ComponentUtils.create("Left click to increase, Right click to decrease"),
-                            Component.empty(),
+                            ComponentUtils.EMPTY,
                             ComponentUtils.create("Range is how far away (in blocks) a mob can spawn from the location"),
                             ComponentUtils.create("of this spawner. Y position is ignored as a Y value is calculated dynamically")
                     ));
@@ -155,11 +155,11 @@ public class InterfaceSpawnerMainMenu extends PrivateInterface {
                 ItemStack display = InterfaceUtil.getNamedItem(Material.LEVER, ComponentUtils.create("Set Spawn Limit", NamedTextColor.GOLD));
                 display.editMeta(meta -> {
                     meta.lore(List.of(
-                            Component.empty(),
+                            ComponentUtils.EMPTY,
                             ComponentUtils.create("Current Limit:").append(ComponentUtils.create(" " + gui.getSpawner().getOptions().getLimit() + " entities", NamedTextColor.GREEN)),
-                            Component.empty(),
+                            ComponentUtils.EMPTY,
                             ComponentUtils.create("Left click to increase, Right click to decrease"),
-                            Component.empty(),
+                            ComponentUtils.EMPTY,
                             ComponentUtils.create("Spawner limit is how many entities at a time this specific"),
                             ComponentUtils.create("spawner can add entities to the world. Spawning cycles are"),
                             ComponentUtils.create("skipped when " + gui.getSpawner().getOptions().getLimit() + " entities spawned from this spawner are alive")

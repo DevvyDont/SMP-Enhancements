@@ -15,8 +15,8 @@ import xyz.devvydont.smprpg.events.skills.SkillExperiencePostGainEvent;
 import xyz.devvydont.smprpg.events.skills.SkillLevelUpEvent;
 import xyz.devvydont.smprpg.services.ActionBarService;
 import xyz.devvydont.smprpg.skills.SkillInstance;
-import xyz.devvydont.smprpg.skills.rewards.SkillReward;
 import xyz.devvydont.smprpg.skills.SkillType;
+import xyz.devvydont.smprpg.skills.rewards.SkillReward;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.formatting.MinecraftStringUtils;
 import xyz.devvydont.smprpg.util.formatting.Symbols;
@@ -34,11 +34,11 @@ public class ExperienceGainNotifier implements Listener {
         SkillType type = skill.getType();
         String oldLevel = String.valueOf(newLevel-1);
         String newLevelStr = String.valueOf(newLevel);
-        player.sendMessage(Component.empty());
+        player.sendMessage(ComponentUtils.EMPTY);
         player.sendMessage(ComponentUtils.alert(ComponentUtils.create("SKILL LEVEL UP!!!", NamedTextColor.GOLD).decoration(TextDecoration.BOLD, true), NamedTextColor.AQUA));
         player.sendMessage(ComponentUtils.create("--------------------------"));
-        player.sendMessage(ComponentUtils.create("   " + type.getDisplayName() + " ", NamedTextColor.AQUA).append(ComponentUtils.getUpgradeComponent(oldLevel, newLevelStr, NamedTextColor.AQUA)));
-        player.sendMessage(Component.empty());
+        player.sendMessage(ComponentUtils.create("   " + type.getDisplayName() + " ", NamedTextColor.AQUA).append(ComponentUtils.upgrade(oldLevel, newLevelStr, NamedTextColor.AQUA)));
+        player.sendMessage(ComponentUtils.EMPTY);
         player.sendMessage(ComponentUtils.create("   Rewards:", NamedTextColor.GREEN));
         for (SkillReward reward : skill.getRewards(newLevel))
             player.sendMessage(ComponentUtils.create("    " + Symbols.POINT + " ").append(reward.getDisplayName()));
@@ -76,9 +76,9 @@ public class ExperienceGainNotifier implements Listener {
 
         Component component = ComponentUtils.create(event.getSkillType().getDisplayName() + " " + event.getSkill().getLevel(), NamedTextColor.AQUA)
                 .append(ComponentUtils.create(" | "))
-                .append(Component.text(MinecraftStringUtils.formatNumber(event.getSkill().getExperienceProgress())).color(NamedTextColor.GREEN))
-                .append(Component.text("/" + MinecraftStringUtils.formatNumber(event.getSkill().getNextExperienceThreshold())).color(NamedTextColor.DARK_GRAY))
-                .append(Component.text(" (+" + MinecraftStringUtils.formatNumber(event.getSkill().getCombo()) + ")").color(NamedTextColor.GOLD));
+                .append(ComponentUtils.create(MinecraftStringUtils.formatNumber(event.getSkill().getExperienceProgress()), NamedTextColor.GREEN))
+                .append(ComponentUtils.create("/" + MinecraftStringUtils.formatNumber(event.getSkill().getNextExperienceThreshold()), NamedTextColor.DARK_GRAY))
+                .append(ComponentUtils.create(" (+" + MinecraftStringUtils.formatNumber(event.getSkill().getCombo()) + ")", NamedTextColor.GOLD));
 
         // Send the player an action bar of their experience progress
         plugin.getActionBarService().addActionBarComponent(event.getPlayer(), ActionBarService.ActionBarSource.SKILL, component, 5);

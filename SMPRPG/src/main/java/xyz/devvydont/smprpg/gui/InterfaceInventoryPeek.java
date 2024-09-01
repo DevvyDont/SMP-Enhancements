@@ -1,6 +1,5 @@
 package xyz.devvydont.smprpg.gui;
 
-import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -11,6 +10,7 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitTask;
 import xyz.devvydont.smprpg.SMPRPG;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -83,10 +83,10 @@ public class InterfaceInventoryPeek extends PrivateInterface {
             inventory.setItem(index, item.clone());
         }
 
-        ItemStack chestButton = useEnderChest ? InterfaceUtil.getNamedItem(Material.CHEST, Component.text("Switch to Inventory", NamedTextColor.GOLD)) :
-                InterfaceUtil.getNamedItem(Material.ENDER_CHEST, Component.text("Switch to Ender Chest", NamedTextColor.LIGHT_PURPLE));
+        ItemStack chestButton = useEnderChest ? InterfaceUtil.getNamedItem(Material.CHEST, ComponentUtils.create("Switch to Inventory", NamedTextColor.GOLD)) :
+                InterfaceUtil.getNamedItem(Material.ENDER_CHEST, ComponentUtils.create("Switch to Ender Chest", NamedTextColor.LIGHT_PURPLE));
         inventory.setItem(CHEST_TOGGLE_SLOT, chestButton);
-        inventory.setItem(CLOSE_BUTTON, InterfaceUtil.getNamedItem(Material.BARRIER, Component.text("Close", NamedTextColor.RED)));
+        inventory.setItem(CLOSE_BUTTON, InterfaceUtil.getNamedItem(Material.BARRIER, ComponentUtils.create("Close", NamedTextColor.RED)));
         inventoryView.setTitle(currentlyViewing.getName() + "'s " + (useEnderChest ? "Ender Chest" : "Inventory"));
     }
 

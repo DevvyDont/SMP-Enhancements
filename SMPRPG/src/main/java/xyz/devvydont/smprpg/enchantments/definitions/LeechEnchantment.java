@@ -1,22 +1,16 @@
 package xyz.devvydont.smprpg.enchantments.definitions;
 
-import io.papermc.paper.registry.data.EnchantmentRegistryEntry;
-import io.papermc.paper.registry.event.RegistryFreezeEvent;
 import io.papermc.paper.registry.keys.tags.ItemTypeTagKeys;
-import io.papermc.paper.registry.set.RegistryKeySet;
 import io.papermc.paper.registry.tag.TagKey;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemType;
@@ -25,6 +19,7 @@ import xyz.devvydont.smprpg.enchantments.CustomEnchantment;
 import xyz.devvydont.smprpg.enchantments.EnchantmentRarity;
 import xyz.devvydont.smprpg.enchantments.EnchantmentUtil;
 import xyz.devvydont.smprpg.events.CustomEntityDamageByEntityEvent;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 public class LeechEnchantment extends CustomEnchantment implements Listener {
 
@@ -47,15 +42,16 @@ public class LeechEnchantment extends CustomEnchantment implements Listener {
 
     @Override
     public @NotNull Component getDisplayName() {
-        return Component.text("Leech");
+        return ComponentUtils.create("Leech");
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Heal ").color(NamedTextColor.GRAY)
-                .append(Component.text("+" + getLifestealPercent(getLevel()) + "%").color(NamedTextColor.GREEN)
-                .append(Component.text(" of max health when hurting an enemy").color(NamedTextColor.GRAY))
-                );
+        return ComponentUtils.merge(
+            ComponentUtils.create("Heal "),
+            ComponentUtils.create("+" + getLifestealPercent(getLevel()) + "%", NamedTextColor.GREEN),
+            ComponentUtils.create(" of max health when hurting an enemy")
+        );
     }
 
     @Override

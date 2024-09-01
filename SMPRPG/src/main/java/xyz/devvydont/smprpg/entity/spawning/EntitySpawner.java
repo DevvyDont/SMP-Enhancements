@@ -19,10 +19,10 @@ import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.CustomEntityType;
 import xyz.devvydont.smprpg.entity.base.CustomEntityInstance;
 import xyz.devvydont.smprpg.entity.base.LeveledEntity;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.persistence.PersistentSpawnerOptionsDatatype;
 
 import java.util.*;
-import java.util.logging.Level;
 
 public class EntitySpawner extends CustomEntityInstance implements Listener {
 
@@ -298,12 +298,12 @@ public class EntitySpawner extends CustomEntityInstance implements Listener {
 
     @Override
     public Component generateNametagComponent() {
-        return Component.empty();
+        return ComponentUtils.EMPTY;
     }
 
     @Override
     public Component getHealthNametagComponent() {
-        return Component.empty();
+        return ComponentUtils.EMPTY;
     }
 
     public ItemDisplay getBlockDisplay() {

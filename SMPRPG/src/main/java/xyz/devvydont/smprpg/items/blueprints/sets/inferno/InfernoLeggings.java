@@ -9,7 +9,6 @@ import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
-import xyz.devvydont.smprpg.util.crafting.builders.BootsRecipe;
 import xyz.devvydont.smprpg.util.crafting.builders.LeggingsRecipe;
 
 import java.util.Collection;

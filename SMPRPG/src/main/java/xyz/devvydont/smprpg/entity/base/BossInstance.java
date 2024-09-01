@@ -184,11 +184,12 @@ public abstract class BossInstance extends EnemyEntity implements Listener {
             player.setHealth(0);
         }
 
-        Bukkit.broadcast(ComponentUtils.alert(
-                ComponentUtils.create("The "))
-                .append(generateNametagComponent()).append(getDisplaynameNametagComponent())
-                .append(ComponentUtils.create(" has reigned victorious and wiped out those who challenged it."))
-        );
+        Bukkit.broadcast(ComponentUtils.alert(ComponentUtils.merge(
+            ComponentUtils.create("The "),
+            generateNametagComponent(),
+            getDisplaynameNametagComponent(),
+            ComponentUtils.create(" has reigned victorious and wiped out those who challenged it.")
+        )));
 
         for (Player p : Bukkit.getOnlinePlayers())
             p.playSound(p.getLocation(), Sound.ENTITY_WARDEN_SONIC_BOOM, 1, .1f);
@@ -240,13 +241,13 @@ public abstract class BossInstance extends EnemyEntity implements Listener {
             Player player = entry.player();
             int damage = entry.damage();
             int place = i + 1;
-            rankings.add(
-                    ComponentUtils.create(place + getPlaceth(place) + ": ", getPlaceColor(place))
-                            .append(Component.text(plugin.getChatService().getPlayerDisplayname(player)))
-                            .append(ComponentUtils.create(" - "))
-                            .append(ComponentUtils.create(MinecraftStringUtils.formatNumber(damage), NamedTextColor.RED))
-                            .append(ComponentUtils.create(String.format(" (%d%%)", (int)(damage/getMaxHp()*100)), NamedTextColor.DARK_GRAY))
-            );
+            rankings.add(ComponentUtils.merge(
+                ComponentUtils.create(place + getPlaceth(place) + ": ", getPlaceColor(place)),
+                ComponentUtils.create(plugin.getChatService().getPlayerDisplayname(player)),
+                ComponentUtils.create(" - "),
+                ComponentUtils.create(MinecraftStringUtils.formatNumber(damage), NamedTextColor.RED),
+                ComponentUtils.create(String.format(" (%d%%)", (int)(damage/getMaxHp()*100)), NamedTextColor.DARK_GRAY)
+            ));
         }
         return rankings;
     }
@@ -261,29 +262,29 @@ public abstract class BossInstance extends EnemyEntity implements Listener {
         List<Component> lines = new ArrayList<>();
 
         // Add HP description, 3 lines
-        lines.add(Component.empty());
+        lines.add(ComponentUtils.EMPTY);
         lines.add(ComponentUtils.create("Boss Health: ").append(getHealthNametagComponent()));
-        lines.add(Component.empty());
+        lines.add(ComponentUtils.EMPTY);
 
         // Add damage rankings (7 lines max!)
         List<Component> rankings = getRankingsComponents();
         lines.addAll(rankings.subList(0, Math.min(8, rankings.size())));
 
         // Add some information, 2 lines
-        lines.add(Component.empty());
-        lines.add(
-                ComponentUtils.create("Deal ")
-                        .append(ComponentUtils.create(MinecraftStringUtils.formatNumber(getDamageRequirement()), NamedTextColor.RED))
-                        .append(ComponentUtils.create(" damage for "))
-                        .append(ComponentUtils.create("MAX LOOT", NamedTextColor.LIGHT_PURPLE))
-                        .append(ComponentUtils.create("!"))
-        );
+        lines.add(ComponentUtils.EMPTY);
+        lines.add(ComponentUtils.merge(
+            ComponentUtils.create("Deal "),
+            ComponentUtils.create(MinecraftStringUtils.formatNumber(getDamageRequirement()), NamedTextColor.RED),
+            ComponentUtils.create(" damage for "),
+            ComponentUtils.create("MAX LOOT", NamedTextColor.LIGHT_PURPLE),
+            ComponentUtils.SYMBOL_EXCLAMATION
+        ));
 
         // If we have a time limit, add a wipe section
         int secondsLeft = Math.max(0, getSecondsLeft());
         long msLeft = wipeTimestamp-System.currentTimeMillis()-(secondsLeft*1000L);
         if (secondsLeft < 1000) {
-            lines.add(Component.empty());
+            lines.add(ComponentUtils.EMPTY);
 
             // Color is always green by default
             NamedTextColor timeColor = NamedTextColor.GREEN;
@@ -303,7 +304,7 @@ public abstract class BossInstance extends EnemyEntity implements Listener {
                 timeColor = Bukkit.getCurrentTick() % 20 >= 10 ? NamedTextColor.RED : NamedTextColor.DARK_GRAY;
 
 
-            lines.add(ComponentUtils.create("Time Left: ").append(Component.text(timestring, timeColor)));
+            lines.add(ComponentUtils.create("Time Left: ").append(ComponentUtils.create(timestring, timeColor)));
         }
 
         // With default settings so far, we are using 12 lines. We have space for another 3 if desired
@@ -419,9 +420,9 @@ public abstract class BossInstance extends EnemyEntity implements Listener {
         // We died!!!
         Bukkit.broadcast(ComponentUtils.create("-----------------------------"));
         Bukkit.broadcast(generateNametagComponent().append(getDisplaynameNametagComponent()).append(ComponentUtils.create(" Defeated!", determineNametagColor())));
-        Bukkit.broadcast(Component.empty());
-        Bukkit.broadcast(Component.text(plugin.getChatService().getPlayerDisplayname(player)).append(ComponentUtils.create(" dealt the final blow!")));
-        Bukkit.broadcast(Component.empty());
+        Bukkit.broadcast(ComponentUtils.EMPTY);
+        Bukkit.broadcast(ComponentUtils.create(plugin.getChatService().getPlayerDisplayname(player)).append(ComponentUtils.create(" dealt the final blow!")));
+        Bukkit.broadcast(ComponentUtils.EMPTY);
         for (Component component : getRankingsComponents())
             Bukkit.broadcast(component);
         Bukkit.broadcast(ComponentUtils.create("-----------------------------"));

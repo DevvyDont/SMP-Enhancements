@@ -2,7 +2,6 @@ package xyz.devvydont.smprpg.entity.base;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import xyz.devvydont.smprpg.SMPRPG;
 

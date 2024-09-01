@@ -203,7 +203,7 @@ public class AnvilEnchantmentCombinationFixListener implements Listener {
 
         // Is the player allowed to perform this combination? Check if all the enchants are unlocked by them.
         List<Component> information = new ArrayList<>();
-        information.add(Component.empty());
+        information.add(ComponentUtils.EMPTY);
         boolean allowed = true;
         int magicLevel = plugin.getEntityService().getPlayerInstance((Player)event.getView().getPlayer()).getMagicSkill().getLevel();
 
@@ -231,7 +231,7 @@ public class AnvilEnchantmentCombinationFixListener implements Listener {
 
         }
 
-        information.add(Component.empty());
+        information.add(ComponentUtils.EMPTY);
         information.add(ComponentUtils.create("Experience Cost: ").append(ComponentUtils.create(combination.cost() + " Levels", NamedTextColor.GREEN)));
 
         if (!allowed)

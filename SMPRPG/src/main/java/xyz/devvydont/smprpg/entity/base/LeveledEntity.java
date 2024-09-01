@@ -189,9 +189,7 @@ public abstract class LeveledEntity implements LootSource {
      * @return A Component of the current entity level
      */
     public Component generateNametagComponent() {
-        return Component.text("[").color(NamedTextColor.GRAY)
-                .append(Component.text(Symbols.POWER + getLevel()).color(NamedTextColor.YELLOW))
-                .append(Component.text("] ").color(NamedTextColor.GRAY));
+        return ComponentUtils.powerLevelPrefix(getLevel());
     }
 
     /**
@@ -200,7 +198,7 @@ public abstract class LeveledEntity implements LootSource {
      * @return A component representing the name portion of a nametag
      */
     public Component getDisplaynameNametagComponent() {
-        return Component.text(getEntityName()).color(determineNametagColor());
+        return ComponentUtils.create(getEntityName(), determineNametagColor());
     }
 
     /**
@@ -221,10 +219,12 @@ public abstract class LeveledEntity implements LootSource {
 
         TextColor hpTextColor = getChatColorFromHealth(getTotalHp(), getMaxHp());
 
-        return Component.text(" " + MinecraftStringUtils.formatNumber(hp)).color(hpTextColor)
-                .append(Component.text("/").color(NamedTextColor.GRAY))
-                .append(Component.text(MinecraftStringUtils.formatNumber(maxHp)).color(NamedTextColor.GREEN))
-                .append(Component.text(Symbols.HEART).color(NamedTextColor.DARK_RED));
+        return ComponentUtils.merge(
+            ComponentUtils.create(" " + MinecraftStringUtils.formatNumber(hp), hpTextColor),
+            ComponentUtils.create("/"),
+            ComponentUtils.create(MinecraftStringUtils.formatNumber(maxHp), NamedTextColor.GREEN),
+            ComponentUtils.create(Symbols.HEART, NamedTextColor.DARK_RED)
+        );
     }
 
     /**✦❤

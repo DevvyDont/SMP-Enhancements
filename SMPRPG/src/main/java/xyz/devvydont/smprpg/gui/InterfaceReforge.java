@@ -67,13 +67,13 @@ public class InterfaceReforge extends PrivateInterface {
     public ItemStack getAnvilButton() {
 
         ItemStack input = getItem(INPUT_SLOT);
-        ItemStack anvil = InterfaceUtil.getNamedItem(Material.ANVIL, Component.text("Roll Random Reforge!").color(NamedTextColor.GOLD).decoration(TextDecoration.ITALIC, false));
+        ItemStack anvil = InterfaceUtil.getNamedItem(Material.ANVIL, ComponentUtils.create("Roll Random Reforge!", NamedTextColor.GOLD).decoration(TextDecoration.ITALIC, false));
         List<Component> lore = new ArrayList<>();
 
         // Has nothing been input yet?
         if (input == null || input.getType().equals(Material.AIR)) {
-            lore.add(Component.empty());
-            lore.add(Component.text("Input an item to reforge!").color(NamedTextColor.WHITE));
+            lore.add(ComponentUtils.EMPTY);
+            lore.add(ComponentUtils.create("Input an item to reforge!", NamedTextColor.WHITE));
             anvil.editMeta(meta -> {
                 meta.lore(ComponentUtils.cleanItalics(lore));
             });
@@ -84,8 +84,8 @@ public class InterfaceReforge extends PrivateInterface {
 
         // Is this item not able to receive a reforge?
         if (getRandomReforge(blueprint.getItemClassification(), blueprint.getReforgeType(input.getItemMeta())).getType().equals(ReforgeType.ERROR)) {
-            lore.add(Component.empty());
-            lore.add(Component.text("This item cannot be reforged!").color(NamedTextColor.RED));
+            lore.add(ComponentUtils.EMPTY);
+            lore.add(ComponentUtils.create("This item cannot be reforged!", NamedTextColor.RED));
             anvil.editMeta(meta -> {
                 meta.lore(ComponentUtils.cleanItalics(lore));
             });
@@ -96,15 +96,15 @@ public class InterfaceReforge extends PrivateInterface {
         ItemRarity rarity = blueprint.getRarity(input);
         int cost = getReforgeCost(rarity);
         int bal = getBalance();
-        lore.add(Component.empty());
-        lore.add(Component.text("Click to reforge this item!").color(NamedTextColor.GRAY));
-        lore.add(Component.empty());
-        lore.add(Component.text("Cost: ").color(NamedTextColor.GRAY).append(Component.text(EconomyService.formatMoney(cost)).color(NamedTextColor.GOLD)));
-        lore.add(Component.text("Your balance: ").color(NamedTextColor.GRAY).append(ComponentUtils.create(EconomyService.formatMoney(bal), NamedTextColor.GOLD)));
+        lore.add(ComponentUtils.EMPTY);
+        lore.add(ComponentUtils.create("Click to reforge this item!", NamedTextColor.GRAY));
+        lore.add(ComponentUtils.EMPTY);
+        lore.add(ComponentUtils.create("Cost: ").append(ComponentUtils.create(EconomyService.formatMoney(cost), NamedTextColor.GOLD)));
+        lore.add(ComponentUtils.create("Your balance: ").append(ComponentUtils.create(EconomyService.formatMoney(bal), NamedTextColor.GOLD)));
         if (cost > bal)
-            lore.add(Component.text("Insufficient funds! You cannot afford this!").color(NamedTextColor.RED));
+            lore.add(ComponentUtils.create("Insufficient funds! You cannot afford this!", NamedTextColor.RED));
         if (blueprint.isReforged(input.getItemMeta())) {
-            lore.add(Component.empty());
+            lore.add(ComponentUtils.EMPTY);
             lore.add(ComponentUtils.create("NOTE: Previous reforge will be overwritten!", NamedTextColor.RED));
         }
         anvil.editMeta(meta -> {

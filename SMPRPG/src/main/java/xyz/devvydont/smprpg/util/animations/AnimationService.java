@@ -2,13 +2,14 @@ package xyz.devvydont.smprpg.util.animations;
 
 import org.bukkit.Bukkit;
 import xyz.devvydont.smprpg.SMPRPG;
-import xyz.devvydont.smprpg.util.animations.containers.AnimationHandle;
 import xyz.devvydont.smprpg.util.animations.containers.AnimationContainer;
 import xyz.devvydont.smprpg.util.animations.containers.AnimationFrame;
+import xyz.devvydont.smprpg.util.animations.containers.AnimationHandle;
 import xyz.devvydont.smprpg.util.animations.containers.AnimationState;
 import xyz.devvydont.smprpg.util.animations.utils.AnimationBuilder;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public final class AnimationService implements Runnable {
     private final List<AnimationContainer> activeAnimations = new ArrayList<>();

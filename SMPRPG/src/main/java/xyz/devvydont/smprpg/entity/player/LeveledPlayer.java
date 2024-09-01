@@ -7,7 +7,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.entity.*;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -17,8 +18,8 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.base.LeveledEntity;
-import xyz.devvydont.smprpg.items.interfaces.Attributeable;
 import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
+import xyz.devvydont.smprpg.items.interfaces.Attributeable;
 import xyz.devvydont.smprpg.skills.SkillInstance;
 import xyz.devvydont.smprpg.skills.SkillType;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
@@ -242,10 +243,10 @@ public class LeveledPlayer extends LeveledEntity implements Listener {
     public void updateNametag() {
         Team team = getNametagTeam();
         PlayerChatInformation chatInformation = plugin.getChatService().getPlayerInfo(getPlayer());
-        Component newPrefix = ComponentUtils.getBracketedPowerComponent(getLevel()).append(Component.text(" "));
+        Component newPrefix = ComponentUtils.powerLevelPrefix(getLevel()).append(ComponentUtils.SPACE);
         team.prefix(newPrefix);
         if (!chatInformation.suffix().isEmpty())
-            team.suffix(Component.text(" " + ChatColor.translateAlternateColorCodes('&', chatInformation.prefix()).stripTrailing()));
+            team.suffix(ComponentUtils.create(" " + ChatColor.translateAlternateColorCodes('&', chatInformation.prefix()).stripTrailing()));
         else
             team.suffix(null);
         team.color(NamedTextColor.nearestTo(chatInformation.nameColor()));

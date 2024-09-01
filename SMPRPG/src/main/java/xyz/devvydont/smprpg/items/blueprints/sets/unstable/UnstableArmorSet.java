@@ -48,7 +48,7 @@ public abstract class UnstableArmorSet extends CustomArmorBlueprint implements T
     @Override
     public List<Component> getFooterComponent(ItemMeta meta) {
         List<Component> footer = new ArrayList<>(super.getFooterComponent(meta));
-        footer.add(Component.empty());
+        footer.add(ComponentUtils.EMPTY);
         Component lore = ComponentUtils.create("Stats ").append(ComponentUtils.create("randomly", NamedTextColor.LIGHT_PURPLE)).append(ComponentUtils.create(" shuffle!"));
         footer.add(lore);
         return footer;

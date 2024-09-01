@@ -9,7 +9,9 @@ import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.entity.*;
+import org.bukkit.entity.Item;
+import org.bukkit.entity.Player;
+import org.bukkit.entity.SpectralArrow;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -218,10 +220,10 @@ public class InfernoArrow extends CustomItemBlueprint implements Sellable, Liste
         player.getWorld().playSound(player.getLocation(), Sound.ENTITY_BLAZE_DEATH, 1, .3f);
         String playername = SMPRPG.getInstance().getChatService().getPlayerDisplayname(player);
         Bukkit.broadcast(
-                ComponentUtils.alert(Component.text(playername)
+                ComponentUtils.alert(ComponentUtils.create(playername)
                                 .append(ComponentUtils.create(" summoned an ")))
                         .append(boss.getDisplaynameNametagComponent())
-                        .append(ComponentUtils.create("!"))
+                        .append(ComponentUtils.SYMBOL_EXCLAMATION)
         );
 
         for (int i = 0; i < 5; i++)

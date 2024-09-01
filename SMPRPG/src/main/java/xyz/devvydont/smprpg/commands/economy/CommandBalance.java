@@ -1,7 +1,6 @@
 package xyz.devvydont.smprpg.commands.economy;
 
 import io.papermc.paper.command.brigadier.CommandSourceStack;
-import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -51,10 +50,11 @@ public class CommandBalance extends CommandBase {
             target = (Player) commandSourceStack.getSender();
         }
 
-        Component reply = Component.text(target.getName()).color(NamedTextColor.AQUA)
-                .append(Component.text("'s balance is ").color(NamedTextColor.GRAY))
-                .append(Component.text(SMPRPG.getInstance().getEconomyService().formatMoney(target)).color(NamedTextColor.GOLD));
-        commandSourceStack.getSender().sendMessage(ComponentUtils.alert(reply));
+        commandSourceStack.getSender().sendMessage(ComponentUtils.alert(ComponentUtils.merge(
+            ComponentUtils.create(target.getName(), NamedTextColor.AQUA),
+            ComponentUtils.create("'s balance is "),
+            ComponentUtils.create(SMPRPG.getInstance().getEconomyService().formatMoney(target), NamedTextColor.GOLD)
+        )));
     }
 
 }

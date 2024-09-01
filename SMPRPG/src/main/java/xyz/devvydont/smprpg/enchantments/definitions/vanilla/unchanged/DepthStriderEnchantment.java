@@ -2,8 +2,6 @@ package xyz.devvydont.smprpg.enchantments.definitions.vanilla.unchanged;
 
 import io.papermc.paper.registry.RegistryKey;
 import io.papermc.paper.registry.TypedKey;
-import io.papermc.paper.registry.data.EnchantmentRegistryEntry;
-import io.papermc.paper.registry.event.RegistryFreezeEvent;
 import io.papermc.paper.registry.keys.EnchantmentKeys;
 import io.papermc.paper.registry.keys.tags.ItemTypeTagKeys;
 import io.papermc.paper.registry.set.RegistryKeySet;
@@ -15,6 +13,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemType;
 import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.enchantments.definitions.vanilla.UnchangedEnchantment;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 public class DepthStriderEnchantment extends UnchangedEnchantment {
 
@@ -33,14 +32,16 @@ public class DepthStriderEnchantment extends UnchangedEnchantment {
 
     @Override
     public @NotNull Component getDisplayName() {
-        return Component.text("Depth Strider");
+        return ComponentUtils.create("Depth Strider");
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Walk underwater at ").color(NamedTextColor.GRAY)
-                .append(Component.text(getMovementPercentage(getLevel()) + "%").color(NamedTextColor.GREEN))
-                .append(Component.text(" speed").color(NamedTextColor.GRAY));
+        return ComponentUtils.merge(
+            ComponentUtils.create("Walk underwater at "),
+            ComponentUtils.create(getMovementPercentage(getLevel()) + "%", NamedTextColor.GREEN),
+            ComponentUtils.create(" speed")
+        );
     }
 
     @Override

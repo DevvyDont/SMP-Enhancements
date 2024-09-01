@@ -1,6 +1,5 @@
 package xyz.devvydont.smprpg.gui.spawner;
 
-import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -65,17 +64,17 @@ public class InterfaceSpawnerEntitySubmenu extends PrivateInterface {
                     ItemStack display = InterfaceUtil.getNamedItem(type.getInterfaceButton(), ComponentUtils.create("Set Weight: ", NamedTextColor.GOLD).append(ComponentUtils.create(type.getName(), NamedTextColor.RED)));
                     display.editMeta(meta -> {
                         meta.lore(List.of(
-                                Component.empty(),
+                                ComponentUtils.EMPTY,
                                 ComponentUtils.create("Current Weight:").append(ComponentUtils.create(" " + gui.getSpawner().getOptions().getWeight(type), NamedTextColor.GREEN)),
-                                Component.empty(),
+                                ComponentUtils.EMPTY,
                                 ComponentUtils.create("Default Statistics:", NamedTextColor.GOLD),
-                                ComponentUtils.getPowerComponent(type.getBaseLevel()).append(ComponentUtils.create(" " + type.getName(), NamedTextColor.RED)),
+                                ComponentUtils.powerLevel(type.getBaseLevel()).append(ComponentUtils.create(" " + type.getName(), NamedTextColor.RED)),
                                 ComponentUtils.create("Base Health: ").append(ComponentUtils.create(MinecraftStringUtils.formatNumber(type.getBaseHp()), NamedTextColor.GREEN)).append(ComponentUtils.create(Symbols.HEART, NamedTextColor.RED)),
                                 ComponentUtils.create("Base Damage: ").append(ComponentUtils.create(MinecraftStringUtils.formatNumber(type.getBaseDamage()), NamedTextColor.RED)).append(ComponentUtils.create(Symbols.SKULL, NamedTextColor.DARK_GRAY)),
                                 ComponentUtils.create("Base Entity: ").append(ComponentUtils.create(type.getEntityType().name(), NamedTextColor.GOLD)),
-                                Component.empty(),
+                                ComponentUtils.EMPTY,
                                 ComponentUtils.create("Left click to increase, Right click to decrease"),
-                                Component.empty(),
+                                ComponentUtils.EMPTY,
                                 ComponentUtils.create("Setting a weight of 0 will remove this entity from this spawner"),
                                 ComponentUtils.create("Higher weights means this mob is more likely to spawn"),
                                 ComponentUtils.create("If only one entity is enabled in a spawner, weight only needs to be 1")

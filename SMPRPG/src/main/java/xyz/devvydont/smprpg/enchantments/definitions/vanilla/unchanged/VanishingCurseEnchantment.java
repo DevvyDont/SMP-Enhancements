@@ -10,6 +10,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemType;
 import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.enchantments.definitions.vanilla.UnchangedEnchantment;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 public class VanishingCurseEnchantment extends UnchangedEnchantment {
 
@@ -19,7 +20,7 @@ public class VanishingCurseEnchantment extends UnchangedEnchantment {
 
     @Override
     public @NotNull Component getDisplayName() {
-        return Component.text("Curse of Vanishing");
+        return ComponentUtils.create("Curse of Vanishing");
     }
 
     @Override
@@ -29,8 +30,10 @@ public class VanishingCurseEnchantment extends UnchangedEnchantment {
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Vanishes when ").color(NamedTextColor.GRAY)
-                .append(Component.text("dropped from death").color(NamedTextColor.DARK_RED));
+        return ComponentUtils.merge(
+            ComponentUtils.create("Vanishes when "),
+            ComponentUtils.create("dropped from death", NamedTextColor.DARK_RED)
+        );
     }
 
     @Override

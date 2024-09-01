@@ -30,11 +30,11 @@ public class CommandWhatAmIHolding extends CommandBase {
         ItemStack is = player.getInventory().getItemInMainHand();
 
         if (is.getType().equals(Material.AIR)) {
-            player.sendMessage(Component.text("Must be holding an item!", NamedTextColor.RED));
+            player.sendMessage(ComponentUtils.create("Must be holding an item!", NamedTextColor.RED));
             return;
         }
 
-        Component name = Component.text(SMPRPG.getInstance().getChatService().getPlayerDisplayname(player));
+        Component name = ComponentUtils.create(SMPRPG.getInstance().getChatService().getPlayerDisplayname(player));
         Component holding = ComponentUtils.create(" is holding ");
         Bukkit.broadcast(name.append(holding).append(is.displayName()));
     }

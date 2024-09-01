@@ -38,15 +38,17 @@ public class SerratedEnchantment extends CustomEnchantment implements Listener {
 
     @Override
     public @NotNull Component getDisplayName() {
-        return Component.text("Serrated");
+        return ComponentUtils.create("Serrated");
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return ComponentUtils.create("Increases ")
-                .append(ComponentUtils.create("critical hit", NamedTextColor.RED))
-                .append(ComponentUtils.create(" damage by an additional "))
-                .append(ComponentUtils.create("+" + getAdditionalPercentageIncrease(getLevel()) + "%", NamedTextColor.GREEN));
+        return ComponentUtils.merge(
+            ComponentUtils.create("Increases "),
+            ComponentUtils.create("critical hit", NamedTextColor.RED),
+            ComponentUtils.create(" damage by an additional "),
+            ComponentUtils.create("+" + getAdditionalPercentageIncrease(getLevel()) + "%", NamedTextColor.GREEN)
+        );
     }
 
     @Override

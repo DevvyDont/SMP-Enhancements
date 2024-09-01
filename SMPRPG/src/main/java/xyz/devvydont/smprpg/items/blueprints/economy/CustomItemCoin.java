@@ -2,7 +2,6 @@ package xyz.devvydont.smprpg.items.blueprints.economy;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.format.Style;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Sound;
 import org.bukkit.event.EventHandler;
@@ -11,13 +10,13 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerAttemptPickupItemEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import xyz.devvydont.smprpg.items.base.CustomItemBlueprint;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
-import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
+import xyz.devvydont.smprpg.items.base.CustomItemBlueprint;
 import xyz.devvydont.smprpg.items.interfaces.Sellable;
 import xyz.devvydont.smprpg.services.EconomyService;
 import xyz.devvydont.smprpg.services.ItemService;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,20 +74,20 @@ public class CustomItemCoin extends CustomItemBlueprint implements Sellable, Lis
     public List<Component> getDescriptionComponent(ItemMeta meta) {
         List<Component> lines = new ArrayList<>();
 
-        lines.add(Component.text("The physical form of ").color(NamedTextColor.GRAY)
-            .append((Component.text("currency ").color(NamedTextColor.GOLD)))
-            .append(Component.text("for this world").color(NamedTextColor.GRAY)));
+        lines.add(ComponentUtils.create("The physical form of ")
+            .append((ComponentUtils.create("currency ", NamedTextColor.GOLD)))
+            .append(ComponentUtils.create("for this world")));
 
-        lines.add(Component.text("To put this in your account, use ").color(NamedTextColor.GRAY)
-            .append(Component.text("/deposit").style(Style.style(NamedTextColor.GREEN, TextDecoration.BOLD))));
+        lines.add(ComponentUtils.create("To put this in your account, use ")
+            .append(ComponentUtils.create("/deposit", NamedTextColor.GREEN, TextDecoration.BOLD)));
 
-        lines.add(Component.empty());
+        lines.add(ComponentUtils.EMPTY);
 
         lines.add(
-                Component.text("Worth of ").color(NamedTextColor.GRAY)
+                ComponentUtils.create("Worth of ")
                         .append(getNameComponent(meta))
-                        .append(Component.text(": ").color(NamedTextColor.GRAY))
-                        .append(Component.text(EconomyService.formatMoney(getWorth())).color(NamedTextColor.GOLD))
+                        .append(ComponentUtils.create(": "))
+                        .append(ComponentUtils.create(EconomyService.formatMoney(getWorth()), NamedTextColor.GOLD))
         );
 
         return lines;

@@ -16,7 +16,8 @@ import xyz.devvydont.smprpg.services.ActionBarService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.formatting.MinecraftStringUtils;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * When entities are spawned inside of structures, we want to make them certain levels based on the structure.
@@ -77,12 +78,12 @@ public class StructureEntitySpawnListener implements Listener {
     }
 
     private Component getStructureComponent(Player player, GeneratedStructure structure, int power) {
-        Component send = Component.text("Currently in").color(NamedTextColor.GRAY)
-                .append(Component.text(" " + MinecraftStringUtils.getTitledString(structure.getStructure().key().value() + " ")).color(NamedTextColor.AQUA)
-                        .append(ComponentUtils.getBracketedPowerComponent(power)));
+        Component send = ComponentUtils.create("Currently in")
+                .append(ComponentUtils.create(" " + MinecraftStringUtils.getTitledString(structure.getStructure().key().value() + " "), NamedTextColor.AQUA)
+                        .append(ComponentUtils.powerLevelPrefix(power)));
 
         if (power > plugin.getEntityService().getPlayerInstance(player).getLevel())
-            send = Component.text("WARNING! ").color(NamedTextColor.RED).append(send);
+            send = ComponentUtils.create("WARNING! ", NamedTextColor.RED).append(send);
         return send;
     }
 

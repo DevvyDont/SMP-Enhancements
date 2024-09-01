@@ -1,7 +1,5 @@
 package xyz.devvydont.smprpg.listeners;
 
-import org.bukkit.Effect;
-import org.bukkit.EntityEffect;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.LivingEntity;

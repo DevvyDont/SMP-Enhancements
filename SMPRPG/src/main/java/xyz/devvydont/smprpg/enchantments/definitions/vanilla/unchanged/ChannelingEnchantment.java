@@ -2,8 +2,6 @@ package xyz.devvydont.smprpg.enchantments.definitions.vanilla.unchanged;
 
 import io.papermc.paper.registry.RegistryKey;
 import io.papermc.paper.registry.TypedKey;
-import io.papermc.paper.registry.data.EnchantmentRegistryEntry;
-import io.papermc.paper.registry.event.RegistryFreezeEvent;
 import io.papermc.paper.registry.keys.EnchantmentKeys;
 import io.papermc.paper.registry.keys.tags.ItemTypeTagKeys;
 import io.papermc.paper.registry.set.RegistryKeySet;
@@ -15,6 +13,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemType;
 import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.enchantments.definitions.vanilla.UnchangedEnchantment;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 public class ChannelingEnchantment extends UnchangedEnchantment {
 
@@ -24,15 +23,17 @@ public class ChannelingEnchantment extends UnchangedEnchantment {
 
     @Override
     public @NotNull Component getDisplayName() {
-        return Component.text("Channeling");
+        return ComponentUtils.create("Channeling");
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Summon ").color(NamedTextColor.GRAY)
-                .append(Component.text("lightning").color(NamedTextColor.YELLOW))
-                .append(Component.text(" during ").color(NamedTextColor.GRAY))
-                .append(Component.text("thunderstorms").color(NamedTextColor.AQUA));
+        return ComponentUtils.merge(
+            ComponentUtils.create("Summon "),
+            ComponentUtils.create("lightning", NamedTextColor.YELLOW),
+            ComponentUtils.create(" during "),
+            ComponentUtils.create("thunderstorms", NamedTextColor.AQUA)
+        );
     }
 
     @Override

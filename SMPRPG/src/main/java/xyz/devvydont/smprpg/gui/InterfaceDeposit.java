@@ -1,6 +1,5 @@
 package xyz.devvydont.smprpg.gui;
 
-import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -49,9 +48,10 @@ public class InterfaceDeposit extends PrivateInterface {
 
         plugin.getEconomyService().addMoney(owner, value);
         owner.sendMessage(ComponentUtils.success(String.format("You sold %s worth of items!", EconomyService.formatMoney(value))));
-        Component balMessage = Component.text("Your balance is now ").color(NamedTextColor.GRAY)
-                .append(Component.text(plugin.getEconomyService().formatMoney(owner)).color(NamedTextColor.GOLD));
-        owner.sendMessage(ComponentUtils.alert(balMessage));
+        owner.sendMessage(ComponentUtils.alert(ComponentUtils.merge(
+            ComponentUtils.create("Your balance is now "),
+            ComponentUtils.create(plugin.getEconomyService().formatMoney(owner), NamedTextColor.GOLD)
+        )));
         owner.playSound(owner.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1f, 2f);
     }
 

@@ -1,20 +1,17 @@
 package xyz.devvydont.smprpg.entity.vanilla;
 
 import net.kyori.adventure.bossbar.BossBar;
-import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.event.Listener;
 import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.base.BossInstance;
 import xyz.devvydont.smprpg.entity.base.VanillaEntity;
 import xyz.devvydont.smprpg.items.CustomItemType;
-import xyz.devvydont.smprpg.services.EntityService;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.items.ChancedItemDrop;
 import xyz.devvydont.smprpg.util.items.LootDrop;
 import xyz.devvydont.smprpg.util.items.QuantityLootDrop;
@@ -30,7 +27,7 @@ public class LeveledElderGuardian extends BossInstance {
 
     @Override
     public @Nullable BossBar createBossBar() {
-        return BossBar.bossBar(Component.empty(), 1.0f, BossBar.Color.YELLOW, BossBar.Overlay.NOTCHED_20);
+        return BossBar.bossBar(ComponentUtils.EMPTY, 1.0f, BossBar.Color.YELLOW, BossBar.Overlay.NOTCHED_20);
     }
 
     @Override

@@ -140,7 +140,7 @@ public class ItemEnchantedBook extends VanillaItemBlueprint {
     @Override
     public List<Component> getFooterComponent(ItemMeta meta) {
         List<Component> footer = new ArrayList<>(super.getFooterComponent(meta));
-        footer.add(Component.empty());
+        footer.add(ComponentUtils.EMPTY);
         footer.add(ComponentUtils.create("Combine this with either"));
         footer.add(ComponentUtils.create("equipment or another"));
         footer.add(ComponentUtils.create("Enchanted Book", NamedTextColor.LIGHT_PURPLE).append(ComponentUtils.create(" of")));

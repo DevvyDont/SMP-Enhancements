@@ -9,6 +9,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemType;
 import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.enchantments.definitions.vanilla.UnchangedEnchantment;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 public class SoulSpeedEnchantment extends UnchangedEnchantment {
 
@@ -23,15 +24,17 @@ public class SoulSpeedEnchantment extends UnchangedEnchantment {
 
     @Override
     public @NotNull Component getDisplayName() {
-        return Component.text("Soul Speed");
+        return ComponentUtils.create("Soul Speed");
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Increases speed by ").color(NamedTextColor.GRAY)
-                .append(Component.text("+" + getSoulSpeedPercentage(getLevel()) + "%").color(NamedTextColor.GREEN))
-                .append(Component.text(" on ").color(NamedTextColor.GRAY))
-                .append(Component.text("soul sand/soil").color(NamedTextColor.GOLD));
+        return ComponentUtils.merge(
+            ComponentUtils.create("Increases speed by "),
+            ComponentUtils.create("+" + getSoulSpeedPercentage(getLevel()) + "%", NamedTextColor.GREEN),
+            ComponentUtils.create(" on "),
+            ComponentUtils.create("soul sand/soil", NamedTextColor.GOLD)
+        );
     }
 
     @Override

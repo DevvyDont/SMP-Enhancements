@@ -72,13 +72,13 @@ public class InterfaceRecipe extends PrivateInterface {
 
     public ItemStack getRequirements(Collection<ItemStack> requirements) {
 
-        ItemStack paper = InterfaceUtil.getNamedItem(Material.PAPER, Component.text("Crafting Requirements").color(NamedTextColor.RED));
+        ItemStack paper = InterfaceUtil.getNamedItem(Material.PAPER, ComponentUtils.create("Crafting Requirements", NamedTextColor.RED));
         paper.editMeta(meta -> {
             List<Component> lore = new ArrayList<>();
-            lore.add(Component.empty());
+            lore.add(ComponentUtils.EMPTY);
             lore.add(ComponentUtils.create("The following items must be"));
             lore.add(ComponentUtils.create("discovered to unlock this recipe"));
-            lore.add(Component.empty());
+            lore.add(ComponentUtils.EMPTY);
             for (ItemStack item : requirements)
                 lore.add(ComponentUtils.create("- ").append(item.displayName()));
             meta.lore(ComponentUtils.cleanItalics(lore));

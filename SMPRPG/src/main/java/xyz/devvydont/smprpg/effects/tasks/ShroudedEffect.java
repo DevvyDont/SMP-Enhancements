@@ -11,6 +11,7 @@ import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.world.LootGenerateEvent;
 import xyz.devvydont.smprpg.effects.services.SpecialEffectService;
 import xyz.devvydont.smprpg.events.CustomEntityDamageByEntityEvent;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 public class ShroudedEffect extends SpecialEffectTask implements Listener {
 
@@ -20,12 +21,12 @@ public class ShroudedEffect extends SpecialEffectTask implements Listener {
 
     @Override
     public Component getExpiredComponent() {
-        return Component.text("EXPIRED!", NamedTextColor.RED);
+        return ComponentUtils.create("EXPIRED!", NamedTextColor.RED);
     }
 
     @Override
     public Component getNameComponent() {
-        return Component.text("Shrouded!", NamedTextColor.AQUA);
+        return ComponentUtils.create("Shrouded!", NamedTextColor.AQUA);
     }
 
     @Override

@@ -6,8 +6,6 @@ import org.bukkit.enchantments.EnchantmentOffer;
 import org.bukkit.inventory.ItemStack;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.enchantments.CustomEnchantment;
-import xyz.devvydont.smprpg.items.ItemRarity;
-import xyz.devvydont.smprpg.items.base.CustomItemBlueprint;
 import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
 import xyz.devvydont.smprpg.items.base.VanillaItemBlueprint;
 

@@ -88,7 +88,7 @@ public class DimensionPortalLockingListener implements Listener {
 
         messageCooldown.put(entity.getUniqueId(), now + MESSAGE_COOLDOWN);
         long diff = lockedUntil.getTime() - new Date().getTime();
-        Component timeDiff = Component.text(formatTimeDifference(Duration.of(diff, ChronoUnit.MILLIS)), NamedTextColor.DARK_RED);
+        Component timeDiff = ComponentUtils.create(formatTimeDifference(Duration.of(diff, ChronoUnit.MILLIS)), NamedTextColor.DARK_RED);
         entity.sendMessage(ComponentUtils.error("You cannot enter the " + dimension + " dimension for another ").append(timeDiff));
     }
 

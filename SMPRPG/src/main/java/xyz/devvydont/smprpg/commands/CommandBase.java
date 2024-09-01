@@ -3,11 +3,9 @@ package xyz.devvydont.smprpg.commands;
 import io.papermc.paper.command.brigadier.BasicCommand;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import org.bukkit.Bukkit;
-import org.bukkit.command.*;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import xyz.devvydont.smprpg.SMPRPG;
 
 import java.util.ArrayList;
 import java.util.Collection;

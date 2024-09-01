@@ -1,6 +1,5 @@
 package xyz.devvydont.smprpg.enchantments.definitions;
 
-import io.papermc.paper.registry.data.EnchantmentRegistryEntry;
 import io.papermc.paper.registry.keys.tags.ItemTypeTagKeys;
 import io.papermc.paper.registry.tag.TagKey;
 import net.kyori.adventure.text.Component;
@@ -17,6 +16,7 @@ import xyz.devvydont.smprpg.enchantments.CustomEnchantment;
 import xyz.devvydont.smprpg.enchantments.EnchantmentRarity;
 import xyz.devvydont.smprpg.enchantments.EnchantmentUtil;
 import xyz.devvydont.smprpg.events.CustomEntityDamageByEntityEvent;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 public class StabilizedEnchantment extends CustomEnchantment implements Listener {
 
@@ -30,15 +30,17 @@ public class StabilizedEnchantment extends CustomEnchantment implements Listener
 
     @Override
     public @NotNull Component getDisplayName() {
-        return Component.text("Stabilized");
+        return ComponentUtils.create("Stabilized");
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Increases damage dealt by ").color(NamedTextColor.GRAY)
-                .append(Component.text("+" + getPercentageIncrease(getLevel()) + "%").color(NamedTextColor.GREEN))
-                .append(Component.text(" while in ").color(NamedTextColor.GRAY))
-                .append(Component.text("The End").color(NamedTextColor.LIGHT_PURPLE));
+        return ComponentUtils.merge(
+            ComponentUtils.create("Increases damage dealt by "),
+            ComponentUtils.create("+" + getPercentageIncrease(getLevel()) + "%", NamedTextColor.GREEN),
+            ComponentUtils.create(" while in "),
+            ComponentUtils.create("The End", NamedTextColor.LIGHT_PURPLE)
+        );
     }
 
     @Override

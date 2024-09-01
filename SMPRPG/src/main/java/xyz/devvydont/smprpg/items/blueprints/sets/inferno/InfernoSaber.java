@@ -68,7 +68,7 @@ public class InfernoSaber extends CustomAttributeItem implements Listener, Craft
     @Override
     public List<Component> getDescriptionComponent(ItemMeta meta) {
         List<Component> lines = new ArrayList<>(super.getDescriptionComponent(meta));
-        lines.add(Component.empty());
+        lines.add(ComponentUtils.EMPTY);
         lines.add(AbilityUtil.getAbilityComponent("Hot Shot (Right Click)"));
         lines.add(ComponentUtils.create("Shoot a ").append(ComponentUtils.create("fireball", NamedTextColor.GOLD)).append(ComponentUtils.create(" in the direction")));
         lines.add(ComponentUtils.create("you are looking that deals ").append(ComponentUtils.create(DAMAGE + "", NamedTextColor.RED)).append(ComponentUtils.create(" damage")));

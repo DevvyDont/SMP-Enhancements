@@ -30,7 +30,8 @@ import xyz.devvydont.smprpg.services.DropsService;
 import xyz.devvydont.smprpg.services.EnchantmentService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
-import java.util.*;
+import java.util.Map;
+import java.util.UUID;
 
 public class TelekinesisBlessing extends CustomEnchantment implements Listener {
 
@@ -50,9 +51,11 @@ public class TelekinesisBlessing extends CustomEnchantment implements Listener {
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Loot is ").color(NamedTextColor.GRAY)
-                .append(Component.text("magically transported").color(NamedTextColor.DARK_PURPLE))
-                .append(Component.text(" straight to your inventory").color(NamedTextColor.GRAY));
+        return ComponentUtils.merge(
+            ComponentUtils.create("Loot is "),
+            ComponentUtils.create("magically transported", NamedTextColor.DARK_PURPLE),
+            ComponentUtils.create(" straight to your inventory")
+        );
     }
 
     @Override
@@ -125,7 +128,7 @@ public class TelekinesisBlessing extends CustomEnchantment implements Listener {
 
         // Do we have an empty spot in our inventory?
         if (owner.getInventory().firstEmpty() == -1) {
-            SMPRPG.getInstance().getActionBarService().addActionBarComponent(owner, ActionBarService.ActionBarSource.MISC, Component.text("FULL INVENTORY!", NamedTextColor.RED), 2);
+            SMPRPG.getInstance().getActionBarService().addActionBarComponent(owner, ActionBarService.ActionBarSource.MISC, ComponentUtils.create("FULL INVENTORY!", NamedTextColor.RED), 2);
             owner.playSound(owner.getLocation(), Sound.BLOCK_CHEST_OPEN, .25f, 2f);
             return false;
         }

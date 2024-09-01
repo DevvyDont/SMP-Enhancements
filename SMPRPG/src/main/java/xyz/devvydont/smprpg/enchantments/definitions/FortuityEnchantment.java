@@ -1,6 +1,5 @@
 package xyz.devvydont.smprpg.enchantments.definitions;
 
-import io.papermc.paper.registry.data.EnchantmentRegistryEntry;
 import io.papermc.paper.registry.keys.tags.ItemTypeTagKeys;
 import io.papermc.paper.registry.tag.TagKey;
 import net.kyori.adventure.text.Component;
@@ -14,6 +13,7 @@ import xyz.devvydont.smprpg.enchantments.CustomEnchantment;
 import xyz.devvydont.smprpg.enchantments.EnchantmentRarity;
 import xyz.devvydont.smprpg.enchantments.EnchantmentUtil;
 import xyz.devvydont.smprpg.events.CustomItemDropRollEvent;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 public class FortuityEnchantment extends CustomEnchantment implements Listener {
 
@@ -36,14 +36,16 @@ public class FortuityEnchantment extends CustomEnchantment implements Listener {
 
     @Override
     public @NotNull Component getDisplayName() {
-        return Component.text("Fortuity");
+        return ComponentUtils.create("Fortuity");
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Increases rare item drop chance by ").color(NamedTextColor.GRAY)
-                .append(Component.text("+" + (int)(getChanceIncrease(getLevel())*100) + "%").color(NamedTextColor.GREEN))
-                .append(Component.text(" from mobs").color(NamedTextColor.GRAY));
+        return ComponentUtils.merge(
+            ComponentUtils.create("Increases rare item drop chance by "),
+            ComponentUtils.create("+" + (int)(getChanceIncrease(getLevel())*100) + "%", NamedTextColor.GREEN),
+            ComponentUtils.create(" from mobs")
+        );
     }
 
     @Override

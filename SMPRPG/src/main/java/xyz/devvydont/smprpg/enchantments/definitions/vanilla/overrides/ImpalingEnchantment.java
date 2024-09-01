@@ -16,6 +16,7 @@ import xyz.devvydont.smprpg.enchantments.EnchantmentRarity;
 import xyz.devvydont.smprpg.enchantments.EnchantmentUtil;
 import xyz.devvydont.smprpg.enchantments.definitions.vanilla.VanillaEnchantment;
 import xyz.devvydont.smprpg.events.CustomEntityDamageByEntityEvent;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 public class ImpalingEnchantment extends VanillaEnchantment implements Listener {
 
@@ -29,15 +30,16 @@ public class ImpalingEnchantment extends VanillaEnchantment implements Listener 
 
     @Override
     public @NotNull Component getDisplayName() {
-        return Component.text("Impaling");
+        return ComponentUtils.create("Impaling");
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Increases base damage by ").color(NamedTextColor.GRAY)
-                .append(Component.text("+" + getDamagePercentageMultiplier(getLevel()) + "%").color(NamedTextColor.GREEN)
-                .append(Component.text(" against wet enemies").color(NamedTextColor.GRAY))
-                );
+        return ComponentUtils.merge(
+            ComponentUtils.create("Increases base damage by "),
+            ComponentUtils.create("+" + getDamagePercentageMultiplier(getLevel()) + "%", NamedTextColor.GREEN),
+            ComponentUtils.create(" against wet enemies")
+        );
     }
 
     @Override

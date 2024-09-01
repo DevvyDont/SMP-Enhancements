@@ -7,6 +7,7 @@ import org.bukkit.inventory.ItemStack;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemRarity;
 import xyz.devvydont.smprpg.services.ItemService;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.formatting.MinecraftStringUtils;
 
 /**
@@ -61,9 +62,9 @@ public class MaterialWrapper {
      */
     public Component component() {
         if (isCustom())
-            return custom.rarity.applyDecoration(Component.text(name()));
+            return custom.rarity.applyDecoration(ComponentUtils.create(name()));
 
-        return ItemRarity.ofVanillaMaterial(vanilla).applyDecoration(Component.text(name()));
+        return ItemRarity.ofVanillaMaterial(vanilla).applyDecoration(ComponentUtils.create(name()));
     }
 
     /**

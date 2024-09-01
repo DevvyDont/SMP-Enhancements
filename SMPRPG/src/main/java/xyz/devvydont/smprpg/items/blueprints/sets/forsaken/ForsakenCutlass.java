@@ -49,10 +49,10 @@ public class ForsakenCutlass extends CustomAttributeItem implements Listener, Cr
     @Override
     public List<Component> getDescriptionComponent(ItemMeta meta) {
         List<Component> components = new ArrayList<>(super.getDescriptionComponent(meta));
-        components.add(Component.empty());
+        components.add(ComponentUtils.EMPTY);
         components.add(AbilityUtil.getAbilityComponent("Necrotic (Passive)"));
         components.add(ComponentUtils.create("Attacks have a ").append(ComponentUtils.create(WITHER_APPLY_CHANCE + "%", NamedTextColor.GREEN)).append(ComponentUtils.create(" chance to")));
-        components.add(ComponentUtils.create("apply the ").append(Component.text("withered", NamedTextColor.DARK_RED)).append(ComponentUtils.create(" effect for ").append(Component.text(WITHER_APPLY_SECONDS + "s", NamedTextColor.GREEN))));
+        components.add(ComponentUtils.create("apply the ").append(ComponentUtils.create("withered", NamedTextColor.DARK_RED)).append(ComponentUtils.create(" effect for ").append(ComponentUtils.create(WITHER_APPLY_SECONDS + "s", NamedTextColor.GREEN))));
 
         return components;
     }

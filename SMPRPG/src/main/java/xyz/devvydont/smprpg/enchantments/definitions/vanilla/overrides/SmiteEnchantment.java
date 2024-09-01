@@ -2,8 +2,6 @@ package xyz.devvydont.smprpg.enchantments.definitions.vanilla.overrides;
 
 import io.papermc.paper.registry.RegistryKey;
 import io.papermc.paper.registry.TypedKey;
-import io.papermc.paper.registry.data.EnchantmentRegistryEntry;
-import io.papermc.paper.registry.event.RegistryFreezeEvent;
 import io.papermc.paper.registry.keys.EnchantmentKeys;
 import io.papermc.paper.registry.keys.tags.ItemTypeTagKeys;
 import io.papermc.paper.registry.set.RegistryKeySet;
@@ -24,6 +22,7 @@ import xyz.devvydont.smprpg.enchantments.EnchantmentRarity;
 import xyz.devvydont.smprpg.enchantments.EnchantmentUtil;
 import xyz.devvydont.smprpg.enchantments.definitions.vanilla.VanillaEnchantment;
 import xyz.devvydont.smprpg.events.CustomEntityDamageByEntityEvent;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 public class SmiteEnchantment extends VanillaEnchantment implements Listener {
 
@@ -45,15 +44,17 @@ public class SmiteEnchantment extends VanillaEnchantment implements Listener {
 
     @Override
     public @NotNull Component getDisplayName() {
-        return Component.text("Smite");
+        return ComponentUtils.create("Smite");
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Increases damage dealt by ").color(NamedTextColor.GRAY)
-                .append(Component.text("+" + getPercentageIncrease(getLevel()) + "%").color(NamedTextColor.GREEN))
-                .append(Component.text(" against ").color(NamedTextColor.GRAY))
-                .append(Component.text("the undead").color(NamedTextColor.RED));
+        return ComponentUtils.merge(
+            ComponentUtils.create("Increases damage dealt by "),
+            ComponentUtils.create("+" + getPercentageIncrease(getLevel()) + "%", NamedTextColor.GREEN),
+            ComponentUtils.create(" against "),
+            ComponentUtils.create("the undead", NamedTextColor.RED)
+        );
     }
 
     @Override

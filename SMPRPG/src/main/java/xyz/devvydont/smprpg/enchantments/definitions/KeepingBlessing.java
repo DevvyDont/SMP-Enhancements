@@ -41,10 +41,12 @@ public class KeepingBlessing extends CustomEnchantment implements Listener {
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("This item is ").color(NamedTextColor.GRAY)
-                .append(Component.text("soulbound").color(NamedTextColor.DARK_PURPLE))
-                .append(Component.text(" and will not drop from ").color(NamedTextColor.GRAY))
-                .append(Component.text("death").color(NamedTextColor.RED));
+        return ComponentUtils.merge(
+            ComponentUtils.create("This item is "),
+            ComponentUtils.create("soulbound", NamedTextColor.DARK_PURPLE),
+            ComponentUtils.create(" and will not drop from "),
+            ComponentUtils.create("death", NamedTextColor.RED)
+        );
     }
 
     @Override

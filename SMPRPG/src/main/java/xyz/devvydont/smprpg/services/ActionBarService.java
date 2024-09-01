@@ -10,8 +10,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import xyz.devvydont.smprpg.SMPRPG;
-import xyz.devvydont.smprpg.entity.player.LeveledPlayer;
 import xyz.devvydont.smprpg.entity.base.LeveledEntity;
+import xyz.devvydont.smprpg.entity.player.LeveledPlayer;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.formatting.Symbols;
 
@@ -103,23 +103,23 @@ public class ActionBarService implements BaseService, Listener {
 
     private Component getPowerComponent(final Player player) {
         LeveledPlayer p = plugin.getEntityService().getPlayerInstance(player);
-        return ComponentUtils.getBracketedPowerComponent(p.getLevel());
+        return ComponentUtils.powerLevelPrefix(p.getLevel());
     }
 
     private void display(Player player) {
 
         // The component Will always have their health
-        Component message = getPowerComponent(player).append(Component.text(" ")).append(getHealthComponent(player));
+        Component message = getPowerComponent(player).append(ComponentUtils.create(" ")).append(getHealthComponent(player));
 
         // Check for components
         Map<ActionBarSource, ActionBarComponent> playersComponents = getPlayerComponents(player);
 
         // If we are displaying more than 1 extra component, omit defense
         if (playersComponents.size() <= 1)
-            message = message.append(Component.text(" | ").color(NamedTextColor.GRAY)).append(getDefenseComponent(player));
+            message = message.append(ComponentUtils.create(" | ")).append(getDefenseComponent(player));
 
         for (Map.Entry<ActionBarSource, ActionBarComponent> entry : playersComponents.entrySet())
-            message = message.append(Component.text(" | ").color(NamedTextColor.GRAY)).append(entry.getValue().display());
+            message = message.append(ComponentUtils.create(" | ")).append(entry.getValue().display());
 
         player.sendActionBar(message);
     }

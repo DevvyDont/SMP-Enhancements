@@ -1,11 +1,9 @@
 package xyz.devvydont.smprpg.listeners;
 
-import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.attribute.Attributable;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
-import org.bukkit.damage.DamageType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -14,7 +12,6 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.base.BossInstance;
 import xyz.devvydont.smprpg.entity.base.LeveledEntity;
-import xyz.devvydont.smprpg.util.formatting.MinecraftStringUtils;
 
 public class EnvironmentalDamageListener implements Listener {
 

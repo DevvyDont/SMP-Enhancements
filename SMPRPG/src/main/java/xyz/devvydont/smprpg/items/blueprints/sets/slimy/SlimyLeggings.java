@@ -6,7 +6,6 @@ import org.bukkit.inventory.meta.trim.TrimPattern;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.util.crafting.builders.HelmetRecipe;
 import xyz.devvydont.smprpg.util.crafting.builders.LeggingsRecipe;
 
 public class SlimyLeggings extends SlimyArmorSet {

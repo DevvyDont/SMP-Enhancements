@@ -2,7 +2,6 @@ package xyz.devvydont.smprpg.services;
 
 import com.destroystokyo.paper.event.inventory.PrepareResultEvent;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Keyed;
 import org.bukkit.Material;
@@ -26,27 +25,31 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemDamageEvent;
 import org.bukkit.event.world.LootGenerateEvent;
-import org.bukkit.inventory.*;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.MerchantRecipe;
+import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
-import xyz.devvydont.smprpg.items.*;
+import xyz.devvydont.smprpg.items.CustomItemType;
+import xyz.devvydont.smprpg.items.SMPItemQuery;
 import xyz.devvydont.smprpg.items.base.CustomItemBlueprint;
 import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
 import xyz.devvydont.smprpg.items.base.VanillaItemBlueprint;
-import xyz.devvydont.smprpg.items.blueprints.debug.LegacyItemBlueprint;
 import xyz.devvydont.smprpg.items.blueprints.resources.VanillaResource;
 import xyz.devvydont.smprpg.items.blueprints.vanilla.*;
-import xyz.devvydont.smprpg.items.interfaces.*;
+import xyz.devvydont.smprpg.items.interfaces.Compressable;
+import xyz.devvydont.smprpg.items.interfaces.Craftable;
 import xyz.devvydont.smprpg.items.listeners.ExperienceBottleListener;
 import xyz.devvydont.smprpg.items.listeners.ShieldBlockingListener;
 import xyz.devvydont.smprpg.reforge.ReforgeBase;
 import xyz.devvydont.smprpg.reforge.ReforgeType;
 import xyz.devvydont.smprpg.util.crafting.ItemUtil;
 import xyz.devvydont.smprpg.util.crafting.MaterialWrapper;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
@@ -878,9 +881,9 @@ public class ItemService implements BaseService, Listener {
         SMPItemBlueprint blueprint = getBlueprint(event.getEntity().getItemStack());
         ensureItemStackUpdated(event.getEntity().getItemStack());
 
-        Component quantity = Component.empty();
+        Component quantity = ComponentUtils.EMPTY;
         if (event.getEntity().getItemStack().getAmount() > 1)
-            quantity = Component.text(String.format("%dx ", event.getEntity().getItemStack().getAmount())).color(NamedTextColor.GRAY);
+            quantity = ComponentUtils.create(String.format("%dx ", event.getEntity().getItemStack().getAmount()));
 
         event.getEntity().customName(quantity.append(blueprint.getNameComponent(event.getEntity().getItemStack().getItemMeta())));
         event.getEntity().setCustomNameVisible(true);
@@ -901,9 +904,9 @@ public class ItemService implements BaseService, Listener {
 
         int newTotal = event.getEntity().getItemStack().getAmount() + event.getTarget().getItemStack().getAmount();
 
-        Component quantity = Component.empty();
+        Component quantity = ComponentUtils.EMPTY;
         if (newTotal > 1)
-            quantity = Component.text(String.format("%dx ", newTotal)).color(NamedTextColor.GRAY);
+            quantity = ComponentUtils.create(String.format("%dx ", newTotal));
 
         event.getTarget().customName(quantity.append(blueprint.getNameComponent(event.getEntity().getItemStack().getItemMeta())));
         event.getTarget().setCustomNameVisible(true);

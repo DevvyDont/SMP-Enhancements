@@ -1,10 +1,7 @@
 package xyz.devvydont.smprpg.enchantments.definitions.vanilla.overrides;
 
 import io.papermc.paper.registry.TypedKey;
-import io.papermc.paper.registry.data.EnchantmentRegistryEntry;
-import io.papermc.paper.registry.event.RegistryFreezeEvent;
 import io.papermc.paper.registry.keys.tags.ItemTypeTagKeys;
-import io.papermc.paper.registry.set.RegistryKeySet;
 import io.papermc.paper.registry.tag.TagKey;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -19,6 +16,7 @@ import xyz.devvydont.smprpg.enchantments.definitions.vanilla.VanillaEnchantment;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeModifierType;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.Collection;
 import java.util.List;
@@ -52,14 +50,15 @@ public class PowerEnchantment extends VanillaEnchantment implements AttributeEnc
 
     @Override
     public @NotNull Component getDisplayName() {
-        return Component.text("Power");
+        return ComponentUtils.create("Power");
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Increases base damage by ").color(NamedTextColor.GRAY)
-                .append(Component.text("+" + getDamageIncrease(getLevel())).color(NamedTextColor.GREEN)
-                );
+        return ComponentUtils.merge(
+            ComponentUtils.create("Increases base damage by "),
+            ComponentUtils.create("+" + getDamageIncrease(getLevel()), NamedTextColor.GREEN)
+        );
     }
 
     @Override

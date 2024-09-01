@@ -14,6 +14,7 @@ import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeModifierType;
 import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.Collection;
 import java.util.List;
@@ -36,14 +37,15 @@ public class VigorousEnchantment extends CustomEnchantment implements AttributeE
 
     @Override
     public @NotNull Component getDisplayName() {
-        return Component.text("Vigorous");
+        return ComponentUtils.create("Vigorous");
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Increases mining speed by ").color(NamedTextColor.GRAY)
-                .append(Component.text("+" + getMiningSpeed(getLevel()) + "%").color(NamedTextColor.GREEN)
-                );
+        return ComponentUtils.merge(
+            ComponentUtils.create("Increases mining speed by "),
+            ComponentUtils.create("+" + getMiningSpeed(getLevel()) + "%", NamedTextColor.GREEN)
+        );
     }
 
     @Override

@@ -39,7 +39,7 @@ public abstract class CustomShortbow extends CustomAttributeItem implements List
     @Override
     public List<Component> getDescriptionComponent(ItemMeta meta) {
         List<Component> lines = new ArrayList<>(super.getDescriptionComponent(meta));
-        lines.add(Component.empty());
+        lines.add(ComponentUtils.EMPTY);
         lines.add(AbilityUtil.getAbilityComponent("Shortbow (Left/Right Click)"));
         lines.add(ComponentUtils.create("Instantly shoots arrows!"));
         return lines;

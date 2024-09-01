@@ -27,9 +27,9 @@ import xyz.devvydont.smprpg.enchantments.CustomEnchantment;
 import xyz.devvydont.smprpg.enchantments.EnchantmentRarity;
 import xyz.devvydont.smprpg.services.ActionBarService;
 import xyz.devvydont.smprpg.services.EnchantmentService;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import static org.bukkit.Material.AIR;
-import static org.bukkit.Material.TOTEM_OF_UNDYING;
 
 public class MercyBlessing extends CustomEnchantment implements Listener {
 
@@ -41,7 +41,7 @@ public class MercyBlessing extends CustomEnchantment implements Listener {
 
     @Override
     public @NotNull Component getDisplayName() {
-        return Component.text("Blessing of Mercy").color(NamedTextColor.YELLOW);
+        return ComponentUtils.create("Blessing of Mercy", NamedTextColor.YELLOW);
     }
 
     @Override
@@ -51,10 +51,12 @@ public class MercyBlessing extends CustomEnchantment implements Listener {
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Survive a ").color(NamedTextColor.GRAY)
-                .append(Component.text("fatal blow").color(NamedTextColor.DARK_PURPLE))
-                .append(Component.text(" once every ").color(NamedTextColor.GRAY))
-                .append(Component.text(COOLDOWN + "s").color(NamedTextColor.GREEN));
+        return ComponentUtils.merge(
+            ComponentUtils.create("Survive a "),
+            ComponentUtils.create("fatal blow", NamedTextColor.DARK_PURPLE),
+            ComponentUtils.create(" once every "),
+            ComponentUtils.create(COOLDOWN + "s", NamedTextColor.GREEN)
+        );
     }
 
     @Override
@@ -130,6 +132,6 @@ public class MercyBlessing extends CustomEnchantment implements Listener {
         player.getWorld().spawnParticle(Particle.TOTEM_OF_UNDYING, player.getEyeLocation(), 25);
         player.getWorld().playSound(player.getLocation(), Sound.ITEM_TOTEM_USE, 1, 1);
         player.addPotionEffect(new PotionEffect(PotionEffectType.ABSORPTION, 20*30, 4, true));
-        SMPRPG.getInstance().getActionBarService().addActionBarComponent(player, ActionBarService.ActionBarSource.MISC, Component.text("MERCY!", NamedTextColor.YELLOW), 3);
+        SMPRPG.getInstance().getActionBarService().addActionBarComponent(player, ActionBarService.ActionBarSource.MISC, ComponentUtils.create("MERCY!", NamedTextColor.YELLOW), 3);
     }
 }

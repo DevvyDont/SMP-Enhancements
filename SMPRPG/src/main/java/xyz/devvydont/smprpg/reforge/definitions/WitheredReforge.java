@@ -44,10 +44,10 @@ public class WitheredReforge extends ReforgeBase implements Listener {
         return List.of(
                 ComponentUtils.create("Provides a").append(ComponentUtils.create(" SIGNIFICANT", NamedTextColor.GOLD)).append(ComponentUtils.create(" boost")),
                 ComponentUtils.create("in attack damage and attack speed"),
-                Component.empty(),
-                Component.text("Withered Bonus", NamedTextColor.BLUE),
-                ComponentUtils.create("Deal ").append(Component.text("2x", NamedTextColor.GREEN)).append(ComponentUtils.create(" damage to enemies who")),
-                ComponentUtils.create("have the ").append(Component.text("withered", NamedTextColor.DARK_RED).append(ComponentUtils.create(" potion effect")))
+                ComponentUtils.EMPTY,
+                ComponentUtils.create("Withered Bonus", NamedTextColor.BLUE),
+                ComponentUtils.create("Deal ").append(ComponentUtils.create("2x", NamedTextColor.GREEN)).append(ComponentUtils.create(" damage to enemies who")),
+                ComponentUtils.create("have the ").append(ComponentUtils.create("withered", NamedTextColor.DARK_RED).append(ComponentUtils.create(" potion effect")))
         );
     }
 

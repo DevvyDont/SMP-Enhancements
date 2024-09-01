@@ -1,7 +1,5 @@
 package xyz.devvydont.smprpg.skills.rewards;
 
-import xyz.devvydont.smprpg.SMPRPG;
-import xyz.devvydont.smprpg.enchantments.CustomEnchantment;
 import xyz.devvydont.smprpg.skills.SkillRewardContainer;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
 

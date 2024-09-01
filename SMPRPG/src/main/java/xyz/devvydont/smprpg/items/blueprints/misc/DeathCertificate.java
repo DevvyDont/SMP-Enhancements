@@ -102,10 +102,10 @@ public class DeathCertificate extends CustomItemBlueprint implements Listener, S
         String dateString = formatter.format(date);
 
         return List.of(
-                Component.empty(),
+                ComponentUtils.EMPTY,
                 ComponentUtils.create(playerName, NamedTextColor.AQUA).append(ComponentUtils.create(" died in ")).append(getEnvironmentComponent(environment)),
                 ComponentUtils.create("Coordinates: ").append(getCoordinatesComponent(location)),
-                Component.empty(),
+                ComponentUtils.EMPTY,
                 ComponentUtils.create("Death occurred at: " + dateString + "EST", NamedTextColor.DARK_GRAY)
         );
     }

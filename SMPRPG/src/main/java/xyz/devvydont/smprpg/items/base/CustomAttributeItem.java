@@ -2,9 +2,7 @@ package xyz.devvydont.smprpg.items.base;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.w3c.dom.Attr;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemRarity;
 import xyz.devvydont.smprpg.items.attribute.AttributeModifierType;
@@ -13,6 +11,7 @@ import xyz.devvydont.smprpg.items.interfaces.Craftable;
 import xyz.devvydont.smprpg.items.interfaces.Sellable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.attributes.AttributeUtil;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.formatting.Symbols;
 
 import java.util.ArrayList;
@@ -51,8 +50,8 @@ public abstract class CustomAttributeItem extends CustomItemBlueprint implements
     public List<Component> getDescriptionComponent(ItemMeta meta) {
         // Append the attribute data just before the description of the item.
         List<Component> lore = new ArrayList<>();
-        lore.add(Component.text("Power Rating: ").color(NamedTextColor.GRAY).append(Component.text(Symbols.POWER + getTotalPower(meta)).color(NamedTextColor.YELLOW)));
-        lore.add(Component.empty());
+        lore.add(ComponentUtils.create("Power Rating: ").append(ComponentUtils.create(Symbols.POWER + getTotalPower(meta), NamedTextColor.YELLOW)));
+        lore.add(ComponentUtils.EMPTY);
 
         lore.addAll(AttributeUtil.getAttributeLore(this, meta));
         lore.addAll(super.getDescriptionComponent(meta));

@@ -5,6 +5,7 @@ import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 public class InterfaceUtil {
 
@@ -17,7 +18,7 @@ public class InterfaceUtil {
     }
 
     public static ItemStack getInterfaceBorder() {
-        return getNamedItem(Material.BLACK_STAINED_GLASS_PANE, Component.text(""));
+        return getNamedItem(Material.BLACK_STAINED_GLASS_PANE, ComponentUtils.EMPTY);
     }
 
 }

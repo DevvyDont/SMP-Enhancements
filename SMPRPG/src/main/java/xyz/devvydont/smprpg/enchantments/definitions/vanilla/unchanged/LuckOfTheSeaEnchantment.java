@@ -9,6 +9,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemType;
 import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.enchantments.definitions.vanilla.UnchangedEnchantment;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 public class LuckOfTheSeaEnchantment extends UnchangedEnchantment {
 
@@ -19,13 +20,15 @@ public class LuckOfTheSeaEnchantment extends UnchangedEnchantment {
 
     @Override
     public @NotNull Component getDisplayName() {
-        return Component.text("Luck of the Sea");
+        return ComponentUtils.create("Luck of the Sea");
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Increases chance of treasure by ").color(NamedTextColor.GRAY)
-                .append(Component.text((2*getLevel()) + "%").color(NamedTextColor.GREEN));
+        return ComponentUtils.merge(
+            ComponentUtils.create("Increases chance of treasure by "),
+            ComponentUtils.create((2*getLevel()) + "%", NamedTextColor.GREEN)
+        );
     }
 
     @Override

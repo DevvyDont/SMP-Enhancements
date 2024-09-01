@@ -13,6 +13,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemType;
 import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.enchantments.definitions.vanilla.UnchangedEnchantment;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 public class MultishotEnchantment extends UnchangedEnchantment {
 
@@ -23,14 +24,16 @@ public class MultishotEnchantment extends UnchangedEnchantment {
 
     @Override
     public @NotNull Component getDisplayName() {
-        return Component.text("Multishot");
+        return ComponentUtils.create("Multishot");
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Fires ").color(NamedTextColor.GRAY)
-                .append(Component.text("multiple arrows").color(NamedTextColor.GOLD))
-                .append(Component.text(" when shot").color(NamedTextColor.GRAY));
+        return ComponentUtils.merge(
+            ComponentUtils.create("Fires "),
+            ComponentUtils.create("multiple arrows", NamedTextColor.GOLD),
+            ComponentUtils.create(" when shot")
+        );
     }
 
     @Override

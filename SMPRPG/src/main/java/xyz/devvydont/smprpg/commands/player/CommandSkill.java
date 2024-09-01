@@ -36,23 +36,24 @@ public class CommandSkill extends CommandBase {
     }
 
     private List<Component> getSkillDisplay(LeveledPlayer player) {
-
-        List<Component> display = new ArrayList<>();
-        display.add(Component.empty());
-        for (SkillInstance skill : player.getSkills())
-            display.add(
-                    ComponentUtils.create(skill.getType().getDisplayName() + " " + skill.getLevel(), NamedTextColor.AQUA)
-                            .append(ComponentUtils.create(" - "))
-                            .append(ComponentUtils.create(MinecraftStringUtils.formatNumber(skill.getExperienceProgress()), NamedTextColor.GREEN))
-                            .append(ComponentUtils.create("/"))
-                            .append(ComponentUtils.create(MinecraftStringUtils.formatNumber(skill.getNextExperienceThreshold()), NamedTextColor.GOLD))
-                            .append(ComponentUtils.create(" ("))
-                            .append(ComponentUtils.create(MinecraftStringUtils.formatNumber(skill.getExperience()) + "XP", NamedTextColor.DARK_GRAY))
-                            .append(ComponentUtils.create(")"))
-            );
-        display.add(Component.empty());
-        display.add(ComponentUtils.create("Skill Average: ").append(ComponentUtils.create(String.format("%.2f", player.getAverageSkillLevel()), NamedTextColor.GOLD)));
-        return display;
+        var output = new ArrayList<Component>();
+        output.add(ComponentUtils.EMPTY);
+        for (SkillInstance skill : player.getSkills()) {
+            output.add(ComponentUtils.merge(
+                    ComponentUtils.create(skill.getType().getDisplayName() + " " + skill.getLevel(), NamedTextColor.AQUA),
+                    ComponentUtils.create(" - "),
+                    ComponentUtils.create(MinecraftStringUtils.formatNumber(skill.getExperienceProgress()), NamedTextColor.GREEN),
+                    ComponentUtils.create("/"),
+                    ComponentUtils.create(MinecraftStringUtils.formatNumber(skill.getNextExperienceThreshold()), NamedTextColor.GOLD),
+                    ComponentUtils.create(" ("),
+                    ComponentUtils.create(MinecraftStringUtils.formatNumber(skill.getExperience()) + "XP", NamedTextColor.DARK_GRAY),
+                    ComponentUtils.create(")")
+            ));
+        }
+        output.add(ComponentUtils.EMPTY);
+        output.add(ComponentUtils.create("Skill Average: "));
+        output.add(ComponentUtils.create(String.format("%.2f", player.getAverageSkillLevel()), NamedTextColor.GOLD));
+        return output;
     }
 
     @Override

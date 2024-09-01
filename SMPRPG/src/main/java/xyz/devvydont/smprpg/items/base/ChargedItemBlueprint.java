@@ -81,7 +81,7 @@ public abstract class ChargedItemBlueprint extends CustomItemBlueprint {
     @Override
     public List<Component> getFooterComponent(ItemMeta meta) {
         return List.of(
-                Component.empty(),
+                ComponentUtils.EMPTY,
                 ComponentUtils.create("Charges left: ").append(ComponentUtils.create(getChargesLeft(meta) + "", NamedTextColor.GREEN))
         );
     }

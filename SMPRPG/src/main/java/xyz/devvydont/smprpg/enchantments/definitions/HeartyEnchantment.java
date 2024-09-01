@@ -45,14 +45,16 @@ public class HeartyEnchantment extends CustomEnchantment implements AttributeEnc
 
     @Override
     public @NotNull Component getDisplayName() {
-        return Component.text("Hearty");
+        return ComponentUtils.create("Hearty");
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Increases max HP by ").color(NamedTextColor.GRAY)
-                .append(Component.text("+" + getHealthIncrease(getLevel())).color(NamedTextColor.GREEN))
-                .append(ComponentUtils.create(Symbols.HEART, NamedTextColor.RED));
+        return ComponentUtils.merge(
+            ComponentUtils.create("Increases max HP by "),
+            ComponentUtils.create("+" + getHealthIncrease(getLevel()), NamedTextColor.GREEN),
+            ComponentUtils.create(Symbols.HEART, NamedTextColor.RED)
+        );
     }
 
     @Override

@@ -3,7 +3,6 @@ package xyz.devvydont.smprpg.items.interfaces;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.CraftingRecipe;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.Recipe;
 
 import java.util.Collection;
 

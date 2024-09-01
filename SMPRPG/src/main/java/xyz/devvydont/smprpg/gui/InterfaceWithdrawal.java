@@ -1,6 +1,5 @@
 package xyz.devvydont.smprpg.gui;
 
-import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -11,9 +10,9 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import xyz.devvydont.smprpg.SMPRPG;
+import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
 import xyz.devvydont.smprpg.items.blueprints.economy.CustomItemCoin;
-import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.services.EconomyService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
@@ -78,9 +77,10 @@ public class InterfaceWithdrawal extends PrivateInterface {
 
         // Tell them it was successful
         owner.sendMessage(ComponentUtils.success(String.format("Withdrew %d coins from your account!", toTakeOut)));
-        Component balMessage = Component.text("Your balance is now ").color(NamedTextColor.GRAY)
-                .append(Component.text(plugin.getEconomyService().formatMoney(owner)).color(NamedTextColor.GOLD));
-        owner.sendMessage(ComponentUtils.alert(balMessage));
+        owner.sendMessage(ComponentUtils.alert(ComponentUtils.merge(
+            ComponentUtils.create("Your balance is now "),
+            ComponentUtils.create(plugin.getEconomyService().formatMoney(owner), NamedTextColor.GOLD)
+        )));
         owner.playSound(owner.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1f, 2f);
     }
 
@@ -108,7 +108,7 @@ public class InterfaceWithdrawal extends PrivateInterface {
             }
 
             // They cannot afford the coin, add filler
-            inventory.setItem(slot, InterfaceUtil.getNamedItem(Material.CLAY_BALL, Component.text(String.format("You are %s short!", EconomyService.formatMoney(playerBalance-coin.getWorth()))).color(NamedTextColor.RED)));
+            inventory.setItem(slot, InterfaceUtil.getNamedItem(Material.CLAY_BALL, ComponentUtils.create(String.format("You are %s short!", EconomyService.formatMoney(playerBalance-coin.getWorth())), NamedTextColor.RED)));
         }
 
     }

@@ -11,6 +11,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.CustomEntityType;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 public abstract class NPCEntity extends CustomEntityInstance implements Listener {
 
@@ -51,9 +52,10 @@ public abstract class NPCEntity extends CustomEntityInstance implements Listener
      */
     @Override
     public Component generateNametagComponent() {
-        return Component.text("[").color(NamedTextColor.GRAY)
-                .append(Component.text("NPC").color(NamedTextColor.YELLOW))
-                .append(Component.text("] ").color(NamedTextColor.GRAY));
+        return ComponentUtils.EMPTY
+            .append(ComponentUtils.SYMBOL_BRACKET_LEFT)
+            .append(ComponentUtils.create("NPC", NamedTextColor.YELLOW))
+            .append(ComponentUtils.SYMBOL_BRACKET_RIGHT);
     }
 
     /**
@@ -63,7 +65,7 @@ public abstract class NPCEntity extends CustomEntityInstance implements Listener
      */
     @Override
     public Component getHealthNametagComponent() {
-        return Component.empty();
+        return ComponentUtils.EMPTY;
     }
 
     @EventHandler

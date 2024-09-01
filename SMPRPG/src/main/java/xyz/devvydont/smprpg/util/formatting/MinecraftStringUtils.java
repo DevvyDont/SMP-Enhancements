@@ -1,12 +1,5 @@
 package xyz.devvydont.smprpg.util.formatting;
 
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.format.TextColor;
-import org.bukkit.attribute.Attribute;
-import xyz.devvydont.smprpg.util.attributes.AttributeUtil;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
-
 import java.text.DecimalFormat;
 import java.util.regex.Pattern;
 

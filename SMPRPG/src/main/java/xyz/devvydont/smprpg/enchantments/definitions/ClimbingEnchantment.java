@@ -31,13 +31,15 @@ public class ClimbingEnchantment extends CustomEnchantment implements AttributeE
 
     @Override
     public @NotNull Component getDisplayName() {
-        return Component.text("Climbing");
+        return ComponentUtils.create("Climbing");
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return ComponentUtils.create("Increases block step height by ")
-                .append(ComponentUtils.create(String.format("+%d%%", (int)(getStepIncrease(getLevel())*100)), NamedTextColor.GREEN));
+        return ComponentUtils.merge(
+            ComponentUtils.create("Increases block step height by "),
+            ComponentUtils.create(String.format("+%d%%", (int)(getStepIncrease(getLevel())*100)), NamedTextColor.GREEN)
+        );
     }
 
     @Override

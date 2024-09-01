@@ -2,8 +2,6 @@ package xyz.devvydont.smprpg.enchantments.definitions.vanilla.overrides;
 
 import io.papermc.paper.registry.RegistryKey;
 import io.papermc.paper.registry.TypedKey;
-import io.papermc.paper.registry.data.EnchantmentRegistryEntry;
-import io.papermc.paper.registry.event.RegistryFreezeEvent;
 import io.papermc.paper.registry.keys.EnchantmentKeys;
 import io.papermc.paper.registry.keys.tags.ItemTypeTagKeys;
 import io.papermc.paper.registry.set.RegistryKeySet;
@@ -23,6 +21,7 @@ import xyz.devvydont.smprpg.enchantments.EnchantmentRarity;
 import xyz.devvydont.smprpg.enchantments.EnchantmentUtil;
 import xyz.devvydont.smprpg.enchantments.definitions.vanilla.VanillaEnchantment;
 import xyz.devvydont.smprpg.events.CustomEntityDamageByEntityEvent;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 public class DensityEnchantment extends VanillaEnchantment implements Listener {
 
@@ -43,14 +42,16 @@ public class DensityEnchantment extends VanillaEnchantment implements Listener {
 
     @Override
     public @NotNull Component getDisplayName() {
-        return Component.text("Density");
+        return ComponentUtils.create("Density");
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Increases damage dealt by ").color(NamedTextColor.GRAY)
-                .append(Component.text("+" + getDamagePerBlock(getLevel())).color(NamedTextColor.GREEN))
-                .append(Component.text(" per block fallen").color(NamedTextColor.GRAY));
+        return ComponentUtils.merge(
+            ComponentUtils.create("Increases damage dealt by "),
+            ComponentUtils.create("+" + getDamagePerBlock(getLevel()), NamedTextColor.GREEN),
+            ComponentUtils.create(" per block fallen")
+        );
     }
 
     @Override
