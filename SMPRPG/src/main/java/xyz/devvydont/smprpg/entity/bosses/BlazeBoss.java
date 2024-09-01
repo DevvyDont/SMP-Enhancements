@@ -1,10 +1,7 @@
 package xyz.devvydont.smprpg.entity.bosses;
 
 import net.kyori.adventure.bossbar.BossBar;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Particle;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.damage.DamageSource;
 import org.bukkit.damage.DamageType;
