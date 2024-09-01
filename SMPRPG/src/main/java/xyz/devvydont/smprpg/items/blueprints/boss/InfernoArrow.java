@@ -27,6 +27,7 @@ import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.ItemRarity;
 import xyz.devvydont.smprpg.items.base.CustomItemBlueprint;
 import xyz.devvydont.smprpg.items.interfaces.Sellable;
+import xyz.devvydont.smprpg.services.DropsService;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
@@ -57,7 +58,7 @@ public class InfernoArrow extends CustomItemBlueprint implements Sellable, Liste
     private static final double ARROW_VELOCITY_BLOCK_DAMPENING = .2;
     private static final double ARROW_VELOCITY_ENTITY_DAMPENING = .5;
 
-    private static boolean ALLOW_SPAWNING = false;
+    private static boolean ALLOW_SPAWNING = true;
 
     public InfernoArrow(ItemService itemService, CustomItemType type) {
         super(itemService, type);
@@ -154,6 +155,7 @@ public class InfernoArrow extends CustomItemBlueprint implements Sellable, Liste
         item.editMeta( meta -> {
             if (event.getEntity() instanceof Player player)
                 SMPRPG.getInstance().getDropsService().setOwner(meta, player);
+            SMPRPG.getInstance().getDropsService().setExpiryTimestamp(meta, System.currentTimeMillis() + DropsService.getMillisecondsUntilExpiry(getDefaultRarity()));
         });
         arrow.setItemStack(item);
         SMPRPG.getInstance().getDropsService().getTeam(ItemRarity.LEGENDARY).addEntity(arrow);  // give it a glow :p

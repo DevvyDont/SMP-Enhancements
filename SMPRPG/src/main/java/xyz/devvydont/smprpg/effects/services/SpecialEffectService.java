@@ -117,10 +117,9 @@ public class SpecialEffectService implements BaseService {
 
         // Cancel the task, send an expired action bar, and remove the reference to the task
         task.cancel();
-        task.sendActionBar(-1);
         task.removed();
         currentTasks.remove(uuid);
-
+        task.sendActionBar(-1);
         if (task instanceof Listener listener)
             HandlerList.unregisterAll(listener);
     }

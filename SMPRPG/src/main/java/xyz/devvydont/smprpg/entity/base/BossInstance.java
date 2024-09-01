@@ -373,6 +373,7 @@ public abstract class BossInstance extends EnemyEntity implements Listener {
         bossBar = createBossBar();
         cleanupBrainTickTask();
         entityBrainTask = Bukkit.getScheduler().runTaskTimer(plugin, this::tick, 1, 1);
+        entity.setPersistent(true);
     }
 
     @Override

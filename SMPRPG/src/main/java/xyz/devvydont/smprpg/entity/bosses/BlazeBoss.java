@@ -76,6 +76,31 @@ public class BlazeBoss extends CustomBossInstance implements Listener {
         super.tick();
         tick++;
 
+        // Check on all the minions. If they are either too far or not alive, clear them
+        for (UUID uuid : minions.keySet().stream().toList()) {
+            Entity minion = Bukkit.getEntity(uuid);
+            if (minion == null) {
+                minions.remove(uuid);
+                continue;
+            }
+
+            if (!minion.isValid()) {
+                minions.remove(uuid);
+                continue;
+            }
+
+            if (minion instanceof LivingEntity living && living.getHealth() <= 0) {
+                minions.remove(uuid);
+                continue;
+            }
+
+            if (minion.getLocation().distance(entity.getLocation()) > 100) {
+                minions.remove(uuid);
+                minion.remove();
+                continue;
+            }
+        }
+
         // The main logic of the boss.
         // If there are at least 5 mobs alive, enter the mobbing phase
         if (minions.size() >= (MAX_MINIONS/2))

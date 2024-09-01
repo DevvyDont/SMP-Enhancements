@@ -95,6 +95,10 @@ public abstract class SpecialEffectTask extends BukkitRunnable {
 
         ticks++;
 
+        // If we were canceled from somewhere else, they handled the logic already
+        if (isCancelled())
+            return;
+
         // Did they log out or did we lose the reference? Cancel the task if that is the case
         if (!player.isValid()) {
             removed();
@@ -114,7 +118,7 @@ public abstract class SpecialEffectTask extends BukkitRunnable {
         // If the task expired, remove this task
         if (seconds <= 0) {
             expire();
-            sendActionBar();
+            sendActionBar(-1);
             service.removeEffect(player.getUniqueId());
             cancel();
             return;
