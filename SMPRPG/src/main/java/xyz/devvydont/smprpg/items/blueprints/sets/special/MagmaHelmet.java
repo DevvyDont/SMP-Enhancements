@@ -22,7 +22,7 @@ import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
 import xyz.devvydont.smprpg.util.crafting.builders.HelmetRecipe;
-import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.formatting.Symbols;
 import xyz.devvydont.smprpg.util.items.AbilityUtil;
 
@@ -46,9 +46,9 @@ public class MagmaHelmet extends CustomTexturedAttributeHelmetBlueprint implemen
     @Override
     public List<Component> getDescriptionComponent(ItemMeta meta) {
         List<Component> components = new ArrayList<>(super.getDescriptionComponent(meta));
-        components.add(Component.empty());
+        components.add(ComponentUtils.EMPTY);
         components.add(AbilityUtil.getAbilityComponent("Heat Proof (Passive)"));
-        components.add(ComponentUtil.getDefaultText("Grants immunity to ").append(ComponentUtil.getColoredComponent(Symbols.FIRE + "fire based", NamedTextColor.RED)).append(ComponentUtil.getDefaultText(" damage")));
+        components.add(ComponentUtils.create("Grants immunity to ").append(ComponentUtils.create(Symbols.FIRE + "fire based", NamedTextColor.RED)).append(ComponentUtils.create(" damage")));
         return components;
     }
 

@@ -20,6 +20,7 @@ import xyz.devvydont.smprpg.enchantments.EnchantmentRarity;
 import xyz.devvydont.smprpg.entity.base.EnemyEntity;
 import xyz.devvydont.smprpg.events.CustomEntityDamageByEntityEvent;
 import xyz.devvydont.smprpg.services.EnchantmentService;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 public class DoubleTapEnchantment extends CustomEnchantment implements Listener {
 
@@ -41,14 +42,16 @@ public class DoubleTapEnchantment extends CustomEnchantment implements Listener 
 
     @Override
     public @NotNull Component getDisplayName() {
-        return Component.text("Double Tap");
+        return ComponentUtils.create("Double Tap");
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Increases damage by ").color(NamedTextColor.GRAY)
-                .append(Component.text("+" + getFirstHitDamage(getLevel()) + "%").color(NamedTextColor.GREEN))
-                .append(Component.text(" when hitting an enemy for the first two times"));
+        return ComponentUtils.merge(
+            ComponentUtils.create("Increases damage by "),
+            ComponentUtils.create("+" + getFirstHitDamage(getLevel()) + "%", NamedTextColor.GREEN),
+            ComponentUtils.create(" when hitting an enemy for the first two times")
+        );
     }
 
     @Override

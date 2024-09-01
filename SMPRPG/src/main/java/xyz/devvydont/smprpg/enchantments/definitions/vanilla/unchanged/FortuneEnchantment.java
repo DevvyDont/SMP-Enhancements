@@ -2,8 +2,6 @@ package xyz.devvydont.smprpg.enchantments.definitions.vanilla.unchanged;
 
 import io.papermc.paper.registry.RegistryKey;
 import io.papermc.paper.registry.TypedKey;
-import io.papermc.paper.registry.data.EnchantmentRegistryEntry;
-import io.papermc.paper.registry.event.RegistryFreezeEvent;
 import io.papermc.paper.registry.keys.EnchantmentKeys;
 import io.papermc.paper.registry.keys.tags.ItemTypeTagKeys;
 import io.papermc.paper.registry.set.RegistryKeySet;
@@ -17,6 +15,7 @@ import org.bukkit.inventory.ItemType;
 import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.enchantments.EnchantmentRarity;
 import xyz.devvydont.smprpg.enchantments.definitions.vanilla.VanillaEnchantment;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 public class FortuneEnchantment extends VanillaEnchantment {
 
@@ -38,14 +37,16 @@ public class FortuneEnchantment extends VanillaEnchantment {
 
     @Override
     public @NotNull Component getDisplayName() {
-        return Component.text("Fortune");
+        return ComponentUtils.create("Fortune");
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Provides a bonus of ").color(NamedTextColor.GRAY)
-                .append(Component.text("+~" + getFortuneEstimationPercent(getLevel()) + "%").color(NamedTextColor.GREEN))
-                .append(Component.text(" when mining").color(NamedTextColor.GRAY));
+        return ComponentUtils.merge(
+            ComponentUtils.create("Provides a bonus of "),
+            ComponentUtils.create("+~" + getFortuneEstimationPercent(getLevel()) + "%", NamedTextColor.GREEN),
+            ComponentUtils.create(" when mining")
+        );
     }
 
     @Override

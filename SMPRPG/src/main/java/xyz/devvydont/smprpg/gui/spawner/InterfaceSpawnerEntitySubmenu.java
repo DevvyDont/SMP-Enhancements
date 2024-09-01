@@ -1,6 +1,5 @@
 package xyz.devvydont.smprpg.gui.spawner;
 
-import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -13,8 +12,7 @@ import xyz.devvydont.smprpg.entity.CustomEntityType;
 import xyz.devvydont.smprpg.entity.spawning.EntitySpawner;
 import xyz.devvydont.smprpg.gui.InterfaceUtil;
 import xyz.devvydont.smprpg.gui.PrivateInterface;
-import xyz.devvydont.smprpg.util.formatting.ChatUtil;
-import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.formatting.MinecraftStringUtils;
 import xyz.devvydont.smprpg.util.formatting.Symbols;
 
@@ -38,7 +36,7 @@ public class InterfaceSpawnerEntitySubmenu extends PrivateInterface {
         backButton = new SpawnerButton() {
             @Override
             public ItemStack getItem(InterfaceSpawnerMainMenu gui) {
-                return InterfaceUtil.getNamedItem(Material.SPECTRAL_ARROW, ComponentUtil.getColoredComponent("Go Back to Main Menu", NamedTextColor.RED));
+                return InterfaceUtil.getNamedItem(Material.SPECTRAL_ARROW, ComponentUtils.create("Go Back to Main Menu", NamedTextColor.RED));
             }
 
             @Override
@@ -56,32 +54,32 @@ public class InterfaceSpawnerEntitySubmenu extends PrivateInterface {
                 continue;
 
             if (position > limit) {
-                owner.sendMessage(ChatUtil.getErrorMessage("Could not display all entities. Yell at dev to stop being lazy and paginate this GUI!"));
+                owner.sendMessage(ComponentUtils.error("Could not display all entities. Yell at dev to stop being lazy and paginate this GUI!"));
                 break;
             }
 
             SpawnerButton button = new SpawnerButton() {
                 @Override
                 public ItemStack getItem(InterfaceSpawnerMainMenu gui) {
-                    ItemStack display = InterfaceUtil.getNamedItem(type.getInterfaceButton(), ComponentUtil.getColoredComponent("Set Weight: ", NamedTextColor.GOLD).append(ComponentUtil.getColoredComponent(type.getName(), NamedTextColor.RED)));
+                    ItemStack display = InterfaceUtil.getNamedItem(type.getInterfaceButton(), ComponentUtils.create("Set Weight: ", NamedTextColor.GOLD).append(ComponentUtils.create(type.getName(), NamedTextColor.RED)));
                     display.editMeta(meta -> {
                         meta.lore(List.of(
-                                Component.empty(),
-                                ComponentUtil.getDefaultText("Current Weight:").append(ComponentUtil.getColoredComponent(" " + gui.getSpawner().getOptions().getWeight(type), NamedTextColor.GREEN)),
-                                Component.empty(),
-                                ComponentUtil.getColoredComponent("Default Statistics:", NamedTextColor.GOLD),
-                                ChatUtil.getPowerComponent(type.getBaseLevel()).append(ComponentUtil.getColoredComponent(" " + type.getName(), NamedTextColor.RED)),
-                                ComponentUtil.getDefaultText("Base Health: ").append(ComponentUtil.getColoredComponent(MinecraftStringUtils.formatNumber(type.getBaseHp()), NamedTextColor.GREEN)).append(ComponentUtil.getColoredComponent(Symbols.HEART, NamedTextColor.RED)),
-                                ComponentUtil.getDefaultText("Base Damage: ").append(ComponentUtil.getColoredComponent(MinecraftStringUtils.formatNumber(type.getBaseDamage()), NamedTextColor.RED)).append(ComponentUtil.getColoredComponent(Symbols.SKULL, NamedTextColor.DARK_GRAY)),
-                                ComponentUtil.getDefaultText("Base Entity: ").append(ComponentUtil.getColoredComponent(type.getEntityType().name(), NamedTextColor.GOLD)),
-                                Component.empty(),
-                                ComponentUtil.getDefaultText("Left click to increase, Right click to decrease"),
-                                Component.empty(),
-                                ComponentUtil.getDefaultText("Setting a weight of 0 will remove this entity from this spawner"),
-                                ComponentUtil.getDefaultText("Higher weights means this mob is more likely to spawn"),
-                                ComponentUtil.getDefaultText("If only one entity is enabled in a spawner, weight only needs to be 1")
+                                ComponentUtils.EMPTY,
+                                ComponentUtils.create("Current Weight:").append(ComponentUtils.create(" " + gui.getSpawner().getOptions().getWeight(type), NamedTextColor.GREEN)),
+                                ComponentUtils.EMPTY,
+                                ComponentUtils.create("Default Statistics:", NamedTextColor.GOLD),
+                                ComponentUtils.powerLevel(type.getBaseLevel()).append(ComponentUtils.create(" " + type.getName(), NamedTextColor.RED)),
+                                ComponentUtils.create("Base Health: ").append(ComponentUtils.create(MinecraftStringUtils.formatNumber(type.getBaseHp()), NamedTextColor.GREEN)).append(ComponentUtils.create(Symbols.HEART, NamedTextColor.RED)),
+                                ComponentUtils.create("Base Damage: ").append(ComponentUtils.create(MinecraftStringUtils.formatNumber(type.getBaseDamage()), NamedTextColor.RED)).append(ComponentUtils.create(Symbols.SKULL, NamedTextColor.DARK_GRAY)),
+                                ComponentUtils.create("Base Entity: ").append(ComponentUtils.create(type.getEntityType().name(), NamedTextColor.GOLD)),
+                                ComponentUtils.EMPTY,
+                                ComponentUtils.create("Left click to increase, Right click to decrease"),
+                                ComponentUtils.EMPTY,
+                                ComponentUtils.create("Setting a weight of 0 will remove this entity from this spawner"),
+                                ComponentUtils.create("Higher weights means this mob is more likely to spawn"),
+                                ComponentUtils.create("If only one entity is enabled in a spawner, weight only needs to be 1")
                         ));
-                        meta.lore(ChatUtil.cleanItalics(meta.lore()));
+                        meta.lore(ComponentUtils.cleanItalics(meta.lore()));
                         meta.setEnchantmentGlintOverride(gui.getSpawner().getOptions().getWeight(type) > 0);
                     });
                     return display;

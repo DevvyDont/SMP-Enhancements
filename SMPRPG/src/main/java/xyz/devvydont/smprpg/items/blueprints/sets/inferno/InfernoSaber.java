@@ -28,8 +28,7 @@ import xyz.devvydont.smprpg.items.base.CustomAttributeItem;
 import xyz.devvydont.smprpg.items.interfaces.Craftable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
-import xyz.devvydont.smprpg.util.formatting.ChatUtil;
-import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.items.AbilityUtil;
 
 import java.util.*;
@@ -69,10 +68,10 @@ public class InfernoSaber extends CustomAttributeItem implements Listener, Craft
     @Override
     public List<Component> getDescriptionComponent(ItemMeta meta) {
         List<Component> lines = new ArrayList<>(super.getDescriptionComponent(meta));
-        lines.add(Component.empty());
+        lines.add(ComponentUtils.EMPTY);
         lines.add(AbilityUtil.getAbilityComponent("Hot Shot (Right Click)"));
-        lines.add(ComponentUtil.getDefaultText("Shoot a ").append(ComponentUtil.getColoredComponent("fireball", NamedTextColor.GOLD)).append(ComponentUtil.getDefaultText(" in the direction")));
-        lines.add(ComponentUtil.getDefaultText("you are looking that deals ").append(ComponentUtil.getColoredComponent(DAMAGE + "", NamedTextColor.RED)).append(ComponentUtil.getDefaultText(" damage")));
+        lines.add(ComponentUtils.create("Shoot a ").append(ComponentUtils.create("fireball", NamedTextColor.GOLD)).append(ComponentUtils.create(" in the direction")));
+        lines.add(ComponentUtils.create("you are looking that deals ").append(ComponentUtils.create(DAMAGE + "", NamedTextColor.RED)).append(ComponentUtils.create(" damage")));
         lines.add(AbilityUtil.getHealthCostComponent(COST));
         lines.add(AbilityUtil.getCooldownComponent(COOLDOWN + "s"));
         return lines;
@@ -154,7 +153,7 @@ public class InfernoSaber extends CustomAttributeItem implements Listener, Craft
 
         // Do we have the health to use this?
         if (!canUse(event.getPlayer())) {
-            event.getPlayer().sendMessage(ChatUtil.getErrorMessage("You do not have enough life in you to use this item!"));
+            event.getPlayer().sendMessage(ComponentUtils.error("You do not have enough life in you to use this item!"));
             return;
         }
 

@@ -14,6 +14,7 @@ import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.enchantments.CustomEnchantment;
 import xyz.devvydont.smprpg.enchantments.EnchantmentRarity;
 import xyz.devvydont.smprpg.enchantments.EnchantmentUtil;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 public class WisdomEnchantment extends CustomEnchantment implements Listener {
 
@@ -37,14 +38,16 @@ public class WisdomEnchantment extends CustomEnchantment implements Listener {
 
     @Override
     public @NotNull Component getDisplayName() {
-        return Component.text("Wisdom");
+        return ComponentUtils.create("Wisdom");
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Experience orbs provide ").color(NamedTextColor.GRAY)
-                .append(Component.text("+" + getPercentExpForLevel(getLevel()) + "%").color(NamedTextColor.GREEN))
-                .append(Component.text(" more experience when picked up"));
+        return ComponentUtils.merge(
+            ComponentUtils.create("Experience orbs provide "),
+            ComponentUtils.create("+" + getPercentExpForLevel(getLevel()) + "%", NamedTextColor.GREEN),
+            ComponentUtils.create(" more experience when picked up")
+        );
     }
 
     @Override

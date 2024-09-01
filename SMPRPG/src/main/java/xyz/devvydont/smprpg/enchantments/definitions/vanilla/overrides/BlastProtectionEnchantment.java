@@ -2,8 +2,6 @@ package xyz.devvydont.smprpg.enchantments.definitions.vanilla.overrides;
 
 import io.papermc.paper.registry.RegistryKey;
 import io.papermc.paper.registry.TypedKey;
-import io.papermc.paper.registry.data.EnchantmentRegistryEntry;
-import io.papermc.paper.registry.event.RegistryFreezeEvent;
 import io.papermc.paper.registry.keys.EnchantmentKeys;
 import io.papermc.paper.registry.keys.tags.ItemTypeTagKeys;
 import io.papermc.paper.registry.set.RegistryKeySet;
@@ -28,6 +26,7 @@ import xyz.devvydont.smprpg.enchantments.definitions.vanilla.VanillaEnchantment;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeModifierType;
 import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.Collection;
 import java.util.List;
@@ -44,13 +43,15 @@ public class BlastProtectionEnchantment extends VanillaEnchantment implements At
 
     @Override
     public @NotNull Component getDisplayName() {
-        return Component.text("Blast Protection");
+        return ComponentUtils.create("Blast Protection");
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Increases explosion resistance by ").color(NamedTextColor.GRAY)
-                .append(Component.text("+" + getExplosiveProtectionPercent(getLevel()) + "%").color(NamedTextColor.GREEN));
+        return ComponentUtils.merge(
+            ComponentUtils.create("Increases explosion resistance by "),
+            ComponentUtils.create("+" + getExplosiveProtectionPercent(getLevel()) + "%", NamedTextColor.GREEN)
+        );
     }
 
     @Override

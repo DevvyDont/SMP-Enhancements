@@ -2,9 +2,9 @@ package xyz.devvydont.smprpg.items;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 public enum ItemRarity {
 
@@ -78,10 +78,10 @@ public enum ItemRarity {
             return component.color(this.color);
 
         // > Legendary adds the magic text on both sides, and then whole component is wrapped in the color.
-        return Component.text("o ").decoration(TextDecoration.OBFUSCATED, true)
-                .append(component.decoration(TextDecoration.OBFUSCATED, false))
-                .append(Component.text(" o").decoration(TextDecoration.OBFUSCATED, true))
-                .color(this.color);
-
+        return ComponentUtils.merge(
+            ComponentUtils.create("o ").decoration(TextDecoration.OBFUSCATED, true),
+            component.decoration(TextDecoration.OBFUSCATED, false),
+            ComponentUtils.create(" o", this.color).decoration(TextDecoration.OBFUSCATED, true)
+        );
     }
 }

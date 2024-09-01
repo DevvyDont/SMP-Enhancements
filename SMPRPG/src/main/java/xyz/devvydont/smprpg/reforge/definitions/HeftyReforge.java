@@ -9,7 +9,7 @@ import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.reforge.ReforgeBase;
 import xyz.devvydont.smprpg.reforge.ReforgeType;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
-import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.Collection;
 import java.util.List;
@@ -55,9 +55,9 @@ public class HeftyReforge extends ReforgeBase {
     @Override
     public List<Component> getDescription() {
         return List.of(
-                ComponentUtil.getDefaultText("Provides a generous boost"),
-                ComponentUtil.getDefaultText("to knockback resistance and strength"),
-                ComponentUtil.getDefaultText("at the cost of general speed")
+                ComponentUtils.create("Provides a generous boost"),
+                ComponentUtils.create("to knockback resistance and strength"),
+                ComponentUtils.create("at the cost of general speed")
         );
     }
 

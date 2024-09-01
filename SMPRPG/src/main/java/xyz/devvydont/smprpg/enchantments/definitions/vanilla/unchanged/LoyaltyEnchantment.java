@@ -9,16 +9,17 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemType;
 import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.enchantments.definitions.vanilla.UnchangedEnchantment;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 public class LoyaltyEnchantment extends UnchangedEnchantment {
 
     public static Component getSpeedModifier(int level) {
         return switch (level) {
-            case 0 -> Component.text("");
-            case 1 -> Component.text("slowly").color(NamedTextColor.YELLOW);
-            case 2 -> Component.text("quickly").color(NamedTextColor.GREEN);
-            case 3 -> Component.text("very quickly").color(NamedTextColor.LIGHT_PURPLE);
-            default -> Component.text("AT LIGHTSPEED").color(NamedTextColor.LIGHT_PURPLE);
+            case 0 -> ComponentUtils.create("");
+            case 1 -> ComponentUtils.create("slowly", NamedTextColor.YELLOW);
+            case 2 -> ComponentUtils.create("quickly", NamedTextColor.GREEN);
+            case 3 -> ComponentUtils.create("very quickly", NamedTextColor.LIGHT_PURPLE);
+            default -> ComponentUtils.create("AT LIGHTSPEED", NamedTextColor.LIGHT_PURPLE);
         };
     }
 
@@ -28,13 +29,12 @@ public class LoyaltyEnchantment extends UnchangedEnchantment {
 
     @Override
     public @NotNull Component getDisplayName() {
-        return Component.text("Loyalty");
+        return ComponentUtils.create("Loyalty");
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Returns when thrown ").color(NamedTextColor.GRAY)
-                .append(getSpeedModifier(getLevel()));
+        return ComponentUtils.create("Returns when thrown ", NamedTextColor.GRAY).append(getSpeedModifier(getLevel()));
     }
 
     @Override

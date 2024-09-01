@@ -12,7 +12,7 @@ import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.items.ItemRarity;
 import xyz.devvydont.smprpg.items.base.VanillaItemBlueprint;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -140,11 +140,11 @@ public class ItemEnchantedBook extends VanillaItemBlueprint {
     @Override
     public List<Component> getFooterComponent(ItemMeta meta) {
         List<Component> footer = new ArrayList<>(super.getFooterComponent(meta));
-        footer.add(Component.empty());
-        footer.add(ComponentUtil.getDefaultText("Combine this with either"));
-        footer.add(ComponentUtil.getDefaultText("equipment or another"));
-        footer.add(ComponentUtil.getColoredComponent("Enchanted Book", NamedTextColor.LIGHT_PURPLE).append(ComponentUtil.getDefaultText(" of")));
-        footer.add(ComponentUtil.getDefaultText("the same type in an anvil!"));
+        footer.add(ComponentUtils.EMPTY);
+        footer.add(ComponentUtils.create("Combine this with either"));
+        footer.add(ComponentUtils.create("equipment or another"));
+        footer.add(ComponentUtils.create("Enchanted Book", NamedTextColor.LIGHT_PURPLE).append(ComponentUtils.create(" of")));
+        footer.add(ComponentUtils.create("the same type in an anvil!"));
         return footer;
     }
 

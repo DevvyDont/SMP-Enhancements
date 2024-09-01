@@ -1,24 +1,18 @@
 package xyz.devvydont.smprpg.commands.economy;
 
 import io.papermc.paper.command.brigadier.CommandSourceStack;
-import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.format.Style;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.commands.CommandBase;
 import xyz.devvydont.smprpg.services.EconomyService;
-import xyz.devvydont.smprpg.util.formatting.ChatUtil;
-import xyz.devvydont.smprpg.util.formatting.PlayerChatInformation;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.*;
 
@@ -36,15 +30,18 @@ public class CommandBalanceTop extends CommandBase {
 
         CommandSender commandSender = commandSourceStack.getSender();
 
-        commandSender.sendMessage(ChatUtil.getGenericMessage(Component.text("Querying users...").color(NamedTextColor.GRAY)));
+        commandSender.sendMessage(ComponentUtils.alert("Querying users..."));
 
         new BukkitRunnable(){
 
             @Override
             public void run() {
-                Component component = Component.text("------------ ").color(NamedTextColor.GRAY);
-                component = component.append(Component.text("Top Balances").color(NamedTextColor.GOLD));
-                component = component.append(Component.text(" ------------\n\n").color(NamedTextColor.GRAY));
+                // Create the title UI
+                var output = ComponentUtils.merge(
+                    ComponentUtils.create("------------ "),
+                    ComponentUtils.create("Top Balances", NamedTextColor.GOLD),
+                    ComponentUtils.create(" ------------\n\n")
+                );
 
                 // Retrieve every player that has ever played on the server
                 Map<UUID, PlayerBalanceEntry> allPlayers = new HashMap<>();
@@ -66,32 +63,34 @@ public class CommandBalanceTop extends CommandBase {
                 for (PlayerBalanceEntry entry : listOfPlayerBalances)
                     sum += entry.balance;
 
-                component = component.append(Component.text("Total Server Economy: ").style(Style.style(NamedTextColor.RED, TextDecoration.BOLD)));
-                component = component.append(Component.text(EconomyService.formatMoney(sum)).color(NamedTextColor.GOLD));
-                component = component.append(Component.text("\n\n"));
-
+                // Display the total economy
+                output = output.append(ComponentUtils.merge(
+                    ComponentUtils.create("Total Server Economy: ", NamedTextColor.RED, TextDecoration.BOLD),
+                    ComponentUtils.create(EconomyService.formatMoney(sum), NamedTextColor.GOLD),
+                    ComponentUtils.create("\n\n")
+                ));
 
                 // Display all the entries
                 int rank = 1;
                 for (PlayerBalanceEntry entry : listOfPlayerBalances) {
-
                     // Don't show past #10
                     if (rank > 10)
                         break;
 
                     String legacyName = SMPRPG.getInstance().getChatService().getPlayerDisplayname(entry.player);
-
-                    component = component.append(Component.text(String.format("#%d: ", rank)).style(Style.style(NamedTextColor.AQUA, TextDecoration.ITALIC)));
-                    component = component.append(Component.text(legacyName));
-                    component = component.append(Component.text(" - ").color(NamedTextColor.GRAY));
-                    component = component.append(Component.text(EconomyService.formatMoney(entry.balance)).color(NamedTextColor.GOLD));
-                    component = component.append(Component.text("\n"));
-
+                    output = output.append(ComponentUtils.merge(
+                            ComponentUtils.create(String.format("#%d: ", rank), NamedTextColor.AQUA, TextDecoration.ITALIC),
+                            ComponentUtils.create(legacyName),
+                            ComponentUtils.create(" - "),
+                            ComponentUtils.create(EconomyService.formatMoney(entry.balance), NamedTextColor.GOLD),
+                            ComponentUtils.create("\n")
+                    ));
                     rank++;
                 }
 
-                component = component.append(Component.text("\n-------------------------------------").color(NamedTextColor.GRAY));
-                commandSender.sendMessage(component);
+                // Display the UI
+                output = output.append(ComponentUtils.create("\n-------------------------------------"));
+                commandSender.sendMessage(output);
             }
         }.runTaskAsynchronously(SMPRPG.getInstance());
 

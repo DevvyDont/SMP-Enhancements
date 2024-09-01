@@ -7,7 +7,6 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.AbstractArrow;
 import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Projectile;
 import org.bukkit.entity.SpectralArrow;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
@@ -22,7 +21,7 @@ import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.listeners.EntityDamageCalculatorService;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.items.AbilityUtil;
 
 import java.util.ArrayList;
@@ -40,9 +39,9 @@ public abstract class CustomShortbow extends CustomAttributeItem implements List
     @Override
     public List<Component> getDescriptionComponent(ItemMeta meta) {
         List<Component> lines = new ArrayList<>(super.getDescriptionComponent(meta));
-        lines.add(Component.empty());
+        lines.add(ComponentUtils.EMPTY);
         lines.add(AbilityUtil.getAbilityComponent("Shortbow (Left/Right Click)"));
-        lines.add(ComponentUtil.getDefaultText("Instantly shoots arrows!"));
+        lines.add(ComponentUtils.create("Instantly shoots arrows!"));
         return lines;
     }
 

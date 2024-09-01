@@ -1,6 +1,5 @@
 package xyz.devvydont.smprpg.enchantments.definitions;
 
-import io.papermc.paper.registry.data.EnchantmentRegistryEntry;
 import io.papermc.paper.registry.keys.tags.ItemTypeTagKeys;
 import io.papermc.paper.registry.tag.TagKey;
 import net.kyori.adventure.text.Component;
@@ -17,6 +16,7 @@ import xyz.devvydont.smprpg.enchantments.CustomEnchantment;
 import xyz.devvydont.smprpg.enchantments.EnchantmentRarity;
 import xyz.devvydont.smprpg.enchantments.EnchantmentUtil;
 import xyz.devvydont.smprpg.events.CustomEntityDamageByEntityEvent;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 public class BlessedEnchantment extends CustomEnchantment implements Listener {
 
@@ -38,15 +38,17 @@ public class BlessedEnchantment extends CustomEnchantment implements Listener {
 
     @Override
     public @NotNull Component getDisplayName() {
-        return Component.text("Blessed");
+        return ComponentUtils.create("Blessed");
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Increases damage dealt by ").color(NamedTextColor.GRAY)
-                .append(Component.text("+" + getPercentageIncrease(getLevel()) + "%").color(NamedTextColor.GREEN))
-                .append(Component.text(" while in the ").color(NamedTextColor.GRAY))
-                .append(Component.text("Nether").color(NamedTextColor.RED));
+        return ComponentUtils.merge(
+                ComponentUtils.create("Increases damage dealt by "),
+                ComponentUtils.create("+" + getPercentageIncrease(getLevel()) + "%", NamedTextColor.GREEN),
+                ComponentUtils.create(" while in the "),
+                ComponentUtils.create("Nether", NamedTextColor.RED)
+        );
     }
 
     @Override

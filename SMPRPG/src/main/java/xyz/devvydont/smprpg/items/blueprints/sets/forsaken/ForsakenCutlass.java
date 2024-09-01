@@ -26,12 +26,11 @@ import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomAttributeItem;
-import xyz.devvydont.smprpg.items.blueprints.vanilla.ItemSword;
 import xyz.devvydont.smprpg.items.interfaces.Craftable;
 import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
-import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.items.AbilityUtil;
 
 import java.util.ArrayList;
@@ -50,10 +49,10 @@ public class ForsakenCutlass extends CustomAttributeItem implements Listener, Cr
     @Override
     public List<Component> getDescriptionComponent(ItemMeta meta) {
         List<Component> components = new ArrayList<>(super.getDescriptionComponent(meta));
-        components.add(Component.empty());
+        components.add(ComponentUtils.EMPTY);
         components.add(AbilityUtil.getAbilityComponent("Necrotic (Passive)"));
-        components.add(ComponentUtil.getDefaultText("Attacks have a ").append(ComponentUtil.getColoredComponent(WITHER_APPLY_CHANCE + "%", NamedTextColor.GREEN)).append(ComponentUtil.getDefaultText(" chance to")));
-        components.add(ComponentUtil.getDefaultText("apply the ").append(Component.text("withered", NamedTextColor.DARK_RED)).append(ComponentUtil.getDefaultText(" effect for ").append(Component.text(WITHER_APPLY_SECONDS + "s", NamedTextColor.GREEN))));
+        components.add(ComponentUtils.create("Attacks have a ").append(ComponentUtils.create(WITHER_APPLY_CHANCE + "%", NamedTextColor.GREEN)).append(ComponentUtils.create(" chance to")));
+        components.add(ComponentUtils.create("apply the ").append(ComponentUtils.create("withered", NamedTextColor.DARK_RED)).append(ComponentUtils.create(" effect for ").append(ComponentUtils.create(WITHER_APPLY_SECONDS + "s", NamedTextColor.GREEN))));
 
         return components;
     }

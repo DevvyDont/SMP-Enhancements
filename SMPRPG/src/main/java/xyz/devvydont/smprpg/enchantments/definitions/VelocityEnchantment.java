@@ -13,6 +13,7 @@ import org.bukkit.inventory.ItemType;
 import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.enchantments.CustomEnchantment;
 import xyz.devvydont.smprpg.enchantments.EnchantmentRarity;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 public class VelocityEnchantment extends CustomEnchantment implements Listener {
 
@@ -26,13 +27,15 @@ public class VelocityEnchantment extends CustomEnchantment implements Listener {
 
     @Override
     public @NotNull Component getDisplayName() {
-        return Component.text("Velocity");
+        return ComponentUtils.create("Velocity");
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Increases arrow speed by ").color(NamedTextColor.GRAY)
-                .append(Component.text("+" + getSpeedIncrease(getLevel()) + "%").color(NamedTextColor.GREEN));
+        return ComponentUtils.merge(
+            ComponentUtils.create("Increases arrow speed by "),
+            ComponentUtils.create("+" + getSpeedIncrease(getLevel()) + "%", NamedTextColor.GREEN)
+        );
     }
 
     @Override

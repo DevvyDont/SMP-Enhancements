@@ -9,6 +9,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemType;
 import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.enchantments.definitions.vanilla.UnchangedEnchantment;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 public class SwiftSneakEnchantment extends UnchangedEnchantment {
 
@@ -22,14 +23,16 @@ public class SwiftSneakEnchantment extends UnchangedEnchantment {
 
     @Override
     public @NotNull Component getDisplayName() {
-        return Component.text("Swift Sneak");
+        return ComponentUtils.create("Swift Sneak");
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Sneak speed is ").color(NamedTextColor.GRAY)
-                .append(Component.text(getSneakPercent(getLevel()) + "%").color(NamedTextColor.GREEN))
-                .append(Component.text(" of walk speed").color(NamedTextColor.GRAY));
+        return ComponentUtils.merge(
+            ComponentUtils.create("Sneak speed is "),
+            ComponentUtils.create(getSneakPercent(getLevel()) + "%", NamedTextColor.GREEN),
+            ComponentUtils.create(" of walk speed")
+        );
     }
 
     @Override

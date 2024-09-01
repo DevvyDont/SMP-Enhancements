@@ -5,7 +5,9 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.NamespacedKey;
-import org.bukkit.inventory.*;
+import org.bukkit.inventory.CraftingRecipe;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
 import xyz.devvydont.smprpg.SMPRPG;
@@ -17,6 +19,7 @@ import xyz.devvydont.smprpg.items.interfaces.Sellable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.crafting.CompressionRecipeMember;
 import xyz.devvydont.smprpg.util.crafting.MaterialWrapper;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.formatting.MinecraftStringUtils;
 
 import java.util.ArrayList;
@@ -131,11 +134,11 @@ public abstract class CustomCompressableBlueprint extends CustomItemBlueprint im
     public List<Component> getDescriptionComponent(ItemMeta meta) {
         Component material = getCompressionFlow().get(0).getMaterial().component().decoration(TextDecoration.BOLD, true);
         return List.of(
-                Component.text("An ultra compressed").color(NamedTextColor.GRAY),
-                Component.text("collection of ").color(NamedTextColor.GRAY).append(material),
-                Component.empty(),
-                Component.text("(1x)  Uncompressed amount: ").color(NamedTextColor.DARK_GRAY).append(Component.text(MinecraftStringUtils.formatNumber(getCompressedAmount())).color(NamedTextColor.LIGHT_PURPLE).decoration(TextDecoration.BOLD, true)),
-                Component.text("(64x) Uncompressed amount: ").color(NamedTextColor.DARK_GRAY).append(Component.text(MinecraftStringUtils.formatNumber(getCompressedAmount() * 64L)).color(NamedTextColor.LIGHT_PURPLE).decoration(TextDecoration.BOLD, true))
+                ComponentUtils.create("An ultra compressed"),
+                ComponentUtils.create("collection of ").append(material),
+                ComponentUtils.EMPTY,
+                ComponentUtils.create("(1x)  Uncompressed amount: ", NamedTextColor.DARK_GRAY).append(ComponentUtils.create(MinecraftStringUtils.formatNumber(getCompressedAmount()), NamedTextColor.LIGHT_PURPLE, TextDecoration.BOLD)),
+                ComponentUtils.create("(64x) Uncompressed amount: ", NamedTextColor.DARK_GRAY).append(ComponentUtils.create(MinecraftStringUtils.formatNumber(getCompressedAmount() * 64L), NamedTextColor.LIGHT_PURPLE, TextDecoration.BOLD))
         );
     }
 

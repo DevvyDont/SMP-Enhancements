@@ -130,7 +130,7 @@ public class ChatService implements BaseService, Listener {
 //            return;
 //
 //        int level = plugin.getEntityService().getPlayerInstance(event.getPlayer()).getLevel();
-//        Component component = ChatUtil.getBracketedPowerComponent(level).append(Component.text(" ")).append(event.message());
+//        Component component = ChatUtil.getBracketedPowerComponent(level).append(ComponentUtils.create(" ")).append(event.message());
 //        event.message(component);
 //    }
 }

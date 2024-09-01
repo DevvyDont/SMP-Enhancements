@@ -13,6 +13,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemType;
 import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.enchantments.definitions.vanilla.UnchangedEnchantment;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 public class PiercingEnchantment extends UnchangedEnchantment {
 
@@ -22,14 +23,16 @@ public class PiercingEnchantment extends UnchangedEnchantment {
 
     @Override
     public @NotNull Component getDisplayName() {
-        return Component.text("Piercing");
+        return ComponentUtils.create("Piercing");
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Pierces through ").color(NamedTextColor.GRAY)
-                .append(Component.text(getLevel()).color(NamedTextColor.GREEN))
-                .append(Component.text(" enemy(s)").color(NamedTextColor.GRAY));
+        return ComponentUtils.merge(
+            ComponentUtils.create("Pierces through "),
+            ComponentUtils.create(String.valueOf(getLevel()), NamedTextColor.GREEN),
+            ComponentUtils.create(" enemy(s)")
+        );
     }
 
     @Override

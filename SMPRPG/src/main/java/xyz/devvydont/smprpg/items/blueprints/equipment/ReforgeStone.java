@@ -14,10 +14,11 @@ import xyz.devvydont.smprpg.reforge.ReforgeBase;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.attributes.AttributeUtil;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
-import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.formatting.MinecraftStringUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class ReforgeStone extends CustomHeadBlueprint implements ReforgeApplicator {
 
@@ -36,21 +37,21 @@ public abstract class ReforgeStone extends CustomHeadBlueprint implements Reforg
         List<Component> lines = new ArrayList<>(super.getDescriptionComponent(meta));
 
         ReforgeBase reforge = getReforge();
-        Component reforgeName = Component.text(getReforgeType().display() + " Reforge", NamedTextColor.BLUE);
+        Component reforgeName = ComponentUtils.create(getReforgeType().display() + " Reforge", NamedTextColor.BLUE);
 
         // First the description of what this item does.
-        lines.add(ComponentUtil.getDefaultText("Combine this item with equipment in an"));
-        lines.add(ComponentUtil.getDefaultText("anvil to apply the following reforge:"));
-        lines.add(Component.empty());
+        lines.add(ComponentUtils.create("Combine this item with equipment in an"));
+        lines.add(ComponentUtils.create("anvil to apply the following reforge:"));
+        lines.add(ComponentUtils.EMPTY);
 
         // The reforge tag that shows up on items when applied
         lines.add(reforgeName);
         lines.addAll(reforge.getDescription());
-        lines.add(Component.empty());
+        lines.add(ComponentUtils.EMPTY);
 
         // Sample of statistics that get altered for a certain rarity
         // Is this attribute present on this item? If not skip it
-        lines.add(Component.text("Stat Modifiers", NamedTextColor.BLUE));
+        lines.add(ComponentUtils.create("Stat Modifiers", NamedTextColor.BLUE));
         for (AttributeEntry entry : reforge.getAttributeModifiersWithRarity(DISPLAY_RARITY)){
 
             // There are three components to the string portion of the attribute number. The +/-, the amount, and percent.
@@ -66,15 +67,15 @@ public abstract class ReforgeStone extends CustomHeadBlueprint implements Reforg
             AttributeWrapper wrapper = AttributeWrapper.ofAttribute(entry.getAttribute());
             NamedTextColor numberColor = wrapper.getAttributeType().equals(AttributeWrapper.AttributeType.SPECIAL) ? NamedTextColor.LIGHT_PURPLE :
                     wrapper.getAttributeType().equals(AttributeWrapper.AttributeType.POSITIVE) && number > 0 ? NamedTextColor.GREEN : NamedTextColor.RED;
-            Component numberComponent = Component.text(numberSection).color(numberColor);
-            lines.add(ComponentUtil.getDefaultText(AttributeWrapper.ofAttribute(entry.getAttribute()).getCleanName() + ": ").append(numberComponent));
+            Component numberComponent = ComponentUtils.create(numberSection, numberColor);
+            lines.add(ComponentUtils.create(AttributeWrapper.ofAttribute(entry.getAttribute()).getCleanName() + ": ").append(numberComponent));
         }
-        lines.add(Component.text("Example bonuses for " + DISPLAY_RARITY.name() +" item are shown.", NamedTextColor.DARK_GRAY));
-        lines.add(Component.text("Results vary based on item rarity!", NamedTextColor.DARK_GRAY));
-        lines.add(Component.empty());
-        lines.add(Component.text("Valid Equipment:", NamedTextColor.BLUE));
+        lines.add(ComponentUtils.create("Example bonuses for " + DISPLAY_RARITY.name() +" item are shown.", NamedTextColor.DARK_GRAY));
+        lines.add(ComponentUtils.create("Results vary based on item rarity!", NamedTextColor.DARK_GRAY));
+        lines.add(ComponentUtils.EMPTY);
+        lines.add(ComponentUtils.create("Valid Equipment:", NamedTextColor.BLUE));
         for (ItemClassification clazz : getReforgeType().getAllowedItems())
-            lines.add(ComponentUtil.getDefaultText("- " + MinecraftStringUtils.getTitledString(clazz.name())));
+            lines.add(ComponentUtils.create("- " + MinecraftStringUtils.getTitledString(clazz.name())));
 
         return lines;
     }

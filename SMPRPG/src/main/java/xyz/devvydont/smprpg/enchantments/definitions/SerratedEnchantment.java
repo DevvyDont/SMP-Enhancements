@@ -14,7 +14,7 @@ import xyz.devvydont.smprpg.enchantments.CustomEnchantment;
 import xyz.devvydont.smprpg.enchantments.EnchantmentRarity;
 import xyz.devvydont.smprpg.enchantments.EnchantmentUtil;
 import xyz.devvydont.smprpg.events.CustomEntityDamageByEntityEvent;
-import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 public class SerratedEnchantment extends CustomEnchantment implements Listener {
 
@@ -38,15 +38,17 @@ public class SerratedEnchantment extends CustomEnchantment implements Listener {
 
     @Override
     public @NotNull Component getDisplayName() {
-        return Component.text("Serrated");
+        return ComponentUtils.create("Serrated");
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return ComponentUtil.getDefaultText("Increases ")
-                .append(ComponentUtil.getColoredComponent("critical hit", NamedTextColor.RED))
-                .append(ComponentUtil.getDefaultText(" damage by an additional "))
-                .append(ComponentUtil.getColoredComponent("+" + getAdditionalPercentageIncrease(getLevel()) + "%", NamedTextColor.GREEN));
+        return ComponentUtils.merge(
+            ComponentUtils.create("Increases "),
+            ComponentUtils.create("critical hit", NamedTextColor.RED),
+            ComponentUtils.create(" damage by an additional "),
+            ComponentUtils.create("+" + getAdditionalPercentageIncrease(getLevel()) + "%", NamedTextColor.GREEN)
+        );
     }
 
     @Override

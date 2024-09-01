@@ -14,6 +14,7 @@ import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.enchantments.CustomEnchantment;
 import xyz.devvydont.smprpg.enchantments.EnchantmentRarity;
 import xyz.devvydont.smprpg.events.CustomEntityDamageByEntityEvent;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 public class CalamityEnchantment extends CustomEnchantment implements Listener {
 
@@ -29,16 +30,18 @@ public class CalamityEnchantment extends CustomEnchantment implements Listener {
 
     @Override
     public @NotNull Component getDisplayName() {
-        return Component.text("Calamity");
+        return ComponentUtils.create("Calamity");
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Increases damage by ").color(NamedTextColor.GRAY)
-                .append(Component.text("+" + getPercentDamageIncreaseForLowPlayer(getLevel()) + "%").color(NamedTextColor.GREEN))
-                .append(Component.text(" when you are below "))
-                .append(Component.text(getPercentDamageIncreaseForLowPlayer(getLevel()) + "%").color(NamedTextColor.GREEN))
-                .append(Component.text(" of your maximum health").color(NamedTextColor.GRAY));
+        return ComponentUtils.merge(
+            ComponentUtils.create("Increases damage by "),
+            ComponentUtils.create("+" + getPercentDamageIncreaseForLowPlayer(getLevel()) + "%", NamedTextColor.GREEN),
+            ComponentUtils.create(" when you are below "),
+            ComponentUtils.create(getPercentDamageIncreaseForLowPlayer(getLevel()) + "%", NamedTextColor.GREEN),
+            ComponentUtils.create(" of your maximum health")
+        );
     }
 
     @Override

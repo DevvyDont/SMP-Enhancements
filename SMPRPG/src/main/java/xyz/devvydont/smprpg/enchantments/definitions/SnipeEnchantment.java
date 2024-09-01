@@ -15,6 +15,7 @@ import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.enchantments.CustomEnchantment;
 import xyz.devvydont.smprpg.enchantments.EnchantmentRarity;
 import xyz.devvydont.smprpg.events.CustomEntityDamageByEntityEvent;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 public class SnipeEnchantment extends CustomEnchantment implements Listener {
 
@@ -34,14 +35,16 @@ public class SnipeEnchantment extends CustomEnchantment implements Listener {
 
     @Override
     public @NotNull Component getDisplayName() {
-        return Component.text("Snipe");
+        return ComponentUtils.create("Snipe");
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Increases damage by ").color(NamedTextColor.GRAY)
-                .append(Component.text("+" + getDamageIncreasePercentPerBlock(getLevel()) + "%").color(NamedTextColor.GREEN))
-                .append(Component.text(" for every block the arrow travels"));
+        return ComponentUtils.merge(
+            ComponentUtils.create("Increases damage by "),
+            ComponentUtils.create("+" + getDamageIncreasePercentPerBlock(getLevel()) + "%", NamedTextColor.GREEN),
+            ComponentUtils.create(" for every block the arrow travels")
+        );
     }
 
     @Override

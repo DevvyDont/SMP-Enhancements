@@ -11,7 +11,7 @@ import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.commands.CommandBase;
 import xyz.devvydont.smprpg.entity.CustomEntityType;
 import xyz.devvydont.smprpg.entity.base.LeveledEntity;
-import xyz.devvydont.smprpg.util.formatting.ChatUtil;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -28,12 +28,12 @@ public class CommandSummon extends CommandBase {
 
         Entity executor = commandSourceStack.getExecutor();
         if (executor == null) {
-            commandSourceStack.getSender().sendMessage(ChatUtil.getErrorMessage("You cannot execute this as the console!"));
+            commandSourceStack.getSender().sendMessage(ComponentUtils.error("You cannot execute this as the console!"));
             return;
         }
 
         if (args.length == 0) {
-            executor.sendMessage(ChatUtil.getErrorMessage("You must provide an entity to spawn!"));
+            executor.sendMessage(ComponentUtils.error("You must provide an entity to spawn!"));
             return;
         }
 
@@ -51,13 +51,13 @@ public class CommandSummon extends CommandBase {
             if (type.name().equalsIgnoreCase(toSpawn)) {
                 LeveledEntity entity = SMPRPG.getInstance().getEntityService().spawnCustomEntity(type, commandSourceStack.getLocation());
                 if (entity == null) {
-                    executor.sendMessage(ChatUtil.getErrorMessage("Failed to spawn a " + toSpawn + ". Check console for details"));
+                    executor.sendMessage(ComponentUtils.error("Failed to spawn a " + toSpawn + ". Check console for details"));
                     return;
                 }
                 if (level >= 0)
                     entity.setLevel(level);
                 entity.setup();
-                executor.sendMessage(ChatUtil.getSuccessMessage("Successfully spawned a " + toSpawn + " (lv. " + level + ")"));
+                executor.sendMessage(ComponentUtils.success("Successfully spawned a " + toSpawn + " (lv. " + level + ")"));
                 return;
             }
         }
@@ -71,12 +71,12 @@ public class CommandSummon extends CommandBase {
                     leveled.setLevel(level);
                     leveled.setup();
                 }
-                executor.sendMessage(ChatUtil.getSuccessMessage("Successfully spawned a " + toSpawn + " (lv. " + level + ")"));
+                executor.sendMessage(ComponentUtils.success("Successfully spawned a " + toSpawn + " (lv. " + level + ")"));
                 return;
             }
         }
 
-        executor.sendMessage(ChatUtil.getErrorMessage("Failed to find an entity with name: " + toSpawn));
+        executor.sendMessage(ComponentUtils.error("Failed to find an entity with name: " + toSpawn));
     }
 
     @Override

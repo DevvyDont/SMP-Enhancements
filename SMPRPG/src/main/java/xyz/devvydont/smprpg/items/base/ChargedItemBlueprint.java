@@ -9,7 +9,7 @@ import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.List;
 
@@ -81,8 +81,8 @@ public abstract class ChargedItemBlueprint extends CustomItemBlueprint {
     @Override
     public List<Component> getFooterComponent(ItemMeta meta) {
         return List.of(
-                Component.empty(),
-                ComponentUtil.getDefaultText("Charges left: ").append(ComponentUtil.getColoredComponent(getChargesLeft(meta) + "", NamedTextColor.GREEN))
+                ComponentUtils.EMPTY,
+                ComponentUtils.create("Charges left: ").append(ComponentUtils.create(getChargesLeft(meta) + "", NamedTextColor.GREEN))
         );
     }
 }

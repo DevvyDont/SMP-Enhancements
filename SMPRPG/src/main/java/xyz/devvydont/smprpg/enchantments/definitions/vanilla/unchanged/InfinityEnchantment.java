@@ -1,10 +1,7 @@
 package xyz.devvydont.smprpg.enchantments.definitions.vanilla.unchanged;
 
 import io.papermc.paper.registry.TypedKey;
-import io.papermc.paper.registry.data.EnchantmentRegistryEntry;
-import io.papermc.paper.registry.event.RegistryFreezeEvent;
 import io.papermc.paper.registry.keys.tags.ItemTypeTagKeys;
-import io.papermc.paper.registry.set.RegistryKeySet;
 import io.papermc.paper.registry.tag.TagKey;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -26,6 +23,7 @@ import xyz.devvydont.smprpg.enchantments.EnchantmentRarity;
 import xyz.devvydont.smprpg.enchantments.EnchantmentUtil;
 import xyz.devvydont.smprpg.enchantments.definitions.vanilla.VanillaEnchantment;
 import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 public class InfinityEnchantment extends VanillaEnchantment implements Listener {
 
@@ -40,14 +38,16 @@ public class InfinityEnchantment extends VanillaEnchantment implements Listener 
 
     @Override
     public @NotNull Component getDisplayName() {
-        return Component.text("Infinity");
+        return ComponentUtils.create("Infinity");
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Provides a ").color(NamedTextColor.GRAY)
-                .append(Component.text(getNonconsumeChance(getLevel()) + "%").color(NamedTextColor.GREEN))
-                .append(Component.text(" chance to not consume arrows").color(NamedTextColor.GRAY));
+        return ComponentUtils.merge(
+            ComponentUtils.create("Provides a "),
+            ComponentUtils.create(getNonconsumeChance(getLevel()) + "%", NamedTextColor.GREEN),
+            ComponentUtils.create(" chance to not consume arrows")
+        );
     }
 
     @Override

@@ -2,8 +2,6 @@ package xyz.devvydont.smprpg.items.blueprints.vanilla;
 
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeModifier;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemStack;
 import xyz.devvydont.smprpg.items.ItemClassification;
@@ -17,7 +15,6 @@ import xyz.devvydont.smprpg.util.items.ToolsUtil;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 public class ItemAxe extends VanillaAttributeItem implements ToolBreakable {
 

@@ -1,8 +1,10 @@
 package xyz.devvydont.smprpg.entity.bosses;
 
 import net.kyori.adventure.bossbar.BossBar;
-import net.kyori.adventure.text.Component;
-import org.bukkit.*;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.damage.DamageSource;
 import org.bukkit.damage.DamageType;
@@ -25,6 +27,7 @@ import xyz.devvydont.smprpg.entity.base.CustomBossInstance;
 import xyz.devvydont.smprpg.entity.base.LeveledEntity;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.services.ItemService;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.items.ChancedItemDrop;
 import xyz.devvydont.smprpg.util.items.LootDrop;
 import xyz.devvydont.smprpg.util.items.QuantityLootDrop;
@@ -65,7 +68,7 @@ public class BlazeBoss extends CustomBossInstance implements Listener {
 
     @Override
     public @Nullable BossBar createBossBar() {
-        return BossBar.bossBar(Component.empty(), 1.0f, BossBar.Color.RED, BossBar.Overlay.NOTCHED_20, Set.of(BossBar.Flag.DARKEN_SCREEN));
+        return BossBar.bossBar(ComponentUtils.EMPTY, 1.0f, BossBar.Color.RED, BossBar.Overlay.NOTCHED_20, Set.of(BossBar.Flag.DARKEN_SCREEN));
     }
 
     @Override

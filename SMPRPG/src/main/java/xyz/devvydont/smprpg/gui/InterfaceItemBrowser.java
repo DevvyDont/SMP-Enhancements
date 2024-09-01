@@ -2,16 +2,18 @@ package xyz.devvydont.smprpg.gui;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import org.bukkit.*;
+import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
+import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.ShapedRecipe;
-import org.bukkit.inventory.ShapelessRecipe;
 import xyz.devvydont.smprpg.SMPRPG;
-import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
 import xyz.devvydont.smprpg.items.CustomItemType;
+import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
 import xyz.devvydont.smprpg.items.interfaces.Craftable;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -97,8 +99,8 @@ public class InterfaceItemBrowser extends PrivateInterface {
             if (blueprint instanceof Craftable)
                 item.editMeta(meta -> {
                     List<Component> lore = meta.lore();
-                    lore.addFirst(Component.text("Click to view recipe!").color(NamedTextColor.YELLOW));
-                    lore.addFirst(Component.empty());
+                    lore.addFirst(ComponentUtils.create("Click to view recipe!", NamedTextColor.YELLOW));
+                    lore.addFirst(ComponentUtils.EMPTY);
                     meta.lore(lore);
                 });
             inventory.setItem(invIndex, item);
@@ -110,12 +112,12 @@ public class InterfaceItemBrowser extends PrivateInterface {
     }
 
     public void addPageButtons() {
-        inventory.setItem(PREV_BUTTON, InterfaceUtil.getNamedItem(Material.ARROW, Component.text("Previous").color(NamedTextColor.GOLD)));
-        inventory.setItem(NEXT_BUTTON, InterfaceUtil.getNamedItem(Material.ARROW, Component.text("Next").color(NamedTextColor.GOLD)));
+        inventory.setItem(PREV_BUTTON, InterfaceUtil.getNamedItem(Material.ARROW, ComponentUtils.create("Previous", NamedTextColor.GOLD)));
+        inventory.setItem(NEXT_BUTTON, InterfaceUtil.getNamedItem(Material.ARROW, ComponentUtils.create("Next", NamedTextColor.GOLD)));
     }
 
     public void addCloseButton() {
-        inventory.setItem(CLOSE_BUTTON, InterfaceUtil.getNamedItem(Material.BARRIER, Component.text("Close").color(NamedTextColor.RED)));
+        inventory.setItem(CLOSE_BUTTON, InterfaceUtil.getNamedItem(Material.BARRIER, ComponentUtils.create("Close", NamedTextColor.RED)));
     }
 
     @Override

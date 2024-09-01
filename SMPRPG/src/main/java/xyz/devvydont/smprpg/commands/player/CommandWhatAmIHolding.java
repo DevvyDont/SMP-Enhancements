@@ -10,7 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.commands.CommandBase;
-import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.Collection;
 import java.util.List;
@@ -30,12 +30,12 @@ public class CommandWhatAmIHolding extends CommandBase {
         ItemStack is = player.getInventory().getItemInMainHand();
 
         if (is.getType().equals(Material.AIR)) {
-            player.sendMessage(Component.text("Must be holding an item!", NamedTextColor.RED));
+            player.sendMessage(ComponentUtils.create("Must be holding an item!", NamedTextColor.RED));
             return;
         }
 
-        Component name = Component.text(SMPRPG.getInstance().getChatService().getPlayerDisplayname(player));
-        Component holding = ComponentUtil.getDefaultText(" is holding ");
+        Component name = ComponentUtils.create(SMPRPG.getInstance().getChatService().getPlayerDisplayname(player));
+        Component holding = ComponentUtils.create(" is holding ");
         Bukkit.broadcast(name.append(holding).append(is.displayName()));
     }
 

@@ -16,8 +16,7 @@ import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.base.CustomItemBlueprint;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.util.formatting.ChatUtil;
-import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -32,9 +31,9 @@ public class SpawnerEditorBlueprint extends CustomItemBlueprint implements Liste
     @Override
     public List<Component> getFooterComponent(ItemMeta meta) {
         return List.of(
-                ComponentUtil.getDefaultText("Used to interact with"),
-                ComponentUtil.getDefaultText("and edit custom spawner"),
-                ComponentUtil.getDefaultText("entities in the world")
+                ComponentUtils.create("Used to interact with"),
+                ComponentUtils.create("and edit custom spawner"),
+                ComponentUtils.create("entities in the world")
         );
     }
 
@@ -53,7 +52,7 @@ public class SpawnerEditorBlueprint extends CustomItemBlueprint implements Liste
         event.setCancelled(true);
 
         if (!event.getPlayer().isOp()){
-            event.getPlayer().sendMessage(ChatUtil.getErrorMessage("You must be a server operator to utilize this item as it is a dangerous admin item!"));
+            event.getPlayer().sendMessage(ComponentUtils.error("You must be a server operator to utilize this item as it is a dangerous admin item!"));
             return;
         }
 
@@ -64,18 +63,18 @@ public class SpawnerEditorBlueprint extends CustomItemBlueprint implements Liste
                 nearbySpawners.add(spawner);
 
         if (nearbySpawners.isEmpty()) {
-            event.getPlayer().sendMessage(ChatUtil.getErrorMessage("Did not detect any spawners near you! Get closer to one and try again :3"));
+            event.getPlayer().sendMessage(ComponentUtils.error("Did not detect any spawners near you! Get closer to one and try again :3"));
             return;
         }
 
         if (nearbySpawners.size() > 1) {
-            event.getPlayer().sendMessage(ChatUtil.getErrorMessage("Detected too many spawners near you! Try to limit the spawners you are close to!"));
+            event.getPlayer().sendMessage(ComponentUtils.error("Detected too many spawners near you! Try to limit the spawners you are close to!"));
             return;
         }
 
         EntitySpawner spawner = nearbySpawners.getFirst();
 
         new InterfaceSpawnerMainMenu(SMPRPG.getInstance(), event.getPlayer(), spawner).open();
-        event.getPlayer().sendMessage(ChatUtil.getSuccessMessage("Now editing the spawner you were looking at!"));
+        event.getPlayer().sendMessage(ComponentUtils.success("Now editing the spawner you were looking at!"));
     }
 }

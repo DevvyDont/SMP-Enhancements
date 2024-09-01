@@ -1,10 +1,7 @@
 package xyz.devvydont.smprpg.enchantments.definitions.vanilla.overrides;
 
 import io.papermc.paper.registry.TypedKey;
-import io.papermc.paper.registry.data.EnchantmentRegistryEntry;
-import io.papermc.paper.registry.event.RegistryFreezeEvent;
 import io.papermc.paper.registry.keys.tags.ItemTypeTagKeys;
-import io.papermc.paper.registry.set.RegistryKeySet;
 import io.papermc.paper.registry.tag.TagKey;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -26,6 +23,7 @@ import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeModifierType;
 import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.Collection;
 import java.util.List;
@@ -42,15 +40,16 @@ public class FeatherFallingEnchantment extends VanillaEnchantment implements Att
 
     @Override
     public @NotNull Component getDisplayName() {
-        return Component.text("Feather Falling");
+        return ComponentUtils.create("Feather Falling");
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Resists ").color(NamedTextColor.GRAY)
-                .append(Component.text(getFallResistPercent(getLevel()) + "%").color(NamedTextColor.GREEN))
-                .append(Component.text(" of fall damage").color(NamedTextColor.GRAY))
-                ;
+        return ComponentUtils.merge(
+            ComponentUtils.create("Resists "),
+            ComponentUtils.create(getFallResistPercent(getLevel()) + "%", NamedTextColor.GREEN),
+            ComponentUtils.create(" of fall damage")
+        );
     }
 
     @Override

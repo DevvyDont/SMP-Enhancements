@@ -1,8 +1,6 @@
 package xyz.devvydont.smprpg.items.base;
 
 
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import xyz.devvydont.smprpg.items.ItemClassification;

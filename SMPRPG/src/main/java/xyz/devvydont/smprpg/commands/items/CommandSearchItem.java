@@ -9,7 +9,7 @@ import xyz.devvydont.smprpg.commands.CommandBase;
 import xyz.devvydont.smprpg.gui.InterfaceItemBrowser;
 import xyz.devvydont.smprpg.items.base.CustomItemBlueprint;
 import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
-import xyz.devvydont.smprpg.util.formatting.ChatUtil;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -27,7 +27,7 @@ public class CommandSearchItem extends CommandBase {
         CommandSender commandSender = commandSourceStack.getSender();
 
         if (!(commandSender instanceof Player)) {
-            commandSender.sendMessage(ChatUtil.getErrorMessage("You must be a player to search items!"));
+            commandSender.sendMessage(ComponentUtils.error("You must be a player to search items!"));
             return;
         }
 
@@ -42,7 +42,7 @@ public class CommandSearchItem extends CommandBase {
         if (query.equalsIgnoreCase(""))
             query = "ALL ITEMS";
 
-        commandSender.sendMessage(ChatUtil.getSuccessMessage("Browsing custom items! Query: " + query));
+        commandSender.sendMessage(ComponentUtils.success("Browsing custom items! Query: " + query));
     }
 
     @Override

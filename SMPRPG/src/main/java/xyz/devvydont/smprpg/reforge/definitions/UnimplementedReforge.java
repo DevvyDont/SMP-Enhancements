@@ -8,6 +8,7 @@ import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.reforge.ReforgeBase;
 import xyz.devvydont.smprpg.reforge.ReforgeType;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.Collection;
 import java.util.List;
@@ -20,7 +21,7 @@ public class UnimplementedReforge extends ReforgeBase {
 
     @Override
     public List<Component> getDescription() {
-        return List.of(Component.text("This reforge is not implemented").color(NamedTextColor.RED));
+        return List.of(ComponentUtils.create("This reforge is not implemented", NamedTextColor.RED));
     }
 
     @Override

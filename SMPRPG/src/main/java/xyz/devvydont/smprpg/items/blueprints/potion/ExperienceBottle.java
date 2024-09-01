@@ -1,7 +1,5 @@
 package xyz.devvydont.smprpg.items.blueprints.potion;
 
-import net.kyori.adventure.text.Component;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.CraftingRecipe;

@@ -10,10 +10,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import xyz.devvydont.smprpg.SMPRPG;
-import xyz.devvydont.smprpg.entity.player.LeveledPlayer;
 import xyz.devvydont.smprpg.entity.base.LeveledEntity;
-import xyz.devvydont.smprpg.util.formatting.ChatUtil;
-import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
+import xyz.devvydont.smprpg.entity.player.LeveledPlayer;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.formatting.Symbols;
 
 import java.util.HashMap;
@@ -87,40 +86,40 @@ public class ActionBarService implements BaseService, Listener {
         int hp = (int) Math.ceil(leveledPlayer.getTotalHp());
         int maxHP = (int) leveledPlayer.getMaxHp();
         TextColor color = LeveledEntity.getChatColorFromHealth(hp, maxHP);
-        return ComponentUtil.getColoredComponent(hp + "", color)
-                .append(ComponentUtil.getDefaultText("/"))
-                .append(ComponentUtil.getColoredComponent(maxHP + "", NamedTextColor.GREEN))
-                .append(ComponentUtil.getColoredComponent(Symbols.HEART, NamedTextColor.RED));
+        return ComponentUtils.create(hp + "", color)
+                .append(ComponentUtils.create("/"))
+                .append(ComponentUtils.create(maxHP + "", NamedTextColor.GREEN))
+                .append(ComponentUtils.create(Symbols.HEART, NamedTextColor.RED));
     }
 
     private Component getDefenseComponent(final Player player) {
 
         // We need to calculate defense since it is not storable on the player
         int def = plugin.getEntityService().getPlayerInstance(player).getDefense();
-        return ComponentUtil.getColoredComponent(def + "", NamedTextColor.DARK_GREEN)
-                .append(ComponentUtil.getColoredComponent(Symbols.SHIELD, NamedTextColor.GRAY));
+        return ComponentUtils.create(def + "", NamedTextColor.DARK_GREEN)
+                .append(ComponentUtils.create(Symbols.SHIELD, NamedTextColor.GRAY));
 
     }
 
     private Component getPowerComponent(final Player player) {
         LeveledPlayer p = plugin.getEntityService().getPlayerInstance(player);
-        return ChatUtil.getBracketedPowerComponent(p.getLevel());
+        return ComponentUtils.powerLevelPrefix(p.getLevel());
     }
 
     private void display(Player player) {
 
         // The component Will always have their health
-        Component message = getPowerComponent(player).append(Component.text(" ")).append(getHealthComponent(player));
+        Component message = getPowerComponent(player).append(ComponentUtils.create(" ")).append(getHealthComponent(player));
 
         // Check for components
         Map<ActionBarSource, ActionBarComponent> playersComponents = getPlayerComponents(player);
 
         // If we are displaying more than 1 extra component, omit defense
         if (playersComponents.size() <= 1)
-            message = message.append(Component.text(" | ").color(NamedTextColor.GRAY)).append(getDefenseComponent(player));
+            message = message.append(ComponentUtils.create(" | ")).append(getDefenseComponent(player));
 
         for (Map.Entry<ActionBarSource, ActionBarComponent> entry : playersComponents.entrySet())
-            message = message.append(Component.text(" | ").color(NamedTextColor.GRAY)).append(entry.getValue().display());
+            message = message.append(ComponentUtils.create(" | ")).append(entry.getValue().display());
 
         player.sendActionBar(message);
     }

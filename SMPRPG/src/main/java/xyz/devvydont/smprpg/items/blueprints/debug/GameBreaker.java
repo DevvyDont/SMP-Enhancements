@@ -9,6 +9,7 @@ import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomFakeHelmetBlueprint;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,9 +24,9 @@ public class GameBreaker extends CustomFakeHelmetBlueprint {
     @Override
     public List<Component> getDescriptionComponent(ItemMeta meta) {
         List<Component> components = new ArrayList<>(super.getDescriptionComponent(meta));
-        components.add(Component.empty());
-        components.add(Component.text("Rewarded for discovering a", NamedTextColor.GRAY));
-        components.add(Component.text("bug/exploit and reporting it ", NamedTextColor.GRAY));
+        components.add(ComponentUtils.EMPTY);
+        components.add(ComponentUtils.create("Rewarded for discovering a", NamedTextColor.GRAY));
+        components.add(ComponentUtils.create("bug/exploit and reporting it ", NamedTextColor.GRAY));
         return components;
     }
 

@@ -2,8 +2,6 @@ package xyz.devvydont.smprpg.enchantments.definitions.vanilla.overrides;
 
 import io.papermc.paper.registry.RegistryKey;
 import io.papermc.paper.registry.TypedKey;
-import io.papermc.paper.registry.data.EnchantmentRegistryEntry;
-import io.papermc.paper.registry.event.RegistryFreezeEvent;
 import io.papermc.paper.registry.keys.EnchantmentKeys;
 import io.papermc.paper.registry.keys.tags.ItemTypeTagKeys;
 import io.papermc.paper.registry.set.RegistryKeySet;
@@ -20,6 +18,7 @@ import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.enchantments.EnchantmentRarity;
 import xyz.devvydont.smprpg.enchantments.definitions.vanilla.VanillaEnchantment;
 import xyz.devvydont.smprpg.events.CustomEntityDamageByEntityEvent;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 public class BreachEnchantment extends VanillaEnchantment implements Listener {
 
@@ -41,15 +40,17 @@ public class BreachEnchantment extends VanillaEnchantment implements Listener {
 
     @Override
     public @NotNull Component getDisplayName() {
-        return Component.text("Breach");
+        return ComponentUtils.create("Breach");
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Attacks pierce through ").color(NamedTextColor.GRAY)
-                .append(Component.text(getDefensePiercing(getLevel())).color(NamedTextColor.GREEN))
-                .append(Component.text(" defense").color(NamedTextColor.GRAY))
-                .append(Component.text(" **NOT IMPLEMENTED").color(NamedTextColor.DARK_RED));
+        return ComponentUtils.merge(
+            ComponentUtils.create("Attacks pierce through "),
+            ComponentUtils.create(String.valueOf(getDefensePiercing(getLevel())), NamedTextColor.GREEN),
+            ComponentUtils.create(" defense"),
+            ComponentUtils.create(" **NOT IMPLEMENTED", NamedTextColor.DARK_RED)
+        );
     }
 
     @Override

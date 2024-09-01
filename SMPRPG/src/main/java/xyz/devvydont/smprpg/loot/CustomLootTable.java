@@ -1,6 +1,5 @@
 package xyz.devvydont.smprpg.loot;
 
-import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 

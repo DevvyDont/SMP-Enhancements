@@ -1,6 +1,5 @@
 package xyz.devvydont.smprpg.items.interfaces;
 
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 /**

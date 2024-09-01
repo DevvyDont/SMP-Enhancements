@@ -19,6 +19,7 @@ import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.enchantments.CustomEnchantment;
 import xyz.devvydont.smprpg.enchantments.EnchantmentRarity;
 import xyz.devvydont.smprpg.enchantments.EnchantmentUtil;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 public class SyphonEnchantment extends CustomEnchantment implements Listener {
 
@@ -39,15 +40,16 @@ public class SyphonEnchantment extends CustomEnchantment implements Listener {
 
     @Override
     public @NotNull Component getDisplayName() {
-        return Component.text("Syphon");
+        return ComponentUtils.create("Syphon");
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Heal ").color(NamedTextColor.GRAY)
-                .append(Component.text("+" + getLifestealPercent(getLevel()) + "%").color(NamedTextColor.GREEN)
-                        .append(Component.text(" of max health when killing an enemy").color(NamedTextColor.GRAY))
-                );
+        return ComponentUtils.merge(
+            ComponentUtils.create("Heal "),
+            ComponentUtils.create("+" + getLifestealPercent(getLevel()) + "%", NamedTextColor.GREEN),
+            ComponentUtils.create(" of max health when killing an enemy")
+        );
     }
 
     @Override

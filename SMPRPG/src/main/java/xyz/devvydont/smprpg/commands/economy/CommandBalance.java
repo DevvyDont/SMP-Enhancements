@@ -1,20 +1,14 @@
 package xyz.devvydont.smprpg.commands.economy;
 
 import io.papermc.paper.command.brigadier.CommandSourceStack;
-import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.command.*;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.commands.CommandBase;
-import xyz.devvydont.smprpg.util.formatting.ChatUtil;
-
-import java.util.ArrayList;
-import java.util.List;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 public class CommandBalance extends CommandBase {
 
@@ -40,14 +34,14 @@ public class CommandBalance extends CommandBase {
 
             // If the target still isn't detected, incorrect argument was provided
             if (target == null) {
-                commandSourceStack.getSender().sendMessage(ChatUtil.getErrorMessage("Could not find player with name " + strings[0]));
+                commandSourceStack.getSender().sendMessage(ComponentUtils.error("Could not find player with name " + strings[0]));
                 return;
             }
         }
 
         // No arguments provided and something that isn't a player is running this command, don't allow this
         else if (!(commandSourceStack.getSender() instanceof Player)) {
-            commandSourceStack.getSender().sendMessage(ChatUtil.getErrorMessage("You are the console! You have infinite money!"));
+            commandSourceStack.getSender().sendMessage(ComponentUtils.error("You are the console! You have infinite money!"));
             return;
         }
 
@@ -56,10 +50,11 @@ public class CommandBalance extends CommandBase {
             target = (Player) commandSourceStack.getSender();
         }
 
-        Component reply = Component.text(target.getName()).color(NamedTextColor.AQUA)
-                .append(Component.text("'s balance is ").color(NamedTextColor.GRAY))
-                .append(Component.text(SMPRPG.getInstance().getEconomyService().formatMoney(target)).color(NamedTextColor.GOLD));
-        commandSourceStack.getSender().sendMessage(ChatUtil.getGenericMessage(reply));
+        commandSourceStack.getSender().sendMessage(ComponentUtils.alert(ComponentUtils.merge(
+            ComponentUtils.create(target.getName(), NamedTextColor.AQUA),
+            ComponentUtils.create("'s balance is "),
+            ComponentUtils.create(SMPRPG.getInstance().getEconomyService().formatMoney(target), NamedTextColor.GOLD)
+        )));
     }
 
 }

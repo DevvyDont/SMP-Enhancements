@@ -30,7 +30,7 @@ import xyz.devvydont.smprpg.items.interfaces.Craftable;
 import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
-import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.items.AbilityUtil;
 
 import java.util.*;
@@ -61,9 +61,9 @@ public class BoilingPickaxe extends CustomAttributeItem implements Listener, Too
     @Override
     public List<Component> getDescriptionComponent(ItemMeta meta) {
         List<Component> components = new ArrayList<>(super.getDescriptionComponent(meta));
-        components.add(Component.empty());
+        components.add(ComponentUtils.EMPTY);
         components.add(AbilityUtil.getAbilityComponent("Boiling Touch (Passive)"));
-        components.add(ComponentUtil.getDefaultText("Automatically ").append(ComponentUtil.getColoredComponent("smelts", NamedTextColor.RED)).append(ComponentUtil.getDefaultText(" blocks broken")));
+        components.add(ComponentUtils.create("Automatically ").append(ComponentUtils.create("smelts", NamedTextColor.RED)).append(ComponentUtils.create(" blocks broken")));
         return components;
     }
 

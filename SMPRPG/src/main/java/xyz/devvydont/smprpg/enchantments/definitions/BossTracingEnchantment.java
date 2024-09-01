@@ -1,13 +1,13 @@
 package xyz.devvydont.smprpg.enchantments.definitions;
 
-import io.papermc.paper.registry.data.EnchantmentRegistryEntry;
 import io.papermc.paper.registry.keys.tags.ItemTypeTagKeys;
 import io.papermc.paper.registry.tag.TagKey;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Effect;
 import org.bukkit.Sound;
-import org.bukkit.entity.*;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityShootBowEvent;
@@ -20,7 +20,7 @@ import xyz.devvydont.smprpg.enchantments.CustomEnchantment;
 import xyz.devvydont.smprpg.enchantments.EnchantmentRarity;
 import xyz.devvydont.smprpg.enchantments.EnchantmentUtil;
 import xyz.devvydont.smprpg.entity.base.BossInstance;
-import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 public class BossTracingEnchantment extends CustomEnchantment implements Listener {
 
@@ -42,15 +42,17 @@ public class BossTracingEnchantment extends CustomEnchantment implements Listene
 
     @Override
     public @NotNull Component getDisplayName() {
-        return Component.text("Tracing");
+        return ComponentUtils.create("Tracing");
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return ComponentUtil.getDefaultText("Arrows fired will home onto bosses ")
-                .append(ComponentUtil.getColoredComponent(getActivationDistance(getLevel()) + "m", NamedTextColor.GREEN))
-                .append(ComponentUtil.getDefaultText(" away for "))
-                .append(ComponentUtil.getColoredComponent(getTimeout(getLevel()) + "s", NamedTextColor.GREEN));
+        return ComponentUtils.merge(
+                ComponentUtils.create("Arrows fired will home onto bosses "),
+                ComponentUtils.create(getActivationDistance(getLevel()) + "m", NamedTextColor.GREEN),
+                ComponentUtils.create(" away for "),
+                ComponentUtils.create(getTimeout(getLevel()) + "s", NamedTextColor.GREEN)
+        );
     }
 
     @Override

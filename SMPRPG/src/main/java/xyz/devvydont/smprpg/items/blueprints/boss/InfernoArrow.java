@@ -9,11 +9,12 @@ import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.entity.*;
+import org.bukkit.entity.Item;
+import org.bukkit.entity.Player;
+import org.bukkit.entity.SpectralArrow;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.inventory.ItemStack;
@@ -27,8 +28,7 @@ import xyz.devvydont.smprpg.items.ItemRarity;
 import xyz.devvydont.smprpg.items.base.CustomItemBlueprint;
 import xyz.devvydont.smprpg.items.interfaces.Sellable;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.util.formatting.ChatUtil;
-import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,8 +65,8 @@ public class InfernoArrow extends CustomItemBlueprint implements Sellable, Liste
 
     public List<Component> getDescriptionComponent(ItemMeta meta) {
 
-        Component bossName = ComponentUtil.getColoredComponent("Infernal Phoenix", NamedTextColor.DARK_PURPLE);
-        Component instructions = ComponentUtil.getColoredComponent("shot in lava", NamedTextColor.GOLD);
+        Component bossName = ComponentUtils.create("Infernal Phoenix", NamedTextColor.DARK_PURPLE);
+        Component instructions = ComponentUtils.create("shot in lava", NamedTextColor.GOLD);
         // If boss spawns aren't enabled, obfuscate the instructions
         if (!ALLOW_SPAWNING){
             bossName = bossName.decorate(TextDecoration.OBFUSCATED);
@@ -74,12 +74,12 @@ public class InfernoArrow extends CustomItemBlueprint implements Sellable, Liste
         }
 
         List<Component> components = new ArrayList<>(super.getDescriptionComponent(meta));
-        components.add(ComponentUtil.getDefaultText("Used to summon an ")
+        components.add(ComponentUtils.create("Used to summon an ")
                 .append(bossName));
-        components.add(ComponentUtil.getDefaultText("when ")
+        components.add(ComponentUtils.create("when ")
                 .append(instructions)
-                .append(ComponentUtil.getDefaultText(" in the "))
-                .append(ComponentUtil.getColoredComponent("Nether", NamedTextColor.RED)));
+                .append(ComponentUtils.create(" in the "))
+                .append(ComponentUtils.create("Nether", NamedTextColor.RED)));
         return components;
     }
 
@@ -200,7 +200,7 @@ public class InfernoArrow extends CustomItemBlueprint implements Sellable, Liste
             drop.setVelocity(arrow.getVelocity().multiply(-1).multiply(ARROW_VELOCITY_BLOCK_DAMPENING));
             arrow.remove();
             if (event.getEntity().getShooter() instanceof Player player)
-                player.sendMessage(ChatUtil.getErrorMessage(result.getMessage()));
+                player.sendMessage(ComponentUtils.error(result.getMessage()));
             return;
         }
 
@@ -210,7 +210,7 @@ public class InfernoArrow extends CustomItemBlueprint implements Sellable, Liste
 
         LeveledEntity boss = SMPRPG.getInstance().getEntityService().spawnCustomEntity(CustomEntityType.INFERNAL_PHOENIX, arrow.getLocation());
         if (boss == null || !boss.getEntity().isValid()) {
-            player.sendMessage(ChatUtil.getErrorMessage("Something went wrong and the boss was not spawned."));
+            player.sendMessage(ComponentUtils.error("Something went wrong and the boss was not spawned."));
             return;
         }
 
@@ -220,10 +220,10 @@ public class InfernoArrow extends CustomItemBlueprint implements Sellable, Liste
         player.getWorld().playSound(player.getLocation(), Sound.ENTITY_BLAZE_DEATH, 1, .3f);
         String playername = SMPRPG.getInstance().getChatService().getPlayerDisplayname(player);
         Bukkit.broadcast(
-                ChatUtil.getGenericMessage(Component.text(playername)
-                                .append(ComponentUtil.getDefaultText(" summoned an ")))
+                ComponentUtils.alert(ComponentUtils.create(playername)
+                                .append(ComponentUtils.create(" summoned an ")))
                         .append(boss.getDisplaynameNametagComponent())
-                        .append(ComponentUtil.getDefaultText("!"))
+                        .append(ComponentUtils.SYMBOL_EXCLAMATION)
         );
 
         for (int i = 0; i < 5; i++)

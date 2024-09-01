@@ -4,7 +4,6 @@ import com.destroystokyo.paper.event.entity.EntityAddToWorldEvent;
 import com.destroystokyo.paper.event.entity.EntityRemoveFromWorldEvent;
 import com.destroystokyo.paper.event.player.PlayerArmorChangeEvent;
 import com.destroystokyo.paper.event.player.PlayerPostRespawnEvent;
-import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.*;
 import org.bukkit.entity.*;
@@ -22,14 +21,20 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
-import org.bukkit.scoreboard.*;
+import org.bukkit.scoreboard.Criteria;
+import org.bukkit.scoreboard.DisplaySlot;
+import org.bukkit.scoreboard.Objective;
+import org.bukkit.scoreboard.Scoreboard;
 import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
-import xyz.devvydont.smprpg.entity.*;
-import xyz.devvydont.smprpg.entity.base.*;
+import xyz.devvydont.smprpg.entity.CustomEntityType;
+import xyz.devvydont.smprpg.entity.base.EnemyEntity;
+import xyz.devvydont.smprpg.entity.base.LeveledEntity;
+import xyz.devvydont.smprpg.entity.base.VanillaEntity;
 import xyz.devvydont.smprpg.entity.player.LeveledPlayer;
 import xyz.devvydont.smprpg.entity.vanilla.*;
 import xyz.devvydont.smprpg.events.LeveledEntitySpawnEvent;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.formatting.DamagePopupUtil;
 import xyz.devvydont.smprpg.util.formatting.Symbols;
 
@@ -110,7 +115,7 @@ public class EntityService implements BaseService, Listener {
         Scoreboard scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
         Objective hpObjective = scoreboard.getObjective("hp_objective");
         if (hpObjective == null)
-            hpObjective = scoreboard.registerNewObjective("hp_objective", Criteria.HEALTH, Component.text(Symbols.HEART).color(NamedTextColor.RED));
+            hpObjective = scoreboard.registerNewObjective("hp_objective", Criteria.HEALTH, ComponentUtils.create(Symbols.HEART, NamedTextColor.RED));
         hpObjective.setDisplaySlot(DisplaySlot.BELOW_NAME);
         hpObjective.setAutoUpdateDisplay(true);
 

@@ -11,7 +11,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityPortalEnterEvent;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.player.LeveledPlayer;
-import xyz.devvydont.smprpg.util.formatting.ChatUtil;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
@@ -71,7 +71,7 @@ public class DimensionPortalLockingListener implements Listener {
             return;
 
         messageCooldown.put(player.getPlayer().getUniqueId(), now + MESSAGE_COOLDOWN);
-        player.getPlayer().sendMessage(ChatUtil.getErrorMessage("You must have a Skill Average of " + requirement + " to enter the " + dimension + " dimension! You can check your progress by using /skill"));
+        player.getPlayer().sendMessage(ComponentUtils.error("You must have a Skill Average of " + requirement + " to enter the " + dimension + " dimension! You can check your progress by using /skill"));
     }
 
     private void sendTimeDiffMessage(Entity entity, String dimension, Date lockedUntil) {
@@ -88,8 +88,8 @@ public class DimensionPortalLockingListener implements Listener {
 
         messageCooldown.put(entity.getUniqueId(), now + MESSAGE_COOLDOWN);
         long diff = lockedUntil.getTime() - new Date().getTime();
-        Component timeDiff = Component.text(formatTimeDifference(Duration.of(diff, ChronoUnit.MILLIS)), NamedTextColor.DARK_RED);
-        entity.sendMessage(ChatUtil.getErrorMessage("You cannot enter the " + dimension + " dimension for another ").append(timeDiff));
+        Component timeDiff = ComponentUtils.create(formatTimeDifference(Duration.of(diff, ChronoUnit.MILLIS)), NamedTextColor.DARK_RED);
+        entity.sendMessage(ComponentUtils.error("You cannot enter the " + dimension + " dimension for another ").append(timeDiff));
     }
 
     @EventHandler

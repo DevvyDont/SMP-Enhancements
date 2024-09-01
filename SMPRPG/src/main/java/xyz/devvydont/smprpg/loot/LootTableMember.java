@@ -2,22 +2,17 @@ package xyz.devvydont.smprpg.loot;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import org.bukkit.attribute.Attributable;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.enchantments.EnchantmentOffer;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.enchantments.calculator.EnchantmentCalculator;
 import xyz.devvydont.smprpg.events.CustomChancedItemDropSuccessEvent;
 import xyz.devvydont.smprpg.events.CustomItemDropRollEvent;
-import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.items.LootSource;
 
 import java.util.List;
-import java.util.Random;
 
 /**
  * Represents something that may appear in a loot table.
@@ -134,7 +129,7 @@ public class LootTableMember implements LootSource {
      */
     @Override
     public Component getAsComponent() {
-        return ComponentUtil.getDefaultText("looting a ").append(ComponentUtil.getColoredComponent("chest!", NamedTextColor.GOLD));
+        return ComponentUtils.create("looting a ").append(ComponentUtils.create("chest!", NamedTextColor.GOLD));
     }
 
 }

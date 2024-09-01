@@ -1,21 +1,14 @@
 package xyz.devvydont.smprpg.items.blueprints.sets.araxys;
 
 import org.bukkit.Color;
-import org.bukkit.NamespacedKey;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.trim.TrimMaterial;
 import org.bukkit.inventory.meta.trim.TrimPattern;
-import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.base.CustomArmorBlueprint;
-import xyz.devvydont.smprpg.items.interfaces.Craftable;
 import xyz.devvydont.smprpg.items.interfaces.Dyeable;
 import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
 import xyz.devvydont.smprpg.items.interfaces.Trimmable;
 import xyz.devvydont.smprpg.services.ItemService;
-
-import java.util.Collection;
-import java.util.List;
 
 public abstract class AraxysArmorPiece extends CustomArmorBlueprint implements ToolBreakable, Dyeable, Trimmable {
 

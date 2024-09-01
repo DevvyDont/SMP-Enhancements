@@ -27,8 +27,8 @@ import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.enchantments.CustomEnchantment;
 import xyz.devvydont.smprpg.enchantments.calculator.EnchantmentCalculator;
 import xyz.devvydont.smprpg.enchantments.definitions.*;
-import xyz.devvydont.smprpg.enchantments.definitions.vanilla.overrides.*;
 import xyz.devvydont.smprpg.enchantments.definitions.vanilla.UnknownEnchantment;
+import xyz.devvydont.smprpg.enchantments.definitions.vanilla.overrides.*;
 import xyz.devvydont.smprpg.enchantments.definitions.vanilla.unchanged.*;
 import xyz.devvydont.smprpg.entity.player.LeveledPlayer;
 

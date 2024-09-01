@@ -13,6 +13,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemType;
 import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.enchantments.definitions.vanilla.UnchangedEnchantment;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 public class SilkTouchEnchantment extends UnchangedEnchantment {
 
@@ -22,14 +23,16 @@ public class SilkTouchEnchantment extends UnchangedEnchantment {
 
     @Override
     public @NotNull Component getDisplayName() {
-        return Component.text("Silk Touch");
+        return ComponentUtils.create("Silk Touch");
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Mines blocks for their ").color(NamedTextColor.GRAY)
-                .append(Component.text("pure").color(NamedTextColor.LIGHT_PURPLE))
-                .append(Component.text(" form").color(NamedTextColor.GRAY));
+        return ComponentUtils.merge(
+            ComponentUtils.create("Mines blocks for their "),
+            ComponentUtils.create("pure", NamedTextColor.LIGHT_PURPLE),
+            ComponentUtils.create(" form")
+        );
     }
 
     @Override

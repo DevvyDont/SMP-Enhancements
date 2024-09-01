@@ -9,6 +9,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemType;
 import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.enchantments.definitions.vanilla.UnchangedEnchantment;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 public class KnockbackEnchantment extends UnchangedEnchantment {
 
@@ -27,13 +28,15 @@ public class KnockbackEnchantment extends UnchangedEnchantment {
 
     @Override
     public @NotNull Component getDisplayName() {
-        return Component.text("Knockback");
+        return ComponentUtils.create("Knockback");
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Increases knockback by ").color(NamedTextColor.GRAY)
-                .append(Component.text("+" + getKnockbackPower(getLevel()) + "%").color(NamedTextColor.GREEN));
+        return ComponentUtils.merge(
+            ComponentUtils.create("Increases knockback by "),
+            ComponentUtils.create("+" + getKnockbackPower(getLevel()) + "%", NamedTextColor.GREEN)
+        );
     }
 
     @Override

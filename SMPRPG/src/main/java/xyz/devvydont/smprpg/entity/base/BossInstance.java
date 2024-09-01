@@ -1,15 +1,12 @@
 package xyz.devvydont.smprpg.entity.base;
 
 import net.kyori.adventure.bossbar.BossBar;
-import net.kyori.adventure.bossbar.BossBarViewer;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.damage.DamageSource;
-import org.bukkit.damage.DamageType;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -20,15 +17,13 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
-import xyz.devvydont.smprpg.util.formatting.ChatUtil;
-import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.formatting.MinecraftStringUtils;
 import xyz.devvydont.smprpg.util.scoreboard.SimpleGlobalScoreboard;
 
@@ -189,11 +184,12 @@ public abstract class BossInstance extends EnemyEntity implements Listener {
             player.setHealth(0);
         }
 
-        Bukkit.broadcast(ChatUtil.getGenericMessage(
-                ComponentUtil.getDefaultText("The "))
-                .append(generateNametagComponent()).append(getDisplaynameNametagComponent())
-                .append(ComponentUtil.getDefaultText(" has reigned victorious and wiped out those who challenged it."))
-        );
+        Bukkit.broadcast(ComponentUtils.alert(ComponentUtils.merge(
+            ComponentUtils.create("The "),
+            generateNametagComponent(),
+            getDisplaynameNametagComponent(),
+            ComponentUtils.create(" has reigned victorious and wiped out those who challenged it.")
+        )));
 
         for (Player p : Bukkit.getOnlinePlayers())
             p.playSound(p.getLocation(), Sound.ENTITY_WARDEN_SONIC_BOOM, 1, .1f);
@@ -245,13 +241,13 @@ public abstract class BossInstance extends EnemyEntity implements Listener {
             Player player = entry.player();
             int damage = entry.damage();
             int place = i + 1;
-            rankings.add(
-                    ComponentUtil.getColoredComponent(place + getPlaceth(place) + ": ", getPlaceColor(place))
-                            .append(Component.text(plugin.getChatService().getPlayerDisplayname(player)))
-                            .append(ComponentUtil.getDefaultText(" - "))
-                            .append(ComponentUtil.getColoredComponent(MinecraftStringUtils.formatNumber(damage), NamedTextColor.RED))
-                            .append(ComponentUtil.getColoredComponent(String.format(" (%d%%)", (int)(damage/getMaxHp()*100)), NamedTextColor.DARK_GRAY))
-            );
+            rankings.add(ComponentUtils.merge(
+                ComponentUtils.create(place + getPlaceth(place) + ": ", getPlaceColor(place)),
+                ComponentUtils.create(plugin.getChatService().getPlayerDisplayname(player)),
+                ComponentUtils.create(" - "),
+                ComponentUtils.create(MinecraftStringUtils.formatNumber(damage), NamedTextColor.RED),
+                ComponentUtils.create(String.format(" (%d%%)", (int)(damage/getMaxHp()*100)), NamedTextColor.DARK_GRAY)
+            ));
         }
         return rankings;
     }
@@ -266,29 +262,29 @@ public abstract class BossInstance extends EnemyEntity implements Listener {
         List<Component> lines = new ArrayList<>();
 
         // Add HP description, 3 lines
-        lines.add(Component.empty());
-        lines.add(ComponentUtil.getDefaultText("Boss Health: ").append(getHealthNametagComponent()));
-        lines.add(Component.empty());
+        lines.add(ComponentUtils.EMPTY);
+        lines.add(ComponentUtils.create("Boss Health: ").append(getHealthNametagComponent()));
+        lines.add(ComponentUtils.EMPTY);
 
         // Add damage rankings (7 lines max!)
         List<Component> rankings = getRankingsComponents();
         lines.addAll(rankings.subList(0, Math.min(8, rankings.size())));
 
         // Add some information, 2 lines
-        lines.add(Component.empty());
-        lines.add(
-                ComponentUtil.getDefaultText("Deal ")
-                        .append(ComponentUtil.getColoredComponent(MinecraftStringUtils.formatNumber(getDamageRequirement()), NamedTextColor.RED))
-                        .append(ComponentUtil.getDefaultText(" damage for "))
-                        .append(ComponentUtil.getColoredComponent("MAX LOOT", NamedTextColor.LIGHT_PURPLE))
-                        .append(ComponentUtil.getDefaultText("!"))
-        );
+        lines.add(ComponentUtils.EMPTY);
+        lines.add(ComponentUtils.merge(
+            ComponentUtils.create("Deal "),
+            ComponentUtils.create(MinecraftStringUtils.formatNumber(getDamageRequirement()), NamedTextColor.RED),
+            ComponentUtils.create(" damage for "),
+            ComponentUtils.create("MAX LOOT", NamedTextColor.LIGHT_PURPLE),
+            ComponentUtils.SYMBOL_EXCLAMATION
+        ));
 
         // If we have a time limit, add a wipe section
         int secondsLeft = Math.max(0, getSecondsLeft());
         long msLeft = wipeTimestamp-System.currentTimeMillis()-(secondsLeft*1000L);
         if (secondsLeft < 1000) {
-            lines.add(Component.empty());
+            lines.add(ComponentUtils.EMPTY);
 
             // Color is always green by default
             NamedTextColor timeColor = NamedTextColor.GREEN;
@@ -308,7 +304,7 @@ public abstract class BossInstance extends EnemyEntity implements Listener {
                 timeColor = Bukkit.getCurrentTick() % 20 >= 10 ? NamedTextColor.RED : NamedTextColor.DARK_GRAY;
 
 
-            lines.add(ComponentUtil.getDefaultText("Time Left: ").append(Component.text(timestring, timeColor)));
+            lines.add(ComponentUtils.create("Time Left: ").append(ComponentUtils.create(timestring, timeColor)));
         }
 
         // With default settings so far, we are using 12 lines. We have space for another 3 if desired
@@ -422,14 +418,14 @@ public abstract class BossInstance extends EnemyEntity implements Listener {
         Player player = event.getEntity().getKiller();
 
         // We died!!!
-        Bukkit.broadcast(ComponentUtil.getDefaultText("-----------------------------"));
-        Bukkit.broadcast(generateNametagComponent().append(getDisplaynameNametagComponent()).append(ComponentUtil.getColoredComponent(" Defeated!", determineNametagColor())));
-        Bukkit.broadcast(Component.empty());
-        Bukkit.broadcast(Component.text(plugin.getChatService().getPlayerDisplayname(player)).append(ComponentUtil.getDefaultText(" dealt the final blow!")));
-        Bukkit.broadcast(Component.empty());
+        Bukkit.broadcast(ComponentUtils.create("-----------------------------"));
+        Bukkit.broadcast(generateNametagComponent().append(getDisplaynameNametagComponent()).append(ComponentUtils.create(" Defeated!", determineNametagColor())));
+        Bukkit.broadcast(ComponentUtils.EMPTY);
+        Bukkit.broadcast(ComponentUtils.create(plugin.getChatService().getPlayerDisplayname(player)).append(ComponentUtils.create(" dealt the final blow!")));
+        Bukkit.broadcast(ComponentUtils.EMPTY);
         for (Component component : getRankingsComponents())
             Bukkit.broadcast(component);
-        Bukkit.broadcast(ComponentUtil.getDefaultText("-----------------------------"));
+        Bukkit.broadcast(ComponentUtils.create("-----------------------------"));
 
         for (Player p : Bukkit.getOnlinePlayers())
             p.playSound(p.getLocation(), Sound.ENTITY_CHICKEN_EGG, .2f, 1);

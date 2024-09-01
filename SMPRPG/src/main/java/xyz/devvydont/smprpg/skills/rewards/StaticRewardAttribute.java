@@ -3,9 +3,8 @@ package xyz.devvydont.smprpg.skills.rewards;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.attribute.AttributeModifier;
-import xyz.devvydont.smprpg.skills.SkillType;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
-import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 public class StaticRewardAttribute extends ProgressiveAttributeReward {
 
@@ -29,7 +28,7 @@ public class StaticRewardAttribute extends ProgressiveAttributeReward {
         String perc = operation == AttributeModifier.Operation.ADD_NUMBER ? "" : "%";
         String old = "+" + previousAmount + perc;
         String _new = "+" + getTotalAddition() + perc;
-        return ComponentUtil.getDefaultText(attribute.getCleanName() + " ").append(ComponentUtil.getUpgradeComponent(old, _new, NamedTextColor.GREEN));
+        return ComponentUtils.create(attribute.getCleanName() + " ").append(ComponentUtils.upgrade(old, _new, NamedTextColor.GREEN));
     }
 
     @Override

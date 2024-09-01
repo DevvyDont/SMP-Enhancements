@@ -8,7 +8,7 @@ import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.reforge.ReforgeBase;
 import xyz.devvydont.smprpg.reforge.ReforgeType;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
-import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.Collection;
 import java.util.List;
@@ -38,8 +38,8 @@ public class SwiftReforge extends ReforgeBase {
     @Override
     public List<Component> getDescription() {
         return List.of(
-                ComponentUtil.getDefaultText("Greatly increases movement speed"),
-                ComponentUtil.getDefaultText("with a small boost in attack speed")
+                ComponentUtils.create("Greatly increases movement speed"),
+                ComponentUtils.create("with a small boost in attack speed")
         );
     }
 

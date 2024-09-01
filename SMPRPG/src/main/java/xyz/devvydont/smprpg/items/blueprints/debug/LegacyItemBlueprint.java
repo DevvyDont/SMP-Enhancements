@@ -7,7 +7,7 @@ import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.base.CustomItemBlueprint;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.List;
 
@@ -49,15 +49,15 @@ public class LegacyItemBlueprint extends CustomItemBlueprint {
     @Override
     public List<Component> getDescriptionComponent(ItemMeta meta) {
         return List.of(
-                ComponentUtil.getDefaultText("This item is considered legacy."),
-                Component.empty(),
-                ComponentUtil.getDefaultText("The item type tag key has either"),
-                ComponentUtil.getDefaultText("been removed or changed, meaning"),
-                ComponentUtil.getDefaultText("this item does not know what it is"),
-                ComponentUtil.getDefaultText("anymore. If you believe this is an"),
-                ComponentUtil.getDefaultText("error, contact a server admin."),
-                Component.empty(),
-                ComponentUtil.getDefaultText("Item Key: ").append(ComponentUtil.getColoredComponent(resolveItemName(meta), NamedTextColor.GREEN))
+                ComponentUtils.create("This item is considered legacy."),
+                ComponentUtils.EMPTY,
+                ComponentUtils.create("The item type tag key has either"),
+                ComponentUtils.create("been removed or changed, meaning"),
+                ComponentUtils.create("this item does not know what it is"),
+                ComponentUtils.create("anymore. If you believe this is an"),
+                ComponentUtils.create("error, contact a server admin."),
+                ComponentUtils.EMPTY,
+                ComponentUtils.create("Item Key: ").append(ComponentUtils.create(resolveItemName(meta), NamedTextColor.GREEN))
         );
     }
 

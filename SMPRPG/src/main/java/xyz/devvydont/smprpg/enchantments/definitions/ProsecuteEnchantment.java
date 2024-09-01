@@ -14,6 +14,7 @@ import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.enchantments.CustomEnchantment;
 import xyz.devvydont.smprpg.enchantments.EnchantmentRarity;
 import xyz.devvydont.smprpg.events.CustomEntityDamageByEntityEvent;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 public class ProsecuteEnchantment extends CustomEnchantment implements Listener {
 
@@ -29,16 +30,18 @@ public class ProsecuteEnchantment extends CustomEnchantment implements Listener 
 
     @Override
     public @NotNull Component getDisplayName() {
-        return Component.text("Prosecute");
+        return ComponentUtils.create("Prosecute");
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Increases damage by ").color(NamedTextColor.GRAY)
-                .append(Component.text("+" + getPercentDamageIncreaseForHighEnemy(getLevel()) + "%").color(NamedTextColor.GREEN))
-                .append(Component.text(" for enemies over "))
-                .append(Component.text(HEALTH_THRESHOLD + "%").color(NamedTextColor.GREEN))
-                .append(Component.text(" of their maximum health").color(NamedTextColor.GRAY));
+        return ComponentUtils.merge(
+            ComponentUtils.create("Increases damage by "),
+            ComponentUtils.create("+" + getPercentDamageIncreaseForHighEnemy(getLevel()) + "%", NamedTextColor.GREEN),
+            ComponentUtils.create(" for enemies over "),
+            ComponentUtils.create(HEALTH_THRESHOLD + "%", NamedTextColor.GREEN),
+            ComponentUtils.create(" of their maximum health")
+        );
     }
 
     @Override

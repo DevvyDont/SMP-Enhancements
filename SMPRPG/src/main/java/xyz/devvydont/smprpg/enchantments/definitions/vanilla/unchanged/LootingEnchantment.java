@@ -1,10 +1,7 @@
 package xyz.devvydont.smprpg.enchantments.definitions.vanilla.unchanged;
 
 import io.papermc.paper.registry.TypedKey;
-import io.papermc.paper.registry.data.EnchantmentRegistryEntry;
-import io.papermc.paper.registry.event.RegistryFreezeEvent;
 import io.papermc.paper.registry.keys.tags.ItemTypeTagKeys;
-import io.papermc.paper.registry.set.RegistryKeySet;
 import io.papermc.paper.registry.tag.TagKey;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -18,6 +15,7 @@ import xyz.devvydont.smprpg.enchantments.EnchantmentRarity;
 import xyz.devvydont.smprpg.enchantments.EnchantmentUtil;
 import xyz.devvydont.smprpg.enchantments.definitions.vanilla.VanillaEnchantment;
 import xyz.devvydont.smprpg.events.CustomItemQuantityRollDropEvent;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 public class LootingEnchantment extends VanillaEnchantment implements Listener {
 
@@ -39,14 +37,16 @@ public class LootingEnchantment extends VanillaEnchantment implements Listener {
 
     @Override
     public @NotNull Component getDisplayName() {
-        return Component.text("Looting");
+        return ComponentUtils.create("Looting");
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Provides a drop bonus of ").color(NamedTextColor.GRAY)
-                .append(Component.text("+~" + getLootingPercentEstimation(getLevel()) + "%").color(NamedTextColor.GREEN))
-                .append(Component.text(" from mobs").color(NamedTextColor.GRAY));
+        return ComponentUtils.merge(
+            ComponentUtils.create("Provides a drop bonus of "),
+            ComponentUtils.create("+~" + getLootingPercentEstimation(getLevel()) + "%", NamedTextColor.GREEN),
+            ComponentUtils.create(" from mobs")
+        );
     }
 
     @Override

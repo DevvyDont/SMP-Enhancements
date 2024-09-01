@@ -5,9 +5,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import xyz.devvydont.smprpg.config.ConfigManager;
 import xyz.devvydont.smprpg.effects.services.SpecialEffectService;
+import xyz.devvydont.smprpg.listeners.*;
 import xyz.devvydont.smprpg.loot.LootListener;
 import xyz.devvydont.smprpg.services.*;
-import xyz.devvydont.smprpg.listeners.*;
 import xyz.devvydont.smprpg.util.animations.AnimationService;
 
 import java.io.IOException;

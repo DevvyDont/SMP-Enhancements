@@ -1,6 +1,5 @@
 package xyz.devvydont.smprpg.util.formatting;
 
-import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Color;
@@ -30,7 +29,7 @@ public class DamagePopupUtil {
         int finalAmount = Math.max(1, amount);
         TextDisplay display = location.getWorld().spawn(location.add(Math.random()-.5, Math.random()+.3, Math.random()-.5), TextDisplay.class, e -> {
             e.setPersistent(false);
-            e.text(Component.text(finalAmount).color(type.color));
+            e.text(ComponentUtils.create(String.valueOf(finalAmount), type.color));
             e.setBillboard(Display.Billboard.CENTER);
             e.setShadowed(true);
             e.setSeeThrough(false);

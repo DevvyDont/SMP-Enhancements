@@ -13,6 +13,7 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.effects.services.SpecialEffectService;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.particles.ParticleUtil;
 
 public class TetheredEffect extends SpecialEffectTask implements Listener {
@@ -30,12 +31,12 @@ public class TetheredEffect extends SpecialEffectTask implements Listener {
 
     @Override
     public Component getExpiredComponent() {
-        return Component.text("SEVERED!", NamedTextColor.RED);
+        return ComponentUtils.create("SEVERED!", NamedTextColor.RED);
     }
 
     @Override
     public Component getNameComponent() {
-        return Component.text("Tethered!", NamedTextColor.GOLD);
+        return ComponentUtils.create("Tethered!", NamedTextColor.GOLD);
     }
 
     @Override

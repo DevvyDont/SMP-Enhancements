@@ -13,8 +13,8 @@ import xyz.devvydont.smprpg.enchantments.base.AttributeEnchantment;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeModifierType;
 import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
-import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.Collection;
 import java.util.List;
@@ -39,14 +39,15 @@ public class VitalityEnchantment extends CustomEnchantment implements AttributeE
 
     @Override
     public @NotNull Component getDisplayName() {
-        return Component.text("Vitality");
+        return ComponentUtils.create("Vitality");
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Increases strength by ").color(NamedTextColor.GRAY)
-                .append(Component.text("+" + getStrength(getLevel()) + "%").color(NamedTextColor.GREEN)
-                );
+        return ComponentUtils.merge(
+            ComponentUtils.create("Increases strength by "),
+            ComponentUtils.create("+" + getStrength(getLevel()) + "%", NamedTextColor.GREEN)
+        );
     }
 
     @Override

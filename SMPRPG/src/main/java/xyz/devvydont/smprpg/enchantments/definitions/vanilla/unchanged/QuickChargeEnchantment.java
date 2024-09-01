@@ -9,6 +9,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemType;
 import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.enchantments.definitions.vanilla.UnchangedEnchantment;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 public class QuickChargeEnchantment extends UnchangedEnchantment {
 
@@ -22,13 +23,18 @@ public class QuickChargeEnchantment extends UnchangedEnchantment {
 
     @Override
     public @NotNull Component getDisplayName() {
-        return Component.text("Quick Charge");
+        return ComponentUtils.create("Quick Charge");
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Sets loading time to ").color(NamedTextColor.GRAY)
-                .append(Component.text("-" + getChargePercentageReduction(getLevel()) + "%").color(getLevel() >= 5 ? NamedTextColor.LIGHT_PURPLE : NamedTextColor.GREEN));
+        return ComponentUtils.merge(
+            ComponentUtils.create("Sets loading time to "),
+            ComponentUtils.create(
+                "-" + getChargePercentageReduction(getLevel()) + "%",
+                getLevel() >= 5 ? NamedTextColor.LIGHT_PURPLE : NamedTextColor.GREEN
+            )
+        );
     }
 
     @Override

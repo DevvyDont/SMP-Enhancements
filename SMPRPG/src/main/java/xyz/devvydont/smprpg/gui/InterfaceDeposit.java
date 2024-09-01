@@ -1,6 +1,5 @@
 package xyz.devvydont.smprpg.gui;
 
-import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -13,11 +12,9 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
-import xyz.devvydont.smprpg.items.blueprints.economy.CustomItemCoin;
 import xyz.devvydont.smprpg.items.interfaces.Sellable;
 import xyz.devvydont.smprpg.services.EconomyService;
-import xyz.devvydont.smprpg.util.formatting.ChatUtil;
-import xyz.devvydont.smprpg.util.formatting.MinecraftStringUtils;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 public class InterfaceDeposit extends PrivateInterface {
 
@@ -50,10 +47,11 @@ public class InterfaceDeposit extends PrivateInterface {
             return;
 
         plugin.getEconomyService().addMoney(owner, value);
-        owner.sendMessage(ChatUtil.getSuccessMessage(String.format("You sold %s worth of items!", EconomyService.formatMoney(value))));
-        Component balMessage = Component.text("Your balance is now ").color(NamedTextColor.GRAY)
-                .append(Component.text(plugin.getEconomyService().formatMoney(owner)).color(NamedTextColor.GOLD));
-        owner.sendMessage(ChatUtil.getGenericMessage(balMessage));
+        owner.sendMessage(ComponentUtils.success(String.format("You sold %s worth of items!", EconomyService.formatMoney(value))));
+        owner.sendMessage(ComponentUtils.alert(ComponentUtils.merge(
+            ComponentUtils.create("Your balance is now "),
+            ComponentUtils.create(plugin.getEconomyService().formatMoney(owner), NamedTextColor.GOLD)
+        )));
         owner.playSound(owner.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1f, 2f);
     }
 

@@ -13,7 +13,7 @@ import xyz.devvydont.smprpg.enchantments.CustomEnchantment;
 import xyz.devvydont.smprpg.enchantments.EnchantmentRarity;
 import xyz.devvydont.smprpg.enchantments.EnchantmentUtil;
 import xyz.devvydont.smprpg.events.skills.SkillExperienceGainEvent;
-import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 public class ProficientEnchantment extends CustomEnchantment implements Listener {
 
@@ -37,14 +37,16 @@ public class ProficientEnchantment extends CustomEnchantment implements Listener
 
     @Override
     public @NotNull Component getDisplayName() {
-        return Component.text("Proficient");
+        return ComponentUtils.create("Proficient");
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return ComponentUtil.getDefaultText("Increases skill experience gains by ")
-                .append(ComponentUtil.getColoredComponent("+" + getProficiencyPercentIncrease(getLevel()) + "%", NamedTextColor.GREEN))
-                .append(ComponentUtil.getColoredComponent(" (stacks!)", NamedTextColor.DARK_GRAY));
+        return ComponentUtils.merge(
+            ComponentUtils.create("Increases skill experience gains by "),
+            ComponentUtils.create("+" + getProficiencyPercentIncrease(getLevel()) + "%", NamedTextColor.GREEN),
+            ComponentUtils.create(" (stacks!)", NamedTextColor.DARK_GRAY)
+        );
     }
 
     @Override

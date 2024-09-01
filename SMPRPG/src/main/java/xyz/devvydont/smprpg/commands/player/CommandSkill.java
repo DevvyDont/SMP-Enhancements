@@ -13,8 +13,7 @@ import xyz.devvydont.smprpg.events.skills.SkillExperienceGainEvent;
 import xyz.devvydont.smprpg.skills.SkillGlobals;
 import xyz.devvydont.smprpg.skills.SkillInstance;
 import xyz.devvydont.smprpg.skills.SkillType;
-import xyz.devvydont.smprpg.util.formatting.ChatUtil;
-import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.formatting.MinecraftStringUtils;
 
 import java.util.ArrayList;
@@ -33,27 +32,28 @@ public class CommandSkill extends CommandBase {
             inst.addExperience(targetExp - inst.getExperience(), SkillExperienceGainEvent.ExperienceSource.UNKNOWN);
         else
             inst.setExperience(targetExp);
-        player.getPlayer().sendMessage(ChatUtil.getSuccessMessage("Set your " + skill.getDisplayName() + " skill to level " + inst.getLevel()));
+        player.getPlayer().sendMessage(ComponentUtils.success("Set your " + skill.getDisplayName() + " skill to level " + inst.getLevel()));
     }
 
     private List<Component> getSkillDisplay(LeveledPlayer player) {
-
-        List<Component> display = new ArrayList<>();
-        display.add(Component.empty());
-        for (SkillInstance skill : player.getSkills())
-            display.add(
-                    ComponentUtil.getColoredComponent(skill.getType().getDisplayName() + " " + skill.getLevel(), NamedTextColor.AQUA)
-                            .append(ComponentUtil.getDefaultText(" - "))
-                            .append(ComponentUtil.getColoredComponent(MinecraftStringUtils.formatNumber(skill.getExperienceProgress()), NamedTextColor.GREEN))
-                            .append(ComponentUtil.getDefaultText("/"))
-                            .append(ComponentUtil.getColoredComponent(MinecraftStringUtils.formatNumber(skill.getNextExperienceThreshold()), NamedTextColor.GOLD))
-                            .append(ComponentUtil.getDefaultText(" ("))
-                            .append(ComponentUtil.getColoredComponent(MinecraftStringUtils.formatNumber(skill.getExperience()) + "XP", NamedTextColor.DARK_GRAY))
-                            .append(ComponentUtil.getDefaultText(")"))
-            );
-        display.add(Component.empty());
-        display.add(ComponentUtil.getDefaultText("Skill Average: ").append(ComponentUtil.getColoredComponent(String.format("%.2f", player.getAverageSkillLevel()), NamedTextColor.GOLD)));
-        return display;
+        var output = new ArrayList<Component>();
+        output.add(ComponentUtils.EMPTY);
+        for (SkillInstance skill : player.getSkills()) {
+            output.add(ComponentUtils.merge(
+                    ComponentUtils.create(skill.getType().getDisplayName() + " " + skill.getLevel(), NamedTextColor.AQUA),
+                    ComponentUtils.create(" - "),
+                    ComponentUtils.create(MinecraftStringUtils.formatNumber(skill.getExperienceProgress()), NamedTextColor.GREEN),
+                    ComponentUtils.create("/"),
+                    ComponentUtils.create(MinecraftStringUtils.formatNumber(skill.getNextExperienceThreshold()), NamedTextColor.GOLD),
+                    ComponentUtils.create(" ("),
+                    ComponentUtils.create(MinecraftStringUtils.formatNumber(skill.getExperience()) + "XP", NamedTextColor.DARK_GRAY),
+                    ComponentUtils.create(")")
+            ));
+        }
+        output.add(ComponentUtils.EMPTY);
+        output.add(ComponentUtils.create("Skill Average: "));
+        output.add(ComponentUtils.create(String.format("%.2f", player.getAverageSkillLevel()), NamedTextColor.GOLD));
+        return output;
     }
 
     @Override
@@ -76,7 +76,7 @@ public class CommandSkill extends CommandBase {
             if (strings[0].toLowerCase().equalsIgnoreCase("reset")) {
                 for (SkillInstance skill : player.getSkills())
                     skill.setExperience(0);
-                player.getPlayer().sendMessage(ChatUtil.getSuccessMessage("Reset all of your skills!"));
+                player.getPlayer().sendMessage(ComponentUtils.success("Reset all of your skills!"));
                 SMPRPG.getInstance().getSkillService().syncSkillAttributes(player);
             }
         }
@@ -97,10 +97,10 @@ public class CommandSkill extends CommandBase {
 
                 SMPRPG.getInstance().getSkillService().syncSkillAttributes(player);
             } catch (NumberFormatException ignored) {
-                p.sendMessage(ChatUtil.getErrorMessage("Invalid level provided. Please provide an actual number"));
+                p.sendMessage(ComponentUtils.error("Invalid level provided. Please provide an actual number"));
                 return;
             } catch (IllegalArgumentException ignored) {
-                p.sendMessage(ChatUtil.getErrorMessage("Invalid argument provided. Please provide skill type then a level to set it to"));
+                p.sendMessage(ComponentUtils.error("Invalid argument provided. Please provide skill type then a level to set it to"));
                 return;
             }
 

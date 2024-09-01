@@ -1,10 +1,7 @@
 package xyz.devvydont.smprpg.enchantments.definitions.vanilla.overrides;
 
 import io.papermc.paper.registry.TypedKey;
-import io.papermc.paper.registry.data.EnchantmentRegistryEntry;
-import io.papermc.paper.registry.event.RegistryFreezeEvent;
 import io.papermc.paper.registry.keys.tags.ItemTypeTagKeys;
-import io.papermc.paper.registry.set.RegistryKeySet;
 import io.papermc.paper.registry.tag.TagKey;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -14,6 +11,7 @@ import org.bukkit.inventory.ItemType;
 import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.enchantments.EnchantmentRarity;
 import xyz.devvydont.smprpg.enchantments.definitions.vanilla.VanillaEnchantment;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 public class EfficiencyEnchantment extends VanillaEnchantment {
 
@@ -27,13 +25,15 @@ public class EfficiencyEnchantment extends VanillaEnchantment {
 
     @Override
     public @NotNull Component getDisplayName() {
-        return Component.text("Efficiency");
+        return ComponentUtils.create("Efficiency");
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Increases mining efficiency by ").color(NamedTextColor.GRAY)
-                .append(Component.text("+" + getMiningEfficiency(getLevel())).color(NamedTextColor.GREEN));
+        return ComponentUtils.merge(
+            ComponentUtils.create("Increases mining efficiency by "),
+            ComponentUtils.create("+" + getMiningEfficiency(getLevel()), NamedTextColor.GREEN)
+        );
     }
 
     @Override

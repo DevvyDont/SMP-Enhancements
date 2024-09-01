@@ -2,8 +2,6 @@ package xyz.devvydont.smprpg.enchantments.definitions.vanilla.overrides;
 
 import io.papermc.paper.registry.RegistryKey;
 import io.papermc.paper.registry.TypedKey;
-import io.papermc.paper.registry.data.EnchantmentRegistryEntry;
-import io.papermc.paper.registry.event.RegistryFreezeEvent;
 import io.papermc.paper.registry.keys.EnchantmentKeys;
 import io.papermc.paper.registry.keys.tags.ItemTypeTagKeys;
 import io.papermc.paper.registry.set.RegistryKeySet;
@@ -23,6 +21,7 @@ import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.enchantments.EnchantmentRarity;
 import xyz.devvydont.smprpg.enchantments.EnchantmentUtil;
 import xyz.devvydont.smprpg.enchantments.definitions.vanilla.VanillaEnchantment;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 public class ProjectileProtectionEnchantment extends VanillaEnchantment implements Listener {
 
@@ -36,13 +35,15 @@ public class ProjectileProtectionEnchantment extends VanillaEnchantment implemen
 
     @Override
     public @NotNull Component getDisplayName() {
-        return Component.text("Projectile Protection");
+        return ComponentUtils.create("Projectile Protection");
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Increases projectile resistance by ").color(NamedTextColor.GRAY)
-                .append(Component.text("+" + getProjectileResistancePercent(getLevel()) + "%").color(NamedTextColor.GREEN));
+        return ComponentUtils.merge(
+            ComponentUtils.create("Increases projectile resistance by "),
+            ComponentUtils.create("+" + getProjectileResistancePercent(getLevel()) + "%", NamedTextColor.GREEN)
+        );
     }
 
     @Override

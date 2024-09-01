@@ -18,6 +18,7 @@ import xyz.devvydont.smprpg.items.attribute.AttributeModifierType;
 import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
 import xyz.devvydont.smprpg.items.interfaces.Attributeable;
 import xyz.devvydont.smprpg.reforge.ReforgeBase;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.*;
 
@@ -68,17 +69,17 @@ public class AttributeUtil {
             color = NamedTextColor.LIGHT_PURPLE;
 
         // Some attributes are weird and are always percents
-        return Component.text(result.formatTotal(forcePercent)).color(color);
+        return ComponentUtils.create(result.formatTotal(forcePercent), color);
     }
 
     public static Component formatAttribute(AttributeWrapper wrapper, AttributeUtil.AttributeCalculationResult result, boolean forcePercent) {
 
-        return Component.text(wrapper.getCleanName() + ": ").color(NamedTextColor.GRAY)
+        return ComponentUtils.create(wrapper.getCleanName() + ": ")
                 .append(getAttributeNumber(wrapper, result, forcePercent));
     }
 
     public static Component formatBonus(NamedTextColor color, AttributeUtil.AttributeCalculationResult result, boolean forcePercent) {
-        return Component.text(" (" + result.formatTotal(forcePercent) + ")").color(color);
+        return ComponentUtils.create(" (" + result.formatTotal(forcePercent) + ")", color);
     }
 
     /*

@@ -9,6 +9,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemType;
 import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.enchantments.definitions.vanilla.UnchangedEnchantment;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 public class MendingEnchantment extends UnchangedEnchantment {
 
@@ -19,13 +20,15 @@ public class MendingEnchantment extends UnchangedEnchantment {
 
     @Override
     public @NotNull Component getDisplayName() {
-        return Component.text("Mending");
+        return ComponentUtils.create("Mending");
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Repaired when ").color(NamedTextColor.GRAY)
-                .append(Component.text("earning experience").color(NamedTextColor.DARK_GREEN));
+        return ComponentUtils.merge(
+            ComponentUtils.create("Repaired when "),
+            ComponentUtils.create("earning experience", NamedTextColor.DARK_GREEN)
+        );
     }
 
     @Override

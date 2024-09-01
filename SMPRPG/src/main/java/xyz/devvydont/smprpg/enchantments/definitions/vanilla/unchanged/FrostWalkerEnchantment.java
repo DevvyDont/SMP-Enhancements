@@ -13,6 +13,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemType;
 import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.enchantments.definitions.vanilla.UnchangedEnchantment;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 public class FrostWalkerEnchantment extends UnchangedEnchantment {
 
@@ -22,14 +23,16 @@ public class FrostWalkerEnchantment extends UnchangedEnchantment {
 
     @Override
     public @NotNull Component getDisplayName() {
-        return Component.text("Frost Walker");
+        return ComponentUtils.create("Frost Walker");
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Freezes water ").color(NamedTextColor.GRAY)
-                .append(Component.text(getLevel()+1).color(NamedTextColor.GREEN))
-                .append(Component.text(" blocks away when walked on").color(NamedTextColor.GRAY));
+        return ComponentUtils.merge(
+            ComponentUtils.create("Freezes water "),
+            ComponentUtils.create(String.valueOf(getLevel()+1), NamedTextColor.GREEN),
+            ComponentUtils.create(" blocks away when walked on")
+        );
     }
 
     @Override

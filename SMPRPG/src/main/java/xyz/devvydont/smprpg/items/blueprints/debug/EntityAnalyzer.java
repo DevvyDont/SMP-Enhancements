@@ -18,6 +18,7 @@ import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.base.CustomItemBlueprint;
 import xyz.devvydont.smprpg.services.ItemService;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,9 +33,9 @@ public class EntityAnalyzer extends CustomItemBlueprint implements Listener {
     @Override
     public List<Component> getDescriptionComponent(ItemMeta meta) {
         return List.of(
-                Component.text("Look at an entity").color(NamedTextColor.GRAY),
-                Component.text("and ").color(NamedTextColor.GRAY).append(Component.text("right click", NamedTextColor.GOLD)).append(Component.text(" to analyze").color(NamedTextColor.GRAY)),
-                Component.text("its attributes!").color(NamedTextColor.GRAY)
+                ComponentUtils.create("Look at an entity"),
+                ComponentUtils.create("and ").append(ComponentUtils.create("right click", NamedTextColor.GOLD)).append(ComponentUtils.create(" to analyze")),
+                ComponentUtils.create("its attributes!")
         );
     }
 

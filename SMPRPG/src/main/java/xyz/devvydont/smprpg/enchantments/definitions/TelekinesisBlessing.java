@@ -9,7 +9,6 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Item;
@@ -19,7 +18,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockDropItemEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.event.entity.ItemSpawnEvent;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ItemType;
@@ -30,9 +28,10 @@ import xyz.devvydont.smprpg.enchantments.EnchantmentRarity;
 import xyz.devvydont.smprpg.services.ActionBarService;
 import xyz.devvydont.smprpg.services.DropsService;
 import xyz.devvydont.smprpg.services.EnchantmentService;
-import xyz.devvydont.smprpg.util.formatting.ComponentUtil;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
-import java.util.*;
+import java.util.Map;
+import java.util.UUID;
 
 public class TelekinesisBlessing extends CustomEnchantment implements Listener {
 
@@ -42,7 +41,7 @@ public class TelekinesisBlessing extends CustomEnchantment implements Listener {
 
     @Override
     public @NotNull Component getDisplayName() {
-        return ComponentUtil.getColoredComponent("Blessing of Telekinesis", NamedTextColor.YELLOW);
+        return ComponentUtils.create("Blessing of Telekinesis", NamedTextColor.YELLOW);
     }
 
     @Override
@@ -52,9 +51,11 @@ public class TelekinesisBlessing extends CustomEnchantment implements Listener {
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Loot is ").color(NamedTextColor.GRAY)
-                .append(Component.text("magically transported").color(NamedTextColor.DARK_PURPLE))
-                .append(Component.text(" straight to your inventory").color(NamedTextColor.GRAY));
+        return ComponentUtils.merge(
+            ComponentUtils.create("Loot is "),
+            ComponentUtils.create("magically transported", NamedTextColor.DARK_PURPLE),
+            ComponentUtils.create(" straight to your inventory")
+        );
     }
 
     @Override
@@ -127,7 +128,7 @@ public class TelekinesisBlessing extends CustomEnchantment implements Listener {
 
         // Do we have an empty spot in our inventory?
         if (owner.getInventory().firstEmpty() == -1) {
-            SMPRPG.getInstance().getActionBarService().addActionBarComponent(owner, ActionBarService.ActionBarSource.MISC, Component.text("FULL INVENTORY!", NamedTextColor.RED), 2);
+            SMPRPG.getInstance().getActionBarService().addActionBarComponent(owner, ActionBarService.ActionBarSource.MISC, ComponentUtils.create("FULL INVENTORY!", NamedTextColor.RED), 2);
             owner.playSound(owner.getLocation(), Sound.BLOCK_CHEST_OPEN, .25f, 2f);
             return false;
         }
