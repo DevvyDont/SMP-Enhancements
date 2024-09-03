@@ -33,8 +33,6 @@ public abstract class MenuBase implements Listener {
     //   Presets
     // -----------
     protected static final ItemStack BORDER_NORMAL = createNamedItem(Material.BLACK_STAINED_GLASS_PANE, Component.text(""));
-    protected static final ItemStack BORDER_ERROR = createNamedItem(Material.RED_STAINED_GLASS_PANE, Component.text(""));
-
     protected static final ItemStack BUTTON_PAGE_NEXT = createNamedItem(Material.ARROW, Component.text("Next Page ->", NamedTextColor.BLUE));
     protected static final ItemStack BUTTON_PAGE_PREVIOUS = createNamedItem(Material.ARROW, Component.text("<- Previous Page", NamedTextColor.BLUE));
     protected static final ItemStack BUTTON_BACK = createNamedItem(Material.ARROW, Component.text("Back", NamedTextColor.BLUE));
@@ -427,18 +425,38 @@ public abstract class MenuBase implements Listener {
     // --------------
 
     /**
+     * Plays an animation which signifies the user performed a valid operation.
+     */
+    protected final void playSuccessAnimation() {
+        stopAnimation();
+        var successBorder = createNamedItem(Material.GREEN_STAINED_GLASS_PANE, Component.text(""));
+        this.activeAnimation = SMPRPG.getInstance().getAnimationService().playAnimation(
+            () -> {
+                this.sounds.playActionConfirm();
+                this.replaceSlots(BORDER_NORMAL, successBorder);
+                return WaitFor.milliseconds(200);
+            },
+            () -> {
+                this.replaceSlots(successBorder, BORDER_NORMAL);
+                return WaitFor.nothing();
+            }
+        );
+    }
+
+    /**
      * Plays an animation which signifies the user performed an invalid operation.
      */
     protected final void playInvalidAnimation() {
         stopAnimation();
+        var errorBorder = createNamedItem(Material.RED_STAINED_GLASS_PANE, Component.text(""));
         this.activeAnimation = SMPRPG.getInstance().getAnimationService().playAnimation(
             () -> {
                 this.sounds.playActionError();
-                this.replaceSlots(BORDER_NORMAL, BORDER_ERROR);
+                this.replaceSlots(BORDER_NORMAL, errorBorder);
                 return WaitFor.milliseconds(200);
             },
             () -> {
-                this.replaceSlots(BORDER_ERROR, BORDER_NORMAL);
+                this.replaceSlots(errorBorder, BORDER_NORMAL);
                 return WaitFor.nothing();
             }
         );
