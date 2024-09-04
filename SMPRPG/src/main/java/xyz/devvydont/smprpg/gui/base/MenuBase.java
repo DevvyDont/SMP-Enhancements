@@ -43,14 +43,13 @@ public abstract class MenuBase implements Listener {
     //   State
     // ---------
     protected final Player player;
-    protected final MenuSoundManager sounds;
     protected final MenuBase parentMenu;
+    protected final Inventory inventory;
+    protected final MenuSoundManager sounds;
 
     private boolean shouldPlayOpeningSound;
     private boolean shouldPlayClosingSound;
-
     private AnimationHandle activeAnimation;
-    private final Inventory inventory;
     private final Map<Integer, MenuButtonClickHandler> buttonSlots = new HashMap<>();
 
 
@@ -159,7 +158,7 @@ public abstract class MenuBase implements Listener {
             return;
         }
 
-        // Always cancel the event.
+        // Cancel the event by default.
         // In menu scenarios, 9/10 times you're dealing with buttons.
         // So lets stay safe, behaviour should be explicitly allowed.
         event.setCancelled(true);

@@ -6,31 +6,18 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.commands.CommandBase;
-import xyz.devvydont.smprpg.gui.InterfaceWithdrawal;
+import xyz.devvydont.smprpg.commands.PlayerCommandBase;
+import xyz.devvydont.smprpg.gui.economy.DepositMenu;
+import xyz.devvydont.smprpg.gui.economy.WithdrawMenu;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
-public class CommandWithdrawal extends CommandBase {
-
-
+public final class CommandWithdrawal extends PlayerCommandBase {
     public CommandWithdrawal(String name) {
         super(name);
     }
 
     @Override
-    public void execute(@NotNull CommandSourceStack commandSourceStack, @NotNull String[] strings) {
-
-        CommandSender commandSender = commandSourceStack.getSender();
-
-        if (!(commandSender instanceof Player)) {
-            commandSender.sendMessage(ComponentUtils.error("You are the console! You cannot do this!"));
-            return;
-        }
-
-        Player player = (Player) commandSender;
-
-        InterfaceWithdrawal gui = new InterfaceWithdrawal(SMPRPG.getInstance(), player);
-        gui.open();
-
-        player.sendMessage(ComponentUtils.success("Success!"));
+    protected void playerInvoked(@NotNull Player player, @NotNull CommandSourceStack ctx, @NotNull String @NotNull [] args) {
+        new WithdrawMenu(SMPRPG.getInstance(), player).openMenu();
     }
 }

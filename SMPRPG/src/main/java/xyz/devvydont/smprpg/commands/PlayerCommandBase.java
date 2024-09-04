@@ -11,7 +11,7 @@ public abstract class PlayerCommandBase extends CommandBase {
     }
 
     @Override
-    public void execute(@NotNull CommandSourceStack ctx, @NotNull String[] args) {
+    public final void execute(@NotNull CommandSourceStack ctx, @NotNull String[] args) {
         var sender = ctx.getSender();
         if (sender instanceof Player player) {
             this.playerInvoked(player, ctx, args);
