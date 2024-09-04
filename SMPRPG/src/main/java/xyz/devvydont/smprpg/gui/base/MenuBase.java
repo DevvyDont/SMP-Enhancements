@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
@@ -160,8 +161,14 @@ public abstract class MenuBase implements Listener {
 
         // Always cancel the event.
         // In menu scenarios, 9/10 times you're dealing with buttons.
-        // So lets stay safe, and allow behaviour instead of prevent it.
+        // So lets stay safe, behaviour should be explicitly allowed.
         event.setCancelled(true);
+
+        // Explicitly disable number key modifications.
+        if (event.getClick().equals(ClickType.NUMBER_KEY)) {
+            this.playInvalidAnimation();
+            return;
+        }
 
         // Here we use the raw slot index instead of the slot index.
         // This is because buttons should only be inside the menu inventory.
