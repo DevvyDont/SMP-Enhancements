@@ -146,7 +146,6 @@ public final class ComponentUtils {
         return EMPTY
                 .append(SYMBOL_BRACKET_LEFT)
                 .append(prefix)
-                .append(SPACE)
                 .append(SYMBOL_BRACKET_RIGHT)
                 .append(SPACE)
                 .append(message);
