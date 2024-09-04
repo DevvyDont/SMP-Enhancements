@@ -20,7 +20,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.util.animations.blockers.WaitFor;
-import xyz.devvydont.smprpg.util.animations.containers.AnimationHandle;
+import xyz.devvydont.smprpg.util.animations.playback.AnimationHandle;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.HashMap;
@@ -436,7 +436,7 @@ public abstract class MenuBase implements Listener {
     protected final void playSuccessAnimation() {
         stopAnimation();
         var successBorder = createNamedItem(Material.GREEN_STAINED_GLASS_PANE, Component.text(""));
-        this.activeAnimation = SMPRPG.getInstance().getAnimationService().playAnimation(
+        this.activeAnimation = SMPRPG.getInstance().getAnimationService().playOnce(
             () -> {
                 this.sounds.playActionConfirm();
                 this.replaceSlots(BORDER_NORMAL, successBorder);
@@ -455,7 +455,7 @@ public abstract class MenuBase implements Listener {
     protected final void playInvalidAnimation() {
         stopAnimation();
         var errorBorder = createNamedItem(Material.RED_STAINED_GLASS_PANE, Component.text(""));
-        this.activeAnimation = SMPRPG.getInstance().getAnimationService().playAnimation(
+        this.activeAnimation = SMPRPG.getInstance().getAnimationService().playOnce(
             () -> {
                 this.sounds.playActionError();
                 this.replaceSlots(BORDER_NORMAL, errorBorder);
