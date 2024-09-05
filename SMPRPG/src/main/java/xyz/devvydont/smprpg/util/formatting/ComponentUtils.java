@@ -8,6 +8,7 @@ import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -237,5 +238,20 @@ public final class ComponentUtils {
      */
     public static TextComponent powerLevelPrefix(int level) {
         return EMPTY.append(SYMBOL_BRACKET_LEFT).append(powerLevel(level)).append(SYMBOL_BRACKET_RIGHT);
+    }
+
+    /**
+     * Inserts components at the beginning of an already defined list of components. Useful for adding components
+     * at the beginning of item lore.
+     *
+     * @param original The original list of components.
+     * @param toInsert All the components that are desired to be inserted before the original components.
+     * @return
+     */
+    public static List<Component> insertComponents(List<Component> original, Component...toInsert) {
+        List<Component> components = new ArrayList<>();
+        components.addAll(Arrays.asList(toInsert));
+        components.addAll(original);
+        return components;
     }
 }

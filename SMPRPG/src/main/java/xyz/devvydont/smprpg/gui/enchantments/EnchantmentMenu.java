@@ -39,7 +39,7 @@ public class EnchantmentMenu extends MenuBase {
     public EnchantmentMenu(@NotNull Player player) {
         super(player, ROWS);
 
-        // Setup the enchantments. These are just a copy of all the enchantments in a list.
+        // Set up the enchantments. These are just a copy of all the enchantments in a list.
         enchantments = new ArrayList<>();
         enchantments.addAll(SMPRPG.getInstance().getEnchantmentService().getCustomEnchantments());
     }
