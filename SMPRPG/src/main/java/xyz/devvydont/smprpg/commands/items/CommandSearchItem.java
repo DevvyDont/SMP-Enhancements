@@ -1,12 +1,11 @@
 package xyz.devvydont.smprpg.commands.items;
 
 import io.papermc.paper.command.brigadier.CommandSourceStack;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.SMPRPG;
-import xyz.devvydont.smprpg.commands.CommandBase;
-import xyz.devvydont.smprpg.gui.InterfaceItemBrowser;
+import xyz.devvydont.smprpg.commands.PlayerCommandBase;
+import xyz.devvydont.smprpg.gui.items.MenuItemBrowser;
 import xyz.devvydont.smprpg.items.base.CustomItemBlueprint;
 import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
@@ -15,34 +14,20 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class CommandSearchItem extends CommandBase {
+public class CommandSearchItem extends PlayerCommandBase {
 
     public CommandSearchItem(String name) {
         super(name);
     }
 
     @Override
-    public void execute(@NotNull CommandSourceStack commandSourceStack, @NotNull String[] strings) {
-
-        CommandSender commandSender = commandSourceStack.getSender();
-
-        if (!(commandSender instanceof Player)) {
-            commandSender.sendMessage(ComponentUtils.error("You must be a player to search items!"));
-            return;
-        }
-
-        Player player = (Player) commandSender;
-
-        String query = "";
-        if (strings.length > 0)
-            query = strings[0].toLowerCase().replace("_", " ");
-        InterfaceItemBrowser gui = new InterfaceItemBrowser(SMPRPG.getInstance(), player, query);
-        gui.open();
-
+    protected void playerInvoked(@NotNull Player player, @NotNull CommandSourceStack ctx, @NotNull String @NotNull [] args) {
+        String query = String.join(" ", args).replace("_", " ").trim();
+        new MenuItemBrowser(player, query).openMenu();
         if (query.equalsIgnoreCase(""))
             query = "ALL ITEMS";
 
-        commandSender.sendMessage(ComponentUtils.success("Browsing custom items! Query: " + query));
+        player.sendMessage(ComponentUtils.success("Browsing custom items! Query: " + query));
     }
 
     @Override

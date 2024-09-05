@@ -1,10 +1,14 @@
 package xyz.devvydont.smprpg.services;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import xyz.devvydont.smprpg.SMPRPG;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.formatting.Symbols;
 
 import java.text.DecimalFormat;
@@ -81,6 +85,26 @@ public class EconomyService implements BaseService {
         EconomyResponse response = economy.withdrawPlayer(player, (int)Math.round(amount));
         plugin.getLogger().info(String.format("Server has attempted to take %s's %.0f coins, balance is now %.0f (%s-%s)", player.getName(), response.amount, response.balance, response.type, response.errorMessage));
         return response.transactionSuccess();
+    }
+
+    /**
+     * A variation of EconomyService#takeMoney()
+     * This version also calls takeMoney(), but also alerts the user in chat that their balance was updated.
+     * As a consequence of this, an online player is required so that we can send them a message.
+     *
+     * This method also assumes that the player already has enough money, and this method may behave unexpectedly if
+     * the process of checking for sufficient funds is skipped.
+     *
+     * @param player The player to take money from.
+     * @param cost The amount of money to take from the player.
+     */
+    public void spendMoney(Player player, int cost) {
+        this.takeMoney(player, cost);
+        player.sendMessage(ComponentUtils.merge(
+                ComponentUtils.create(formatMoney(cost), NamedTextColor.GOLD),
+                ComponentUtils.create(" has been taken from your account. Your balance is now "),
+                ComponentUtils.create(formatMoney(getMoney(player)), NamedTextColor.GOLD)
+        ));
     }
 
     /**

@@ -1,6 +1,10 @@
 package xyz.devvydont.smprpg.util.animations.utils;
 
-import xyz.devvydont.smprpg.util.animations.containers.AnimationFrame;
+import org.jetbrains.annotations.NotNull;
+import xyz.devvydont.smprpg.util.animations.iterators.AnimationFrame;
+import xyz.devvydont.smprpg.util.animations.iterators.AnimationIterator;
+import xyz.devvydont.smprpg.util.animations.iterators.InfiniteIterator;
+import xyz.devvydont.smprpg.util.animations.iterators.NumberedIterator;
 
 import java.util.ArrayList;
 
@@ -8,6 +12,7 @@ import java.util.ArrayList;
  * A utility to create animations using the builder pattern.
  */
 public final class AnimationBuilder {
+    private AnimationIterator iterator;
     private final ArrayList<AnimationFrame> frames = new ArrayList<>();
 
     /**
@@ -16,17 +21,46 @@ public final class AnimationBuilder {
      * @param frame The frame callback function.
      * @return The builder for chaining.
      */
-    public AnimationBuilder addFrame(AnimationFrame frame) {
-        frames.add(frame);
+    public AnimationBuilder addFrame(@NotNull AnimationFrame frame) {
+        if (this.iterator != null) {
+            throw new IllegalStateException("Frames can not be added after setting an iterator preference.");
+        }
+
+        this.frames.add(frame);
         return this;
     }
 
     /**
-     * Builds the frames into a list.
+     * Sets this animation to play a set amount of times.
      *
-     * @return The animation frames as a list.
+     * @param iterations The amount of times the animation should play.
+     * @return The builder for chaining.
      */
-    public ArrayList<AnimationFrame> build() {
-        return frames;
+    public AnimationBuilder setLoopIterations(int iterations) {
+        this.iterator = new NumberedIterator(this.frames, iterations);
+        return this;
+    }
+
+    /**
+     * Sets this animation to play endlessly.
+     *
+     * @return The builder for chaining.
+     */
+    public AnimationBuilder setLoopInfinite() {
+        this.iterator = new InfiniteIterator(this.frames);
+        return this;
+    }
+
+    /**
+     * Returns the animation iterator.
+     *
+     * @return The animation iterator to provide to the animation service.
+     */
+    public AnimationIterator build() {
+        if (this.iterator == null) {
+            throw new IllegalStateException("No iterator preference was set.");
+        }
+
+        return this.iterator;
     }
 }

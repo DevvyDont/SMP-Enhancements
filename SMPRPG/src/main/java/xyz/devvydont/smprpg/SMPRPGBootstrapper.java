@@ -8,10 +8,12 @@ import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.commands.CommandBase;
 import xyz.devvydont.smprpg.commands.economy.*;
+import xyz.devvydont.smprpg.commands.enchantments.CommandEnchantments;
 import xyz.devvydont.smprpg.commands.entity.CommandSummon;
 import xyz.devvydont.smprpg.commands.inventory.CommandPeek;
 import xyz.devvydont.smprpg.commands.items.CommandGiveItem;
 import xyz.devvydont.smprpg.commands.items.CommandSearchItem;
+import xyz.devvydont.smprpg.commands.items.CommandTrashItems;
 import xyz.devvydont.smprpg.commands.player.CommandReforge;
 import xyz.devvydont.smprpg.commands.player.CommandSkill;
 import xyz.devvydont.smprpg.commands.player.CommandStatistics;
@@ -35,7 +37,9 @@ public class SMPRPGBootstrapper implements PluginBootstrap {
                 new CommandSummon("summon"),
                 new CommandReforge("reforge"),
                 new CommandWhatAmIHolding("whatamiholding"),
-                new CommandPeek("peek")
+                new CommandPeek("peek"),
+                new CommandTrashItems("trash"),
+                new CommandEnchantments("enchantments")
         };
 
         LifecycleEventManager<BootstrapContext> manager = context.getLifecycleManager();

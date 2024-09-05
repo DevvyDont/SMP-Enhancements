@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.commands.CommandBase;
-import xyz.devvydont.smprpg.gui.InterfaceReforge;
+import xyz.devvydont.smprpg.gui.items.MenuReforge;
 import xyz.devvydont.smprpg.reforge.ReforgeBase;
 import xyz.devvydont.smprpg.reforge.ReforgeType;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
@@ -51,7 +51,7 @@ public class CommandReforge extends CommandBase {
             return;
         }
 
-        new InterfaceReforge(SMPRPG.getInstance(), player).open();
+        new MenuReforge(player).openMenu();
     }
 
     @Override

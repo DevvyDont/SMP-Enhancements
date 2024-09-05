@@ -1,9 +1,8 @@
-package xyz.devvydont.smprpg.gui;
+package xyz.devvydont.smprpg.gui.player;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
@@ -11,6 +10,7 @@ import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
@@ -18,7 +18,9 @@ import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.base.LeveledEntity;
 import xyz.devvydont.smprpg.entity.player.LeveledPlayer;
+import xyz.devvydont.smprpg.gui.base.MenuBase;
 import xyz.devvydont.smprpg.listeners.EntityDamageCalculatorService;
+import xyz.devvydont.smprpg.services.EntityService;
 import xyz.devvydont.smprpg.skills.SkillInstance;
 import xyz.devvydont.smprpg.util.attributes.AttributeUtil;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
@@ -29,42 +31,81 @@ import xyz.devvydont.smprpg.util.formatting.Symbols;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InterfaceStats extends PrivateInterface {
+public class InterfaceStats extends MenuBase {
+    private static final int SLOT_HELMET = 14;
+    private static final int SLOT_CHESTPLATE = 23;
+    private static final int SLOT_LEGGINGS = 32;
+    private static final int SLOT_BOOTS = 41;
+    private static final int SLOT_MAIN_HAND = 24;
+    private static final int SLOT_OFF_HAND = 22;
+    private static final int SLOT_STATS = 20;
+    private static final int SLOT_INVENTORY = 11;
+    private static final int SLOT_MISC_INFO = 29;
 
-    public static final int HELMET_SLOT = 14;
-    public static final int CHESTPLATE_SLOT = 23;
-    public static final int LEGGINGS_SLOT = 32;
-    public static final int BOOTS_SLOT = 41;
+    private final LivingEntity targetEntity;
+    private final EntityService entityService;
 
-    public static final int MAIN_HAND_SLOT = 24;
-    public static final int OFF_HAND_SLOT = 22;
-
-    public static final int STATS_SLOT = 20;
-    public static final int INVENTORY_SLOT = 11;
-    public static final int MISC_INFO = 29;
-
-    private final LivingEntity viewing;
-
-    public InterfaceStats(SMPRPG plugin, Player owner, LivingEntity viewing) {
-        super(plugin, owner);
-        this.viewing = viewing;
+    public InterfaceStats(SMPRPG plugin, Player owner, LivingEntity targetPlayer) {
+        super(owner, 6);
+        this.targetEntity = targetPlayer;
+        this.entityService = plugin.getEntityService();
     }
 
-    public LivingEntity getViewing() {
-        return viewing;
-    }
+    @Override
+    protected void handleInventoryOpened(InventoryOpenEvent event) {
+        // Prepare the inventory
+        var title = String.format("Statistics Viewer (%s)", targetEntity.getName());
+        event.titleOverride(ComponentUtils.create(title, NamedTextColor.BLACK));
 
-    public boolean isPlayer() {
-        return viewing instanceof Player;
-    }
+        // Render the UI
+        this.clear();
+        this.setBorderFull();
 
-    public Player getPlayer() {
-        return (Player) viewing;
-    }
+        // Work through each slot and render based on index.
+        for (var slot = 0; slot < this.getInventorySize(); slot++) {
+            // Ignore the slot if there's nothing to render there.
+            if (!this.shouldBePopulated(slot)) {
+                continue;
+            }
 
-    public ItemStack getHead() {
-        ItemStack item;
+            // Render equipment if it's present.
+            var display = this.getEquipment(slot);
+            if (display != null && !display.getType().equals(Material.AIR)) {
+                this.setSlot(slot, display);
+                continue;
+            }
+
+            var emptyItem = createNamedItem(Material.CLAY_BALL, this.getMissingComponent(slot));
+            this.setSlot(slot, emptyItem);
+        }
+
         if (isPlayer()) {
+            this.setButton(SLOT_INVENTORY, this.getInventory(), (e) -> {
+                this.playSound(Sound.BLOCK_CHEST_OPEN);
+                new MenuInventoryPeek(this.player, this.getPlayer(), this).openMenu();
+            });
+        }
+
+        this.setSlot(SLOT_STATS - 1, getHelp());
+    }
+
+    @Override
+    protected void handleInventoryClicked(InventoryClickEvent event) {
+        event.setCancelled(true);
+        this.playInvalidAnimation();
+    }
+
+    private boolean isPlayer() {
+        return this.targetEntity instanceof Player;
+    }
+
+    private Player getPlayer() {
+        return (Player) this.targetEntity;
+    }
+
+    private ItemStack getHead() {
+        ItemStack item;
+        if (this.isPlayer()) {
             item = new ItemStack(Material.PLAYER_HEAD);
             SkullMeta meta = (SkullMeta) item.getItemMeta();
             meta.setPlayerProfile(getPlayer().getPlayerProfile());
@@ -72,17 +113,15 @@ public class InterfaceStats extends PrivateInterface {
         } else {
             item = new ItemStack(Material.SKELETON_SKULL);
         }
-
         return item;
     }
 
     public ItemStack getStats() {
-
-        ItemStack skull = getHead();
+        ItemStack skull = this.getHead();
         ItemMeta meta = skull.getItemMeta();
-        LeveledEntity entity = plugin.getEntityService().getEntityInstance(viewing);
+        LeveledEntity entity = this.entityService.getEntityInstance(this.targetEntity);
 
-        meta.displayName(viewing.name().color(NamedTextColor.AQUA).append(ComponentUtils.create("'s stats")).decoration(TextDecoration.ITALIC, false));
+        meta.displayName(this.targetEntity.name().color(NamedTextColor.AQUA).append(ComponentUtils.create("'s stats")).decoration(TextDecoration.ITALIC, false));
         List<Component> lore = new ArrayList<>();
         lore.add(ComponentUtils.EMPTY);
 
@@ -90,19 +129,19 @@ public class InterfaceStats extends PrivateInterface {
         lore.add(ComponentUtils.create("Power Rating: ", NamedTextColor.GOLD).append(ComponentUtils.create(Symbols.POWER + entity.getLevel(), NamedTextColor.YELLOW)));
         lore.add(ComponentUtils.EMPTY);
 
-        double hp = viewing.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
+        double hp = this.targetEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
         int def = entity.getDefense();
         double ehp = EntityDamageCalculatorService.calculateEffectiveHealth(hp, def);
 
         for (AttributeWrapper attributeWrapper : AttributeWrapper.values()) {
 
             // We can skip attributes we don't have
-            AttributeInstance attribute = viewing.getAttribute(attributeWrapper.getAttribute());
+            AttributeInstance attribute = this.targetEntity.getAttribute(attributeWrapper.getAttribute());
             if (attribute == null)
                 continue;
 
             NamedTextColor numberColor = NamedTextColor.DARK_GRAY;
-            double attributeValue = AttributeUtil.getAttributeValue(attributeWrapper.getAttribute(), viewing);
+            double attributeValue = AttributeUtil.getAttributeValue(attributeWrapper.getAttribute(), this.targetEntity);
             double baseAttributeValue = attribute.getBaseValue();
             if (attributeValue > baseAttributeValue)
                 numberColor = NamedTextColor.GREEN;
@@ -136,7 +175,7 @@ public class InterfaceStats extends PrivateInterface {
         return skull;
     }
 
-    public ItemStack getHelp() {
+    private ItemStack getHelp() {
         ItemStack paper = new ItemStack(Material.PAPER);
         ItemMeta meta = paper.getItemMeta();
 
@@ -162,7 +201,6 @@ public class InterfaceStats extends PrivateInterface {
     }
 
     private List<Component> getSkillDisplay(LeveledPlayer player) {
-
         List<Component> display = new ArrayList<>();
         display.add(ComponentUtils.EMPTY);
         for (SkillInstance skill : player.getSkills())
@@ -181,16 +219,16 @@ public class InterfaceStats extends PrivateInterface {
         return display;
     }
 
-    public ItemStack getSkills() {
+    private ItemStack getSkills() {
         ItemStack paper = new ItemStack(Material.IRON_PICKAXE);
         ItemMeta meta = paper.getItemMeta();
 
-        meta.displayName(viewing.name().color(NamedTextColor.AQUA).append(ComponentUtils.create("'s Skills")).decoration(TextDecoration.ITALIC, false));
+        meta.displayName(this.targetEntity.name().color(NamedTextColor.AQUA).append(ComponentUtils.create("'s Skills")).decoration(TextDecoration.ITALIC, false));
         List<Component> lore = new ArrayList<>();
         lore.add(ComponentUtils.EMPTY);
 
-        if (getViewing() instanceof Player player)
-            lore.addAll(getSkillDisplay(plugin.getEntityService().getPlayerInstance(player)));
+        if (this.isPlayer())
+            lore.addAll(getSkillDisplay(this.entityService.getPlayerInstance(this.getPlayer())));
         else
             lore.add(ComponentUtils.create("Only players have skills!", NamedTextColor.RED));
         meta.lore(ComponentUtils.cleanItalics(lore));
@@ -198,11 +236,11 @@ public class InterfaceStats extends PrivateInterface {
         return paper;
     }
 
-    public ItemStack getInventory() {
+    private ItemStack getInventory() {
         ItemStack chest = new ItemStack(Material.CHEST);
         ItemMeta meta = chest.getItemMeta();
 
-        meta.displayName(viewing.name().color(NamedTextColor.AQUA).append(ComponentUtils.create("'s Full Inventory", NamedTextColor.GOLD)).decoration(TextDecoration.ITALIC, false));
+        meta.displayName(this.targetEntity.name().color(NamedTextColor.AQUA).append(ComponentUtils.create("'s Full Inventory", NamedTextColor.GOLD)).decoration(TextDecoration.ITALIC, false));
         List<Component> lore = List.of(
                 ComponentUtils.EMPTY,
                 ComponentUtils.create("Click to view their entire inventory and Ender Chest!")
@@ -212,84 +250,40 @@ public class InterfaceStats extends PrivateInterface {
         return chest;
     }
 
-
     @Nullable
-    public ItemStack getEquipment(int slot) {
-
-        if (viewing.getEquipment() == null)
+    private ItemStack getEquipment(int slot) {
+        if (this.targetEntity.getEquipment() == null)
             return null;
 
         return switch (slot) {
-            case HELMET_SLOT -> viewing.getEquipment().getHelmet();
-            case CHESTPLATE_SLOT -> viewing.getEquipment().getChestplate();
-            case LEGGINGS_SLOT -> viewing.getEquipment().getLeggings();
-            case BOOTS_SLOT -> viewing.getEquipment().getBoots();
-            case MAIN_HAND_SLOT -> viewing.getEquipment().getItemInMainHand();
-            case OFF_HAND_SLOT -> viewing.getEquipment().getItemInOffHand();
-            case STATS_SLOT -> getStats();
-            case INVENTORY_SLOT -> getInventory();
-            case MISC_INFO -> getSkills();
+            case SLOT_HELMET -> this.targetEntity.getEquipment().getHelmet();
+            case SLOT_CHESTPLATE -> this.targetEntity.getEquipment().getChestplate();
+            case SLOT_LEGGINGS -> this.targetEntity.getEquipment().getLeggings();
+            case SLOT_BOOTS -> this.targetEntity.getEquipment().getBoots();
+            case SLOT_MAIN_HAND -> this.targetEntity.getEquipment().getItemInMainHand();
+            case SLOT_OFF_HAND -> this.targetEntity.getEquipment().getItemInOffHand();
+            case SLOT_STATS -> this.getStats();
+            case SLOT_MISC_INFO -> this.getSkills();
             default -> null;
         };
     }
 
-    public Component getMissingComponent(int slot) {
-        Component name = viewing.name();
+    private Component getMissingComponent(int slot) {
+        Component name = this.targetEntity.name();
         return switch (slot) {
-            case HELMET_SLOT -> name.append(ComponentUtils.create(" is not wearing a helmet", NamedTextColor.RED));
-            case CHESTPLATE_SLOT -> name.append(ComponentUtils.create(" is not wearing a chestplate", NamedTextColor.RED));
-            case LEGGINGS_SLOT -> name.append(ComponentUtils.create(" is not wearing leggings", NamedTextColor.RED));
-            case BOOTS_SLOT -> name.append(ComponentUtils.create(" is not wearing boots", NamedTextColor.RED));
-            case MAIN_HAND_SLOT -> name.append(ComponentUtils.create(" is not holding anything", NamedTextColor.RED));
-            case OFF_HAND_SLOT -> name.append(ComponentUtils.create(" is not holding anything in their off hand", NamedTextColor.RED));
-            case INVENTORY_SLOT -> name.append(ComponentUtils.create(" does not have an inventory", NamedTextColor.RED));
-            case STATS_SLOT -> name.append(ComponentUtils.create(" does not have stats", NamedTextColor.RED));
-            case MISC_INFO -> name.append(ComponentUtils.create(" does not have information", NamedTextColor.RED));
+            case SLOT_HELMET -> name.append(ComponentUtils.create(" is not wearing a helmet", NamedTextColor.RED));
+            case SLOT_CHESTPLATE -> name.append(ComponentUtils.create(" is not wearing a chestplate", NamedTextColor.RED));
+            case SLOT_LEGGINGS -> name.append(ComponentUtils.create(" is not wearing leggings", NamedTextColor.RED));
+            case SLOT_BOOTS -> name.append(ComponentUtils.create(" is not wearing boots", NamedTextColor.RED));
+            case SLOT_MAIN_HAND -> name.append(ComponentUtils.create(" is not holding anything", NamedTextColor.RED));
+            case SLOT_OFF_HAND -> name.append(ComponentUtils.create(" is not holding anything in their off hand", NamedTextColor.RED));
+            case SLOT_STATS -> name.append(ComponentUtils.create(" does not have stats", NamedTextColor.RED));
+            case SLOT_MISC_INFO -> name.append(ComponentUtils.create(" does not have information", NamedTextColor.RED));
             default -> ComponentUtils.EMPTY;
         };
     }
 
-    public boolean shouldBePopulated(int slot) {
-        return !getMissingComponent(slot).equals(ComponentUtils.EMPTY);
-    }
-
-    @Override
-    public void initializeDefaultState() {
-        super.initializeDefaultState();
-
-        inventoryView.setTitle(String.format("%sStatistics Viewer %s(%s)", ChatColor.BLUE, ChatColor.AQUA, viewing.getName()));
-
-        fill(InterfaceUtil.getInterfaceBorder());
-
-        for (int slot = 0; slot < inventory.getSize(); slot++) {
-
-            if (!shouldBePopulated(slot))
-                continue;
-
-            ItemStack display = getEquipment(slot);
-            if (display != null && !display.getType().equals(Material.AIR)) {
-                inventory.setItem(slot, display);
-                continue;
-            }
-
-            ItemStack empty = InterfaceUtil.getNamedItem(Material.CLAY_BALL, getMissingComponent(slot));
-            inventory.setItem(slot, empty);
-        }
-
-        inventory.setItem(STATS_SLOT-1, getHelp());
-    }
-
-    @Override
-    public void handleInventoryClick(InventoryClickEvent event) {
-        super.handleInventoryClick(event);
-        event.setCancelled(true);
-
-        if (inventory.equals(event.getClickedInventory()) && event.getSlot() == INVENTORY_SLOT && viewing instanceof Player player) {
-            owner.playSound(owner.getLocation(), Sound.BLOCK_CHEST_OPEN, 1, 1);
-            owner.closeInventory();
-            var gui = new InterfaceInventoryPeek(plugin, owner);
-            gui.open();
-            gui.showPlayer(player);
-        }
+    private boolean shouldBePopulated(int slot) {
+        return !this.getMissingComponent(slot).equals(ComponentUtils.EMPTY);
     }
 }

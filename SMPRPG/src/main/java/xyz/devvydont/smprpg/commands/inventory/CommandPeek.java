@@ -6,38 +6,29 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.commands.CommandBase;
-import xyz.devvydont.smprpg.gui.InterfaceInventoryPeek;
+import xyz.devvydont.smprpg.commands.PlayerCommandBase;
+import xyz.devvydont.smprpg.gui.player.MenuInventoryPeek;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
-public class CommandPeek extends CommandBase {
-
+public class CommandPeek extends PlayerCommandBase {
     public CommandPeek(String name) {
         super(name);
     }
 
     @Override
-    public void execute(@NotNull CommandSourceStack commandSourceStack, @NotNull String[] args) {
-
-        Player player;
-        if (!(commandSourceStack.getSender() instanceof Player sender))
-            return;
-
+    protected void playerInvoked(@NotNull Player player, @NotNull CommandSourceStack ctx, @NotNull String @NotNull [] args) {
         if (args.length == 0) {
-            sender.sendMessage(ComponentUtils.error("Please specify a player you want to peek!"));
+            player.sendMessage(ComponentUtils.error("Please specify a player you want to peek!"));
             return;
         }
 
-        String name = args[0];
-        player = Bukkit.getPlayer(name);
-        if (player == null) {
-            sender.sendMessage(ComponentUtils.error("Could not find player with the name " + name + ". Please try again"));
+        var targetName = args[0];
+        var targetPlayer = Bukkit.getPlayer(targetName);
+        if (targetPlayer == null) {
+            player.sendMessage(ComponentUtils.error("Could not find player with the name " + targetName + ". Please try again"));
             return;
         }
 
-        sender.sendMessage(ComponentUtils.success("You are now peeking into " + player.getName() + "'s inventory!"));
-        var gui = new InterfaceInventoryPeek(SMPRPG.getInstance(), sender);
-        gui.open();
-        gui.showPlayer(player);
+        new MenuInventoryPeek(player, targetPlayer).openMenu();
     }
-
 }

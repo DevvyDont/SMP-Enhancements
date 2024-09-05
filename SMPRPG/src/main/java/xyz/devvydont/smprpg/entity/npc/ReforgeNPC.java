@@ -8,7 +8,7 @@ import org.bukkit.entity.Villager;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.CustomEntityType;
 import xyz.devvydont.smprpg.entity.base.NPCEntity;
-import xyz.devvydont.smprpg.gui.InterfaceReforge;
+import xyz.devvydont.smprpg.gui.items.MenuReforge;
 
 public class ReforgeNPC extends NPCEntity {
 
@@ -28,7 +28,7 @@ public class ReforgeNPC extends NPCEntity {
 
     @Override
     public void handleInteract(Player player) {
-        new InterfaceReforge(SMPRPG.getInstance(), player).open();
+        new MenuReforge(player).openMenu();
         entity.getWorld().playSound(entity.getLocation(), Sound.ENTITY_VILLAGER_YES, 0.5F, 0.75F);
     }
 
