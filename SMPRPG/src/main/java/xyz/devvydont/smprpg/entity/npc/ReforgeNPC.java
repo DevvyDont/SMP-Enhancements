@@ -8,7 +8,7 @@ import org.bukkit.entity.Villager;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.CustomEntityType;
 import xyz.devvydont.smprpg.entity.base.NPCEntity;
-import xyz.devvydont.smprpg.gui.MenuReforge;
+import xyz.devvydont.smprpg.gui.items.MenuReforge;
 
 public class ReforgeNPC extends NPCEntity {
 

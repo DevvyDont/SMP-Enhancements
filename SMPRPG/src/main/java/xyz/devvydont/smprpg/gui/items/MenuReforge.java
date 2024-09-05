@@ -1,4 +1,4 @@
-package xyz.devvydont.smprpg.gui;
+package xyz.devvydont.smprpg.gui.items;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -14,6 +14,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.player.LeveledPlayer;
+import xyz.devvydont.smprpg.gui.InterfaceUtil;
 import xyz.devvydont.smprpg.gui.base.MenuBase;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.ItemRarity;
