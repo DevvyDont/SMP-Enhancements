@@ -497,6 +497,23 @@ public abstract class MenuBase implements Listener {
 
 
     // -----------
+    //   Presets
+    // -----------
+
+    /**
+     * Creates a context aware back/close button.
+     *
+     * @param slotIndex The slot to place the button in.
+     */
+    protected final void setBackButton(int slotIndex) {
+        if (this.parentMenu == null) {
+            this.setButton(slotIndex, BUTTON_EXIT, (e) -> this.closeMenu());
+        } else {
+            this.setButton(slotIndex, BUTTON_BACK, (e) -> this.openParentMenu());
+        }
+    }
+
+    // -----------
     //   Helpers
     // -----------
 

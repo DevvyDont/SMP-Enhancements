@@ -121,10 +121,6 @@ public class MenuInventoryPeek extends MenuBase {
         });
 
         // Render the back/close button
-        if (this.parentMenu == null) {
-            this.setButton(CLOSE_BUTTON, BUTTON_EXIT, (e) -> this.closeMenu());
-        } else {
-            this.setButton(CLOSE_BUTTON, BUTTON_BACK, (e) -> this.openParentMenu());
-        }
+        this.setBackButton(CLOSE_BUTTON);
     }
 }
