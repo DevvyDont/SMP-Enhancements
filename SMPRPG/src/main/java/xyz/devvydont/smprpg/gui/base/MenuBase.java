@@ -431,11 +431,21 @@ public abstract class MenuBase implements Listener {
      * Plays an animation which signifies the user performed a valid operation.
      */
     protected final void playSuccessAnimation() {
+        this.playSuccessAnimation(true);
+    }
+
+    /**
+     * Plays an animation which signifies the user performed a valid operation.
+     *
+     * @param playSound True if the success sound should be played, otherwise false.
+     */
+    protected final void playSuccessAnimation(boolean playSound) {
         stopAnimation();
         var successBorder = createNamedItem(Material.LIME_STAINED_GLASS_PANE, Component.text(""));
         this.activeAnimation = SMPRPG.getInstance().getAnimationService().playOnce(
             () -> {
-                this.sounds.playActionConfirm();
+                if (playSound)
+                    this.sounds.playActionConfirm();
                 this.replaceSlots(BORDER_NORMAL, successBorder);
                 return WaitFor.milliseconds(200);
             },
@@ -450,11 +460,21 @@ public abstract class MenuBase implements Listener {
      * Plays an animation which signifies the user performed an invalid operation.
      */
     protected final void playInvalidAnimation() {
+        this.playInvalidAnimation(true);
+    }
+
+    /**
+     * Plays an animation which signifies the user performed an invalid operation.
+     *
+     * @param playSound True if the error sound should be played, otherwise false.
+     */
+    protected final void playInvalidAnimation(boolean playSound) {
         stopAnimation();
         var errorBorder = createNamedItem(Material.RED_STAINED_GLASS_PANE, Component.text(""));
         this.activeAnimation = SMPRPG.getInstance().getAnimationService().playOnce(
             () -> {
-                this.sounds.playActionError();
+                if (playSound)
+                    this.sounds.playActionError();
                 this.replaceSlots(BORDER_NORMAL, errorBorder);
                 return WaitFor.milliseconds(200);
             },
