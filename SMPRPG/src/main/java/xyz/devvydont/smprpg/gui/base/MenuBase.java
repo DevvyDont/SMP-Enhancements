@@ -158,13 +158,9 @@ public abstract class MenuBase implements Listener {
             return;
         }
 
-        // Cancel the event by default.
-        // In menu scenarios, 9/10 times you're dealing with buttons.
-        // So lets stay safe, behaviour should be explicitly allowed.
-        event.setCancelled(true);
-
         // Explicitly disable number key modifications.
         if (event.getClick().equals(ClickType.NUMBER_KEY)) {
+            event.setCancelled(true);
             this.playInvalidAnimation();
             return;
         }
@@ -175,6 +171,7 @@ public abstract class MenuBase implements Listener {
         // As the menu is slot index 0 to something, we can use the raw index and skip inventory checks.
         var clickHandler = this.buttonSlots.getOrDefault(event.getRawSlot(), null);
         if (clickHandler != null) {
+            event.setCancelled(true);
             clickHandler.handleClick(event);
             return;
         }
@@ -435,7 +432,7 @@ public abstract class MenuBase implements Listener {
      */
     protected final void playSuccessAnimation() {
         stopAnimation();
-        var successBorder = createNamedItem(Material.GREEN_STAINED_GLASS_PANE, Component.text(""));
+        var successBorder = createNamedItem(Material.LIME_STAINED_GLASS_PANE, Component.text(""));
         this.activeAnimation = SMPRPG.getInstance().getAnimationService().playOnce(
             () -> {
                 this.sounds.playActionConfirm();

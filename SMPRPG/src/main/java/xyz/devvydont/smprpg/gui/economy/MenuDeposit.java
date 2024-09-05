@@ -2,7 +2,6 @@ package xyz.devvydont.smprpg.gui.economy;
 
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
@@ -13,11 +12,11 @@ import xyz.devvydont.smprpg.services.EconomyService;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
-public final class DepositMenu extends MenuBase {
+public final class MenuDeposit extends MenuBase {
     private final ItemService itemService;
     private final EconomyService economyService;
 
-    public DepositMenu(SMPRPG plugin, Player owner) {
+    public MenuDeposit(SMPRPG plugin, Player owner) {
         super(owner, 5);
         this.itemService = plugin.getItemService();
         this.economyService = plugin.getEconomyService();
@@ -31,43 +30,32 @@ public final class DepositMenu extends MenuBase {
 
         // Render the UI
         this.clear();
-        this.setBorderEdge();
     }
 
     @Override
     protected void handleInventoryClicked(InventoryClickEvent event) {
-        // The player should be very limited here, to prevent exploits.
-        // They should only be able to interact with sellable items and empty slots.
-
-        // Allow the player to click an empty inventory slot.
-        // This is so they can place a sellable item into the menu.
+        // If an inventory was clicked and the slot clicked was empty, allow it
         if (event.getClickedInventory() != null && event.getClickedInventory().getItem(event.getSlot()) == null) {
             event.setCancelled(false);
             return;
         }
 
-        // Ignore any case which doesn't involve an item.
+        // No item involved, don't allow it
         if (event.getCurrentItem() == null) {
-            this.playInvalidAnimation();
+            event.setCancelled(true);
             return;
         }
 
-        // Ignore any case where an item clicked is not sellable.
+        // If the item clicked is not sellable, we can't do anything with it.
         var itemBlueprint = this.itemService.getBlueprint(event.getCurrentItem());
-        var itemIsSellable = itemBlueprint instanceof Sellable;
-        if (!itemIsSellable) {
-            this.playInvalidAnimation();
-            return;
-        }
-
-        // Allow the operation to take place.
-        event.setCancelled(false);
+        event.setCancelled(!(itemBlueprint instanceof Sellable));
     }
 
     @Override
     protected void handleInventoryClosed(InventoryCloseEvent event) {
         // Work out how much was deposited.
-        var totalDeposited = 0;
+        var quantitySold = 0;
+        var amountToCredit = 0;
         for (var depositedItem : this.getItems()) {
             if (depositedItem == null) {
                 continue;
@@ -75,22 +63,24 @@ public final class DepositMenu extends MenuBase {
 
             var itemBlueprint = this.itemService.getBlueprint(depositedItem);
             if (itemBlueprint instanceof Sellable sellable) {
-                totalDeposited += sellable.getWorth() * depositedItem.getAmount();
+                quantitySold += depositedItem.getAmount();
+                amountToCredit += sellable.getWorth() * depositedItem.getAmount();
                 depositedItem.setAmount(0);
             }
         }
 
         // Ignore if nothing was deposited.
-        if (totalDeposited <= 0) {
+        if (amountToCredit <= 0) {
             return;
         }
 
-        this.economyService.addMoney(this.player, totalDeposited);
+        this.economyService.addMoney(this.player, amountToCredit);
         this.player.sendMessage(ComponentUtils.success(ComponentUtils.merge(
             ComponentUtils.create("You sold ", NamedTextColor.GREEN),
-            ComponentUtils.create(EconomyService.formatMoney(totalDeposited), NamedTextColor.GOLD),
-            ComponentUtils.create(" worth of items! ", NamedTextColor.GREEN),
-            ComponentUtils.create("Your balance is now ", NamedTextColor.GREEN),
+            ComponentUtils.create(String.valueOf(quantitySold), NamedTextColor.AQUA),
+            ComponentUtils.create(" items totaling ", NamedTextColor.GREEN),
+            ComponentUtils.create(EconomyService.formatMoney(amountToCredit), NamedTextColor.GOLD),
+            ComponentUtils.create("! Your balance is now ", NamedTextColor.GREEN),
             ComponentUtils.create(this.economyService.formatMoney(this.player), NamedTextColor.GOLD)
         )));
         this.sounds.playActionConfirm();

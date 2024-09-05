@@ -2,7 +2,6 @@ package xyz.devvydont.smprpg.gui.economy;
 
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
@@ -16,26 +15,22 @@ import xyz.devvydont.smprpg.services.EconomyService;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
-import java.util.Map;
-
-public final class WithdrawMenu extends MenuBase {
+public final class MenuWithdraw extends MenuBase {
     private int totalWithdrawn;
     private final CustomItemCoin[] coins;
-    private final ItemService itemService;
     private final EconomyService economyService;
 
-    public WithdrawMenu(SMPRPG plugin, Player owner) {
+    public MenuWithdraw(SMPRPG plugin, Player owner) {
         super(owner, 3);
-        this.itemService = plugin.getItemService();
         this.economyService = plugin.getEconomyService();
         this.coins = new CustomItemCoin[] {
-            (CustomItemCoin) this.itemService.getBlueprint(CustomItemType.COPPER_COIN),
-            (CustomItemCoin) this.itemService.getBlueprint(CustomItemType.SILVER_COIN),
-            (CustomItemCoin) this.itemService.getBlueprint(CustomItemType.GOLD_COIN),
-            (CustomItemCoin) this.itemService.getBlueprint(CustomItemType.PLATINUM_COIN),
-            (CustomItemCoin) this.itemService.getBlueprint(CustomItemType.EMERALD_COIN),
-            (CustomItemCoin) this.itemService.getBlueprint(CustomItemType.AMETHYST_COIN),
-            (CustomItemCoin) this.itemService.getBlueprint(CustomItemType.ENCHANTED_COIN),
+            (CustomItemCoin) plugin.getItemService().getBlueprint(CustomItemType.COPPER_COIN),
+            (CustomItemCoin) plugin.getItemService().getBlueprint(CustomItemType.SILVER_COIN),
+            (CustomItemCoin) plugin.getItemService().getBlueprint(CustomItemType.GOLD_COIN),
+            (CustomItemCoin) plugin.getItemService().getBlueprint(CustomItemType.PLATINUM_COIN),
+            (CustomItemCoin) plugin.getItemService().getBlueprint(CustomItemType.EMERALD_COIN),
+            (CustomItemCoin) plugin.getItemService().getBlueprint(CustomItemType.AMETHYST_COIN),
+            (CustomItemCoin) plugin.getItemService().getBlueprint(CustomItemType.ENCHANTED_COIN),
         };
     }
 
@@ -46,6 +41,14 @@ public final class WithdrawMenu extends MenuBase {
 
         // Render the UI
         this.renderMenu();
+    }
+
+    @Override
+    protected void handleInventoryClicked(InventoryClickEvent event) {
+        // This UI uses buttons, so there's no code here.
+        // But we still need to cancel the event to prevent stealing the borders.
+        event.setCancelled(true);
+        this.playInvalidAnimation();
     }
 
     @Override
@@ -69,6 +72,12 @@ public final class WithdrawMenu extends MenuBase {
         this.clear();
         this.setBorderEdge();
 
+        // Create the balance item
+        this.setSlot(4, createNamedItem(Material.PAPER, ComponentUtils.merge(
+            ComponentUtils.create("Your current balance is ", NamedTextColor.GREEN),
+            ComponentUtils.create(this.economyService.formatMoney(this.player), NamedTextColor.GOLD)
+        )));
+
         // Starts at row 2 column 2 (slot 10)
         var currentSlot = 9;
         var playerBalance = this.economyService.getMoney(this.player);
@@ -79,8 +88,10 @@ public final class WithdrawMenu extends MenuBase {
             if (playerBalance < coin.getWorth()) {
                 var clayText = String.format("You are %s short!", EconomyService.formatMoney(playerBalance - coin.getWorth()));
                 var clayName = ComponentUtils.create(clayText, NamedTextColor.RED);
-                this.setSlot(currentSlot, createNamedItem(Material.CLAY_BALL, clayName));
-                return;
+                this.setButton(currentSlot, createNamedItem(Material.CLAY_BALL, clayName), (e) -> {
+                    this.playInvalidAnimation();
+                });
+                continue;
             }
 
             // They can afford the coin, create a button.
@@ -136,10 +147,10 @@ public final class WithdrawMenu extends MenuBase {
             ComponentUtils.create("Your balance is now ", NamedTextColor.GREEN),
             ComponentUtils.create(this.economyService.formatMoney(this.player), NamedTextColor.GOLD)
         )));
-        this.sounds.playActionConfirm();
 
         // Add to the running total
         this.totalWithdrawn += totalCost;
         this.renderMenu();
+        this.playSuccessAnimation();
     }
 }
