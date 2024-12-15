@@ -1,0 +1,5 @@
+name: TreasureItems
+version: '1.0-SNAPSHOT'
+main: xyz.devvydont.treasureitems.TreasureItems
+api-version: '1.21'
+bootstrapper: xyz.devvydont.treasureitems.TreasureItemsBootstrapper
