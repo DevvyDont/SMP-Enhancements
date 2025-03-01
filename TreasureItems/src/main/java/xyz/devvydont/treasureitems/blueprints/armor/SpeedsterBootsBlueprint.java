@@ -1,6 +1,11 @@
 package xyz.devvydont.treasureitems.blueprints.armor;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
+import org.bukkit.inventory.EquipmentSlotGroup;
 import xyz.devvydont.treasureitems.blueprints.CustomItemBlueprint;
+import xyz.devvydont.treasureitems.util.ComponentUtils;
 import xyz.devvydont.treasureitems.util.PotentialEnchantmentWrapper;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -21,9 +26,9 @@ public class SpeedsterBootsBlueprint extends CustomItemBlueprint {
         ItemStack item = new ItemStack(Material.LEATHER_BOOTS);
         Repairable itemMeta = (Repairable) item.getItemMeta();
 
-        itemMeta.setDisplayName(ChatColor.LIGHT_PURPLE.toString() + ChatColor.BOLD + "Speedster Boots");
+        itemMeta.displayName(Component.text("Speedster Boots", NamedTextColor.LIGHT_PURPLE, TextDecoration.BOLD).decoration(TextDecoration.ITALIC, false));
 
-        itemMeta.addAttributeModifier(Attribute.MOVEMENT_SPEED, new AttributeModifier(UUID.randomUUID(), "speed", .3, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.FEET));
+        itemMeta.addAttributeModifier(Attribute.MOVEMENT_SPEED, generateAttributeModifier(Attribute.MOVEMENT_SPEED, EquipmentSlotGroup.FEET, AttributeModifier.Operation.MULTIPLY_SCALAR_1, .3));
 
         itemMeta.setRepairCost(1000);
         LeatherArmorMeta leatherArmorMeta = (LeatherArmorMeta) itemMeta;
@@ -49,9 +54,9 @@ public class SpeedsterBootsBlueprint extends CustomItemBlueprint {
     }
 
     @Override
-    protected List<String> getExtraLore() {
-        return Arrays.asList(
-                ChatColor.GRAY + "Cannot be " + ChatColor.RED + "repaired/enchanted" + ChatColor.GRAY + "!"
+    protected List<Component> getExtraLore() {
+        return List.of(
+                ComponentUtils.UNREPAIRABLE_ENCHANTABLE
         );
     }
 

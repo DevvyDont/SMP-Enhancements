@@ -1,6 +1,11 @@
 package xyz.devvydont.treasureitems.blueprints.armor;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
+import org.bukkit.inventory.EquipmentSlotGroup;
 import xyz.devvydont.treasureitems.blueprints.CustomItemBlueprint;
+import xyz.devvydont.treasureitems.util.ComponentUtils;
 import xyz.devvydont.treasureitems.util.PotentialEnchantmentWrapper;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -20,11 +25,11 @@ public class HeartyBootsBlueprint extends CustomItemBlueprint {
         ItemStack item = new ItemStack(Material.DIAMOND_BOOTS);
         Repairable itemMeta = (Repairable) item.getItemMeta();
 
-        itemMeta.setDisplayName(ChatColor.LIGHT_PURPLE.toString() + ChatColor.BOLD + "Hearty Boots");
+        itemMeta.displayName(Component.text("Hearty Boots", NamedTextColor.LIGHT_PURPLE, TextDecoration.BOLD).decoration(TextDecoration.ITALIC, false));
 
-        itemMeta.addAttributeModifier(Attribute.MAX_HEALTH, new AttributeModifier(UUID.randomUUID(), "max_hp", 2, org.bukkit.attribute.AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.FEET));
-        itemMeta.addAttributeModifier(Attribute.ARMOR, new AttributeModifier(UUID.randomUUID(), "armor", 3, org.bukkit.attribute.AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.FEET));
-        itemMeta.addAttributeModifier(Attribute.ARMOR_TOUGHNESS, new AttributeModifier(UUID.randomUUID(), "toughness", 2, org.bukkit.attribute.AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.FEET));
+        itemMeta.addAttributeModifier(Attribute.MAX_HEALTH, generateAttributeModifier(Attribute.MAX_HEALTH, EquipmentSlotGroup.FEET, AttributeModifier.Operation.ADD_NUMBER, 2));
+        itemMeta.addAttributeModifier(Attribute.ARMOR, generateAttributeModifier(Attribute.ARMOR, EquipmentSlotGroup.FEET, AttributeModifier.Operation.ADD_NUMBER, 3));
+        itemMeta.addAttributeModifier(Attribute.ARMOR_TOUGHNESS, generateAttributeModifier(Attribute.ARMOR_TOUGHNESS, EquipmentSlotGroup.FEET, AttributeModifier.Operation.ADD_NUMBER, 2));
 
         itemMeta.setRepairCost(1000);
         item.setItemMeta(itemMeta);
@@ -49,9 +54,9 @@ public class HeartyBootsBlueprint extends CustomItemBlueprint {
     }
 
     @Override
-    protected List<String> getExtraLore() {
-        return Arrays.asList(
-                ChatColor.GRAY + "Cannot be " + ChatColor.RED + "repaired/enchanted" + ChatColor.GRAY + "!"
+    protected List<Component> getExtraLore() {
+        return List.of(
+                ComponentUtils.UNREPAIRABLE_ENCHANTABLE
         );
     }
 

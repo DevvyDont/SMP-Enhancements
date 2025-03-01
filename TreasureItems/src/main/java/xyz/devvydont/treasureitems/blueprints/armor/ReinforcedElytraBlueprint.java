@@ -1,6 +1,12 @@
 package xyz.devvydont.treasureitems.blueprints.armor;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
+import org.bukkit.inventory.EquipmentSlotGroup;
+import org.w3c.dom.Attr;
 import xyz.devvydont.treasureitems.blueprints.CustomItemBlueprint;
+import xyz.devvydont.treasureitems.util.ComponentUtils;
 import xyz.devvydont.treasureitems.util.PotentialEnchantmentWrapper;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -20,10 +26,10 @@ public class ReinforcedElytraBlueprint extends CustomItemBlueprint {
         ItemStack item = new ItemStack(Material.ELYTRA);
         Repairable itemMeta = (Repairable) item.getItemMeta();
 
-        itemMeta.setDisplayName(ChatColor.LIGHT_PURPLE.toString() + ChatColor.BOLD + "Reinforced Elytra");
+        itemMeta.displayName(Component.text("Reinforced Elytra", NamedTextColor.LIGHT_PURPLE, TextDecoration.BOLD).decoration(TextDecoration.ITALIC, false));
 
-        itemMeta.addAttributeModifier(Attribute.ARMOR, new AttributeModifier(UUID.randomUUID(), "armor", 8, org.bukkit.attribute.AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.CHEST));
-        itemMeta.addAttributeModifier(Attribute.ARMOR_TOUGHNESS, new AttributeModifier(UUID.randomUUID(), "toughness", 2, org.bukkit.attribute.AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.CHEST));
+        itemMeta.addAttributeModifier(Attribute.ARMOR, generateAttributeModifier(Attribute.ARMOR, EquipmentSlotGroup.CHEST, AttributeModifier.Operation.ADD_NUMBER, 8));
+        itemMeta.addAttributeModifier(Attribute.ARMOR_TOUGHNESS, generateAttributeModifier(Attribute.ARMOR_TOUGHNESS, EquipmentSlotGroup.CHEST, AttributeModifier.Operation.ADD_NUMBER, 2));
 
         itemMeta.setRepairCost(1000);
         item.setItemMeta(itemMeta);
@@ -46,11 +52,9 @@ public class ReinforcedElytraBlueprint extends CustomItemBlueprint {
     }
 
     @Override
-    protected List<String> getExtraLore() {
-        return Arrays.asList(
-                ChatColor.GRAY + "Provides protection similarly to a" + ChatColor.AQUA + " Diamond Chestplate" + ChatColor.GRAY + "!",
-                "",
-                ChatColor.GRAY + "Cannot be " + ChatColor.RED + "repaired/enchanted" + ChatColor.GRAY + "!"
+    protected List<Component> getExtraLore() {
+        return List.of(
+                ComponentUtils.UNREPAIRABLE_ENCHANTABLE
         );
     }
 

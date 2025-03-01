@@ -1,7 +1,10 @@
 package xyz.devvydont.treasureitems.gui;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.attribute.Attribute;
 import xyz.devvydont.treasureitems.listeners.FishingItems;
+import xyz.devvydont.treasureitems.util.ComponentUtils;
 import xyz.devvydont.treasureitems.util.RNGRoller;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -21,18 +24,17 @@ public class FishingRatesGUI extends RatesViewerGUI {
 
         inventory.setItem(2*9+4, createButton(ChatColor.GOLD + "Fishing",
                 Material.FISHING_ROD,
-                "",
-                ChatColor.GRAY + "Every time you " + ChatColor.AQUA + "catch a fish " + ChatColor.GRAY + "there is",
-                ChatColor.GRAY + "a chance it will be a " + ChatColor.LIGHT_PURPLE + "treasure item!",
-                "",
-                ChatColor.DARK_GRAY + "Player Luck Stat: " + ChatColor.DARK_PURPLE + player.getAttribute(Attribute.LUCK).getValue(),
-                ChatColor.DARK_GRAY + "Luck of the Sea:  " + ChatColor.DARK_PURPLE + rng.getEnchantLevels(),
-                ChatColor.GRAY + "Current fishing luck boost: " + ChatColor.GREEN + rng.getLuckMultiplierString(),
-                "",
-
-                ChatColor.GRAY + "Treasure item rates from fishing:",
-                ChatColor.GRAY + "- Base chance: " + ChatColor.YELLOW + rng.getRatioOdds(false) + ChatColor.DARK_GRAY + " (" + rng.getPercentOdds(false) + ")",
-                ChatColor.GRAY + "- Your chance: " + ChatColor.GREEN + rng.getRatioOdds(true) + ChatColor.DARK_GRAY + " (" + rng.getPercentOdds(true) + ")"
+                Component.empty(),
+                ComponentUtils.merge(Component.text("Every time you ", NamedTextColor.GRAY), Component.text("catch a fish ", NamedTextColor.AQUA), Component.text("there is", NamedTextColor.GRAY)),
+                ComponentUtils.merge(Component.text("a chance it will be a ", NamedTextColor.GRAY), Component.text("treasure item!", NamedTextColor.LIGHT_PURPLE)),
+                Component.empty(),
+                ComponentUtils.merge(Component.text("Player Luck Stat: ", NamedTextColor.DARK_GRAY), Component.text(player.getAttribute(Attribute.LUCK).getValue(), NamedTextColor.DARK_PURPLE)),
+                ComponentUtils.merge(Component.text("Luck of the Sea: ", NamedTextColor.DARK_GRAY), Component.text(rng.getEnchantLevels(), NamedTextColor.DARK_PURPLE)),
+                ComponentUtils.merge(Component.text("Current fishing luck boost: ", NamedTextColor.DARK_GRAY), Component.text(rng.getLuckMultiplierString(), NamedTextColor.DARK_PURPLE)),
+                Component.empty(),
+                Component.text("Treasure item rates from fishing:", NamedTextColor.GRAY),
+                ComponentUtils.merge(Component.text("- Base chance: ", NamedTextColor.GRAY), Component.text(rng.getRatioOdds(false), NamedTextColor.YELLOW), Component.text(" (" + rng.getPercentOdds(false) + ")", NamedTextColor.DARK_GRAY)),
+                ComponentUtils.merge(Component.text("- Your chance: ", NamedTextColor.GRAY), Component.text(rng.getRatioOdds(true), NamedTextColor.GREEN), Component.text(" (" + rng.getPercentOdds(true) + ")", NamedTextColor.DARK_GRAY))
                 ));
 
         return inventory;

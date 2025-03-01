@@ -1,6 +1,11 @@
 package xyz.devvydont.treasureitems.blueprints.tools;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
+import org.bukkit.inventory.EquipmentSlotGroup;
 import xyz.devvydont.treasureitems.blueprints.CustomItemBlueprint;
+import xyz.devvydont.treasureitems.util.ComponentUtils;
 import xyz.devvydont.treasureitems.util.PotentialEnchantmentWrapper;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -39,13 +44,11 @@ public class SpeedTotemBlueprint extends CustomItemBlueprint {
         ItemStack item = new ItemStack(Material.TOTEM_OF_UNDYING);
         Repairable itemMeta = (Repairable) item.getItemMeta();
 
-        itemMeta.setDisplayName(ChatColor.LIGHT_PURPLE.toString() + ChatColor.BOLD + "Speed Totem");
+        itemMeta.displayName(Component.text("Speed Totem", NamedTextColor.LIGHT_PURPLE, TextDecoration.BOLD).decoration(TextDecoration.ITALIC, false));
 
         float speed = getRandomSpeed();
 
-        itemMeta.addAttributeModifier(Attribute.MOVEMENT_SPEED, new AttributeModifier(UUID.randomUUID(), "speed", speed, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.OFF_HAND));
-        itemMeta.addAttributeModifier(Attribute.MOVEMENT_SPEED, new AttributeModifier(UUID.randomUUID(), "speed", speed, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.HAND));
-
+        itemMeta.addAttributeModifier(Attribute.MOVEMENT_SPEED, generateAttributeModifier(Attribute.MOVEMENT_SPEED, EquipmentSlotGroup.HAND, AttributeModifier.Operation.MULTIPLY_SCALAR_1, speed));
 
         itemMeta.setRepairCost(1000);
         item.setItemMeta(itemMeta);
@@ -69,17 +72,13 @@ public class SpeedTotemBlueprint extends CustomItemBlueprint {
     }
 
     @Override
-    protected List<String> getEnchantLore(ItemStack itemStack, boolean includeStats) {
-        return new ArrayList<>();
-    }
+    protected List<Component> getExtraLore() {
 
-    @Override
-    protected List<String> getExtraLore() {
-        return Arrays.asList(
-                ChatColor.GRAY + "Hold to become " + ChatColor.AQUA + "quick" + ChatColor.GRAY + "!",
-                "",
-                ChatColor.GRAY + "Also functions as a normal",
-                ChatColor.YELLOW + "Totem of Undying" + ChatColor.GRAY + "!"
+        return List.of(
+                ComponentUtils.merge(Component.text("Hold to become ", NamedTextColor.GRAY), Component.text("quick", NamedTextColor.AQUA), Component.text("!", NamedTextColor.GRAY)),
+                Component.empty(),
+                Component.text("Also functions as a normal", NamedTextColor.GRAY),
+                ComponentUtils.merge(Component.text("Totem of Undying", NamedTextColor.YELLOW), Component.text("!", NamedTextColor.GRAY))
         );
     }
 

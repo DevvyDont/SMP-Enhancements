@@ -1,5 +1,7 @@
 package xyz.devvydont.treasureitems.gui;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -27,11 +29,11 @@ public class RatesMainMenuGUI extends RatesViewerGUI {
         // This is the main menu we don't need to show the back button
         inventory.setItem(BACK_SLOT, null);
 
-        inventory.setItem(MINING_GUI_SLOT, createButton(ChatColor.GOLD + "Mining", Material.IRON_PICKAXE, ChatColor.GRAY + "Click to view mining rates!"));
-        inventory.setItem(MOBS_GUI_SLOT, createButton(ChatColor.GOLD + "Mobs", Material.ZOMBIE_HEAD, ChatColor.GRAY + "Click to view mob rates!"));
-        inventory.setItem(FISHING_GUI_SLOT, createButton(ChatColor.GOLD + "Fishing", Material.FISHING_ROD, ChatColor.GRAY + "Click to view fishing rates!"));
-        inventory.setItem(ITEMS_GUI_SLOT, createButton(ChatColor.LIGHT_PURPLE + "Treasure", Material.TOTEM_OF_UNDYING, ChatColor.GRAY + "Click to view treasure items!"));
-        inventory.setItem(TRADEUP_GUI_SLOT, createButton(ChatColor.AQUA + "Tradeup", Material.NETHERITE_UPGRADE_SMITHING_TEMPLATE, ChatColor.GRAY + "Click to view re-roll treasure items!"));
+        inventory.setItem(MINING_GUI_SLOT, createButton(ChatColor.GOLD + "Mining", Material.IRON_PICKAXE, Component.text("Click to view mining rates!", NamedTextColor.GRAY)));
+        inventory.setItem(MOBS_GUI_SLOT, createButton(ChatColor.GOLD + "Mobs", Material.ZOMBIE_HEAD, Component.text("Click to view mob rates!", NamedTextColor.GRAY)));
+        inventory.setItem(FISHING_GUI_SLOT, createButton(ChatColor.GOLD + "Fishing", Material.FISHING_ROD, Component.text("Click to view fishing rates!", NamedTextColor.GRAY)));
+        inventory.setItem(ITEMS_GUI_SLOT, createButton(ChatColor.LIGHT_PURPLE + "Treasure", Material.TOTEM_OF_UNDYING, Component.text("Click to view treasure items!", NamedTextColor.GRAY)));
+        inventory.setItem(TRADEUP_GUI_SLOT, createButton(ChatColor.AQUA + "Tradeup", Material.NETHERITE_UPGRADE_SMITHING_TEMPLATE, Component.text("Click to re-roll treasure items!", NamedTextColor.GRAY)));
         inventory.getItem(ITEMS_GUI_SLOT).addUnsafeEnchantment(Enchantment.MENDING, 1);
         inventory.getItem(TRADEUP_GUI_SLOT).addUnsafeEnchantment(Enchantment.MENDING, 1);
 

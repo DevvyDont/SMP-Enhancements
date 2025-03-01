@@ -1,6 +1,11 @@
 package xyz.devvydont.treasureitems.blueprints.armor;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
+import org.bukkit.inventory.EquipmentSlotGroup;
 import xyz.devvydont.treasureitems.blueprints.CustomItemBlueprint;
+import xyz.devvydont.treasureitems.util.ComponentUtils;
 import xyz.devvydont.treasureitems.util.PotentialEnchantmentWrapper;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -21,9 +26,9 @@ public class LuckyPantsBlueprint extends CustomItemBlueprint {
         ItemStack item = new ItemStack(Material.LEATHER_LEGGINGS);
         Repairable itemMeta = (Repairable) item.getItemMeta();
 
-        itemMeta.setDisplayName(ChatColor.LIGHT_PURPLE.toString() + ChatColor.BOLD + "Lucky Pants");
+        itemMeta.displayName(Component.text("Lucky Pants", NamedTextColor.LIGHT_PURPLE, TextDecoration.BOLD).decoration(TextDecoration.ITALIC, false));
 
-        itemMeta.addAttributeModifier(Attribute.LUCK, new AttributeModifier(UUID.randomUUID(), "luck", 1, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.LEGS));
+        itemMeta.addAttributeModifier(Attribute.LUCK, generateAttributeModifier(Attribute.LUCK, EquipmentSlotGroup.LEGS, AttributeModifier.Operation.ADD_NUMBER, 1));
 
         itemMeta.setRepairCost(1000);
         LeatherArmorMeta leatherArmorMeta = (LeatherArmorMeta) itemMeta;
@@ -48,11 +53,9 @@ public class LuckyPantsBlueprint extends CustomItemBlueprint {
     }
 
     @Override
-    protected List<String> getExtraLore() {
-        return Arrays.asList(
-                ChatColor.GRAY + "Wear to become " + ChatColor.GREEN + "lucky" + ChatColor.GRAY + "!",
-                "",
-                ChatColor.GRAY + "Cannot be " + ChatColor.RED + "repaired/enchanted" + ChatColor.GRAY + "!"
+    protected List<Component> getExtraLore() {
+        return List.of(
+                ComponentUtils.UNREPAIRABLE_ENCHANTABLE
         );
     }
 

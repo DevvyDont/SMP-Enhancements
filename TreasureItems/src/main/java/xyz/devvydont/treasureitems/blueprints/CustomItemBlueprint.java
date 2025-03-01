@@ -1,5 +1,14 @@
 package xyz.devvydont.treasureitems.blueprints;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
+import org.bukkit.NamespacedKey;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
+import org.bukkit.inventory.EquipmentSlotGroup;
+import xyz.devvydont.treasureitems.TreasureItems;
+import xyz.devvydont.treasureitems.util.ComponentUtils;
 import xyz.devvydont.treasureitems.util.FormatUtil;
 import xyz.devvydont.treasureitems.util.PotentialEnchantmentWrapper;
 import org.bukkit.ChatColor;
@@ -51,6 +60,15 @@ public abstract class CustomItemBlueprint {
 
     }
 
+    protected AttributeModifier generateAttributeModifier(Attribute attribute, EquipmentSlotGroup slotGroup, AttributeModifier.Operation operation, double amount) {
+
+        // Dynamically generate a key to assign for this modifier. It must be unique to the item + slot + attribute combo.
+        String keyName = getClass().getSimpleName() + attribute.toString() + slotGroup.toString();
+        NamespacedKey key = new NamespacedKey(TreasureItems.getInstance(), keyName);
+
+        return new AttributeModifier(key, amount, operation, slotGroup);
+    }
+
     /**
      * When given an item of this blueprint, calculate a number from 1-100 that represents how good the item is
      *
@@ -88,22 +106,22 @@ public abstract class CustomItemBlueprint {
         return (int) (totalEnchantPercent * 100);
     }
 
-    public static String chooseScoreColor(int score) {
+    public static NamedTextColor chooseScoreColor(int score) {
 
         if (score < 25)
-            return ChatColor.DARK_RED.toString();
+            return NamedTextColor.DARK_RED;
 
         if (score < 50)
-            return ChatColor.GOLD.toString();
+            return NamedTextColor.GOLD;
 
         if (score < 75)
-            return ChatColor.YELLOW.toString();
+            return NamedTextColor.YELLOW;
 
         if (score < 100)
-            return ChatColor.GREEN.toString();
+            return NamedTextColor.GREEN;
 
         // Maxed
-        return ChatColor.AQUA + ChatColor.BOLD.toString();
+        return NamedTextColor.AQUA;
 
     }
 
@@ -113,9 +131,9 @@ public abstract class CustomItemBlueprint {
      *
      * @return
      */
-    protected List<String> getEnchantLore(ItemStack itemStack, boolean includeStats) {
+    protected List<Component> getEnchantLore(ItemStack itemStack, boolean includeStats) {
 
-        List<String> lore = new ArrayList<>();
+        List<Component> lore = new ArrayList<>();
         List<Enchantment> enchantments = new ArrayList<>(itemStack.getEnchantments().keySet());
         Map<Enchantment, PotentialEnchantmentWrapper> potentialEnchantments = getAllowedEnchants();
         enchantments.sort(Comparator.comparing(FormatUtil::enchantFriendlyName));
@@ -124,31 +142,31 @@ public abstract class CustomItemBlueprint {
             int level = itemStack.getEnchantmentLevel(enchantment);
             PotentialEnchantmentWrapper potentialEnchantment = potentialEnchantments.get(enchantment);
 
-            String prefix = ChatColor.GRAY.toString();
+            NamedTextColor color = NamedTextColor.GRAY;
 
             // If the enchant is overleveled, make it dark aqua
             if (level > enchantment.getMaxLevel())
-                prefix = ChatColor.DARK_AQUA.toString();
+                color = NamedTextColor.DARK_AQUA;
 
             // If the enchant is overleveled and max leveled, make it bold orange
             if (!includeStats && level > enchantment.getMaxLevel() && level == potentialEnchantment.getMaxLevel())
-                prefix = ChatColor.GOLD.toString();
+                color = NamedTextColor.GOLD;
 
             if (includeStats)
-                lore.add(prefix + potentialEnchantment.display());
+                lore.add(Component.text(potentialEnchantment.display(), color));
             else
                 if (enchantment.getStartLevel() == enchantment.getMaxLevel())
-                    lore.add(prefix + FormatUtil.enchantFriendlyName(enchantment));
+                    lore.add(Component.text(FormatUtil.enchantFriendlyName(enchantment), color));
                 else
-                    lore.add(prefix + FormatUtil.enchantFriendlyName(enchantment) + " " + FormatUtil.numToRomanNumeral(level));
+                    lore.add(Component.text(FormatUtil.enchantFriendlyName(enchantment) + " " + FormatUtil.numToRomanNumeral(level), color));
 
         }
 
-        return lore;
+        return ComponentUtils.removeItalics(lore);
 
     }
 
-    protected List<String> getExtraLore() {
+    protected List<Component> getExtraLore() {
         return new ArrayList<>();
     }
 
@@ -156,23 +174,26 @@ public abstract class CustomItemBlueprint {
 
         ItemMeta meta = itemStack.getItemMeta();
 
-        List<String> lore = new ArrayList<>();
-        if (itemStack.getEnchantments().size() > 0) {
+        List<Component> lore = new ArrayList<>();
+        if (!itemStack.getEnchantments().isEmpty()) {
             lore.addAll(getEnchantLore(itemStack, display));
             meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         }
 
-        lore.add("");
+        lore.add(Component.empty());
         lore.addAll(getExtraLore());
 
         // Now add the score rating if it is not a display item
         if (!display) {
-            lore.add("");
+            lore.add(Component.empty());
             int itemScore = calculateScore(itemStack);
-            lore.add(ChatColor.GRAY + "Gear Rating: " + chooseScoreColor(itemScore) + itemScore);
+            lore.add(ComponentUtils.merge(
+                    Component.text("Gear Rating: ", NamedTextColor.GRAY),
+                    Component.text(itemScore, chooseScoreColor(itemScore)).decoration(TextDecoration.BOLD, itemScore >= 100)
+            ));
         }
 
-        meta.setLore(lore);
+        meta.lore(ComponentUtils.removeItalics(lore));
         itemStack.setItemMeta(meta);
     }
 

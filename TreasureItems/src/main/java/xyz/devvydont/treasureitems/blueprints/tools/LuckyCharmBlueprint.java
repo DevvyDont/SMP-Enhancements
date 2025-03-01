@@ -1,6 +1,11 @@
 package xyz.devvydont.treasureitems.blueprints.tools;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
+import org.bukkit.inventory.EquipmentSlotGroup;
 import xyz.devvydont.treasureitems.blueprints.CustomItemBlueprint;
+import xyz.devvydont.treasureitems.util.ComponentUtils;
 import xyz.devvydont.treasureitems.util.PotentialEnchantmentWrapper;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -20,10 +25,9 @@ public class LuckyCharmBlueprint extends CustomItemBlueprint {
         ItemStack item = new ItemStack(Material.TOTEM_OF_UNDYING);
         Repairable itemMeta = (Repairable) item.getItemMeta();
 
-        itemMeta.setDisplayName(ChatColor.LIGHT_PURPLE.toString() + ChatColor.BOLD + "Lucky Charm");
+        itemMeta.displayName(Component.text("Lucky Charm", NamedTextColor.LIGHT_PURPLE, TextDecoration.BOLD).decoration(TextDecoration.ITALIC, false));
 
-        itemMeta.addAttributeModifier(Attribute.LUCK, new AttributeModifier(UUID.randomUUID(), "luck", 1, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.OFF_HAND));
-        itemMeta.addAttributeModifier(Attribute.LUCK, new AttributeModifier(UUID.randomUUID(), "luck", 1, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND));
+        itemMeta.addAttributeModifier(Attribute.LUCK, generateAttributeModifier(Attribute.LUCK, EquipmentSlotGroup.HAND, AttributeModifier.Operation.ADD_NUMBER, 1));
 
 
         itemMeta.setRepairCost(1000);
@@ -44,12 +48,13 @@ public class LuckyCharmBlueprint extends CustomItemBlueprint {
     }
 
     @Override
-    protected List<String> getExtraLore() {
-        return Arrays.asList(
-                ChatColor.GRAY + "Hold to become " + ChatColor.GREEN + "lucky" + ChatColor.GRAY + "!",
-                "",
-                ChatColor.GRAY + "Also functions as a normal",
-                ChatColor.YELLOW + "Totem of Undying" + ChatColor.GRAY + "!"
+    protected List<Component> getExtraLore() {
+
+        return List.of(
+                ComponentUtils.merge(Component.text("Hold to become ", NamedTextColor.GRAY), Component.text("lucky", NamedTextColor.GREEN), Component.text("!", NamedTextColor.GRAY)),
+                Component.empty(),
+                Component.text("Also functions as a normal", NamedTextColor.GRAY),
+                ComponentUtils.merge(Component.text("Totem of Undying", NamedTextColor.YELLOW), Component.text("!", NamedTextColor.GRAY))
         );
     }
 

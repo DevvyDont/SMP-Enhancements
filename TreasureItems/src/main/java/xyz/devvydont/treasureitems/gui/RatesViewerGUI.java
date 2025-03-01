@@ -1,5 +1,7 @@
 package xyz.devvydont.treasureitems.gui;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -14,11 +16,9 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import xyz.devvydont.treasureitems.TreasureItems;
+import xyz.devvydont.treasureitems.util.ComponentUtils;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public abstract class RatesViewerGUI implements Listener {
 
@@ -43,11 +43,11 @@ public abstract class RatesViewerGUI implements Listener {
         playerToGUI.put(player.getUniqueId(), inv);
     }
 
-    public ItemStack createButton(String name, org.bukkit.Material material, String... lore) {
+    public ItemStack createButton(String name, org.bukkit.Material material, Component... lore) {
         ItemStack item = new ItemStack(material);
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(name);
-        meta.setLore(Arrays.asList(lore));
+        meta.lore(ComponentUtils.removeItalics(lore));
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ARMOR_TRIM);
         item.setItemMeta(meta);
         return item;
@@ -55,8 +55,8 @@ public abstract class RatesViewerGUI implements Listener {
 
     public Inventory construct(Player player) {
         Inventory inventory = Bukkit.createInventory(null, 5*9, TITLE);
-        inventory.setItem(BACK_SLOT, createButton(ChatColor.YELLOW + "Go back", Material.ARROW, ChatColor.GRAY + "Click to go back to the main menu!"));
-        inventory.setItem(CANCEL_SLOT, createButton(ChatColor.RED + "Close", Material.BARRIER, ChatColor.GRAY + "Click to close this menu!"));
+        inventory.setItem(BACK_SLOT, createButton(ChatColor.YELLOW + "Go back", Material.ARROW, Component.text("Click to go back to the main menu!", NamedTextColor.GRAY)));
+        inventory.setItem(CANCEL_SLOT, createButton(ChatColor.RED + "Close", Material.BARRIER, Component.text("Click to close this menu!", NamedTextColor.GRAY)));
         return inventory;
     }
 

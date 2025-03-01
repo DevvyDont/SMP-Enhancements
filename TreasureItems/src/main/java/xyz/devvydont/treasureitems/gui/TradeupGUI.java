@@ -1,5 +1,8 @@
 package xyz.devvydont.treasureitems.gui;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import xyz.devvydont.treasureitems.TreasureItems;
 import xyz.devvydont.treasureitems.blueprints.CustomItemBlueprint;
 import xyz.devvydont.treasureitems.events.RareItemDropEvent;
@@ -17,6 +20,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
+import xyz.devvydont.treasureitems.util.ComponentUtils;
 
 import java.util.*;
 
@@ -132,7 +136,7 @@ public class TradeupGUI extends RatesViewerGUI {
     }
 
     public void resetOutputSlot(Inventory inventory) {
-        inventory.setItem(OUTPUT_SLOT, createButton(ChatColor.GOLD + "Output", Material.GRAY_DYE, ChatColor.GRAY + "Insert items on the left to re-roll!"));
+        inventory.setItem(OUTPUT_SLOT, createButton(ChatColor.GOLD + "Output", Material.GRAY_DYE, Component.text("Insert items on the left to re-roll!", NamedTextColor.GRAY)));
     }
 
     /**
@@ -144,7 +148,7 @@ public class TradeupGUI extends RatesViewerGUI {
 
         int numItems = countValidItemsInInput(inventory);
         int guaranteedScore = calculateAverageBlueprintScore(inventory) + AVERAGE_SCORE_BOOST;
-        String scoreColor = CustomItemBlueprint.chooseScoreColor(guaranteedScore);
+        NamedTextColor scoreColor = CustomItemBlueprint.chooseScoreColor(guaranteedScore);
 
         if (guaranteedScore > 100)
             guaranteedScore = 100;
@@ -154,20 +158,23 @@ public class TradeupGUI extends RatesViewerGUI {
             inventory.setItem(
                     OUTPUT_SLOT,
                     createButton(ChatColor.GOLD + "Output",
-                    Material.GRAY_DYE,
-                    ChatColor.GRAY + "Insert " + ChatColor.LIGHT_PURPLE + (5-numItems) + " more item(s)" + ChatColor.GRAY + " to re-roll!",
-                    "",
-                    ChatColor.GRAY + "The item will have a guaranteed gear rating of: " + scoreColor + guaranteedScore));
+                        Material.GRAY_DYE,
+                        Component.empty(),
+                        ComponentUtils.merge(Component.text("Insert ", NamedTextColor.GRAY), Component.text((5-numItems) + " more item(s) ", NamedTextColor.LIGHT_PURPLE), Component.text("to re-roll!", NamedTextColor.GRAY)),
+                        Component.empty(),
+                        ComponentUtils.merge(Component.text("The item will have a guaranteed gear rating of: ", NamedTextColor.GRAY), Component.text(guaranteedScore, scoreColor))
+                    )
+            );
         else
             inventory.setItem(
                     OUTPUT_SLOT,
                     createButton(ChatColor.GOLD + "Re-roll!",
                     Material.NETHERITE_UPGRADE_SMITHING_TEMPLATE,
-                    "",
-                    ChatColor.GRAY + "Click to " + ChatColor.LIGHT_PURPLE + "RE-ROLL" + ChatColor.GRAY + " your items!",
-                    "",
-                    ChatColor.GRAY + "New item guaranteed gear rating: " + scoreColor + guaranteedScore,
-                    ChatColor.GRAY + "Items inputted are " + ChatColor.RED + ChatColor.BOLD + "PERMANENTLY LOST" + ChatColor.GRAY + " when re-rolled!"
+                    Component.empty(),
+                    ComponentUtils.merge(Component.text("Click to ", NamedTextColor.GRAY), Component.text("RE-ROLL ", NamedTextColor.LIGHT_PURPLE), Component.text("your items!", NamedTextColor.GRAY)),
+                    Component.empty(),
+                    ComponentUtils.merge(Component.text("New item guaranteed gear rating: ", NamedTextColor.GRAY), Component.text(guaranteedScore, scoreColor)),
+                    ComponentUtils.merge(Component.text("Items input are ", NamedTextColor.GRAY), Component.text("PERMANENTLY LOST ", NamedTextColor.RED, TextDecoration.BOLD), Component.text("when re-rolled!", NamedTextColor.GRAY))
             ));
 
         inventory.getItem(OUTPUT_SLOT).addUnsafeEnchantment(Enchantment.MENDING, 1);
@@ -256,15 +263,16 @@ public class TradeupGUI extends RatesViewerGUI {
 
         // set the info slot
         inventory.setItem(INFO_SLOT, createButton(ChatColor.GOLD + "Info", Material.PAPER,
-                "",
-                ChatColor.GRAY + "Insert 5 treasure items to re-roll them into a new item!",
-                "",
-                ChatColor.GRAY + "The new treasure item received will have a guaranteed gear ",
-                ChatColor.GRAY + "rating that is slightly better than the average of items that are trashed",
-                ChatColor.GRAY + "The type of treasure item is also dependent on which ",
-                ChatColor.GRAY + "items are input, meaning you can affect your chances of getting a preferred item!",
-                "",
-                ChatColor.GRAY + "Note: Items inputted are " + ChatColor.RED + ChatColor.BOLD + "PERMANENTLY LOST" + ChatColor.GRAY + " when re-rolled!"));
+                Component.empty(),
+                Component.text("Insert 5 treasure items to re-roll them into a new item!", NamedTextColor.GRAY),
+                Component.empty(),
+                Component.text("The new treasure item received will have a guaranteed gear", NamedTextColor.GRAY),
+                Component.text("rating that is slightly better than the average of items that are trashed", NamedTextColor.GRAY),
+                Component.text("The type of treasure item is also dependent on which", NamedTextColor.GRAY),
+                Component.text("items are input, meaning you can affect your chances of getting a preferred item!", NamedTextColor.GRAY),
+                Component.empty(),
+                ComponentUtils.merge(Component.text("Items input are ", NamedTextColor.GRAY), Component.text("PERMANENTLY LOST ", NamedTextColor.RED, TextDecoration.BOLD), Component.text("when re-rolled!", NamedTextColor.GRAY))
+        ));
 
         inventory.getItem(INFO_SLOT).addUnsafeEnchantment(Enchantment.MENDING, 1);
         inventory.getItem(INFO_SLOT).getItemMeta().addItemFlags(ItemFlag.HIDE_ENCHANTS);
