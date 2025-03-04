@@ -1,4 +1,4 @@
-package xyz.devvydont.smprpg.util.animations.containers;
+package xyz.devvydont.smprpg.util.animations.iterators;
 
 import xyz.devvydont.smprpg.util.animations.blockers.AnimationBlocker;
 

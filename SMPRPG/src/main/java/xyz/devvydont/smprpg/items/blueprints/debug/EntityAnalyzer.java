@@ -13,7 +13,7 @@ import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import xyz.devvydont.smprpg.SMPRPG;
-import xyz.devvydont.smprpg.gui.InterfaceStats;
+import xyz.devvydont.smprpg.gui.player.InterfaceStats;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.base.CustomItemBlueprint;
@@ -40,9 +40,8 @@ public class EntityAnalyzer extends CustomItemBlueprint implements Listener {
     }
 
     public void execute(Player player, LivingEntity entity) {
-
-        InterfaceStats gui = new InterfaceStats(SMPRPG.getInstance(), player, entity);
-        gui.open();
+        var gui = new InterfaceStats(SMPRPG.getInstance(), player, entity);
+        gui.openMenu();
 
         if (player.isSneaking()) {
             ItemStack report = itemService.getCustomItem(CustomItemType.ENTITY_ANALYZER_REPORT);

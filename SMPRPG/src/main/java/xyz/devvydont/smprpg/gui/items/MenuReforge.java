@@ -1,4 +1,4 @@
-package xyz.devvydont.smprpg.gui;
+package xyz.devvydont.smprpg.gui.items;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -8,15 +8,14 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.ClickType;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.event.inventory.*;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.player.LeveledPlayer;
+import xyz.devvydont.smprpg.gui.InterfaceUtil;
+import xyz.devvydont.smprpg.gui.base.MenuBase;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.ItemRarity;
 import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
@@ -29,13 +28,15 @@ import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InterfaceReforge extends PrivateInterface {
+public class MenuReforge extends MenuBase {
+
+    public static final int ROWS = 5;
 
     public static final int INPUT_SLOT = 13;
     public static final int BUTTON_SLOT = 31;
 
-    public InterfaceReforge(SMPRPG plugin, Player owner) {
-        super(plugin, owner);
+    public MenuReforge(@NotNull Player player) {
+        super(player, ROWS);
     }
 
     public int getReforgeCost(ItemRarity rarity) {
@@ -51,20 +52,20 @@ public class InterfaceReforge extends PrivateInterface {
         };
     }
 
+    /**
+     * Shortcut method to get the balance of the player who owns this inventory.
+     * @return The balance of the player
+     */
     public int getBalance() {
-        return SMPRPG.getInstance().getEconomyService().getMoney(owner);
+        return SMPRPG.getInstance().getEconomyService().getMoney(player);
     }
 
-    public void spendMoney(int cost) {
-        SMPRPG.getInstance().getEconomyService().takeMoney(owner, cost);
-        Component taken = ComponentUtils.create(EconomyService.formatMoney(cost), NamedTextColor.GOLD);
-        Component bal = ComponentUtils.create(EconomyService.formatMoney(getBalance()), NamedTextColor.GOLD);
-        owner.sendMessage(ComponentUtils.alert(
-                taken.append(ComponentUtils.create(" has been taken from your account. Your balance is now ")).append(bal)
-        ));
-    }
-
-    public ItemStack getAnvilButton() {
+    /**
+     * Generates the button to be displayed in the anvil click slot. Updates based on the state of the interface.
+     *
+     * @return an ItemStack to be used as an item display.
+     */
+    public ItemStack generateAnvilButton() {
 
         ItemStack input = getItem(INPUT_SLOT);
         ItemStack anvil = InterfaceUtil.getNamedItem(Material.ANVIL, ComponentUtils.create("Roll Random Reforge!", NamedTextColor.GOLD).decoration(TextDecoration.ITALIC, false));
@@ -80,7 +81,7 @@ public class InterfaceReforge extends PrivateInterface {
             return anvil;
         }
 
-        SMPItemBlueprint blueprint = plugin.getItemService().getBlueprint(input);
+        SMPItemBlueprint blueprint = SMPRPG.getInstance().getItemService().getBlueprint(input);
 
         // Is this item not able to receive a reforge?
         if (getRandomReforge(blueprint.getItemClassification(), blueprint.getReforgeType(input.getItemMeta())).getType().equals(ReforgeType.ERROR)) {
@@ -114,11 +115,6 @@ public class InterfaceReforge extends PrivateInterface {
         });
 
         return anvil;
-    }
-
-    @Override
-    public int getNumRows() {
-        return 5;
     }
 
     /**
@@ -158,17 +154,24 @@ public class InterfaceReforge extends PrivateInterface {
         return choices.get((int) (Math.random()*choices.size()));
     }
 
+    /**
+     * Called every time we click the reforge button regardless of the state of the GUI.
+     */
     public void reforge() {
 
         // Check if we have an item in the input
         ItemStack item = getItem(INPUT_SLOT);
-        if (item == null)
+        if (item == null) {
+            playInvalidAnimation();
             return;
+        }
 
         // Check if this item is able to store attributes. Reforges can't add attributes to attributeless items!
-        SMPItemBlueprint blueprint = plugin.getItemService().getBlueprint(item);
-        if (!(blueprint instanceof Attributeable attributeable))
+        SMPItemBlueprint blueprint = SMPRPG.getInstance().getItemService().getBlueprint(item);
+        if (!(blueprint instanceof Attributeable attributeable)) {
+            playInvalidAnimation();
             return;
+        }
 
         // Analyze the current reforge on the gear and determine if we can even roll another reforge without erroring
         ReforgeType currentReforgeType = blueprint.getReforgeType(item.getItemMeta());
@@ -183,28 +186,43 @@ public class InterfaceReforge extends PrivateInterface {
         // Apply reforge and take their money if we had no issues
         if (success) {
             newReforge.apply(item);
-            spendMoney(cost);
-            LeveledPlayer player = SMPRPG.getInstance().getEntityService().getPlayerInstance(owner);
+            SMPRPG.getInstance().getEconomyService().spendMoney(player, cost);
+            LeveledPlayer player = SMPRPG.getInstance().getEntityService().getPlayerInstance(this.player);
             player.getMagicSkill().addExperience((blueprint.getRarity(item).ordinal()+1) * attributeable.getPowerRating() / 10);
         }
 
-        Location soundOrigin = owner.getLocation().add(owner.getLocation().getDirection().normalize().multiply(2));
-        owner.getWorld().playSound(soundOrigin, success ? Sound.BLOCK_ANVIL_USE : Sound.ENTITY_VILLAGER_NO, .5f, .75f);
+        Location soundOrigin = player.getLocation().add(player.getLocation().getDirection().normalize().multiply(2));
+        player.getWorld().playSound(soundOrigin, success ? Sound.BLOCK_ANVIL_USE : Sound.ENTITY_VILLAGER_NO, .5f, .75f);
         blueprint.updateMeta(item);
+
+        if (success)
+            playSuccessAnimation();
+        else
+            playInvalidAnimation();
+    }
+
+    /**
+     * Renders the GUI.
+     */
+    public void render() {
+        this.setBorderFull();
+        this.clearSlot(INPUT_SLOT);
+        this.setButton(BUTTON_SLOT, generateAnvilButton(), event -> {
+            if (event.getAction().equals(InventoryAction.PICKUP_ALL))
+                reforge();
+        });
     }
 
     @Override
-    public void initializeDefaultState() {
-        super.initializeDefaultState();
-        fill(InterfaceUtil.getInterfaceBorder());
-        clearSlot(INPUT_SLOT);
-        setSlot(BUTTON_SLOT, getAnvilButton());
-        inventoryView.setTitle("Tool Reforging");
+    protected void handleInventoryOpened(InventoryOpenEvent event) {
+        super.handleInventoryOpened(event);
+        this.render();
+        event.titleOverride(ComponentUtils.create("Tool Reforging", NamedTextColor.BLACK));
     }
 
     @Override
-    public void handleInventoryClick(InventoryClickEvent event) {
-        super.handleInventoryClick(event);
+    public void handleInventoryClicked(InventoryClickEvent event) {
+        super.handleInventoryClicked(event);
 
         // Treat click events as a whitelist style
         event.setCancelled(true);
@@ -213,31 +231,35 @@ public class InterfaceReforge extends PrivateInterface {
             return;
 
         // Update the anvil button on the next tick to react to the state of the GUI
-        Bukkit.getScheduler().runTaskLater(SMPRPG.getInstance(), () -> setSlot(BUTTON_SLOT, getAnvilButton()), 0L);
+        Bukkit.getScheduler().runTaskLater(SMPRPG.getInstance(), () -> setSlot(BUTTON_SLOT, generateAnvilButton()), 0L);
 
-        // If we are clicking in the player inventory allow it to happen
+        // If we are clicking in the player inventory allow it to happen. We need to allow them to manage items.
         if (event.getClickedInventory().getType().equals(InventoryType.PLAYER)) {
             event.setCancelled(false);
             return;
         }
 
-        // If we are clicking in the input slot allow it to happen
+        // If we are clicking in the input slot allow it to happen. The user owns this slot.
         if (event.getClickedInventory().equals(inventory) && event.getSlot() == INPUT_SLOT) {
             event.setCancelled(false);
             return;
         }
 
-        // If we left clicked the reforge button then reforge
-        if (event.getClick().equals(ClickType.LEFT) && event.getSlot() == BUTTON_SLOT) {
-            reforge();
-            return;
-        }
+        // If the event is canceled at this point and we clicked a slot that wasn't something we have control over,
+        // play invalid animation
+        if (event.isCancelled() && event.getRawSlot() != INPUT_SLOT && event.getRawSlot() != BUTTON_SLOT)
+            playInvalidAnimation();
+
     }
 
+    /**
+     * When the inventory closes, make sure the item in the input slot is not lost.
+     *
+     * @param event The inventory close event.
+     */
     @Override
-    public void handleInventoryClose(InventoryCloseEvent event) {
-        super.handleInventoryClose(event);
-
-        transferItemToPlayer(INPUT_SLOT);
+    public void handleInventoryClosed(InventoryCloseEvent event) {
+        super.handleInventoryClosed(event);
+        giveItemToPlayer(INPUT_SLOT, true);
     }
 }
