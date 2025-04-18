@@ -26,6 +26,7 @@ import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.ItemRarity;
 import xyz.devvydont.smprpg.items.base.CustomItemBlueprint;
+import xyz.devvydont.smprpg.items.interfaces.HeaderDescribable;
 import xyz.devvydont.smprpg.items.interfaces.Sellable;
 import xyz.devvydont.smprpg.services.DropsService;
 import xyz.devvydont.smprpg.services.ItemService;
@@ -34,7 +35,7 @@ import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InfernoArrow extends CustomItemBlueprint implements Sellable, Listener {
+public class InfernoArrow extends CustomItemBlueprint implements HeaderDescribable, Sellable, Listener {
 
     public enum InfernoSpawnResult {
         SUCCESS("Success!"),
@@ -44,7 +45,7 @@ public class InfernoArrow extends CustomItemBlueprint implements Sellable, Liste
         NOT_ENABLED("You are not prepared for this encounter yet...")
         ;
 
-        String message;
+        final String message;
         InfernoSpawnResult(String message) {
             this.message = message;
         }
@@ -58,13 +59,14 @@ public class InfernoArrow extends CustomItemBlueprint implements Sellable, Liste
     private static final double ARROW_VELOCITY_BLOCK_DAMPENING = .2;
     private static final double ARROW_VELOCITY_ENTITY_DAMPENING = .5;
 
-    private static boolean ALLOW_SPAWNING = true;
+    private static final boolean ALLOW_SPAWNING = true;
 
     public InfernoArrow(ItemService itemService, CustomItemType type) {
         super(itemService, type);
     }
 
-    public List<Component> getDescriptionComponent(ItemMeta meta) {
+    @Override
+    public List<Component> getHeader(ItemStack itemStack) {
 
         Component bossName = ComponentUtils.create("Infernal Phoenix", NamedTextColor.DARK_PURPLE);
         Component instructions = ComponentUtils.create("shot in lava", NamedTextColor.GOLD);
@@ -74,7 +76,7 @@ public class InfernoArrow extends CustomItemBlueprint implements Sellable, Liste
             instructions = instructions.decorate(TextDecoration.OBFUSCATED);
         }
 
-        List<Component> components = new ArrayList<>(super.getDescriptionComponent(meta));
+        List<Component> components = new ArrayList<>();
         components.add(ComponentUtils.create("Used to summon an ")
                 .append(bossName));
         components.add(ComponentUtils.create("when ")

@@ -222,13 +222,6 @@ public abstract class SMPItemBlueprint {
         return getRarity(item.getItemMeta());
     }
 
-    /**
-     * Description to provide about an item. Leave empty to not have one
-     */
-    public List<Component> getDescriptionComponent(ItemMeta meta) {
-        return new ArrayList<>();
-    }
-
     public List<Component> getReforgeComponent(ItemMeta meta) {
         ReforgeBase reforge = getReforge(meta);
         if (reforge == null)

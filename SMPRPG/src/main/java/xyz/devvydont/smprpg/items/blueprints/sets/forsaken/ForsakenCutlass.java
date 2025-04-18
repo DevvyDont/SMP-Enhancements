@@ -27,6 +27,7 @@ import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomAttributeItem;
 import xyz.devvydont.smprpg.items.interfaces.Craftable;
+import xyz.devvydont.smprpg.items.interfaces.HeaderDescribable;
 import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
@@ -37,7 +38,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class ForsakenCutlass extends CustomAttributeItem implements Listener, Craftable, ToolBreakable {
+public class ForsakenCutlass extends CustomAttributeItem implements Listener, HeaderDescribable, Craftable, ToolBreakable {
 
     public static final int WITHER_APPLY_CHANCE = 20;
     public static final int WITHER_APPLY_SECONDS = 10;
@@ -47,8 +48,8 @@ public class ForsakenCutlass extends CustomAttributeItem implements Listener, Cr
     }
 
     @Override
-    public List<Component> getDescriptionComponent(ItemMeta meta) {
-        List<Component> components = new ArrayList<>(super.getDescriptionComponent(meta));
+    public List<Component> getHeader(ItemStack itemStack) {
+        List<Component> components = new ArrayList<>();
         components.add(ComponentUtils.EMPTY);
         components.add(AbilityUtil.getAbilityComponent("Necrotic (Passive)"));
         components.add(ComponentUtils.create("Attacks have a ").append(ComponentUtils.create(WITHER_APPLY_CHANCE + "%", NamedTextColor.GREEN)).append(ComponentUtils.create(" chance to")));

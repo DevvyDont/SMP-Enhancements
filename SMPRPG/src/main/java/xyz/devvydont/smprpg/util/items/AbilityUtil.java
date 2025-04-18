@@ -9,7 +9,7 @@ import xyz.devvydont.smprpg.util.formatting.Symbols;
 public class AbilityUtil {
 
     public static Component getAbilityComponent(String ability) {
-        return ComponentUtils.create("ABILITY ", TextDecoration.BOLD).append(ComponentUtils.create(ability, NamedTextColor.GOLD).decoration(TextDecoration.BOLD, false));
+        return ComponentUtils.create("ABILITY ", NamedTextColor.GOLD, TextDecoration.BOLD).append(ComponentUtils.create(ability, NamedTextColor.GOLD).decoration(TextDecoration.BOLD, false));
     }
 
     public static Component getCooldownComponent(String cooldown) {

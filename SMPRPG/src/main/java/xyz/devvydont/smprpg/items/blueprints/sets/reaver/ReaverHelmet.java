@@ -15,6 +15,7 @@ import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomFakeHelmetBlueprint;
+import xyz.devvydont.smprpg.items.interfaces.HeaderDescribable;
 import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
@@ -25,19 +26,19 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class ReaverHelmet extends CustomFakeHelmetBlueprint implements ToolBreakable, Listener {
+public class ReaverHelmet extends CustomFakeHelmetBlueprint implements HeaderDescribable, ToolBreakable, Listener {
 
     public ReaverHelmet(ItemService itemService, CustomItemType type) {
         super(itemService, type);
     }
 
-    @Override
-    public List<Component> getDescriptionComponent(ItemMeta meta) {
-        List<Component> components = new ArrayList<>(super.getDescriptionComponent(meta));
-        components.add(ComponentUtils.EMPTY);
-        components.add(AbilityUtil.getAbilityComponent("Necrotic (Passive)"));
-        components.add(ComponentUtils.create("Resists ").append(ComponentUtils.create("-" + ReaverArmorSet.WITHER_RESIST + "%", NamedTextColor.GREEN)).append(ComponentUtils.create(" of wither damage")));
-        return components;
+    public List<Component> getHeader(ItemStack itemStack) {
+        return List.of(
+                ComponentUtils.EMPTY,
+                AbilityUtil.getAbilityComponent("Necrotic (Passive)"),
+                ComponentUtils.create("Resists ").append(ComponentUtils.create("-" + ReaverArmorSet.WITHER_RESIST + "%", NamedTextColor.GREEN)).append(ComponentUtils.create(" of wither damage")),
+                ComponentUtils.create("(stacks multiplicatively)", NamedTextColor.DARK_GRAY)
+        );
     }
 
     @Override

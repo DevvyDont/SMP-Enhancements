@@ -1,6 +1,7 @@
 package xyz.devvydont.smprpg.items.interfaces;
 
 import net.kyori.adventure.text.Component;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 
@@ -10,6 +11,6 @@ import java.util.List;
  */
 public interface HeaderDescribable {
 
-    List<Component> getHeader();
+    List<Component> getHeader(ItemStack itemStack);
 
 }

@@ -27,6 +27,7 @@ import xyz.devvydont.smprpg.items.base.CustomAttributeItem;
 import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
 import xyz.devvydont.smprpg.items.blueprints.vanilla.ItemPickaxe;
 import xyz.devvydont.smprpg.items.interfaces.Craftable;
+import xyz.devvydont.smprpg.items.interfaces.HeaderDescribable;
 import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
@@ -35,7 +36,7 @@ import xyz.devvydont.smprpg.util.items.AbilityUtil;
 
 import java.util.*;
 
-public class BoilingPickaxe extends CustomAttributeItem implements Listener, ToolBreakable, Craftable {
+public class BoilingPickaxe extends CustomAttributeItem implements Listener, HeaderDescribable, ToolBreakable, Craftable {
 
     public static final Map<Material, Material> autoSmeltMap = new HashMap<>();
 
@@ -59,8 +60,8 @@ public class BoilingPickaxe extends CustomAttributeItem implements Listener, Too
     }
 
     @Override
-    public List<Component> getDescriptionComponent(ItemMeta meta) {
-        List<Component> components = new ArrayList<>(super.getDescriptionComponent(meta));
+    public List<Component> getHeader(ItemStack itemStack) {
+        List<Component> components = new ArrayList<>();
         components.add(ComponentUtils.EMPTY);
         components.add(AbilityUtil.getAbilityComponent("Boiling Touch (Passive)"));
         components.add(ComponentUtils.create("Automatically ").append(ComponentUtils.create("smelts", NamedTextColor.RED)).append(ComponentUtils.create(" blocks broken")));

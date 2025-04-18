@@ -2,10 +2,12 @@ package xyz.devvydont.smprpg.items.blueprints.debug;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.base.CustomItemBlueprint;
+import xyz.devvydont.smprpg.items.interfaces.HeaderDescribable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
@@ -16,7 +18,7 @@ import java.util.List;
  * setting, an item can keep its metadata safely to be swapped for an "updated" one, or just remain as a relic of
  * the past.
  */
-public class LegacyItemBlueprint extends CustomItemBlueprint {
+public class LegacyItemBlueprint extends CustomItemBlueprint implements HeaderDescribable {
 
     public LegacyItemBlueprint(ItemService itemService, CustomItemType type) {
         super(itemService, type);
@@ -46,7 +48,7 @@ public class LegacyItemBlueprint extends CustomItemBlueprint {
     }
 
     @Override
-    public List<Component> getDescriptionComponent(ItemMeta meta) {
+    public List<Component> getHeader(ItemStack itemStack) {
         return List.of(
                 ComponentUtils.create("This item is considered legacy."),
                 ComponentUtils.EMPTY,
@@ -56,7 +58,7 @@ public class LegacyItemBlueprint extends CustomItemBlueprint {
                 ComponentUtils.create("anymore. If you believe this is an"),
                 ComponentUtils.create("error, contact a server admin."),
                 ComponentUtils.EMPTY,
-                ComponentUtils.create("Item Key: ").append(ComponentUtils.create(resolveItemName(meta), NamedTextColor.GREEN))
+                ComponentUtils.create("Item Key: ").append(ComponentUtils.create(resolveItemName(itemStack.getItemMeta()), NamedTextColor.GREEN))
         );
     }
 

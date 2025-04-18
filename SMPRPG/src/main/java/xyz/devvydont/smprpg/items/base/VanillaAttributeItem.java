@@ -49,18 +49,6 @@ public abstract class VanillaAttributeItem extends VanillaItemBlueprint implemen
     }
 
     @Override
-    public List<Component> getDescriptionComponent(ItemMeta meta) {
-        // Append the attribute data just before the description of the item.
-        List<Component> lore = new ArrayList<>();
-        lore.add(ComponentUtils.create("Power Rating: ").append(ComponentUtils.create(Symbols.POWER + getTotalPower(meta), NamedTextColor.YELLOW)));
-        lore.add(ComponentUtils.EMPTY);
-
-        lore.addAll(AttributeUtil.getAttributeLore(this, meta));
-        lore.addAll(super.getDescriptionComponent(meta));
-        return lore;
-    }
-
-    @Override
     public void updateMeta(ItemMeta meta) {
 
         // Before we can update the meta of this item, we need to fix its "vanilla" behavior

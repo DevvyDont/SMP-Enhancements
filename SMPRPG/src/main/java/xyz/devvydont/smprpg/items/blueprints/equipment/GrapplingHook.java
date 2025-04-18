@@ -21,6 +21,7 @@ import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomAttributeItem;
 import xyz.devvydont.smprpg.items.interfaces.Craftable;
+import xyz.devvydont.smprpg.items.interfaces.HeaderDescribable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
@@ -29,7 +30,7 @@ import xyz.devvydont.smprpg.util.items.AbilityUtil;
 import java.util.Collection;
 import java.util.List;
 
-public class GrapplingHook extends CustomAttributeItem implements Listener, Craftable {
+public class GrapplingHook extends CustomAttributeItem implements HeaderDescribable, Listener, Craftable {
 
     public static final int COOLDOWN = 2;
 
@@ -41,7 +42,7 @@ public class GrapplingHook extends CustomAttributeItem implements Listener, Craf
     public static final float MAX_VERTICAL_VELOCITY = 2f;
 
     @Override
-    public List<Component> getDescriptionComponent(ItemMeta meta) {
+    public List<Component> getHeader(ItemStack itemStack) {
         return List.of(
                 AbilityUtil.getAbilityComponent("Grapple"),
                 ComponentUtils.create("Use to propel yourself"),

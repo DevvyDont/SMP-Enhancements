@@ -20,6 +20,7 @@ import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.attribute.AttributeModifierType;
 import xyz.devvydont.smprpg.items.interfaces.Attributeable;
 import xyz.devvydont.smprpg.items.interfaces.Craftable;
+import xyz.devvydont.smprpg.items.interfaces.HeaderDescribable;
 import xyz.devvydont.smprpg.items.interfaces.Sellable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.attributes.AttributeUtil;
@@ -66,18 +67,6 @@ public abstract class CustomTexturedAttributeHelmetBlueprint extends CustomHeadB
     @Override
     public AttributeModifierType.AttributeSession getAttributeSession(AttributeModifierType type, ItemMeta meta) {
         return type.session(this, meta);
-    }
-
-    @Override
-    public List<Component> getDescriptionComponent(ItemMeta meta) {
-        // Append the attribute data just before the description of the item.
-        List<Component> lore = new ArrayList<>();
-        lore.add(ComponentUtils.create("Power Rating: ").append(ComponentUtils.create(Symbols.POWER + getTotalPower(meta), NamedTextColor.YELLOW)));
-        lore.add(ComponentUtils.EMPTY);
-
-        lore.addAll(AttributeUtil.getAttributeLore(this, meta));
-        lore.addAll(super.getDescriptionComponent(meta));
-        return lore;
     }
 
     @Override

@@ -29,10 +29,7 @@ import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.base.CustomItemBlueprint;
-import xyz.devvydont.smprpg.items.interfaces.Craftable;
-import xyz.devvydont.smprpg.items.interfaces.Edible;
-import xyz.devvydont.smprpg.items.interfaces.IConsumable;
-import xyz.devvydont.smprpg.items.interfaces.Sellable;
+import xyz.devvydont.smprpg.items.interfaces.*;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.items.FoodUtil;
@@ -41,19 +38,19 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class NeptunesConch extends CustomItemBlueprint implements Listener, Craftable, IConsumable, Sellable {
+public class NeptunesConch extends CustomItemBlueprint implements HeaderDescribable, Listener, Craftable, IConsumable, Sellable {
 
     public NeptunesConch(ItemService itemService, CustomItemType type) {
         super(itemService, type);
     }
 
     @Override
-    public List<Component> getDescriptionComponent(ItemMeta meta) {
-        List<Component> lore = new ArrayList<>(super.getDescriptionComponent(meta));
-        lore.add(ComponentUtils.create("Consume while in an"));
-        lore.add(ComponentUtils.create("Ocean Monument", NamedTextColor.AQUA).append(ComponentUtils.create(" while ").append(ComponentUtils.create("underwater", NamedTextColor.BLUE))));
-        lore.add(ComponentUtils.create("to summon an ").append(ComponentUtils.create("Elder Guardian", NamedTextColor.DARK_PURPLE).append(ComponentUtils.create("!"))));
-        return lore;
+    public List<Component> getHeader(ItemStack meta) {
+        return List.of(
+                ComponentUtils.create("Consume while in an"),
+                ComponentUtils.create("Ocean Monument", NamedTextColor.AQUA).append(ComponentUtils.create(" while ").append(ComponentUtils.create("underwater", NamedTextColor.BLUE))),
+                ComponentUtils.create("to summon an ").append(ComponentUtils.create("Elder Guardian", NamedTextColor.DARK_PURPLE).append(ComponentUtils.create("!")))
+        );
     }
 
     @Override

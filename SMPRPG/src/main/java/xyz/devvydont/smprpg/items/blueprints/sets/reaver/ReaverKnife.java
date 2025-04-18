@@ -6,6 +6,7 @@ import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.EquipmentSlotGroup;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import xyz.devvydont.smprpg.events.CustomItemDropRollEvent;
 import xyz.devvydont.smprpg.items.CustomItemType;
@@ -15,6 +16,7 @@ import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomAttributeItem;
 import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
+import xyz.devvydont.smprpg.items.interfaces.HeaderDescribable;
 import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
@@ -25,7 +27,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class ReaverKnife extends CustomAttributeItem implements ToolBreakable, Listener {
+public class ReaverKnife extends CustomAttributeItem implements ToolBreakable, HeaderDescribable, Listener {
 
     public ReaverKnife(ItemService itemService, CustomItemType type) {
         super(itemService, type);
@@ -34,8 +36,8 @@ public class ReaverKnife extends CustomAttributeItem implements ToolBreakable, L
     public static final int WITHER_SKULL_BOOST = 5;
 
     @Override
-    public List<Component> getDescriptionComponent(ItemMeta meta) {
-        List<Component> components = new ArrayList<>(super.getDescriptionComponent(meta));
+    public List<Component> getHeader(ItemStack itemStack) {
+        List<Component> components = new ArrayList<>();
         components.add(ComponentUtils.EMPTY);
         components.add(AbilityUtil.getAbilityComponent("Decapitator (Passive)"));
         components.add(ComponentUtils.create("Wither Skeleton Skull drops are ").append(ComponentUtils.create(WITHER_SKULL_BOOST + "x", NamedTextColor.GREEN)).append(ComponentUtils.create(" more common")));

@@ -17,6 +17,7 @@ import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.base.ChargedItemBlueprint;
 import xyz.devvydont.smprpg.items.interfaces.Craftable;
+import xyz.devvydont.smprpg.items.interfaces.HeaderDescribable;
 import xyz.devvydont.smprpg.services.ActionBarService;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
@@ -24,14 +25,14 @@ import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import java.util.Collection;
 import java.util.List;
 
-public class EnchantedMilkBucket extends ChargedItemBlueprint implements Listener, Craftable {
+public class EnchantedMilkBucket extends ChargedItemBlueprint implements HeaderDescribable, Listener, Craftable {
 
     public EnchantedMilkBucket(ItemService itemService, CustomItemType type) {
         super(itemService, type);
     }
 
     @Override
-    public List<Component> getDescriptionComponent(ItemMeta meta) {
+    public List<Component> getHeader(ItemStack itemStack) {
         return List.of(
                 ComponentUtils.create("Consume to cleanse ").append(ComponentUtils.create("ALL", NamedTextColor.GOLD)),
                 ComponentUtils.create("status effects you have!")

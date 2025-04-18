@@ -13,6 +13,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.base.CustomItemBlueprint;
+import xyz.devvydont.smprpg.items.interfaces.HeaderDescribable;
 import xyz.devvydont.smprpg.items.interfaces.Sellable;
 import xyz.devvydont.smprpg.services.EconomyService;
 import xyz.devvydont.smprpg.services.ItemService;
@@ -21,7 +22,7 @@ import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CustomItemCoin extends CustomItemBlueprint implements Sellable, Listener {
+public class CustomItemCoin extends CustomItemBlueprint implements HeaderDescribable, Sellable, Listener {
 
     private final int value;
 
@@ -71,7 +72,7 @@ public class CustomItemCoin extends CustomItemBlueprint implements Sellable, Lis
     }
 
     @Override
-    public List<Component> getDescriptionComponent(ItemMeta meta) {
+    public List<Component> getHeader(ItemStack itemStack) {
         List<Component> lines = new ArrayList<>();
 
         lines.add(ComponentUtils.create("The physical form of ")
@@ -85,7 +86,7 @@ public class CustomItemCoin extends CustomItemBlueprint implements Sellable, Lis
 
         lines.add(
                 ComponentUtils.create("Worth of ")
-                        .append(getNameComponent(meta))
+                        .append(getNameComponent(itemStack.getItemMeta()))
                         .append(ComponentUtils.create(": "))
                         .append(ComponentUtils.create(EconomyService.formatMoney(getWorth()), NamedTextColor.GOLD))
         );

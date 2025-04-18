@@ -185,9 +185,16 @@ public class MenuItemBrowser extends MenuBase {
             // Add the button
             ItemStack item = queriedItems.get(itemIndexOffset);
 
+            // Re-render the lore on the item. This needs to be done so we don't duplicate injected lore.
+            var blueprint = SMPRPG.getInstance().getItemService().getBlueprint(item);
+            var lore = SMPRPG.getInstance().getItemService().renderItemStackLore(item);
+            lore.addFirst(ComponentUtils.EMPTY);
+            lore.addFirst(ComponentUtils.create("Click to view recipe!", NamedTextColor.YELLOW));
+            lore.addFirst(ComponentUtils.EMPTY);
+
             // If this ingredient can be crafted, insert the craftable tooltip.
-            if (SMPRPG.getInstance().getItemService().getBlueprint(item) instanceof Craftable)
-                item.editMeta(meta -> meta.lore(ComponentUtils.cleanItalics(ComponentUtils.insertComponents(meta.lore(), ComponentUtils.EMPTY, ComponentUtils.create("Click to view recipe!", NamedTextColor.YELLOW)))));
+            if (blueprint instanceof Craftable)
+                item.editMeta(meta -> meta.lore(lore));
 
             this.setButton(slot, item, event -> this.handleClick(item));
             itemIndexOffset++;

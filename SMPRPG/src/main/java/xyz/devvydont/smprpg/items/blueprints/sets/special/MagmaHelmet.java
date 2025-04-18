@@ -18,6 +18,7 @@ import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomTexturedAttributeHelmetBlueprint;
 import xyz.devvydont.smprpg.items.interfaces.Craftable;
+import xyz.devvydont.smprpg.items.interfaces.HeaderDescribable;
 import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
@@ -30,7 +31,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class MagmaHelmet extends CustomTexturedAttributeHelmetBlueprint implements Craftable, ToolBreakable, Listener {
+public class MagmaHelmet extends CustomTexturedAttributeHelmetBlueprint implements Craftable, HeaderDescribable, ToolBreakable, Listener {
 
     public MagmaHelmet(ItemService itemService, CustomItemType type) {
         super(itemService, type);
@@ -44,8 +45,8 @@ public class MagmaHelmet extends CustomTexturedAttributeHelmetBlueprint implemen
     }
 
     @Override
-    public List<Component> getDescriptionComponent(ItemMeta meta) {
-        List<Component> components = new ArrayList<>(super.getDescriptionComponent(meta));
+    public List<Component> getHeader(ItemStack itemStack) {
+        List<Component> components = new ArrayList<>();
         components.add(ComponentUtils.EMPTY);
         components.add(AbilityUtil.getAbilityComponent("Heat Proof (Passive)"));
         components.add(ComponentUtils.create("Grants immunity to ").append(ComponentUtils.create(Symbols.FIRE + "fire based", NamedTextColor.RED)).append(ComponentUtils.create(" damage")));

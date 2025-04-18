@@ -742,18 +742,6 @@ public class ItemService implements BaseService, Listener {
         // The lore that we are going to return at the end.
         List<Component> lore = new ArrayList<>();
 
-        // Check for a description.
-        if (blueprint instanceof HeaderDescribable describable) {
-            lore.add(ComponentUtils.EMPTY);
-            lore.addAll(describable.getHeader());
-        }
-
-        // Check if this is a reforge applicator.
-        if (blueprint instanceof ReforgeApplicator applicator) {
-            lore.add(ComponentUtils.EMPTY);
-            lore.addAll(applicator.getReforgeInformation());
-        }
-
         // Check for stats that the item will apply if equipped.
         if (blueprint instanceof Attributeable attributeable) {
             int power = attributeable.getPowerRating() + AttributeUtil.getPowerBonus(meta);
@@ -761,6 +749,18 @@ public class ItemService implements BaseService, Listener {
             lore.add(ComponentUtils.EMPTY);
             lore.addAll(AttributeUtil.getAttributeLore(attributeable, meta));
             lore.add(ComponentUtils.create("Slot: " + attributeable.getActiveSlot().toString().toLowerCase(), NamedTextColor.DARK_GRAY));
+        }
+
+        // Check for a description.
+        if (blueprint instanceof HeaderDescribable describable) {
+            lore.add(ComponentUtils.EMPTY);
+            lore.addAll(describable.getHeader(itemStack));
+        }
+
+        // Check if this is a reforge applicator.
+        if (blueprint instanceof ReforgeApplicator applicator) {
+            lore.add(ComponentUtils.EMPTY);
+            lore.addAll(applicator.getReforgeInformation());
         }
 
         // If this item is a shield add the shield stats
@@ -811,7 +811,7 @@ public class ItemService implements BaseService, Listener {
         // Footer description (if present)
         if (blueprint instanceof FooterDescribable describable) {
             lore.add(ComponentUtils.EMPTY);
-            lore.addAll(describable.getFooter());
+            lore.addAll(describable.getFooter(itemStack));
         }
 
         // Durability if the item has it

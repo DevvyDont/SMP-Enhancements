@@ -26,6 +26,7 @@ import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomAttributeItem;
 import xyz.devvydont.smprpg.items.interfaces.Craftable;
+import xyz.devvydont.smprpg.items.interfaces.HeaderDescribable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
@@ -33,7 +34,7 @@ import xyz.devvydont.smprpg.util.items.AbilityUtil;
 
 import java.util.*;
 
-public class InfernoSaber extends CustomAttributeItem implements Listener, Craftable {
+public class InfernoSaber extends CustomAttributeItem implements HeaderDescribable, Listener, Craftable {
 
     public static final int COOLDOWN = 3;
     public static final int COST = 150;
@@ -66,8 +67,8 @@ public class InfernoSaber extends CustomAttributeItem implements Listener, Craft
     }
 
     @Override
-    public List<Component> getDescriptionComponent(ItemMeta meta) {
-        List<Component> lines = new ArrayList<>(super.getDescriptionComponent(meta));
+    public List<Component> getHeader(ItemStack itemStack) {
+        List<Component> lines = new ArrayList<>();
         lines.add(ComponentUtils.EMPTY);
         lines.add(AbilityUtil.getAbilityComponent("Hot Shot (Right Click)"));
         lines.add(ComponentUtils.create("Shoot a ").append(ComponentUtils.create("fireball", NamedTextColor.GOLD)).append(ComponentUtils.create(" in the direction")));

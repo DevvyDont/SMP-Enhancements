@@ -19,6 +19,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
+import xyz.devvydont.smprpg.items.interfaces.HeaderDescribable;
 import xyz.devvydont.smprpg.listeners.EntityDamageCalculatorService;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
@@ -30,19 +31,19 @@ import java.util.List;
 /*
  * A variant of a bow that can instantly shoot when used.
  */
-public abstract class CustomShortbow extends CustomAttributeItem implements Listener {
+public abstract class CustomShortbow extends CustomAttributeItem implements HeaderDescribable, Listener {
 
     public CustomShortbow(ItemService itemService, CustomItemType type) {
         super(itemService, type);
     }
 
     @Override
-    public List<Component> getDescriptionComponent(ItemMeta meta) {
-        List<Component> lines = new ArrayList<>(super.getDescriptionComponent(meta));
-        lines.add(ComponentUtils.EMPTY);
-        lines.add(AbilityUtil.getAbilityComponent("Shortbow (Left/Right Click)"));
-        lines.add(ComponentUtils.create("Instantly shoots arrows!"));
-        return lines;
+    public List<Component> getHeader(ItemStack itemStack) {
+        return List.of(
+                ComponentUtils.EMPTY,
+                AbilityUtil.getAbilityComponent("Shortbow (Left/Right Click)"),
+                ComponentUtils.create("Instantly shoots arrows!")
+        );
     }
 
     @Override

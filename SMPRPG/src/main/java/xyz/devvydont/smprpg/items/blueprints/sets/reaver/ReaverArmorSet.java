@@ -15,6 +15,7 @@ import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomArmorBlueprint;
+import xyz.devvydont.smprpg.items.interfaces.HeaderDescribable;
 import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
 import xyz.devvydont.smprpg.items.interfaces.Trimmable;
 import xyz.devvydont.smprpg.services.ItemService;
@@ -26,7 +27,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public abstract class ReaverArmorSet extends CustomArmorBlueprint implements ToolBreakable, Trimmable, Listener {
+public abstract class ReaverArmorSet extends CustomArmorBlueprint implements HeaderDescribable, ToolBreakable, Trimmable, Listener {
 
     public static final int POWER = 35;
     public static final int DURABILITY = 32_000;
@@ -41,13 +42,13 @@ public abstract class ReaverArmorSet extends CustomArmorBlueprint implements Too
     }
 
     @Override
-    public List<Component> getDescriptionComponent(ItemMeta meta) {
-        List<Component> components = new ArrayList<>(super.getDescriptionComponent(meta));
-        components.add(ComponentUtils.EMPTY);
-        components.add(AbilityUtil.getAbilityComponent("Necrotic (Passive)"));
-        components.add(ComponentUtils.create("Resists ").append(ComponentUtils.create("-" + getWitherResistance() + "%", NamedTextColor.GREEN)).append(ComponentUtils.create(" of wither damage")));
-        components.add(ComponentUtils.create("(stacks multiplicatively)", NamedTextColor.DARK_GRAY));
-        return components;
+    public List<Component> getHeader(ItemStack itemStack) {
+        return List.of(
+                ComponentUtils.EMPTY,
+                AbilityUtil.getAbilityComponent("Necrotic (Passive)"),
+                ComponentUtils.create("Resists ").append(ComponentUtils.create("-" + getWitherResistance() + "%", NamedTextColor.GREEN)).append(ComponentUtils.create(" of wither damage")),
+                ComponentUtils.create("(stacks multiplicatively)", NamedTextColor.DARK_GRAY)
+        );
     }
 
     @Override
