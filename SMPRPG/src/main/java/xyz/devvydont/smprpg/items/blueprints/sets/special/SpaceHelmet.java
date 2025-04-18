@@ -33,10 +33,10 @@ public class SpaceHelmet extends CustomFakeHelmetBlueprint {
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(Attribute.GENERIC_SAFE_FALL_DISTANCE, 50),
-                new MultiplicativeAttributeEntry(Attribute.GENERIC_FALL_DAMAGE_MULTIPLIER, -.50),
-                new MultiplicativeAttributeEntry(Attribute.GENERIC_GRAVITY, -.9),
-                new MultiplicativeAttributeEntry(Attribute.GENERIC_JUMP_STRENGTH, 2)
+                new AdditiveAttributeEntry(Attribute.SAFE_FALL_DISTANCE, 50),
+                new MultiplicativeAttributeEntry(Attribute.FALL_DAMAGE_MULTIPLIER, -.50),
+                new MultiplicativeAttributeEntry(Attribute.GRAVITY, -.9),
+                new MultiplicativeAttributeEntry(Attribute.JUMP_STRENGTH, 2)
         );
     }
 

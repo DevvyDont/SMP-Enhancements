@@ -33,8 +33,8 @@ public abstract class ReforgeStone extends CustomHeadBlueprint implements Reforg
     }
 
     @Override
-    public List<Component> getDescriptionComponent(ItemMeta meta) {
-        List<Component> lines = new ArrayList<>(super.getDescriptionComponent(meta));
+    public List<Component> getReforgeInformation() {
+        List<Component> lines = new ArrayList<>();
 
         ReforgeBase reforge = getReforge();
         Component reforgeName = ComponentUtils.create(getReforgeType().display() + " Reforge", NamedTextColor.BLUE);

@@ -85,13 +85,6 @@ public class InfernoArrow extends CustomItemBlueprint implements Sellable, Liste
     }
 
     @Override
-    public void updateMeta(ItemMeta meta) {
-        super.updateMeta(meta);
-        meta.setFireResistant(true);
-        updateLore(meta);
-    }
-
-    @Override
     public ItemClassification getItemClassification() {
         return ItemClassification.ITEM;
     }

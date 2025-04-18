@@ -34,7 +34,7 @@ public class CopperHoe extends CustomAttributeItem implements Craftable, ToolBre
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, 2),
-                new MultiplicativeAttributeEntry(Attribute.GENERIC_ATTACK_SPEED, ItemHoe.getHoeAttackSpeedDebuff(Material.IRON_HOE))
+                new MultiplicativeAttributeEntry(Attribute.ATTACK_SPEED, ItemHoe.getHoeAttackSpeedDebuff(Material.IRON_HOE))
         );
     }
 

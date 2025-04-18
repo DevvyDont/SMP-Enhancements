@@ -29,7 +29,7 @@ public class MystbloomBoots extends MystbloomArmorSet {
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 40),
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 10),
                 new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .05),
-                new AdditiveAttributeEntry(Attribute.GENERIC_SAFE_FALL_DISTANCE, 5)
+                new AdditiveAttributeEntry(Attribute.SAFE_FALL_DISTANCE, 5)
         );
     }
 }

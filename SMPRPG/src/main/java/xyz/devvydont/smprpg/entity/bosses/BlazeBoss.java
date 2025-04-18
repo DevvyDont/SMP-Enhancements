@@ -138,7 +138,7 @@ public class BlazeBoss extends CustomBossInstance implements Listener {
             entity.setInvulnerable(true);
             getBlazeEntity().setAI(false);
             setHealthPercentage(Math.min(chargeProgress, 1.0));
-            updateBaseAttribute(Attribute.GENERIC_SCALE, chargeProgress * GOAL_SCALE);
+            updateBaseAttribute(Attribute.SCALE, chargeProgress * GOAL_SCALE);
 
             // Are we done charging?
             if (chargeProgress >= 1.0) {
@@ -175,7 +175,7 @@ public class BlazeBoss extends CustomBossInstance implements Listener {
     @Override
     public void updateAttributes() {
         super.updateAttributes();
-        updateBaseAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE, 1);
+        updateBaseAttribute(Attribute.KNOCKBACK_RESISTANCE, 1);
     }
 
     @Override
@@ -319,7 +319,7 @@ public class BlazeBoss extends CustomBossInstance implements Listener {
             return;
 
         // Damage the boss for how much health the minion had / 2
-        double damage = event.getEntity().getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
+        double damage = event.getEntity().getAttribute(Attribute.MAX_HEALTH).getValue();
         boolean invulnState = entity.isInvulnerable();
         entity.setInvulnerable(false);
         getBlazeEntity().damage(damage * .5, DamageSource.builder(DamageType.MAGIC).withCausingEntity(event.getDamageSource().getCausingEntity()).withDirectEntity(event.getDamageSource().getDirectEntity()).build());

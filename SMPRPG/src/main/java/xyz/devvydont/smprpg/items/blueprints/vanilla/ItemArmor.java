@@ -218,22 +218,22 @@ public class ItemArmor extends VanillaAttributeItem implements ToolBreakable {
         // If we have true defense...
         double trueDef = getTrueDefenseFromMaterial(getItem().getType());
         if (trueDef > 0)
-            modifiers.add(new AdditiveAttributeEntry(Attribute.GENERIC_ARMOR, getTrueDefenseFromMaterial(getItem().getType())));
+            modifiers.add(new AdditiveAttributeEntry(Attribute.ARMOR, getTrueDefenseFromMaterial(getItem().getType())));
 
         // If we have health...
         double health = getHealthFromMaterial(getItem().getType());
         if (health > 0)
-            modifiers.add(new AdditiveAttributeEntry(Attribute.GENERIC_MAX_HEALTH, health));
+            modifiers.add(new AdditiveAttributeEntry(Attribute.MAX_HEALTH, health));
 
         // If we have defense...
         double defense = getDefenseFromMaterial(getItem().getType());
         if (defense > 0)
-            modifiers.add(new AdditiveAttributeEntry(Attribute.GENERIC_ARMOR_TOUGHNESS, defense));
+            modifiers.add(new AdditiveAttributeEntry(Attribute.ARMOR_TOUGHNESS, defense));
 
         // If we have knockback resist...
         double kbResist = getKnockbackResistanceFromMaterial(getItem().getType());
         if (kbResist > 0)
-            modifiers.add(new AdditiveAttributeEntry(Attribute.GENERIC_KNOCKBACK_RESISTANCE, kbResist));
+            modifiers.add(new AdditiveAttributeEntry(Attribute.KNOCKBACK_RESISTANCE, kbResist));
 
         // If we have damage...
         double dmg = getDamageFromMaterial(getItem().getType());
@@ -243,7 +243,7 @@ public class ItemArmor extends VanillaAttributeItem implements ToolBreakable {
         // If we have no modifiers, we need to have something to get rid of the vanilla stats
         // Crappy armor won't have any attributes since defense isn't an attribute
         if (modifiers.isEmpty())
-            modifiers.add(new AdditiveAttributeEntry(Attribute.GENERIC_ARMOR, 0));
+            modifiers.add(new AdditiveAttributeEntry(Attribute.ARMOR, 0));
 
         return modifiers;
     }

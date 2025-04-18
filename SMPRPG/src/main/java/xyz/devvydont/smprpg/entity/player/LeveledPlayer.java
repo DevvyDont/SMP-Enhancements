@@ -212,16 +212,16 @@ public class LeveledPlayer extends LeveledEntity implements Listener {
 
         // Update max health to 100 while maintaining their current HP
         double percent = getHealthPercentage();
-        updateBaseAttribute(Attribute.GENERIC_MAX_HEALTH, getBaseHealth());
+        updateBaseAttribute(Attribute.MAX_HEALTH, getBaseHealth());
 
         if (percent > .01)
             setHealthPercentage(percent);
 
         // Set mic default base attributes that players should have
-        updateBaseAttribute(Attribute.GENERIC_ATTACK_DAMAGE, 5);
-        updateBaseAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE, .05);
-        updateBaseAttribute(Attribute.GENERIC_EXPLOSION_KNOCKBACK_RESISTANCE, .05);
-        updateBaseAttribute(Attribute.PLAYER_SWEEPING_DAMAGE_RATIO, .05);
+        updateBaseAttribute(Attribute.ATTACK_DAMAGE, 5);
+        updateBaseAttribute(Attribute.KNOCKBACK_RESISTANCE, .05);
+        updateBaseAttribute(Attribute.EXPLOSION_KNOCKBACK_RESISTANCE, .05);
+        updateBaseAttribute(Attribute.SWEEPING_DAMAGE_RATIO, .05);
 
         // Make sure we aren't overloading their UI with hearts
         getPlayer().setHealthScale(getHealthScale());

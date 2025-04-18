@@ -128,7 +128,7 @@ public abstract class CustomShortbow extends CustomAttributeItem implements List
         // Post processing effects that we call only when the event was successful.
         event.getPlayer().getWorld().playSound(event.getPlayer().getEyeLocation(), Sound.ENTITY_ARROW_SHOOT, 1, 1.5f);
         event.getPlayer().resetCooldown();
-        int cooldown = (int) (20 / event.getPlayer().getAttribute(Attribute.GENERIC_ATTACK_SPEED).getValue());
+        int cooldown = (int) (20 / event.getPlayer().getAttribute(Attribute.ATTACK_SPEED).getValue());
         event.getPlayer().setCooldown(getCustomItemType().material, cooldown);
 
         // If the arrow shot was a normal arrow and the bow has infinity, consumable logic is handled by

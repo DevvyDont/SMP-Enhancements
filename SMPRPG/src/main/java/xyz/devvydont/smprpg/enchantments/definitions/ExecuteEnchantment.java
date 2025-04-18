@@ -80,12 +80,12 @@ public class ExecuteEnchantment extends CustomEnchantment implements Listener {
         if (!(event.getDealer() instanceof LivingEntity living) || living.getEquipment() == null)
             return;
 
-        if (!(event.getDamaged() instanceof LivingEntity victim) || victim.getAttribute(Attribute.GENERIC_MAX_HEALTH) == null)
+        if (!(event.getDamaged() instanceof LivingEntity victim) || victim.getAttribute(Attribute.MAX_HEALTH) == null)
             return;
 
         // Are they over the threshold?
         double hp = victim.getHealth();
-        double maxHP = victim.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
+        double maxHP = victim.getAttribute(Attribute.MAX_HEALTH).getValue();
         if (hp / maxHP * 100 > HEALTH_THRESHOLD)
             return;
 

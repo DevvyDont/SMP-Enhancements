@@ -48,11 +48,6 @@ public class ItemEnchantedBook extends VanillaItemBlueprint {
     }
 
     @Override
-    public boolean hasEnchants(ItemMeta meta) {
-        return getMeta(meta).hasStoredEnchants();
-    }
-
-    @Override
     public List<Component> getEnchantsComponent(ItemMeta meta) {
 
         // Get a copy of this item meta as if it were enchanted the normal way

@@ -39,7 +39,7 @@ public class PowerEnchantment extends VanillaEnchantment implements AttributeEnc
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(Attribute.GENERIC_ATTACK_DAMAGE, getDamageIncrease(getLevel()))
+                new AdditiveAttributeEntry(Attribute.ATTACK_DAMAGE, getDamageIncrease(getLevel()))
         );
     }
 

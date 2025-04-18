@@ -1,7 +1,6 @@
 plugins {
     id 'java'
-    id("io.papermc.paperweight.userdev") version "1.7.1" // Check for new versions at https://plugins.gradle.org/plugin/io.papermc.paperweight.userdev
-    id("xyz.jpenilla.run-paper") version "2.3.0"
+    id("xyz.jpenilla.run-paper") version "2.3.1"
 }
 
 group = 'xyz.devvydont'
@@ -10,8 +9,8 @@ version = '1.0'
 repositories {
     mavenCentral()
     maven {
-        name = "papermc-repo"
-        url = "https://repo.papermc.io/repository/maven-public/"
+        name = "papermc"
+        url = uri("https://repo.papermc.io/repository/maven-public/")
     }
     maven {
         name = "sonatype"
@@ -22,10 +21,10 @@ repositories {
 }
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:1.21.1-R0.1-SNAPSHOT")
-    compileOnly "com.github.MilkBowl:VaultAPI:1.7"
+    compileOnly("io.papermc.paper:paper-api:1.21.5-R0.1-SNAPSHOT")
+    compileOnly "com.github.MilkBowl:VaultAPI:1.7.1"
     compileOnly group: "com.comphenix.protocol", name: "ProtocolLib", version: "4.8.0";
-    paperweight.paperDevBundle("1.21.1-R0.1-SNAPSHOT")
+    implementation 'org.json:json:20231013'
 }
 
 def targetJavaVersion = 21
@@ -48,7 +47,7 @@ tasks.withType(JavaCompile).configureEach {
 
 tasks {
     runServer {
-        minecraftVersion("1.21")
+        minecraftVersion("1.21.5")
     }
 }
 

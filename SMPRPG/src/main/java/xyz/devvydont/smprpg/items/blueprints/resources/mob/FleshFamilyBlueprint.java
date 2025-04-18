@@ -1,5 +1,7 @@
 package xyz.devvydont.smprpg.items.blueprints.resources.mob;
 
+import io.papermc.paper.datacomponent.item.Consumable;
+import io.papermc.paper.datacomponent.item.consumable.ConsumeEffect;
 import org.bukkit.Material;
 import org.bukkit.inventory.meta.components.FoodComponent;
 import org.bukkit.potion.PotionEffect;
@@ -8,14 +10,16 @@ import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.base.CustomCompressableBlueprint;
 import xyz.devvydont.smprpg.items.interfaces.Edible;
+import xyz.devvydont.smprpg.items.interfaces.IConsumable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.crafting.CompressionRecipeMember;
 import xyz.devvydont.smprpg.util.crafting.MaterialWrapper;
 import xyz.devvydont.smprpg.util.items.FoodUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class FleshFamilyBlueprint extends CustomCompressableBlueprint implements Edible {
+public class FleshFamilyBlueprint extends CustomCompressableBlueprint implements Edible, IConsumable {
 
     public static final List<CompressionRecipeMember> COMPRESSION_FLOW = List.of(
             new CompressionRecipeMember(new MaterialWrapper(Material.ROTTEN_FLESH)),
@@ -32,27 +36,49 @@ public class FleshFamilyBlueprint extends CustomCompressableBlueprint implements
         return COMPRESSION_FLOW;
     }
 
-    public FoodComponent getFoodComponent() {
-        FoodComponent food = FoodUtil.getVanillaFoodComponent(Material.ROTTEN_FLESH);
-        food.setCanAlwaysEat(true);
+    @Override
+    public int getNutrition() {
+        return switch (getCustomItemType()) {
+            case ENCHANTED_FLESH -> 12;
+            case PREMIUM_FLESH -> 4;
+            default -> 2;
+        };
+    }
 
-        if (getCustomItemType().equals(CustomItemType.PREMIUM_FLESH)) {
-            food.setNutrition(food.getNutrition()+4);
-            food.setSaturation(food.getSaturation()+4);
-            food.setEatSeconds(food.getEatSeconds()+1);
-            food.addEffect(new PotionEffect(PotionEffectType.ABSORPTION, 20*60, 0), 1);
-            return food;
-        }
+    @Override
+    public float getSaturation() {
+        return switch (getCustomItemType()) {
+            case ENCHANTED_PORKCHOP -> 12;
+            case PREMIUM_PORKCHOP -> 4;
+            default -> 2;
+        };
+    }
 
-        if (getCustomItemType().equals(CustomItemType.ENCHANTED_FLESH)) {
-            food.setNutrition(food.getNutrition()+8);
-            food.setSaturation(food.getSaturation()+8);
-            food.setEatSeconds(food.getEatSeconds()+2);
-            food.addEffect(new PotionEffect(PotionEffectType.ABSORPTION, 20*600, 1), 1);
-            food.addEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 20*600, 0), 1);
-        }
+    @Override
+    public boolean canAlwaysEat() {
+        return true;
+    }
 
-        return food;
+    @Override
+    public Consumable getConsumableComponent() {
+
+        var effects = new ArrayList<ConsumeEffect>();
+
+        if (getCustomItemType().equals(CustomItemType.ENCHANTED_FLESH))
+            effects.add(ConsumeEffect.applyStatusEffects(List.of(
+                    new PotionEffect(PotionEffectType.ABSORPTION, 20*600, 2),
+                    new PotionEffect(PotionEffectType.NIGHT_VISION, 20*600, 0)
+            ), 1f));
+
+        if (getCustomItemType().equals(CustomItemType.PREMIUM_FLESH))
+            effects.add(ConsumeEffect.applyStatusEffects(List.of(
+                    new PotionEffect(PotionEffectType.ABSORPTION, 20*600, 0)
+            ), 1f));
+
+        return Consumable.consumable()
+                .consumeSeconds(4)
+                .addEffects(effects)
+                .build();
     }
 
     @Override

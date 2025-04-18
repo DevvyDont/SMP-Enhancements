@@ -23,15 +23,6 @@ public class PotatoChip extends CustomItemBlueprint implements Edible, Sellable 
     }
 
     @Override
-    public FoodComponent getFoodComponent() {
-        FoodComponent food = FoodUtil.getVanillaFoodComponent(Material.POTATO);
-        food.setNutrition(4);
-        food.setSaturation(2);
-        food.setEatSeconds(.9f);
-        return food;
-    }
-
-    @Override
     public int getWorth() {
         return 24;
     }
@@ -39,5 +30,20 @@ public class PotatoChip extends CustomItemBlueprint implements Edible, Sellable 
     @Override
     public int getWorth(ItemMeta meta) {
         return getWorth();
+    }
+
+    @Override
+    public int getNutrition() {
+        return 4;
+    }
+
+    @Override
+    public float getSaturation() {
+        return 2;
+    }
+
+    @Override
+    public boolean canAlwaysEat() {
+        return false;
     }
 }

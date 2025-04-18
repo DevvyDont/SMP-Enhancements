@@ -1,7 +1,10 @@
 package xyz.devvydont.smprpg.services;
 
 import com.destroystokyo.paper.event.inventory.PrepareResultEvent;
+import io.papermc.paper.datacomponent.item.consumable.ConsumeEffect;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
 import org.bukkit.Keyed;
 import org.bukkit.Material;
@@ -28,6 +31,7 @@ import org.bukkit.event.world.LootGenerateEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.MerchantRecipe;
 import org.bukkit.inventory.Recipe;
+import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -36,20 +40,23 @@ import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.SMPItemQuery;
+import xyz.devvydont.smprpg.items.base.ChargedItemBlueprint;
 import xyz.devvydont.smprpg.items.base.CustomItemBlueprint;
 import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
 import xyz.devvydont.smprpg.items.base.VanillaItemBlueprint;
 import xyz.devvydont.smprpg.items.blueprints.resources.VanillaResource;
 import xyz.devvydont.smprpg.items.blueprints.vanilla.*;
-import xyz.devvydont.smprpg.items.interfaces.Compressable;
-import xyz.devvydont.smprpg.items.interfaces.Craftable;
+import xyz.devvydont.smprpg.items.interfaces.*;
 import xyz.devvydont.smprpg.items.listeners.ExperienceBottleListener;
 import xyz.devvydont.smprpg.items.listeners.ShieldBlockingListener;
 import xyz.devvydont.smprpg.reforge.ReforgeBase;
 import xyz.devvydont.smprpg.reforge.ReforgeType;
+import xyz.devvydont.smprpg.util.attributes.AttributeUtil;
 import xyz.devvydont.smprpg.util.crafting.ItemUtil;
 import xyz.devvydont.smprpg.util.crafting.MaterialWrapper;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
+import xyz.devvydont.smprpg.util.formatting.MinecraftStringUtils;
+import xyz.devvydont.smprpg.util.formatting.Symbols;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
@@ -709,6 +716,127 @@ public class ItemService implements BaseService, Listener {
      */
     public Collection<Recipe> getCustomRecipes() {
         return registeredRecipes;
+    }
+
+    /**
+     * Given an ItemStack, generate a list of components that is to be used for the lore (tooltip) on the item.
+     * This can not only be used for actually setting ItemStack lore, but also in other circumstances such as
+     * generating a hoverable chat component or buttons on a GUI.
+     *
+     * This method consists of basically a disgusting amount of isinstance checks for all item interface types in
+     * items/interfaces where we decide how we want to render all the attributes/components an item can have.
+     *
+     * While I am usually against large methods, it makes sense to have this gross logic all in one place, and it allows
+     * items to be very customizable and modular while also having a set order for how components should display.
+     *
+     * @param itemStack
+     * @return
+     */
+    public List<Component> renderItemStackLore(ItemStack itemStack) {
+
+
+        // First, we need to extract the blueprint of this item so we know how to display it.
+        SMPItemBlueprint blueprint = getBlueprint(itemStack);
+        ItemMeta meta = itemStack.getItemMeta();
+
+        // The lore that we are going to return at the end.
+        List<Component> lore = new ArrayList<>();
+
+        // Check for a description.
+        if (blueprint instanceof HeaderDescribable describable) {
+            lore.add(ComponentUtils.EMPTY);
+            lore.addAll(describable.getHeader());
+        }
+
+        // Check if this is a reforge applicator.
+        if (blueprint instanceof ReforgeApplicator applicator) {
+            lore.add(ComponentUtils.EMPTY);
+            lore.addAll(applicator.getReforgeInformation());
+        }
+
+        // Check for stats that the item will apply if equipped.
+        if (blueprint instanceof Attributeable attributeable) {
+            int power = attributeable.getPowerRating() + AttributeUtil.getPowerBonus(meta);
+            lore.add(ComponentUtils.create("Power Rating: ").append(ComponentUtils.create(Symbols.POWER + power, NamedTextColor.YELLOW)));
+            lore.add(ComponentUtils.EMPTY);
+            lore.addAll(AttributeUtil.getAttributeLore(attributeable, meta));
+            lore.add(ComponentUtils.create("Slot: " + attributeable.getActiveSlot().toString().toLowerCase(), NamedTextColor.DARK_GRAY));
+        }
+
+        // If this item is a shield add the shield stats
+        if (blueprint instanceof Shieldable shieldable) {
+            lore.add(ComponentUtils.EMPTY);
+            lore.add(ComponentUtils.create("Blocking Resistance: ").append(ComponentUtils.create("-" + (int)(shieldable.getDamageBlockingPercent() * 100) + "%", NamedTextColor.GREEN)));
+            lore.add(ComponentUtils.create("Blocking Delay: ").append(ComponentUtils.create("+" + (shieldable.getShieldDelay() / 20.0) + "s", NamedTextColor.RED)));
+        }
+
+        // First, enchants. Are we not forcing glow? Only display enchants when we are not forcing glow (and have some).
+        if (!itemStack.getEnchantments().isEmpty())
+            lore.addAll(blueprint.getEnchantsComponent(meta));
+
+        // If this item holds experience
+        if (blueprint instanceof ExperienceThrowable holder) {
+            lore.add(ComponentUtils.EMPTY);
+            lore.add(ComponentUtils.create("Stored Experience: ").append(ComponentUtils.create(MinecraftStringUtils.formatNumber(holder.getExperience()) + "XP", NamedTextColor.GREEN)));
+        }
+
+        // Does this item have consumable properties?
+        if (blueprint instanceof IConsumable consumable) {
+            lore.add(ComponentUtils.EMPTY);
+            lore.add(ComponentUtils.merge(ComponentUtils.create("Consumable "), ComponentUtils.create("(" + consumable.getConsumableComponent().consumeSeconds() + "s)", NamedTextColor.DARK_GRAY)));
+            for (ConsumeEffect effect : consumable.getConsumableComponent().consumeEffects())
+                lore.add(ComponentUtils.merge(ComponentUtils.create("- "), ComponentUtils.create(effect.getClass().getSimpleName(), NamedTextColor.RED)));
+        }
+
+        // Food properties, nutrition + saturation information.
+        if (meta.hasFood())
+            lore.addAll(blueprint.getFoodComponent(meta));
+
+        // Is this item compressed?
+        if (blueprint instanceof Compressable compressable) {
+            Component material = compressable.getCompressionFlow().getFirst().getMaterial().component().decoration(TextDecoration.BOLD, true);
+            lore.add(ComponentUtils.create("An ultra compressed"));
+            lore.add(ComponentUtils.create("collection of ").append(material));
+            lore.add(ComponentUtils.EMPTY);
+            lore.add(ComponentUtils.create("(1x)  Uncompressed amount: ", NamedTextColor.DARK_GRAY).append(ComponentUtils.create(MinecraftStringUtils.formatNumber(compressable.getCompressedAmount()), NamedTextColor.LIGHT_PURPLE, TextDecoration.BOLD)));
+            lore.add(ComponentUtils.create("(64x) Uncompressed amount: ", NamedTextColor.DARK_GRAY).append(ComponentUtils.create(MinecraftStringUtils.formatNumber(compressable.getCompressedAmount() * 64L), NamedTextColor.LIGHT_PURPLE, TextDecoration.BOLD)));
+        }
+
+        // Is this item reforged?
+        if (blueprint.isReforged(meta)) {
+            lore.add(ComponentUtils.EMPTY);
+            lore.addAll(blueprint.getReforgeComponent(meta));
+        }
+
+        // Footer description (if present)
+        if (blueprint instanceof FooterDescribable describable) {
+            lore.add(ComponentUtils.EMPTY);
+            lore.addAll(describable.getFooter());
+        }
+
+        // Durability if the item has it
+        if (meta instanceof Damageable damageable && damageable.hasMaxDamage() && !meta.isUnbreakable() && !(blueprint instanceof ChargedItemBlueprint)) {
+            lore.add(ComponentUtils.EMPTY);
+            lore.add(
+                    ComponentUtils.create("Durability: ")
+                            .append(ComponentUtils.create(MinecraftStringUtils.formatNumber(damageable.getMaxDamage()-damageable.getDamage()), NamedTextColor.RED))
+                            .append(ComponentUtils.create("/" + MinecraftStringUtils.formatNumber(damageable.getMaxDamage()), NamedTextColor.DARK_GRAY))
+            );
+        }
+
+        // Damage resistant?
+        if (meta.hasDamageResistant())
+            lore.add(ComponentUtils.create(Symbols.FIRE + meta.getDamageResistant().getKey().asMinimalString(), NamedTextColor.GOLD));
+
+        // Now, value and rarity
+        lore.add(ComponentUtils.EMPTY);
+        if (this instanceof Sellable sellable) {
+            int value = sellable.getWorth(meta);
+            if (value > 0)
+                lore.add(ComponentUtils.create("Sell Value: ").append(ComponentUtils.create(EconomyService.formatMoney(sellable.getWorth(meta)), NamedTextColor.GOLD)));
+        }
+        lore.add(blueprint.getRarity(meta).applyDecoration(ComponentUtils.create(blueprint.getRarity(meta).name() + " " + blueprint.getItemClassification().name().replace("_", " "))).decoration(TextDecoration.BOLD, true).color(blueprint.getRarity(meta).color));
+        return ComponentUtils.cleanItalics(lore);
     }
 
     /**

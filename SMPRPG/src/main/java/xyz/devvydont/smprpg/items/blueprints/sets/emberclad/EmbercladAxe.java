@@ -24,13 +24,6 @@ public class EmbercladAxe extends CustomAttributeItem implements ToolBreakable {
     }
 
     @Override
-    public void updateMeta(ItemMeta meta) {
-        super.updateMeta(meta);
-        meta.setFireResistant(true);
-        updateLore(meta);
-    }
-
-    @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, 200),

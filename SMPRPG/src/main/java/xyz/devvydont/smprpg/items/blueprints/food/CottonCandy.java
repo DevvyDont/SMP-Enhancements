@@ -35,12 +35,17 @@ public class CottonCandy extends CustomItemBlueprint implements Edible, Sellable
     }
 
     @Override
-    public FoodComponent getFoodComponent() {
-        FoodComponent food = FoodUtil.getVanillaFoodComponent(Material.COOKIE);
-        food.setEatSeconds(.9f);
-        food.setNutrition(4);
-        food.setSaturation(4);
-        food.addEffect(new PotionEffect(PotionEffectType.SPEED, 60*20, 0, true, true), .2f);
-        return food;
+    public int getNutrition() {
+        return 4;
+    }
+
+    @Override
+    public float getSaturation() {
+        return 4;
+    }
+
+    @Override
+    public boolean canAlwaysEat() {
+        return false;
     }
 }

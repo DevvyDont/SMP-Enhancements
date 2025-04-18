@@ -14,7 +14,13 @@ public class UnstableListenersService implements BaseService {
     @Override
     public boolean setup() {
 
-        new DamageParticleRemover(plugin);
+        try {
+            new DamageParticleRemover(plugin);
+        } catch (Exception e) {
+            plugin.getLogger().warning("Failed to instantiate damage particle remover. - " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
         return true;
     }
 

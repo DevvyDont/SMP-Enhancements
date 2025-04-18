@@ -90,7 +90,7 @@ public class LeechEnchantment extends CustomEnchantment implements Listener {
         if (!(event.getDealer() instanceof Player player))
             return;
 
-        AttributeInstance maxHP = player.getAttribute(Attribute.GENERIC_MAX_HEALTH);
+        AttributeInstance maxHP = player.getAttribute(Attribute.MAX_HEALTH);
         if (maxHP == null)
             return;
 

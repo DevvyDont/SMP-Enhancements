@@ -1,6 +1,6 @@
 package xyz.devvydont.smprpg.reforge;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.reforge.definitions.*;

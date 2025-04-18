@@ -96,9 +96,11 @@ public class InterfaceItemBrowser extends PrivateInterface {
 
             SMPItemBlueprint blueprint = plugin.getItemService().getBlueprint(toDisplay.get(itemIndex));
             ItemStack item = blueprint.generate();
+            blueprint.updateMeta(item);
             if (blueprint instanceof Craftable)
                 item.editMeta(meta -> {
-                    List<Component> lore = meta.lore();
+                    List<Component> lore = meta.lore() != null ? meta.lore() : new ArrayList<>();
+                    lore.addFirst(ComponentUtils.EMPTY);
                     lore.addFirst(ComponentUtils.create("Click to view recipe!", NamedTextColor.YELLOW));
                     lore.addFirst(ComponentUtils.EMPTY);
                     meta.lore(lore);

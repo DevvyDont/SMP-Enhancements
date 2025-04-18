@@ -1,5 +1,8 @@
 package xyz.devvydont.smprpg.items.blueprints.boss;
 
+import io.papermc.paper.datacomponent.item.Consumable;
+import io.papermc.paper.datacomponent.item.consumable.ItemUseAnimation;
+import io.papermc.paper.registry.keys.SoundEventKeys;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
@@ -28,6 +31,7 @@ import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.base.CustomItemBlueprint;
 import xyz.devvydont.smprpg.items.interfaces.Craftable;
 import xyz.devvydont.smprpg.items.interfaces.Edible;
+import xyz.devvydont.smprpg.items.interfaces.IConsumable;
 import xyz.devvydont.smprpg.items.interfaces.Sellable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
@@ -37,7 +41,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class NeptunesConch extends CustomItemBlueprint implements Listener, Craftable, Edible, Sellable {
+public class NeptunesConch extends CustomItemBlueprint implements Listener, Craftable, IConsumable, Sellable {
 
     public NeptunesConch(ItemService itemService, CustomItemType type) {
         super(itemService, type);
@@ -86,14 +90,12 @@ public class NeptunesConch extends CustomItemBlueprint implements Listener, Craf
     }
 
     @Override
-    public FoodComponent getFoodComponent() {
-        FoodComponent food = FoodUtil.getVanillaFoodComponent(Material.BREAD);
-        food.setEatSeconds(5);
-        food.setNutrition(1);
-        food.setSaturation(1);
-        food.setCanAlwaysEat(true);
-        food.addEffect(new PotionEffect(PotionEffectType.MINING_FATIGUE, 20*5*60, 2, true, true), 1.0f);
-        return food;
+    public Consumable getConsumableComponent() {
+        return Consumable.consumable()
+                .consumeSeconds(5)
+                .sound(SoundEventKeys.EVENT_RAID_HORN)
+                .animation(ItemUseAnimation.TOOT_HORN)
+                .build();
     }
 
     private boolean isInMonument(Player player) {

@@ -6,6 +6,7 @@ import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
+import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import xyz.devvydont.treasureitems.TreasureItems;
 import xyz.devvydont.treasureitems.util.ComponentUtils;
@@ -53,7 +54,6 @@ public abstract class CustomItemBlueprint {
 
                 // Add the enchantment
                 item.addUnsafeEnchantment(entry.getKey(), level);
-
             }
 
         }
@@ -141,6 +141,9 @@ public abstract class CustomItemBlueprint {
 
             int level = itemStack.getEnchantmentLevel(enchantment);
             PotentialEnchantmentWrapper potentialEnchantment = potentialEnchantments.get(enchantment);
+            // If this enchantment was tacked on, we don't care to show it.
+            if (potentialEnchantment == null)
+                continue;
 
             NamedTextColor color = NamedTextColor.GRAY;
 
@@ -263,4 +266,6 @@ public abstract class CustomItemBlueprint {
 
 
     public void onBlockBreak(BlockBreakEvent event) {}  // What should we do when we break a block with this item?
+
+    public void onFish(PlayerFishEvent event) {}  // What should we do when we fish with this item?
 }

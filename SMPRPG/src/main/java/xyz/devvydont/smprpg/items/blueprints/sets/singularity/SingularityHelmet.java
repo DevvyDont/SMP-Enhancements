@@ -31,7 +31,7 @@ public class SingularityHelmet extends CustomFakeHelmetBlueprint implements Tool
                 new AdditiveAttributeEntry(AttributeWrapper.ARMOR, 6),
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 600),
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 300),
-                new ScalarAttributeEntry(Attribute.GENERIC_KNOCKBACK_RESISTANCE, .2),
+                new ScalarAttributeEntry(Attribute.KNOCKBACK_RESISTANCE, .2),
                 new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, .2),
                 new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .2)
         );

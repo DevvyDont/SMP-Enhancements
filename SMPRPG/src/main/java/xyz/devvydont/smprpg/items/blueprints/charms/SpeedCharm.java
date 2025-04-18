@@ -23,7 +23,7 @@ public class SpeedCharm extends CustomFakeTotem {
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new ScalarAttributeEntry(Attribute.GENERIC_MOVEMENT_SPEED, .5),
+                new ScalarAttributeEntry(Attribute.MOVEMENT_SPEED, .5),
                 new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, .5),
                 new ScalarAttributeEntry(AttributeWrapper.MINING_SPEED, .5)
         );

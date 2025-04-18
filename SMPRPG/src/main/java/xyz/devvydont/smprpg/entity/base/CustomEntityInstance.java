@@ -69,9 +69,9 @@ public class CustomEntityInstance extends EnemyEntity {
 
     @Override
     public void updateAttributes() {
-        updateBaseAttribute(Attribute.GENERIC_MAX_HEALTH, entityType.baseHp);
+        updateBaseAttribute(Attribute.MAX_HEALTH, entityType.baseHp);
         heal();
-        updateBaseAttribute(Attribute.GENERIC_ATTACK_DAMAGE, calculateBaseAttackDamage());
+        updateBaseAttribute(Attribute.ATTACK_DAMAGE, calculateBaseAttackDamage());
     }
 
     public boolean isEntityOfType(Entity entity) {
@@ -86,8 +86,8 @@ public class CustomEntityInstance extends EnemyEntity {
         ItemStack item = new ItemStack(material);
         item.editMeta(meta -> {
             meta.setAttributeModifiers(null);
-            meta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier(new NamespacedKey("smprpg", "dummy-attribute"), 0, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlotGroup.ANY));
-            meta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier(new NamespacedKey("smprpg", "dummy-attribute"), 0, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlotGroup.ANY));
+            meta.addAttributeModifier(Attribute.ARMOR, new AttributeModifier(new NamespacedKey("smprpg", "dummy-attribute"), 0, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlotGroup.ANY));
+            meta.addAttributeModifier(Attribute.ATTACK_DAMAGE, new AttributeModifier(new NamespacedKey("smprpg", "dummy-attribute"), 0, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlotGroup.ANY));
         });
         plugin.getItemService().setIgnoreMetaUpdate(item);
         return item;

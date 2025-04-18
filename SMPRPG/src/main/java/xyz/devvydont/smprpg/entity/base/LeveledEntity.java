@@ -293,7 +293,7 @@ public abstract class LeveledEntity implements LootSource {
      */
     public double getMaxHp() {
         if (entity instanceof LivingEntity living)
-            return living.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
+            return living.getAttribute(Attribute.MAX_HEALTH).getValue();
         return 1;
     }
 
@@ -330,7 +330,7 @@ public abstract class LeveledEntity implements LootSource {
         if (!(entity instanceof LivingEntity living))
             return 0;
 
-        AttributeInstance attack = living.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE);
+        AttributeInstance attack = living.getAttribute(Attribute.ATTACK_DAMAGE);
         if (attack != null)
             return attack.getValue();
 
@@ -384,7 +384,7 @@ public abstract class LeveledEntity implements LootSource {
         AttributeInstance attrInstance = living.getAttribute(attribute);
         if (attrInstance == null) {
             living.registerAttribute(attribute);
-            plugin.getLogger().fine(String.format("Tried to set %s attribute on %s, does not have it", attribute.name(), entity.getName()));
+            plugin.getLogger().fine(String.format("Tried to set %s attribute on %s, does not have it", attribute.key().asMinimalString(), entity.getName()));
             attrInstance = living.getAttribute(attribute);
         }
 

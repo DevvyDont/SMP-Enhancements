@@ -23,10 +23,18 @@ public class StolenApples extends CustomItemBlueprint implements Edible, Sellabl
     }
 
     @Override
-    public FoodComponent getFoodComponent() {
-        FoodComponent food = FoodUtil.getVanillaFoodComponent(Material.APPLE);
-        food.setEatSeconds(1f);
-        return food;
+    public int getNutrition() {
+        return 4;
+    }
+
+    @Override
+    public float getSaturation() {
+        return 4;
+    }
+
+    @Override
+    public boolean canAlwaysEat() {
+        return false;
     }
 
     @Override

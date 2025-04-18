@@ -55,9 +55,9 @@ public class CustomBossInstance extends BossInstance {
 
     @Override
     public void updateAttributes() {
-        updateBaseAttribute(Attribute.GENERIC_MAX_HEALTH, type.baseHp);
+        updateBaseAttribute(Attribute.MAX_HEALTH, type.baseHp);
         heal();
-        updateBaseAttribute(Attribute.GENERIC_ATTACK_DAMAGE, calculateBaseAttackDamage());
+        updateBaseAttribute(Attribute.ATTACK_DAMAGE, calculateBaseAttackDamage());
     }
 
     public boolean isEntityOfType(Entity entity) {

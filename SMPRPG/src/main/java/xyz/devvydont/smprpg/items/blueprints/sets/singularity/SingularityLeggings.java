@@ -39,7 +39,7 @@ public class SingularityLeggings extends CustomArmorBlueprint implements ToolBre
                 new AdditiveAttributeEntry(AttributeWrapper.ARMOR, 6),
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 930),
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 460),
-                new ScalarAttributeEntry(Attribute.GENERIC_KNOCKBACK_RESISTANCE, .2),
+                new ScalarAttributeEntry(Attribute.KNOCKBACK_RESISTANCE, .2),
                 new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, .2),
                 new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .2)
         );

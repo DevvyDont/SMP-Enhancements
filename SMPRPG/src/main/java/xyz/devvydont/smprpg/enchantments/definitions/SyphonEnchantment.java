@@ -91,7 +91,7 @@ public class SyphonEnchantment extends CustomEnchantment implements Listener {
 
         Player killer = event.getEntity().getKiller();
 
-        AttributeInstance maxHP = killer.getAttribute(Attribute.GENERIC_MAX_HEALTH);
+        AttributeInstance maxHP = killer.getAttribute(Attribute.MAX_HEALTH);
         if (maxHP == null)
             return;
 

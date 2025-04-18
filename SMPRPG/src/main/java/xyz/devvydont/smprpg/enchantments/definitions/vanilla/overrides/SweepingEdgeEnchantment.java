@@ -82,7 +82,7 @@ public class SweepingEdgeEnchantment extends VanillaEnchantment implements Attri
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-//                new AdditiveAttributeEntry(Attribute.PLAYER_SWEEPING_DAMAGE_RATIO, getSweepingEdgeEfficiency(getLevel())/1000.0)
+//                new AdditiveAttributeEntry(Attribute.SWEEPING_DAMAGE_RATIO, getSweepingEdgeEfficiency(getLevel())/1000.0)
         );
     }
 

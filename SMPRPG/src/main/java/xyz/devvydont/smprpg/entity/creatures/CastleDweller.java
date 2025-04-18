@@ -1,6 +1,9 @@
 package xyz.devvydont.smprpg.entity.creatures;
 
+import io.papermc.paper.registry.RegistryAccess;
+import io.papermc.paper.registry.RegistryKey;
 import org.bukkit.Material;
+import org.bukkit.Registry;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Villager;
 import org.bukkit.entity.ZombieVillager;
@@ -13,6 +16,7 @@ import xyz.devvydont.smprpg.util.items.ChancedItemDrop;
 import xyz.devvydont.smprpg.util.items.LootDrop;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class CastleDweller extends CustomEntityInstance {
@@ -27,7 +31,10 @@ public class CastleDweller extends CustomEntityInstance {
     public void setup() {
         super.setup();
         ZombieVillager zv = (ZombieVillager) entity;
-        zv.setVillagerProfession(Villager.Profession.values()[(int) (Math.random()*Villager.Profession.values().length)]);
+        var professions = new java.util.ArrayList<>(RegistryAccess.registryAccess().getRegistry(RegistryKey.VILLAGER_PROFESSION).stream().toList());
+        Collections.shuffle(professions);
+        var profession = professions.getFirst();
+        zv.setVillagerProfession(profession);
 
         zv.getEquipment().setHelmet(null);
         zv.getEquipment().setChestplate(null);

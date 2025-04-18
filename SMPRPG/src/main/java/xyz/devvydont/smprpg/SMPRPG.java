@@ -91,26 +91,12 @@ public final class SMPRPG extends JavaPlugin implements Listener {
         return animationService;
     }
 
-    public void checkServerSettings() {
-        YamlConfiguration spigotConfig = getServer().spigot().getSpigotConfig();
-        spigotConfig.set("settings.attribute.maxHealth.max", 999999999.0);
-        spigotConfig.set("settings.attribute.attackDamage.max", 999999999.0);
-
-        try {
-            spigotConfig.save(getServer().getWorldContainer().getAbsolutePath() + "/spigot.yml");
-        } catch (IOException e) {
-            getLogger().severe("Failed to update spigot configuration to support high attack/health values.");
-            e.printStackTrace();
-        }
-    }
-
     @Override
     public void onEnable() {
 
         INSTANCE = this;
 
         ConfigManager.init();  // Enable config.yml defaults
-        checkServerSettings();  // Make sure HP and DMG values are good
 
         services = new ArrayList<>();
 
@@ -145,7 +131,7 @@ public final class SMPRPG extends JavaPlugin implements Listener {
         registerService(actionBarService);
 
         unstableListenersService =  new UnstableListenersService(this);
-        registerService(unstableListenersService);
+//        registerService(unstableListenersService);
 
         animationService =  new AnimationService(this);
 

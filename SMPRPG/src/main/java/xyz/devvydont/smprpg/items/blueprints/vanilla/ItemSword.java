@@ -61,8 +61,8 @@ public class ItemSword extends VanillaAttributeItem implements ToolBreakable {
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(Attribute.GENERIC_ATTACK_DAMAGE, getSwordDamage(getItem().getType())),
-                new MultiplicativeAttributeEntry(Attribute.GENERIC_ATTACK_SPEED, SWORD_ATTACK_SPEED_DEBUFF)
+                new AdditiveAttributeEntry(Attribute.ATTACK_DAMAGE, getSwordDamage(getItem().getType())),
+                new MultiplicativeAttributeEntry(Attribute.ATTACK_SPEED, SWORD_ATTACK_SPEED_DEBUFF)
         );
     }
 

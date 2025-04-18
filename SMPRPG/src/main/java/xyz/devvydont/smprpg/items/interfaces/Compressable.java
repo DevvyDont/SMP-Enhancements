@@ -27,4 +27,5 @@ public interface Compressable {
 
     Collection<NamespacedKey> getAllRecipeKeys();
 
+    int getCompressedAmount();
 }

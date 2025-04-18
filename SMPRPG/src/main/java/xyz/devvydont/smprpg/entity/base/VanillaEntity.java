@@ -134,7 +134,7 @@ public class VanillaEntity extends EnemyEntity {
 
         // Based on vanilla minecraft's rules for damage, figure out a suitable damage multiplier for this entity
         double averageDamage = 2.0;
-        AttributeInstance attack = living.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE);
+        AttributeInstance attack = living.getAttribute(Attribute.ATTACK_DAMAGE);
         if (attack == null)
             return averageDamage;
 
@@ -154,9 +154,9 @@ public class VanillaEntity extends EnemyEntity {
 
     @Override
     public void updateAttributes() {
-        updateBaseAttribute(Attribute.GENERIC_MAX_HEALTH, calculateBaseHealth());
+        updateBaseAttribute(Attribute.MAX_HEALTH, calculateBaseHealth());
         heal();
-        updateBaseAttribute(Attribute.GENERIC_ATTACK_DAMAGE, calculateBaseAttackDamage());
+        updateBaseAttribute(Attribute.ATTACK_DAMAGE, calculateBaseAttackDamage());
     }
 
     @Override

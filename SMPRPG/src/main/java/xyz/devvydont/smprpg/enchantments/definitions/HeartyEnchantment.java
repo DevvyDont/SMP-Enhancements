@@ -95,7 +95,7 @@ public class HeartyEnchantment extends CustomEnchantment implements AttributeEnc
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(Attribute.GENERIC_MAX_HEALTH, getHealthIncrease(getLevel()))
+                new AdditiveAttributeEntry(Attribute.MAX_HEALTH, getHealthIncrease(getLevel()))
         );
     }
 

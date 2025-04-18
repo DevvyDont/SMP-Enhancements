@@ -2,7 +2,13 @@ package xyz.devvydont.treasureitems.blueprints;
 
 
 import org.bukkit.Material;
+import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.player.PlayerFishEvent;
 import xyz.devvydont.treasureitems.blueprints.armor.*;
+import xyz.devvydont.treasureitems.blueprints.misc.GrapplingHookBlueprint;
+import xyz.devvydont.treasureitems.blueprints.misc.OxygenHelmetBlueprint;
+import xyz.devvydont.treasureitems.blueprints.misc.SpaceHelmetBlueprint;
+import xyz.devvydont.treasureitems.blueprints.misc.StrengthCharmBlueprint;
 import xyz.devvydont.treasureitems.blueprints.tools.*;
 import org.bukkit.NamespacedKey;
 import org.bukkit.event.EventHandler;
@@ -59,6 +65,12 @@ public class CustomItemManager implements Listener {
         registerCustomItem(new SpeedTotemBlueprint());
         registerCustomItem(new LuckyCharmBlueprint());
         registerCustomItem(new FeatherTridentBlueprint());
+
+        registerCustomItem(new GrapplingHookBlueprint());
+        registerCustomItem(new StrengthCharmBlueprint());
+        registerCustomItem(new SteppingBootsBlueprint());
+        registerCustomItem(new SpaceHelmetBlueprint());
+        registerCustomItem(new OxygenHelmetBlueprint());
     }
 
     public void registerCustomItem(CustomItemBlueprint blueprint) {
@@ -161,6 +173,25 @@ public class CustomItemManager implements Listener {
         usedItem.onBlockBreak(event);
     }
 
+    @EventHandler
+    public void onFishWithCustomItem(PlayerFishEvent event) {
+
+        if (event.getHand() == null)
+            return;
+
+        ItemStack rod = event.getPlayer().getInventory().getItem(event.getHand());
+
+        if (rod.getType().equals(Material.AIR))
+            return;
+
+        // Only listen to events where we have a custom item
+        CustomItemBlueprint usedItem = getBlueprint(rod);
+        if (usedItem == null)
+            return;
+
+        usedItem.onFish(event);
+    }
+
     // Events related to fixing/updating items
     @EventHandler
     public void onPlayerInventoryClose(InventoryCloseEvent event) {
@@ -200,6 +231,22 @@ public class CustomItemManager implements Listener {
                 getBlueprint(item).fix(item);
     }
 
+    @EventHandler
+    public void onPlaceCustomItem(BlockPlaceEvent event) {
+
+        ItemStack item = event.getItemInHand();
+        if (item.getType().equals(Material.AIR))
+            return;
+
+        // Only listen to events where we have a custom item
+        CustomItemBlueprint usedItem = getBlueprint(item);
+        if (usedItem == null)
+            return;
+
+        event.setCancelled(true);
+    }
+
     public void cleanup() {
     }
 }
+

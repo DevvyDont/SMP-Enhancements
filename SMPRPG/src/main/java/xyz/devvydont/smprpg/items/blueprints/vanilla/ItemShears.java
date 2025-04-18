@@ -30,7 +30,7 @@ public class ItemShears extends VanillaAttributeItem implements ToolBreakable {
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, 5),
-                new MultiplicativeAttributeEntry(Attribute.GENERIC_ATTACK_SPEED, -.1)
+                new MultiplicativeAttributeEntry(Attribute.ATTACK_SPEED, -.1)
         );
     }
 

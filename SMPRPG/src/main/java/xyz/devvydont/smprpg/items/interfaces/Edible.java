@@ -4,6 +4,7 @@ import org.bukkit.inventory.meta.components.FoodComponent;
 
 public interface Edible {
 
-    FoodComponent getFoodComponent();
-
+    int getNutrition();
+    float getSaturation();
+    boolean canAlwaysEat();
 }

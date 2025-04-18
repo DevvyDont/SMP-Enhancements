@@ -105,11 +105,4 @@ public abstract class ReaverArmorSet extends CustomArmorBlueprint implements Too
         double multiplier = 1 - (getWitherResistance()/100.0);
         event.setDamage(EntityDamageEvent.DamageModifier.BASE, event.getDamage() * multiplier);
     }
-
-    @Override
-    public void updateMeta(ItemMeta meta) {
-        super.updateMeta(meta);
-        meta.setFireResistant(true);
-        updateLore(meta);
-    }
 }

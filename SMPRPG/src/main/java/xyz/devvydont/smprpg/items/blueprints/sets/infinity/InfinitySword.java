@@ -23,9 +23,9 @@ public class InfinitySword extends CustomAttributeItem {
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(Attribute.GENERIC_ATTACK_DAMAGE, 99_999),
-                new AdditiveAttributeEntry(Attribute.PLAYER_ENTITY_INTERACTION_RANGE, 30),
-                new ScalarAttributeEntry(Attribute.GENERIC_ATTACK_SPEED, 10)
+                new AdditiveAttributeEntry(Attribute.ATTACK_DAMAGE, 99_999),
+                new AdditiveAttributeEntry(Attribute.ENTITY_INTERACTION_RANGE, 30),
+                new ScalarAttributeEntry(Attribute.ATTACK_SPEED, 10)
         );
     }
 

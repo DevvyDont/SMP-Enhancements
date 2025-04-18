@@ -80,7 +80,7 @@ public class SpeedsterEnchantment extends CustomEnchantment implements Attribute
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new ScalarAttributeEntry(Attribute.GENERIC_MOVEMENT_SPEED, getSpeedPercentageIncrease(getLevel()) / 100.0)
+                new ScalarAttributeEntry(Attribute.MOVEMENT_SPEED, getSpeedPercentageIncrease(getLevel()) / 100.0)
         );
     }
 

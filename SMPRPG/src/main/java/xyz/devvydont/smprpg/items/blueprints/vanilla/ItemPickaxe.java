@@ -56,8 +56,8 @@ public class ItemPickaxe extends VanillaAttributeItem implements ToolBreakable {
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(Attribute.GENERIC_ATTACK_DAMAGE, getPickaxeDamage(getItem().getType())),
-                new MultiplicativeAttributeEntry(Attribute.GENERIC_ATTACK_SPEED, PICKAXE_ATTACK_SPEED_DEBUFF)
+                new AdditiveAttributeEntry(Attribute.ATTACK_DAMAGE, getPickaxeDamage(getItem().getType())),
+                new MultiplicativeAttributeEntry(Attribute.ATTACK_SPEED, PICKAXE_ATTACK_SPEED_DEBUFF)
         );
     }
 

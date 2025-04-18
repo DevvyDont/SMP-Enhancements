@@ -40,7 +40,7 @@ public class SingularityBoots extends CustomArmorBlueprint implements ToolBreaka
                 new AdditiveAttributeEntry(AttributeWrapper.ARMOR, 6),
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 460),
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 230),
-                new ScalarAttributeEntry(Attribute.GENERIC_KNOCKBACK_RESISTANCE, .2),
+                new ScalarAttributeEntry(Attribute.KNOCKBACK_RESISTANCE, .2),
                 new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, .25)
         );
     }

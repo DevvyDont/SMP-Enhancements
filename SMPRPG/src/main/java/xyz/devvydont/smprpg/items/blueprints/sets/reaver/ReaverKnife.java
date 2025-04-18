@@ -34,13 +34,6 @@ public class ReaverKnife extends CustomAttributeItem implements ToolBreakable, L
     public static final int WITHER_SKULL_BOOST = 5;
 
     @Override
-    public void updateMeta(ItemMeta meta) {
-        super.updateMeta(meta);
-        meta.setFireResistant(true);
-        updateLore(meta);
-    }
-
-    @Override
     public List<Component> getDescriptionComponent(ItemMeta meta) {
         List<Component> components = new ArrayList<>(super.getDescriptionComponent(meta));
         components.add(ComponentUtils.EMPTY);

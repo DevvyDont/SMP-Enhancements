@@ -24,11 +24,18 @@ public class StaleBread extends CustomItemBlueprint implements Edible, Sellable 
     }
 
     @Override
-    public FoodComponent getFoodComponent() {
-        FoodComponent food = FoodUtil.getVanillaFoodComponent(Material.BREAD);
-        food.setSaturation(3);
-        food.setNutrition(4);
-        return food;
+    public int getNutrition() {
+        return 3;
+    }
+
+    @Override
+    public float getSaturation() {
+        return 4;
+    }
+
+    @Override
+    public boolean canAlwaysEat() {
+        return false;
     }
 
     @Override

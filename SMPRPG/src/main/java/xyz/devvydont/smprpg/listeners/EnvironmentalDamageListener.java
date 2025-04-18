@@ -145,7 +145,7 @@ public class EnvironmentalDamageListener implements Listener {
 
         double safeFall = 3;
         if (entity.getEntity() instanceof Attributable attributable) {
-            AttributeInstance safeFallAttribute = attributable.getAttribute(Attribute.GENERIC_SAFE_FALL_DISTANCE);
+            AttributeInstance safeFallAttribute = attributable.getAttribute(Attribute.SAFE_FALL_DISTANCE);
             if (safeFallAttribute != null)
                 safeFall = safeFallAttribute.getValue();
         }

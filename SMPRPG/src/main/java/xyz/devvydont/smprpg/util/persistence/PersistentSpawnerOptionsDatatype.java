@@ -3,9 +3,8 @@ package xyz.devvydont.smprpg.util.persistence;
 import org.bukkit.persistence.PersistentDataAdapterContext;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+import org.json.JSONException;
+import org.json.JSONObject;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.spawning.EntitySpawner;
 
@@ -47,25 +46,25 @@ public class PersistentSpawnerOptionsDatatype implements PersistentDataType<Stri
         obj.put("limit", complex.getLimit());
         obj.put("level", complex.getLevel());
 
-        return obj.toJSONString();
+        return obj.toString();
     }
 
     @Override
     public @NotNull EntitySpawner.SpawnerOptions fromPrimitive(@NotNull String primitive, @NotNull PersistentDataAdapterContext context) {
-        JSONParser parser = new JSONParser();
-        JSONObject object;
+
+        JSONObject json;
         try {
-            object = (JSONObject) parser.parse(primitive);
-        } catch (ParseException e) {
+            json = new JSONObject(primitive);
+        } catch (JSONException e) {
             SMPRPG.getInstance().getLogger().severe("Failed to parse primitive spawning options. String is: " + primitive);
-            e.printStackTrace();
+            SMPRPG.getInstance().getLogger().severe(e.toString());
             throw new RuntimeException(e);
         }
 
-        String entries = object.get("entries").toString();
-        long radius = (long) object.get("radius");
-        long limit = (long) object.get("limit");
-        long level = (long) object.get("level");
+        String entries = json.getString("entries");
+        var radius = json.getLong("radius");
+        var limit = json.getLong("limit");
+        var level = json.getLong("level");
 
         // Convert entries back to list of entries
         List<EntitySpawner.SpawnerEntry> listOfEntries = new ArrayList<>();

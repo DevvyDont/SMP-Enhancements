@@ -1,5 +1,6 @@
 package xyz.devvydont.smprpg.listeners;
 
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.block.Block;
 import org.bukkit.block.Vault;
 import org.bukkit.event.EventHandler;
@@ -7,6 +8,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 import xyz.devvydont.smprpg.SMPRPG;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 /**
  * Because our custom items override item meta of trial keys, the trial chamber vaults will not recognize them as
@@ -35,9 +37,8 @@ public class TrialChamberFixListener implements Listener {
         if (!(clicked.getState() instanceof Vault vault))
             return;
 
-        org.bukkit.block.data.type.Vault data = (org.bukkit.block.data.type.Vault) clicked.getBlockData();
-        data.setTrialSpawnerState(org.bukkit.block.data.type.Vault.State.UNLOCKING);
-        event.getClickedBlock().setBlockData(data);
+        // todo, implement logic for using the key :3
+        event.getPlayer().sendMessage(ComponentUtils.create("Not implemented yet!", NamedTextColor.RED));
     }
 
 }

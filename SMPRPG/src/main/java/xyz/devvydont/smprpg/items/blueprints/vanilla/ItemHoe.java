@@ -65,8 +65,8 @@ public class ItemHoe extends VanillaAttributeItem implements ToolBreakable {
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(Attribute.GENERIC_ATTACK_DAMAGE, getHoeDamage(getItem().getType())),
-                new MultiplicativeAttributeEntry(Attribute.GENERIC_ATTACK_SPEED, getHoeAttackSpeedDebuff(getItem().getType()))
+                new AdditiveAttributeEntry(Attribute.ATTACK_DAMAGE, getHoeDamage(getItem().getType())),
+                new MultiplicativeAttributeEntry(Attribute.ATTACK_SPEED, getHoeAttackSpeedDebuff(getItem().getType()))
         );
     }
 

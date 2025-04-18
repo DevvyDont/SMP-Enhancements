@@ -27,13 +27,6 @@ public abstract class EmbercladArmorSet extends CustomArmorBlueprint implements 
     }
 
     @Override
-    public void updateMeta(ItemMeta meta) {
-        super.updateMeta(meta);
-        meta.setFireResistant(true);
-        updateLore(meta);
-    }
-
-    @Override
     public int getPowerRating() {
         return POWER;
     }

@@ -310,7 +310,7 @@ public class DropsService implements BaseService, Listener {
     public void onConsiderLuckRollForGear(CustomItemDropRollEvent event) {
 
         double multiplier = 1.0;
-        AttributeInstance luck = event.getPlayer().getAttribute(Attribute.GENERIC_LUCK);
+        AttributeInstance luck = event.getPlayer().getAttribute(Attribute.LUCK);
 
         if (luck == null)
             return;

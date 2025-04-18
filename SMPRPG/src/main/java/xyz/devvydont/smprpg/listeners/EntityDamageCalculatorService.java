@@ -213,7 +213,7 @@ public class EntityDamageCalculatorService implements Listener, BaseService {
         if (!(event.getDamageSource().getCausingEntity() instanceof LivingEntity dealer))
             return;
 
-        AttributeInstance attack = dealer.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE);
+        AttributeInstance attack = dealer.getAttribute(Attribute.ATTACK_DAMAGE);
 
         // Do they have an attack damage stat? If they don't, we cannot determine an attack to set.
         if (attack == null)
@@ -267,7 +267,7 @@ public class EntityDamageCalculatorService implements Listener, BaseService {
     @EventHandler(priority = EventPriority.LOWEST)
     public void onEntityShootBow(EntityShootBowEvent event) {
 
-        AttributeInstance attackDamage = event.getEntity().getAttribute(Attribute.GENERIC_ATTACK_DAMAGE);
+        AttributeInstance attackDamage = event.getEntity().getAttribute(Attribute.ATTACK_DAMAGE);
         // This entity doesn't have an attack damage attribute, we can't do anything.
         if (attackDamage == null)
             return;
@@ -333,7 +333,7 @@ public class EntityDamageCalculatorService implements Listener, BaseService {
             return;
 
         // See if they have an attack damage stat
-        AttributeInstance attack = living.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE);
+        AttributeInstance attack = living.getAttribute(Attribute.ATTACK_DAMAGE);
         if (attack == null)
             return;
 
@@ -439,7 +439,7 @@ public class EntityDamageCalculatorService implements Listener, BaseService {
 
         LeveledEntity leveled = plugin.getEntityService().getEntityInstance(living);
 
-        AttributeInstance armor = living.getAttribute(Attribute.GENERIC_ARMOR);
+        AttributeInstance armor = living.getAttribute(Attribute.ARMOR);
         int iframeTicks = 0;
 
         // Armor changes how much iframes we get for this attack

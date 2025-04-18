@@ -5,6 +5,7 @@ import org.bukkit.inventory.ItemType;
 import org.bukkit.inventory.meta.components.FoodComponent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -180,7 +181,7 @@ public class FoodUtil {
         return CHOICES[(int)(Math.random()*CHOICES.length)];
     }
 
-    @Nullable
+    @NotNull
     public static FoodComponent getVanillaFoodComponent(Material material) {
 
         ItemType item = material.asItemType();
@@ -190,22 +191,10 @@ public class FoodUtil {
         if (!item.isEdible())
             throw new IllegalArgumentException("Cannot use non-edible item!");
 
-        // Some items we do not override properties
-        switch (material) {
-            case POTION, LINGERING_POTION, SPLASH_POTION, OMINOUS_BOTTLE:
-                return null;
-        }
-
         FoodComponent food = item.createItemStack().getItemMeta().getFood();
-        food.setEatSeconds(getEatTime(material));
         food.setNutrition(getNutrition(material));
         food.setSaturation(getSaturation(material));
         food.setCanAlwaysEat(canEatAlways(material));
-        List<FoodEffectWrapper> effects = getVanillaFoodEffects(material);
-        if (!effects.isEmpty())
-            for (FoodEffectWrapper effect : effects)
-                food.addEffect(effect.effect(), effect.probability());
-
         return food;
     }
 

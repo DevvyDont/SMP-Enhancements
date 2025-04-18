@@ -40,10 +40,10 @@ public class InfinityChestplate extends CustomAttributeItem {
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(Attribute.GENERIC_ARMOR, 30),
-                new AdditiveAttributeEntry(Attribute.GENERIC_ARMOR_TOUGHNESS, 20000),
-                new AdditiveAttributeEntry(Attribute.GENERIC_MAX_HEALTH, 20000),
-                new ScalarAttributeEntry(Attribute.GENERIC_KNOCKBACK_RESISTANCE, .2)
+                new AdditiveAttributeEntry(Attribute.ARMOR, 30),
+                new AdditiveAttributeEntry(Attribute.ARMOR_TOUGHNESS, 20000),
+                new AdditiveAttributeEntry(Attribute.MAX_HEALTH, 20000),
+                new ScalarAttributeEntry(Attribute.KNOCKBACK_RESISTANCE, .2)
         );
     }
 

@@ -313,8 +313,8 @@ public abstract class BossInstance extends EnemyEntity implements Listener {
 
     @Override
     public void updateAttributes() {
-        updateBaseAttribute(Attribute.GENERIC_ATTACK_DAMAGE, calculateBaseAttackDamage());
-        updateBaseAttribute(Attribute.GENERIC_MAX_HEALTH, calculateBaseHealth());
+        updateBaseAttribute(Attribute.ATTACK_DAMAGE, calculateBaseAttackDamage());
+        updateBaseAttribute(Attribute.MAX_HEALTH, calculateBaseHealth());
     }
 
     public abstract double calculateBaseHealth();

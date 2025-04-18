@@ -40,8 +40,8 @@ public abstract class RedstoneArmorSet extends CustomArmorBlueprint implements T
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, getDefense()),
-                new ScalarAttributeEntry(Attribute.GENERIC_MOVEMENT_SPEED, .05),
-                new MultiplicativeAttributeEntry(Attribute.GENERIC_ATTACK_SPEED, .10)
+                new ScalarAttributeEntry(Attribute.MOVEMENT_SPEED, .05),
+                new MultiplicativeAttributeEntry(Attribute.ATTACK_SPEED, .10)
         );
     }
 

@@ -38,7 +38,6 @@ public class LegacyItemBlueprint extends CustomItemBlueprint {
      */
     public void updateMeta(ItemMeta meta) {
         meta.displayName(getNameComponent(meta));
-        updateLore(meta);
     }
 
     @Override

@@ -1,5 +1,7 @@
 package xyz.devvydont.smprpg.listeners;
 
+import io.papermc.paper.registry.RegistryAccess;
+import io.papermc.paper.registry.RegistryKey;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Chunk;
@@ -78,12 +80,20 @@ public class StructureEntitySpawnListener implements Listener {
     }
 
     private Component getStructureComponent(Player player, GeneratedStructure structure, int power) {
-        Component send = ComponentUtils.create("Currently in")
-                .append(ComponentUtils.create(" " + MinecraftStringUtils.getTitledString(structure.getStructure().key().value() + " "), NamedTextColor.AQUA)
-                        .append(ComponentUtils.powerLevelPrefix(power)));
 
+        var name = MinecraftStringUtils.getTitledString(structure.getStructure().getStructureType().key().asMinimalString());
+
+        // Create the base message.
+        Component send = ComponentUtils.merge(
+                ComponentUtils.create("Currently in "),
+                ComponentUtils.create(name + " ", NamedTextColor.AQUA),
+                ComponentUtils.powerLevelPrefix(power)
+        );
+
+        // If the player is underleveled, add a warning label.
         if (power > plugin.getEntityService().getPlayerInstance(player).getLevel())
             send = ComponentUtils.create("WARNING! ", NamedTextColor.RED).append(send);
+
         return send;
     }
 

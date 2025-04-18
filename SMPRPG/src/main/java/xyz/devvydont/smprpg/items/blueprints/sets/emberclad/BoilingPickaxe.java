@@ -70,9 +70,7 @@ public class BoilingPickaxe extends CustomAttributeItem implements Listener, Too
     @Override
     public void updateMeta(ItemMeta meta) {
         super.updateMeta(meta);
-        meta.setFireResistant(true);
         meta.removeEnchant(Enchantment.SILK_TOUCH);
-        updateLore(meta);
     }
 
     @Override
@@ -80,7 +78,7 @@ public class BoilingPickaxe extends CustomAttributeItem implements Listener, Too
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, 45),
                 new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, ItemPickaxe.PICKAXE_ATTACK_SPEED_DEBUFF),
-                new MultiplicativeAttributeEntry(Attribute.PLAYER_BLOCK_BREAK_SPEED, .10)
+                new MultiplicativeAttributeEntry(Attribute.BLOCK_BREAK_SPEED, .10)
         );
     }
 

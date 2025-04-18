@@ -35,12 +35,17 @@ public class SoggyLettuce extends CustomItemBlueprint implements Edible, Sellabl
     }
 
     @Override
-    public FoodComponent getFoodComponent() {
-        FoodComponent food = FoodUtil.getVanillaFoodComponent(Material.COOKIE);
-        food.setEatSeconds(.8f);
-        food.setNutrition(3);
-        food.setSaturation(5);
-        food.addEffect(new PotionEffect(PotionEffectType.DOLPHINS_GRACE, 30*20, 0, true, true), .1f);
-        return food;
+    public int getNutrition() {
+        return 3;
+    }
+
+    @Override
+    public float getSaturation() {
+        return 5;
+    }
+
+    @Override
+    public boolean canAlwaysEat() {
+        return false;
     }
 }

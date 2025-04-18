@@ -79,8 +79,8 @@ public enum ItemRarity {
 
         // > Legendary adds the magic text on both sides, and then whole component is wrapped in the color.
         return ComponentUtils.merge(
-            ComponentUtils.create("o ").decoration(TextDecoration.OBFUSCATED, true),
-            component.decoration(TextDecoration.OBFUSCATED, false),
+            ComponentUtils.create("o ", this.color).decoration(TextDecoration.OBFUSCATED, true),
+            component.decoration(TextDecoration.OBFUSCATED, false).color(this.color),
             ComponentUtils.create(" o", this.color).decoration(TextDecoration.OBFUSCATED, true)
         );
     }

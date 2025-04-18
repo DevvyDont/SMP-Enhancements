@@ -1,5 +1,7 @@
 package xyz.devvydont.smprpg.items.blueprints.resources.mob;
 
+import io.papermc.paper.datacomponent.item.Consumable;
+import io.papermc.paper.datacomponent.item.consumable.ConsumeEffect;
 import org.bukkit.Material;
 import org.bukkit.inventory.meta.components.FoodComponent;
 import org.bukkit.potion.PotionEffect;
@@ -8,14 +10,16 @@ import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.base.CustomCompressableBlueprint;
 import xyz.devvydont.smprpg.items.interfaces.Edible;
+import xyz.devvydont.smprpg.items.interfaces.IConsumable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.crafting.CompressionRecipeMember;
 import xyz.devvydont.smprpg.util.crafting.MaterialWrapper;
 import xyz.devvydont.smprpg.util.items.FoodUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class SteakFamilyBlueprint extends CustomCompressableBlueprint implements Edible {
+public class SteakFamilyBlueprint extends CustomCompressableBlueprint implements Edible, IConsumable {
 
     public static final List<CompressionRecipeMember> COMPRESSION_FLOW = List.of(
             new CompressionRecipeMember(new MaterialWrapper(Material.COOKED_BEEF)),
@@ -32,29 +36,51 @@ public class SteakFamilyBlueprint extends CustomCompressableBlueprint implements
         return COMPRESSION_FLOW;
     }
 
-    public FoodComponent getFoodComponent() {
-        FoodComponent food = FoodUtil.getVanillaFoodComponent(Material.COOKED_BEEF);
-        food.setCanAlwaysEat(true);
+    @Override
+    public int getNutrition() {
+        return switch (getCustomItemType()) {
+            case ENCHANTED_STEAK -> 20;
+            case PREMIUM_STEAK -> 12;
+            default -> 8;
+        };
+    }
 
-        if (getCustomItemType().equals(CustomItemType.PREMIUM_STEAK)) {
-            food.setNutrition(food.getNutrition()+6);
-            food.setSaturation(food.getSaturation()+6);
-            food.setEatSeconds(food.getEatSeconds()+1);
-            food.addEffect(new PotionEffect(PotionEffectType.ABSORPTION, 20*60, 1), 1);
-            food.addEffect(new PotionEffect(PotionEffectType.RESISTANCE, 20*60, 1), 1);
-            return food;
-        }
+    @Override
+    public float getSaturation() {
+        return switch (getCustomItemType()) {
+            case ENCHANTED_STEAK -> 20;
+            case PREMIUM_STEAK -> 12;
+            default -> 8;
+        };
+    }
 
-        if (getCustomItemType().equals(CustomItemType.ENCHANTED_STEAK)) {
-            food.setNutrition(food.getNutrition()+12);
-            food.setSaturation(food.getSaturation()+12);
-            food.setEatSeconds(food.getEatSeconds()+2);
-            food.addEffect(new PotionEffect(PotionEffectType.ABSORPTION, 20*600, 6), 1);
-            food.addEffect(new PotionEffect(PotionEffectType.REGENERATION, 20*600, 1), 1);
-            food.addEffect(new PotionEffect(PotionEffectType.RESISTANCE, 20*600, 2), 1);
-        }
+    @Override
+    public boolean canAlwaysEat() {
+        return true;
+    }
 
-        return food;
+    @Override
+    public Consumable getConsumableComponent() {
+
+        var effects = new ArrayList<ConsumeEffect>();
+
+        if (getCustomItemType().equals(CustomItemType.ENCHANTED_STEAK))
+            effects.add(ConsumeEffect.applyStatusEffects(List.of(
+                    new PotionEffect(PotionEffectType.ABSORPTION, 20*600, 6),
+                    new PotionEffect(PotionEffectType.REGENERATION, 20*600, 1),
+                    new PotionEffect(PotionEffectType.RESISTANCE, 20*600, 2)
+            ), 1f));
+
+        if (getCustomItemType().equals(CustomItemType.PREMIUM_STEAK))
+            effects.add(ConsumeEffect.applyStatusEffects(List.of(
+                    new PotionEffect(PotionEffectType.ABSORPTION, 20*60, 1),
+                    new PotionEffect(PotionEffectType.RESISTANCE, 20*60, 1)
+            ), 1f));
+
+        return Consumable.consumable()
+                .consumeSeconds(4)
+                .addEffects(effects)
+                .build();
     }
 
     @Override

@@ -90,7 +90,7 @@ public class InterfaceStats extends PrivateInterface {
         lore.add(ComponentUtils.create("Power Rating: ", NamedTextColor.GOLD).append(ComponentUtils.create(Symbols.POWER + entity.getLevel(), NamedTextColor.YELLOW)));
         lore.add(ComponentUtils.EMPTY);
 
-        double hp = viewing.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
+        double hp = viewing.getAttribute(Attribute.MAX_HEALTH).getValue();
         int def = entity.getDefense();
         double ehp = EntityDamageCalculatorService.calculateEffectiveHealth(hp, def);
 

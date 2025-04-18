@@ -82,7 +82,7 @@ public class CalamityEnchantment extends CustomEnchantment implements Listener {
 
         // Are they over the threshold?
         double hp = living.getHealth();
-        double maxHP = living.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
+        double maxHP = living.getAttribute(Attribute.MAX_HEALTH).getValue();
         if (hp / maxHP * 100 > HEALTH_THRESHOLD)
             return;
 

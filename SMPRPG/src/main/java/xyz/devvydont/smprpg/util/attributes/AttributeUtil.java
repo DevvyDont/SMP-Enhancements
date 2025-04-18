@@ -39,7 +39,7 @@ public class AttributeUtil {
             return 0;
 
         // Armor toughness is capped at 20, so we need to actually manually check for it by analyzing armor
-        if (attribute.equals(Attribute.GENERIC_ARMOR_TOUGHNESS) && instance.getValue() > 1)
+        if (attribute.equals(Attribute.ARMOR_TOUGHNESS) && instance.getValue() > 1)
             return calculateAttributeBonus(instance.getModifiers(), 0).getTotal();
 
         return instance.getValue();
@@ -95,7 +95,7 @@ public class AttributeUtil {
      * is fall damage multiplier.
      */
     public static boolean forceAttributePercentage(Attribute attribute) {
-        return attribute.equals(Attribute.GENERIC_KNOCKBACK_RESISTANCE) || attribute.equals(Attribute.GENERIC_EXPLOSION_KNOCKBACK_RESISTANCE) || attribute.equals(Attribute.PLAYER_SWEEPING_DAMAGE_RATIO) || attribute.equals(Attribute.PLAYER_MINING_EFFICIENCY) || attribute.equals(Attribute.PLAYER_SUBMERGED_MINING_SPEED);
+        return attribute.equals(Attribute.KNOCKBACK_RESISTANCE) || attribute.equals(Attribute.EXPLOSION_KNOCKBACK_RESISTANCE) || attribute.equals(Attribute.SWEEPING_DAMAGE_RATIO) || attribute.equals(Attribute.MINING_EFFICIENCY) || attribute.equals(Attribute.SUBMERGED_MINING_SPEED);
     }
 
     /**

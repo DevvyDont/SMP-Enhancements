@@ -30,10 +30,4 @@ public class NetheriteFamilyBlueprint extends CustomCompressableBlueprint {
         return COMPRESSION_FLOW;
     }
 
-    @Override
-    public void updateMeta(ItemMeta meta) {
-        super.updateMeta(meta);
-        meta.setFireResistant(true);
-        updateLore(meta);
-    }
 }

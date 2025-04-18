@@ -38,8 +38,8 @@ public class WitheredSeraph extends CustomEntityInstance {
     @Override
     public void updateAttributes() {
         super.updateAttributes();
-        this.updateBaseAttribute(Attribute.GENERIC_SCALE, 1.2);
-        this.updateBaseAttribute(Attribute.GENERIC_MOVEMENT_SPEED, .25);
+        this.updateBaseAttribute(Attribute.SCALE, 1.2);
+        this.updateBaseAttribute(Attribute.MOVEMENT_SPEED, .25);
     }
 
 

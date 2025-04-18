@@ -35,7 +35,7 @@ public class CopperAxe extends CustomAttributeItem implements Craftable, ToolBre
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, 14),
-                new MultiplicativeAttributeEntry(Attribute.GENERIC_ATTACK_SPEED, AXE_ATTACK_SPEED_DEBUFF)
+                new MultiplicativeAttributeEntry(Attribute.ATTACK_SPEED, AXE_ATTACK_SPEED_DEBUFF)
         );
     }
 
