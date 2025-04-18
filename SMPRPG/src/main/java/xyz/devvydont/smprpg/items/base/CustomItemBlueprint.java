@@ -62,15 +62,11 @@ public abstract class CustomItemBlueprint extends SMPItemBlueprint {
 
     public ItemStack generate() {
 
-        // Make the item and retrieve meta
+        // Make the starting item.
         ItemStack itemStack = new ItemStack(getCustomItemType().material);
-        ItemMeta meta = itemStack.getItemMeta();
 
-        // Update all meta components of this item. This method is a good place to hook into for specific tweaks
-        updateMeta(meta);
-
-        // Apply changes and return!
-        itemStack.setItemMeta(meta);
+        // Apply updates to this item according to our blueprint's spec.
+        updateMeta(itemStack);
         return itemStack;
     }
 
