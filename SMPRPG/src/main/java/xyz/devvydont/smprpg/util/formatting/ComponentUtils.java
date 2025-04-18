@@ -8,6 +8,7 @@ import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -146,7 +147,6 @@ public final class ComponentUtils {
         return EMPTY
                 .append(SYMBOL_BRACKET_LEFT)
                 .append(prefix)
-                .append(SPACE)
                 .append(SYMBOL_BRACKET_RIGHT)
                 .append(SPACE)
                 .append(message);
@@ -163,6 +163,16 @@ public final class ComponentUtils {
     }
 
     /**
+     * Creates a text component that's styled like a success message.
+     *
+     * @param message A message explaining the success.
+     * @return The styled text component.
+     */
+    public static TextComponent success(Component message) {
+        return alert(message, NamedTextColor.DARK_GREEN);
+    }
+
+    /**
      * Creates a text component that's styled like an error message.
      *
      * @param text A message explaining the failure.
@@ -170,6 +180,16 @@ public final class ComponentUtils {
      */
     public static TextComponent error(String text) {
         return alert(text, NamedTextColor.DARK_RED, NamedTextColor.RED);
+    }
+
+    /**
+     * Creates a text component that's styled like an error message.
+     *
+     * @param message A message explaining the failure.
+     * @return The styled text component.
+     */
+    public static TextComponent error(Component message) {
+        return alert(message, NamedTextColor.DARK_RED);
     }
 
     /**
@@ -218,5 +238,20 @@ public final class ComponentUtils {
      */
     public static TextComponent powerLevelPrefix(int level) {
         return EMPTY.append(SYMBOL_BRACKET_LEFT).append(powerLevel(level)).append(SYMBOL_BRACKET_RIGHT);
+    }
+
+    /**
+     * Inserts components at the beginning of an already defined list of components. Useful for adding components
+     * at the beginning of item lore.
+     *
+     * @param original The original list of components.
+     * @param toInsert All the components that are desired to be inserted before the original components.
+     * @return
+     */
+    public static List<Component> insertComponents(List<Component> original, Component...toInsert) {
+        List<Component> components = new ArrayList<>();
+        components.addAll(Arrays.asList(toInsert));
+        components.addAll(original);
+        return components;
     }
 }

@@ -36,7 +36,7 @@ public class DensityEnchantment extends VanillaEnchantment implements Listener {
           case 2 -> 3;
           case 3 -> 6;
           case 5 -> 10;
-          default -> getDamagePerBlock(level) + (level-5)*5;
+          default -> getDamagePerBlock(5) + (level-5)*5;
         };
     }
 

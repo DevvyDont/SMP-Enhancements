@@ -1,4 +1,4 @@
-package xyz.devvydont.smprpg.util.animations.containers;
+package xyz.devvydont.smprpg.util.animations.playback;
 
 /**
  * A control handle into an animation container.
@@ -9,7 +9,7 @@ public interface AnimationHandle {
      *
      * @return The current playback status.
      */
-    AnimationState getPlaybackStatus();
+    AnimationPlaybackState getPlaybackStatus();
 
     /**
      * Pauses this animation, if it's playing.
@@ -20,7 +20,7 @@ public interface AnimationHandle {
      * Resumes this animation, if it was paused.
      */
     void resume();
-    
+
     /**
      * Stops the animation, if it's playing or paused.
      */
