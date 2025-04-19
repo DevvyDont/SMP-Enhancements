@@ -869,7 +869,7 @@ public class ItemService implements BaseService, Listener {
      * @param event
      */
     @EventHandler
-    public void onGenerateLoot(LootGenerateEvent event) {
+    private void onGenerateLoot(LootGenerateEvent event) {
 
         // Loop through all the loot and fix it
         List<ItemStack> fixed = new ArrayList<>();
@@ -885,7 +885,7 @@ public class ItemService implements BaseService, Listener {
      * @param event
      */
     @EventHandler
-    public void onMiscResult(PrepareResultEvent event) {
+    private void onMiscResult(PrepareResultEvent event) {
 
         // If the item doesn't exist don't do anything
         if (event.getResult() == null)
@@ -899,7 +899,7 @@ public class ItemService implements BaseService, Listener {
     }
 
     @EventHandler
-    public void onRequestVillagerTrades(PlayerInteractEntityEvent event) {
+    private void onRequestVillagerTrades(PlayerInteractEntityEvent event) {
 
         // Is the entity being interacted with a villager?
         if (!(event.getRightClicked() instanceof Villager))
@@ -936,7 +936,7 @@ public class ItemService implements BaseService, Listener {
     }
 
     @EventHandler
-    public void onCraftingResult(PrepareItemCraftEvent event) {
+    private void onCraftingResult(PrepareItemCraftEvent event) {
 
         // If we aren't crafting a recipe don't do anything
         if (event.getInventory().getResult() == null)
@@ -960,7 +960,7 @@ public class ItemService implements BaseService, Listener {
      * @param event
      */
     @EventHandler
-    public void onSmithingPrepareResult(PrepareSmithingEvent event) {
+    private void onSmithingPrepareResult(PrepareSmithingEvent event) {
 
         ItemStack input = event.getInventory().getInputEquipment();
         // Nothing in input means we don't care
@@ -1004,7 +1004,7 @@ public class ItemService implements BaseService, Listener {
      * @param event
      */
     @EventHandler
-    public void onCustomItemSpawn(ItemSpawnEvent event) {
+    private void onCustomItemSpawn(ItemSpawnEvent event) {
 
         SMPItemBlueprint blueprint = getBlueprint(event.getEntity().getItemStack());
         ensureItemStackUpdated(event.getEntity().getItemStack());
@@ -1023,7 +1023,7 @@ public class ItemService implements BaseService, Listener {
      * @param event
      */
     @EventHandler
-    public void onCustomItemMerge(ItemMergeEvent event) {
+    private void onCustomItemMerge(ItemMergeEvent event) {
 
         // Ignore vanilla items
         SMPItemBlueprint blueprint = getBlueprint(event.getEntity().getItemStack());
@@ -1133,7 +1133,7 @@ public class ItemService implements BaseService, Listener {
     }
 
     @EventHandler
-    public void onArmorTakeDamage(EntityDamageEvent event) {
+    private void onArmorTakeDamage(EntityDamageEvent event) {
 
         if (!(event.getEntity() instanceof LivingEntity living))
             return;
@@ -1202,7 +1202,7 @@ public class ItemService implements BaseService, Listener {
     }
 
     @EventHandler
-    public void onPlayerDamageItem(PlayerItemDamageEvent event) {
+    private void onPlayerDamageItem(PlayerItemDamageEvent event) {
 
         // Durability changes are always 1
         if (event.getDamage() > 0)
@@ -1211,7 +1211,7 @@ public class ItemService implements BaseService, Listener {
     }
 
     @EventHandler
-    public void onPlaceCustomItem(BlockPlaceEvent event) {
+    private void onPlaceCustomItem(BlockPlaceEvent event) {
 
         ItemStack item = event.getItemInHand();
         SMPItemBlueprint blueprint = getBlueprint(item);
@@ -1236,7 +1236,7 @@ public class ItemService implements BaseService, Listener {
      * We never want to allow players to cook custom items.
      */
     @EventHandler
-    public void onSmeltCustomItem(FurnaceStartSmeltEvent event) {
+    private void onSmeltCustomItem(FurnaceStartSmeltEvent event) {
 
         // Custom item? Make it so it never cooks
         if (getBlueprint(event.getSource()).isCustom())
