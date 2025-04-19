@@ -26,6 +26,7 @@ import xyz.devvydont.smprpg.reforge.ReforgeBase;
 import xyz.devvydont.smprpg.reforge.ReforgeType;
 import xyz.devvydont.smprpg.services.EconomyService;
 import xyz.devvydont.smprpg.services.ItemService;
+import xyz.devvydont.smprpg.util.attributes.AttributeUtil;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.formatting.MinecraftStringUtils;
 import xyz.devvydont.smprpg.util.formatting.Symbols;
@@ -292,6 +293,9 @@ public abstract class SMPItemBlueprint {
             food.setCanAlwaysEat(edible.canAlwaysEat());
             meta.setFood(food);
         }
+
+        // If this item contains attributes, apply them.
+        AttributeUtil.applyModifiers(this, meta);
 
         // Set this item to be vulnerable to damage if it is custom no matter what.
         if (isCustom())

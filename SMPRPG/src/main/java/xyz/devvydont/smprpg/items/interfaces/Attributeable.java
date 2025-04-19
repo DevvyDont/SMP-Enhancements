@@ -14,9 +14,6 @@ public interface Attributeable extends AttributeModifierContainer {
      */
     EquipmentSlotGroup getActiveSlot();
 
-    // Apply all modifiers on a piece of gear
-    void applyModifiers(ItemMeta meta);
-
     /**
      * Generates a new attribute session for attribute modification
      *

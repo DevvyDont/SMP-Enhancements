@@ -60,21 +60,8 @@ public abstract class CustomTexturedAttributeHelmetBlueprint extends CustomHeadB
     }
 
     @Override
-    public void applyModifiers(ItemMeta meta) {
-        AttributeUtil.applyModifiers(this, meta);
-    }
-
-    @Override
     public AttributeModifierType.AttributeSession getAttributeSession(AttributeModifierType type, ItemMeta meta) {
         return type.session(this, meta);
-    }
-
-    @Override
-    public void updateMeta(ItemMeta meta) {
-
-        // Before we can update the meta of this item, we need to fix its "vanilla" behavior
-        applyModifiers(meta);
-        super.updateMeta(meta);
     }
 
     /**
