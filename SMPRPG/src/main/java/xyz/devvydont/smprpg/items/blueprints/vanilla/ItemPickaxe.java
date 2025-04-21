@@ -20,12 +20,12 @@ public class ItemPickaxe extends VanillaAttributeItem implements ToolBreakable {
 
     public static double getPickaxeDamage(Material material) {
         return switch (material) {
-            case NETHERITE_PICKAXE -> 80;
-            case DIAMOND_PICKAXE -> 15;
-            case GOLDEN_PICKAXE -> 9;
-            case IRON_PICKAXE -> 5;
-            case STONE_PICKAXE -> 3.0;
-            case WOODEN_PICKAXE -> 2.0;
+            case NETHERITE_PICKAXE -> 70;
+            case DIAMOND_PICKAXE -> 30;
+            case GOLDEN_PICKAXE -> 15;
+            case IRON_PICKAXE -> 7;
+            case STONE_PICKAXE -> 5;
+            case WOODEN_PICKAXE -> 4;
             default -> 0;
         };
     }

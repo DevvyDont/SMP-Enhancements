@@ -27,7 +27,7 @@ public class ItemCrossbow extends VanillaAttributeItem implements ToolBreakable 
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(Attribute.ATTACK_DAMAGE, 25)
+                new AdditiveAttributeEntry(Attribute.ATTACK_DAMAGE, 45)
         );
     }
 
