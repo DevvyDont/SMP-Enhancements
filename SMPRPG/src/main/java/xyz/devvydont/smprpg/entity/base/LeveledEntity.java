@@ -232,7 +232,13 @@ public abstract class LeveledEntity implements LootSource {
      */
     public void updateNametag() {
         entity.setCustomNameVisible(true);
-        entity.customName(generateNametagComponent().append(getDisplaynameNametagComponent()).append(getHealthNametagComponent()));
+        var component = ComponentUtils.merge(
+                generateNametagComponent(),
+                ComponentUtils.create(" "),
+                getDisplaynameNametagComponent(),
+                getHealthNametagComponent()
+        );
+        entity.customName(component);
     }
 
     /**
