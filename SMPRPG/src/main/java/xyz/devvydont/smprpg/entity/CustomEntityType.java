@@ -21,52 +21,52 @@ public enum CustomEntityType {
 
     // Mobs that spawn in castles.
     CASTLE_DWELLER(EntityType.ZOMBIE_VILLAGER, "Castle Dweller",
-            15, 900, 80, CastleDweller.class),
+            15, 400, 50, CastleDweller.class),
 
     UNDEAD_ARCHER(EntityType.SKELETON, "Undead Archer",
-            15, 750, 60, UndeadArcher.class),
+            15, 350, 40, UndeadArcher.class),
 
     // Mobs that spawn in woodland mansions.
     MANSION_SPIDER(EntityType.SPIDER, "Mansion Spider",
-            25, 3_000, 290,
+            25, 800, 115,
             new EntitySpawnCondition[]{new StructureSpawnCondition(Structure.MANSION)}, 20,
             MansionSpider.class),
 
     WOODLAND_EXILE(EntityType.PILLAGER, "Woodland Exile",
-            25, 3_500, 315,
+            25, 1_100, 125,
             new EntitySpawnCondition[]{new StructureSpawnCondition(Structure.MANSION)}, 35,
             WoodlandExile.class),
 
     WOODLAND_BERSERKER(EntityType.VINDICATOR, "Woodland Berserker",
-            25, 3_250, 450,
+            25, 950, 150,
             new EntitySpawnCondition[]{new StructureSpawnCondition(Structure.MANSION)}, 35,
             WoodlandExile.class),
 
     PALACE_THUG(EntityType.WITHER_SKELETON, "Palace Thug",
-            35, 7_500, 950,
+            35, 2_500, 350,
             new EntitySpawnCondition[]{new StructureSpawnCondition(Structure.FORTRESS)}, 10,
             PalaceThug.class),
 
     FIERY_SYLPH(EntityType.BLAZE, "Fiery Sylph",
-            35, 7_000, 900,
+            35, 2_100, 300,
             new EntitySpawnCondition[]{new StructureSpawnCondition(Structure.FORTRESS)}, 10,
             FierySylph.class),
 
     PHOENIX(EntityType.BLAZE, "Phoenix",
-            50, 20_000, 2250, CustomEntityInstance.class),
+            40, 5_000, 600, CustomEntityInstance.class),
 
     INFERNAL_PHOENIX(EntityType.BLAZE, "Infernal Phoenix",
-            50, 1_500_000, 2500, BlazeBoss.class),
+            40, 750_000, 750, BlazeBoss.class),
 
     // Wither skeletons that spawn on the end island
     WITHERED_SERAPH(EntityType.WITHER_SKELETON, "Withered Seraph",
-            45, 16_000, 1800,
-            new BiomeSpawnCondition[]{new BiomeSpawnCondition(Biome.THE_END)}, 15,
+            45, 6_000, 1_000,
+            new BiomeSpawnCondition[]{new BiomeSpawnCondition(Biome.THE_END)}, 10,
             WitheredSeraph.class
     ),
 
-    TEST_ZOMBIE(EntityType.ZOMBIE, "Test Zombie", 10, 15, 50, TestZombie.class),
-    TEST_SKELETON(EntityType.SKELETON, "Test Skeleton", 5, 10, 25, CustomEntityInstance.class),
+    TEST_ZOMBIE(EntityType.ZOMBIE, "Test Zombie", 5, 120, 15, TestZombie.class),
+    TEST_SKELETON(EntityType.SKELETON, "Test Skeleton", 5, 100, 10, CustomEntityInstance.class),
 
     // NPCs
     REFORGE_NPC(EntityType.VILLAGER, "Tool Reforger", ReforgeNPC.class),
@@ -118,7 +118,7 @@ public enum CustomEntityType {
         this.entityType = entityType;
         this.name = name;
         this.baseLevel = 0;
-        this.baseHp = 999_999;
+        this.baseHp = 999_999_999;
         this.baseDamage = 0;
         this.spawnConditions = new EntitySpawnCondition[]{new ImpossibleSpawnCondition()};
         this.chance = 0;

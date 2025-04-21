@@ -12,10 +12,10 @@ import xyz.devvydont.smprpg.util.formatting.MinecraftStringUtils;
 public class VanillaEntity extends EnemyEntity {
 
     // How aggresively should stats of this mob scale?
-    public static final double STAT_SCALING_FACTOR = 2.5;
+    public static final double STAT_SCALING_FACTOR = 1.0964782;
 
     // How many hits should it take for this mob to kill another mob if its level?
-    public static final double DPS_FACTOR = 10.0;
+    public static final double DPS_FACTOR = 9.0;
 
     public static final String VANILLA_CLASS_KEY = "vanilla";
 
@@ -59,8 +59,8 @@ public class VanillaEntity extends EnemyEntity {
 
     public int getMinimumEnvironmentLevel(World.Environment environment) {
         return switch (environment) {
-            case NETHER -> 25;
-            case THE_END -> 55;
+            case NETHER -> 20;
+            case THE_END -> 40;
             default -> 1;
         };
     }
@@ -105,7 +105,7 @@ public class VanillaEntity extends EnemyEntity {
     }
 
     public double calculateBaseHealth() {
-        double hp = calculateBaseHealthMultiplier() * Math.pow(getLevel(), STAT_SCALING_FACTOR) + 90.0;
+        double hp = calculateBaseHealthMultiplier() * (int) Math.ceil(100*Math.pow(STAT_SCALING_FACTOR, getLevel()));;
 
         // If the HP is less than 30 leave it be
         if (hp < 20)

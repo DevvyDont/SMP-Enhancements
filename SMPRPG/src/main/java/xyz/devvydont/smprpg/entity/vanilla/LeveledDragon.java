@@ -22,6 +22,8 @@ import java.util.List;
 
 public class LeveledDragon extends BossInstance {
 
+    private boolean wasSummoned = false;
+
     public LeveledDragon(SMPRPG plugin, Entity entity) {
         super(plugin, entity);
     }
@@ -33,13 +35,13 @@ public class LeveledDragon extends BossInstance {
 
     @Override
     public int getDefaultLevel() {
-        return 60;
+        return wasSummoned ? 50 : 40;
     }
 
 
     @Override
     public double calculateBaseAttackDamage() {
-        return 4000;
+        return wasSummoned ? 1250 : 500;
     }
 
     @Override
