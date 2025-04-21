@@ -1,10 +1,10 @@
 package xyz.devvydont.smprpg.util.persistence;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import org.bukkit.persistence.PersistentDataAdapterContext;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONException;
-import org.json.JSONObject;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.spawning.EntitySpawner;
 
@@ -12,6 +12,38 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PersistentSpawnerOptionsDatatype implements PersistentDataType<String, EntitySpawner.SpawnerOptions> {
+
+    private static class SpawnerGsonContainer {
+        private long radius;
+        private long limit;
+        private long level;
+        private String entries;
+
+        public SpawnerGsonContainer() {}
+
+        public SpawnerGsonContainer(long radius, long limit, long level, String entries) {
+            this.radius = radius;
+            this.limit = limit;
+            this.level = level;
+            this.entries = entries;
+        }
+
+        public long getRadius() {
+            return radius;
+        }
+
+        public long getLimit() {
+            return limit;
+        }
+
+        public long getLevel() {
+            return level;
+        }
+
+        public String getEntries() {
+            return entries;
+        }
+    }
 
     public static final PersistentDataType<String, EntitySpawner.SpawnerOptions> INSTANCE = new PersistentSpawnerOptionsDatatype();
 
@@ -29,7 +61,7 @@ public class PersistentSpawnerOptionsDatatype implements PersistentDataType<Stri
     public @NotNull String toPrimitive(EntitySpawner.@NotNull SpawnerOptions complex, @NotNull PersistentDataAdapterContext context) {
 
         // Create a JSON object and add the entries
-        JSONObject obj = new JSONObject();
+        var gson = new Gson();
 
         StringBuilder entries = new StringBuilder();
         for (EntitySpawner.SpawnerEntry entry : complex.getEntries())
@@ -39,41 +71,32 @@ public class PersistentSpawnerOptionsDatatype implements PersistentDataType<Stri
         if (!complex.getEntries().isEmpty())
             entries.deleteCharAt(entries.length() - 1);
 
-        obj.put("entries", entries.toString());
-
-        // Now add the easy options
-        obj.put("radius", complex.getRadius());
-        obj.put("limit", complex.getLimit());
-        obj.put("level", complex.getLevel());
-
-        return obj.toString();
+        var container = new SpawnerGsonContainer(complex.getRadius(), complex.getLimit(), complex.getLevel(), entries.toString());
+        return gson.toJson(container);
     }
 
     @Override
     public @NotNull EntitySpawner.SpawnerOptions fromPrimitive(@NotNull String primitive, @NotNull PersistentDataAdapterContext context) {
 
-        JSONObject json;
+
+        var gson = new Gson();
+        SpawnerGsonContainer container;
         try {
-            json = new JSONObject(primitive);
-        } catch (JSONException e) {
+            container = gson.fromJson(primitive, SpawnerGsonContainer.class);
+        } catch (JsonSyntaxException e) {
             SMPRPG.getInstance().getLogger().severe("Failed to parse primitive spawning options. String is: " + primitive);
             SMPRPG.getInstance().getLogger().severe(e.toString());
-            throw new RuntimeException(e);
+            return new EntitySpawner.SpawnerOptions();
         }
-
-        String entries = json.getString("entries");
-        var radius = json.getLong("radius");
-        var limit = json.getLong("limit");
-        var level = json.getLong("level");
 
         // Convert entries back to list of entries
         List<EntitySpawner.SpawnerEntry> listOfEntries = new ArrayList<>();
-        String[] components = entries.split(",");
+        String[] components = container.getEntries().split(",");
 
-        if (!entries.isEmpty())
+        if (!container.getEntries().isEmpty())
             for (String component : components)
                 listOfEntries.add(EntitySpawner.SpawnerEntry.fromPrimitive(component));
 
-        return new EntitySpawner.SpawnerOptions(listOfEntries, limit, radius, level);
+        return new EntitySpawner.SpawnerOptions(listOfEntries, container.getLimit(), container.getRadius(), container.getLevel());
     }
 }

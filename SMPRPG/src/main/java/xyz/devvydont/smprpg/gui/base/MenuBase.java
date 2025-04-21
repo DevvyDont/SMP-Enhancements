@@ -286,6 +286,15 @@ public abstract class MenuBase implements Listener {
     }
 
     /**
+     * Sends a message to the player that is viewing this menu inventory.
+     *
+     * @param component The component to send to the player's chat.
+     */
+    protected final void sendMessageToPlayer(Component component) {
+        this.player.sendMessage(component);
+    }
+
+    /**
      * Sets the maximum size a stack can be.
      *
      * @param maxStackSize The maximum stack size.

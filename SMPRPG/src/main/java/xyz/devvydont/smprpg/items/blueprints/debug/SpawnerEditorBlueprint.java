@@ -74,7 +74,7 @@ public class SpawnerEditorBlueprint extends CustomItemBlueprint implements Liste
 
         EntitySpawner spawner = nearbySpawners.getFirst();
 
-        new InterfaceSpawnerMainMenu(SMPRPG.getInstance(), event.getPlayer(), spawner).open();
+        new InterfaceSpawnerMainMenu(event.getPlayer(), spawner).openMenu();
         event.getPlayer().sendMessage(ComponentUtils.success("Now editing the spawner you were looking at!"));
     }
 }
