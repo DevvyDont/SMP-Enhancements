@@ -28,8 +28,6 @@ public final class MenuWithdraw extends MenuBase {
             (CustomItemCoin) plugin.getItemService().getBlueprint(CustomItemType.SILVER_COIN),
             (CustomItemCoin) plugin.getItemService().getBlueprint(CustomItemType.GOLD_COIN),
             (CustomItemCoin) plugin.getItemService().getBlueprint(CustomItemType.PLATINUM_COIN),
-            (CustomItemCoin) plugin.getItemService().getBlueprint(CustomItemType.EMERALD_COIN),
-            (CustomItemCoin) plugin.getItemService().getBlueprint(CustomItemType.AMETHYST_COIN),
             (CustomItemCoin) plugin.getItemService().getBlueprint(CustomItemType.ENCHANTED_COIN),
         };
     }
@@ -79,7 +77,7 @@ public final class MenuWithdraw extends MenuBase {
         )));
 
         // Starts at row 2 column 2 (slot 10)
-        var currentSlot = 9;
+        var currentSlot = 10;
         var playerBalance = this.economyService.getMoney(this.player);
         for (var coin : this.coins) {
             currentSlot++;

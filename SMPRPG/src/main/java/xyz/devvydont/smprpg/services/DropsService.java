@@ -449,8 +449,8 @@ public class DropsService implements BaseService, Listener {
 
             // Now test for coins
             // Some chance to add more money
-            if (Math.random() < .33)
-                event.getDrops().add(ItemUtil.getOptimalCoinStack(plugin.getItemService(), entity.getLevel()));
+            if (Math.random() < .2)
+                event.getDrops().addAll(ItemUtil.getOptimalCoinStacks(plugin.getItemService(), (int) (entity.getLevel() * (Math.random() * 3))));
 
             // Loop through all the droppable items from the entity
             for (LootDrop drop : entity.getItemDrops()) {

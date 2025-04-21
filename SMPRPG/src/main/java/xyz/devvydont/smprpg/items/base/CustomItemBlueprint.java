@@ -70,6 +70,12 @@ public abstract class CustomItemBlueprint extends SMPItemBlueprint {
         return itemStack;
     }
 
+    public ItemStack generate(int amount) {
+        var stack = generate();
+        stack.setAmount(amount);
+        return stack;
+    }
+
     /**
      * Determines if item given is an item belonging to this blueprint
      *

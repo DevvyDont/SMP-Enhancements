@@ -8,6 +8,10 @@ import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
 import xyz.devvydont.smprpg.items.blueprints.economy.CustomItemCoin;
 import xyz.devvydont.smprpg.services.ItemService;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+
 public class ItemUtil {
 
     public static final CustomItemType[] COINS = {
@@ -15,8 +19,6 @@ public class ItemUtil {
             CustomItemType.SILVER_COIN,
             CustomItemType.GOLD_COIN,
             CustomItemType.PLATINUM_COIN,
-            CustomItemType.EMERALD_COIN,
-            CustomItemType.AMETHYST_COIN,
             CustomItemType.ENCHANTED_COIN
     };
 
@@ -86,6 +88,41 @@ public class ItemUtil {
         int stackSize = (int) (Math.random() * 4) + 1;
         coinItem.setAmount(stackSize);
         return coinItem;
+    }
+
+    public static Collection<ItemStack> getOptimalCoinStacks(ItemService itemService, int amount) {
+
+        var coins = new ArrayList<ItemStack>();
+
+        if (amount <= 0)
+            return coins;
+
+        // Define a hard cap so we don't return some whack collection of coins.
+        if (amount > CustomItemCoin.getCoinValue(CustomItemType.ENCHANTED_COIN) * 99) {
+            coins.add(itemService.getBlueprint(CustomItemType.ENCHANTED_COIN).generate(99));
+            return coins;
+        }
+
+        var remaining = amount;
+        // Loop through the coin tiers backwards and add as many coins as possible that divide by the amount.
+        for (CustomItemType coinType : Arrays.stream(COINS).toList().reversed()) {
+
+            var coinWorth = CustomItemCoin.getCoinValue(coinType);
+            if (coinWorth <= 0)
+                continue;
+
+
+            // How many times does the worth of the coin divide into the remaining amount?
+            var divisibleTimes = remaining / coinWorth;
+            if (divisibleTimes <= 0)
+                continue;
+
+            // Create an item stack for this coin type and subtract the worth from the remaining balance to fulfil.
+            coins.add(itemService.getBlueprint(coinType).generate(divisibleTimes));
+            remaining -= (divisibleTimes * coinWorth);
+        }
+
+        return coins;
     }
 
     /**

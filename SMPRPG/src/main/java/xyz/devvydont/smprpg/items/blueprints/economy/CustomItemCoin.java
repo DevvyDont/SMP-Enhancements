@@ -30,12 +30,10 @@ public class CustomItemCoin extends CustomItemBlueprint implements HeaderDescrib
 
         return switch (type) {
             case COPPER_COIN -> 1;
-            case SILVER_COIN -> 10;
-            case GOLD_COIN -> 100;
-            case PLATINUM_COIN -> 1_000;
-            case EMERALD_COIN -> 10_000;
-            case AMETHYST_COIN -> 100_000;
-            case ENCHANTED_COIN -> 1_000_000;
+            case SILVER_COIN -> 100;
+            case GOLD_COIN -> 10_000;
+            case PLATINUM_COIN -> 1_000_000;
+            case ENCHANTED_COIN -> 100_000_000;
             default -> 0;
         };
 
