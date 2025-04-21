@@ -830,7 +830,7 @@ public class ItemService implements BaseService, Listener {
 
         // Now, value and rarity
         lore.add(ComponentUtils.EMPTY);
-        if (this instanceof Sellable sellable) {
+        if (blueprint instanceof Sellable sellable) {
             int value = sellable.getWorth(meta);
             if (value > 0)
                 lore.add(ComponentUtils.create("Sell Value: ").append(ComponentUtils.create(EconomyService.formatMoney(sellable.getWorth(meta)), NamedTextColor.GOLD)));
