@@ -34,7 +34,7 @@ public class CopperPickaxe extends CustomAttributeItem implements ToolBreakable,
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, 3),
+                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, 6),
                 new MultiplicativeAttributeEntry(Attribute.ATTACK_SPEED, PICKAXE_ATTACK_SPEED_DEBUFF)
         );
     }

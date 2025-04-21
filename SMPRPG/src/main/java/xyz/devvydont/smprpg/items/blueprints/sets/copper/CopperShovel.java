@@ -34,7 +34,7 @@ public class CopperShovel extends CustomAttributeItem implements Craftable, Tool
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, 2),
+                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, 6),
                 new MultiplicativeAttributeEntry(Attribute.ATTACK_SPEED, ItemShovel.SHOVEL_ATTACK_SPEED_DEBUFF)
         );
     }
