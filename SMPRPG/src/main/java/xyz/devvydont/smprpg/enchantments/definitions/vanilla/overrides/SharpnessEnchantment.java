@@ -44,7 +44,7 @@ public class SharpnessEnchantment extends VanillaEnchantment implements Attribut
             case 8 -> 175;
             case 9 -> 200;
             case 10 -> 250;
-            default -> getDamageIncrease(10) + 100 * (level-10);
+            default -> getDamageIncrease(10) + 50 * (level-10);
         };
     }
 
