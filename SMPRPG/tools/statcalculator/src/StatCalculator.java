@@ -13,8 +13,10 @@ public class StatCalculator {
         SET_LEVEL("l", "Set the calculator level"),
         CREATE_SWORD("sword", "Create sword"),
         CREATE_AXE("axe", "Create axe"),
+        DUMP_PLAYER_EXPECTATIONS("player", "Dump player expectations"),
         DUMP_DPS_TABLE("dps", "Dump DPS Table"),
         DUMP_HP_TABLE("hp", "Dump HP/DEF Table"),
+        DUMP_SKILLS_TABLE("skills", "Dump Skills Table"),
         QUIT("q", "Quit"),
         ;
 
@@ -93,11 +95,6 @@ public class StatCalculator {
      * (NOTE: This gets out of control FAST)
      */
     private final static double EHP_SCALING_FACTOR = 1.0964782;  // 1.075 results in ~100k, 1.0964782 results in ~1M
-
-    /*
-     * How fast should HP scale in the early game?
-     */
-    private final static double HEALTH_P_FACTOR = 1.95;
 
     /**
      * The level the calculator is set to run calculations for.
@@ -197,6 +194,11 @@ public class StatCalculator {
         System.out.println("Set level to " + _level);
     }
 
+    private void operationDumpPlayerExpectationsTable() {
+        for (var i = 1; i <= 120; i++)
+            System.out.println(i + ": " + calculateExpectedPlayerHealth(i) + "HP," + calculateExpectedDefense(i) + "DEF" + " EHP=" + calculateExpectedHealth(i) + "DPS=" + calculatePlayerDps(i) + " STR=" + (1.0 + i/11.0) + "x");
+    }
+
     private void operationDumpHpTable() {
         for (var i = 1; i <= 120; i++)
             System.out.println(i + ": " + "player=" + calculateExpectedPlayerHealth(i) + "HP," + calculateExpectedDefense(i) + "DEF" + " EHP=" + calculateExpectedHealth(i));
@@ -225,6 +227,20 @@ public class StatCalculator {
         System.out.println("Player should have a damage multiplier of x" + expectedMultiplier + " to achieve a DPS of " + calculatePlayerDps(_level));
     }
 
+    private void operationDumpSkillExpectations() {
+        System.out.println("Skill expectations");
+        for (var i = 1; i <= 120; i++) {
+            var distribution = StatSource.generateStatDistribution(i);
+            var hp = distribution.get(StatSource.SKILLS) * (calculateExpectedPlayerHealth(i) - 100);
+            var def = distribution.get(StatSource.SKILLS) * calculateExpectedDefense(i);
+            var rareDmg = StatSource.getExpectedWeaponDamage(i, ItemRarity.RARE, 1.0);
+            var expectedMultiplier = (double)calculatePlayerDps(i) / rareDmg;
+            var dps = distribution.get(StatSource.SKILLS) * expectedMultiplier;
+            System.out.println(i + ": " + hp + "HP " + def + "DEF " + dps + "xSTR");
+        }
+
+    }
+
     private void operationQuit() {
         System.out.println("Exiting! Bye bye :)");
         System.exit(0);
@@ -245,8 +261,10 @@ public class StatCalculator {
             case SET_LEVEL -> this::operationSetLevel;
             case CREATE_SWORD -> this::operationCreateSword;
             case CREATE_AXE -> this::operationCreateAxe;
+            case DUMP_PLAYER_EXPECTATIONS -> this::operationDumpPlayerExpectationsTable;
             case DUMP_DPS_TABLE -> this::operationDumpDpsTable;
             case DUMP_HP_TABLE -> this::operationDumpHpTable;
+            case DUMP_SKILLS_TABLE -> this::operationDumpSkillExpectations;
             case QUIT -> this::operationQuit;
             default -> this::operationMissingLogic;
         };

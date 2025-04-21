@@ -11,11 +11,11 @@ import java.util.Map;
 public enum StatSource {
 
     // Leveling up mining, combat, etc. Come in the form of small but frequent permanent stat boosts.
-    SKILLS(0, 0, 35),
+    SKILLS(0, 5, 30),
 
     // Gear. What they're wearing on their body and holding in their hands.
-    ARMOR(5, 20, 35),
-    CHARM(40, 50, 10),
+    ARMOR(5, 25, 35),
+    CHARM(30, 50, 15),
 
     // Augments on gear. These have a scaling aspect, so they need to be considered.
     ENCHANTMENTS(20, 40, 20),
@@ -92,7 +92,7 @@ public enum StatSource {
      * @return
      */
     public static int getExpectedWeaponDamage(int level, ItemRarity rarity, double dpsMultiplier) {
-        double effectiveness = Math.pow(level, 1.75) * dpsMultiplier;
+        double effectiveness = Math.pow(level, 1.4) * dpsMultiplier;
         return (int) Math.round(effectiveness * rarity.Budget);
     }
 
