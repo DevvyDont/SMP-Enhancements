@@ -17,7 +17,7 @@ import java.util.List;
 
 public class ItemMace extends VanillaAttributeItem implements ToolBreakable {
 
-    public static final int MACE_ATTACK_DAMAGE = 800;
+    public static final int MACE_ATTACK_DAMAGE = 500;
     public static final double MACE_ATTACK_SPEED_DEBUFF = -0.85;
 
     public ItemMace(ItemService itemService, ItemStack item) {

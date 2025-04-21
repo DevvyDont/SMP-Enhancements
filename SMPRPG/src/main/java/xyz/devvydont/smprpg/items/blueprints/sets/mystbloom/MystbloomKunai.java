@@ -2,11 +2,13 @@ package xyz.devvydont.smprpg.items.blueprints.sets.mystbloom;
 
 import org.bukkit.attribute.Attribute;
 import org.bukkit.inventory.EquipmentSlotGroup;
+import org.w3c.dom.Attr;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
+import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomAttributeItem;
 import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
 import xyz.devvydont.smprpg.services.ItemService;
@@ -24,8 +26,9 @@ public class MystbloomKunai extends CustomAttributeItem implements ToolBreakable
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(Attribute.ATTACK_DAMAGE, 60),
-                new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, -.35)
+                new AdditiveAttributeEntry(Attribute.ATTACK_DAMAGE, 50),
+                new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, -.3),
+                new ScalarAttributeEntry(Attribute.MOVEMENT_SPEED, .1)
         );
     }
 

@@ -92,8 +92,9 @@ public enum StatSource {
      * @return
      */
     public static int getExpectedWeaponDamage(int level, ItemRarity rarity, double dpsMultiplier) {
+        var distribution = StatSource.generateStatDistribution(level);
         double effectiveness = Math.pow(level, 1.4) * dpsMultiplier;
-        return (int) Math.round(effectiveness * rarity.Budget);
+        return (int) Math.round(effectiveness * rarity.Budget * (1-distribution.get(StatSource.ENCHANTMENTS)));
     }
 
 }
