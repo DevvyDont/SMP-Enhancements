@@ -8,7 +8,7 @@ public class MiningSkillRewards extends SkillRewardContainer {
 
 
     public static final int HP_PER_LEVEL = 2;
-    public static final int DEF_PER_5_LEVEL = 10;
+    public static final int DEF_PER_5_LEVEL = 4;
     public static final int MINING_EFF_PER_4_LEVEL = 5;
 
     public static final int SECONDARY_LEVEL_DIFFERENCE = 5;

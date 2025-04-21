@@ -43,7 +43,7 @@ public class ExperienceGainNotifier implements Listener {
         for (SkillReward reward : skill.getRewards(newLevel))
             player.sendMessage(ComponentUtils.create("    " + Symbols.POINT + " ").append(reward.getDisplayName()));
         player.sendMessage(ComponentUtils.create("--------------------------"));
-        player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 2);
+        player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, .25f, 2);
     }
 
     @EventHandler
