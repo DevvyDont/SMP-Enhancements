@@ -33,7 +33,7 @@ public abstract class LuxeArmorSet extends CustomArmorBlueprint implements Craft
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, getDefense()),
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, getHealth()),
-                new ScalarAttributeEntry(AttributeWrapper.LUCK, .1)
+                new ScalarAttributeEntry(AttributeWrapper.LUCK, .25)
         );
     }
 

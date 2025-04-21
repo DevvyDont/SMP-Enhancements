@@ -28,7 +28,7 @@ public abstract class UndeadArmorSet extends CustomArmorBlueprint implements Dye
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, getDefense())
+                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, getHealth())
         );
     }
 
@@ -44,7 +44,7 @@ public abstract class UndeadArmorSet extends CustomArmorBlueprint implements Dye
         );
     }
 
-    public abstract int getDefense();
+    public abstract int getHealth();
 
     @Override
     public int getPowerRating() {

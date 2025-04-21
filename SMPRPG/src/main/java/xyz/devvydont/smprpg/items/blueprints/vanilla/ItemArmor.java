@@ -28,7 +28,7 @@ public class ItemArmor extends VanillaAttributeItem implements ToolBreakable {
 
         return switch (material) {
 
-            case ELYTRA -> 150;
+            case ELYTRA -> 100;
 
             case LEATHER_HORSE_ARMOR -> 100;
             case IRON_HORSE_ARMOR -> 250;
@@ -36,37 +36,37 @@ public class ItemArmor extends VanillaAttributeItem implements ToolBreakable {
             case DIAMOND_HORSE_ARMOR -> 1000;
             case WOLF_ARMOR -> 500;
 
-            case TURTLE_HELMET -> 20;
+            case TURTLE_HELMET -> 10;
 
-            case LEATHER_HELMET -> 10;
-            case LEATHER_CHESTPLATE -> 18;
-            case LEATHER_LEGGINGS -> 15;
-            case LEATHER_BOOTS -> 8;
+            case LEATHER_HELMET -> 6;
+            case LEATHER_CHESTPLATE -> 10;
+            case LEATHER_LEGGINGS -> 8;
+            case LEATHER_BOOTS -> 4;
 
-            case CHAINMAIL_HELMET -> 24;
-            case CHAINMAIL_CHESTPLATE -> 30;
-            case CHAINMAIL_LEGGINGS -> 26;
-            case CHAINMAIL_BOOTS -> 20;
+            case CHAINMAIL_HELMET -> 14;
+            case CHAINMAIL_CHESTPLATE -> 20;
+            case CHAINMAIL_LEGGINGS -> 16;
+            case CHAINMAIL_BOOTS -> 12;
 
-            case GOLDEN_HELMET -> 35;
+            case GOLDEN_HELMET -> 32;
             case GOLDEN_CHESTPLATE -> 50;
-            case GOLDEN_LEGGINGS -> 44;
-            case GOLDEN_BOOTS -> 32;
+            case GOLDEN_LEGGINGS -> 42;
+            case GOLDEN_BOOTS -> 25;
 
-            case IRON_HELMET -> 32;
-            case IRON_CHESTPLATE -> 42;
-            case IRON_LEGGINGS -> 38;
-            case IRON_BOOTS -> 28;
+            case IRON_HELMET -> 21;
+            case IRON_CHESTPLATE -> 35;
+            case IRON_LEGGINGS -> 28;
+            case IRON_BOOTS -> 16;
 
-            case DIAMOND_HELMET -> 115;
-            case DIAMOND_CHESTPLATE -> 200;
-            case DIAMOND_LEGGINGS -> 175;
-            case DIAMOND_BOOTS -> 90;
+            case DIAMOND_HELMET -> 95;
+            case DIAMOND_CHESTPLATE -> 120;
+            case DIAMOND_LEGGINGS -> 105;
+            case DIAMOND_BOOTS -> 85;
 
-            case NETHERITE_HELMET -> 100;
-            case NETHERITE_CHESTPLATE -> 130;
-            case NETHERITE_LEGGINGS -> 125;
-            case NETHERITE_BOOTS -> 95;
+            case NETHERITE_HELMET -> 170;
+            case NETHERITE_CHESTPLATE -> 210;
+            case NETHERITE_LEGGINGS -> 185;
+            case NETHERITE_BOOTS -> 155;
 
             default -> 0;
         };
@@ -101,15 +101,15 @@ public class ItemArmor extends VanillaAttributeItem implements ToolBreakable {
 
             case ELYTRA -> 100;
 
-            case NETHERITE_HELMET -> 90;
-            case NETHERITE_CHESTPLATE -> 110;
-            case NETHERITE_LEGGINGS -> 100;
-            case NETHERITE_BOOTS -> 80;
+            case NETHERITE_HELMET -> 30;
+            case NETHERITE_CHESTPLATE -> 45;
+            case NETHERITE_LEGGINGS -> 45;
+            case NETHERITE_BOOTS -> 30;
 
             case DIAMOND_HELMET -> 10;
-            case DIAMOND_CHESTPLATE -> 10;
-            case DIAMOND_LEGGINGS -> 10;
-            case DIAMOND_BOOTS -> 5;
+            case DIAMOND_CHESTPLATE -> 20;
+            case DIAMOND_LEGGINGS -> 20;
+            case DIAMOND_BOOTS -> 10;
 
             default -> 0;
         };
@@ -119,15 +119,8 @@ public class ItemArmor extends VanillaAttributeItem implements ToolBreakable {
     public static double getDamageFromMaterial(Material material) {
 
         return switch (material) {
-            case NETHERITE_HELMET -> .18;
-            case NETHERITE_CHESTPLATE -> .3;
-            case NETHERITE_LEGGINGS -> .2;
-            case NETHERITE_BOOTS -> .12;
-
-            case DIAMOND_HELMET -> .04;
-            case DIAMOND_CHESTPLATE -> .08;
-            case DIAMOND_LEGGINGS -> .06;
-            case DIAMOND_BOOTS -> .02;
+            case NETHERITE_HELMET, NETHERITE_BOOTS, NETHERITE_LEGGINGS, NETHERITE_CHESTPLATE -> .2;
+            case DIAMOND_HELMET, DIAMOND_LEGGINGS, DIAMOND_CHESTPLATE, DIAMOND_BOOTS -> .05;
 
             default -> 0;
         };

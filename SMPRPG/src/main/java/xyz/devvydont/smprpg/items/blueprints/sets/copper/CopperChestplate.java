@@ -12,6 +12,7 @@ import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
+import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomArmorBlueprint;
 import xyz.devvydont.smprpg.items.interfaces.Craftable;
 import xyz.devvydont.smprpg.items.interfaces.Dyeable;
@@ -33,7 +34,9 @@ public class CopperChestplate extends CustomArmorBlueprint implements ToolBreaka
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 20)
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 15),
+                new ScalarAttributeEntry(AttributeWrapper.MINING_EFFICIENCY, .05),
+                new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, .02)
         );
     }
 

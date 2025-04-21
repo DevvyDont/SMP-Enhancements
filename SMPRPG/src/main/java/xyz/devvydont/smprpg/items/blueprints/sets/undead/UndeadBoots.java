@@ -15,7 +15,7 @@ public class UndeadBoots extends UndeadArmorSet {
     }
 
     @Override
-    public int getDefense() {
+    public int getHealth() {
         return 20;
     }
 

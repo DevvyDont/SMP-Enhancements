@@ -40,6 +40,6 @@ public enum ArmorPiece {
      */
     public double calculateStatTarget(double totalStatPool, ItemRarity rarity) {
         float weight = (float)this.Weight / TOTAL_WEIGHT;
-        return weight * totalStatPool * rarity.Budget;
+        return Math.round(weight * totalStatPool * rarity.Budget);
     }
 }

@@ -19,8 +19,8 @@ public class UndeadHelmet extends UndeadArmorSet {
     }
 
     @Override
-    public int getDefense() {
-        return 25;
+    public int getHealth() {
+        return 20;
     }
 
     @Override

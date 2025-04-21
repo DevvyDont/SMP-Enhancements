@@ -23,8 +23,8 @@ public class UndeadChestplate extends UndeadArmorSet implements Trimmable {
     }
 
     @Override
-    public int getDefense() {
-        return 40;
+    public int getHealth() {
+        return 30;
     }
 
     @Override

@@ -30,7 +30,7 @@ public abstract class AmethystArmorSet extends CustomArmorBlueprint implements T
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, getDefense()),
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 5),
-                new ScalarAttributeEntry(AttributeWrapper.LUCK, .05)
+                new ScalarAttributeEntry(AttributeWrapper.LUCK, .1)
         );
     }
 

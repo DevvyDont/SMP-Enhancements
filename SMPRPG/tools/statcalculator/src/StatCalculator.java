@@ -1,3 +1,4 @@
+import enums.ArmorPiece;
 import enums.ItemRarity;
 import enums.StatSource;
 
@@ -11,6 +12,7 @@ public class StatCalculator {
 
     private enum Operation {
         SET_LEVEL("l", "Set the calculator level"),
+        CREATE_ARMOR("armor", "Create armor"),
         CREATE_SWORD("sword", "Create sword"),
         CREATE_AXE("axe", "Create axe"),
         DUMP_PLAYER_EXPECTATIONS("player", "Dump player expectations"),
@@ -227,6 +229,25 @@ public class StatCalculator {
         System.out.println("Player should have a damage multiplier of x" + expectedMultiplier + " to achieve a DPS of " + calculatePlayerDps(_level));
     }
 
+    private void operationCreateArmor() {
+        System.out.println("Creating armor for level " + _level);
+        var distribution = StatSource.generateStatDistribution(_level);
+        var hp = distribution.get(StatSource.ARMOR) * (calculateExpectedPlayerHealth(_level) - 100);
+        var def = distribution.get(StatSource.ARMOR) * calculateExpectedDefense(_level);
+        System.out.println("Player should have " + hp + "HP and " + def + "DEF from armor at level " + _level);
+        var enchHp = distribution.get(StatSource.ENCHANTMENTS) * (calculateExpectedPlayerHealth(_level) - 100);
+        var enchDef = distribution.get(StatSource.ENCHANTMENTS) * calculateExpectedDefense(_level);
+        for (var rarity : ItemRarity.values()) {
+            var sb = new StringBuilder(rarity + ": ");
+            for (var piece : ArmorPiece.values()) {
+                sb.append(piece).append("=").append(piece.calculateStatTarget(def, rarity)).append("DEF/").append(piece.calculateStatTarget(hp, rarity)).append("HP").append(" | ");
+            }
+            System.out.println(sb);
+        }
+        System.out.println("Expected enchantment defense pool = " + enchDef + " (" + (enchDef / ArmorPiece.values().length) + ")");
+        System.out.println("Expected enchantment hp pool      = " + enchHp + " (" + (enchHp / ArmorPiece.values().length) + ")");
+    }
+
     private void operationDumpSkillExpectations() {
         System.out.println("Skill expectations");
         for (var i = 1; i <= 120; i++) {
@@ -259,6 +280,7 @@ public class StatCalculator {
 
         return switch (op) {
             case SET_LEVEL -> this::operationSetLevel;
+            case CREATE_ARMOR -> this::operationCreateArmor;
             case CREATE_SWORD -> this::operationCreateSword;
             case CREATE_AXE -> this::operationCreateAxe;
             case DUMP_PLAYER_EXPECTATIONS -> this::operationDumpPlayerExpectationsTable;

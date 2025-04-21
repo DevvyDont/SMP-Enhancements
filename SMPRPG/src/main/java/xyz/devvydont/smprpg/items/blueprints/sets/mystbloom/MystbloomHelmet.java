@@ -25,8 +25,8 @@ public class MystbloomHelmet extends MystbloomArmorSet {
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 45),
-                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 10),
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 75),
+                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 20),
                 new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .1),
                 new ScalarAttributeEntry(AttributeWrapper.LUCK, .1)
         );

@@ -5,6 +5,7 @@ import org.bukkit.Material;
 import org.bukkit.inventory.CraftingRecipe;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
+import xyz.devvydont.smprpg.items.blueprints.vanilla.ItemArmor;
 import xyz.devvydont.smprpg.items.interfaces.Dyeable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.crafting.builders.ChestplateRecipe;
@@ -18,7 +19,7 @@ public class BoneChestplate extends BoneArmorSet implements Dyeable {
 
     @Override
     public int getDefense() {
-        return 40;
+        return ItemArmor.getDefenseFromMaterial(Material.GOLDEN_CHESTPLATE);
     }
 
     @Override

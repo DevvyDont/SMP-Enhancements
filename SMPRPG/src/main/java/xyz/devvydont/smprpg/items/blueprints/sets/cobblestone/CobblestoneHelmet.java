@@ -28,7 +28,7 @@ public class CobblestoneHelmet extends CustomFakeHelmetBlueprint implements Craf
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 90),
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 85),
                 new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, -0.1)
         );
     }

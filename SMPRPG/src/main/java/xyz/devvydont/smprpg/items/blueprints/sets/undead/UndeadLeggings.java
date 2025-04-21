@@ -14,8 +14,8 @@ public class UndeadLeggings extends UndeadArmorSet {
     }
 
     @Override
-    public int getDefense() {
-        return 35;
+    public int getHealth() {
+        return 25;
     }
 
     @Override
