@@ -10,6 +10,7 @@ import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomFakeHelmetBlueprint;
+import xyz.devvydont.smprpg.items.blueprints.vanilla.ItemArmor;
 import xyz.devvydont.smprpg.items.interfaces.Craftable;
 import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
 import xyz.devvydont.smprpg.services.ItemService;
@@ -28,7 +29,7 @@ public class CobblestoneHelmet extends CustomFakeHelmetBlueprint implements Craf
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 85),
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, ItemArmor.getArmorFromMaterial(Material.DIAMOND_HELMET)-10),
                 new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, -0.1)
         );
     }

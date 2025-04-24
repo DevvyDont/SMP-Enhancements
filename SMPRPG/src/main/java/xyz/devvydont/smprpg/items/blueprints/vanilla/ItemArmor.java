@@ -38,48 +38,50 @@ public class ItemArmor extends VanillaAttributeItem implements ToolBreakable {
 
             case TURTLE_HELMET -> 10;
 
-            case LEATHER_HELMET -> 6;
+            case LEATHER_HELMET -> 5;
             case LEATHER_CHESTPLATE -> 10;
-            case LEATHER_LEGGINGS -> 8;
-            case LEATHER_BOOTS -> 4;
+            case LEATHER_LEGGINGS -> 7;
+            case LEATHER_BOOTS -> 3;
 
-            case CHAINMAIL_HELMET -> 14;
-            case CHAINMAIL_CHESTPLATE -> 20;
-            case CHAINMAIL_LEGGINGS -> 16;
-            case CHAINMAIL_BOOTS -> 12;
+            case CHAINMAIL_HELMET -> 10;
+            case CHAINMAIL_CHESTPLATE -> 18;
+            case CHAINMAIL_LEGGINGS -> 14;
+            case CHAINMAIL_BOOTS -> 8;
 
-            case GOLDEN_HELMET -> 32;
-            case GOLDEN_CHESTPLATE -> 50;
-            case GOLDEN_LEGGINGS -> 42;
-            case GOLDEN_BOOTS -> 25;
+            case GOLDEN_HELMET -> 18;
+            case GOLDEN_CHESTPLATE -> 25;
+            case GOLDEN_LEGGINGS -> 20;
+            case GOLDEN_BOOTS -> 16;
 
-            case IRON_HELMET -> 21;
-            case IRON_CHESTPLATE -> 35;
-            case IRON_LEGGINGS -> 28;
-            case IRON_BOOTS -> 16;
+            case IRON_HELMET -> 12;
+            case IRON_CHESTPLATE -> 20;
+            case IRON_LEGGINGS -> 16;
+            case IRON_BOOTS -> 10;
 
-            case DIAMOND_HELMET -> 95;
-            case DIAMOND_CHESTPLATE -> 120;
-            case DIAMOND_LEGGINGS -> 105;
-            case DIAMOND_BOOTS -> 85;
+            case DIAMOND_HELMET -> 70;
+            case DIAMOND_CHESTPLATE -> 90;
+            case DIAMOND_LEGGINGS -> 80;
+            case DIAMOND_BOOTS -> 65;
 
-            case NETHERITE_HELMET -> 170;
-            case NETHERITE_CHESTPLATE -> 210;
-            case NETHERITE_LEGGINGS -> 185;
-            case NETHERITE_BOOTS -> 155;
+            case NETHERITE_HELMET -> 140;
+            case NETHERITE_CHESTPLATE -> 180;
+            case NETHERITE_LEGGINGS -> 160;
+            case NETHERITE_BOOTS -> 130;
 
             default -> 0;
         };
     }
 
     /**
-     * True defense is the replaced vanilla armor stat. It caps at 30, and for this plugin True Defense will be
-     * a flat damage reduction after all previous damage reductions.
+     * Gets the armor rating for a vanilla material.
      *
-     * @param material
-     * @return
+     * Armor is the amount of additional i-frames that a player gets
+     * after taking damage.
+     *
+     * @param material The material fallback for an item.
+     * @return How much armor it gives.
      */
-    public static double getTrueDefenseFromMaterial(Material material) {
+    public static double getArmorFromMaterial(Material material) {
 
         return switch (material) {
             case NETHERITE_HELMET -> 2;
@@ -156,7 +158,7 @@ public class ItemArmor extends VanillaAttributeItem implements ToolBreakable {
     public static int getMaxDurability(Material material) {
         return switch (material) {
 
-            case ELYTRA -> 50_000;
+            case ELYTRA -> 10_000;
 
             case NETHERITE_HELMET -> 30_600;
             case NETHERITE_CHESTPLATE -> 32_000;
@@ -209,9 +211,9 @@ public class ItemArmor extends VanillaAttributeItem implements ToolBreakable {
         List<AttributeEntry> modifiers = new ArrayList<>();
 
         // If we have true defense...
-        double trueDef = getTrueDefenseFromMaterial(getItem().getType());
+        double trueDef = getArmorFromMaterial(getItem().getType());
         if (trueDef > 0)
-            modifiers.add(new AdditiveAttributeEntry(Attribute.ARMOR, getTrueDefenseFromMaterial(getItem().getType())));
+            modifiers.add(new AdditiveAttributeEntry(Attribute.ARMOR, getArmorFromMaterial(getItem().getType())));
 
         // If we have health...
         double health = getHealthFromMaterial(getItem().getType());
