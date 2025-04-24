@@ -131,7 +131,7 @@ public final class SMPRPG extends JavaPlugin implements Listener {
         registerService(actionBarService);
 
         unstableListenersService =  new UnstableListenersService(this);
-//        registerService(unstableListenersService);
+        registerService(unstableListenersService);
 
         animationService =  new AnimationService(this);
 
