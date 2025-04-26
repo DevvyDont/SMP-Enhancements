@@ -35,7 +35,7 @@ public class CobblestoneLeggings extends CustomArmorBlueprint implements Craftab
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, ItemArmor.getArmorFromMaterial(Material.DIAMOND_LEGGINGS)-10),
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, ItemArmor.getDefenseFromMaterial(Material.DIAMOND_LEGGINGS)-10),
                 new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, -0.15)
         );
     }

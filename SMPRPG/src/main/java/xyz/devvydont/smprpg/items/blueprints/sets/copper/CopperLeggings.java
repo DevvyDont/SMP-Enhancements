@@ -35,7 +35,7 @@ public class CopperLeggings extends CustomArmorBlueprint implements ToolBreakabl
     @Override
     public Collection<AttributeEntry> getAttributeModifiers() {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, ItemArmor.getArmorFromMaterial(Material.CHAINMAIL_LEGGINGS)),
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, ItemArmor.getDefenseFromMaterial(Material.CHAINMAIL_LEGGINGS)),
                 new ScalarAttributeEntry(AttributeWrapper.MINING_EFFICIENCY, .05),
                 new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, .02)
         );
