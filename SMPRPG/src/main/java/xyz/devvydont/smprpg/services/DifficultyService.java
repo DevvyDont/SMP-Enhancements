@@ -125,6 +125,11 @@ public class DifficultyService implements BaseService, Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     private void __onPlayerEarnSkillExperience(SkillExperienceGainEvent event) {
+
+        // Ignore experience gained from commands, otherwise the skill set command will behave wonky.
+        if (event.getSource().equals(SkillExperienceGainEvent.ExperienceSource.COMMANDS))
+            return;
+
         var multiplier = getSkillExperienceMultiplier(getDifficulty(event.getPlayer()));
         event.multiplyExperienceEarned(multiplier);
     }

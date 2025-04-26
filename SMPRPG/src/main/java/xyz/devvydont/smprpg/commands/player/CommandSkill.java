@@ -29,7 +29,7 @@ public class CommandSkill extends CommandBase {
         SkillInstance inst = SMPRPG.getInstance().getSkillService().getNewSkillInstance(player.getPlayer(), skill);
         int targetExp = SkillGlobals.getCumulativeExperienceForLevel(level);
         if (targetExp > inst.getExperience())
-            inst.addExperience(targetExp - inst.getExperience(), SkillExperienceGainEvent.ExperienceSource.UNKNOWN);
+            inst.addExperience(targetExp - inst.getExperience(), SkillExperienceGainEvent.ExperienceSource.COMMANDS);
         else
             inst.setExperience(targetExp);
         player.getPlayer().sendMessage(ComponentUtils.success("Set your " + skill.getDisplayName() + " skill to level " + inst.getLevel()));

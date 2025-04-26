@@ -29,6 +29,8 @@ public class SkillExperienceGainEvent extends Event implements Cancellable {
         FORGE,
         XP,
 
+        COMMANDS,
+
         UNKNOWN
     }
 

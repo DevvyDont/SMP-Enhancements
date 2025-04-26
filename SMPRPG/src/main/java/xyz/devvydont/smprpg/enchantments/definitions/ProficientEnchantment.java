@@ -82,6 +82,10 @@ public class ProficientEnchantment extends CustomEnchantment implements Listener
     @EventHandler
     public void onObtainSkillExperience(SkillExperienceGainEvent event) {
 
+        // Ignore experience gained from commands, otherwise the skill set command will behave wonky.
+        if (event.getSource().equals(SkillExperienceGainEvent.ExperienceSource.COMMANDS))
+            return;
+
         int totalLevels = EnchantmentUtil.getWornEnchantLevel(this, event.getPlayer().getEquipment());
         totalLevels += EnchantmentUtil.getHoldingEnchantLevel(this, EquipmentSlotGroup.HAND, event.getPlayer().getEquipment());
         if (totalLevels <= 0)
