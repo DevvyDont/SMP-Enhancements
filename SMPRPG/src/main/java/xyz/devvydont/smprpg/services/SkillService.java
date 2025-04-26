@@ -37,7 +37,7 @@ public class SkillService implements BaseService, Listener {
     public boolean setup() {
 
         int sum = 0;
-        for (int i = 1; i <= 99; i++) {
+        for (int i = 1; i <= SkillGlobals.getMaxSkillLevel(); i++) {
             int xp = SkillGlobals.getExperienceForLevel(i);
             sum += xp;
             plugin.getLogger().fine("Skill Requirement for Level " + i + ": " + xp + " (" + sum + ")");
@@ -62,24 +62,32 @@ public class SkillService implements BaseService, Listener {
         return new SkillInstance(player, type);
     }
 
-    public void syncSkillAttributes(LeveledPlayer player) {
-
-        // We want to maintain their HP% when we perform this.
-        double hpPercent = Math.max(.01, player.getHealthPercentage());
-
+    private void removeAttributeSkillRewards(LeveledPlayer player) {
         // Remove every skill reward that is an attribute skill.
         for (SkillInstance skill : player.getSkills())
-            for (int level = 0; level <= skill.getLevel(); level++)
+            for (int level = 0; level <= SkillGlobals.getMaxSkillLevel(); level++)
                 for (ISkillReward reward : skill.getRewards(level))
-                    if (skill.getLevel() >= level && reward instanceof AttributeReward)
+                    if (reward instanceof AttributeReward)
                         reward.remove(player.getPlayer(), skill.getType());
+    }
 
-        // Loop through every skill, then every level they have in that skill, and apply the reward.
+    private void applyAttributeSkillRewards(LeveledPlayer player) {
         for (SkillInstance skill : player.getSkills())
             for (int level = 0; level <= skill.getLevel(); level++)
                 for (ISkillReward reward : skill.getRewards(level))
                     if (skill.getLevel() >= level && reward instanceof AttributeReward)
                         reward.apply(player.getPlayer(), skill.getType());
+    }
+
+    public void syncSkillAttributes(LeveledPlayer player) {
+
+        // We want to maintain their HP% when we perform this.
+        double hpPercent = Math.max(.01, player.getHealthPercentage());
+
+        removeAttributeSkillRewards(player);
+
+        // Loop through every skill, then every level they have in that skill, and apply the reward.
+        applyAttributeSkillRewards(player);
 
         // Reset their health.
         if (!player.getPlayer().isDead())
