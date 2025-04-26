@@ -17,7 +17,7 @@ public class WoodcuttingSkillRewards extends SkillRewardContainer {
     }
 
     public int getHpForLevel(int level) {
-        return level * HP_PER_5_LEVEL / SECONDARY_LEVEL_DIFFERENCE;
+        return Math.max(0, level * HP_PER_5_LEVEL / SECONDARY_LEVEL_DIFFERENCE);
     }
 
     @Override
@@ -29,7 +29,7 @@ public class WoodcuttingSkillRewards extends SkillRewardContainer {
 
         // Loop every 5 levels and add HP
         for (int i = HP_PER_5_LEVEL; i <= 100; i += SECONDARY_LEVEL_DIFFERENCE)
-            addReward(i, new AttributeReward(AttributeWrapper.HEALTH, AttributeModifier.Operation.ADD_NUMBER, getHpForLevel(i), getHpForLevel(i-1)));
+            addReward(i, new AttributeReward(AttributeWrapper.HEALTH, AttributeModifier.Operation.ADD_NUMBER, getHpForLevel(i), getHpForLevel(i-SECONDARY_LEVEL_DIFFERENCE)));
     }
 
 }

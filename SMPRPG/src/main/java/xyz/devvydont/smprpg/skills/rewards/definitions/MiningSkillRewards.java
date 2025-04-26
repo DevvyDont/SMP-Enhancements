@@ -20,11 +20,11 @@ public class MiningSkillRewards extends SkillRewardContainer {
     }
 
     public int getDefForLevel(int level) {
-        return level * DEF_PER_5_LEVEL / SECONDARY_LEVEL_DIFFERENCE;
+        return Math.max(0, level * DEF_PER_5_LEVEL / SECONDARY_LEVEL_DIFFERENCE);
     }
 
     public int getMiningEfficiencyForLevel(int level) {
-        return level * MINING_EFF_PER_4_LEVEL / THIRDARY_LEVEL_DIFFERENCE;
+        return Math.max(0, level * MINING_EFF_PER_4_LEVEL / THIRDARY_LEVEL_DIFFERENCE);
     }
 
     @Override
@@ -37,11 +37,11 @@ public class MiningSkillRewards extends SkillRewardContainer {
 
         // Loop every 5 levels and add luck
         for (int i = DEF_PER_5_LEVEL; i <= 100; i += SECONDARY_LEVEL_DIFFERENCE)
-            addReward(i, new AttributeReward(AttributeWrapper.LUCK, AttributeModifier.Operation.ADD_NUMBER, getDefForLevel(i), getDefForLevel(i-1)));
+            addReward(i, new AttributeReward(AttributeWrapper.LUCK, AttributeModifier.Operation.ADD_NUMBER, getDefForLevel(i), getDefForLevel(i-SECONDARY_LEVEL_DIFFERENCE)));
 
         // Loop every 4 levels and add mining eff
         for (int i = MINING_EFF_PER_4_LEVEL; i <= 100; i += THIRDARY_LEVEL_DIFFERENCE)
-            addReward(i, new AttributeReward(AttributeWrapper.MINING_EFFICIENCY, AttributeModifier.Operation.ADD_SCALAR, getMiningEfficiencyForLevel(i), getMiningEfficiencyForLevel(i-1)));
+            addReward(i, new AttributeReward(AttributeWrapper.MINING_EFFICIENCY, AttributeModifier.Operation.ADD_SCALAR, getMiningEfficiencyForLevel(i), getMiningEfficiencyForLevel(i-THIRDARY_LEVEL_DIFFERENCE)));
     }
 
 }

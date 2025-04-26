@@ -17,7 +17,7 @@ public class FarmingSkillRewards extends SkillRewardContainer {
     }
 
     public int getStrengthForLevel(int level) {
-        return level * STR_PER_2_LEVEL / SECONDARY_STAT_LEVEL_DIFF;
+        return Math.max(0, level * STR_PER_2_LEVEL / SECONDARY_STAT_LEVEL_DIFF);
     }
 
     @Override
@@ -29,7 +29,7 @@ public class FarmingSkillRewards extends SkillRewardContainer {
 
         // Loop every 2 levels and add 4 STR
         for (int i = SECONDARY_STAT_LEVEL_DIFF; i <= 100; i += SECONDARY_STAT_LEVEL_DIFF)
-            addReward(i, new AttributeReward(AttributeWrapper.STRENGTH, AttributeModifier.Operation.ADD_SCALAR, getStrengthForLevel(i), getStrengthForLevel(i-1)));
+            addReward(i, new AttributeReward(AttributeWrapper.STRENGTH, AttributeModifier.Operation.ADD_SCALAR, getStrengthForLevel(i), getStrengthForLevel(i-SECONDARY_STAT_LEVEL_DIFF)));
     }
 
 

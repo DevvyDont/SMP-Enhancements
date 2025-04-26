@@ -20,7 +20,7 @@ public class MagicSkillRewards extends SkillRewardContainer {
     }
 
     public int getLuckForLevel(int level) {
-        return level * LUCK_PER_4_LEVEL / SECONDARY_STAT_LEVEL_DIFF;
+        return Math.max(0, level * LUCK_PER_4_LEVEL / SECONDARY_STAT_LEVEL_DIFF);
     }
 
     @Override
@@ -37,7 +37,7 @@ public class MagicSkillRewards extends SkillRewardContainer {
 
         // Loop every 4 levels and add luck
         for (int i = SECONDARY_STAT_LEVEL_DIFF; i <= 100; i += SECONDARY_STAT_LEVEL_DIFF)
-            addReward(i, new AttributeReward(AttributeWrapper.LUCK, AttributeModifier.Operation.ADD_NUMBER, getLuckForLevel(i), getLuckForLevel(i-1)));
+            addReward(i, new AttributeReward(AttributeWrapper.LUCK, AttributeModifier.Operation.ADD_NUMBER, getLuckForLevel(i), getLuckForLevel(i-SECONDARY_STAT_LEVEL_DIFF)));
     }
 
 }
