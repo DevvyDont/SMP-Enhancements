@@ -14,10 +14,7 @@ import xyz.devvydont.smprpg.commands.inventory.CommandPeek;
 import xyz.devvydont.smprpg.commands.items.CommandGiveItem;
 import xyz.devvydont.smprpg.commands.items.CommandSearchItem;
 import xyz.devvydont.smprpg.commands.items.CommandTrashItems;
-import xyz.devvydont.smprpg.commands.player.CommandReforge;
-import xyz.devvydont.smprpg.commands.player.CommandSkill;
-import xyz.devvydont.smprpg.commands.player.CommandStatistics;
-import xyz.devvydont.smprpg.commands.player.CommandWhatAmIHolding;
+import xyz.devvydont.smprpg.commands.player.*;
 import xyz.devvydont.smprpg.enchantments.CustomEnchantment;
 import xyz.devvydont.smprpg.services.EnchantmentService;
 
@@ -28,6 +25,7 @@ public class SMPRPGBootstrapper implements PluginBootstrap {
                 new CommandEcoAdmin("eco"),
                 new CommandBalance("balance"),
                 new CommandBalanceTop("balancetop"),
+                new CommandDifficulty("difficulty"),
                 new CommandDeposit("deposit"),
                 new CommandWithdrawal("withdrawal"),
                 new CommandGiveItem("give"),
@@ -42,18 +40,18 @@ public class SMPRPGBootstrapper implements PluginBootstrap {
                 new CommandEnchantments("enchantments")
         };
 
-        LifecycleEventManager<BootstrapContext> manager = context.getLifecycleManager();
+        var manager = context.getLifecycleManager();
         manager.registerEventHandler(LifecycleEvents.COMMANDS, event -> {
-            final Commands commands = event.registrar();
+            final var commands = event.registrar();
 
-            for (CommandBase command : commandsToRegister)
+            for (var command : commandsToRegister)
                 commands.register(command.getName(), command.getDescription(), command.getAliases(), command);
         });
     }
 
     private void bootstrapEnchantments(BootstrapContext context) {
         // Register a new handled for the freeze lifecycle event on the enchantment registry
-        for (CustomEnchantment enchantment : EnchantmentService.CUSTOM_ENCHANTMENTS)
+        for (var enchantment : EnchantmentService.CUSTOM_ENCHANTMENTS)
             enchantment.bootstrap(context);
     }
 

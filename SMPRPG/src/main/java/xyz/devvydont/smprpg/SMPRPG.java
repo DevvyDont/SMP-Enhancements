@@ -34,6 +34,7 @@ public final class SMPRPG extends JavaPlugin implements Listener {
     ItemService itemService;
     EnchantmentService enchantmentService;
     EntityService entityService;
+    DifficultyService difficultyService;
     SpecialEffectService specialEffectsService;
     SkillService skillService;
     DropsService dropsService;
@@ -65,6 +66,10 @@ public final class SMPRPG extends JavaPlugin implements Listener {
 
     public EntityService getEntityService() {
         return entityService;
+    }
+
+    public DifficultyService getDifficultyService() {
+        return difficultyService;
     }
 
     public SpecialEffectService getSpecialEffectsService() {
@@ -117,6 +122,9 @@ public final class SMPRPG extends JavaPlugin implements Listener {
 
         entityService = new EntityService(this);
         registerService(entityService);
+
+        difficultyService = new DifficultyService();
+        registerService(difficultyService);
 
         specialEffectsService = new SpecialEffectService(this);
         registerService(specialEffectsService);

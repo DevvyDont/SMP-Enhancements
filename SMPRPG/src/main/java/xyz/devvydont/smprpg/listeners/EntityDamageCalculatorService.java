@@ -21,6 +21,7 @@ import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.base.LeveledEntity;
 import xyz.devvydont.smprpg.events.CustomEntityDamageByEntityEvent;
 import xyz.devvydont.smprpg.services.BaseService;
+import xyz.devvydont.smprpg.services.DifficultyService;
 
 /**
  * Overrides all instances of vanilla damage that is desired to fit our new attribute logic
@@ -32,8 +33,8 @@ public class EntityDamageCalculatorService implements Listener, BaseService {
      */
 
     // How much to decrease damage by depending on the difficulty.
-    public static final float EASY_DAMAGE_MULTIPLIER = .25f;
-    public static final float NORMAL_DAMAGE_MULITPLIER = .5f;
+    public static final float EASY_DAMAGE_MULTIPLIER = .5f;
+    public static final float NORMAL_DAMAGE_MULITPLIER = .75f;
     public static final float HARD_DAMAGE_MULTIPLIER = 1f;
 
     // How effective defense is. The lower the number, the better damage reduction from defense is.
@@ -202,7 +203,7 @@ public class EntityDamageCalculatorService implements Listener, BaseService {
      * damage of the attack to the strength stat of the entity.
      */
     @EventHandler(priority = EventPriority.LOWEST)
-    public void onEntityDealDamageToAnotherEntity(EntityDamageByEntityEvent event) {
+    private void __onEntityDealDamageToAnotherEntity(EntityDamageByEntityEvent event) {
 
         // Depending on the cause of the damage, determine whether we should use strength or not
         if (!useStrengthAttribute(event.getCause()))
@@ -227,7 +228,7 @@ public class EntityDamageCalculatorService implements Listener, BaseService {
      * Handle criticals. Critical attacks have a 50% damage boost.
      */
     @EventHandler(priority = EventPriority.LOW)
-    public void onCriticalDamageDealt(EntityDamageByEntityEvent event) {
+    private void __onCriticalDamageDealt(EntityDamageByEntityEvent event) {
 
         if (!event.isCritical())
             return;
@@ -239,7 +240,7 @@ public class EntityDamageCalculatorService implements Listener, BaseService {
      * Handle damage boosting effects. For now, this is just the strength potion effect.
      */
     @EventHandler
-    public void onDamageDealtWithStrength(CustomEntityDamageByEntityEvent event) {
+    private void __onDamageDealtWithStrength(CustomEntityDamageByEntityEvent event) {
 
         if (!useStrengthAttribute(event.getVanillaCause()))
             return;
@@ -265,7 +266,7 @@ public class EntityDamageCalculatorService implements Listener, BaseService {
      * @param event
      */
     @EventHandler(priority = EventPriority.LOWEST)
-    public void onEntityShootBow(EntityShootBowEvent event) {
+    private void __onEntityShootBow(EntityShootBowEvent event) {
 
         AttributeInstance attackDamage = event.getEntity().getAttribute(Attribute.ATTACK_DAMAGE);
         // This entity doesn't have an attack damage attribute, we can't do anything.
@@ -295,7 +296,7 @@ public class EntityDamageCalculatorService implements Listener, BaseService {
      * @param event
      */
     @EventHandler(priority = EventPriority.LOWEST)
-    public void onArrowDamageReceived(EntityDamageByEntityEvent event) {
+    private void __onArrowDamageReceived(EntityDamageByEntityEvent event) {
 
         // Ignore events not involving an arrow harming something.
         if (!(event.getDamager() instanceof AbstractArrow arrow))
@@ -322,7 +323,7 @@ public class EntityDamageCalculatorService implements Listener, BaseService {
      * transferred to the projectile, so we can listen for it when it deals damage.
      */
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
-    public void onEntityNonArrowProjectileLaunch(ProjectileLaunchEvent event) {
+    private void __onEntityNonArrowProjectileLaunch(ProjectileLaunchEvent event) {
 
         // Ignore arrows. This is handled in its own case.
         if (event.getEntity() instanceof AbstractArrow)
@@ -346,7 +347,7 @@ public class EntityDamageCalculatorService implements Listener, BaseService {
      * This method ignores arrows as that is handled somewhere else.
      */
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
-    public void onEntityDamagedByNonArrowProjectile(EntityDamageByEntityEvent event) {
+    private void __onEntityDamagedByNonArrowProjectile(EntityDamageByEntityEvent event) {
 
         // We only want to listen to projectile damage events.
         if (!event.getCause().equals(EntityDamageEvent.DamageCause.PROJECTILE))
@@ -380,7 +381,7 @@ public class EntityDamageCalculatorService implements Listener, BaseService {
      * @param event
      */
     @EventHandler(ignoreCancelled = true)
-    public void onVanillaDamageEntityVsEntity(EntityDamageByEntityEvent event) {
+    private void __onVanillaDamageEntityVsEntity(EntityDamageByEntityEvent event) {
 
         // Handle the case where the source is a projectile. If it is, there is potential that
         // we are getting shot by a bow.
@@ -417,7 +418,7 @@ public class EntityDamageCalculatorService implements Listener, BaseService {
      * @param event
      */
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
-    public void onEntityDamageEntityWithDefense(CustomEntityDamageByEntityEvent event) {
+    private void __onEntityDamageEntityWithDefense(CustomEntityDamageByEntityEvent event) {
 
         // Using the defense of the receiver, reduce the damage
         if (event.getDamaged() instanceof Attributable) {
@@ -428,11 +429,34 @@ public class EntityDamageCalculatorService implements Listener, BaseService {
 
     }
 
+    /**
+     * Handle the incoming damage multiplier due to being on a different difficulty for players.
+     * Only the entity receiving damage will be affected if they are a player and on a difficulty that isn't
+     * standard.
+     *
+     * @param event
+     */
+    @EventHandler(priority = EventPriority.HIGHEST)
+    private void __onEntityDamageEntityOnSpecialDifficulty(CustomEntityDamageByEntityEvent event) {
+
+        // First make sure the receiver is a player.
+        if (!(event.getDamaged() instanceof Player player))
+            return;
+
+        // Ignore this event if another player is causing this. PVP is unaffected.
+        if (event.getDealer() instanceof Player)
+            return;
+
+        // Multiply their difficulty damage multiplier.
+        var multiplier = DifficultyService.getDamageMultiplier(SMPRPG.getInstance().getDifficultyService().getDifficulty(player));
+        event.multiplyDamage(multiplier);
+    }
+
     /*
      * Entities with the "armor" attribute should take off some damage additively at the very end of all damage calculations.
      */
     @EventHandler(ignoreCancelled = true)
-    public void onEntityDamagedEntityWithArmor(EntityDamageByEntityEvent event) {
+    private void __onEntityDamagedEntityWithArmor(EntityDamageByEntityEvent event) {
 
         if (!(event.getEntity() instanceof LivingEntity living))
             return;
@@ -462,7 +486,7 @@ public class EntityDamageCalculatorService implements Listener, BaseService {
      * they should be severely nerfed.
      */
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-    public void onMeleeDamageHoldingBow(EntityDamageByEntityEvent event) {
+    private void __onMeleeDamageHoldingBow(EntityDamageByEntityEvent event) {
 
         if (!(event.getDamager() instanceof LivingEntity living))
             return;
@@ -492,7 +516,7 @@ public class EntityDamageCalculatorService implements Listener, BaseService {
      * hits and to prevent spam clicking DPS abuse on bosses since they don't have i-frames.
      */
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
-    public void onPlayerAttackWhileOnCooldown(EntityDamageByEntityEvent event) {
+    private void __onPlayerAttackWhileOnCooldown(EntityDamageByEntityEvent event) {
 
         // Is the entity dealing damage a player? We only care about players.
         if (!(event.getDamager() instanceof Player player))
@@ -520,7 +544,7 @@ public class EntityDamageCalculatorService implements Listener, BaseService {
      * Apply an -80% damage reduction if an entity is a baby.
      */
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-    public void onBabyEntityDealtDamage(EntityDamageByEntityEvent event) {
+    private void __onBabyEntityDealtDamage(EntityDamageByEntityEvent event) {
 
         // Only look for entities that can be a baby
         if (!(event.getDamager() instanceof Ageable ageable))

@@ -50,6 +50,9 @@ public class LeveledPlayer extends LeveledEntity implements Listener {
         this.magicSkill = plugin.getSkillService().getNewSkillInstance(entity, SkillType.MAGIC);
     }
 
+    public ProfileDifficulty getDifficulty() {
+        return SMPRPG.getInstance().getDifficultyService().getDifficulty(getPlayer());
+    }
 
     public SkillInstance getCombatSkill() {
         return combatSkill;
@@ -164,7 +167,17 @@ public class LeveledPlayer extends LeveledEntity implements Listener {
      * @return the starting health as an integer for a player when they first join the server
      */
     public int getBaseHealth() {
-        return 100;
+
+        // Players on hard have 50 base health. Otherwise, 100.
+        return getDifficulty().equals(ProfileDifficulty.HARD) ?
+                50 :
+                100;
+    }
+
+    public int getBaseAttack() {
+        return getDifficulty().equals(ProfileDifficulty.HARD) ?
+                2 :
+                5;
     }
 
     /**
@@ -177,10 +190,10 @@ public class LeveledPlayer extends LeveledEntity implements Listener {
         // When someone achieves max HP of 2500, they should have 3 rows of hearts (displays as 60 hp)
         // When someone is at starting HP of 100, they should only have 5 hearts (displays as 10 hp)
 
-        // If we are under 200 HP, we achieve 1 scale point for every 10 HP (200HP = 20 scale points)
+        // If we are under 100 HP, we achieve 1 scale point for every 5 HP (100HP = 20 scale points)
         int scale;
-        if (getMaxHp() < 200)
-            scale = (int) (getMaxHp() / 10);
+        if (getMaxHp() < 100)
+            scale = (int) (getMaxHp() / 5);
 
         // If we are under 1000 HP, we achieve 1 additional scale point for every 40 HP above 200 (1000HP = 40 scale points)
         else if (getMaxHp() < 1000)
@@ -218,7 +231,7 @@ public class LeveledPlayer extends LeveledEntity implements Listener {
             setHealthPercentage(percent);
 
         // Set mic default base attributes that players should have
-        updateBaseAttribute(Attribute.ATTACK_DAMAGE, 5);
+        updateBaseAttribute(Attribute.ATTACK_DAMAGE, getBaseAttack());
         updateBaseAttribute(Attribute.KNOCKBACK_RESISTANCE, .05);
         updateBaseAttribute(Attribute.EXPLOSION_KNOCKBACK_RESISTANCE, .05);
         updateBaseAttribute(Attribute.SWEEPING_DAMAGE_RATIO, .05);
@@ -249,7 +262,7 @@ public class LeveledPlayer extends LeveledEntity implements Listener {
             team.suffix(ComponentUtils.create(" " + ChatColor.translateAlternateColorCodes('&', chatInformation.prefix()).stripTrailing()));
         else
             team.suffix(null);
-        team.color(NamedTextColor.nearestTo(chatInformation.nameColor()));
+        team.color(NamedTextColor.nearestTo(getDifficulty().Color));
     }
 
     @Override
@@ -292,7 +305,7 @@ public class LeveledPlayer extends LeveledEntity implements Listener {
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
-    public void onEntityAddToWorld(EntityAddToWorldEvent event) {
+    private void __onEntityAddToWorld(EntityAddToWorldEvent event) {
 
         if (event.getEntity().equals(entity))
             updateNametag();
@@ -300,7 +313,7 @@ public class LeveledPlayer extends LeveledEntity implements Listener {
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
-    public void onJoin(PlayerJoinEvent event) {
+    private void __onJoin(PlayerJoinEvent event) {
 
         if (!event.getPlayer().equals(getPlayer()))
             return;

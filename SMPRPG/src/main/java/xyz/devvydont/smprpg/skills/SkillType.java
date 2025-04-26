@@ -3,6 +3,7 @@ package xyz.devvydont.smprpg.skills;
 import org.bukkit.NamespacedKey;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.skills.rewards.*;
+import xyz.devvydont.smprpg.skills.rewards.definitions.*;
 import xyz.devvydont.smprpg.util.formatting.MinecraftStringUtils;
 
 public enum SkillType {

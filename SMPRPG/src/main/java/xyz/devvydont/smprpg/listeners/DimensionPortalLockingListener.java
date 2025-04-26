@@ -11,6 +11,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityPortalEnterEvent;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.player.LeveledPlayer;
+import xyz.devvydont.smprpg.entity.player.ProfileDifficulty;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.time.Duration;
@@ -101,6 +102,10 @@ public class DimensionPortalLockingListener implements Listener {
 
         // If the player is in creative mode, allow a bypass
         if (player.getGameMode().equals(GameMode.CREATIVE))
+            return;
+
+        // Ignore the player if they are playing on easy
+        if (SMPRPG.getInstance().getDifficultyService().getDifficulty(player) == ProfileDifficulty.EASY)
             return;
 
         // Handle the portal we are entering

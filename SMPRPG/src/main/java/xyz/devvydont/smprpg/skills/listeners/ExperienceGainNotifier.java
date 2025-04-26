@@ -16,7 +16,7 @@ import xyz.devvydont.smprpg.events.skills.SkillLevelUpEvent;
 import xyz.devvydont.smprpg.services.ActionBarService;
 import xyz.devvydont.smprpg.skills.SkillInstance;
 import xyz.devvydont.smprpg.skills.SkillType;
-import xyz.devvydont.smprpg.skills.rewards.SkillReward;
+import xyz.devvydont.smprpg.skills.rewards.ISkillReward;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.formatting.MinecraftStringUtils;
 import xyz.devvydont.smprpg.util.formatting.Symbols;
@@ -40,8 +40,8 @@ public class ExperienceGainNotifier implements Listener {
         player.sendMessage(ComponentUtils.create("   " + type.getDisplayName() + " ", NamedTextColor.AQUA).append(ComponentUtils.upgrade(oldLevel, newLevelStr, NamedTextColor.AQUA)));
         player.sendMessage(ComponentUtils.EMPTY);
         player.sendMessage(ComponentUtils.create("   Rewards:", NamedTextColor.GREEN));
-        for (SkillReward reward : skill.getRewards(newLevel))
-            player.sendMessage(ComponentUtils.create("    " + Symbols.POINT + " ").append(reward.getDisplayName()));
+        for (ISkillReward reward : skill.getRewards(newLevel))
+            player.sendMessage(ComponentUtils.create("    " + Symbols.POINT + " ").append(reward.generateRewardComponent(player)));
         player.sendMessage(ComponentUtils.create("--------------------------"));
         player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, .25f, 2);
     }
@@ -50,7 +50,7 @@ public class ExperienceGainNotifier implements Listener {
     public void onLevelUpSkill(SkillLevelUpEvent event) {
 
         // Award the skills
-        for (SkillReward reward : event.getSkill().getType().getRewards().getRewardsForLevels(event.getOldLevel()+1, event.getNewLevel()))
+        for (ISkillReward reward : event.getSkill().getType().getRewards().getRewardsForLevels(event.getOldLevel()+1, event.getNewLevel()))
             reward.apply(event.getPlayer(), event.getSkillType());
 
         // Tell the player all their level ups

@@ -11,7 +11,7 @@ import java.util.Map;
 public class SkillGlobals {
 
     public static int getMaxSkillLevel() {
-        return SMPRPG.getInstance().getConfig().getInt(ConfigManager.OPTION_MAX_LEVEL, 99);
+        return SMPRPG.getInstance().getConfig().getInt(ConfigManager.OPTION_MAX_LEVEL, 100);
     }
 
     /**
@@ -23,7 +23,7 @@ public class SkillGlobals {
         return getCumulativeExperienceForLevel(getMaxSkillLevel());
     }
 
-    private static Map<Integer, Integer> cumulativeExperienceCache = new HashMap<>();
+    private static final Map<Integer, Integer> cumulativeExperienceCache = new HashMap<>();
 
     public static int getCumulativeExperienceForLevel(int level) {
 
@@ -55,21 +55,6 @@ public class SkillGlobals {
         BigDecimal bd = new BigDecimal(n);
         bd = bd.round(new MathContext(numSignificantDigits));
         return bd.intValue();
-    }
-
-
-    /**
-     * Returns the total amount of experience required to reach the next level
-     *
-     * @param level
-     * @return
-     */
-    public static int getTotalExperienceForNextLevel(int level) {
-        return getCumulativeExperienceForLevel(level + 1);
-    }
-
-    public static int getExperienceForNextLevel(int level) {
-        return getExperienceForNextLevel(level + 1);
     }
 
     public static int getLevelForExperience(int experience) {

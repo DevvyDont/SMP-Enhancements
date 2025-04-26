@@ -12,8 +12,8 @@ import xyz.devvydont.smprpg.skills.SkillGlobals;
 import xyz.devvydont.smprpg.skills.SkillInstance;
 import xyz.devvydont.smprpg.skills.SkillType;
 import xyz.devvydont.smprpg.skills.listeners.*;
-import xyz.devvydont.smprpg.skills.rewards.ProgressiveAttributeReward;
-import xyz.devvydont.smprpg.skills.rewards.SkillReward;
+import xyz.devvydont.smprpg.skills.rewards.AttributeReward;
+import xyz.devvydont.smprpg.skills.rewards.ISkillReward;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
 
 public class SkillService implements BaseService, Listener {
@@ -64,29 +64,30 @@ public class SkillService implements BaseService, Listener {
 
     public void syncSkillAttributes(LeveledPlayer player) {
 
-        // Very hacky, but loops through every attribute type, generates a fake attribute reward for every skill type
-        // and uses the key generated from that skill and attribute combo to remove any attribute modifiers
-        // currently present. Afterwards, we can then safely apply attribute rewards
-        for (AttributeWrapper attribute : AttributeWrapper.values()) {
-            AttributeInstance attributeInstance = player.getPlayer().getAttribute(attribute.getAttribute());
-            if (attributeInstance == null)
-                continue;
+        // We want to maintain their HP% when we perform this.
+        double hpPercent = Math.max(.01, player.getHealthPercentage());
 
-            for (SkillType skillType : SkillType.values())
-                attributeInstance.removeModifier(new ProgressiveAttributeReward(1, attribute, 1).getModifierKey(skillType));
-        }
-
-        // Loop through every skill, then every level they have in that skill, and all the rewards per level and re-apply it if it is an attribute reward
+        // Remove every skill reward that is an attribute skill.
         for (SkillInstance skill : player.getSkills())
             for (int level = 0; level <= skill.getLevel(); level++)
-                for (SkillReward reward : skill.getRewards(level))
-                    if (reward instanceof ProgressiveAttributeReward)
+                for (ISkillReward reward : skill.getRewards(level))
+                    if (skill.getLevel() >= level && reward instanceof AttributeReward)
+                        reward.remove(player.getPlayer(), skill.getType());
+
+        // Loop through every skill, then every level they have in that skill, and apply the reward.
+        for (SkillInstance skill : player.getSkills())
+            for (int level = 0; level <= skill.getLevel(); level++)
+                for (ISkillReward reward : skill.getRewards(level))
+                    if (skill.getLevel() >= level && reward instanceof AttributeReward)
                         reward.apply(player.getPlayer(), skill.getType());
 
+        // Reset their health.
+        if (!player.getPlayer().isDead())
+            player.setHealthPercentage(hpPercent);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void onPlayerJoin(PlayerJoinEvent event) {
+    private void __onPlayerJoin(PlayerJoinEvent event) {
         syncSkillAttributes(plugin.getEntityService().getPlayerInstance(event.getPlayer()));
     }
 }

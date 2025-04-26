@@ -5,7 +5,7 @@ import org.bukkit.persistence.PersistentDataType;
 import xyz.devvydont.smprpg.events.skills.SkillExperienceGainEvent;
 import xyz.devvydont.smprpg.events.skills.SkillExperiencePostGainEvent;
 import xyz.devvydont.smprpg.events.skills.SkillLevelUpEvent;
-import xyz.devvydont.smprpg.skills.rewards.SkillReward;
+import xyz.devvydont.smprpg.skills.rewards.ISkillReward;
 
 import java.util.Collection;
 
@@ -140,7 +140,7 @@ public class SkillInstance {
         return experience >= getExperienceForNextLevel();
     }
 
-    public Collection<SkillReward> getRewards(int level) {
+    public Collection<ISkillReward> getRewards(int level) {
         return getType().getRewards().getRewardsForLevel(level);
     }
 
