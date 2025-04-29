@@ -68,4 +68,56 @@ public class SkillGlobals {
         return getMaxSkillLevel();
     }
 
+    // For skills that award HP per level, how much should we start at? This will scale as levels get higher as well.
+    public static double HP_PER_LEVEL = 2;
+
+    // For skills that award HP per 5 levels, how much should we start at? This will scale as levels get higher as well.
+    public static double HP_PER_5_LEVELS = 5;
+
+    // For skills that award DEF per level, how much should we start at? This will scale as levels get higher as well.
+    public static double DEF_PER_LEVEL = 1;
+
+    // For skills that award DEF per 5 levels, how much should we start at? This will scale as levels get higher as well.
+    public static double DEF_PER_5_LEVELS = 2;
+
+    // For skills that award STR per level, how much should we start at? This will scale as levels get higher as well.
+    public static double STR_PER_LEVEL = 2;
+
+    // For skills that award STR per 5 levels, how much should we start at? This will scale as levels get higher as well.
+    public static double STR_PER_5_LEVELS = 3;
+
+    // For skills that award LUCK per level, how much should we start at? This will scale as levels get higher as well.
+    public static double LUCK_PER_LEVEL = 2;
+
+    // For skills that award LUCK per 5 levels, how much should we start at? This will scale as levels get higher as well.
+    public static double LUCK_PER_5_LEVELS = 3;
+
+    public static double MINING_EFF_PER_4_LEVELS = 5;
+
+    public static int getLevelMultiplier(int level) {
+        return (level-1) / 10 + 1;
+    }
+
+    /**
+     * Represents skills that reward stats at every level.
+     * @param base The base amount. Typically, what's awarded at levels 1-9.
+     * @param level The level of the skill.
+     * @return How effective the stat should be.
+     */
+    public static double getStatPerLevel(double base, int level) {
+        return base * level * getLevelMultiplier(level);
+    }
+
+    /**
+     * Represents skills that reward stats only at certain level increments, which is the 'x' parameter.
+     * This does the same thing as getStatPerLevel(), but there's an additional step where we divide by x.
+     * @param base The base stat increment modifier.
+     * @param x The difference in levels the stat is expected to be given.
+     * @param level The level to calculate for.
+     * @return How effective the stat should be.
+     */
+    public static double getStatPerXLevel(double base, int x, int level) {
+        return Math.max(0, level * base / x * getLevelMultiplier(level));
+    }
+
 }
