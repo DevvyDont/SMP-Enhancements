@@ -1,21 +1,35 @@
 package xyz.devvydont.smprpg.services;
 
+import io.papermc.paper.chat.ChatRenderer;
+import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import net.milkbowl.vault.chat.Chat;
+import org.apache.commons.lang3.CharUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import xyz.devvydont.smprpg.SMPRPG;
+import xyz.devvydont.smprpg.util.chat.CustomChatRenderer;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
+import xyz.devvydont.smprpg.util.formatting.MinecraftStringUtils;
 import xyz.devvydont.smprpg.util.formatting.PlayerChatInformation;
+import xyz.devvydont.smprpg.util.formatting.Symbols;
+
+import java.awt.*;
 
 public class ChatService implements BaseService, Listener {
 
 
-    private SMPRPG plugin;
+    public static final ChatRenderer CHAT_RENDERER = new CustomChatRenderer();
+
+    private final SMPRPG plugin;
 
     private Chat chat;
 
@@ -116,21 +130,13 @@ public class ChatService implements BaseService, Listener {
         return ChatColor.translateAlternateColorCodes('&', (information.prefix() + player.getName() + information.suffix().stripTrailing()));
     }
 
-//    /**
-//     * Injects the player level into a chat message no matter what chat plugins are doing.
-//     * todo replace with PlaceholdersAPI
-//     *
-//     * @param event
-//     */
-//    @EventHandler(priority = EventPriority.MONITOR)
-//    public void onChat(AsyncChatEvent event) {
-//
-//        // Hack, if power symbol in component don't do anything
-//        if (PlainTextComponentSerializer.plainText().serialize(event.message()).contains(Symbols.POWER))
-//            return;
-//
-//        int level = plugin.getEntityService().getPlayerInstance(event.getPlayer()).getLevel();
-//        Component component = ChatUtil.getBracketedPowerComponent(level).append(ComponentUtils.create(" ")).append(event.message());
-//        event.message(component);
-//    }
+    /**
+     * Injects the player level into a chat message no matter what chat plugins are doing.
+     *
+     * @param event
+     */
+    @EventHandler(priority = EventPriority.HIGHEST)
+    private void __onChat(AsyncChatEvent event) {
+        event.renderer(CHAT_RENDERER);
+    }
 }
