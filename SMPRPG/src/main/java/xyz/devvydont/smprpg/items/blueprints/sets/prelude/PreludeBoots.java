@@ -25,7 +25,7 @@ public class PreludeBoots extends PreludeArmorSet {
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 640),
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 330),
                 new AdditiveAttributeEntry(AttributeWrapper.ARMOR, 4),
-                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .6),
+                new MultiplicativeAttributeEntry(AttributeWrapper.STRENGTH, .6),
                 new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, .3),
                 new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, .15)
         );

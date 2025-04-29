@@ -13,6 +13,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
+import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomFakeHelmetBlueprint;
 import xyz.devvydont.smprpg.items.interfaces.HeaderDescribable;
@@ -46,7 +47,7 @@ public class ReaverHelmet extends CustomFakeHelmetBlueprint implements HeaderDes
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 115),
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 95),
-                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .25)
+                new MultiplicativeAttributeEntry(AttributeWrapper.STRENGTH, .25)
         );
     }
 

@@ -25,7 +25,7 @@ public class PreludeLeggings extends PreludeArmorSet {
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 730),
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 380),
                 new AdditiveAttributeEntry(AttributeWrapper.ARMOR, 6),
-                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .75),
+                new MultiplicativeAttributeEntry(AttributeWrapper.STRENGTH, .75),
                 new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, .2),
                 new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, .2)
         );

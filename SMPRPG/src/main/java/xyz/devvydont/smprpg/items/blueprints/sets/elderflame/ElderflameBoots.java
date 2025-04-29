@@ -28,7 +28,7 @@ public class ElderflameBoots extends ElderflameArmorSet implements Dyeable {
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 240),
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 200),
                 new AdditiveAttributeEntry(AttributeWrapper.ARMOR, 2),
-                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .3),
+                new MultiplicativeAttributeEntry(AttributeWrapper.STRENGTH, .3),
                 new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, .3),
                 new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, .1),
                 new AdditiveAttributeEntry(AttributeWrapper.SAFE_FALL, 10)

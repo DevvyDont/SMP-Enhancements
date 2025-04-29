@@ -25,7 +25,7 @@ public class PreludeChestplate extends PreludeArmorSet {
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 890),
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 450),
                 new AdditiveAttributeEntry(AttributeWrapper.ARMOR, 6),
-                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .9),
+                new MultiplicativeAttributeEntry(AttributeWrapper.STRENGTH, .9),
                 new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, .1),
                 new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, .3)
         );

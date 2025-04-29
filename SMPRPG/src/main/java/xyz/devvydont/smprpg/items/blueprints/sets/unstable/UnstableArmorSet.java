@@ -7,6 +7,7 @@ import org.bukkit.inventory.meta.trim.TrimMaterial;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
+import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomArmorBlueprint;
 import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
@@ -38,7 +39,7 @@ public abstract class UnstableArmorSet extends CustomArmorBlueprint implements T
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, (int)(randomInt(50, 500) * getStatMultiplier())),
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, (int)(randomInt(30, 400) * getStatMultiplier())),
-                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, randomFloat(.05f, .3f) * getStatMultiplier()),
+                new MultiplicativeAttributeEntry(AttributeWrapper.STRENGTH, randomFloat(.05f, .3f) * getStatMultiplier()),
                 new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, randomFloat(.02f, .3f) * getStatMultiplier())
         );
     }

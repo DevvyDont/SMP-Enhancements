@@ -32,7 +32,7 @@ public class BedrockHelmet extends CustomFakeHelmetBlueprint implements ToolBrea
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 250),
                 new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, -.2),
                 new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, -.25),
-                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .15)
+                new MultiplicativeAttributeEntry(AttributeWrapper.STRENGTH, .15)
         );
     }
 

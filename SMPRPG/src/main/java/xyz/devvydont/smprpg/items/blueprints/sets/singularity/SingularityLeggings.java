@@ -7,6 +7,7 @@ import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
+import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomArmorBlueprint;
 import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
@@ -41,7 +42,7 @@ public class SingularityLeggings extends CustomArmorBlueprint implements ToolBre
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 460),
                 new ScalarAttributeEntry(Attribute.KNOCKBACK_RESISTANCE, .2),
                 new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, .2),
-                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .2)
+                new MultiplicativeAttributeEntry(AttributeWrapper.STRENGTH, .2)
         );
     }
 

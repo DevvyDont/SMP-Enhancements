@@ -6,6 +6,7 @@ import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
+import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomArmorBlueprint;
 import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
@@ -41,7 +42,7 @@ public class SingularityChestplate extends CustomArmorBlueprint implements ToolB
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 540),
                 new ScalarAttributeEntry(AttributeWrapper.KNOCKBACK_RESISTANCE, .2),
                 new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, .2),
-                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .2)
+                new MultiplicativeAttributeEntry(AttributeWrapper.STRENGTH, .2)
         );
     }
 

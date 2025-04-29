@@ -5,6 +5,7 @@ import org.bukkit.inventory.EquipmentSlotGroup;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
+import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomFakeHelmetBlueprint;
 import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
@@ -33,7 +34,7 @@ public class SingularityHelmet extends CustomFakeHelmetBlueprint implements Tool
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 300),
                 new ScalarAttributeEntry(Attribute.KNOCKBACK_RESISTANCE, .2),
                 new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, .2),
-                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .2)
+                new MultiplicativeAttributeEntry(AttributeWrapper.STRENGTH, .2)
         );
     }
 

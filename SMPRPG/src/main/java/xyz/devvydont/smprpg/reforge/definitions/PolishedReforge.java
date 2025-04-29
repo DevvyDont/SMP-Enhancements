@@ -51,7 +51,7 @@ public class PolishedReforge extends ReforgeBase {
                 new AdditiveAttributeEntry(AttributeWrapper.ARMOR, rarity.ordinal() >= ItemRarity.EPIC.ordinal() ? 3 : 2),
                 new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, getMovementSpeedBonus(rarity)),
                 new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, getMovementSpeedBonus(rarity)),
-                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, getStrengthBonus(rarity)),
+                new MultiplicativeAttributeEntry(AttributeWrapper.STRENGTH, getStrengthBonus(rarity)),
                 new MultiplicativeAttributeEntry(AttributeWrapper.LUCK, getLuckBonus(rarity))
         );
     }

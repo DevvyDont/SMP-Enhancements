@@ -7,6 +7,7 @@ import org.bukkit.inventory.ItemStack;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
+import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.items.base.VanillaAttributeItem;
 import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
@@ -38,10 +39,10 @@ public class ItemArmor extends VanillaAttributeItem implements ToolBreakable {
 
             case TURTLE_HELMET -> 10;
 
-            case LEATHER_HELMET -> 5;
-            case LEATHER_CHESTPLATE -> 10;
-            case LEATHER_LEGGINGS -> 7;
-            case LEATHER_BOOTS -> 3;
+            case LEATHER_HELMET -> 2;
+            case LEATHER_CHESTPLATE -> 5;
+            case LEATHER_LEGGINGS -> 4;
+            case LEATHER_BOOTS -> 2;
 
             case CHAINMAIL_HELMET -> 10;
             case CHAINMAIL_CHESTPLATE -> 18;
@@ -233,7 +234,7 @@ public class ItemArmor extends VanillaAttributeItem implements ToolBreakable {
         // If we have damage...
         double dmg = getDamageFromMaterial(getItem().getType());
         if (dmg > 0)
-            modifiers.add(new ScalarAttributeEntry(AttributeWrapper.STRENGTH, dmg));
+            modifiers.add(new MultiplicativeAttributeEntry(AttributeWrapper.STRENGTH, dmg));
 
         // If we have no modifiers, we need to have something to get rid of the vanilla stats
         // Crappy armor won't have any attributes since defense isn't an attribute

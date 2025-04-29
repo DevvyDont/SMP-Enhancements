@@ -26,7 +26,7 @@ public class InfernoChestplate extends InfernoArmorSet {
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, getDefense()),
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, getHealth()),
-                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, getStrength()),
+                new MultiplicativeAttributeEntry(AttributeWrapper.STRENGTH, getStrength()),
                 new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, .25)
         );
     }

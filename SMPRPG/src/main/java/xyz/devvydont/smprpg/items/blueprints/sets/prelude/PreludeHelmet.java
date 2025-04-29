@@ -25,7 +25,7 @@ public class PreludeHelmet extends PreludeArmorSet {
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 700),
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 365),
                 new AdditiveAttributeEntry(AttributeWrapper.ARMOR, 4),
-                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .65),
+                new MultiplicativeAttributeEntry(AttributeWrapper.STRENGTH, .65),
                 new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, .2),
                 new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, .2),
                 new ScalarAttributeEntry(AttributeWrapper.LUCK, .45)

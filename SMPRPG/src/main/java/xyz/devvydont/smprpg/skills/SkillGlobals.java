@@ -95,7 +95,7 @@ public class SkillGlobals {
     public static double MINING_EFF_PER_4_LEVELS = 5;
 
     public static int getLevelMultiplier(int level) {
-        return (level-1) / 10 + 1;
+        return (level-1) / 20 + 1;
     }
 
     /**
