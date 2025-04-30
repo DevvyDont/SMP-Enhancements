@@ -7,22 +7,29 @@ import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemRarity;
 import xyz.devvydont.smprpg.services.ItemService;
 
+import static org.bukkit.inventory.ItemStack.of;
+
 public abstract class CustomItemBlueprint extends SMPItemBlueprint {
 
     protected ItemService itemService;
-    protected final CustomItemType type;
+    protected final CustomItemType _type;
 
     public CustomItemBlueprint(ItemService itemService, CustomItemType type) {
         super(itemService);
         this.itemService = itemService;
-        this.type = type;
+        this._type = type;
     }
 
     /**
      * Since this item is custom, return the CustomItem enum that this item is linked to.
      */
     public CustomItemType getCustomItemType() {
-        return type;
+        return _type;
+    }
+
+    @Override
+    public String getCustomModelDataIdentifier() {
+        return "smprpg:" + _type.getKey();
     }
 
     @Override
@@ -54,8 +61,6 @@ public abstract class CustomItemBlueprint extends SMPItemBlueprint {
 
         // Apply the key to the item so the plugin knows this item is custom
         meta.getPersistentDataContainer().set(itemService.ITEM_TYPE_KEY, PersistentDataType.STRING, getCustomItemType().getKey());
-        // Set model data
-        meta.setCustomModelData(getCustomItemType().getModelData());
 
         super.updateMeta(meta);
     }
@@ -63,7 +68,7 @@ public abstract class CustomItemBlueprint extends SMPItemBlueprint {
     public ItemStack generate() {
 
         // Make the starting item.
-        ItemStack itemStack = new ItemStack(getCustomItemType().material);
+        var itemStack = of(_type.material);
 
         // Apply updates to this item according to our blueprint's spec.
         updateMeta(itemStack);

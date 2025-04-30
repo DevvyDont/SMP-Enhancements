@@ -1,34 +1,29 @@
 package xyz.devvydont.smprpg.items.base;
 
 import io.papermc.paper.datacomponent.DataComponentTypes;
-import io.papermc.paper.datacomponent.item.Consumable;
-import io.papermc.paper.registry.keys.tags.DamageTypeTagKeys;
+import io.papermc.paper.datacomponent.item.CustomModelData;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import org.bukkit.Color;
 import org.bukkit.Material;
-import org.bukkit.damage.DamageType;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.components.FoodComponent;
-import org.bukkit.tag.DamageTypeTags;
 import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.enchantments.CustomEnchantment;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.ItemRarity;
-import xyz.devvydont.smprpg.items.interfaces.*;
+import xyz.devvydont.smprpg.items.interfaces.Edible;
+import xyz.devvydont.smprpg.items.interfaces.IConsumable;
+import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
 import xyz.devvydont.smprpg.reforge.ReforgeBase;
 import xyz.devvydont.smprpg.reforge.ReforgeType;
-import xyz.devvydont.smprpg.services.EconomyService;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.attributes.AttributeUtil;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
-import xyz.devvydont.smprpg.util.formatting.MinecraftStringUtils;
 import xyz.devvydont.smprpg.util.formatting.Symbols;
 import xyz.devvydont.smprpg.util.items.FoodUtil;
 
@@ -65,6 +60,13 @@ public abstract class SMPItemBlueprint {
      * (Rarity can be changed via upgrades on an item stack, this is simply for generating new items.)
      */
     public abstract ItemRarity getDefaultRarity();
+
+    /**
+     * Determines the string that this item will be identified by when using custom model data.
+     * @return A string to be used for resource pack creation.
+     */
+    public abstract String getCustomModelDataIdentifier();
+
 
     /**
      * Given item meta, determine how this item's display name should look
@@ -325,6 +327,12 @@ public abstract class SMPItemBlueprint {
         // If this is a vanilla item, we need to hack the vanilla food component back on the item.
         if (!isCustom())
             updateVanillaFoodComponent(itemStack);
+
+        // Apply custom model data.
+        itemStack.setData(DataComponentTypes.CUSTOM_MODEL_DATA, CustomModelData.customModelData()
+                .addString(this.getCustomModelDataIdentifier())
+                .build()
+        );
 
         // If this is a consumable, apply the consumable data to the item stack.
         if (this instanceof IConsumable consumable)

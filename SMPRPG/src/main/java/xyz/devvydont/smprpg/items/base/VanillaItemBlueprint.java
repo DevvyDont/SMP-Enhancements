@@ -24,6 +24,11 @@ public class VanillaItemBlueprint extends SMPItemBlueprint {
         return item;
     }
 
+    @Override
+    public String getCustomModelDataIdentifier() {
+        return "smprpg:vanilla_" + item.getType().toString().toLowerCase();
+    }
+
     /**
      * Vanilla items always use the vanilla classification resolver.
      */
