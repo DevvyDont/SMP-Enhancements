@@ -31,7 +31,7 @@ public class NetheriteBow extends CustomAttributeItem implements Craftable, Tool
     }
 
     @Override
-    public Collection<AttributeEntry> getAttributeModifiers() {
+    public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, 155)
         );

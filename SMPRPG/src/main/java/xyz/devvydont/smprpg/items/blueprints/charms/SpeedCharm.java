@@ -2,6 +2,7 @@ package xyz.devvydont.smprpg.items.blueprints.charms;
 
 import org.bukkit.attribute.Attribute;
 import org.bukkit.inventory.EquipmentSlotGroup;
+import org.bukkit.inventory.ItemStack;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
@@ -21,7 +22,7 @@ public class SpeedCharm extends CustomFakeTotem {
     }
 
     @Override
-    public Collection<AttributeEntry> getAttributeModifiers() {
+    public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
                 new ScalarAttributeEntry(Attribute.MOVEMENT_SPEED, .5),
                 new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, .5),

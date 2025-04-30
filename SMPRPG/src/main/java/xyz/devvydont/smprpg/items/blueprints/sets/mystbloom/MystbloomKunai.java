@@ -2,7 +2,7 @@ package xyz.devvydont.smprpg.items.blueprints.sets.mystbloom;
 
 import org.bukkit.attribute.Attribute;
 import org.bukkit.inventory.EquipmentSlotGroup;
-import org.w3c.dom.Attr;
+import org.bukkit.inventory.ItemStack;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
@@ -24,7 +24,7 @@ public class MystbloomKunai extends CustomAttributeItem implements ToolBreakable
     }
 
     @Override
-    public Collection<AttributeEntry> getAttributeModifiers() {
+    public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
                 new AdditiveAttributeEntry(Attribute.ATTACK_DAMAGE, 50),
                 new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, -.3),

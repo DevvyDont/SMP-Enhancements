@@ -37,7 +37,7 @@ public abstract class RedstoneArmorSet extends CustomArmorBlueprint implements T
     }
 
     @Override
-    public Collection<AttributeEntry> getAttributeModifiers() {
+    public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, getDefense()),
                 new ScalarAttributeEntry(Attribute.MOVEMENT_SPEED, .05),

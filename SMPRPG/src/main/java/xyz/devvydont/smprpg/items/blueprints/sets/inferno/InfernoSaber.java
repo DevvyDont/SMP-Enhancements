@@ -58,7 +58,7 @@ public class InfernoSaber extends CustomAttributeItem implements HeaderDescribab
     }
 
     @Override
-    public Collection<AttributeEntry> getAttributeModifiers() {
+    public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, 300),
                 new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, -.6),

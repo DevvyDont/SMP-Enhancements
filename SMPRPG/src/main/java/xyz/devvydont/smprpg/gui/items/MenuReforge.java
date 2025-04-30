@@ -19,7 +19,7 @@ import xyz.devvydont.smprpg.gui.base.MenuBase;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.ItemRarity;
 import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
-import xyz.devvydont.smprpg.items.interfaces.Attributeable;
+import xyz.devvydont.smprpg.items.interfaces.IAttributeItem;
 import xyz.devvydont.smprpg.reforge.ReforgeBase;
 import xyz.devvydont.smprpg.reforge.ReforgeType;
 import xyz.devvydont.smprpg.services.EconomyService;
@@ -168,7 +168,7 @@ public class MenuReforge extends MenuBase {
 
         // Check if this item is able to store attributes. Reforges can't add attributes to attributeless items!
         SMPItemBlueprint blueprint = SMPRPG.getInstance().getItemService().getBlueprint(item);
-        if (!(blueprint instanceof Attributeable attributeable)) {
+        if (!(blueprint instanceof IAttributeItem attributeable)) {
             playInvalidAnimation();
             return;
         }

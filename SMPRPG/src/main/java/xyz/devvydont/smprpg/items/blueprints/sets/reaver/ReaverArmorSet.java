@@ -53,11 +53,11 @@ public abstract class ReaverArmorSet extends CustomArmorBlueprint implements Hea
     }
 
     @Override
-    public Collection<AttributeEntry> getAttributeModifiers() {
+    public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, getDefense()),
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, getHealth()),
-                new MultiplicativeAttributeEntry(AttributeWrapper.STRENGTH, getStrength()),
+                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, getStrength()),
                 new AdditiveAttributeEntry(AttributeWrapper.KNOCKBACK_RESISTANCE, .15)
         );
     }

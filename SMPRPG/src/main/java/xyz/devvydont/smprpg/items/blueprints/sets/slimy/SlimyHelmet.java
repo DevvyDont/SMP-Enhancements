@@ -51,7 +51,7 @@ public class SlimyHelmet extends CustomFakeHelmetBlueprint implements Craftable,
     }
 
     @Override
-    public Collection<AttributeEntry> getAttributeModifiers() {
+    public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
                 new ScalarAttributeEntry(AttributeWrapper.ATTACK_SPEED, .05),
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, getDefense()),

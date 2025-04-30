@@ -10,16 +10,16 @@ import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.items.ItemRarity;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
-import xyz.devvydont.smprpg.items.attribute.AttributeModifierContainer;
+import xyz.devvydont.smprpg.items.attribute.IAttributeContainer;
 import xyz.devvydont.smprpg.items.attribute.AttributeModifierType;
 import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
-import xyz.devvydont.smprpg.items.interfaces.Attributeable;
+import xyz.devvydont.smprpg.items.interfaces.IAttributeItem;
 import xyz.devvydont.smprpg.services.ItemService;
 
 import java.util.Collection;
 import java.util.List;
 
-public abstract class ReforgeBase implements Keyed, AttributeModifierContainer {
+public abstract class ReforgeBase implements Keyed, IAttributeContainer {
 
     public enum ReforgeResult {
         SUCCESS,            // Reforge was successfully applied.
@@ -67,7 +67,7 @@ public abstract class ReforgeBase implements Keyed, AttributeModifierContainer {
      * @return
      */
     @Override
-    public Collection<AttributeEntry> getAttributeModifiers() {
+    public Collection<AttributeEntry> getHeldAttributes() {
         return getAttributeModifiersWithRarity(ItemRarity.COMMON);
     }
 
@@ -137,7 +137,7 @@ public abstract class ReforgeBase implements Keyed, AttributeModifierContainer {
         ItemMeta meta = item.getItemMeta();
 
         // Remove this item's attributes that make it reforged under this handler
-        if (blueprint instanceof Attributeable attributeable)
+        if (blueprint instanceof IAttributeItem attributeable)
             attributeable.getAttributeSession(AttributeModifierType.REFORGE, meta).removeAttributeModifiers();
         removeItemPersistence(item);
 

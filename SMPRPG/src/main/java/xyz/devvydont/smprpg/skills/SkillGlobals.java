@@ -1,5 +1,6 @@
 package xyz.devvydont.smprpg.skills;
 
+import org.bukkit.attribute.AttributeModifier;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.config.ConfigManager;
 
@@ -68,6 +69,31 @@ public class SkillGlobals {
         return getMaxSkillLevel();
     }
 
+    /**
+     * Strength/attack damage is a very strange attribute for us to handle.
+     *
+     * Weapons will use the additive modifiers for base attack damage, which makes sense.
+     *
+     * Gear will use scalar modifiers since there should realistically be no more than 6 active at a time, all with
+     * equal weighting.
+     *
+     * Skills will use multiplicative modifiers so that the small increments still feel meaningful at any point in
+     * the game.
+     *
+     * The reason it is set up this way is due to the fact that if skills were scalar, any sort of scalar additions
+     * from any other source would feel meaningless due to the shear amount of expected DPS of a player. With only
+     * gear respecting the fact that it is scalar, the numbers will *feel* more impactful. The old issue that we faced
+     * was when armor was adding +50% scalar attack damage to a player that already had ~1000% scalar attack damage
+     * from skills. This made it seem like the +50% damage literally wasn't affecting your damage.
+     * Another benefit we receive by making gear scalar, is that the calculations on the items from enchantments and
+     * reforges will actually mathematically make sense since multiplicative stacking doesn't translate well.
+     * Here is an example of what a potential item display could look like and why it can be confusing:
+     * ((200) 100 + 50% + 50% = 100 + 100% = 200) vs ((200) 100 + 50% + 50% = 100 * 1.5 * 1.5 = 225)
+     */
+    public static AttributeModifier.Operation STRENGTH_GEAR_OPERATION = AttributeModifier.Operation.ADD_SCALAR;
+    public static AttributeModifier.Operation STRENGTH_SKILL_OPERATION = AttributeModifier.Operation.MULTIPLY_SCALAR_1;
+    public static AttributeModifier.Operation DEFAULT_SKILL_OPERATION = AttributeModifier.Operation.ADD_NUMBER;
+
     // For skills that award HP per level, how much should we start at? This will scale as levels get higher as well.
     public static double HP_PER_LEVEL = 2;
 
@@ -81,7 +107,7 @@ public class SkillGlobals {
     public static double DEF_PER_5_LEVELS = 2;
 
     // For skills that award STR per level, how much should we start at? This will scale as levels get higher as well.
-    public static double STR_PER_LEVEL = 2;
+    public static double STR_PER_LEVEL = 1;
 
     // For skills that award STR per 5 levels, how much should we start at? This will scale as levels get higher as well.
     public static double STR_PER_5_LEVELS = 3;
@@ -90,7 +116,7 @@ public class SkillGlobals {
     public static double LUCK_PER_LEVEL = 2;
 
     // For skills that award LUCK per 5 levels, how much should we start at? This will scale as levels get higher as well.
-    public static double LUCK_PER_5_LEVELS = 3;
+    public static double LUCK_PER_5_LEVELS = 1;
 
     public static double MINING_EFF_PER_4_LEVELS = 5;
 

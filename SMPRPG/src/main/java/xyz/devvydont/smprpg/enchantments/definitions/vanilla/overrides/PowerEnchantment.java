@@ -37,7 +37,7 @@ public class PowerEnchantment extends VanillaEnchantment implements AttributeEnc
     }
 
     @Override
-    public Collection<AttributeEntry> getAttributeModifiers() {
+    public Collection<AttributeEntry> getHeldAttributes() {
         return List.of(
                 new AdditiveAttributeEntry(Attribute.ATTACK_DAMAGE, getDamageIncrease(getLevel()))
         );

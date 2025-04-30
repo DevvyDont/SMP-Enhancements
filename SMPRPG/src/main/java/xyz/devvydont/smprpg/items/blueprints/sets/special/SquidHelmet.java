@@ -25,7 +25,7 @@ public class SquidHelmet extends CustomTexturedAttributeHelmetBlueprint implemen
     }
 
     @Override
-    public Collection<AttributeEntry> getAttributeModifiers() {
+    public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.OXYGEN_BONUS, 180),
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 10)

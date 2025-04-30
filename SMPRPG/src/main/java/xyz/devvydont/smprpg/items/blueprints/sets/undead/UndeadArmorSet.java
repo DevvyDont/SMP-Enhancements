@@ -26,7 +26,7 @@ public abstract class UndeadArmorSet extends CustomArmorBlueprint implements Dye
     }
 
     @Override
-    public Collection<AttributeEntry> getAttributeModifiers() {
+    public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, getHealth())
         );

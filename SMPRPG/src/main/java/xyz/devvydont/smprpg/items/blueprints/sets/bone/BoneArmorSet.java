@@ -27,7 +27,7 @@ public abstract class BoneArmorSet extends CustomArmorBlueprint implements ToolB
     }
 
     @Override
-    public Collection<AttributeEntry> getAttributeModifiers() {
+    public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, getDefense()),
                 new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, -0.03)

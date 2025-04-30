@@ -27,7 +27,7 @@ public class ItemFishingRod extends VanillaAttributeItem implements ToolBreakabl
     }
 
     @Override
-    public Collection<AttributeEntry> getAttributeModifiers() {
+    public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of();
     }
 

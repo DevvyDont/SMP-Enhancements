@@ -2,6 +2,7 @@ package xyz.devvydont.smprpg.items.blueprints.sets.infinity;
 
 import org.bukkit.attribute.Attribute;
 import org.bukkit.inventory.EquipmentSlotGroup;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
@@ -38,7 +39,7 @@ public class InfinityHelmet extends CustomAttributeItem {
     }
 
     @Override
-    public Collection<AttributeEntry> getAttributeModifiers() {
+    public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
                 new AdditiveAttributeEntry(Attribute.ARMOR, 30),
                 new AdditiveAttributeEntry(Attribute.ARMOR_TOUGHNESS, 20000),

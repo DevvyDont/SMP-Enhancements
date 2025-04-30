@@ -1,6 +1,5 @@
 package xyz.devvydont.smprpg.skills.rewards.definitions;
 
-import org.bukkit.attribute.AttributeModifier;
 import xyz.devvydont.smprpg.skills.SkillGlobals;
 import xyz.devvydont.smprpg.skills.rewards.AttributeReward;
 import xyz.devvydont.smprpg.skills.rewards.SkillRewardContainer;
@@ -17,7 +16,7 @@ public class CombatSkillRewards extends SkillRewardContainer {
         for (var i = 1; i <= 100; i++)
             addReward(i, new AttributeReward(
                     AttributeWrapper.STRENGTH,
-                    AttributeModifier.Operation.ADD_SCALAR,
+                    SkillGlobals.STRENGTH_SKILL_OPERATION,
                     SkillGlobals.getStatPerLevel(SkillGlobals.STR_PER_LEVEL, i),
                     SkillGlobals.getStatPerLevel(SkillGlobals.STR_PER_LEVEL, i-1)
             ));
@@ -26,7 +25,7 @@ public class CombatSkillRewards extends SkillRewardContainer {
         for (var i = SECONDARY_LEVEL_DIFFERENCE; i <= 100; i += SECONDARY_LEVEL_DIFFERENCE)
             addReward(i, new AttributeReward(
                     AttributeWrapper.HEALTH,
-                    AttributeModifier.Operation.ADD_NUMBER,
+                    SkillGlobals.DEFAULT_SKILL_OPERATION,
                     SkillGlobals.getStatPerXLevel(SkillGlobals.HP_PER_5_LEVELS, SECONDARY_LEVEL_DIFFERENCE, i),
                     SkillGlobals.getStatPerXLevel(SkillGlobals.HP_PER_5_LEVELS, SECONDARY_LEVEL_DIFFERENCE, i-SECONDARY_LEVEL_DIFFERENCE)
             ));

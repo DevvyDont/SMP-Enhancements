@@ -1,5 +1,6 @@
 package xyz.devvydont.smprpg.items.blueprints.sets.neofrontier;
 
+import org.bukkit.inventory.ItemStack;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
@@ -18,7 +19,7 @@ public abstract class NeoFrontierArmorSet extends CustomArmorBlueprint implement
     }
 
     @Override
-    public Collection<AttributeEntry> getAttributeModifiers() {
+    public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, getDefense())
         );

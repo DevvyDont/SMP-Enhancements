@@ -2,6 +2,7 @@ package xyz.devvydont.smprpg.items.blueprints.sets.special;
 
 import org.bukkit.attribute.Attribute;
 import org.bukkit.inventory.EquipmentSlotGroup;
+import org.bukkit.inventory.ItemStack;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
@@ -31,7 +32,7 @@ public class SpaceHelmet extends CustomFakeHelmetBlueprint {
     }
 
     @Override
-    public Collection<AttributeEntry> getAttributeModifiers() {
+    public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
                 new AdditiveAttributeEntry(Attribute.SAFE_FALL_DISTANCE, 50),
                 new MultiplicativeAttributeEntry(Attribute.FALL_DAMAGE_MULTIPLIER, -.50),

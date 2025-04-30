@@ -294,9 +294,6 @@ public abstract class SMPItemBlueprint {
             meta.setFood(food);
         }
 
-        // If this item contains attributes, apply them.
-        AttributeUtil.applyModifiers(this, meta);
-
         // Set this item to be vulnerable to damage if it is custom no matter what.
         if (isCustom())
             meta.setDamageResistant(null);
@@ -332,6 +329,9 @@ public abstract class SMPItemBlueprint {
         // If this is a consumable, apply the consumable data to the item stack.
         if (this instanceof IConsumable consumable)
             itemStack.setData(DataComponentTypes.CONSUMABLE, consumable.getConsumableComponent());
+
+        // If this item contains attributes, apply them.
+        AttributeUtil.applyModifiers(this, itemStack);
 
         // Update the item meta
         ItemMeta meta = itemStack.getItemMeta();

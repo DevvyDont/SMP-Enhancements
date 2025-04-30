@@ -19,7 +19,7 @@ import org.bukkit.scoreboard.Team;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.base.LeveledEntity;
 import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
-import xyz.devvydont.smprpg.items.interfaces.Attributeable;
+import xyz.devvydont.smprpg.items.interfaces.IAttributeItem;
 import xyz.devvydont.smprpg.skills.SkillInstance;
 import xyz.devvydont.smprpg.skills.SkillType;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
@@ -149,7 +149,7 @@ public class LeveledPlayer extends LeveledEntity implements Listener {
                 continue;
 
             SMPItemBlueprint blueprint = plugin.getItemService().getBlueprint(item);
-            if (!(blueprint instanceof Attributeable attributeable))
+            if (!(blueprint instanceof IAttributeItem attributeable))
                 continue;
 
             total += attributeable.getPowerRating();

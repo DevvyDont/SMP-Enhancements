@@ -38,7 +38,7 @@ public class MagmaHelmet extends CustomTexturedAttributeHelmetBlueprint implemen
     }
 
     @Override
-    public Collection<AttributeEntry> getAttributeModifiers() {
+    public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 50)
         );

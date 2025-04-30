@@ -1,6 +1,7 @@
 package xyz.devvydont.smprpg.items.blueprints.charms;
 
 import org.bukkit.inventory.EquipmentSlotGroup;
+import org.bukkit.inventory.ItemStack;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
@@ -19,7 +20,7 @@ public class LuckyCharm extends CustomFakeTotem {
     }
 
     @Override
-    public Collection<AttributeEntry> getAttributeModifiers() {
+    public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
                 new MultiplicativeAttributeEntry(AttributeWrapper.LUCK, .3)
         );

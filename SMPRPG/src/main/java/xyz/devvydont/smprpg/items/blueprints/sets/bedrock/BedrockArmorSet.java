@@ -31,12 +31,12 @@ public abstract class BedrockArmorSet extends CustomArmorBlueprint implements To
     }
 
     @Override
-    public Collection<AttributeEntry> getAttributeModifiers() {
+    public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, getDefense()),
                 new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, -.2),
                 new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, -.25),
-                new MultiplicativeAttributeEntry(AttributeWrapper.STRENGTH, .25)
+                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .25)
         );
     }
 

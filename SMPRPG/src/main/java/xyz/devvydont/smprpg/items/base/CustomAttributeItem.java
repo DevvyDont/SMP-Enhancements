@@ -1,21 +1,14 @@
 package xyz.devvydont.smprpg.items.base;
 
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.inventory.meta.ItemMeta;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemRarity;
 import xyz.devvydont.smprpg.items.attribute.AttributeModifierType;
-import xyz.devvydont.smprpg.items.interfaces.Attributeable;
+import xyz.devvydont.smprpg.items.interfaces.IAttributeItem;
 import xyz.devvydont.smprpg.items.interfaces.Craftable;
 import xyz.devvydont.smprpg.items.interfaces.Sellable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.attributes.AttributeUtil;
-import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
-import xyz.devvydont.smprpg.util.formatting.Symbols;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Represents some sort of item that can modify an entity's attributes either when worn or held.
@@ -25,7 +18,7 @@ import java.util.List;
  * Also, all children of this class can be "prefixed", where a player can reforge an item for small additional
  * stat bonuses. Only one may be applied
  */
-public abstract class CustomAttributeItem extends CustomItemBlueprint implements Attributeable, Sellable {
+public abstract class CustomAttributeItem extends CustomItemBlueprint implements IAttributeItem, Sellable {
 
 
     public CustomAttributeItem(ItemService itemService, CustomItemType type) {

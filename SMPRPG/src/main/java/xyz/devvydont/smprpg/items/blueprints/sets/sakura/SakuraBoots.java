@@ -3,6 +3,7 @@ package xyz.devvydont.smprpg.items.blueprints.sets.sakura;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.inventory.CraftingRecipe;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.trim.TrimMaterial;
 import org.bukkit.inventory.meta.trim.TrimPattern;
 import xyz.devvydont.smprpg.items.CustomItemType;
@@ -35,7 +36,7 @@ public class SakuraBoots extends SakuraArmorSet implements Dyeable, Trimmable {
     }
 
     @Override
-    public Collection<AttributeEntry> getAttributeModifiers() {
+    public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 15));
     }
 

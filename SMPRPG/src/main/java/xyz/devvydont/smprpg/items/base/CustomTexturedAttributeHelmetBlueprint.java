@@ -1,7 +1,5 @@
 package xyz.devvydont.smprpg.items.base;
 
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
@@ -18,22 +16,16 @@ import xyz.devvydont.smprpg.enchantments.definitions.vanilla.overrides.Unbreakin
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.attribute.AttributeModifierType;
-import xyz.devvydont.smprpg.items.interfaces.Attributeable;
+import xyz.devvydont.smprpg.items.interfaces.IAttributeItem;
 import xyz.devvydont.smprpg.items.interfaces.Craftable;
-import xyz.devvydont.smprpg.items.interfaces.HeaderDescribable;
 import xyz.devvydont.smprpg.items.interfaces.Sellable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.attributes.AttributeUtil;
-import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
-import xyz.devvydont.smprpg.util.formatting.Symbols;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /*
  * Represents a combination of a custom fake textured skull item, and a helmet that can be worn.
  */
-public abstract class CustomTexturedAttributeHelmetBlueprint extends CustomHeadBlueprint implements Attributeable, Sellable, Listener {
+public abstract class CustomTexturedAttributeHelmetBlueprint extends CustomHeadBlueprint implements IAttributeItem, Sellable, Listener {
 
     public CustomTexturedAttributeHelmetBlueprint(ItemService itemService, CustomItemType type) {
         super(itemService, type);

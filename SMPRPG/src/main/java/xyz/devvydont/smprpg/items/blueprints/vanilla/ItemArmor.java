@@ -208,7 +208,7 @@ public class ItemArmor extends VanillaAttributeItem implements ToolBreakable {
     }
 
     @Override
-    public Collection<AttributeEntry> getAttributeModifiers() {
+    public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         List<AttributeEntry> modifiers = new ArrayList<>();
 
         // If we have true defense...
@@ -234,7 +234,7 @@ public class ItemArmor extends VanillaAttributeItem implements ToolBreakable {
         // If we have damage...
         double dmg = getDamageFromMaterial(getItem().getType());
         if (dmg > 0)
-            modifiers.add(new MultiplicativeAttributeEntry(AttributeWrapper.STRENGTH, dmg));
+            modifiers.add(new ScalarAttributeEntry(AttributeWrapper.STRENGTH, dmg));
 
         // If we have no modifiers, we need to have something to get rid of the vanilla stats
         // Crappy armor won't have any attributes since defense isn't an attribute

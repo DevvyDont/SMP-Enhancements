@@ -40,7 +40,7 @@ public class ItemMace extends VanillaAttributeItem implements ToolBreakable {
     }
 
     @Override
-    public Collection<AttributeEntry> getAttributeModifiers() {
+    public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.STRENGTH.getAttribute(), MACE_ATTACK_DAMAGE),
                 new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED.getAttribute(), MACE_ATTACK_SPEED_DEBUFF)

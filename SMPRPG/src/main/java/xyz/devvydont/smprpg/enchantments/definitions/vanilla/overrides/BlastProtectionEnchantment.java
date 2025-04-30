@@ -90,7 +90,7 @@ public class BlastProtectionEnchantment extends VanillaEnchantment implements At
     }
 
     @Override
-    public Collection<AttributeEntry> getAttributeModifiers() {
+    public Collection<AttributeEntry> getHeldAttributes() {
         return List.of(
                 new ScalarAttributeEntry(Attribute.EXPLOSION_KNOCKBACK_RESISTANCE, getExplosiveProtectionPercent(getLevel())/100.0)
         );

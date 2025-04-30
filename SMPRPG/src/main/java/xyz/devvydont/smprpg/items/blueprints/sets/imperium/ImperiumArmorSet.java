@@ -1,10 +1,10 @@
 package xyz.devvydont.smprpg.items.blueprints.sets.imperium;
 
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.trim.TrimMaterial;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
-import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomArmorBlueprint;
 import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
@@ -23,11 +23,11 @@ public abstract class ImperiumArmorSet extends CustomArmorBlueprint implements T
     }
 
     @Override
-    public Collection<AttributeEntry> getAttributeModifiers() {
+    public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, getDefense()),
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, getHealth()),
-                new MultiplicativeAttributeEntry(AttributeWrapper.STRENGTH, .4),
+                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .4),
                 new AdditiveAttributeEntry(AttributeWrapper.KNOCKBACK_RESISTANCE, .25)
         );
     }

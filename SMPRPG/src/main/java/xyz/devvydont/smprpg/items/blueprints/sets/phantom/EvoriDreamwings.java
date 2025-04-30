@@ -27,7 +27,7 @@ public class EvoriDreamwings extends CustomAttributeItem implements ToolBreakabl
     }
 
     @Override
-    public Collection<AttributeEntry> getAttributeModifiers() {
+    public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 100),
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 50)

@@ -88,7 +88,7 @@ public class FeatherFallingEnchantment extends VanillaEnchantment implements Att
     }
 
     @Override
-    public Collection<AttributeEntry> getAttributeModifiers() {
+    public Collection<AttributeEntry> getHeldAttributes() {
         return List.of(
                 new MultiplicativeAttributeEntry(Attribute.FALL_DAMAGE_MULTIPLIER, -getFallResistPercent(getLevel()) / 100.0),
                 new AdditiveAttributeEntry(Attribute.SAFE_FALL_DISTANCE, getLevel()*2)

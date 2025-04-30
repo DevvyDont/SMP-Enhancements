@@ -32,7 +32,7 @@ public class CopperAxe extends CustomAttributeItem implements Craftable, ToolBre
     }
 
     @Override
-    public Collection<AttributeEntry> getAttributeModifiers() {
+    public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, 28),
                 new MultiplicativeAttributeEntry(Attribute.ATTACK_SPEED, AXE_ATTACK_SPEED_DEBUFF)

@@ -2,6 +2,7 @@ package xyz.devvydont.smprpg.items.blueprints.sets.elderflame;
 
 import org.bukkit.Color;
 import org.bukkit.inventory.CraftingRecipe;
+import org.bukkit.inventory.ItemStack;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
@@ -23,12 +24,12 @@ public class ElderflameBoots extends ElderflameArmorSet implements Dyeable {
     }
 
     @Override
-    public Collection<AttributeEntry> getAttributeModifiers() {
+    public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 240),
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 200),
                 new AdditiveAttributeEntry(AttributeWrapper.ARMOR, 2),
-                new MultiplicativeAttributeEntry(AttributeWrapper.STRENGTH, .3),
+                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .3),
                 new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, .3),
                 new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, .1),
                 new AdditiveAttributeEntry(AttributeWrapper.SAFE_FALL, 10)

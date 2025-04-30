@@ -1,6 +1,7 @@
 package xyz.devvydont.smprpg.items.blueprints.sets.singularity;
 
 import org.bukkit.attribute.Attribute;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.trim.TrimMaterial;
 import org.bukkit.inventory.meta.trim.TrimPattern;
 import xyz.devvydont.smprpg.items.CustomItemType;
@@ -35,7 +36,7 @@ public class SingularityBoots extends CustomArmorBlueprint implements ToolBreaka
     }
 
     @Override
-    public Collection<AttributeEntry> getAttributeModifiers() {
+    public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.ARMOR, 6),
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 460),

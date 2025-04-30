@@ -2,6 +2,7 @@ package xyz.devvydont.smprpg.items.blueprints.sets.infinity;
 
 import org.bukkit.attribute.Attribute;
 import org.bukkit.inventory.EquipmentSlotGroup;
+import org.bukkit.inventory.ItemStack;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
@@ -21,7 +22,7 @@ public class InfinitySword extends CustomAttributeItem {
     }
 
     @Override
-    public Collection<AttributeEntry> getAttributeModifiers() {
+    public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
                 new AdditiveAttributeEntry(Attribute.ATTACK_DAMAGE, 99_999),
                 new AdditiveAttributeEntry(Attribute.ENTITY_INTERACTION_RANGE, 30),

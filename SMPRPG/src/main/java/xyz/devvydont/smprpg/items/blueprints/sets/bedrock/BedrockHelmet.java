@@ -27,12 +27,12 @@ public class BedrockHelmet extends CustomFakeHelmetBlueprint implements ToolBrea
     }
 
     @Override
-    public Collection<AttributeEntry> getAttributeModifiers() {
+    public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 250),
                 new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, -.2),
                 new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, -.25),
-                new MultiplicativeAttributeEntry(AttributeWrapper.STRENGTH, .15)
+                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .15)
         );
     }
 

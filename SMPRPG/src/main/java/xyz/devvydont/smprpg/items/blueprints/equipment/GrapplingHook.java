@@ -84,7 +84,7 @@ public class GrapplingHook extends CustomAttributeItem implements HeaderDescriba
     }
 
     @Override
-    public Collection<AttributeEntry> getAttributeModifiers() {
+    public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
                 new MultiplicativeAttributeEntry(AttributeWrapper.FALL_DAMAGE_MULTIPLIER, -.9),
                 new AdditiveAttributeEntry(AttributeWrapper.SAFE_FALL, 15)

@@ -48,7 +48,7 @@ public class HeftyReforge extends ReforgeBase {
                 new AdditiveAttributeEntry(AttributeWrapper.EXPLOSION_KNOCKBACK_RESISTANCE, getKnockbackResist(rarity)),
                 new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, -getSpeedDebuff(rarity)),
                 new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, -getSpeedDebuff(rarity) * 2),
-                new MultiplicativeAttributeEntry(AttributeWrapper.STRENGTH, ((rarity.ordinal()+1) / 500.0))
+                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, ((rarity.ordinal()+1) / 500.0))
         );
     }
 

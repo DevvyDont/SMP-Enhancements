@@ -33,7 +33,7 @@ public class CobblestoneChestplate extends CustomArmorBlueprint implements ToolB
     }
 
     @Override
-    public Collection<AttributeEntry> getAttributeModifiers() {
+    public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, ItemArmor.getDefenseFromMaterial(Material.DIAMOND_CHESTPLATE)-10),
                 new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, -0.1)

@@ -27,7 +27,7 @@ public class ItemShears extends VanillaAttributeItem implements ToolBreakable {
     }
 
     @Override
-    public Collection<AttributeEntry> getAttributeModifiers() {
+    public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, 5),
                 new MultiplicativeAttributeEntry(Attribute.ATTACK_SPEED, -.1)

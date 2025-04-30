@@ -1,6 +1,7 @@
 package xyz.devvydont.smprpg.items.blueprints.sets.elderflame;
 
 import org.bukkit.inventory.CraftingRecipe;
+import org.bukkit.inventory.ItemStack;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
@@ -21,12 +22,12 @@ public class ElderflameLeggings extends ElderflameArmorSet {
     }
 
     @Override
-    public Collection<AttributeEntry> getAttributeModifiers() {
+    public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 315),
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 265),
                 new AdditiveAttributeEntry(AttributeWrapper.ARMOR, 3),
-                new MultiplicativeAttributeEntry(AttributeWrapper.STRENGTH, .5),
+                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .5),
                 new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, .2),
                 new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, .1)
         );

@@ -21,7 +21,7 @@ public class ItemShield extends VanillaAttributeItem implements Shieldable, Tool
     }
 
     @Override
-    public Collection<AttributeEntry> getAttributeModifiers() {
+    public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.KNOCKBACK_RESISTANCE, .25)
         );

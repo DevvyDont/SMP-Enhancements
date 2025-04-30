@@ -31,11 +31,11 @@ public abstract class InfernoArmorSet extends CustomArmorBlueprint implements To
     }
 
     @Override
-    public Collection<AttributeEntry> getAttributeModifiers() {
+    public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, getDefense()),
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, getHealth()),
-                new MultiplicativeAttributeEntry(AttributeWrapper.STRENGTH, getStrength())
+                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, getStrength())
         );
     }
 

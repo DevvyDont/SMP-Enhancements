@@ -43,11 +43,11 @@ public class ReaverHelmet extends CustomFakeHelmetBlueprint implements HeaderDes
     }
 
     @Override
-    public Collection<AttributeEntry> getAttributeModifiers() {
+    public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 115),
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 95),
-                new MultiplicativeAttributeEntry(AttributeWrapper.STRENGTH, .25)
+                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .25)
         );
     }
 

@@ -19,7 +19,7 @@ public class MiningSkillRewards extends SkillRewardContainer {
         for (var i = 1; i <= 100; i++)
             addReward(i, new AttributeReward(
                     AttributeWrapper.HEALTH,
-                    AttributeModifier.Operation.ADD_NUMBER,
+                    SkillGlobals.DEFAULT_SKILL_OPERATION,
                     SkillGlobals.getStatPerLevel(SkillGlobals.HP_PER_LEVEL, i),
                     SkillGlobals.getStatPerLevel(SkillGlobals.HP_PER_LEVEL, i-1)
             ));
@@ -28,7 +28,7 @@ public class MiningSkillRewards extends SkillRewardContainer {
         for (var i = SECONDARY_LEVEL_DIFFERENCE; i <= 100; i += SECONDARY_LEVEL_DIFFERENCE)
             addReward(i, new AttributeReward(
                     AttributeWrapper.DEFENSE,
-                    AttributeModifier.Operation.ADD_NUMBER,
+                    SkillGlobals.DEFAULT_SKILL_OPERATION,
                     SkillGlobals.getStatPerXLevel(SkillGlobals.DEF_PER_5_LEVELS, SECONDARY_LEVEL_DIFFERENCE, i),
                     SkillGlobals.getStatPerXLevel(SkillGlobals.DEF_PER_5_LEVELS, SECONDARY_LEVEL_DIFFERENCE, i-SECONDARY_LEVEL_DIFFERENCE)
             ));

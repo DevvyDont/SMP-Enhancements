@@ -2,6 +2,7 @@ package xyz.devvydont.smprpg.items.blueprints.sets.slimy;
 
 import org.bukkit.Color;
 import org.bukkit.inventory.CraftingRecipe;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.trim.TrimMaterial;
 import org.bukkit.inventory.meta.trim.TrimPattern;
 import xyz.devvydont.smprpg.items.CustomItemType;
@@ -25,8 +26,8 @@ public class SlimyBoots extends SlimyArmorSet implements Dyeable {
     }
 
     @Override
-    public Collection<AttributeEntry> getAttributeModifiers() {
-        List<AttributeEntry> attributes = new ArrayList<>(super.getAttributeModifiers());
+    public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
+        List<AttributeEntry> attributes = new ArrayList<>(super.getAttributeModifiers(item));
         attributes.add(new ScalarAttributeEntry(AttributeWrapper.FALL_DAMAGE_MULTIPLIER, -.3));
         attributes.add(new AdditiveAttributeEntry(AttributeWrapper.SAFE_FALL, 7));
         return attributes;

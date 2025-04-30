@@ -34,7 +34,7 @@ public class CobblestoneBoots extends CustomArmorBlueprint implements ToolBreaka
     }
 
     @Override
-    public Collection<AttributeEntry> getAttributeModifiers() {
+    public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, ItemArmor.getDefenseFromMaterial(Material.DIAMOND_BOOTS)-10),
                 new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, -0.15)

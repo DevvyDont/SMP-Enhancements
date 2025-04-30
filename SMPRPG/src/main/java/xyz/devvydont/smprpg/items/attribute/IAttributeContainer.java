@@ -2,7 +2,7 @@ package xyz.devvydont.smprpg.items.attribute;
 
 import java.util.Collection;
 
-public interface AttributeModifierContainer {
+public interface IAttributeContainer {
 
     /**
      * What kind of attribute container is this? Items can have multiple containers of stats that stack
@@ -17,7 +17,7 @@ public interface AttributeModifierContainer {
      *
      * @return
      */
-    Collection<AttributeEntry> getAttributeModifiers();
+    Collection<AttributeEntry> getHeldAttributes();
 
     /**
      * How much should we increase the power rating of an item if this container is present?

@@ -8,6 +8,7 @@ import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemFlag;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.enchantments.CustomEnchantment;
@@ -16,7 +17,7 @@ import xyz.devvydont.smprpg.items.ItemRarity;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeModifierType;
 import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
-import xyz.devvydont.smprpg.items.interfaces.Attributeable;
+import xyz.devvydont.smprpg.items.interfaces.IAttributeItem;
 import xyz.devvydont.smprpg.reforge.ReforgeBase;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
@@ -104,7 +105,7 @@ public class AttributeUtil {
      *
      * @return
      */
-    public static List<Component> getAttributeLore(Attributeable blueprint, ItemMeta meta) {
+    public static List<Component> getAttributeLore(IAttributeItem blueprint, ItemMeta meta) {
 
         ArrayList<Component> lines = new ArrayList<>();
         if (meta == null || !meta.hasAttributeModifiers() || meta.getAttributeModifiers() == null)
@@ -259,9 +260,11 @@ public class AttributeUtil {
         return new AttributeCalculationResult(base, sum - base, sum, operationToModifier.keySet());
     }
 
-    public static void applyModifiers(SMPItemBlueprint blueprint, ItemMeta meta) {
+    public static void applyModifiers(SMPItemBlueprint blueprint, ItemStack item) {
 
-        if (!(blueprint instanceof Attributeable attributeable))
+        ItemMeta meta = item.getItemMeta();
+
+        if (!(blueprint instanceof IAttributeItem attributeable))
             return;
 
         ItemRarity rarity = blueprint.getRarity(meta);
@@ -269,7 +272,7 @@ public class AttributeUtil {
         // First base modifiers...
         AttributeModifierType.AttributeSession baseAttributes = attributeable.getAttributeSession(attributeable.getAttributeModifierType(), meta);
         baseAttributes.removeAttributeModifiers();
-        for (AttributeEntry entry : attributeable.getAttributeModifiers())
+        for (AttributeEntry entry : attributeable.getAttributeModifiers(item))
             baseAttributes.addAttributeModifier(entry, attributeable.getActiveSlot());
 
         // reforge....
@@ -288,7 +291,7 @@ public class AttributeUtil {
         enchantAttributes.removeAttributeModifiers();
         for (CustomEnchantment enchantment : SMPRPG.getInstance().getEnchantmentService().getCustomEnchantments(meta))
             if (enchantment instanceof AttributeEnchantment attributeEnchantment)
-                for (AttributeEntry entry : attributeEnchantment.getAttributeModifiers())
+                for (AttributeEntry entry : attributeEnchantment.getHeldAttributes())
                     enchantAttributes.addAttributeModifier(entry, attributeable.getActiveSlot());
     }
 

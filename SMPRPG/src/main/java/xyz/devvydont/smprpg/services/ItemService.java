@@ -743,7 +743,7 @@ public class ItemService implements BaseService, Listener {
         List<Component> lore = new ArrayList<>();
 
         // Check for stats that the item will apply if equipped.
-        if (blueprint instanceof Attributeable attributeable) {
+        if (blueprint instanceof IAttributeItem attributeable) {
             int power = attributeable.getPowerRating() + AttributeUtil.getPowerBonus(meta);
             lore.add(ComponentUtils.create("Power Rating: ").append(ComponentUtils.create(Symbols.POWER + power, NamedTextColor.YELLOW)));
             lore.add(ComponentUtils.EMPTY);

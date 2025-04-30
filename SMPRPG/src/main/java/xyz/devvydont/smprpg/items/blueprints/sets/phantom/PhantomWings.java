@@ -27,7 +27,7 @@ public class PhantomWings extends CustomAttributeItem implements ToolBreakable, 
     }
 
     @Override
-    public Collection<AttributeEntry> getAttributeModifiers() {
+    public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 10)
         );

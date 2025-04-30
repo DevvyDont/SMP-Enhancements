@@ -1,5 +1,6 @@
 package xyz.devvydont.smprpg.items.blueprints.sets.prelude;
 
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.trim.TrimMaterial;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
@@ -20,12 +21,12 @@ public class PreludeLeggings extends PreludeArmorSet {
     }
 
     @Override
-    public Collection<AttributeEntry> getAttributeModifiers() {
+    public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 730),
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 380),
                 new AdditiveAttributeEntry(AttributeWrapper.ARMOR, 6),
-                new MultiplicativeAttributeEntry(AttributeWrapper.STRENGTH, .75),
+                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .75),
                 new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, .2),
                 new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, .2)
         );

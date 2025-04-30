@@ -1,5 +1,6 @@
 package xyz.devvydont.smprpg.items.blueprints.sets.araxys;
 
+import org.bukkit.inventory.ItemStack;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
@@ -18,7 +19,7 @@ public class AraxysBoots extends AraxysArmorPiece {
     }
 
     @Override
-    public Collection<AttributeEntry> getAttributeModifiers() {
+    public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 75),
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 30),

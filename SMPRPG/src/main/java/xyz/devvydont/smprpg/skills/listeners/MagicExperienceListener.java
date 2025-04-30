@@ -24,7 +24,7 @@ import xyz.devvydont.smprpg.entity.player.LeveledPlayer;
 import xyz.devvydont.smprpg.events.skills.SkillExperienceGainEvent;
 import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
 import xyz.devvydont.smprpg.items.blueprints.vanilla.ItemEnchantedBook;
-import xyz.devvydont.smprpg.items.interfaces.Attributeable;
+import xyz.devvydont.smprpg.items.interfaces.IAttributeItem;
 
 public class MagicExperienceListener implements Listener {
 
@@ -146,7 +146,7 @@ public class MagicExperienceListener implements Listener {
         // Magic multiplier if the item has a power rating
         double multiplier = 1.0;
         SMPItemBlueprint blueprint = plugin.getItemService().getBlueprint(event.getItem());
-        if (blueprint instanceof Attributeable attributeable)
+        if (blueprint instanceof IAttributeItem attributeable)
             multiplier += attributeable.getPowerRating() / 15.0;
 
         LeveledPlayer player = plugin.getEntityService().getPlayerInstance(event.getEnchanter());
@@ -232,7 +232,7 @@ public class MagicExperienceListener implements Listener {
 
         SMPItemBlueprint blueprint = plugin.getItemService().getBlueprint(result);
         int multiplier = 1;
-        if (blueprint instanceof Attributeable attributeable)
+        if (blueprint instanceof IAttributeItem attributeable)
             multiplier = attributeable.getPowerRating();
         else if (blueprint instanceof ItemEnchantedBook book && book.getEnchantment(result.getItemMeta()) != null)
             multiplier = book.getRarity(result).ordinal() + 3;

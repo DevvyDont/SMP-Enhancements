@@ -30,7 +30,7 @@ public class DiamondBow extends CustomAttributeItem implements Craftable, ToolBr
     }
 
     @Override
-    public Collection<AttributeEntry> getAttributeModifiers() {
+    public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
                 new AdditiveAttributeEntry(Attribute.ATTACK_DAMAGE, 75)
         );

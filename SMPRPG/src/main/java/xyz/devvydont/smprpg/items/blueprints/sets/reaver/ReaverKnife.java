@@ -46,7 +46,7 @@ public class ReaverKnife extends CustomAttributeItem implements ToolBreakable, H
     }
 
     @Override
-    public Collection<AttributeEntry> getAttributeModifiers() {
+    public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, 130),
                 new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, -.4)

@@ -26,7 +26,7 @@ public class InfernoShortbow extends CustomShortbow implements Craftable, Sellab
     }
 
     @Override
-    public Collection<AttributeEntry> getAttributeModifiers() {
+    public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, 270),
                 new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, -.4)

@@ -78,7 +78,7 @@ public class ClimbingEnchantment extends CustomEnchantment implements AttributeE
     }
 
     @Override
-    public Collection<AttributeEntry> getAttributeModifiers() {
+    public Collection<AttributeEntry> getHeldAttributes() {
         return List.of(
                 new ScalarAttributeEntry(AttributeWrapper.STEP, getStepIncrease(getLevel()))
         );

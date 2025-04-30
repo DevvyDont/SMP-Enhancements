@@ -1,6 +1,7 @@
 package xyz.devvydont.smprpg.items.blueprints.sets.radiant;
 
 import org.bukkit.inventory.CraftingRecipe;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.trim.TrimPattern;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
@@ -21,7 +22,7 @@ public class RadiantBoots extends RadiantArmorSet {
     }
 
     @Override
-    public Collection<AttributeEntry> getAttributeModifiers() {
+    public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 50),
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 70),

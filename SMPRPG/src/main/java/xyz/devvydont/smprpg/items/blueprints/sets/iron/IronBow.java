@@ -29,7 +29,7 @@ public class IronBow extends CustomAttributeItem implements Craftable, ToolBreak
     }
 
     @Override
-    public Collection<AttributeEntry> getAttributeModifiers() {
+    public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
                 new AdditiveAttributeEntry(Attribute.ATTACK_DAMAGE, 20)
         );

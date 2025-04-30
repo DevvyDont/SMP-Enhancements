@@ -1,6 +1,7 @@
 package xyz.devvydont.smprpg.items.blueprints.sets.inferno;
 
 import org.bukkit.inventory.CraftingRecipe;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.trim.TrimPattern;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
@@ -22,11 +23,11 @@ public class InfernoChestplate extends InfernoArmorSet {
     }
 
     @Override
-    public Collection<AttributeEntry> getAttributeModifiers() {
+    public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, getDefense()),
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, getHealth()),
-                new MultiplicativeAttributeEntry(AttributeWrapper.STRENGTH, getStrength()),
+                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, getStrength()),
                 new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, .25)
         );
     }
