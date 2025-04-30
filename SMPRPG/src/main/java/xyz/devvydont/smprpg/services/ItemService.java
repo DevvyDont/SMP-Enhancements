@@ -836,7 +836,7 @@ public class ItemService implements BaseService, Listener {
                 lore.add(ComponentUtils.create("Sell Value: ").append(ComponentUtils.create(EconomyService.formatMoney(sellable.getWorth(meta)), NamedTextColor.GOLD)));
         }
         lore.add(blueprint.getRarity(meta).applyDecoration(ComponentUtils.create(blueprint.getRarity(meta).name() + " " + blueprint.getItemClassification().name().replace("_", " "))).decoration(TextDecoration.BOLD, true).color(blueprint.getRarity(meta).color));
-        lore.add(ComponentUtils.create("Resource Pack Key: " + blueprint.getCustomModelDataIdentifier(), NamedTextColor.DARK_GRAY));
+        lore.add(ComponentUtils.create(blueprint.getCustomModelDataIdentifier(), NamedTextColor.DARK_GRAY));
         return ComponentUtils.cleanItalics(lore);
     }
 

@@ -1,0 +1,61 @@
+{
+  "model": {
+    "type": "select",
+    "property": "custom_model_data",
+    "fallback": {
+      "type": "model",
+      "model": "item/firework_star"
+    },
+    "cases": [
+      {
+        "when": "smprpg:copper_coin",
+        "model": {
+          "type": "model",
+          "model": "coins:item/copper_coin"
+        }
+      },
+      {
+        "when": "smprpg:silver_coin",
+        "model": {
+          "type": "model",
+          "model": "coins:item/silver_coin"
+        }
+      },
+      {
+        "when": "smprpg:gold_coin",
+        "model": {
+          "type": "model",
+          "model": "coins:item/gold_coin"
+        }
+      },
+      {
+        "when": "smprpg:platinum_coin",
+        "model": {
+          "type": "model",
+          "model": "coins:item/platinum_coin"
+        }
+      },
+      {
+        "when": "smprpg:emerald_coin",
+        "model": {
+          "type": "model",
+          "model": "coins:item/emerald_coin"
+        }
+      },
+      {
+        "when": "smprpg:amethyst_coin",
+        "model": {
+          "type": "model",
+          "model": "coins:item/amethyst_coin"
+        }
+      },
+      {
+        "when": "smprpg:enchanted_coin",
+        "model": {
+          "type": "model",
+          "model": "coins:item/enchanted_coin"
+        }
+      }
+    ]
+  }
+}
