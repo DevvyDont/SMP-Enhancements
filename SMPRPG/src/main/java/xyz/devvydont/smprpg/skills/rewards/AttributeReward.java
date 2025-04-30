@@ -94,10 +94,8 @@ public class AttributeReward implements ISkillReward {
         var adjustedAmount = calculateRewardAmount(player, this.amount);
 
         // Depending on the operation, it may need to apply differently in order to work as a vanilla modifier.
-        if (operation == AttributeModifier.Operation.ADD_SCALAR)
+        if (operation == AttributeModifier.Operation.ADD_SCALAR || operation == AttributeModifier.Operation.MULTIPLY_SCALAR_1)
             adjustedAmount /= 100.0;
-        if (operation == AttributeModifier.Operation.MULTIPLY_SCALAR_1)
-            adjustedAmount = adjustedAmount / 100.0 + 1.0;
 
         remove(player, skill);
 
