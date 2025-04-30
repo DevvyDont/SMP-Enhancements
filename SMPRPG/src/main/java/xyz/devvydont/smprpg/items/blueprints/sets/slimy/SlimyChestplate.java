@@ -17,13 +17,8 @@ public class SlimyChestplate extends SlimyArmorSet implements Dyeable {
     }
 
     @Override
-    public int getDefense() {
-        return 10;
-    }
-
-    @Override
     public int getHealth() {
-        return 45;
+        return 50;
     }
 
     @Override

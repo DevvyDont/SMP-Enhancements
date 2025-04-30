@@ -12,6 +12,7 @@ import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomFakeHelmetBlueprint;
+import xyz.devvydont.smprpg.items.blueprints.vanilla.ItemArmor;
 import xyz.devvydont.smprpg.items.interfaces.Craftable;
 import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
 import xyz.devvydont.smprpg.services.ItemService;
@@ -20,6 +21,8 @@ import xyz.devvydont.smprpg.util.crafting.builders.HelmetRecipe;
 
 import java.util.Collection;
 import java.util.List;
+
+import static xyz.devvydont.smprpg.items.blueprints.sets.redstone.RedstoneArmorSet.*;
 
 public class RedstoneHelmet extends CustomFakeHelmetBlueprint implements ToolBreakable, Craftable {
 
@@ -30,9 +33,10 @@ public class RedstoneHelmet extends CustomFakeHelmetBlueprint implements ToolBre
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 35),
-                new ScalarAttributeEntry(Attribute.MOVEMENT_SPEED, .05),
-                new MultiplicativeAttributeEntry(Attribute.ATTACK_SPEED, .10)
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, ItemArmor.getDefenseFromMaterial(Material.GOLDEN_HELMET)),
+                new ScalarAttributeEntry(Attribute.MOVEMENT_SPEED, MOVEMENT_BUFF),
+                new MultiplicativeAttributeEntry(Attribute.ATTACK_SPEED, ATTACK_BUFF),
+                new ScalarAttributeEntry(Attribute.MINING_EFFICIENCY, MINING_BUFF)
         );
     }
 

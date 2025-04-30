@@ -27,9 +27,8 @@ public abstract class SlimyArmorSet extends CustomArmorBlueprint implements Craf
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, getDefense()),
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, getHealth()),
-                new ScalarAttributeEntry(AttributeWrapper.ATTACK_SPEED, .05)
+                new ScalarAttributeEntry(AttributeWrapper.ATTACK_SPEED, .1)
         );
     }
 
@@ -37,8 +36,6 @@ public abstract class SlimyArmorSet extends CustomArmorBlueprint implements Craf
     public NamespacedKey getRecipeKey() {
         return new NamespacedKey(SMPRPG.getInstance(), "-recipe");
     }
-
-    public abstract int getDefense();
 
     public abstract int getHealth();
 

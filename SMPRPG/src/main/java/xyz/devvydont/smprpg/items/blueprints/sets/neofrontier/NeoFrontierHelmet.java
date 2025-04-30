@@ -14,11 +14,6 @@ public class NeoFrontierHelmet extends NeoFrontierArmorSet implements Trimmable 
     }
 
     @Override
-    public int getDefense() {
-        return 120;
-    }
-
-    @Override
     public ItemClassification getItemClassification() {
         return ItemClassification.HELMET;
     }

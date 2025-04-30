@@ -13,11 +13,6 @@ public class NeoFrontierChestplate extends NeoFrontierArmorSet implements Dyeabl
     }
 
     @Override
-    public int getDefense() {
-        return 200;
-    }
-
-    @Override
     public ItemClassification getItemClassification() {
         return ItemClassification.CHESTPLATE;
     }

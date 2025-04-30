@@ -1,8 +1,10 @@
 package xyz.devvydont.smprpg.items.blueprints.sets.redstone;
 
+import org.bukkit.Material;
 import org.bukkit.inventory.CraftingRecipe;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
+import xyz.devvydont.smprpg.items.blueprints.vanilla.ItemArmor;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.crafting.builders.BootsRecipe;
 
@@ -25,6 +27,6 @@ public class RedstoneBoots extends RedstoneArmorSet {
 
     @Override
     public int getDefense() {
-        return 35;
+        return ItemArmor.getDefenseFromMaterial(Material.GOLDEN_BOOTS);
     }
 }

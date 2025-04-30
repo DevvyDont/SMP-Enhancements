@@ -13,11 +13,6 @@ public class NeoFrontierBoots extends NeoFrontierArmorSet implements Dyeable {
     }
 
     @Override
-    public int getDefense() {
-        return 90;
-    }
-
-    @Override
     public ItemClassification getItemClassification() {
         return ItemClassification.BOOTS;
     }

@@ -1,5 +1,6 @@
 package xyz.devvydont.smprpg.items.blueprints.vanilla;
 
+import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemStack;
@@ -27,7 +28,7 @@ public class ItemCrossbow extends VanillaAttributeItem implements ToolBreakable 
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(Attribute.ATTACK_DAMAGE, 45)
+                new AdditiveAttributeEntry(Attribute.ATTACK_DAMAGE, ItemSword.getSwordDamage(Material.GOLDEN_SWORD))
         );
     }
 

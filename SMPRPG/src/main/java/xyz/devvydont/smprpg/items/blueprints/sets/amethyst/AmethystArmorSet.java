@@ -28,9 +28,9 @@ public abstract class AmethystArmorSet extends CustomArmorBlueprint implements T
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, getDefense()),
-                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 5),
-                new ScalarAttributeEntry(AttributeWrapper.LUCK, .1)
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 5),
+                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, getHealth()),
+                new ScalarAttributeEntry(AttributeWrapper.LUCK, .2)
         );
     }
 
@@ -46,7 +46,7 @@ public abstract class AmethystArmorSet extends CustomArmorBlueprint implements T
         );
     }
 
-    public abstract int getDefense();
+    public abstract int getHealth();
 
     @Override
     public int getPowerRating() {

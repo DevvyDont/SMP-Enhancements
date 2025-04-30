@@ -29,6 +29,10 @@ public abstract class RedstoneArmorSet extends CustomArmorBlueprint implements T
     public static final int POWER = 15;
     public static final int DURABILITY = 12_500;
 
+    public static final double MOVEMENT_BUFF = .05;
+    public static final double ATTACK_BUFF = .1;
+    public static final double MINING_BUFF = .2;
+
     public static final CustomItemType INGREDIENT = CustomItemType.ENCHANTED_REDSTONE;
 
 
@@ -40,8 +44,9 @@ public abstract class RedstoneArmorSet extends CustomArmorBlueprint implements T
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, getDefense()),
-                new ScalarAttributeEntry(Attribute.MOVEMENT_SPEED, .05),
-                new MultiplicativeAttributeEntry(Attribute.ATTACK_SPEED, .10)
+                new ScalarAttributeEntry(Attribute.MOVEMENT_SPEED, MOVEMENT_BUFF),
+                new MultiplicativeAttributeEntry(Attribute.ATTACK_SPEED, ATTACK_BUFF),
+                new ScalarAttributeEntry(Attribute.MINING_EFFICIENCY, MINING_BUFF)
         );
     }
 

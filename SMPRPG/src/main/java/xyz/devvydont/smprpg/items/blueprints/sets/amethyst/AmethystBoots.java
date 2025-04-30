@@ -15,8 +15,8 @@ public class AmethystBoots extends AmethystArmorSet {
     }
 
     @Override
-    public int getDefense() {
-        return 18;
+    public int getHealth() {
+        return 25;
     }
 
     @Override

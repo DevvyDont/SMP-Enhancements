@@ -14,11 +14,6 @@ public class NeoFrontierLeggings extends NeoFrontierArmorSet implements Trimmabl
     }
 
     @Override
-    public int getDefense() {
-        return 180;
-    }
-
-    @Override
     public ItemClassification getItemClassification() {
         return ItemClassification.LEGGINGS;
     }

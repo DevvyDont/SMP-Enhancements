@@ -13,13 +13,8 @@ public class LuxeHelmet extends LuxeArmorSet {
     }
 
     @Override
-    public int getDefense() {
-        return 10;
-    }
-
-    @Override
     public int getHealth() {
-        return 15;
+        return 45;
     }
 
     @Override

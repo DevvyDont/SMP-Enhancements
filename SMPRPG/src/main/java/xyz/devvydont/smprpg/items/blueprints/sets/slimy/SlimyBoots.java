@@ -28,19 +28,14 @@ public class SlimyBoots extends SlimyArmorSet implements Dyeable {
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         List<AttributeEntry> attributes = new ArrayList<>(super.getAttributeModifiers(item));
-        attributes.add(new ScalarAttributeEntry(AttributeWrapper.FALL_DAMAGE_MULTIPLIER, -.3));
+        attributes.add(new ScalarAttributeEntry(AttributeWrapper.FALL_DAMAGE_MULTIPLIER, -.75));
         attributes.add(new AdditiveAttributeEntry(AttributeWrapper.SAFE_FALL, 7));
         return attributes;
     }
 
     @Override
-    public int getDefense() {
-        return 10;
-    }
-
-    @Override
     public int getHealth() {
-        return 25;
+        return 20;
     }
 
     @Override

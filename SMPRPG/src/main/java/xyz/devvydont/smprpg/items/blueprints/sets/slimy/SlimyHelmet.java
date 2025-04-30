@@ -26,14 +26,9 @@ public class SlimyHelmet extends CustomFakeHelmetBlueprint implements Craftable,
         super(itemService, type);
     }
 
-    public int getDefense() {
-        return 10;
-    }
-
     public int getHealth() {
-        return 30;
+        return 40;
     }
-
 
     @Override
     public NamespacedKey getRecipeKey() {
@@ -54,7 +49,6 @@ public class SlimyHelmet extends CustomFakeHelmetBlueprint implements Craftable,
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
                 new ScalarAttributeEntry(AttributeWrapper.ATTACK_SPEED, .05),
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, getDefense()),
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, getHealth())
         );
     }

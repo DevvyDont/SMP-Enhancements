@@ -1,11 +1,14 @@
 package xyz.devvydont.smprpg.items.blueprints.sets.copper;
 
+import io.papermc.paper.datacomponent.DataComponentTypes;
+import io.papermc.paper.datacomponent.item.Tool;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.inventory.CraftingRecipe;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
@@ -23,9 +26,19 @@ import xyz.devvydont.smprpg.util.items.ToolsUtil;
 import java.util.Collection;
 import java.util.List;
 
+import static org.bukkit.inventory.ItemStack.of;
 import static xyz.devvydont.smprpg.items.blueprints.vanilla.ItemPickaxe.PICKAXE_ATTACK_SPEED_DEBUFF;
 
 public class CopperPickaxe extends CustomAttributeItem implements ToolBreakable, Craftable {
+
+    @NotNull
+    private final static Tool TOOL_COMPONENT;
+
+    static {
+        var _toolComp = of(Material.STONE_PICKAXE).getData(DataComponentTypes.TOOL);
+        assert _toolComp != null;
+        TOOL_COMPONENT = _toolComp;
+    }
 
     public CopperPickaxe(ItemService itemService, CustomItemType type) {
         super(itemService, type);
@@ -62,6 +75,12 @@ public class CopperPickaxe extends CustomAttributeItem implements ToolBreakable,
     @Override
     public NamespacedKey getRecipeKey() {
         return new NamespacedKey(SMPRPG.getInstance(), getCustomItemType().getKey() + "-recipe");
+    }
+
+    @Override
+    public void updateMeta(ItemStack itemStack) {
+        super.updateMeta(itemStack);
+        itemStack.setData(DataComponentTypes.TOOL, TOOL_COMPONENT);
     }
 
     @Override

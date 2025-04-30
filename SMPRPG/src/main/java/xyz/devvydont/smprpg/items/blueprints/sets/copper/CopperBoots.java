@@ -35,7 +35,7 @@ public class CopperBoots extends CustomArmorBlueprint implements ToolBreakable, 
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, ItemArmor.getDefenseFromMaterial(Material.CHAINMAIL_BOOTS)),
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, ItemArmor.getDefenseFromMaterial(Material.LEATHER_BOOTS)),
                 new ScalarAttributeEntry(AttributeWrapper.MINING_EFFICIENCY, .05),
                 new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, .02)
         );

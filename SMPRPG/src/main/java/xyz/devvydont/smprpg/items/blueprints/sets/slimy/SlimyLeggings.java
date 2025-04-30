@@ -15,13 +15,8 @@ public class SlimyLeggings extends SlimyArmorSet {
     }
 
     @Override
-    public int getDefense() {
-        return 10;
-    }
-
-    @Override
     public int getHealth() {
-        return 40;
+        return 45;
     }
 
     @Override
