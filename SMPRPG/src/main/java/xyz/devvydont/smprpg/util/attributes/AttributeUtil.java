@@ -262,11 +262,10 @@ public class AttributeUtil {
 
     public static void applyModifiers(SMPItemBlueprint blueprint, ItemStack item) {
 
-        ItemMeta meta = item.getItemMeta();
-
         if (!(blueprint instanceof IAttributeItem attributeable))
             return;
 
+        ItemMeta meta = item.getItemMeta();
         ItemRarity rarity = blueprint.getRarity(meta);
 
         // First base modifiers...
@@ -283,16 +282,17 @@ public class AttributeUtil {
             for (AttributeEntry entry : reforge.getAttributeModifiersWithRarity(rarity))
                 reforgeAttributes.addAttributeModifier(entry, attributeable.getActiveSlot());
 
-        // enchantments....
-        if (SMPRPG.getInstance().getEnchantmentService() == null)
-            return;
-
         AttributeModifierType.AttributeSession enchantAttributes = attributeable.getAttributeSession(AttributeModifierType.ENCHANTMENT, meta);
         enchantAttributes.removeAttributeModifiers();
-        for (CustomEnchantment enchantment : SMPRPG.getInstance().getEnchantmentService().getCustomEnchantments(meta))
-            if (enchantment instanceof AttributeEnchantment attributeEnchantment)
-                for (AttributeEntry entry : attributeEnchantment.getHeldAttributes())
-                    enchantAttributes.addAttributeModifier(entry, attributeable.getActiveSlot());
+
+        if (SMPRPG.getInstance().getEnchantmentService() != null)  // Need to null check here sigh....
+            for (CustomEnchantment enchantment : SMPRPG.getInstance().getEnchantmentService().getCustomEnchantments(meta))
+                if (enchantment instanceof AttributeEnchantment attributeEnchantment)
+                    for (AttributeEntry entry : attributeEnchantment.getHeldAttributes())
+                        enchantAttributes.addAttributeModifier(entry, attributeable.getActiveSlot());
+
+        // Apply the modifiers.
+        item.setItemMeta(meta);
     }
 
     /**
