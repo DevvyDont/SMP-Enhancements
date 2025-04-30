@@ -1,6 +1,7 @@
 package xyz.devvydont.smprpg.gui.items;
 
 import net.kyori.adventure.text.format.NamedTextColor;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -132,9 +133,18 @@ public class MenuItemBrowser extends MenuBase {
      *
      * @param itemStack
      */
-    private void handleClick(ItemStack itemStack) {
+    private void handleClick(InventoryClickEvent event, ItemStack itemStack) {
 
         this.sounds.playActionConfirm();
+
+        // If the player is in creative mode and this is a shift click, give it to them.
+        if (this.player.getGameMode() == GameMode.CREATIVE && event.isShiftClick()) {
+            this.playSound(Sound.ENTITY_ITEM_PICKUP, 1, .5f);
+            var item = itemStack.clone();
+            SMPRPG.getInstance().getItemService().ensureItemStackUpdated(item);
+            this.player.getInventory().addItem(item);
+            return;
+        }
 
         // Currently, we don't do anything unless the item is craftable, but that is subject to change.
         // When it does change, that logic goes here.
@@ -196,7 +206,7 @@ public class MenuItemBrowser extends MenuBase {
             if (blueprint instanceof Craftable)
                 item.editMeta(meta -> meta.lore(lore));
 
-            this.setButton(slot, item, event -> this.handleClick(item));
+            this.setButton(slot, item, event -> this.handleClick(event, item));
             itemIndexOffset++;
         }
 
