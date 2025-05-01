@@ -33,17 +33,17 @@ public class InfernoLeggings extends InfernoArmorSet {
 
     @Override
     public int getDefense() {
-        return 230;
+        return 90;
     }
 
     @Override
     public int getHealth() {
-        return 200;
+        return 25;
     }
 
     @Override
     public double getStrength() {
-        return .4;
+        return .6;
     }
 
     @Override

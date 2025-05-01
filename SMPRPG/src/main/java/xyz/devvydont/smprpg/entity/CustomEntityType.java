@@ -9,7 +9,6 @@ import org.bukkit.generator.structure.Structure;
 import org.bukkit.persistence.PersistentDataType;
 import xyz.devvydont.smprpg.entity.base.CustomEntityInstance;
 import xyz.devvydont.smprpg.entity.base.LeveledEntity;
-import xyz.devvydont.smprpg.entity.base.NPCEntity;
 import xyz.devvydont.smprpg.entity.bosses.BlazeBoss;
 import xyz.devvydont.smprpg.entity.creatures.*;
 import xyz.devvydont.smprpg.entity.npc.ReforgeNPC;
@@ -28,17 +27,17 @@ public enum CustomEntityType {
 
     // Mobs that spawn in woodland mansions.
     MANSION_SPIDER(EntityType.SPIDER, "Mansion Spider",
-            25, 800, 115,
+            25, 800, 90,
             new EntitySpawnCondition[]{new StructureSpawnCondition(Structure.MANSION)}, 20,
             MansionSpider.class),
 
     WOODLAND_EXILE(EntityType.PILLAGER, "Woodland Exile",
-            25, 1_100, 125,
+            25, 1_100, 120,
             new EntitySpawnCondition[]{new StructureSpawnCondition(Structure.MANSION)}, 35,
             WoodlandExile.class),
 
     WOODLAND_BERSERKER(EntityType.VINDICATOR, "Woodland Berserker",
-            25, 950, 150,
+            25, 950, 140,
             new EntitySpawnCondition[]{new StructureSpawnCondition(Structure.MANSION)}, 35,
             WoodlandExile.class),
 

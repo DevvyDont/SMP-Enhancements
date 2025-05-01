@@ -2,13 +2,11 @@ package xyz.devvydont.smprpg.items.blueprints.sets.inferno;
 
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.trim.TrimMaterial;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
-import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomArmorBlueprint;
 import xyz.devvydont.smprpg.items.interfaces.Craftable;
@@ -22,7 +20,7 @@ import java.util.List;
 
 public abstract class InfernoArmorSet extends CustomArmorBlueprint implements ToolBreakable, Trimmable, Craftable {
 
-    public static final int POWER = 50;
+    public static final int POWER = 40;
     public static CustomItemType CRAFTING_COMPONENT = CustomItemType.INFERNO_REMNANT;
 
 

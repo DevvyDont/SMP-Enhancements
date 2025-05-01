@@ -1,7 +1,10 @@
 package xyz.devvydont.smprpg.items.blueprints.sets.inferno;
 
+import io.papermc.paper.datacomponent.DataComponentTypes;
+import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.damage.DamageSource;
 import org.bukkit.damage.DamageType;
@@ -15,7 +18,6 @@ import org.bukkit.inventory.CraftingRecipe;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.items.CustomItemType;
@@ -25,6 +27,7 @@ import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomAttributeItem;
+import xyz.devvydont.smprpg.items.blueprints.vanilla.ItemAxe;
 import xyz.devvydont.smprpg.items.interfaces.Craftable;
 import xyz.devvydont.smprpg.items.interfaces.HeaderDescribable;
 import xyz.devvydont.smprpg.services.ItemService;
@@ -40,6 +43,7 @@ public class InfernoSaber extends CustomAttributeItem implements HeaderDescribab
     public static final int COST = 150;
     public static final int DAMAGE = 15_000;
     public static final double EXPLOSION_RADIUS = 5;
+    public static Key MODEL = ItemStack.of(Material.BLAZE_ROD).getData(DataComponentTypes.ITEM_MODEL);
 
     // We need a reference to projectiles that we shoot so that we can handle them at different stages in its life
     // since PDCs do not work during the EntityExplodeEvent
@@ -58,9 +62,15 @@ public class InfernoSaber extends CustomAttributeItem implements HeaderDescribab
     }
 
     @Override
+    public void updateMeta(ItemStack itemStack) {
+        super.updateMeta(itemStack);
+        itemStack.setData(DataComponentTypes.ITEM_MODEL, MODEL);  // Make the item appear as a blaze rod.
+    }
+
+    @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, 300),
+                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, ItemAxe.getAxeDamage(Material.NETHERITE_AXE)),
                 new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, -.6),
                 new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, .25)
         );
@@ -85,7 +95,7 @@ public class InfernoSaber extends CustomAttributeItem implements HeaderDescribab
 
     @Override
     public ItemClassification getItemClassification() {
-        return ItemClassification.WEAPON;
+        return ItemClassification.SWORD;
     }
 
     @Override
@@ -131,7 +141,7 @@ public class InfernoSaber extends CustomAttributeItem implements HeaderDescribab
      * When we right click with the item in our hand, we need to summon a fireball.
      */
     @EventHandler(priority = EventPriority.HIGH)
-    public void onInteractWhileHoldingBlade(PlayerInteractEvent event) {
+    private void __onInteractWhileHoldingBlade(PlayerInteractEvent event) {
 
         // Is this the blade?
         ItemStack item = event.getItem();
@@ -166,7 +176,7 @@ public class InfernoSaber extends CustomAttributeItem implements HeaderDescribab
      * at a penalty (for missing)
      */
     @EventHandler
-    public void onFireballExplode(EntityExplodeEvent event) {
+    private void __onFireballExplode(EntityExplodeEvent event) {
 
         // If this isn't an inferno projectile we don't care
         if (!isInfernoProjectile(event.getEntity()))

@@ -271,12 +271,12 @@ public enum CustomItemType {
     FORSAKEN_CUTLASS(     "Forsaken Cutlass",  Material.NETHERITE_SWORD,     ItemRarity.LEGENDARY, ForsakenCutlass.class),
     DESOLATED_STONE(     "Desolated Stone", "895a05992afa37b3806b81f0003ca617b3c1cbb9170a2309115b9c6a03eb73af", ItemRarity.LEGENDARY, DesolatedStone.class),
 
-    // EMBERCLAD
-    EMBERCLAD_HELMET(    "Emberclad Helmet",     Material.GOLDEN_HELMET,     ItemRarity.RARE, EmbercladHelmet.class),
-    EMBERCLAD_CHESTPLATE("Emberclad Chestplate", Material.GOLDEN_CHESTPLATE, ItemRarity.RARE, EmbercladChestplate.class),
-    EMBERCLAD_LEGGINGS(  "Emberclad Leggings",   Material.GOLDEN_LEGGINGS,   ItemRarity.RARE, EmbercladLeggings.class),
-    EMBERCLAD_BOOTS(     "Emberclad Boots",      Material.GOLDEN_BOOTS,      ItemRarity.RARE, EmbercladBoots.class),
-    EMBERCLAD_AXE(       "Emberclad Axe",        Material.GOLDEN_AXE,        ItemRarity.RARE, EmbercladAxe.class),
+    // CYRAX
+    CYRAX_HELMET(    "Cyrax Helmet",     Material.GOLDEN_HELMET,     ItemRarity.EPIC, CryaxHelmet.class),
+    CYRAX_CHESTPLATE("Cyrax Chestplate", Material.GOLDEN_CHESTPLATE, ItemRarity.EPIC, CryaxChestplate.class),
+    CYRAX_LEGGINGS(  "Cyrax Leggings",   Material.GOLDEN_LEGGINGS,   ItemRarity.EPIC, CryaxLeggings.class),
+    CYRAX_BOOTS(     "Cyrax Boots",      Material.GOLDEN_BOOTS,      ItemRarity.EPIC, CryaxBoots.class),
+    CYRAX_BOW(       "Cyrax Bow",        Material.BOW,               ItemRarity.EPIC, CryaxBow.class),
 
     BOILING_PICKAXE(       "Boiling Pickaxe",        Material.NETHERITE_PICKAXE,        ItemRarity.EPIC, BoilingPickaxe.class),
 
@@ -290,7 +290,7 @@ public enum CustomItemType {
     INFERNO_CHESTPLATE("Inferno Chestplate", Material.GOLDEN_CHESTPLATE, ItemRarity.LEGENDARY, InfernoChestplate.class),
     INFERNO_LEGGINGS("Inferno Leggings",     Material.GOLDEN_LEGGINGS,   ItemRarity.LEGENDARY, InfernoLeggings.class),
     INFERNO_BOOTS("Inferno Boots",           Material.GOLDEN_BOOTS,      ItemRarity.LEGENDARY, InfernoBoots.class),
-    INFERNO_SABER("Inferno Saber",           Material.BLAZE_ROD,         ItemRarity.LEGENDARY, InfernoSaber.class),
+    INFERNO_SABER("Inferno Saber",           Material.NETHERITE_SWORD,   ItemRarity.LEGENDARY, InfernoSaber.class),
     INFERNO_SHORTBOW("Inferno Shortbow",     Material.BOW,               ItemRarity.LEGENDARY, InfernoShortbow.class),
 
     SCORCHING_STRING("Scorching String", Material.STRING, ItemRarity.RARE, true, ScorchingString.class),
@@ -344,9 +344,9 @@ public enum CustomItemType {
     LUCKY_CHARM("Lucky Charm",       Material.TOTEM_OF_UNDYING, ItemRarity.EPIC,      LuckyCharm.class),
 
     // BOWS
-    NETHERITE_BOW("Netherite Bow", Material.BOW, ItemRarity.RARE,      NetheriteBow.class),
-    DIAMOND_BOW("Diamond Bow",     Material.BOW, ItemRarity.UNCOMMON,  DiamondBow.class),
-    IRON_BOW(   "Iron Bow",        Material.BOW, ItemRarity.COMMON,    IronBow.class),
+    NETHERITE_BOW("Netherite Bow", Material.BOW, ItemRarity.EPIC,        NetheriteBow.class),
+    DIAMOND_BOW("Diamond Bow",     Material.BOW, ItemRarity.RARE,        DiamondBow.class),
+    IRON_BOW(   "Iron Bow",        Material.BOW, ItemRarity.UNCOMMON,    IronBow.class),
 
     // EXILED SET
     EXILED_CROSSBOW("Exiled Crossbow", Material.CROSSBOW, ItemRarity.EPIC,  ExiledCrossbow.class),

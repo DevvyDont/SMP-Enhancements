@@ -9,35 +9,34 @@ import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
-import xyz.devvydont.smprpg.util.crafting.builders.ChestplateRecipe;
+import xyz.devvydont.smprpg.util.crafting.builders.BootsRecipe;
 
 import java.util.Collection;
 import java.util.List;
 
-public class EmbercladChestplate extends EmbercladArmorSet {
+public class CryaxBoots extends CryaxArmorSet {
 
-    public EmbercladChestplate(ItemService itemService, CustomItemType type) {
+    public CryaxBoots(ItemService itemService, CustomItemType type) {
         super(itemService, type);
     }
 
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 115),
-                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 80),
-                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .24),
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 55),
+                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 10),
+                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .3),
                 new ScalarAttributeEntry(AttributeWrapper.BURNING_TIME, -.25)
         );
     }
 
     @Override
     public ItemClassification getItemClassification() {
-        return ItemClassification.CHESTPLATE;
+        return ItemClassification.BOOTS;
     }
 
     @Override
     public CraftingRecipe getCustomRecipe() {
-        return new ChestplateRecipe(this, itemService.getCustomItem(EmbercladArmorSet.INGREDIENT), generate()).build();
+        return new BootsRecipe(this, itemService.getCustomItem(CryaxArmorSet.INGREDIENT), generate()).build();
     }
-
 }

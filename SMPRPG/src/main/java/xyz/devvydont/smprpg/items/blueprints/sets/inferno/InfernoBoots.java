@@ -33,17 +33,17 @@ public class InfernoBoots extends InfernoArmorSet {
 
     @Override
     public int getDefense() {
-        return 190;
+        return 80;
     }
 
     @Override
     public int getHealth() {
-        return 160;
+        return 20;
     }
 
     @Override
     public double getStrength() {
-        return .25;
+        return .5;
     }
 
     @Override

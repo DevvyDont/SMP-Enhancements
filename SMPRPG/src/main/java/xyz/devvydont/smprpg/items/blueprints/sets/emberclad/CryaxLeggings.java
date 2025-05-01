@@ -14,18 +14,18 @@ import xyz.devvydont.smprpg.util.crafting.builders.LeggingsRecipe;
 import java.util.Collection;
 import java.util.List;
 
-public class EmbercladLeggings extends EmbercladArmorSet {
+public class CryaxLeggings extends CryaxArmorSet {
 
-    public EmbercladLeggings(ItemService itemService, CustomItemType type) {
+    public CryaxLeggings(ItemService itemService, CustomItemType type) {
         super(itemService, type);
     }
 
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 105),
-                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 80),
-                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .22),
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 60),
+                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 10),
+                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .35),
                 new ScalarAttributeEntry(AttributeWrapper.BURNING_TIME, -.25)
         );
     }
@@ -37,6 +37,6 @@ public class EmbercladLeggings extends EmbercladArmorSet {
 
     @Override
     public CraftingRecipe getCustomRecipe() {
-        return new LeggingsRecipe(this, itemService.getCustomItem(EmbercladArmorSet.INGREDIENT), generate()).build();
+        return new LeggingsRecipe(this, itemService.getCustomItem(CryaxArmorSet.INGREDIENT), generate()).build();
     }
 }

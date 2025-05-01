@@ -3,7 +3,6 @@ package xyz.devvydont.smprpg.items.blueprints.sets.emberclad;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.trim.TrimMaterial;
 import org.bukkit.inventory.meta.trim.TrimPattern;
 import xyz.devvydont.smprpg.SMPRPG;
@@ -17,12 +16,12 @@ import xyz.devvydont.smprpg.services.ItemService;
 import java.util.Collection;
 import java.util.List;
 
-public abstract class EmbercladArmorSet extends CustomArmorBlueprint implements ToolBreakable, Craftable, Trimmable {
+public abstract class CryaxArmorSet extends CustomArmorBlueprint implements ToolBreakable, Craftable, Trimmable {
 
-    public static final int POWER = 33;
-    public static final CustomItemType INGREDIENT = CustomItemType.PREMIUM_BLAZE_ROD;
+    public static final int POWER = 35;
+    public static final CustomItemType INGREDIENT = CustomItemType.ENCHANTED_BLAZE_ROD;
 
-    public EmbercladArmorSet(ItemService itemService, CustomItemType type) {
+    public CryaxArmorSet(ItemService itemService, CustomItemType type) {
         super(itemService, type);
     }
 
