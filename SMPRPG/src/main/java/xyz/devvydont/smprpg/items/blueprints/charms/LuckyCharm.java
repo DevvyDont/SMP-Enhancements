@@ -28,7 +28,7 @@ public class LuckyCharm extends CustomFakeTotem {
 
     @Override
     public int getPowerRating() {
-        return 30;
+        return 25;
     }
 
     @Override

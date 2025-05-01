@@ -5,7 +5,6 @@ import org.bukkit.inventory.ItemStack;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
-import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomFakeTotem;
 import xyz.devvydont.smprpg.services.ItemService;
@@ -29,7 +28,7 @@ public class StrengthCharm extends CustomFakeTotem {
 
     @Override
     public int getPowerRating() {
-        return 30;
+        return 25;
     }
 
     @Override
