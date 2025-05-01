@@ -21,8 +21,8 @@ public class AraxysLeggings extends AraxysArmorPiece {
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 100),
-                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 35),
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 35),
+                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 5),
                 new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .3)
         );
     }

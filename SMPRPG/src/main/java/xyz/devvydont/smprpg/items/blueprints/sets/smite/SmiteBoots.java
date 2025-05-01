@@ -25,6 +25,6 @@ public class SmiteBoots extends SmiteArmorSet {
 
     @Override
     public int getDefense() {
-        return ItemArmor.getDefenseFromMaterial(Material.DIAMOND_BOOTS) - 5;
+        return ItemArmor.getDefenseFromMaterial(Material.DIAMOND_BOOTS) - 10;
     }
 }

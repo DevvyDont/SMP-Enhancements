@@ -26,6 +26,6 @@ public class SmiteHelmet extends SmiteArmorSet {
 
     @Override
     public int getDefense() {
-        return ItemArmor.getDefenseFromMaterial(Material.DIAMOND_HELMET) - 5;
+        return ItemArmor.getDefenseFromMaterial(Material.DIAMOND_HELMET) - 10;
     }
 }

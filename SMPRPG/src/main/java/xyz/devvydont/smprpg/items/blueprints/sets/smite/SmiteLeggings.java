@@ -25,6 +25,6 @@ public class SmiteLeggings extends SmiteArmorSet {
 
     @Override
     public int getDefense() {
-        return ItemArmor.getDefenseFromMaterial(Material.DIAMOND_LEGGINGS) - 5;
+        return ItemArmor.getDefenseFromMaterial(Material.DIAMOND_LEGGINGS) - 10;
     }
 }

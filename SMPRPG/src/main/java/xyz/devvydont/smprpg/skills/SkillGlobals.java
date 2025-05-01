@@ -121,7 +121,7 @@ public class SkillGlobals {
     public static double MINING_EFF_PER_4_LEVELS = 5;
 
     public static int getLevelMultiplier(int level) {
-        return (level-1) / 20 + 1;
+        return (level-1) / 10 + 1;
     }
 
     /**
@@ -131,7 +131,15 @@ public class SkillGlobals {
      * @return How effective the stat should be.
      */
     public static double getStatPerLevel(double base, int level) {
-        return base * level * getLevelMultiplier(level);
+
+        // Base case, level 0 means no stats duh
+        if (level <= 0)
+            return 0;
+
+        // Add the stat that we had from last level, and add to it.
+        // todo: memoize this, i imagine this is a lot of gross recursive math in later levels.
+        var addition = base * getLevelMultiplier(level);
+        return getStatPerLevel(base, level-1) + addition;
     }
 
     /**
@@ -143,7 +151,14 @@ public class SkillGlobals {
      * @return How effective the stat should be.
      */
     public static double getStatPerXLevel(double base, int x, int level) {
-        return Math.max(0, level * base / x * getLevelMultiplier(level));
+
+        // Base case, level 0 means no stats duh
+        if (level <= 0)
+            return 0;
+
+        // Add the stat that we had from the previous tier to this one.
+        var addition = base * getLevelMultiplier(level);
+        return getStatPerXLevel(base, x, level-x) + addition;
     }
 
 }

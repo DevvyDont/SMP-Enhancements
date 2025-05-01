@@ -17,6 +17,6 @@ public class ToolsUtil {
     public static final int IRON_TOOL_POWER = 7;
     public static final int GOLD_TOOL_POWER = 12;
     public static final int DIAMOND_TOOL_POWER = 22;
-    public static final int NETHERITE_TOOL_POWER = 36;
+    public static final int NETHERITE_TOOL_POWER = 32;
 
 }

@@ -27,6 +27,6 @@ public class RedstoneBoots extends RedstoneArmorSet {
 
     @Override
     public int getDefense() {
-        return ItemArmor.getDefenseFromMaterial(Material.GOLDEN_BOOTS);
+        return ItemArmor.getDefenseFromMaterial(Material.IRON_BOOTS);
     }
 }

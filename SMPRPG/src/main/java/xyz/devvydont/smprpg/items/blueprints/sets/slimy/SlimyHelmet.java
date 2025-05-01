@@ -27,7 +27,7 @@ public class SlimyHelmet extends CustomFakeHelmetBlueprint implements Craftable,
     }
 
     public int getHealth() {
-        return 40;
+        return 15;
     }
 
     @Override

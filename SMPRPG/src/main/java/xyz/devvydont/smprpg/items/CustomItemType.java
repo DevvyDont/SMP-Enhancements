@@ -217,25 +217,6 @@ public enum CustomItemType {
     LUXE_LEGGINGS("Luxe Leggings",     Material.IRON_LEGGINGS,      ItemRarity.EPIC, LuxeLeggings.class),
     LUXE_BOOTS("Luxe Boots",           Material.LEATHER_BOOTS,      ItemRarity.EPIC, LuxeBoots.class),
 
-    // EMERALD SET
-    EMERALD_HELMET(    "Emerald Helmet",         Material.DIAMOND_HELMET,     ItemRarity.EPIC, EmeraldHelmet.class),
-    EMERALD_CHESTPLATE("Emerald Chestplate",     Material.DIAMOND_CHESTPLATE, ItemRarity.EPIC, EmeraldChestplate.class),
-    EMERALD_LEGGINGS(  "Emerald Leggings",       Material.DIAMOND_LEGGINGS,   ItemRarity.EPIC, EmeraldLeggings.class),
-    EMERALD_BOOTS(     "Emerald Boots",          Material.DIAMOND_BOOTS,      ItemRarity.EPIC, EmeraldBoots.class),
-
-    // ARAXYS SET
-    ARAXYS_HELMET("Araxys Helmet",         Material.SPAWNER,              ItemRarity.EPIC, AraxysHelmet.class),
-    ARAXYS_CHESTPLATE("Araxys Chestplate", Material.CHAINMAIL_CHESTPLATE, ItemRarity.EPIC, AraxysChestplate.class),
-    ARAXYS_LEGGINGS("Araxys Leggings",     Material.CHAINMAIL_LEGGINGS,   ItemRarity.EPIC, AraxysLeggings.class),
-    ARAXYS_BOOTS("Araxys Boots",           Material.CHAINMAIL_BOOTS,      ItemRarity.EPIC, AraxysBoots.class),
-    ARAXYS_CLAW("Araxys Claw",             Material.SHEARS,               ItemRarity.EPIC, AraxysClaw.class),
-
-    // BEDROCK
-    BEDROCK_HELMET("Bedrock Helmet",         Material.BEDROCK,            ItemRarity.EPIC, BedrockHelmet.class),
-    BEDROCK_CHESTPLATE("Bedrock Chestplate", Material.LEATHER_CHESTPLATE, ItemRarity.EPIC, BedrockChestplate.class),
-    BEDROCK_LEGGINGS("Bedrock Leggings",     Material.NETHERITE_LEGGINGS, ItemRarity.EPIC, BedrockLeggings.class),
-    BEDROCK_BOOTS("Bedrock Boots",           Material.LEATHER_BOOTS,      ItemRarity.EPIC, BedrockBoots.class),
-
     // NEPTUNE SET
     NEPTUNE_HELMET("Neptune Helmet",         Material.ICE,                ItemRarity.LEGENDARY, NeptuneHelmet.class),
     NEPTUNE_CHESTPLATE("Neptune Chestplate", Material.LEATHER_CHESTPLATE, ItemRarity.LEGENDARY, NeptuneChestplate.class),
@@ -250,11 +231,45 @@ public enum CustomItemType {
     QUARTZ_LEGGINGS("Quartz Leggings",     Material.IRON_LEGGINGS,      ItemRarity.RARE, QuartzLeggings.class),
     QUARTZ_BOOTS("Quartz Boots",           Material.LEATHER_BOOTS,      ItemRarity.RARE, QuartzBoots.class),
 
+    // EMERALD SET
+    EMERALD_HELMET(    "Emerald Helmet",         Material.DIAMOND_HELMET,     ItemRarity.EPIC, EmeraldHelmet.class),
+    EMERALD_CHESTPLATE("Emerald Chestplate",     Material.DIAMOND_CHESTPLATE, ItemRarity.EPIC, EmeraldChestplate.class),
+    EMERALD_LEGGINGS(  "Emerald Leggings",       Material.DIAMOND_LEGGINGS,   ItemRarity.EPIC, EmeraldLeggings.class),
+    EMERALD_BOOTS(     "Emerald Boots",          Material.DIAMOND_BOOTS,      ItemRarity.EPIC, EmeraldBoots.class),
+
+    // ARAXYS SET
+    ARAXYS_HELMET("Araxys Helmet",         Material.SPAWNER,              ItemRarity.EPIC, AraxysHelmet.class),
+    ARAXYS_CHESTPLATE("Araxys Chestplate", Material.CHAINMAIL_CHESTPLATE, ItemRarity.EPIC, AraxysChestplate.class),
+    ARAXYS_LEGGINGS("Araxys Leggings",     Material.CHAINMAIL_LEGGINGS,   ItemRarity.EPIC, AraxysLeggings.class),
+    ARAXYS_BOOTS("Araxys Boots",           Material.CHAINMAIL_BOOTS,      ItemRarity.EPIC, AraxysBoots.class),
+    ARAXYS_CLAW("Araxys Claw",             Material.SHEARS,               ItemRarity.EPIC, AraxysClaw.class),
+
+    // REAVER
+    REAVER_HELMET("Reaver Helmet",         Material.BLACK_STAINED_GLASS, ItemRarity.EPIC, ReaverHelmet.class),
+    REAVER_CHESTPLATE("Reaver Chestplate", Material.LEATHER_CHESTPLATE,  ItemRarity.EPIC, ReaverChestplate.class),
+    REAVER_LEGGINGS("Reaver Leggings",     Material.NETHERITE_LEGGINGS,  ItemRarity.EPIC, ReaverLeggings.class),
+    REAVER_BOOTS("Reaver Boots",           Material.LEATHER_BOOTS,       ItemRarity.EPIC, ReaverBoots.class),
+    REAVER_KNIFE("Reaver Knife",           Material.NETHERITE_SWORD,     ItemRarity.EPIC, ReaverKnife.class),
+
     // RADIANT
     RADIANT_HELMET(    "Radiant Helmet",     Material.IRON_HELMET,      ItemRarity.RARE, RadiantHelmet.class),
     RADIANT_CHESTPLATE("Radiant Chestplate", Material.IRON_CHESTPLATE,  ItemRarity.RARE, RadiantChestplate.class),
     RADIANT_LEGGINGS(  "Radiant Leggings",   Material.IRON_LEGGINGS,    ItemRarity.RARE, RadiantLeggings.class),
     RADIANT_BOOTS(     "Radiant Boots",      Material.IRON_BOOTS,       ItemRarity.RARE, RadiantBoots.class),
+
+    // BEDROCK
+    BEDROCK_HELMET("Bedrock Helmet",         Material.BEDROCK,            ItemRarity.EPIC, BedrockHelmet.class),
+    BEDROCK_CHESTPLATE("Bedrock Chestplate", Material.LEATHER_CHESTPLATE, ItemRarity.EPIC, BedrockChestplate.class),
+    BEDROCK_LEGGINGS("Bedrock Leggings",     Material.NETHERITE_LEGGINGS, ItemRarity.EPIC, BedrockLeggings.class),
+    BEDROCK_BOOTS("Bedrock Boots",           Material.LEATHER_BOOTS,      ItemRarity.EPIC, BedrockBoots.class),
+
+    // FORSAKEN
+    FORSAKEN_HELMET(    "Forsaken Helmet",     Material.NETHERITE_HELMET,    ItemRarity.LEGENDARY, ForsakenHelmet.class),
+    FORSAKEN_CHESTPLATE("Forsaken Chestplate", Material.LEATHER_CHESTPLATE,  ItemRarity.LEGENDARY, ForsakenChestplate.class),
+    FORSAKEN_LEGGINGS(  "Forsaken Leggings",   Material.NETHERITE_LEGGINGS,  ItemRarity.LEGENDARY, ForsakenLeggings.class),
+    FORSAKEN_BOOTS(     "Forsaken Boots",      Material.LEATHER_BOOTS,       ItemRarity.LEGENDARY, ForsakenBoots.class),
+    FORSAKEN_CUTLASS(     "Forsaken Cutlass",  Material.NETHERITE_SWORD,     ItemRarity.LEGENDARY, ForsakenCutlass.class),
+    DESOLATED_STONE(     "Desolated Stone", "895a05992afa37b3806b81f0003ca617b3c1cbb9170a2309115b9c6a03eb73af", ItemRarity.LEGENDARY, DesolatedStone.class),
 
     // EMBERCLAD
     EMBERCLAD_HELMET(    "Emberclad Helmet",     Material.GOLDEN_HELMET,     ItemRarity.RARE, EmbercladHelmet.class),
@@ -282,20 +297,11 @@ public enum CustomItemType {
     INFERNO_RESIDUE("Inferno Residue", Material.ORANGE_DYE, ItemRarity.RARE, true, InfernoResidue.class),
     INFERNO_REMNANT("Inferno Remnant", "391a40e212d620de62babfac5488746d0ab4c28e7a8c2263662161723674cc28", ItemRarity.EPIC, InfernoRemnant.class),
 
-    // REAVER
-    REAVER_HELMET("Reaver Helmet",         Material.BLACK_STAINED_GLASS, ItemRarity.EPIC, ReaverHelmet.class),
-    REAVER_CHESTPLATE("Reaver Chestplate", Material.LEATHER_CHESTPLATE,  ItemRarity.EPIC, ReaverChestplate.class),
-    REAVER_LEGGINGS("Reaver Leggings",     Material.NETHERITE_LEGGINGS,  ItemRarity.EPIC, ReaverLeggings.class),
-    REAVER_BOOTS("Reaver Boots",           Material.LEATHER_BOOTS,       ItemRarity.EPIC, ReaverBoots.class),
-    REAVER_KNIFE("Reaver Knife",           Material.NETHERITE_SWORD,     ItemRarity.EPIC, ReaverKnife.class),
-
-    // FORSAKEN
-    FORSAKEN_HELMET(    "Forsaken Helmet",     Material.NETHERITE_HELMET,    ItemRarity.LEGENDARY, ForsakenHelmet.class),
-    FORSAKEN_CHESTPLATE("Forsaken Chestplate", Material.LEATHER_CHESTPLATE,  ItemRarity.LEGENDARY, ForsakenChestplate.class),
-    FORSAKEN_LEGGINGS(  "Forsaken Leggings",   Material.NETHERITE_LEGGINGS,  ItemRarity.LEGENDARY, ForsakenLeggings.class),
-    FORSAKEN_BOOTS(     "Forsaken Boots",      Material.LEATHER_BOOTS,       ItemRarity.LEGENDARY, ForsakenBoots.class),
-    FORSAKEN_CUTLASS(     "Forsaken Cutlass",  Material.NETHERITE_SWORD,     ItemRarity.LEGENDARY, ForsakenCutlass.class),
-    DESOLATED_STONE(     "Desolated Stone", "895a05992afa37b3806b81f0003ca617b3c1cbb9170a2309115b9c6a03eb73af", ItemRarity.LEGENDARY, DesolatedStone.class),
+    // ELDERFLAME
+    ELDERFLAME_HELMET(    "Elderflame Helmet",     Material.NETHERITE_HELMET,    ItemRarity.LEGENDARY, ElderflameHelmet.class),
+    ELDERFLAME_CHESTPLATE("Elderflame Wings",      Material.ELYTRA,              ItemRarity.LEGENDARY, ElderflameChestplate.class),
+    ELDERFLAME_LEGGINGS(  "Elderflame Leggings",   Material.NETHERITE_LEGGINGS,  ItemRarity.LEGENDARY, ElderflameLeggings.class),
+    ELDERFLAME_BOOTS(     "Elderflame Boots",      Material.LEATHER_BOOTS,       ItemRarity.LEGENDARY, ElderflameBoots.class),
 
     // UNSTABLE
     UNSTABLE_HELMET(    "Unstable Helmet",     Material.NETHERITE_HELMET,    ItemRarity.EPIC, UnstableHelmet.class),
@@ -309,11 +315,6 @@ public enum CustomItemType {
     IMPERIUM_LEGGINGS(  "Imperium Leggings",   Material.IRON_LEGGINGS,    ItemRarity.EPIC, ImperiumLeggings.class),
     IMPERIUM_BOOTS(     "Imperium Boots",      Material.IRON_BOOTS,       ItemRarity.EPIC, ImperiumBoots.class),
 
-    // ELDERFLAME
-    ELDERFLAME_HELMET(    "Elderflame Helmet",     Material.NETHERITE_HELMET,    ItemRarity.LEGENDARY, ElderflameHelmet.class),
-    ELDERFLAME_CHESTPLATE("Elderflame Wings",      Material.ELYTRA,              ItemRarity.LEGENDARY, ElderflameChestplate.class),
-    ELDERFLAME_LEGGINGS(  "Elderflame Leggings",   Material.NETHERITE_LEGGINGS,  ItemRarity.LEGENDARY, ElderflameLeggings.class),
-    ELDERFLAME_BOOTS(     "Elderflame Boots",      Material.LEATHER_BOOTS,       ItemRarity.LEGENDARY, ElderflameBoots.class),
 
     // SNOWFALL SET
     SNOWFALL_HELMET(    "Snowfall Helmet",         Material.NETHERITE_HELMET,     ItemRarity.EPIC,  SnowfallHelmet.class),

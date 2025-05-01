@@ -26,6 +26,6 @@ public class RedstoneLeggings extends RedstoneArmorSet {
 
     @Override
     public int getDefense() {
-        return ItemArmor.getDefenseFromMaterial(Material.GOLDEN_LEGGINGS);
+        return ItemArmor.getDefenseFromMaterial(Material.IRON_LEGGINGS);
     }
 }

@@ -26,6 +26,6 @@ public class SmiteChestplate extends SmiteArmorSet {
 
     @Override
     public int getDefense() {
-        return ItemArmor.getDefenseFromMaterial(Material.DIAMOND_CHESTPLATE) - 5;
+        return ItemArmor.getDefenseFromMaterial(Material.DIAMOND_CHESTPLATE) - 10;
     }
 }

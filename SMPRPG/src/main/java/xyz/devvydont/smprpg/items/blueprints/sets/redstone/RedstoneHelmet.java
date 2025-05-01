@@ -33,7 +33,7 @@ public class RedstoneHelmet extends CustomFakeHelmetBlueprint implements ToolBre
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, ItemArmor.getDefenseFromMaterial(Material.GOLDEN_HELMET)),
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, ItemArmor.getDefenseFromMaterial(Material.IRON_HELMET)),
                 new ScalarAttributeEntry(Attribute.MOVEMENT_SPEED, MOVEMENT_BUFF),
                 new MultiplicativeAttributeEntry(Attribute.ATTACK_SPEED, ATTACK_BUFF),
                 new ScalarAttributeEntry(Attribute.MINING_EFFICIENCY, MINING_BUFF)

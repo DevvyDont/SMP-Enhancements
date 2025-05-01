@@ -17,12 +17,12 @@ public class ReaverChestplate extends ReaverArmorSet implements Dyeable {
 
     @Override
     public int getDefense() {
-        return 145;
+        return 60;
     }
 
     @Override
     public int getHealth() {
-        return 120;
+        return 5;
     }
 
     @Override

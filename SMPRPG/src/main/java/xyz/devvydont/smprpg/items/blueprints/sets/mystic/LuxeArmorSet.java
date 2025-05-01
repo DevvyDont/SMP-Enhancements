@@ -31,9 +31,9 @@ public abstract class LuxeArmorSet extends CustomArmorBlueprint implements Craft
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 10),
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 5),
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, getHealth()),
-                new ScalarAttributeEntry(AttributeWrapper.LUCK, .5)
+                new ScalarAttributeEntry(AttributeWrapper.LUCK, .4)
         );
     }
 

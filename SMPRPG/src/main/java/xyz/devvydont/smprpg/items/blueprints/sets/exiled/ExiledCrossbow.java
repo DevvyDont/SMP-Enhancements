@@ -1,5 +1,6 @@
 package xyz.devvydont.smprpg.items.blueprints.sets.exiled;
 
+import org.bukkit.Material;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemStack;
 import xyz.devvydont.smprpg.items.CustomItemType;
@@ -7,6 +8,7 @@ import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomAttributeItem;
+import xyz.devvydont.smprpg.items.blueprints.vanilla.ItemAxe;
 import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
@@ -23,13 +25,13 @@ public class ExiledCrossbow extends CustomAttributeItem implements ToolBreakable
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, 150)
+                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, ItemAxe.getAxeDamage(Material.DIAMOND_AXE))
         );
     }
 
     @Override
     public int getPowerRating() {
-        return 30;
+        return 25;
     }
 
     @Override

@@ -15,7 +15,6 @@ import org.bukkit.inventory.CraftingRecipe;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -26,6 +25,7 @@ import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomAttributeItem;
+import xyz.devvydont.smprpg.items.blueprints.vanilla.ItemSword;
 import xyz.devvydont.smprpg.items.interfaces.Craftable;
 import xyz.devvydont.smprpg.items.interfaces.HeaderDescribable;
 import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
@@ -61,7 +61,7 @@ public class ForsakenCutlass extends CustomAttributeItem implements Listener, He
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, 200),
+                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, ItemSword.getSwordDamage(Material.NETHERITE_SWORD)-10),
                 new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, -.3)
         );
     }
@@ -110,7 +110,7 @@ public class ForsakenCutlass extends CustomAttributeItem implements Listener, He
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void onAttackWithCutlass(EntityDamageByEntityEvent event) {
+    private void __onAttackWithCutlass(EntityDamageByEntityEvent event) {
 
         // Can the attacked entity have potion effects?
         if (!(event.getEntity() instanceof LivingEntity attacked))

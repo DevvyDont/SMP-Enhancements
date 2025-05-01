@@ -8,7 +8,6 @@ import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
-import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomFakeHelmetBlueprint;
 import xyz.devvydont.smprpg.items.interfaces.Craftable;
@@ -32,15 +31,15 @@ public class NeptuneHelmet extends CustomFakeHelmetBlueprint implements ToolBrea
     }
 
     public int getDefense() {
-        return 100;
+        return 40;
     }
 
     public int getHealth() {
-        return 65;
+        return 10;
     }
 
     public int getStrength() {
-        return 20;
+        return 25;
     }
 
 

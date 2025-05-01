@@ -22,7 +22,7 @@ public class RedstoneChestplate extends RedstoneArmorSet {
 
     @Override
     public int getDefense() {
-        return ItemArmor.getDefenseFromMaterial(Material.GOLDEN_CHESTPLATE);
+        return ItemArmor.getDefenseFromMaterial(Material.IRON_CHESTPLATE);
     }
 
     @Override

@@ -15,7 +15,7 @@ public class AmethystLeggings extends AmethystArmorSet {
 
     @Override
     public int getHealth() {
-        return 35;
+        return 10;
     }
 
     @Override

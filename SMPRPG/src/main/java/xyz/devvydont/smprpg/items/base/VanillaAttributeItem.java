@@ -4,7 +4,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import xyz.devvydont.smprpg.items.attribute.AttributeModifierType;
 import xyz.devvydont.smprpg.items.interfaces.IAttributeItem;
-import xyz.devvydont.smprpg.items.interfaces.Craftable;
 import xyz.devvydont.smprpg.items.interfaces.Sellable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.attributes.AttributeUtil;
@@ -18,7 +17,7 @@ public abstract class VanillaAttributeItem extends VanillaItemBlueprint implemen
 
     @Override
     public int getWorth() {
-        return AttributeUtil.calculateValue(getPowerRating(), getDefaultRarity(), this instanceof Craftable);
+        return AttributeUtil.calculateValue(getPowerRating(), getDefaultRarity(), true);
     }
 
     @Override
@@ -34,16 +33,6 @@ public abstract class VanillaAttributeItem extends VanillaItemBlueprint implemen
     @Override
     public AttributeModifierType.AttributeSession getAttributeSession(AttributeModifierType type, ItemMeta meta) {
         return type.session(getItem().getType(), meta);
-    }
-
-    /**
-     * Sums the power rating of the item with any additional bonuses on it
-     *
-     * @param meta
-     * @return
-     */
-    public int getTotalPower(ItemMeta meta) {
-        return getPowerRating() + AttributeUtil.getPowerBonus(meta);
     }
 
 }

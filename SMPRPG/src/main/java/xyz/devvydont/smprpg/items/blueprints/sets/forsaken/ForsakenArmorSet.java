@@ -9,7 +9,6 @@ import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
-import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.items.blueprints.sets.reaver.ReaverArmorSet;
 import xyz.devvydont.smprpg.items.interfaces.Craftable;
@@ -21,7 +20,7 @@ import java.util.List;
 
 public abstract class ForsakenArmorSet extends ReaverArmorSet implements Craftable {
 
-    public static final int POWER = 40;
+    public static final int POWER = 30;
     public static final CustomItemType CRAFTING_COMPONENT = CustomItemType.PREMIUM_NETHER_STAR;
 
     public ForsakenArmorSet(ItemService itemService, CustomItemType type) {
@@ -30,7 +29,7 @@ public abstract class ForsakenArmorSet extends ReaverArmorSet implements Craftab
 
     @Override
     public int getWitherResistance() {
-        return 40;
+        return 50;
     }
 
     @Override

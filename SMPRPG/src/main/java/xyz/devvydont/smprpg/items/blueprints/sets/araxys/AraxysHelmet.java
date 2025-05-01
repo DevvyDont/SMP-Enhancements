@@ -22,8 +22,8 @@ public class AraxysHelmet extends CustomFakeHelmetBlueprint implements ToolBreak
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 85),
-                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 30),
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 30),
+                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 5),
                 new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .25),
                 new ScalarAttributeEntry(AttributeWrapper.LUCK, .1)
         );

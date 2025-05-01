@@ -7,7 +7,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import xyz.devvydont.smprpg.events.CustomItemDropRollEvent;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
@@ -48,7 +47,7 @@ public class ReaverKnife extends CustomAttributeItem implements ToolBreakable, H
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, 130),
+                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, 90),
                 new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, -.4)
         );
     }

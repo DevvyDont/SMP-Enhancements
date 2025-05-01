@@ -35,7 +35,7 @@ public class SlimyBoots extends SlimyArmorSet implements Dyeable {
 
     @Override
     public int getHealth() {
-        return 20;
+        return 5;
     }
 
     @Override

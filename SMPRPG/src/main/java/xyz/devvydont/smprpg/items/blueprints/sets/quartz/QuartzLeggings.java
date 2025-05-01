@@ -1,10 +1,12 @@
 package xyz.devvydont.smprpg.items.blueprints.sets.quartz;
 
+import org.bukkit.Material;
 import org.bukkit.inventory.CraftingRecipe;
 import org.bukkit.inventory.meta.trim.TrimMaterial;
 import org.bukkit.inventory.meta.trim.TrimPattern;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
+import xyz.devvydont.smprpg.items.blueprints.vanilla.ItemArmor;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.crafting.builders.LeggingsRecipe;
 
@@ -16,17 +18,12 @@ public class QuartzLeggings extends QuartzArmorSet {
 
     @Override
     public int getDefense() {
-        return 110;
+        return ItemArmor.getDefenseFromMaterial(Material.DIAMOND_LEGGINGS) / 2;
     }
 
     @Override
-    public int getHealth() {
-        return 75;
-    }
-
-    @Override
-    public int getStrength() {
-        return 20;
+    public double getStrength() {
+        return ItemArmor.getDamageFromMaterial(Material.DIAMOND_LEGGINGS) * 2;
     }
 
     @Override

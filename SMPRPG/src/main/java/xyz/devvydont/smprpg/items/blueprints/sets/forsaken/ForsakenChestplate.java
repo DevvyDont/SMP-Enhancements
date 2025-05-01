@@ -16,12 +16,12 @@ public class ForsakenChestplate extends ForsakenArmorSet implements Dyeable {
 
     @Override
     public int getDefense() {
-        return 175;
+        return 75;
     }
 
     @Override
     public int getHealth() {
-        return 155;
+        return 20;
     }
 
     @Override

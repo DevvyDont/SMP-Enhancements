@@ -14,6 +14,7 @@ import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomAttributeItem;
+import xyz.devvydont.smprpg.items.blueprints.vanilla.ItemSword;
 import xyz.devvydont.smprpg.items.interfaces.Craftable;
 import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
 import xyz.devvydont.smprpg.services.ItemService;
@@ -31,7 +32,7 @@ public class IronBow extends CustomAttributeItem implements Craftable, ToolBreak
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(Attribute.ATTACK_DAMAGE, 20)
+                new AdditiveAttributeEntry(Attribute.ATTACK_DAMAGE, ItemSword.getSwordDamage(Material.IRON_SWORD))
         );
     }
 

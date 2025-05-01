@@ -1,11 +1,13 @@
 package xyz.devvydont.smprpg.items.blueprints.sets.quartz;
 
 import org.bukkit.Color;
+import org.bukkit.Material;
 import org.bukkit.inventory.CraftingRecipe;
 import org.bukkit.inventory.meta.trim.TrimMaterial;
 import org.bukkit.inventory.meta.trim.TrimPattern;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
+import xyz.devvydont.smprpg.items.blueprints.vanilla.ItemArmor;
 import xyz.devvydont.smprpg.items.interfaces.Dyeable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.crafting.builders.ChestplateRecipe;
@@ -18,17 +20,12 @@ public class QuartzChestplate extends QuartzArmorSet implements Dyeable {
 
     @Override
     public int getDefense() {
-        return 115;
+        return ItemArmor.getDefenseFromMaterial(Material.DIAMOND_CHESTPLATE) / 2;
     }
 
     @Override
-    public int getHealth() {
-        return 85;
-    }
-
-    @Override
-    public int getStrength() {
-        return 25;
+    public double getStrength() {
+        return ItemArmor.getDamageFromMaterial(Material.DIAMOND_CHESTPLATE) * 2;
     }
 
     @Override

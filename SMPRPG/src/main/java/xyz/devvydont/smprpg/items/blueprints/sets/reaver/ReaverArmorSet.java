@@ -4,16 +4,16 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Wither;
+import org.bukkit.entity.WitherSkeleton;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
-import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomArmorBlueprint;
 import xyz.devvydont.smprpg.items.interfaces.HeaderDescribable;
@@ -24,15 +24,14 @@ import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.items.AbilityUtil;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 public abstract class ReaverArmorSet extends CustomArmorBlueprint implements HeaderDescribable, ToolBreakable, Trimmable, Listener {
 
-    public static final int POWER = 35;
+    public static final int POWER = 25;
     public static final int DURABILITY = 32_000;
-    public static final int WITHER_RESIST = 15;
+    public static final int WITHER_RESIST = 20;
 
     public ReaverArmorSet(ItemService itemService, CustomItemType type) {
         super(itemService, type);
@@ -79,10 +78,14 @@ public abstract class ReaverArmorSet extends CustomArmorBlueprint implements Hea
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-    public void onTakeWitherDamageWhileWearing(EntityDamageEvent event) {
+    private void __onTakeWitherDamageWhileWearing(EntityDamageEvent event) {
+
+        var directEntityIsWitherType = event.getDamageSource().getCausingEntity() instanceof WitherSkeleton ||
+                event.getDamageSource().getCausingEntity() instanceof Wither;
+        var isWither = event.getCause().equals(EntityDamageEvent.DamageCause.WITHER) || directEntityIsWitherType;
 
         // Only listen to wither damage
-        if (!event.getCause().equals(EntityDamageEvent.DamageCause.WITHER))
+        if (!isWither)
             return;
 
         // Check if we are wearing the set

@@ -58,10 +58,10 @@ public class ItemArmor extends VanillaAttributeItem implements ToolBreakable {
             case IRON_LEGGINGS -> 12;
             case IRON_BOOTS -> 8;
 
-            case DIAMOND_HELMET -> 22;
-            case DIAMOND_CHESTPLATE -> 30;
-            case DIAMOND_LEGGINGS -> 25;
-            case DIAMOND_BOOTS -> 20;
+            case DIAMOND_HELMET -> 25;
+            case DIAMOND_CHESTPLATE -> 35;
+            case DIAMOND_LEGGINGS -> 30;
+            case DIAMOND_BOOTS -> 24;
 
             case NETHERITE_HELMET -> 60;
             case NETHERITE_CHESTPLATE -> 75;

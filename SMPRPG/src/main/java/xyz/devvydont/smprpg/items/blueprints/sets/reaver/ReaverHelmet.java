@@ -9,11 +9,9 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
-import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomFakeHelmetBlueprint;
 import xyz.devvydont.smprpg.items.interfaces.HeaderDescribable;
@@ -23,7 +21,6 @@ import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.items.AbilityUtil;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -45,8 +42,8 @@ public class ReaverHelmet extends CustomFakeHelmetBlueprint implements HeaderDes
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 115),
-                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 95),
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 45),
+                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 5),
                 new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .25)
         );
     }

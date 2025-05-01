@@ -24,12 +24,12 @@ public class EmeraldChestplate extends EmeraldArmorSet {
 
     @Override
     public int getDefense() {
-        return 95;
+        return 55;
     }
 
     @Override
     public int getHealth() {
-        return 25;
+        return 20;
     }
 
     @Override
