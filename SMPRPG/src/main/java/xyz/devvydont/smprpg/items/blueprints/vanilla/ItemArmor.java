@@ -64,8 +64,8 @@ public class ItemArmor extends VanillaAttributeItem implements ToolBreakable {
             case DIAMOND_BOOTS -> 24;
 
             case NETHERITE_HELMET -> 60;
-            case NETHERITE_CHESTPLATE -> 75;
-            case NETHERITE_LEGGINGS -> 65;
+            case NETHERITE_CHESTPLATE -> 70;
+            case NETHERITE_LEGGINGS -> 60;
             case NETHERITE_BOOTS -> 55;
 
             default -> 0;
@@ -105,8 +105,8 @@ public class ItemArmor extends VanillaAttributeItem implements ToolBreakable {
 
             case NETHERITE_HELMET -> 20;
             case NETHERITE_CHESTPLATE -> 25;
-            case NETHERITE_LEGGINGS -> 25;
-            case NETHERITE_BOOTS -> 20;
+            case NETHERITE_LEGGINGS -> 20;
+            case NETHERITE_BOOTS -> 15;
 
             case DIAMOND_HELMET -> 5;
             case DIAMOND_CHESTPLATE -> 5;
@@ -121,7 +121,8 @@ public class ItemArmor extends VanillaAttributeItem implements ToolBreakable {
     public static double getDamageFromMaterial(Material material) {
 
         return switch (material) {
-            case NETHERITE_HELMET, NETHERITE_BOOTS, NETHERITE_LEGGINGS, NETHERITE_CHESTPLATE -> .3;
+            case NETHERITE_LEGGINGS, NETHERITE_CHESTPLATE -> .3;
+            case NETHERITE_BOOTS, NETHERITE_HELMET -> .25;
             case DIAMOND_CHESTPLATE, DIAMOND_LEGGINGS -> .15;
             case DIAMOND_HELMET, DIAMOND_BOOTS -> .12;
             case IRON_HELMET, IRON_CHESTPLATE, IRON_LEGGINGS, IRON_BOOTS -> .05;
