@@ -199,15 +199,15 @@ public class BlazeBoss extends CustomBossInstance implements Listener {
                 new QuantityLootDrop(SMPRPG.getInstance().getItemService().getCustomItem(CustomItemType.INFERNO_RESIDUE), 1, 2, this),
 
                 // Gear drops
-                new ChancedItemDrop(ItemService.getItem(CustomItemType.INFERNO_HELMET), 150, this),
-                new ChancedItemDrop(ItemService.getItem(CustomItemType.INFERNO_CHESTPLATE), 150, this),
-                new ChancedItemDrop(ItemService.getItem(CustomItemType.INFERNO_LEGGINGS), 150, this),
-                new ChancedItemDrop(ItemService.getItem(CustomItemType.INFERNO_BOOTS), 150, this),
-                new ChancedItemDrop(ItemService.getItem(CustomItemType.INFERNO_SABER), 175, this),
-                new ChancedItemDrop(ItemService.getItem(CustomItemType.INFERNO_SHORTBOW), 175, this),
+                new ChancedItemDrop(ItemService.getItem(CustomItemType.INFERNO_HELMET), 250, this),
+                new ChancedItemDrop(ItemService.getItem(CustomItemType.INFERNO_CHESTPLATE), 275, this),
+                new ChancedItemDrop(ItemService.getItem(CustomItemType.INFERNO_LEGGINGS), 250, this),
+                new ChancedItemDrop(ItemService.getItem(CustomItemType.INFERNO_BOOTS), 225, this),
+                new ChancedItemDrop(ItemService.getItem(CustomItemType.INFERNO_SABER), 275, this),
+                new ChancedItemDrop(ItemService.getItem(CustomItemType.INFERNO_SHORTBOW), 300, this),
 
                 // Chance to summon again
-                new ChancedItemDrop(ItemService.getItem(CustomItemType.INFERNO_ARROW), 50, this)
+                new ChancedItemDrop(ItemService.getItem(CustomItemType.INFERNO_ARROW), 20, this)
         );
     }
 

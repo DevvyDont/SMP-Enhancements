@@ -116,7 +116,7 @@ public class SkillGlobals {
     public static double LUCK_PER_LEVEL = 2;
 
     // For skills that award LUCK per 5 levels, how much should we start at? This will scale as levels get higher as well.
-    public static double LUCK_PER_5_LEVELS = 1;
+    public static double LUCK_PER_5_LEVELS = 2;
 
     public static double MINING_EFF_PER_4_LEVELS = 5;
 

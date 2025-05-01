@@ -41,11 +41,11 @@ public class WoodlandExile extends CustomEntityInstance {
                 new ChancedItemDrop(plugin.getItemService().getCustomItem(Material.EMERALD_BLOCK), 90, this),
                 new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.ENCHANTED_EMERALD), 1250, this),
                 new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.ENCHANTED_EMERALD_BLOCK), 80_000, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.STRENGTH_CHARM), 1500, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.LUCKY_CHARM), 1500, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.SPEED_CHARM), 1500, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.EXILED_CROSSBOW), 1400, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.EXILED_AXE), 1400, this)
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.STRENGTH_CHARM), 750, this),
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.LUCKY_CHARM), 750, this),
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.SPEED_CHARM), 850, this),
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.EXILED_CROSSBOW), 700, this),
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.EXILED_AXE), 700, this)
         );
     }
 }

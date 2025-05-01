@@ -71,7 +71,7 @@ public class LeveledWither extends BossInstance {
                 new QuantityLootDrop(plugin.getItemService().getCustomItem(Material.SOUL_SAND), 1, 2, this),
                 new QuantityLootDrop(plugin.getItemService().getCustomItem(Material.OBSIDIAN), 1, 3, this),
                 new QuantityLootDrop(plugin.getItemService().getCustomItem(Material.COAL), 1, 3, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(Material.WITHER_SKELETON_SKULL), 300, this),
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(Material.WITHER_SKELETON_SKULL), 250, this),
 
                 new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.COMPRESSED_OBSIDIAN), 14, this),
                 new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.ENCHANTED_OBSIDIAN), 90, this),
@@ -80,13 +80,13 @@ public class LeveledWither extends BossInstance {
                 new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.PREMIUM_NETHER_STAR), 65, this),
                 new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.ENCHANTED_NETHER_STAR), 900, this),
 
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.FORSAKEN_HELMET), 120, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.FORSAKEN_CHESTPLATE), 120, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.FORSAKEN_LEGGINGS), 120, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.FORSAKEN_BOOTS), 120, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.FORSAKEN_CUTLASS), 145, this),
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.FORSAKEN_HELMET), 200, this),
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.FORSAKEN_CHESTPLATE), 210, this),
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.FORSAKEN_LEGGINGS), 200, this),
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.FORSAKEN_BOOTS), 200, this),
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.FORSAKEN_CUTLASS), 225, this),
 
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.DESOLATED_STONE), 80, this),
+                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.DESOLATED_STONE), 100, this),
 
                 new ChancedItemDrop(plugin.getItemService().getCustomItem(Material.NETHERITE_INGOT), 70, this),
                 new ChancedItemDrop(plugin.getItemService().getCustomItem(Material.NETHERITE_BLOCK), 900, this),
