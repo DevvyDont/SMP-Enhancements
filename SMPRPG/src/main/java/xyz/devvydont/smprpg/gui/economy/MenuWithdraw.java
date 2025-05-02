@@ -12,7 +12,6 @@ import xyz.devvydont.smprpg.gui.base.MenuBase;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.blueprints.economy.CustomItemCoin;
 import xyz.devvydont.smprpg.services.EconomyService;
-import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 public final class MenuWithdraw extends MenuBase {
@@ -83,8 +82,9 @@ public final class MenuWithdraw extends MenuBase {
             currentSlot++;
 
             // They cannot afford the coin, add filler
-            if (playerBalance < coin.getWorth()) {
-                var clayText = String.format("You are %s short!", EconomyService.formatMoney(playerBalance - coin.getWorth()));
+            var coinStack = coin.generate();
+            if (playerBalance < coin.getWorth(coinStack)) {
+                var clayText = String.format("You are %s short!", EconomyService.formatMoney(playerBalance - coin.getWorth(coinStack)));
                 var clayName = ComponentUtils.create(clayText, NamedTextColor.RED);
                 this.setButton(currentSlot, createNamedItem(Material.CLAY_BALL, clayName), (e) -> {
                     this.playInvalidAnimation();
@@ -108,10 +108,11 @@ public final class MenuWithdraw extends MenuBase {
      */
     private void performWithdrawal(CustomItemCoin coin, int desiredStackSize) {
         // First lets calculate how much of this coin the player can withdraw.
+        var coinStack = coin.generate();
         var currentBalance = this.economyService.getMoney(this.player);
-        var maxCoinsPlayerCanAfford = currentBalance / coin.getWorth();
+        var maxCoinsPlayerCanAfford = currentBalance / coin.getWorth(coinStack);
         var amountOfCoinsToGive = Math.min(desiredStackSize, maxCoinsPlayerCanAfford);
-        var totalCost = amountOfCoinsToGive * coin.getWorth();
+        var totalCost = amountOfCoinsToGive * coin.getWorth(coinStack);
 
         // Ensure the player has enough money.
         if (amountOfCoinsToGive == 0 || currentBalance < totalCost) {

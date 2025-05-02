@@ -278,7 +278,7 @@ public class DropsService implements BaseService, Listener {
                         Component name = ComponentUtils.create(" (" + rawName + ")", NamedTextColor.DARK_GRAY);
                         String timeleft = stringifyTime((expiresAt - now) / 1000);
                         Component time = ComponentUtils.create(" (" + timeleft + ")", NamedTextColor.DARK_GRAY);
-                        Component itemName = plugin.getItemService().getBlueprint(item.getItemStack()).getNameComponent(item.getItemStack().getItemMeta());
+                        Component itemName = plugin.getItemService().getBlueprint(item.getItemStack()).getNameComponent(item.getItemStack());
                         item.customName(time.append(itemName).append(name.decoration(TextDecoration.OBFUSCATED, false)));
                     }
                 }

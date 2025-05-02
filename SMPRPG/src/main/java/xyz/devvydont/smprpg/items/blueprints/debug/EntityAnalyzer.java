@@ -11,20 +11,19 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.gui.player.InterfaceStats;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.base.CustomItemBlueprint;
-import xyz.devvydont.smprpg.items.interfaces.HeaderDescribable;
+import xyz.devvydont.smprpg.items.interfaces.IHeaderDescribable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class EntityAnalyzer extends CustomItemBlueprint implements HeaderDescribable, Listener {
+public class EntityAnalyzer extends CustomItemBlueprint implements IHeaderDescribable, Listener {
 
 
     public EntityAnalyzer(ItemService itemService, CustomItemType type) {

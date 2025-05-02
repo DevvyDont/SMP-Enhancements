@@ -59,6 +59,6 @@ public class InfernoChestplate extends InfernoArmorSet {
 
     @Override
     public CraftingRecipe getCustomRecipe() {
-        return new ChestplateRecipe(this, ItemService.getItem(CustomItemType.INFERNO_REMNANT), generate()).build();
+        return new ChestplateRecipe(this, ItemService.generate(CustomItemType.INFERNO_REMNANT), generate()).build();
     }
 }

@@ -41,6 +41,6 @@ public class ForsakenBoots extends ForsakenArmorSet implements Dyeable {
 
     @Override
     public CraftingRecipe getCustomRecipe() {
-        return new BootsRecipe(this, ItemService.getItem(ForsakenHelmet.CRAFTING_COMPONENT), generate()).build();
+        return new BootsRecipe(this, ItemService.generate(ForsakenHelmet.CRAFTING_COMPONENT), generate()).build();
     }
 }

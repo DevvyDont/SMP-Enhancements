@@ -9,8 +9,8 @@ import java.util.List;
  * Represents an Item that can be "described". This item is considered to have some sort of special information
  * attached to it that is unique that should be explained.
  */
-public interface FooterDescribable {
+public interface IHeaderDescribable {
 
-    List<Component> getFooter(ItemStack itemStack);
+    List<Component> getHeader(ItemStack itemStack);
 
 }

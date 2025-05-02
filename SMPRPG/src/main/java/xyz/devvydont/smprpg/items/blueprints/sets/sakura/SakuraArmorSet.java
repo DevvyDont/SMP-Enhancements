@@ -6,14 +6,14 @@ import org.bukkit.inventory.ItemStack;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.base.CustomArmorBlueprint;
-import xyz.devvydont.smprpg.items.interfaces.Craftable;
-import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
+import xyz.devvydont.smprpg.items.interfaces.ICraftable;
+import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
 import xyz.devvydont.smprpg.services.ItemService;
 
 import java.util.Collection;
 import java.util.List;
 
-public abstract class SakuraArmorSet extends CustomArmorBlueprint implements ToolBreakable, Craftable {
+public abstract class SakuraArmorSet extends CustomArmorBlueprint implements IBreakableEquipment, ICraftable {
 
     public static final int POWER = 7;
     public static final int DURABILITY = 1_200;

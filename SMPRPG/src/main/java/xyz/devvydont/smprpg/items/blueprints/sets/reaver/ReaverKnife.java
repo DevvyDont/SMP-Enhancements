@@ -15,8 +15,8 @@ import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomAttributeItem;
 import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
-import xyz.devvydont.smprpg.items.interfaces.HeaderDescribable;
-import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
+import xyz.devvydont.smprpg.items.interfaces.IHeaderDescribable;
+import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class ReaverKnife extends CustomAttributeItem implements ToolBreakable, HeaderDescribable, Listener {
+public class ReaverKnife extends CustomAttributeItem implements IBreakableEquipment, IHeaderDescribable, Listener {
 
     public ReaverKnife(ItemService itemService, CustomItemType type) {
         super(itemService, type);

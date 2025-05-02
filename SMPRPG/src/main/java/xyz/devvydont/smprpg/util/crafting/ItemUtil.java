@@ -45,14 +45,15 @@ public class ItemUtil {
         for (CustomItemType coinType : COINS) {
 
             CustomItemCoin coin = (CustomItemCoin) itemService.getBlueprint(coinType);
+            var coinStack = coin.generate();
 
             // If this coin is unable to capture the full value of the emeralds in 75, skip
-            if (coin.getWorth() * 75 < coinTarget)
+            if (coin.getWorth(coinStack) * 75 < coinTarget)
                 continue;
 
             // We have a good coin to use.
 
-            int stackSize = (int) Math.ceil((double)coinTarget / coin.getWorth());
+            int stackSize = (int) Math.ceil((double)coinTarget / coin.getWorth(coinStack));
             ItemStack coinItem = coin.generate();
             coinItem.setAmount(stackSize);
             return coinItem;

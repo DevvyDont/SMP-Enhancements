@@ -1,7 +1,7 @@
 package xyz.devvydont.smprpg.services;
 
 import com.destroystokyo.paper.event.inventory.PrepareResultEvent;
-import io.papermc.paper.datacomponent.item.consumable.ConsumeEffect;
+import io.papermc.paper.datacomponent.DataComponentTypes;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -40,10 +40,7 @@ import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.SMPItemQuery;
-import xyz.devvydont.smprpg.items.base.ChargedItemBlueprint;
-import xyz.devvydont.smprpg.items.base.CustomItemBlueprint;
-import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
-import xyz.devvydont.smprpg.items.base.VanillaItemBlueprint;
+import xyz.devvydont.smprpg.items.base.*;
 import xyz.devvydont.smprpg.items.blueprints.resources.VanillaResource;
 import xyz.devvydont.smprpg.items.blueprints.vanilla.*;
 import xyz.devvydont.smprpg.items.interfaces.*;
@@ -76,7 +73,7 @@ public class ItemService implements BaseService, Listener {
      * @param type The type of item you want
      * @return an ItemStack instance freshly generated of the type desired
      */
-    public static ItemStack getItem(CustomItemType type) {
+    public static ItemStack generate(CustomItemType type) {
         return SMPRPG.getInstance().getItemService().getCustomItem(type);
     }
 
@@ -86,8 +83,17 @@ public class ItemService implements BaseService, Listener {
      * @param material The Minecraft material to retrieve
      * @return An ItemStack instance freshly generated of the vanilla material desired
      */
-    public static ItemStack getItem(Material material) {
+    public static ItemStack generate(Material material) {
         return SMPRPG.getInstance().getItemService().getCustomItem(material);
+    }
+
+    /**
+     * Given an item, retrieve its blueprint.
+     * @param item The item to get a blueprint of.
+     * @return The blueprint.
+     */
+    public static SMPItemBlueprint blueprint(ItemStack item) {
+        return SMPRPG.getInstance().getItemService().getBlueprint(item);
     }
 
     // End shortcut static methods
@@ -97,7 +103,7 @@ public class ItemService implements BaseService, Listener {
     public final NamespacedKey ITEM_TYPE_KEY;
     public final NamespacedKey REFORGE_TYPE_KEY;
 
-    private final Map<Material, Class<? extends VanillaItemBlueprint>> vanillaBlueprintResolver;
+    private final Map<Material, VanillaItemBlueprint> vanillaBlueprintResolver;
 
     private final Map<CustomItemType, SMPItemBlueprint> blueprints;
     private final Map<String, CustomItemType> keyMappings;
@@ -107,6 +113,9 @@ public class ItemService implements BaseService, Listener {
     private final List<Recipe> registeredRecipes;
 
     private final List<Listener> listeners;
+
+    private final Map<Material, List<NamespacedKey>> materialToRecipeUnlocks = new HashMap<>();
+    private final Map<CustomItemType, List<NamespacedKey>> customItemToRecipeUnlocks = new HashMap<>();
 
     public ItemService(SMPRPG plugin) {
         this.plugin = plugin;
@@ -151,7 +160,7 @@ public class ItemService implements BaseService, Listener {
     /**
      * Used to count recipes registered on the server, mostly used for logging when this service starts
      *
-     * @return
+     * @return How many recipes are registered.
      */
     private int countRecipes() {
         int n = 0;
@@ -194,8 +203,8 @@ public class ItemService implements BaseService, Listener {
 
         // Unregister all the custom recipes.
         for (SMPItemBlueprint blueprint : blueprints.values()) {
-            if (blueprint instanceof Craftable)
-                plugin.getServer().removeRecipe(((Craftable) blueprint).getRecipeKey());
+            if (blueprint instanceof ICraftable)
+                plugin.getServer().removeRecipe(((ICraftable) blueprint).getRecipeKey());
 
             if (blueprint instanceof Compressable)
                 for (NamespacedKey key : ((Compressable) blueprint).getAllRecipeKeys())
@@ -311,8 +320,7 @@ public class ItemService implements BaseService, Listener {
             try {
                 blueprint = customItemType.getHandler().getConstructor(ItemService.class, CustomItemType.class).newInstance(this, customItemType);
             } catch (InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException e) {
-                plugin.getLogger().severe("Failed to register custom item: " + customItemType);
-                e.printStackTrace();
+                plugin.getLogger().severe("Failed to register custom item: " + customItemType + e.getMessage());
                 continue;
             }
 
@@ -321,7 +329,7 @@ public class ItemService implements BaseService, Listener {
 
         // Now go back through and register item recipes since every item is generated
         for (SMPItemBlueprint blueprint : getCustomBlueprints()) {
-            if (blueprint instanceof Craftable craftable) {
+            if (blueprint instanceof ICraftable craftable) {
 
                 // Only register it if it is not registered already
                 if (plugin.getServer().getRecipe(craftable.getRecipeKey()) == null)
@@ -356,7 +364,7 @@ public class ItemService implements BaseService, Listener {
 
             }
 
-            if (blueprint instanceof Craftable craftable) {
+            if (blueprint instanceof ICraftable craftable) {
                 for (ItemStack unlockedBy : craftable.unlockedBy()) {
                     SMPItemBlueprint unlockBlueprint = getBlueprint(unlockedBy);
                     if (unlockBlueprint instanceof CustomItemBlueprint custom) {
@@ -364,9 +372,9 @@ public class ItemService implements BaseService, Listener {
                         recipes.add(craftable.getRecipeKey());
                         customItemToRecipeUnlocks.put(custom.getCustomItemType(), recipes);
                     } else if (unlockBlueprint instanceof  VanillaItemBlueprint vanilla) {
-                        List<NamespacedKey> recipes = materialToRecipeUnlocks.getOrDefault(vanilla.getItem().getType(), new ArrayList<>());
+                        List<NamespacedKey> recipes = materialToRecipeUnlocks.getOrDefault(vanilla.getMaterial(), new ArrayList<>());
                         recipes.add(craftable.getRecipeKey());
-                        materialToRecipeUnlocks.put(vanilla.getItem().getType(), recipes);
+                        materialToRecipeUnlocks.put(vanilla.getMaterial(), recipes);
                     }
 
                 }
@@ -385,13 +393,25 @@ public class ItemService implements BaseService, Listener {
         }
     }
 
-    private void registerVanillaMaterialResolver(Material material, Class<? extends VanillaItemBlueprint> wrapper) {
+    private VanillaItemBlueprint registerVanillaMaterialResolver(Material material, Class<? extends VanillaItemBlueprint> wrapper) {
         plugin.getLogger().finest(String.format("Assigned vanilla material %s with wrapper class %s", material.name(), wrapper.getName()));
 
         if (vanillaBlueprintResolver.containsKey(material))
-            throw new IllegalStateException("Already registered material " + material + " with wrapper " + vanillaBlueprintResolver.get(material).getName());
+            throw new IllegalStateException("Already registered material " + material + " with wrapper " + vanillaBlueprintResolver.get(material).getClass().getName());
 
-        vanillaBlueprintResolver.put(material, wrapper);
+        // Use reflection to create an instance of the wrapper.
+        VanillaItemBlueprint instance;
+        try {
+            instance = wrapper.getConstructor(ItemService.class, Material.class).newInstance(this, material);
+        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
+            plugin.getLogger().severe("Failed to instantiate vanilla material handler " + material + " - " + e.getMessage());
+            return null;
+        }
+
+        vanillaBlueprintResolver.put(material, instance);
+        if (instance instanceof Listener listener)
+            plugin.getServer().getPluginManager().registerEvents(listener, plugin);
+        return instance;
     }
 
     private void registerCustomItem(CustomItemBlueprint blueprint) {
@@ -413,8 +433,7 @@ public class ItemService implements BaseService, Listener {
     private void registerCompressionCraftingChains() {
 
         for (SMPItemBlueprint blueprint : blueprints.values()) {
-            if (blueprint instanceof Compressable) {
-                Compressable compressable = (Compressable) blueprint;
+            if (blueprint instanceof Compressable compressable) {
                 registeredRecipes.addAll(compressable.registerCompressionChain());
 
                 // todo: make a setting for this
@@ -438,8 +457,8 @@ public class ItemService implements BaseService, Listener {
     /**
      * Some items don't need to be updated, for example GUI items, weird custom items, and probably debug items
      *
-     * @param itemStack
-     * @return
+     * @param itemStack The item that should or should not listen for updates.
+     * @return true if it should not be updated ever.
      */
     public boolean shouldIgnoreMetaUpdate(ItemStack itemStack) {
         return getItemVersion(itemStack) == VERSION_NO_UPDATE;
@@ -452,8 +471,8 @@ public class ItemService implements BaseService, Listener {
     /**
      * Attempt to extract a custom item key from the given item meta. null if it is not a custom item from this plugin.
      *
-     * @param meta
-     * @return
+     * @param meta The ItemMeta of the item.
+     * @return The unique identifier for the item type.
      */
     @Nullable
     public String getItemKey(ItemMeta meta) {
@@ -470,8 +489,8 @@ public class ItemService implements BaseService, Listener {
     /**
      * Attempt to extract a custom item key from the given item stack. null if it is not a custom item from this plugin.
      *
-     * @param itemStack
-     * @return
+     * @param itemStack The item.
+     * @return The unique identifier for the item type.
      */
     @Nullable
     public String getItemKey(ItemStack itemStack) {
@@ -492,8 +511,8 @@ public class ItemService implements BaseService, Listener {
      * Given a string representation of a key that should be stored for a custom item, attempt to retrieve it.
      * If null is returned, that means the key is not registered.
      *
-     * @param key
-     * @return
+     * @param key The unique identifier from getItemKey().
+     * @return The CustomItemType enum associated with the unique identifier.
      */
     @Nullable
     public CustomItemType getItemTypeFromKey(String key) {
@@ -504,8 +523,8 @@ public class ItemService implements BaseService, Listener {
      * Given an item stack, attempt to determine its custom item type based on the key stored in item meta.
      * If null is returned, that means this item is not a custom item and is vanilla.
      *
-     * @param itemStack
-     * @return
+     * @param itemStack The item to check.
+     * @return The CustomItemType enum from the item stack, if it is associated with one. Returns null if not.
      */
     @Nullable
     public CustomItemType getItemTypeFromItemStack(ItemStack itemStack) {
@@ -521,8 +540,8 @@ public class ItemService implements BaseService, Listener {
      * Given item meta, attempt to determine its custom item type based on the key stored in item meta.
      * If null is returned, that means this item is not a custom item and is vanilla.
      *
-     * @param meta
-     * @return
+     * @param meta The ItemMeta of an item.
+     * @return The CustomItemType associated with this meta, if it is associated with one. Otherwise, returns null.
      */
     @Nullable
     public CustomItemType getItemTypeFromMeta(ItemMeta meta) {
@@ -538,8 +557,8 @@ public class ItemService implements BaseService, Listener {
      * Given a custom item type, retreive the blueprint stored for it. We can guarantee that the blueprint
      * queried is going to be a custom item blueprint.
      *
-     * @param type
-     * @return
+     * @param type The CustomItemType to retrieve a blueprint for.
+     * @return The item wrapper/handler for the given type of item.
      */
     public CustomItemBlueprint getBlueprint(CustomItemType type) {
         return (CustomItemBlueprint) blueprints.get(type);
@@ -548,7 +567,7 @@ public class ItemService implements BaseService, Listener {
     /**
      * Returns a collection of all blueprints that are registered as "custom items"
      *
-     * @return
+     * @return Returns all the items that are considered custom.
      */
     public Collection<SMPItemBlueprint> getCustomBlueprints() {
         return blueprints.values();
@@ -558,41 +577,36 @@ public class ItemService implements BaseService, Listener {
      * Completely ignores any meta stored on an item. Return a vanilla blueprint for a material.
      * If the material resolver detects a certain class to handle this material, use that.
      * If nothing is found, use the default vanilla item blueprint.
-     *
      * Can throw a lot of exceptions, but as long as everything is defined correctly this will never happen
      *
-     * @param item
-     * @return
+     * @param item The item that we are querying a blueprint for.
+     * @return The vanilla item blueprint wrapper to interact with this item.
      */
     public VanillaItemBlueprint getVanillaBlueprint(ItemStack item) {
 
-        if (!vanillaBlueprintResolver.containsKey(item.getType()))
-            return new VanillaItemBlueprint(this, item);
+        // If we contain the key already for this handler, just return it.
+        if (vanillaBlueprintResolver.containsKey(item.getType()))
+            return vanillaBlueprintResolver.get(item.getType());
 
-        // Perform reflection hacks to instantiate a new blueprint using the handler assigned
-        Class<? extends VanillaItemBlueprint> wrapper = vanillaBlueprintResolver.get(item.getType());
+        // If we don't contain the key for what we desire, simply just create a new one and register it.
+        var handler = registerVanillaMaterialResolver(item.getType(), VanillaItemBlueprint.class);
 
-        // Attempt to instantiate the new instance, if this fails failsafe back to a normal vanilla item.
-        // In the event this does fail, write out an error to the server because this is really bad
-        try {
-            return wrapper.getConstructor(ItemService.class, ItemStack.class).newInstance(this, item);
-        } catch (NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException exception) {
-            plugin.getLogger().severe(String.format("Failed to create new %s instance for item of type %s. Is the class implemented correctly?", wrapper.getName(), item.getType().name()));
-            return new VanillaItemBlueprint(this, item);
-        }
+        // If this went wrong, then just return a new instance. Not a big deal.
+        if (handler == null)
+            handler = new VanillaItemBlueprint(this, item.getType());
+
+        return handler;
     }
 
     /**
      * Given an itemstack, retrieve a blueprint that can interact with the item.
-     *
      * When an item is custom, the defined custom item blueprint is returned.
-     *
      * When an item is vanilla, a fresh transient VanillaItemBlueprint instance is returned.
      * This instance is unique to the item stack and allows modifications similar to what the custom
      * item blueprints do.
      *
-     * @param itemStack
-     * @return
+     * @param itemStack The item whose blueprint is desired.
+     * @return The blueprint of this item.
      */
     @NotNull
     public SMPItemBlueprint getBlueprint(@NotNull ItemStack itemStack) {
@@ -602,7 +616,7 @@ public class ItemService implements BaseService, Listener {
         if (key == null)
             return getVanillaBlueprint(itemStack);
 
-        // Retreive the custom item type. If this is also null, that means this key was not valid. This item is legacy
+        // Retrieve the custom item type. If this is also null, that means this key was not valid. This item is legacy
         CustomItemType type = getItemTypeFromKey(key);
         if (type == null)
             return getBlueprint(CustomItemType.LEGACY_ITEM);
@@ -611,10 +625,10 @@ public class ItemService implements BaseService, Listener {
     }
 
     /**
-     * Use to generate a new itemstack using a certain custom item enum
+     * Use to generate a new ItemStack using a certain custom item enum
      *
-     * @param type
-     * @return
+     * @param type The type of item desired.
+     * @return A newly generated item of the desired type.
      */
     public ItemStack getCustomItem(CustomItemType type) {
         return getBlueprint(type).generate();
@@ -623,8 +637,8 @@ public class ItemService implements BaseService, Listener {
     /**
      * Get a vanilla item and make sure it is up to the standard of our SMP items.
      *
-     * @param material
-     * @return
+     * @param material The vanilla material desired.
+     * @return The fully updated and converted vanilla item.
      */
     public ItemStack getCustomItem(Material material) {
         ItemStack item = new ItemStack(material);
@@ -633,10 +647,10 @@ public class ItemService implements BaseService, Listener {
     }
 
     /**
-     * Use to generate a new itemstack using the unique identifier for a custom item. can be null if invalid key given.
+     * Use to generate a new ItemStack using the unique identifier for a custom item. can be null if invalid key given.
      *
-     * @param key
-     * @return
+     * @param key The unique identifier of a desired item.
+     * @return The updated and newly generated item.
      */
     @Nullable
     public ItemStack getCustomItem(String key) {
@@ -653,7 +667,7 @@ public class ItemService implements BaseService, Listener {
     /**
      * Returns a collection of all registered reforges for the server
      *
-     * @return
+     * @return All registered reforges.
      */
     public Collection<ReforgeBase> getReforges() {
         return reforges.values();
@@ -666,8 +680,8 @@ public class ItemService implements BaseService, Listener {
     /**
      * Get the reforge that is contained on the item. Null if not reforged.
      *
-     * @param meta
-     * @return
+     * @param meta The meta of the reforged item.
+     * @return The reforge instance on this item.
      */
     @Nullable
     public ReforgeBase getReforge(ItemMeta meta) {
@@ -695,11 +709,11 @@ public class ItemService implements BaseService, Listener {
     }
 
     /**
-     * Given an ItemStack, return the information about this item. Useful if you need to need to do multiple checks
+     * Given an ItemStack, return the information about this item. Useful if you need to do multiple checks
      * and need blueprint shortcuts since SMPItemQuery contains the blueprint as well.
      *
-     * @param itemStack
-     * @return
+     * @param itemStack The ItemStack to query.
+     * @return A record containing information about the item.
      */
     public SMPItemQuery getItemInformation(ItemStack itemStack) {
 
@@ -712,7 +726,7 @@ public class ItemService implements BaseService, Listener {
     /**
      * Returns a collection of recipes that our plugin has registered.
      *
-     * @return
+     * @return All custom recipes on the server.
      */
     public Collection<Recipe> getCustomRecipes() {
         return registeredRecipes;
@@ -722,15 +736,13 @@ public class ItemService implements BaseService, Listener {
      * Given an ItemStack, generate a list of components that is to be used for the lore (tooltip) on the item.
      * This can not only be used for actually setting ItemStack lore, but also in other circumstances such as
      * generating a hoverable chat component or buttons on a GUI.
-     *
      * This method consists of basically a disgusting amount of isinstance checks for all item interface types in
      * items/interfaces where we decide how we want to render all the attributes/components an item can have.
-     *
      * While I am usually against large methods, it makes sense to have this gross logic all in one place, and it allows
      * items to be very customizable and modular while also having a set order for how components should display.
      *
-     * @param itemStack
-     * @return
+     * @param itemStack The item to render lore for.
+     * @return A list of components describing the item.
      */
     public List<Component> renderItemStackLore(ItemStack itemStack) {
 
@@ -752,7 +764,7 @@ public class ItemService implements BaseService, Listener {
         }
 
         // Check for a description.
-        if (blueprint instanceof HeaderDescribable describable) {
+        if (blueprint instanceof IHeaderDescribable describable) {
             lore.add(ComponentUtils.EMPTY);
             lore.addAll(describable.getHeader(itemStack));
         }
@@ -764,15 +776,23 @@ public class ItemService implements BaseService, Listener {
         }
 
         // If this item is a shield add the shield stats
-        if (blueprint instanceof Shieldable shieldable) {
+        if (blueprint instanceof IShield shieldable) {
             lore.add(ComponentUtils.EMPTY);
             lore.add(ComponentUtils.create("Blocking Resistance: ").append(ComponentUtils.create("-" + (int)(shieldable.getDamageBlockingPercent() * 100) + "%", NamedTextColor.GREEN)));
             lore.add(ComponentUtils.create("Blocking Delay: ").append(ComponentUtils.create("+" + (shieldable.getShieldDelay() / 20.0) + "s", NamedTextColor.RED)));
         }
 
+        if (blueprint instanceof IMace mace) {
+            lore.add(ComponentUtils.EMPTY);
+            lore.add(ComponentUtils.merge(
+                    ComponentUtils.create("Velocity Efficiency: "),
+                    ComponentUtils.create(((int)(mace.getVelocityMultiplier() * 100)) + "%", NamedTextColor.GREEN)
+            ));
+        }
+
         // First, enchants. Are we not forcing glow? Only display enchants when we are not forcing glow (and have some).
         if (!itemStack.getEnchantments().isEmpty())
-            lore.addAll(blueprint.getEnchantsComponent(meta));
+            lore.addAll(blueprint.getEnchantsComponent(itemStack));
 
         // If this item holds experience
         if (blueprint instanceof ExperienceThrowable holder) {
@@ -780,17 +800,27 @@ public class ItemService implements BaseService, Listener {
             lore.add(ComponentUtils.create("Stored Experience: ").append(ComponentUtils.create(MinecraftStringUtils.formatNumber(holder.getExperience()) + "XP", NamedTextColor.GREEN)));
         }
 
-        // Does this item have consumable properties?
-        if (blueprint instanceof IConsumable consumable) {
+        // Does this item have consumable properties? First, check for edibility since it is more specific.
+        if (blueprint instanceof IEdible edible) {
             lore.add(ComponentUtils.EMPTY);
-            lore.add(ComponentUtils.merge(ComponentUtils.create("Consumable "), ComponentUtils.create("(" + consumable.getConsumableComponent().consumeSeconds() + "s)", NamedTextColor.DARK_GRAY)));
-            for (ConsumeEffect effect : consumable.getConsumableComponent().consumeEffects())
-                lore.add(ComponentUtils.merge(ComponentUtils.create("- "), ComponentUtils.create(effect.getClass().getSimpleName(), NamedTextColor.RED)));
+            lore.addAll(IEdible.generateEdibilityComponent(edible));
+        } else if (blueprint instanceof IConsumable consumable) {
+            lore.add(ComponentUtils.EMPTY);
+            lore.addAll(IConsumable.generateConsumabilityComponent(consumable));
         }
 
-        // Food properties, nutrition + saturation information.
-        if (meta.hasFood())
-            lore.addAll(blueprint.getFoodComponent(meta));
+        // Temp hack, get food and consumable properties for vanilla items.
+        // Keeping this here until we get all vanilla items on the same page as custom ones.
+        if (!blueprint.isCustom() && itemStack.getData(DataComponentTypes.FOOD) != null) {
+            var foodData = itemStack.getData(DataComponentTypes.FOOD);
+            var consumableData = itemStack.getData(DataComponentTypes.CONSUMABLE);
+            lore.add(ComponentUtils.EMPTY);
+            lore.addAll(IEdible.generateEdibilityComponent(IEdible.fromVanillaData(foodData, consumableData)));
+        } else if (!blueprint.isCustom() && itemStack.getData(DataComponentTypes.CONSUMABLE) != null) {
+            var consumableData = itemStack.getData(DataComponentTypes.CONSUMABLE);
+            lore.add(ComponentUtils.EMPTY);
+            lore.addAll(IConsumable.generateConsumabilityComponent(() -> consumableData));
+        }
 
         // Is this item compressed?
         if (blueprint instanceof Compressable compressable) {
@@ -798,18 +828,18 @@ public class ItemService implements BaseService, Listener {
             lore.add(ComponentUtils.create("An ultra compressed"));
             lore.add(ComponentUtils.create("collection of ").append(material));
             lore.add(ComponentUtils.EMPTY);
-            lore.add(ComponentUtils.create("(1x)  Uncompressed amount: ", NamedTextColor.DARK_GRAY).append(ComponentUtils.create(MinecraftStringUtils.formatNumber(compressable.getCompressedAmount()), NamedTextColor.LIGHT_PURPLE, TextDecoration.BOLD)));
-            lore.add(ComponentUtils.create("(64x) Uncompressed amount: ", NamedTextColor.DARK_GRAY).append(ComponentUtils.create(MinecraftStringUtils.formatNumber(compressable.getCompressedAmount() * 64L), NamedTextColor.LIGHT_PURPLE, TextDecoration.BOLD)));
+            lore.add(ComponentUtils.create("(1x)  Uncompressed amount: ", NamedTextColor.DARK_GRAY).append(ComponentUtils.create(MinecraftStringUtils.formatNumber(compressable.getCompressedAmount()), NamedTextColor.DARK_GRAY, TextDecoration.BOLD)));
+            lore.add(ComponentUtils.create("(64x) Uncompressed amount: ", NamedTextColor.DARK_GRAY).append(ComponentUtils.create(MinecraftStringUtils.formatNumber(compressable.getCompressedAmount() * 64L), NamedTextColor.DARK_GRAY, TextDecoration.BOLD)));
         }
 
         // Is this item reforged?
-        if (blueprint.isReforged(meta)) {
+        if (blueprint.isReforged(itemStack)) {
             lore.add(ComponentUtils.EMPTY);
-            lore.addAll(blueprint.getReforgeComponent(meta));
+            lore.addAll(blueprint.getReforgeComponent(itemStack));
         }
 
         // Footer description (if present)
-        if (blueprint instanceof FooterDescribable describable) {
+        if (blueprint instanceof IFooterDescribable describable) {
             lore.add(ComponentUtils.EMPTY);
             lore.addAll(describable.getFooter(itemStack));
         }
@@ -825,17 +855,20 @@ public class ItemService implements BaseService, Listener {
         }
 
         // Damage resistant?
-        if (meta.hasDamageResistant())
-            lore.add(ComponentUtils.create(Symbols.FIRE + meta.getDamageResistant().getKey().asMinimalString(), NamedTextColor.GOLD));
+        if (meta.hasDamageResistant()) {
+            var resistance = meta.getDamageResistant();
+            if (resistance != null)
+                lore.add(ComponentUtils.create(Symbols.FIRE + resistance.getKey().asMinimalString(), NamedTextColor.GOLD));
+        }
 
         // Now, value and rarity
         lore.add(ComponentUtils.EMPTY);
-        if (blueprint instanceof Sellable sellable) {
-            int value = sellable.getWorth(meta);
+        if (blueprint instanceof ISellable sellable) {
+            int value = sellable.getWorth(itemStack.asOne());
             if (value > 0)
-                lore.add(ComponentUtils.create("Sell Value: ").append(ComponentUtils.create(EconomyService.formatMoney(sellable.getWorth(meta)), NamedTextColor.GOLD)));
+                lore.add(ComponentUtils.create("Sell Value: ").append(ComponentUtils.create(EconomyService.formatMoney(value), NamedTextColor.GOLD)));
         }
-        lore.add(blueprint.getRarity(meta).applyDecoration(ComponentUtils.create(blueprint.getRarity(meta).name() + " " + blueprint.getItemClassification().name().replace("_", " "))).decoration(TextDecoration.BOLD, true).color(blueprint.getRarity(meta).color));
+        lore.add(blueprint.getRarity(itemStack).applyDecoration(ComponentUtils.create(blueprint.getRarity(itemStack).name() + " " + blueprint.getItemClassification().name().replace("_", " "))).decoration(TextDecoration.BOLD, true).color(blueprint.getRarity(itemStack).color));
         lore.add(ComponentUtils.create(blueprint.getCustomModelDataIdentifier(), NamedTextColor.DARK_GRAY));
         return ComponentUtils.cleanItalics(lore);
     }
@@ -844,8 +877,8 @@ public class ItemService implements BaseService, Listener {
      * Given an item stack, ensure that this item stack is up to date. First makes sure that it contains its
      * initial needed item meta (lore, attributes, etc.) and also determines if updates need to be applied to it.
      *
-     * @param itemStack
-     * @return
+     * @param itemStack The item to update.
+     * @return The newly updated item. This isn't necessary to use, as it should reference the same item as passed in.
      */
     public ItemStack ensureItemStackUpdated(ItemStack itemStack) {
 
@@ -864,13 +897,30 @@ public class ItemService implements BaseService, Listener {
         return itemStack;
     }
 
+    private void discoverRecipesForItem(Player player, ItemStack item) {
+        SMPItemBlueprint blueprint = getBlueprint(item);
+
+        // If this blueprint is a compression member, discover the recipes for this item
+        if (blueprint instanceof Compressable compressable) {
+            player.discoverRecipes(compressable.getAllRecipeKeys());
+        }
+
+        // If this is a vanilla item, see if recipes are discovered by the material
+        if (blueprint instanceof VanillaItemBlueprint vanilla)
+            if (materialToRecipeUnlocks.containsKey(vanilla.getMaterial()))
+                player.discoverRecipes(materialToRecipeUnlocks.get(vanilla.getMaterial()));
+
+        // If this is a custom item, see if recipes are discovered by the type
+        if (blueprint instanceof CustomItemBlueprint custom)
+            if (customItemToRecipeUnlocks.containsKey(custom.getCustomItemType()))
+                player.discoverRecipes(customItemToRecipeUnlocks.get(custom.getCustomItemType()));
+    }
+
     /**
      * When generating loot, update all the items
-     *
-     * @param event
      */
     @EventHandler
-    private void onGenerateLoot(LootGenerateEvent event) {
+    private void __onGenerateLoot(LootGenerateEvent event) {
 
         // Loop through all the loot and fix it
         List<ItemStack> fixed = new ArrayList<>();
@@ -882,11 +932,9 @@ public class ItemService implements BaseService, Listener {
 
     /**
      * Makes sure that item meta is set correctly when being brought into this world
-     *
-     * @param event
      */
     @EventHandler
-    private void onMiscResult(PrepareResultEvent event) {
+    private void __onMiscResult(PrepareResultEvent event) {
 
         // If the item doesn't exist don't do anything
         if (event.getResult() == null)
@@ -900,13 +948,11 @@ public class ItemService implements BaseService, Listener {
     }
 
     @EventHandler
-    private void onRequestVillagerTrades(PlayerInteractEntityEvent event) {
+    private void __onRequestVillagerTrades(PlayerInteractEntityEvent event) {
 
         // Is the entity being interacted with a villager?
-        if (!(event.getRightClicked() instanceof Villager))
+        if (!(event.getRightClicked() instanceof Villager villager))
             return;
-
-        Villager villager = (Villager) event.getRightClicked();
 
         // Loop through all their trades and ensure their items are up to date.
         List<MerchantRecipe> recipes = new ArrayList<>();
@@ -937,7 +983,7 @@ public class ItemService implements BaseService, Listener {
     }
 
     @EventHandler
-    private void onCraftingResult(PrepareItemCraftEvent event) {
+    private void __onCraftingResult(PrepareItemCraftEvent event) {
 
         // If we aren't crafting a recipe don't do anything
         if (event.getInventory().getResult() == null)
@@ -951,17 +997,13 @@ public class ItemService implements BaseService, Listener {
     }
 
     /**
-     * Don't ever let custom items be smithed into something else in a smithing table.
-     *
+     * Don't ever let custom items be smith-ed into something else in a smithing table.
      * ALSO
-     *
      * We need to handle the rare event that someone is upgrading their gear to netherite.
      * We do not want to keep the old diamond name. But we also don't want to override a custom name. BLEH
-     *
-     * @param event
      */
     @EventHandler
-    private void onSmithingPrepareResult(PrepareSmithingEvent event) {
+    private void __onSmithingPrepareResult(PrepareSmithingEvent event) {
 
         ItemStack input = event.getInventory().getInputEquipment();
         // Nothing in input means we don't care
@@ -1001,11 +1043,9 @@ public class ItemService implements BaseService, Listener {
 
     /**
      * Called when a custom item entity spawns in the world. Add a title to it so people know it's custom
-     *
-     * @param event
      */
     @EventHandler
-    private void onCustomItemSpawn(ItemSpawnEvent event) {
+    private void __onCustomItemSpawn(ItemSpawnEvent event) {
 
         SMPItemBlueprint blueprint = getBlueprint(event.getEntity().getItemStack());
         ensureItemStackUpdated(event.getEntity().getItemStack());
@@ -1014,40 +1054,32 @@ public class ItemService implements BaseService, Listener {
         if (event.getEntity().getItemStack().getAmount() > 1)
             quantity = ComponentUtils.create(String.format("%dx ", event.getEntity().getItemStack().getAmount()));
 
-        event.getEntity().customName(quantity.append(blueprint.getNameComponent(event.getEntity().getItemStack().getItemMeta())));
+        event.getEntity().customName(quantity.append(blueprint.getNameComponent(event.getEntity().getItemStack())));
         event.getEntity().setCustomNameVisible(true);
     }
 
     /**
      * When custom items merge update the name to reflect the new total
-     *
-     * @param event
      */
     @EventHandler
-    private void onCustomItemMerge(ItemMergeEvent event) {
+    private void __onCustomItemMerge(ItemMergeEvent event) {
 
-        // Ignore vanilla items
-        SMPItemBlueprint blueprint = getBlueprint(event.getEntity().getItemStack());
-//        if (!blueprint.isCustom())
-//            return;
-
+        var blueprint = getBlueprint(event.getEntity().getItemStack());
         int newTotal = event.getEntity().getItemStack().getAmount() + event.getTarget().getItemStack().getAmount();
 
-        Component quantity = ComponentUtils.EMPTY;
+        var quantity = ComponentUtils.EMPTY;
         if (newTotal > 1)
             quantity = ComponentUtils.create(String.format("%dx ", newTotal));
 
-        event.getTarget().customName(quantity.append(blueprint.getNameComponent(event.getEntity().getItemStack().getItemMeta())));
+        event.getTarget().customName(quantity.append(blueprint.getNameComponent(event.getEntity().getItemStack())));
         event.getTarget().setCustomNameVisible(true);
     }
 
     /**
-     * Never ever ever allow custom items to translate into vanilla items unless we make a recipe ourselves.
-     *
-     * @param event
+     * Never ever allow custom items to translate into vanilla items unless we make a recipe ourselves.
      */
     @EventHandler(priority = EventPriority.MONITOR)
-    public void onAttemptCraft(PrepareItemCraftEvent event) {
+    public void __onAttemptCraft(PrepareItemCraftEvent event) {
 
         // No recipe :p
         if (event.getRecipe() == null)
@@ -1069,10 +1101,8 @@ public class ItemService implements BaseService, Listener {
         if (!craftingWithCustomItems)
             return;
 
-        if (!(event.getRecipe() instanceof Keyed))
+        if (!(event.getRecipe() instanceof Keyed recipe))
             return;
-
-        Keyed recipe = (Keyed) event.getRecipe();
 
         // If we are dealing with a recipe that is not in vanilla minecraft, ignore
         if (!recipe.getKey().getNamespace().equals(NamespacedKey.MINECRAFT))
@@ -1084,7 +1114,7 @@ public class ItemService implements BaseService, Listener {
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
-    public void onEnchant(EnchantItemEvent e) {
+    public void __onEnchant(EnchantItemEvent e) {
 
         if (e.isCancelled())
             return;
@@ -1101,8 +1131,6 @@ public class ItemService implements BaseService, Listener {
 
     /**
      * Schedules item update for next tick so we can catch things like interacting with buckets
-     *
-     * @param event
      */
     @EventHandler(priority = EventPriority.MONITOR)
     public void onInteract(PlayerInteractEvent event) {
@@ -1117,8 +1145,6 @@ public class ItemService implements BaseService, Listener {
 
     /**
      * Mainly used for keeping durability in sync when breaking blocks
-     *
-     * @param event
      */
     @EventHandler(priority = EventPriority.MONITOR)
     public void onBreakBlock(BlockBreakEvent event) {
@@ -1134,7 +1160,7 @@ public class ItemService implements BaseService, Listener {
     }
 
     @EventHandler
-    private void onArmorTakeDamage(EntityDamageEvent event) {
+    private void __onArmorTakeDamage(EntityDamageEvent event) {
 
         if (!(event.getEntity() instanceof LivingEntity living))
             return;
@@ -1154,30 +1180,8 @@ public class ItemService implements BaseService, Listener {
         }.runTaskLater(plugin, 0L);
     }
 
-    private final Map<Material, List<NamespacedKey>> materialToRecipeUnlocks = new HashMap<>();
-    private final Map<CustomItemType, List<NamespacedKey>> customItemToRecipeUnlocks = new HashMap<>();
-
-    private void discoverRecipesForItem(Player player, ItemStack item) {
-        SMPItemBlueprint blueprint = getBlueprint(item);
-
-        // If this blueprint is a compression member, discover the recipes for this item
-        if (blueprint instanceof Compressable compressable) {
-            player.discoverRecipes(compressable.getAllRecipeKeys());
-        }
-
-        // If this is a vanilla item, see if recipes are discovered by the material
-        if (blueprint instanceof VanillaItemBlueprint vanilla)
-            if (materialToRecipeUnlocks.containsKey(vanilla.getItem().getType()))
-                player.discoverRecipes(materialToRecipeUnlocks.get(vanilla.getItem().getType()));
-
-        // If this is a custom item, see if recipes are discovered by the type
-        if (blueprint instanceof CustomItemBlueprint custom)
-            if (customItemToRecipeUnlocks.containsKey(custom.getCustomItemType()))
-                player.discoverRecipes(customItemToRecipeUnlocks.get(custom.getCustomItemType()));
-    }
-
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
-    public void onClickItem(InventoryClickEvent event) {
+    private void __onClickItem(InventoryClickEvent event) {
 
         if (event.getCurrentItem() == null || event.getCurrentItem().getType() == Material.AIR)
             return;
@@ -1194,7 +1198,7 @@ public class ItemService implements BaseService, Listener {
 
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
-    public void onPickupItem(PlayerAttemptPickupItemEvent event) {
+    private void __onPickupItem(PlayerAttemptPickupItemEvent event) {
 
         if (!event.getFlyAtPlayer())
             return;
@@ -1203,7 +1207,7 @@ public class ItemService implements BaseService, Listener {
     }
 
     @EventHandler
-    private void onPlayerDamageItem(PlayerItemDamageEvent event) {
+    private void __onPlayerDamageItem(PlayerItemDamageEvent event) {
 
         // Durability changes are always 1
         if (event.getDamage() > 0)
@@ -1212,7 +1216,7 @@ public class ItemService implements BaseService, Listener {
     }
 
     @EventHandler
-    private void onPlaceCustomItem(BlockPlaceEvent event) {
+    private void __onPlaceCustomItem(BlockPlaceEvent event) {
 
         ItemStack item = event.getItemInHand();
         SMPItemBlueprint blueprint = getBlueprint(item);
@@ -1226,7 +1230,7 @@ public class ItemService implements BaseService, Listener {
      * We never want to allow players to cook custom items.
      */
     @EventHandler(priority = EventPriority.LOWEST)
-    public void onSmelt(FurnaceSmeltEvent event) {
+    private void __onSmelt(FurnaceSmeltEvent event) {
 
         // Custom item? Make it so it never cooks
         if (getBlueprint(event.getSource()).isCustom())
@@ -1237,7 +1241,7 @@ public class ItemService implements BaseService, Listener {
      * We never want to allow players to cook custom items.
      */
     @EventHandler
-    private void onSmeltCustomItem(FurnaceStartSmeltEvent event) {
+    private void __onSmeltCustomItem(FurnaceStartSmeltEvent event) {
 
         // Custom item? Make it so it never cooks
         if (getBlueprint(event.getSource()).isCustom())

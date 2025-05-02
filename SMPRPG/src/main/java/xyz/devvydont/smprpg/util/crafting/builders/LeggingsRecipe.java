@@ -2,11 +2,11 @@ package xyz.devvydont.smprpg.util.crafting.builders;
 
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
-import xyz.devvydont.smprpg.items.interfaces.Craftable;
+import xyz.devvydont.smprpg.items.interfaces.ICraftable;
 
 public class LeggingsRecipe extends SingleMaterialRecipe {
 
-    public LeggingsRecipe(Craftable blueprint, ItemStack material, ItemStack result) {
+    public LeggingsRecipe(ICraftable blueprint, ItemStack material, ItemStack result) {
         super(blueprint, material, result);
     }
 

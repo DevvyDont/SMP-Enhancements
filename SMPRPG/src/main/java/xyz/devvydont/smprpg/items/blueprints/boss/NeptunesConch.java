@@ -20,25 +20,22 @@ import org.bukkit.generator.structure.Structure;
 import org.bukkit.inventory.CraftingRecipe;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.components.FoodComponent;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.base.CustomItemBlueprint;
-import xyz.devvydont.smprpg.items.interfaces.*;
+import xyz.devvydont.smprpg.items.interfaces.IConsumable;
+import xyz.devvydont.smprpg.items.interfaces.ICraftable;
+import xyz.devvydont.smprpg.items.interfaces.IHeaderDescribable;
+import xyz.devvydont.smprpg.items.interfaces.ISellable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
-import xyz.devvydont.smprpg.util.items.FoodUtil;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class NeptunesConch extends CustomItemBlueprint implements HeaderDescribable, Listener, Craftable, IConsumable, Sellable {
+public class NeptunesConch extends CustomItemBlueprint implements IHeaderDescribable, Listener, ICraftable, IConsumable, ISellable {
 
     public NeptunesConch(ItemService itemService, CustomItemType type) {
         super(itemService, type);
@@ -90,7 +87,7 @@ public class NeptunesConch extends CustomItemBlueprint implements HeaderDescriba
     public Consumable getConsumableComponent() {
         return Consumable.consumable()
                 .consumeSeconds(5)
-                .sound(SoundEventKeys.EVENT_RAID_HORN)
+                .sound(SoundEventKeys.ITEM_GOAT_HORN_SOUND_6)
                 .animation(ItemUseAnimation.TOOT_HORN)
                 .build();
     }
@@ -149,12 +146,8 @@ public class NeptunesConch extends CustomItemBlueprint implements HeaderDescriba
     }
 
     @Override
-    public int getWorth() {
-        return 2500;
+    public int getWorth(ItemStack item) {
+        return 2500 * item.getAmount();
     }
 
-    @Override
-    public int getWorth(ItemMeta meta) {
-        return getWorth();
-    }
 }

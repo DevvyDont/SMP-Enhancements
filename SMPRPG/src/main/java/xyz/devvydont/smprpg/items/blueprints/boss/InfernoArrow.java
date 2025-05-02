@@ -18,7 +18,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.CustomEntityType;
 import xyz.devvydont.smprpg.entity.base.LeveledEntity;
@@ -26,8 +25,8 @@ import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.ItemRarity;
 import xyz.devvydont.smprpg.items.base.CustomItemBlueprint;
-import xyz.devvydont.smprpg.items.interfaces.HeaderDescribable;
-import xyz.devvydont.smprpg.items.interfaces.Sellable;
+import xyz.devvydont.smprpg.items.interfaces.IHeaderDescribable;
+import xyz.devvydont.smprpg.items.interfaces.ISellable;
 import xyz.devvydont.smprpg.services.DropsService;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
@@ -35,7 +34,7 @@ import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InfernoArrow extends CustomItemBlueprint implements HeaderDescribable, Sellable, Listener {
+public class InfernoArrow extends CustomItemBlueprint implements IHeaderDescribable, ISellable, Listener {
 
     public enum InfernoSpawnResult {
         SUCCESS("Success!"),
@@ -92,13 +91,8 @@ public class InfernoArrow extends CustomItemBlueprint implements HeaderDescribab
     }
 
     @Override
-    public int getWorth() {
-        return 20_000;
-    }
-
-    @Override
-    public int getWorth(ItemMeta meta) {
-        return 20_000;
+    public int getWorth(ItemStack item) {
+        return 20_000 * item.getAmount();
     }
 
     /**

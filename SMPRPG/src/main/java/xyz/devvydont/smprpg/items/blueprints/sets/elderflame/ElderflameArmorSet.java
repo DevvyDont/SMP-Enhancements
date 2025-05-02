@@ -7,15 +7,15 @@ import org.bukkit.inventory.meta.trim.TrimPattern;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.base.CustomArmorBlueprint;
-import xyz.devvydont.smprpg.items.interfaces.Craftable;
-import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
+import xyz.devvydont.smprpg.items.interfaces.ICraftable;
+import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
 import xyz.devvydont.smprpg.items.interfaces.Trimmable;
 import xyz.devvydont.smprpg.services.ItemService;
 
 import java.util.Collection;
 import java.util.List;
 
-public abstract class ElderflameArmorSet extends CustomArmorBlueprint implements ToolBreakable, Trimmable, Craftable {
+public abstract class ElderflameArmorSet extends CustomArmorBlueprint implements IBreakableEquipment, Trimmable, ICraftable {
 
     public ElderflameArmorSet(ItemService itemService, CustomItemType type) {
         super(itemService, type);

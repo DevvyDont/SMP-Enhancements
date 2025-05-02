@@ -5,7 +5,7 @@ import org.bukkit.inventory.CraftingRecipe;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
-import xyz.devvydont.smprpg.items.interfaces.Craftable;
+import xyz.devvydont.smprpg.items.interfaces.ICraftable;
 
 public abstract class SingleMaterialRecipe {
 
@@ -15,7 +15,7 @@ public abstract class SingleMaterialRecipe {
 
     protected final char MATERIAL_KEY = 'M';
 
-    public SingleMaterialRecipe(Craftable blueprint, ItemStack material, ItemStack result) {
+    public SingleMaterialRecipe(ICraftable blueprint, ItemStack material, ItemStack result) {
         this.material = material;
         this.result = result;
         this.key = blueprint.getRecipeKey();

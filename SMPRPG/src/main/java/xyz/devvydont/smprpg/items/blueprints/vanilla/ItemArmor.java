@@ -4,12 +4,11 @@ import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemStack;
-import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.items.base.VanillaAttributeItem;
-import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
+import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
 import xyz.devvydont.smprpg.util.items.ToolsUtil;
@@ -18,10 +17,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class ItemArmor extends VanillaAttributeItem implements ToolBreakable {
+public class ItemArmor extends VanillaAttributeItem implements IBreakableEquipment {
 
-    public ItemArmor(ItemService itemService, ItemStack item) {
-        super(itemService, item);
+    public ItemArmor(ItemService itemService, Material material) {
+        super(itemService, material);
     }
 
     public static int getDefenseFromMaterial(Material material) {
@@ -199,14 +198,10 @@ public class ItemArmor extends VanillaAttributeItem implements ToolBreakable {
         };
     }
 
-    @Override
-    public ItemClassification getItemClassification() {
-        return ItemClassification.resolveVanillaMaterial(getItem().getType());
-    }
 
     @Override
     public int getPowerRating() {
-        return getArmorPowerRating(getItem().getType());
+        return getArmorPowerRating(material);
     }
 
     @Override
@@ -214,27 +209,27 @@ public class ItemArmor extends VanillaAttributeItem implements ToolBreakable {
         List<AttributeEntry> modifiers = new ArrayList<>();
 
         // If we have true defense...
-        double trueDef = getArmorFromMaterial(getItem().getType());
+        double trueDef = getArmorFromMaterial(material);
         if (trueDef > 0)
-            modifiers.add(new AdditiveAttributeEntry(Attribute.ARMOR, getArmorFromMaterial(getItem().getType())));
+            modifiers.add(new AdditiveAttributeEntry(Attribute.ARMOR, getArmorFromMaterial(material)));
 
         // If we have health...
-        double health = getHealthFromMaterial(getItem().getType());
+        double health = getHealthFromMaterial(material);
         if (health > 0)
             modifiers.add(new AdditiveAttributeEntry(Attribute.MAX_HEALTH, health));
 
         // If we have defense...
-        double defense = getDefenseFromMaterial(getItem().getType());
+        double defense = getDefenseFromMaterial(material);
         if (defense > 0)
             modifiers.add(new AdditiveAttributeEntry(Attribute.ARMOR_TOUGHNESS, defense));
 
         // If we have knockback resist...
-        double kbResist = getKnockbackResistanceFromMaterial(getItem().getType());
+        double kbResist = getKnockbackResistanceFromMaterial(material);
         if (kbResist > 0)
             modifiers.add(new AdditiveAttributeEntry(Attribute.KNOCKBACK_RESISTANCE, kbResist));
 
         // If we have damage...
-        double dmg = getDamageFromMaterial(getItem().getType());
+        double dmg = getDamageFromMaterial(material);
         if (dmg > 0)
             modifiers.add(new ScalarAttributeEntry(AttributeWrapper.STRENGTH, dmg));
 
@@ -253,6 +248,6 @@ public class ItemArmor extends VanillaAttributeItem implements ToolBreakable {
 
     @Override
     public int getMaxDurability() {
-        return getMaxDurability(getItem().getType());
+        return getMaxDurability(material);
     }
 }

@@ -12,8 +12,8 @@ import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomArmorBlueprint;
-import xyz.devvydont.smprpg.items.interfaces.Craftable;
-import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
+import xyz.devvydont.smprpg.items.interfaces.ICraftable;
+import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
 import xyz.devvydont.smprpg.items.interfaces.Trimmable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
@@ -21,7 +21,7 @@ import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
 import java.util.Collection;
 import java.util.List;
 
-public abstract class BedrockArmorSet extends CustomArmorBlueprint implements ToolBreakable, Trimmable, Craftable {
+public abstract class BedrockArmorSet extends CustomArmorBlueprint implements IBreakableEquipment, Trimmable, ICraftable {
 
     public static final int POWER = 30;
     public static final int DURABILITY = 20_000;

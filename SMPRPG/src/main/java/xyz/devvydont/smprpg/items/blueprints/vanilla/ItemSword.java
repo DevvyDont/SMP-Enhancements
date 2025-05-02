@@ -9,7 +9,7 @@ import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
 import xyz.devvydont.smprpg.items.base.VanillaAttributeItem;
-import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
+import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.items.ToolsUtil;
 
@@ -17,7 +17,7 @@ import java.util.Collection;
 import java.util.List;
 
 
-public class ItemSword extends VanillaAttributeItem implements ToolBreakable {
+public class ItemSword extends VanillaAttributeItem implements IBreakableEquipment {
 
     public static double getSwordDamage(Material material) {
         return switch (material) {
@@ -47,13 +47,13 @@ public class ItemSword extends VanillaAttributeItem implements ToolBreakable {
 
     public static double SWORD_ATTACK_SPEED_DEBUFF = -0.6;
 
-    public ItemSword(ItemService itemService, ItemStack item) {
-        super(itemService, item);
+    public ItemSword(ItemService itemService, Material material) {
+        super(itemService, material);
     }
 
     @Override
     public ItemClassification getItemClassification() {
-        if (getItem().getType().equals(Material.TRIDENT))
+        if (material.equals(Material.TRIDENT))
                 return ItemClassification.TRIDENT;
         return ItemClassification.SWORD;
     }
@@ -61,14 +61,14 @@ public class ItemSword extends VanillaAttributeItem implements ToolBreakable {
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(Attribute.ATTACK_DAMAGE, getSwordDamage(getItem().getType())),
+                new AdditiveAttributeEntry(Attribute.ATTACK_DAMAGE, getSwordDamage(material)),
                 new MultiplicativeAttributeEntry(Attribute.ATTACK_SPEED, SWORD_ATTACK_SPEED_DEBUFF)
         );
     }
 
     @Override
     public int getPowerRating() {
-        return getSwordRating(getItem().getType());
+        return getSwordRating(material);
     }
 
     @Override
@@ -78,7 +78,7 @@ public class ItemSword extends VanillaAttributeItem implements ToolBreakable {
 
     @Override
     public int getMaxDurability() {
-        return switch (getItem().getType()) {
+        return switch (material) {
             case NETHERITE_SWORD -> ToolsUtil.NETHERITE_TOOL_DURABILITY;
             case DIAMOND_SWORD -> ToolsUtil.DIAMOND_TOOL_DURABILITY;
             case GOLDEN_SWORD -> ToolsUtil.GOLD_TOOL_DURABILITY;

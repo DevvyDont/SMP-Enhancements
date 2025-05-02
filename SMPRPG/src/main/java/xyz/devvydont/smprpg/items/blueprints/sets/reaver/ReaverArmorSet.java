@@ -16,8 +16,8 @@ import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomArmorBlueprint;
-import xyz.devvydont.smprpg.items.interfaces.HeaderDescribable;
-import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
+import xyz.devvydont.smprpg.items.interfaces.IHeaderDescribable;
+import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
 import xyz.devvydont.smprpg.items.interfaces.Trimmable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
@@ -27,7 +27,7 @@ import xyz.devvydont.smprpg.util.items.AbilityUtil;
 import java.util.Collection;
 import java.util.List;
 
-public abstract class ReaverArmorSet extends CustomArmorBlueprint implements HeaderDescribable, ToolBreakable, Trimmable, Listener {
+public abstract class ReaverArmorSet extends CustomArmorBlueprint implements IHeaderDescribable, IBreakableEquipment, Trimmable, Listener {
 
     public static final int POWER = 25;
     public static final int DURABILITY = 32_000;

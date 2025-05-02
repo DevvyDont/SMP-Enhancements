@@ -15,9 +15,9 @@ import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomArmorBlueprint;
 import xyz.devvydont.smprpg.items.blueprints.vanilla.ItemArmor;
-import xyz.devvydont.smprpg.items.interfaces.Craftable;
+import xyz.devvydont.smprpg.items.interfaces.ICraftable;
 import xyz.devvydont.smprpg.items.interfaces.Dyeable;
-import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
+import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
 import xyz.devvydont.smprpg.items.interfaces.Trimmable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
@@ -26,7 +26,7 @@ import xyz.devvydont.smprpg.util.crafting.builders.LeggingsRecipe;
 import java.util.Collection;
 import java.util.List;
 
-public class CobblestoneLeggings extends CustomArmorBlueprint implements Craftable, Dyeable, Trimmable, ToolBreakable {
+public class CobblestoneLeggings extends CustomArmorBlueprint implements ICraftable, Dyeable, Trimmable, IBreakableEquipment {
 
     public CobblestoneLeggings(ItemService itemService, CustomItemType type) {
         super(itemService, type);

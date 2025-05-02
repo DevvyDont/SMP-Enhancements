@@ -28,8 +28,8 @@ import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomAttributeItem;
 import xyz.devvydont.smprpg.items.blueprints.vanilla.ItemAxe;
-import xyz.devvydont.smprpg.items.interfaces.Craftable;
-import xyz.devvydont.smprpg.items.interfaces.HeaderDescribable;
+import xyz.devvydont.smprpg.items.interfaces.ICraftable;
+import xyz.devvydont.smprpg.items.interfaces.IHeaderDescribable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
@@ -37,7 +37,7 @@ import xyz.devvydont.smprpg.util.items.AbilityUtil;
 
 import java.util.*;
 
-public class InfernoSaber extends CustomAttributeItem implements HeaderDescribable, Listener, Craftable {
+public class InfernoSaber extends CustomAttributeItem implements IHeaderDescribable, Listener, ICraftable {
 
     public static final int COOLDOWN = 3;
     public static final int COST = 150;
@@ -113,7 +113,7 @@ public class InfernoSaber extends CustomAttributeItem implements HeaderDescribab
     public CraftingRecipe getCustomRecipe() {
         ShapedRecipe recipe = new ShapedRecipe(getRecipeKey(), generate());
         recipe.shape("r", "r", "r");
-        recipe.setIngredient('r', ItemService.getItem(InfernoArmorSet.CRAFTING_COMPONENT));
+        recipe.setIngredient('r', ItemService.generate(InfernoArmorSet.CRAFTING_COMPONENT));
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
         return recipe;
     }
@@ -121,7 +121,7 @@ public class InfernoSaber extends CustomAttributeItem implements HeaderDescribab
     @Override
     public Collection<ItemStack> unlockedBy() {
         return List.of(
-                ItemService.getItem(InfernoArmorSet.CRAFTING_COMPONENT)
+                ItemService.generate(InfernoArmorSet.CRAFTING_COMPONENT)
         );
     }
 

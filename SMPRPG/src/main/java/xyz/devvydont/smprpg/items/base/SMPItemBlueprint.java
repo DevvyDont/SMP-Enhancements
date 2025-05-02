@@ -16,9 +16,9 @@ import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.enchantments.CustomEnchantment;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.ItemRarity;
-import xyz.devvydont.smprpg.items.interfaces.Edible;
+import xyz.devvydont.smprpg.items.interfaces.IEdible;
 import xyz.devvydont.smprpg.items.interfaces.IConsumable;
-import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
+import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
 import xyz.devvydont.smprpg.reforge.ReforgeBase;
 import xyz.devvydont.smprpg.reforge.ReforgeType;
 import xyz.devvydont.smprpg.services.ItemService;
@@ -50,10 +50,10 @@ public abstract class SMPItemBlueprint {
     public abstract ItemClassification getItemClassification();
 
     /**
-     * Extract rarity from ItemMeta. We do this to check if rarity has been upgraded. If we don't find anything special,
-     * we use getDefaultRarity()
+     * Extract rarity from the item. We do this to check if rarity has been upgraded. If we don't find anything special,
+     * we use getDefaultRarity().
      */
-    public abstract ItemRarity getRarity(ItemMeta meta);
+    public abstract ItemRarity getRarity(ItemStack item);
 
     /**
      * The rarity that this item will start at. Does not guarantee that the rarity will always be this, however.
@@ -71,58 +71,58 @@ public abstract class SMPItemBlueprint {
     /**
      * Given item meta, determine how this item's display name should look
      */
-    public Component getNameComponent(ItemMeta meta) {
-        return getRarity(meta).applyDecoration(ComponentUtils.create(getReforgePrefix(meta) + getItemName(meta))).decoration(TextDecoration.ITALIC, false);
+    public Component getNameComponent(ItemStack item) {
+        return getRarity(item).applyDecoration(ComponentUtils.create(getReforgePrefix(item) + getItemName(item))).decoration(TextDecoration.ITALIC, false);
     }
 
     /**
-     * Retrieves the currently applied reforge singleton instance contained on this reforge.
+     * Retrieves the currently applied to reforge singleton instance contained on this reforge.
      * If this item doesn't have a reforge, null is returned
      *
-     * @param meta ItemMeta contained on an item stack
+     * @param item ItemMeta contained on an item stack
      * @return a Reforge singleton if the ItemMeta has a reforge type stored in it
      */
     @Nullable
-    public ReforgeBase getReforge(ItemMeta meta) {
-        return itemService.getReforge(meta);
+    public ReforgeBase getReforge(ItemStack item) {
+        return itemService.getReforge(item);
     }
 
     /**
-     * Retrieves the currently applied reforge type contained on this reforge.
+     * Retrieves the currently applied to reforge type contained on this reforge.
      * If this item doesn't have a reforge, null is returned
      *
-     * @param meta ItemMeta contained on an item stack
+     * @param item ItemMeta contained on an item stack
      * @return a ReforgeType enum if the ItemMeta has a reforge type stored in it
      */
     @Nullable
-    public ReforgeType getReforgeType(ItemMeta meta) {
-        ReforgeBase reforge = getReforge(meta);
+    public ReforgeType getReforgeType(ItemStack item) {
+        ReforgeBase reforge = getReforge(item);
         if (reforge == null)
             return null;
         return reforge.getType();
     }
 
-    public boolean isReforged(ItemMeta meta) {
-        return getReforge(meta) != null;
+    public boolean isReforged(ItemStack item) {
+        return getReforge(item) != null;
     }
 
     /**
      * Gets the name of this item
      *
-     * @param meta
-     * @return
+     * @param item The item.
+     * @return The item name.
      */
-    public abstract String getItemName(ItemMeta meta);
+    public abstract String getItemName(ItemStack item);
 
     /**
      * Gets the prefix to inject before the name of the item. Returns an empty string if no reforge is applied.
      *
-     * @param meta
-     * @return
+     * @param item The item.
+     * @return The reforge prefix.
      */
-    public String getReforgePrefix(ItemMeta meta) {
+    public String getReforgePrefix(ItemStack item) {
 
-        ReforgeBase reforge = getReforge(meta);
+        ReforgeBase reforge = getReforge(item);
         if (reforge == null)
             return "";
 
@@ -132,8 +132,9 @@ public abstract class SMPItemBlueprint {
     /**
      * Set the fake glow status of this item. If an item is enchantable, you should make this false.
      */
-    public abstract boolean wantFakeEnchantGlow();
-
+    public boolean wantFakeEnchantGlow() {
+        return false;
+    }
 
     /**
      * Determines if item given is an item belonging to this blueprint
@@ -150,6 +151,13 @@ public abstract class SMPItemBlueprint {
      */
     public abstract ItemStack generate();
 
+
+    public ItemStack generate(int amount) {
+        var stack = generate();
+        stack.setAmount(amount);
+        return stack;
+    }
+
     /**
      * The number of allowed enchantments on an item depends on the rarity of it.
      * Common = 1
@@ -162,17 +170,18 @@ public abstract class SMPItemBlueprint {
      * Transcendent = 15
      * Special = 17
      *
-     * @return
+     * @return How many enchants this item can have.
      */
-    public int getMaxAllowedEnchantments(ItemMeta meta) {
-        int rarityScore = getRarity(meta).ordinal();
+    public int getMaxAllowedEnchantments(ItemStack item) {
+        int rarityScore = getRarity(item).ordinal();
         return rarityScore * 2 + 1;
     }
 
     /**
      * Given item meta for this specific item type, return what to display for enchants
      */
-    public List<Component> getEnchantsComponent(ItemMeta meta) {
+    public List<Component> getEnchantsComponent(ItemStack item) {
+        var meta = item.getItemMeta();
         List<Component> lines = new ArrayList<>();
         lines.add(ComponentUtils.EMPTY);
         for (CustomEnchantment enchantment : SMPRPG.getInstance().getEnchantmentService().getCustomEnchantments(meta)) {
@@ -182,51 +191,12 @@ public abstract class SMPItemBlueprint {
             if (meta.getEnchants().size() <= 9)
                 lines.add(enchantment.getDescription());
         }
-        lines.add(ComponentUtils.create("Enchantments: " + meta.getEnchants().size() + "/" + getMaxAllowedEnchantments(meta), NamedTextColor.DARK_GRAY));
+        lines.add(ComponentUtils.create("Enchantments: " + meta.getEnchants().size() + "/" + getMaxAllowedEnchantments(item), NamedTextColor.DARK_GRAY));
         return lines;
     }
 
-    public List<Component> getFoodComponent(ItemMeta meta) {
-
-        List<Component> lines = new ArrayList<>();
-        lines.add(ComponentUtils.EMPTY);
-
-        FoodComponent food = meta.getFood();
-
-        // Nutrition
-        int saturation = (int) food.getSaturation();
-        lines.add(ComponentUtils.create(" - Nutrition: ").append(ComponentUtils.create("+" + food.getNutrition(), NamedTextColor.GREEN)));
-        lines.add(ComponentUtils.create(" - Saturation: ").append(ComponentUtils.create("+" + saturation, NamedTextColor.GREEN)));
-
-        // Potion effects todo: this has moved to the consumable API and is no longer apart of the food API, move this over when you get the chance.
-//        for (FoodComponent.FoodEffect effect : food.getEffects()) {
-//            String name = MinecraftStringUtils.getTitledString(effect.getEffect().getType().getKey().value());
-//            Color rawColor = effect.getEffect().getType().getColor();
-//            TextColor color = TextColor.color(rawColor.getRed(), rawColor.getGreen(), rawColor.getBlue());
-//            int level = effect.getEffect().getAmplifier()+1;
-//            int sec = effect.getEffect().getDuration() / 20;
-//            String time = String.format(" (%d:%02d)", sec / 60, sec % 60);
-//            String probability = String.format(" (%d%%)", (int)(effect.getProbability() * 100));
-//            lines.add(ComponentUtils.create(" - Effect: ")
-//                    .append(ComponentUtils.create(name + " " + level, color))
-//                    .append(ComponentUtils.create(time, NamedTextColor.DARK_GRAY))
-//                    .append(ComponentUtils.create(probability, NamedTextColor.DARK_GRAY)));
-//        }
-
-        return lines;
-
-    }
-
-    /**
-     * Extract rarity from an ItemStack. By default, we just grab the rarity from ItemMeta. This can be overridden
-     * for altered behavior.
-     */
-    public ItemRarity getRarity(ItemStack item) {
-        return getRarity(item.getItemMeta());
-    }
-
-    public List<Component> getReforgeComponent(ItemMeta meta) {
-        ReforgeBase reforge = getReforge(meta);
+    public List<Component> getReforgeComponent(ItemStack item) {
+        ReforgeBase reforge = getReforge(item);
         if (reforge == null)
             return List.of();
 
@@ -235,19 +205,6 @@ public abstract class SMPItemBlueprint {
         lines.add(ComponentUtils.create(reforge.getType().display() + " Reforge", NamedTextColor.BLUE));
         lines.addAll(reforge.getDescription());
         return lines;
-    }
-
-    /**
-     * Additional info about an item that may not be as important.
-     *
-     * @param meta
-     * @return
-     */
-    public List<Component> getFooterComponent(ItemMeta meta) {
-        if (!isReforged(meta))
-            return List.of();
-
-        return getReforgeComponent(meta);
     }
 
     /**
@@ -271,15 +228,12 @@ public abstract class SMPItemBlueprint {
      */
     public void updateMeta(ItemMeta meta) {
 
-        // Set name of item
-        meta.displayName(getNameComponent(meta));
-
         // Add fake glow (if wanted)
         if (wantFakeEnchantGlow())
             meta.setEnchantmentGlintOverride(true);
 
         // Set durability if desired, handle case where we set durability and the tool can support it
-        if (this instanceof ToolBreakable breakable && meta instanceof Damageable damageable && breakable.getMaxDurability() > 0) {
+        if (this instanceof IBreakableEquipment breakable && meta instanceof Damageable damageable && breakable.getMaxDurability() > 0) {
             damageable.setMaxDamage(breakable.getMaxDurability());
         }
         // Handle case where we didn't define a durability (unbreakable)
@@ -288,7 +242,7 @@ public abstract class SMPItemBlueprint {
             meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
         }
 
-        if (this instanceof Edible edible) {
+        if (this instanceof IEdible edible) {
             FoodComponent food = FoodUtil.getVanillaFoodComponent(Material.APPLE);
             food.setNutrition(edible.getNutrition());
             food.setSaturation(edible.getSaturation());
@@ -313,10 +267,7 @@ public abstract class SMPItemBlueprint {
             return;
 
         FoodComponent food = FoodUtil.getVanillaFoodComponent(item.getType());
-
-        item.editMeta(meta -> {
-            meta.setFood(food);
-        });
+        item.editMeta(meta -> meta.setFood(food));
     }
 
     /**
@@ -340,6 +291,9 @@ public abstract class SMPItemBlueprint {
 
         // If this item contains attributes, apply them.
         AttributeUtil.applyModifiers(this, itemStack);
+
+        // Set name of item
+        itemStack.editMeta(meta -> meta.displayName(getNameComponent(itemStack)));
 
         // Update the item meta
         ItemMeta meta = itemStack.getItemMeta();

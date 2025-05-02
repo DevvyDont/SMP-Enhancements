@@ -2,7 +2,6 @@ package xyz.devvydont.smprpg.gui.items;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -13,10 +12,9 @@ import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.ShapedRecipe;
 import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.SMPRPG;
-import xyz.devvydont.smprpg.gui.InterfaceUtil;
 import xyz.devvydont.smprpg.gui.base.MenuBase;
 import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
-import xyz.devvydont.smprpg.items.interfaces.Craftable;
+import xyz.devvydont.smprpg.items.interfaces.ICraftable;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.ArrayList;
@@ -32,7 +30,7 @@ public class MenuRecipeViewer extends MenuBase {
     public static final int RESULT = 23;
     public static final int REQUIREMENTS = 25;
 
-    private final Craftable blueprint;
+    private final ICraftable blueprint;
     private final ItemStack result;
 
     /**
@@ -43,7 +41,7 @@ public class MenuRecipeViewer extends MenuBase {
      * @param blueprint The Craftable interface implementer responsible for this.
      * @param itemStack The item that was clicked on.
      */
-    public MenuRecipeViewer(@NotNull Player player, MenuBase parentMenu, Craftable blueprint, ItemStack itemStack) {
+    public MenuRecipeViewer(@NotNull Player player, MenuBase parentMenu, ICraftable blueprint, ItemStack itemStack) {
         super(player, ROWS, parentMenu);
         this.blueprint = blueprint;
         this.result = itemStack;
@@ -73,7 +71,7 @@ public class MenuRecipeViewer extends MenuBase {
 
         // Retrieve the blueprint of this item. If it is craftable, enter another recipe layer
         SMPItemBlueprint clickedBlueprint = SMPRPG.getInstance().getItemService().getBlueprint(itemStack);
-        if (!(clickedBlueprint instanceof Craftable craftable)) {
+        if (!(clickedBlueprint instanceof ICraftable craftable)) {
             this.playInvalidAnimation();
             return;
         }
@@ -106,7 +104,7 @@ public class MenuRecipeViewer extends MenuBase {
                         item = new ItemStack(Material.AIR);
 
                     // If this ingredient can be crafted, insert the craftable tooltip.
-                    if (SMPRPG.getInstance().getItemService().getBlueprint(item) instanceof Craftable)
+                    if (SMPRPG.getInstance().getItemService().getBlueprint(item) instanceof ICraftable)
                         item.editMeta(meta -> meta.lore(ComponentUtils.cleanItalics(ComponentUtils.insertComponents(meta.lore(), ComponentUtils.EMPTY, ComponentUtils.create("Click to view recipe!", NamedTextColor.YELLOW)))));
 
                     this.setButton(y*9+x+CORNER, item, event -> handleIngredientClick(item));

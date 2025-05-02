@@ -8,12 +8,13 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import xyz.devvydont.smprpg.items.CustomItemType;
+import xyz.devvydont.smprpg.items.interfaces.IFooterDescribable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.List;
 
-public abstract class ChargedItemBlueprint extends CustomItemBlueprint {
+public abstract class ChargedItemBlueprint extends CustomItemBlueprint implements IFooterDescribable {
 
     public ChargedItemBlueprint(ItemService itemService, CustomItemType type) {
         super(itemService, type);
@@ -79,10 +80,10 @@ public abstract class ChargedItemBlueprint extends CustomItemBlueprint {
     }
 
     @Override
-    public List<Component> getFooterComponent(ItemMeta meta) {
+    public List<Component> getFooter(ItemStack itemStack) {
         return List.of(
                 ComponentUtils.EMPTY,
-                ComponentUtils.create("Charges left: ").append(ComponentUtils.create(getChargesLeft(meta) + "", NamedTextColor.GREEN))
+                ComponentUtils.create("Charges left: ").append(ComponentUtils.create(getChargesLeft(itemStack.getItemMeta()) + "", NamedTextColor.GREEN))
         );
     }
 }

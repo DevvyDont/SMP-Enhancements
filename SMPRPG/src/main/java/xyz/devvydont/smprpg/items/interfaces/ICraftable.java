@@ -10,7 +10,7 @@ import java.util.Collection;
  * An interface for descendants of SMPItemBlueprint to implement for our plugin to detect that this blueprint
  * can be custom crafted.
  */
-public interface Craftable {
+public interface ICraftable {
 
     NamespacedKey getRecipeKey();
     CraftingRecipe getCustomRecipe();

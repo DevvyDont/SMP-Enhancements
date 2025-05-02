@@ -16,22 +16,20 @@ import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
-import xyz.devvydont.smprpg.items.interfaces.HeaderDescribable;
+import xyz.devvydont.smprpg.items.interfaces.IHeaderDescribable;
 import xyz.devvydont.smprpg.listeners.EntityDamageCalculatorService;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.items.AbilityUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /*
  * A variant of a bow that can instantly shoot when used.
  */
-public abstract class CustomShortbow extends CustomAttributeItem implements HeaderDescribable, Listener {
+public abstract class CustomShortbow extends CustomAttributeItem implements IHeaderDescribable, Listener {
 
     public CustomShortbow(ItemService itemService, CustomItemType type) {
         super(itemService, type);

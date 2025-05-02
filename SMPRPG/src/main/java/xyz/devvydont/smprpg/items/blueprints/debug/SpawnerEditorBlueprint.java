@@ -7,7 +7,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.CustomEntityType;
 import xyz.devvydont.smprpg.entity.spawning.EntitySpawner;
@@ -15,6 +14,7 @@ import xyz.devvydont.smprpg.gui.spawner.InterfaceSpawnerMainMenu;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.base.CustomItemBlueprint;
+import xyz.devvydont.smprpg.items.interfaces.IFooterDescribable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
@@ -22,14 +22,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class SpawnerEditorBlueprint extends CustomItemBlueprint implements Listener {
+public class SpawnerEditorBlueprint extends CustomItemBlueprint implements Listener, IFooterDescribable {
 
     public SpawnerEditorBlueprint(ItemService itemService, CustomItemType type) {
         super(itemService, type);
     }
 
     @Override
-    public List<Component> getFooterComponent(ItemMeta meta) {
+    public List<Component> getFooter(ItemStack itemStack) {
         return List.of(
                 ComponentUtils.create("Used to interact with"),
                 ComponentUtils.create("and edit custom spawner"),

@@ -12,8 +12,8 @@ import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomAttributeItem;
 import xyz.devvydont.smprpg.items.blueprints.vanilla.ItemSword;
-import xyz.devvydont.smprpg.items.interfaces.Craftable;
-import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
+import xyz.devvydont.smprpg.items.interfaces.ICraftable;
+import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
 import xyz.devvydont.smprpg.util.crafting.builders.BowRecipe;
@@ -22,7 +22,7 @@ import xyz.devvydont.smprpg.util.items.ToolsUtil;
 import java.util.Collection;
 import java.util.List;
 
-public class CopperBow extends CustomAttributeItem implements Craftable, ToolBreakable {
+public class CopperBow extends CustomAttributeItem implements ICraftable, IBreakableEquipment {
 
     public CopperBow(ItemService itemService, CustomItemType type) {
         super(itemService, type);

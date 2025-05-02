@@ -38,6 +38,10 @@ public class LeveledDragon extends BossInstance {
         return wasSummoned ? 50 : 40;
     }
 
+    @Override
+    public long getTimeLimit() {
+        return wasSummoned ? 60*5 : INFINITE_TIME_LIMIT;
+    }
 
     @Override
     public double calculateBaseAttackDamage() {
@@ -60,7 +64,7 @@ public class LeveledDragon extends BossInstance {
     }
 
     public double calculateBaseHealth() {
-        return !wasSummoned ? 1_500_000 : 3_000_000;
+        return !wasSummoned ? 1_000_000 : 3_000_000;
     }
 
     @Override

@@ -13,8 +13,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.base.CustomItemBlueprint;
-import xyz.devvydont.smprpg.items.interfaces.HeaderDescribable;
-import xyz.devvydont.smprpg.items.interfaces.Sellable;
+import xyz.devvydont.smprpg.items.interfaces.IHeaderDescribable;
+import xyz.devvydont.smprpg.items.interfaces.ISellable;
 import xyz.devvydont.smprpg.services.EconomyService;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
@@ -22,7 +22,7 @@ import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CustomItemCoin extends CustomItemBlueprint implements HeaderDescribable, Sellable, Listener {
+public class CustomItemCoin extends CustomItemBlueprint implements IHeaderDescribable, ISellable, Listener {
 
     private final int value;
 
@@ -52,16 +52,12 @@ public class CustomItemCoin extends CustomItemBlueprint implements HeaderDescrib
      * @return
      */
     public int getStackValue(ItemStack stack) {
-        return getWorth(stack.getItemMeta()) * stack.getAmount();
+        return getCoinValue(this.getCustomItemType()) * stack.getAmount();
     }
 
     @Override
-    public int getWorth(ItemMeta meta) {
-        return getWorth();
-    }
-
-    public int getWorth() {
-        return value;
+    public int getWorth(ItemStack item) {
+        return getStackValue(item);
     }
 
     @Override
@@ -84,9 +80,9 @@ public class CustomItemCoin extends CustomItemBlueprint implements HeaderDescrib
 
         lines.add(
                 ComponentUtils.create("Worth of ")
-                        .append(getNameComponent(itemStack.getItemMeta()))
+                        .append(getNameComponent(itemStack))
                         .append(ComponentUtils.create(": "))
-                        .append(ComponentUtils.create(EconomyService.formatMoney(getWorth()), NamedTextColor.GOLD))
+                        .append(ComponentUtils.create(EconomyService.formatMoney(getWorth(itemStack.asOne())), NamedTextColor.GOLD))
         );
 
         return lines;

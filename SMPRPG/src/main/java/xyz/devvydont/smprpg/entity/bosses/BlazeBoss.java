@@ -187,31 +187,31 @@ public class BlazeBoss extends CustomBossInstance implements Listener {
         return List.of(
 
                 // Common drops
-                new QuantityLootDrop(ItemService.getItem(CustomItemType.CHILI_PEPPER), 1, 3, this),
-                new QuantityLootDrop(ItemService.getItem(Material.BLAZE_ROD), 2, 6, this),
-                new QuantityLootDrop(ItemService.getItem(Material.IRON_INGOT), 2, 6, this),
-                new ChancedItemDrop(ItemService.getItem(CustomItemType.PREMIUM_BLAZE_ROD), 2, this),
+                new QuantityLootDrop(ItemService.generate(CustomItemType.CHILI_PEPPER), 1, 3, this),
+                new QuantityLootDrop(ItemService.generate(Material.BLAZE_ROD), 2, 6, this),
+                new QuantityLootDrop(ItemService.generate(Material.IRON_INGOT), 2, 6, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.PREMIUM_BLAZE_ROD), 2, this),
 
                 // Pity system drops
-                new ChancedItemDrop(ItemService.getItem(CustomItemType.ENCHANTED_IRON), 20, this),
-                new ChancedItemDrop(ItemService.getItem(CustomItemType.ENCHANTED_IRON_BLOCK), 90, this),
-                new ChancedItemDrop(ItemService.getItem(CustomItemType.IRON_SINGULARITY), 2000, this),
-                new ChancedItemDrop(ItemService.getItem(CustomItemType.ENCHANTED_BLAZE_ROD), 25, this),
-                new ChancedItemDrop(ItemService.getItem(CustomItemType.SCORCHING_STRING), 90, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.ENCHANTED_IRON), 20, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.ENCHANTED_IRON_BLOCK), 90, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.IRON_SINGULARITY), 2000, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.ENCHANTED_BLAZE_ROD), 25, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.SCORCHING_STRING), 90, this),
                 new ChancedItemDrop(SMPRPG.getInstance().getItemService().getCustomItem(CustomItemType.BOILING_INGOT), 20, this),
                 new ChancedItemDrop(SMPRPG.getInstance().getItemService().getCustomItem(CustomItemType.INFERNO_REMNANT), 40, this),
                 new QuantityLootDrop(SMPRPG.getInstance().getItemService().getCustomItem(CustomItemType.INFERNO_RESIDUE), 1, 2, this),
 
                 // Gear drops
-                new ChancedItemDrop(ItemService.getItem(CustomItemType.INFERNO_HELMET), 250, this),
-                new ChancedItemDrop(ItemService.getItem(CustomItemType.INFERNO_CHESTPLATE), 275, this),
-                new ChancedItemDrop(ItemService.getItem(CustomItemType.INFERNO_LEGGINGS), 250, this),
-                new ChancedItemDrop(ItemService.getItem(CustomItemType.INFERNO_BOOTS), 225, this),
-                new ChancedItemDrop(ItemService.getItem(CustomItemType.INFERNO_SABER), 275, this),
-                new ChancedItemDrop(ItemService.getItem(CustomItemType.INFERNO_SHORTBOW), 300, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.INFERNO_HELMET), 250, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.INFERNO_CHESTPLATE), 275, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.INFERNO_LEGGINGS), 250, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.INFERNO_BOOTS), 225, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.INFERNO_SABER), 275, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.INFERNO_SHORTBOW), 300, this),
 
                 // Chance to summon again
-                new ChancedItemDrop(ItemService.getItem(CustomItemType.INFERNO_ARROW), 20, this)
+                new ChancedItemDrop(ItemService.generate(CustomItemType.INFERNO_ARROW), 20, this)
         );
     }
 

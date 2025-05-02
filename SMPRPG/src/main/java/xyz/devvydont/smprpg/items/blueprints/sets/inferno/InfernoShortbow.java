@@ -13,15 +13,15 @@ import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomShortbow;
 import xyz.devvydont.smprpg.items.blueprints.vanilla.ItemAxe;
-import xyz.devvydont.smprpg.items.interfaces.Craftable;
-import xyz.devvydont.smprpg.items.interfaces.Sellable;
+import xyz.devvydont.smprpg.items.interfaces.ICraftable;
+import xyz.devvydont.smprpg.items.interfaces.ISellable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
 
 import java.util.Collection;
 import java.util.List;
 
-public class InfernoShortbow extends CustomShortbow implements Craftable, Sellable {
+public class InfernoShortbow extends CustomShortbow implements ICraftable, ISellable {
 
     public InfernoShortbow(ItemService itemService, CustomItemType type) {
         super(itemService, type);
@@ -52,8 +52,8 @@ public class InfernoShortbow extends CustomShortbow implements Craftable, Sellab
                 " rs",
                 "r s",
                 " rs");
-        recipe.setIngredient('r', ItemService.getItem(InfernoArmorSet.CRAFTING_COMPONENT));
-        recipe.setIngredient('s', ItemService.getItem(CustomItemType.SCORCHING_STRING));
+        recipe.setIngredient('r', ItemService.generate(InfernoArmorSet.CRAFTING_COMPONENT));
+        recipe.setIngredient('s', ItemService.generate(CustomItemType.SCORCHING_STRING));
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
         return recipe;
     }
@@ -61,7 +61,7 @@ public class InfernoShortbow extends CustomShortbow implements Craftable, Sellab
     @Override
     public Collection<ItemStack> unlockedBy() {
         return List.of(
-                ItemService.getItem(InfernoArmorSet.CRAFTING_COMPONENT)
+                ItemService.generate(InfernoArmorSet.CRAFTING_COMPONENT)
         );
     }
 }

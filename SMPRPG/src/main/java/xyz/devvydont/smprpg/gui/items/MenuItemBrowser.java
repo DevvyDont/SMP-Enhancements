@@ -13,7 +13,7 @@ import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.gui.base.MenuBase;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
-import xyz.devvydont.smprpg.items.interfaces.Craftable;
+import xyz.devvydont.smprpg.items.interfaces.ICraftable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
@@ -102,7 +102,7 @@ public class MenuItemBrowser extends MenuBase {
         // Do we not have a query and just want to show everything? If that is the case we can return one of everything.
         if (!hasQuery()) {
             for (CustomItemType type : CustomItemType.values())
-                this.queriedItems.add(ItemService.getItem(type));
+                this.queriedItems.add(ItemService.generate(type));
             return queriedItems;
         }
 
@@ -114,7 +114,7 @@ public class MenuItemBrowser extends MenuBase {
         for (CustomItemType itemType : CustomItemType.values()) {
 
             String simpleName = itemType.getName().toLowerCase();
-            ItemStack item = ItemService.getItem(itemType);
+            ItemStack item = ItemService.generate(itemType);
 
             // Blacklisting process, does this item's name not contain any similar character patterns as the query?
             if (!simpleName.contains(simpleQuery))
@@ -149,7 +149,7 @@ public class MenuItemBrowser extends MenuBase {
         // Currently, we don't do anything unless the item is craftable, but that is subject to change.
         // When it does change, that logic goes here.
         SMPItemBlueprint blueprint = SMPRPG.getInstance().getItemService().getBlueprint(itemStack);
-        if (!(blueprint instanceof Craftable craftable)) {
+        if (!(blueprint instanceof ICraftable craftable)) {
             this.playInvalidAnimation();
             return;
         }
@@ -203,7 +203,7 @@ public class MenuItemBrowser extends MenuBase {
             lore.addFirst(ComponentUtils.EMPTY);
 
             // If this ingredient can be crafted, insert the craftable tooltip.
-            if (blueprint instanceof Craftable)
+            if (blueprint instanceof ICraftable)
                 item.editMeta(meta -> meta.lore(lore));
 
             this.setButton(slot, item, event -> this.handleClick(event, item));

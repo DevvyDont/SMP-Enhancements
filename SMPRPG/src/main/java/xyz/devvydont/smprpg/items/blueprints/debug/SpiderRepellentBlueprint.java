@@ -9,6 +9,7 @@ import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.base.CustomItemBlueprint;
 import xyz.devvydont.smprpg.services.ItemService;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 public class SpiderRepellentBlueprint extends CustomItemBlueprint implements Listener {
 
@@ -32,6 +33,6 @@ public class SpiderRepellentBlueprint extends CustomItemBlueprint implements Lis
             e.remove();
             n++;
         }
-        event.getPlayer().sendMessage("Killed " + n + " spiders!!!!");
+        event.getPlayer().sendMessage(ComponentUtils.alert("Killed " + n + " spiders!"));
     }
 }

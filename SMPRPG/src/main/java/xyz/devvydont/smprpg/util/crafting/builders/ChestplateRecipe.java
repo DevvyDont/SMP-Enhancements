@@ -2,11 +2,11 @@ package xyz.devvydont.smprpg.util.crafting.builders;
 
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
-import xyz.devvydont.smprpg.items.interfaces.Craftable;
+import xyz.devvydont.smprpg.items.interfaces.ICraftable;
 
 public class ChestplateRecipe extends SingleMaterialRecipe {
 
-    public ChestplateRecipe(Craftable blueprint, ItemStack material, ItemStack result) {
+    public ChestplateRecipe(ICraftable blueprint, ItemStack material, ItemStack result) {
         super(blueprint, material, result);
     }
 

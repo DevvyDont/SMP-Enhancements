@@ -58,6 +58,6 @@ public class InfernoBoots extends InfernoArmorSet {
 
     @Override
     public CraftingRecipe getCustomRecipe() {
-        return new BootsRecipe(this, ItemService.getItem(CustomItemType.INFERNO_REMNANT), generate()).build();
+        return new BootsRecipe(this, ItemService.generate(CustomItemType.INFERNO_REMNANT), generate()).build();
     }
 }

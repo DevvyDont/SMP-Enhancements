@@ -3,23 +3,21 @@ package xyz.devvydont.smprpg.items.blueprints.resources.mob;
 import io.papermc.paper.datacomponent.item.Consumable;
 import io.papermc.paper.datacomponent.item.consumable.ConsumeEffect;
 import org.bukkit.Material;
-import org.bukkit.inventory.meta.components.FoodComponent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.base.CustomCompressableBlueprint;
-import xyz.devvydont.smprpg.items.interfaces.Edible;
+import xyz.devvydont.smprpg.items.interfaces.IEdible;
 import xyz.devvydont.smprpg.items.interfaces.IConsumable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.crafting.CompressionRecipeMember;
 import xyz.devvydont.smprpg.util.crafting.MaterialWrapper;
-import xyz.devvydont.smprpg.util.items.FoodUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SteakFamilyBlueprint extends CustomCompressableBlueprint implements Edible, IConsumable {
+public class SteakFamilyBlueprint extends CustomCompressableBlueprint implements IEdible, IConsumable {
 
     public static final List<CompressionRecipeMember> COMPRESSION_FLOW = List.of(
             new CompressionRecipeMember(new MaterialWrapper(Material.COOKED_BEEF)),

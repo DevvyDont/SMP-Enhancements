@@ -7,16 +7,15 @@ import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomFakeHelmetBlueprint;
-import xyz.devvydont.smprpg.items.interfaces.HeaderDescribable;
+import xyz.devvydont.smprpg.items.interfaces.IHeaderDescribable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class GameBreaker extends CustomFakeHelmetBlueprint implements HeaderDescribable {
+public class GameBreaker extends CustomFakeHelmetBlueprint implements IHeaderDescribable {
 
     public GameBreaker(ItemService itemService, CustomItemType type) {
         super(itemService, type);

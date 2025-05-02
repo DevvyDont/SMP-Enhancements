@@ -1,32 +1,28 @@
 package xyz.devvydont.smprpg.items.blueprints.food;
 
-import org.bukkit.Material;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.components.FoodComponent;
+import io.papermc.paper.datacomponent.item.Consumable;
+import io.papermc.paper.datacomponent.item.consumable.ConsumeEffect;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.base.CustomItemBlueprint;
-import xyz.devvydont.smprpg.items.interfaces.Edible;
-import xyz.devvydont.smprpg.items.interfaces.Sellable;
+import xyz.devvydont.smprpg.items.interfaces.IEdible;
+import xyz.devvydont.smprpg.items.interfaces.ISellable;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.util.items.FoodUtil;
 
-public class CottonCandy extends CustomItemBlueprint implements Edible, Sellable {
+import java.util.List;
+
+public class CottonCandy extends CustomItemBlueprint implements IEdible, ISellable {
 
     public CottonCandy(ItemService itemService, CustomItemType type) {
         super(itemService, type);
     }
 
     @Override
-    public int getWorth() {
-        return 25;
-    }
-
-    @Override
-    public int getWorth(ItemMeta meta) {
-        return getWorth();
+    public int getWorth(ItemStack itemStack) {
+        return 25 * itemStack.getAmount();
     }
 
     @Override
@@ -41,11 +37,19 @@ public class CottonCandy extends CustomItemBlueprint implements Edible, Sellable
 
     @Override
     public float getSaturation() {
-        return 4;
+        return 2;
     }
 
     @Override
     public boolean canAlwaysEat() {
         return false;
+    }
+
+    @Override
+    public Consumable getConsumableComponent() {
+        return Consumable.consumable()
+                .consumeSeconds(.8f)
+                .addEffect(ConsumeEffect.applyStatusEffects(List.of(new PotionEffect(PotionEffectType.JUMP_BOOST, 20*45, 0, true, true)), .2f))
+                .build();
     }
 }

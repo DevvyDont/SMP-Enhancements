@@ -51,8 +51,8 @@ public class AnvilEnchantmentCombinationFixListener implements Listener {
 
         // Edge case, do we have two different types of enchanted books? We can't do this
         if (inputBlueprint instanceof ItemEnchantedBook inputBook && combineBlueprint instanceof ItemEnchantedBook combineBook) {
-            Enchantment inputEnchantment = inputBook.getEnchantment(input.getItemMeta());
-            Enchantment combineEnchantment = combineBook.getEnchantment(combine.getItemMeta());
+            Enchantment inputEnchantment = inputBook.getEnchantment(input);
+            Enchantment combineEnchantment = combineBook.getEnchantment(combine);
             if (inputEnchantment != null && !inputEnchantment.equals(combineEnchantment))
                 return new EnchantmentCombination(input, 0);
         }
@@ -73,7 +73,7 @@ public class AnvilEnchantmentCombinationFixListener implements Listener {
 
         // Now we actually do the enchantment application. First, we need to figure out how many new enchants
         // this item is allowed to have so it doesn't go over its limit.
-        int newEnchantmentSlots = inputBlueprint.getMaxAllowedEnchantments(input.getItemMeta()) - input.getEnchantments().size();
+        int newEnchantmentSlots = inputBlueprint.getMaxAllowedEnchantments(input) - input.getEnchantments().size();
 
         // Attempt to apply all the enchantments from the 2nd item.
         int cost = 0;

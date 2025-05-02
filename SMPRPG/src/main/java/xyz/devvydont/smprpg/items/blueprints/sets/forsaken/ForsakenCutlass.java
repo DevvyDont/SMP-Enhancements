@@ -26,9 +26,9 @@ import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomAttributeItem;
 import xyz.devvydont.smprpg.items.blueprints.vanilla.ItemSword;
-import xyz.devvydont.smprpg.items.interfaces.Craftable;
-import xyz.devvydont.smprpg.items.interfaces.HeaderDescribable;
-import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
+import xyz.devvydont.smprpg.items.interfaces.ICraftable;
+import xyz.devvydont.smprpg.items.interfaces.IHeaderDescribable;
+import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
@@ -38,7 +38,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class ForsakenCutlass extends CustomAttributeItem implements Listener, HeaderDescribable, Craftable, ToolBreakable {
+public class ForsakenCutlass extends CustomAttributeItem implements Listener, IHeaderDescribable, ICraftable, IBreakableEquipment {
 
     public static final int WITHER_APPLY_CHANCE = 20;
     public static final int WITHER_APPLY_SECONDS = 10;
@@ -92,15 +92,15 @@ public class ForsakenCutlass extends CustomAttributeItem implements Listener, He
         ShapedRecipe recipe = new ShapedRecipe(getRecipeKey(), generate());
         recipe.shape(" s ", " s ", " r ");
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
-        recipe.setIngredient('s', ItemService.getItem(ForsakenArmorSet.CRAFTING_COMPONENT));
-        recipe.setIngredient('r', ItemService.getItem(CustomItemType.OBSIDIAN_TOOL_ROD));
+        recipe.setIngredient('s', ItemService.generate(ForsakenArmorSet.CRAFTING_COMPONENT));
+        recipe.setIngredient('r', ItemService.generate(CustomItemType.OBSIDIAN_TOOL_ROD));
         return recipe;
     }
 
     @Override
     public Collection<ItemStack> unlockedBy() {
         return List.of(
-                ItemService.getItem(Material.NETHER_STAR)
+                ItemService.generate(Material.NETHER_STAR)
         );
     }
 

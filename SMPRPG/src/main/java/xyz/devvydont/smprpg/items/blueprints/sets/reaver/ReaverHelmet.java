@@ -14,8 +14,8 @@ import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomFakeHelmetBlueprint;
-import xyz.devvydont.smprpg.items.interfaces.HeaderDescribable;
-import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
+import xyz.devvydont.smprpg.items.interfaces.IHeaderDescribable;
+import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
@@ -24,7 +24,7 @@ import xyz.devvydont.smprpg.util.items.AbilityUtil;
 import java.util.Collection;
 import java.util.List;
 
-public class ReaverHelmet extends CustomFakeHelmetBlueprint implements HeaderDescribable, ToolBreakable, Listener {
+public class ReaverHelmet extends CustomFakeHelmetBlueprint implements IHeaderDescribable, IBreakableEquipment, Listener {
 
     public ReaverHelmet(ItemService itemService, CustomItemType type) {
         super(itemService, type);

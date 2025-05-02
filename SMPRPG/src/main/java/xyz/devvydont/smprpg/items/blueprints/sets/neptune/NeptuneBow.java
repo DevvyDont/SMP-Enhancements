@@ -10,8 +10,8 @@ import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomAttributeItem;
-import xyz.devvydont.smprpg.items.interfaces.Craftable;
-import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
+import xyz.devvydont.smprpg.items.interfaces.ICraftable;
+import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
 import xyz.devvydont.smprpg.util.crafting.builders.BowRecipe;
@@ -19,7 +19,7 @@ import xyz.devvydont.smprpg.util.crafting.builders.BowRecipe;
 import java.util.Collection;
 import java.util.List;
 
-public class NeptuneBow extends CustomAttributeItem implements ToolBreakable, Craftable {
+public class NeptuneBow extends CustomAttributeItem implements IBreakableEquipment, ICraftable {
 
     @Override
     public boolean wantNerfedSellPrice() {

@@ -8,16 +8,16 @@ import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.base.VanillaAttributeItem;
-import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
+import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
 import xyz.devvydont.smprpg.services.ItemService;
 
 import java.util.Collection;
 import java.util.List;
 
-public class ItemCrossbow extends VanillaAttributeItem implements ToolBreakable {
+public class ItemCrossbow extends VanillaAttributeItem implements IBreakableEquipment {
 
-    public ItemCrossbow(ItemService itemService, ItemStack item) {
-        super(itemService, item);
+    public ItemCrossbow(ItemService itemService, Material material) {
+        super(itemService, material);
     }
 
     @Override

@@ -41,6 +41,6 @@ public class ForsakenChestplate extends ForsakenArmorSet implements Dyeable {
 
     @Override
     public CraftingRecipe getCustomRecipe() {
-        return new ChestplateRecipe(this, ItemService.getItem(ForsakenHelmet.CRAFTING_COMPONENT), generate()).build();
+        return new ChestplateRecipe(this, ItemService.generate(ForsakenHelmet.CRAFTING_COMPONENT), generate()).build();
     }
 }

@@ -12,14 +12,14 @@ import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomAttributeItem;
 import xyz.devvydont.smprpg.items.blueprints.vanilla.ItemSword;
-import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
+import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
 
 import java.util.Collection;
 import java.util.List;
 
-public class MystbloomKunai extends CustomAttributeItem implements ToolBreakable {
+public class MystbloomKunai extends CustomAttributeItem implements IBreakableEquipment {
 
     public MystbloomKunai(ItemService itemService, CustomItemType type) {
         super(itemService, type);

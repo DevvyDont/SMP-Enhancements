@@ -9,15 +9,14 @@ import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
 import xyz.devvydont.smprpg.items.base.VanillaAttributeItem;
-import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
+import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.items.ToolsUtil;
 
 import java.util.Collection;
 import java.util.List;
 
-public class ItemAxe extends VanillaAttributeItem implements ToolBreakable {
-
+public class ItemAxe extends VanillaAttributeItem implements IBreakableEquipment {
 
     public static double getAxeDamage(Material material) {
         return switch (material) {
@@ -46,8 +45,8 @@ public class ItemAxe extends VanillaAttributeItem implements ToolBreakable {
 
     public static double AXE_ATTACK_SPEED_DEBUFF = -0.8;
 
-    public ItemAxe(ItemService itemService, ItemStack item) {
-        super(itemService, item);
+    public ItemAxe(ItemService itemService, Material material) {
+        super(itemService, material);
     }
 
     @Override
@@ -58,14 +57,14 @@ public class ItemAxe extends VanillaAttributeItem implements ToolBreakable {
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(Attribute.ATTACK_DAMAGE, getAxeDamage(getItem().getType())),
+                new AdditiveAttributeEntry(Attribute.ATTACK_DAMAGE, getAxeDamage(material)),
                 new MultiplicativeAttributeEntry(Attribute.ATTACK_SPEED, AXE_ATTACK_SPEED_DEBUFF)
         );
     }
 
     @Override
     public int getPowerRating() {
-        return getAxeRating(getItem().getType());
+        return getAxeRating(material);
     }
 
     @Override
@@ -75,7 +74,7 @@ public class ItemAxe extends VanillaAttributeItem implements ToolBreakable {
 
     @Override
     public int getMaxDurability() {
-        return switch (getItem().getType()) {
+        return switch (material) {
             case NETHERITE_AXE -> ToolsUtil.NETHERITE_TOOL_DURABILITY;
             case DIAMOND_AXE -> ToolsUtil.DIAMOND_TOOL_DURABILITY;
             case GOLDEN_AXE -> ToolsUtil.GOLD_TOOL_DURABILITY;

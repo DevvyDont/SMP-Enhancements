@@ -1,6 +1,6 @@
 package xyz.devvydont.smprpg.items.interfaces;
 
-public interface ToolBreakable {
+public interface IBreakableEquipment {
 
     int getMaxDurability();
 

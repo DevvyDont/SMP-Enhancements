@@ -16,8 +16,8 @@ import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.base.ChargedItemBlueprint;
-import xyz.devvydont.smprpg.items.interfaces.Craftable;
-import xyz.devvydont.smprpg.items.interfaces.HeaderDescribable;
+import xyz.devvydont.smprpg.items.interfaces.ICraftable;
+import xyz.devvydont.smprpg.items.interfaces.IHeaderDescribable;
 import xyz.devvydont.smprpg.services.ActionBarService;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
@@ -25,7 +25,7 @@ import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import java.util.Collection;
 import java.util.List;
 
-public class EnchantedMilkBucket extends ChargedItemBlueprint implements HeaderDescribable, Listener, Craftable {
+public class EnchantedMilkBucket extends ChargedItemBlueprint implements IHeaderDescribable, Listener, ICraftable {
 
     public EnchantedMilkBucket(ItemService itemService, CustomItemType type) {
         super(itemService, type);

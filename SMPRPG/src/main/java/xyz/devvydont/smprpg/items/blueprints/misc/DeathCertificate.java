@@ -16,7 +16,8 @@ import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.base.CustomItemBlueprint;
-import xyz.devvydont.smprpg.items.interfaces.Sellable;
+import xyz.devvydont.smprpg.items.interfaces.IHeaderDescribable;
+import xyz.devvydont.smprpg.items.interfaces.ISellable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
@@ -24,7 +25,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-public class DeathCertificate extends CustomItemBlueprint implements Listener, Sellable {
+public class DeathCertificate extends CustomItemBlueprint implements Listener, ISellable, IHeaderDescribable {
 
     private NamespacedKey locationKey;
     private NamespacedKey playerKey;
@@ -87,10 +88,11 @@ public class DeathCertificate extends CustomItemBlueprint implements Listener, S
     }
 
     @Override
-    public List<Component> getFooterComponent(ItemMeta meta) {
+    public List<Component> getHeader(ItemStack itemStack) {
 
+        var meta = itemStack.getItemMeta();
         if (!hasData(meta))
-            return super.getFooterComponent(meta);
+            return List.of();
 
         String playerName = getWhoDied(meta);
         int[] location = getPrimitiveLocation(meta);
@@ -126,12 +128,7 @@ public class DeathCertificate extends CustomItemBlueprint implements Listener, S
     }
 
     @Override
-    public int getWorth() {
-        return 1;
-    }
-
-    @Override
-    public int getWorth(ItemMeta meta) {
-        return 1;
+    public int getWorth(ItemStack itemStack) {
+        return itemStack.getAmount();
     }
 }

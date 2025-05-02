@@ -58,6 +58,6 @@ public class InfernoLeggings extends InfernoArmorSet {
 
     @Override
     public CraftingRecipe getCustomRecipe() {
-        return new LeggingsRecipe(this, ItemService.getItem(CustomItemType.INFERNO_REMNANT), generate()).build();
+        return new LeggingsRecipe(this, ItemService.generate(CustomItemType.INFERNO_REMNANT), generate()).build();
     }
 }

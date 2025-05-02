@@ -1,27 +1,28 @@
 package xyz.devvydont.smprpg.items.base;
 
 
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.CraftingRecipe;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.blueprints.resources.VanillaResource;
 import xyz.devvydont.smprpg.items.interfaces.Compressable;
-import xyz.devvydont.smprpg.items.interfaces.Sellable;
+import xyz.devvydont.smprpg.items.interfaces.ISellable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.crafting.CompressionRecipeMember;
 import xyz.devvydont.smprpg.util.crafting.MaterialWrapper;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public abstract class CustomCompressableBlueprint extends CustomItemBlueprint implements Compressable, Sellable {
+public abstract class CustomCompressableBlueprint extends CustomItemBlueprint implements Compressable, ISellable {
 
     public CustomCompressableBlueprint(ItemService itemService, CustomItemType type) {
         super(itemService, type);
@@ -147,24 +148,25 @@ public abstract class CustomCompressableBlueprint extends CustomItemBlueprint im
     }
 
     @Override
-    public int getWorth(ItemMeta meta) {
-        return getWorth();
-    }
-
-    @Override
-    public int getWorth() {
+    public int getWorth(ItemStack itemStack) {
         // Get the worth of the worst item in the crafting chain, and multiply it by the compressed amount.
         int amount = getCompressedAmount();
         int worth = 0;
         MaterialWrapper firstMaterial = getCompressionFlow().getFirst().getMaterial();
 
+        // Prevent recursive worth checking.
+        if (firstMaterial.isCustom() && isItemOfType(firstMaterial.get(itemService))) {
+            SMPRPG.broadcastToOperators(ComponentUtils.create("Missing worth for compressive material " + firstMaterial.name() + "! Defaulting to 1. This needs to be fixed in code and is considered a severe error.", NamedTextColor.RED));
+            return itemStack.getAmount();
+        }
+
         // If the item is vanilla, then the worth is just the value of the vanilla material.
         if (firstMaterial.isVanilla())
             worth = VanillaResource.getMaterialValue(firstMaterial.material());
         // If the item is custom check if the blueprint is sellable and use that.
-        else if (firstMaterial.isCustom() && itemService.getBlueprint(firstMaterial.getCustom()) instanceof Sellable sellable)
-            worth = sellable.getWorth();
+        else if (firstMaterial.isCustom() && itemService.getBlueprint(firstMaterial.getCustom()) instanceof ISellable sellable)
+            worth = sellable.getWorth(firstMaterial.get(itemService));
 
-        return amount * worth;
+        return amount * worth * itemStack.getAmount();
     }
 }

@@ -1,6 +1,6 @@
 package xyz.devvydont.smprpg.items.interfaces;
 
-public interface Shieldable {
+public interface IShield {
 
     /**
      * How much damage should be blocked when blocking?

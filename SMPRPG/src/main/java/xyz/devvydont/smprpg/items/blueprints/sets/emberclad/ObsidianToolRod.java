@@ -5,20 +5,19 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.CraftingRecipe;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.base.CustomItemBlueprint;
-import xyz.devvydont.smprpg.items.interfaces.Craftable;
-import xyz.devvydont.smprpg.items.interfaces.Sellable;
+import xyz.devvydont.smprpg.items.interfaces.ICraftable;
+import xyz.devvydont.smprpg.items.interfaces.ISellable;
 import xyz.devvydont.smprpg.services.ItemService;
 
 import java.util.Collection;
 import java.util.List;
 
-public class ObsidianToolRod extends CustomItemBlueprint implements Craftable, Sellable {
+public class ObsidianToolRod extends CustomItemBlueprint implements ICraftable, ISellable {
 
 
     public ObsidianToolRod(ItemService itemService, CustomItemType type) {
@@ -52,12 +51,7 @@ public class ObsidianToolRod extends CustomItemBlueprint implements Craftable, S
     }
 
     @Override
-    public int getWorth() {
-        return 5000;
-    }
-
-    @Override
-    public int getWorth(ItemMeta meta) {
-        return getWorth();
+    public int getWorth(ItemStack itemStack) {
+        return 5000 * itemStack.getAmount();
     }
 }

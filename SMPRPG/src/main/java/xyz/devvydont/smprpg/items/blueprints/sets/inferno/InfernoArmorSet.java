@@ -9,8 +9,8 @@ import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomArmorBlueprint;
-import xyz.devvydont.smprpg.items.interfaces.Craftable;
-import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
+import xyz.devvydont.smprpg.items.interfaces.ICraftable;
+import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
 import xyz.devvydont.smprpg.items.interfaces.Trimmable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
@@ -18,7 +18,7 @@ import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
 import java.util.Collection;
 import java.util.List;
 
-public abstract class InfernoArmorSet extends CustomArmorBlueprint implements ToolBreakable, Trimmable, Craftable {
+public abstract class InfernoArmorSet extends CustomArmorBlueprint implements IBreakableEquipment, Trimmable, ICraftable {
 
     public static final int POWER = 40;
     public static CustomItemType CRAFTING_COMPONENT = CustomItemType.INFERNO_REMNANT;
@@ -66,7 +66,7 @@ public abstract class InfernoArmorSet extends CustomArmorBlueprint implements To
     @Override
     public Collection<ItemStack> unlockedBy() {
         return List.of(
-                ItemService.getItem(CustomItemType.INFERNO_REMNANT)
+                ItemService.generate(CustomItemType.INFERNO_REMNANT)
         );
     }
 }

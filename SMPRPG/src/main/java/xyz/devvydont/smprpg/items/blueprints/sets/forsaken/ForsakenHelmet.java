@@ -34,6 +34,6 @@ public class ForsakenHelmet extends ForsakenArmorSet {
 
     @Override
     public CraftingRecipe getCustomRecipe() {
-        return new HelmetRecipe(this, ItemService.getItem(ForsakenHelmet.CRAFTING_COMPONENT), generate()).build();
+        return new HelmetRecipe(this, ItemService.generate(ForsakenHelmet.CRAFTING_COMPONENT), generate()).build();
     }
 }

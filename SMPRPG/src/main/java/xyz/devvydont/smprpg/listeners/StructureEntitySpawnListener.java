@@ -1,7 +1,5 @@
 package xyz.devvydont.smprpg.listeners;
 
-import io.papermc.paper.registry.RegistryAccess;
-import io.papermc.paper.registry.RegistryKey;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Chunk;
@@ -37,15 +35,15 @@ public class StructureEntitySpawnListener implements Listener {
 
         minimumStructureLevels = new HashMap<>();
 
-        minimumStructureLevels.put(Structure.ANCIENT_CITY,    99);  // Ancient cities are the hardest content in the game
-        minimumStructureLevels.put(Structure.BASTION_REMNANT, 80);  // Piglins in bastions are meant to be terrifying to make netherite scary to obtain
-        minimumStructureLevels.put(Structure.TRIAL_CHAMBERS,  70);  // Trial chambers are endgame-ish
-        minimumStructureLevels.put(Structure.END_CITY,        65);  // The end
-        minimumStructureLevels.put(Structure.STRONGHOLD,      55);  // The end
-        minimumStructureLevels.put(Structure.FORTRESS,        35);  // If the nether is 25, these should be ~10ish above
-        minimumStructureLevels.put(Structure.MONUMENT,        30);  // Midgame boss
+        minimumStructureLevels.put(Structure.ANCIENT_CITY,    100);  // Ancient cities are the hardest content in the game
+        minimumStructureLevels.put(Structure.END_CITY,        55);  // The end
+        minimumStructureLevels.put(Structure.STRONGHOLD,      45);  // The end
+        minimumStructureLevels.put(Structure.BASTION_REMNANT, 40);  // Piglins in bastions are meant to be terrifying to make netherite scary to obtain
+        minimumStructureLevels.put(Structure.FORTRESS,        25);  // If the nether is 25, these should be ~10ish above
+        minimumStructureLevels.put(Structure.TRIAL_CHAMBERS,  30);  // Trial chambers are endgame-ish
         minimumStructureLevels.put(Structure.MANSION,         25);  // Pillagers are 15-25
         minimumStructureLevels.put(Structure.PILLAGER_OUTPOST,20);  // Pillagers are 15-25
+        minimumStructureLevels.put(Structure.MONUMENT,        18);  // Midgame boss
         minimumStructureLevels.put(Structure.MINESHAFT,       15);  // Early game structure
         minimumStructureLevels.put(Structure.MINESHAFT_MESA,  15);  // Early game structure
         minimumStructureLevels.put(Structure.VILLAGE_DESERT,  15);  // Early game structure

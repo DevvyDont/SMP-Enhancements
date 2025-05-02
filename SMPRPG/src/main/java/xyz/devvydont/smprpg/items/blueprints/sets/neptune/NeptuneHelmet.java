@@ -10,8 +10,8 @@ import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomFakeHelmetBlueprint;
-import xyz.devvydont.smprpg.items.interfaces.Craftable;
-import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
+import xyz.devvydont.smprpg.items.interfaces.ICraftable;
+import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
 import xyz.devvydont.smprpg.util.crafting.builders.HelmetRecipe;
@@ -19,7 +19,7 @@ import xyz.devvydont.smprpg.util.crafting.builders.HelmetRecipe;
 import java.util.Collection;
 import java.util.List;
 
-public class NeptuneHelmet extends CustomFakeHelmetBlueprint implements ToolBreakable, Craftable {
+public class NeptuneHelmet extends CustomFakeHelmetBlueprint implements IBreakableEquipment, ICraftable {
 
     public NeptuneHelmet(ItemService itemService, CustomItemType type) {
         super(itemService, type);

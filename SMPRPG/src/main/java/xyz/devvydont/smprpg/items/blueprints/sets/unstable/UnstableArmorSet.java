@@ -3,14 +3,14 @@ package xyz.devvydont.smprpg.items.blueprints.sets.unstable;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.trim.TrimMaterial;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomArmorBlueprint;
-import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
+import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
+import xyz.devvydont.smprpg.items.interfaces.IFooterDescribable;
 import xyz.devvydont.smprpg.items.interfaces.Trimmable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public abstract class UnstableArmorSet extends CustomArmorBlueprint implements Trimmable, ToolBreakable {
+public abstract class UnstableArmorSet extends CustomArmorBlueprint implements Trimmable, IBreakableEquipment, IFooterDescribable {
 
     public UnstableArmorSet(ItemService itemService, CustomItemType type) {
         super(itemService, type);
@@ -47,8 +47,8 @@ public abstract class UnstableArmorSet extends CustomArmorBlueprint implements T
     public abstract double getStatMultiplier();
 
     @Override
-    public List<Component> getFooterComponent(ItemMeta meta) {
-        List<Component> footer = new ArrayList<>(super.getFooterComponent(meta));
+    public List<Component> getFooter(ItemStack item) {
+        var footer = new ArrayList<Component>();
         footer.add(ComponentUtils.EMPTY);
         Component lore = ComponentUtils.create("Stats ").append(ComponentUtils.create("randomly", NamedTextColor.LIGHT_PURPLE)).append(ComponentUtils.create(" shuffle!"));
         footer.add(lore);

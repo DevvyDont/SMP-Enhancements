@@ -266,7 +266,7 @@ public class AttributeUtil {
             return;
 
         ItemMeta meta = item.getItemMeta();
-        ItemRarity rarity = blueprint.getRarity(meta);
+        ItemRarity rarity = blueprint.getRarity(item);
 
         // First base modifiers...
         AttributeModifierType.AttributeSession baseAttributes = attributeable.getAttributeSession(attributeable.getAttributeModifierType(), meta);

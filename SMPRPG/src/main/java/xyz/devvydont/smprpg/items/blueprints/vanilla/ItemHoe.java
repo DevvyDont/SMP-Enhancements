@@ -9,14 +9,14 @@ import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
 import xyz.devvydont.smprpg.items.base.VanillaAttributeItem;
-import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
+import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.items.ToolsUtil;
 
 import java.util.Collection;
 import java.util.List;
 
-public class ItemHoe extends VanillaAttributeItem implements ToolBreakable {
+public class ItemHoe extends VanillaAttributeItem implements IBreakableEquipment {
 
     public static double getHoeDamage(Material material) {
         return switch (material) {
@@ -53,8 +53,8 @@ public class ItemHoe extends VanillaAttributeItem implements ToolBreakable {
         };
     }
 
-    public ItemHoe(ItemService itemService, ItemStack item) {
-        super(itemService, item);
+    public ItemHoe(ItemService itemService, Material material) {
+        super(itemService, material);
     }
 
     @Override
@@ -65,14 +65,14 @@ public class ItemHoe extends VanillaAttributeItem implements ToolBreakable {
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(Attribute.ATTACK_DAMAGE, getHoeDamage(getItem().getType())),
-                new MultiplicativeAttributeEntry(Attribute.ATTACK_SPEED, getHoeAttackSpeedDebuff(getItem().getType()))
+                new AdditiveAttributeEntry(Attribute.ATTACK_DAMAGE, getHoeDamage(material)),
+                new MultiplicativeAttributeEntry(Attribute.ATTACK_SPEED, getHoeAttackSpeedDebuff(material))
         );
     }
 
     @Override
     public int getPowerRating() {
-        return getHoeRating(getItem().getType());
+        return getHoeRating(material);
     }
 
     @Override
@@ -83,7 +83,7 @@ public class ItemHoe extends VanillaAttributeItem implements ToolBreakable {
 
     @Override
     public int getMaxDurability() {
-        return switch (getItem().getType()) {
+        return switch (material) {
             case NETHERITE_HOE -> ToolsUtil.NETHERITE_TOOL_DURABILITY;
             case DIAMOND_HOE -> ToolsUtil.DIAMOND_TOOL_DURABILITY;
             case GOLDEN_HOE -> ToolsUtil.GOLD_TOOL_DURABILITY;

@@ -17,28 +17,23 @@ import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.attribute.AttributeModifierType;
 import xyz.devvydont.smprpg.items.interfaces.IAttributeItem;
-import xyz.devvydont.smprpg.items.interfaces.Craftable;
-import xyz.devvydont.smprpg.items.interfaces.Sellable;
+import xyz.devvydont.smprpg.items.interfaces.ICraftable;
+import xyz.devvydont.smprpg.items.interfaces.ISellable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.attributes.AttributeUtil;
 
 /*
  * Represents a combination of a custom fake textured skull item, and a helmet that can be worn.
  */
-public abstract class CustomTexturedAttributeHelmetBlueprint extends CustomHeadBlueprint implements IAttributeItem, Sellable, Listener {
+public abstract class CustomTexturedAttributeHelmetBlueprint extends CustomHeadBlueprint implements IAttributeItem, ISellable, Listener {
 
     public CustomTexturedAttributeHelmetBlueprint(ItemService itemService, CustomItemType type) {
         super(itemService, type);
     }
 
     @Override
-    public int getWorth() {
-        return AttributeUtil.calculateValue(getPowerRating(), getDefaultRarity(), this instanceof Craftable);
-    }
-
-    @Override
-    public int getWorth(ItemMeta meta) {
-        return getWorth();
+    public int getWorth(ItemStack item) {
+        return AttributeUtil.calculateValue(getPowerRating(), getDefaultRarity(), this instanceof ICraftable) * item.getAmount();
     }
 
     @Override

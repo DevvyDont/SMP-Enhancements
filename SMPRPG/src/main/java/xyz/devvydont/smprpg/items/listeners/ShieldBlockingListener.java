@@ -8,7 +8,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.events.CustomEntityDamageByEntityEvent;
-import xyz.devvydont.smprpg.items.interfaces.Shieldable;
+import xyz.devvydont.smprpg.items.interfaces.IShield;
 import xyz.devvydont.smprpg.services.ItemService;
 
 /*
@@ -37,13 +37,13 @@ public class ShieldBlockingListener implements Listener {
         boolean isHoldingShield = false;
 
         ItemService itemService = SMPRPG.getInstance().getItemService();
-        if (!main.getType().equals(Material.AIR) && itemService.getBlueprint(main) instanceof Shieldable shieldable) {
+        if (!main.getType().equals(Material.AIR) && itemService.getBlueprint(main) instanceof IShield shieldable) {
             damageReduction = Math.max(damageReduction, shieldable.getDamageBlockingPercent());
             delay = Math.min(delay, shieldable.getShieldDelay());
             isHoldingShield = true;
         }
 
-        if (!off.getType().equals(Material.AIR) && itemService.getBlueprint(off) instanceof Shieldable shieldable) {
+        if (!off.getType().equals(Material.AIR) && itemService.getBlueprint(off) instanceof IShield shieldable) {
             damageReduction = Math.max(damageReduction, shieldable.getDamageBlockingPercent());
             delay = Math.min(delay, shieldable.getShieldDelay());
             isHoldingShield = true;

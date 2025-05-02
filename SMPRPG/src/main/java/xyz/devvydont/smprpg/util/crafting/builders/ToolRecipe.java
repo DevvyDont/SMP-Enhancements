@@ -5,7 +5,7 @@ import org.bukkit.inventory.CraftingRecipe;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
-import xyz.devvydont.smprpg.items.interfaces.Craftable;
+import xyz.devvydont.smprpg.items.interfaces.ICraftable;
 
 public abstract class ToolRecipe {
 
@@ -17,7 +17,7 @@ public abstract class ToolRecipe {
     protected final char MATERIAL_KEY = 'M';
     protected final char HANDLE_KEY = 'H';
 
-    public ToolRecipe(Craftable blueprint, ItemStack material, ItemStack handle, ItemStack result) {
+    public ToolRecipe(ICraftable blueprint, ItemStack material, ItemStack handle, ItemStack result) {
         this.handle = handle;
         this.material = material;
         this.result = result;

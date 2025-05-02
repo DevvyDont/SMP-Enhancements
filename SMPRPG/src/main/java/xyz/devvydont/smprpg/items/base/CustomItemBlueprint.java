@@ -38,33 +38,24 @@ public abstract class CustomItemBlueprint extends SMPItemBlueprint {
     }
 
     @Override
-    public ItemRarity getRarity(ItemMeta meta) {
-        return getDefaultRarity();
-    }
-
-    @Override
     public ItemRarity getDefaultRarity() {
         return getCustomItemType().rarity;
     }
 
     @Override
-    public String getItemName(ItemMeta meta) {
+    public String getItemName(ItemStack item) {
         return getCustomItemType().name;
     }
 
-    /**
-     * Called to set various components and attributes of this item, can be overidden for extra functionality
-     *
-     * @param meta
-     */
+    @Override
     public void updateMeta(ItemMeta meta) {
 
         // Apply the key to the item so the plugin knows this item is custom
         meta.getPersistentDataContainer().set(itemService.ITEM_TYPE_KEY, PersistentDataType.STRING, getCustomItemType().getKey());
-
         super.updateMeta(meta);
     }
 
+    @Override
     public ItemStack generate() {
 
         // Make the starting item.
@@ -75,18 +66,10 @@ public abstract class CustomItemBlueprint extends SMPItemBlueprint {
         return itemStack;
     }
 
-    public ItemStack generate(int amount) {
-        var stack = generate();
-        stack.setAmount(amount);
-        return stack;
-    }
-
     /**
      * Determines if item given is an item belonging to this blueprint
-     *
-     * @param itemStack
-     * @return
      */
+    @Override
     public boolean isItemOfType(ItemStack itemStack) {
 
         String itemKey = itemService.getItemKey(itemStack);

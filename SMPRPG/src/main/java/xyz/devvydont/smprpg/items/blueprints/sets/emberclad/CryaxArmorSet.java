@@ -8,15 +8,15 @@ import org.bukkit.inventory.meta.trim.TrimPattern;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.base.CustomArmorBlueprint;
-import xyz.devvydont.smprpg.items.interfaces.Craftable;
-import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
+import xyz.devvydont.smprpg.items.interfaces.ICraftable;
+import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
 import xyz.devvydont.smprpg.items.interfaces.Trimmable;
 import xyz.devvydont.smprpg.services.ItemService;
 
 import java.util.Collection;
 import java.util.List;
 
-public abstract class CryaxArmorSet extends CustomArmorBlueprint implements ToolBreakable, Craftable, Trimmable {
+public abstract class CryaxArmorSet extends CustomArmorBlueprint implements IBreakableEquipment, ICraftable, Trimmable {
 
     public static final int POWER = 35;
     public static final CustomItemType INGREDIENT = CustomItemType.ENCHANTED_BLAZE_ROD;

@@ -7,7 +7,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.base.CustomItemBlueprint;
-import xyz.devvydont.smprpg.items.interfaces.HeaderDescribable;
+import xyz.devvydont.smprpg.items.interfaces.IHeaderDescribable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
@@ -18,7 +18,7 @@ import java.util.List;
  * setting, an item can keep its metadata safely to be swapped for an "updated" one, or just remain as a relic of
  * the past.
  */
-public class LegacyItemBlueprint extends CustomItemBlueprint implements HeaderDescribable {
+public class LegacyItemBlueprint extends CustomItemBlueprint implements IHeaderDescribable {
 
     public LegacyItemBlueprint(ItemService itemService, CustomItemType type) {
         super(itemService, type);
@@ -35,16 +35,19 @@ public class LegacyItemBlueprint extends CustomItemBlueprint implements HeaderDe
     /**
      * Override the updateMeta method to not actually modify any item properties except the lore to show our
      * message.
-     *
-     * @param meta
      */
-    public void updateMeta(ItemMeta meta) {
-        meta.displayName(getNameComponent(meta));
+    public void updateMeta(ItemStack item) {
+        item.editMeta(meta -> meta.displayName(getNameComponent(item)));
     }
 
     @Override
-    public String getItemName(ItemMeta meta) {
-        return resolveItemName(meta) + " (Legacy)";
+    public void updateMeta(ItemMeta meta) {
+
+    }
+
+    @Override
+    public String getItemName(ItemStack item) {
+        return resolveItemName(item.getItemMeta()) + " (Legacy)";
     }
 
     @Override

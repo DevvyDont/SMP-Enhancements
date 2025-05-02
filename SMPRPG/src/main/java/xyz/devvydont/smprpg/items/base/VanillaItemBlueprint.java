@@ -1,74 +1,60 @@
 package xyz.devvydont.smprpg.items.base;
 
 
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.ItemRarity;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.formatting.MinecraftStringUtils;
 
 /**
- * Wrapper class for vanilla items to use so we don't have to establish 90% of the vanilla items in the game
+ * Represents an item that shouldn't have any special behavior associated with it. It will simply function as
+ * a featureless item that updates according to the item meta and components that is has.
  */
 public class VanillaItemBlueprint extends SMPItemBlueprint {
 
-    ItemStack item;
+    protected final Material material;
 
-    public VanillaItemBlueprint(ItemService itemService, ItemStack item) {
+    public VanillaItemBlueprint(ItemService itemService, Material material) {
         super(itemService);
-        this.item = item;
+        this.material = material;
     }
 
-    public ItemStack getItem() {
-        return item;
+    public Material getMaterial() {
+        return material;
+    }
+
+    @Override
+    public ItemClassification getItemClassification() {
+        return ItemClassification.resolveVanillaMaterial(material);
+    }
+
+    @Override
+    public ItemRarity getRarity(ItemStack item) {
+        return getDefaultRarity();
+    }
+
+    @Override
+    public ItemRarity getDefaultRarity() {
+        return ItemRarity.ofVanillaMaterial(material);
     }
 
     @Override
     public String getCustomModelDataIdentifier() {
-        return "smprpg:vanilla_" + item.getType().toString().toLowerCase();
-    }
-
-    /**
-     * Vanilla items always use the vanilla classification resolver.
-     */
-    @Override
-    public ItemClassification getItemClassification() {
-        return ItemClassification.resolveVanillaMaterial(item.getType());
+        return "smprpg:vanilla_" + material.name().toLowerCase();
     }
 
     @Override
-    public ItemRarity getRarity(ItemMeta meta) {
-        return getDefaultRarity();
-    }
-
-    /**
-     * Vanilla items always use the vanilla classification resolver.
-     */
-    @Override
-    public ItemRarity getDefaultRarity() {
-        return ItemRarity.ofVanillaMaterial(item.getType());
-    }
-
-    @Override
-    public String getItemName(ItemMeta meta) {
-        return MinecraftStringUtils.getTitledString(item.getType().name());
-    }
-
-    @Override
-    public boolean wantFakeEnchantGlow() {
-        return false;
+    public String getItemName(ItemStack item) {
+        return MinecraftStringUtils.getTitledString(material.name());
     }
 
     @Override
     public boolean isItemOfType(ItemStack itemStack) {
-        // This item is of this type as long as it is a vanilla item and matches the material.
-        return itemService.getBlueprint(itemStack) instanceof VanillaItemBlueprint && itemStack.getType().equals(item.getType());
+        return !isCustom() && itemStack.getType().equals(material);
     }
 
-    /**
-     * All items that descend from this class are vanilla.
-     */
     @Override
     public boolean isCustom() {
         return false;
@@ -76,9 +62,6 @@ public class VanillaItemBlueprint extends SMPItemBlueprint {
 
     @Override
     public ItemStack generate() {
-        ItemStack newItem = new ItemStack(item.getType());
-        updateMeta(item);
-        return newItem;
+        return ItemStack.of(material);
     }
-
 }

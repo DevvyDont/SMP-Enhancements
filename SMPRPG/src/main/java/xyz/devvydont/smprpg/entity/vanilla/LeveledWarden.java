@@ -27,6 +27,11 @@ public class LeveledWarden extends BossInstance {
     }
 
     @Override
+    public long getTimeLimit() {
+        return 5L * 60L;
+    }
+
+    @Override
     public @Nullable BossBar createBossBar() {
         return BossBar.bossBar(ComponentUtils.EMPTY, 1.0f, BossBar.Color.BLUE, BossBar.Overlay.NOTCHED_20);
     }
@@ -38,7 +43,7 @@ public class LeveledWarden extends BossInstance {
 
     @Override
     public double calculateBaseHealth() {
-        return 200_000_000;
+        return 250_000_000;
     }
 
     @Override

@@ -1,6 +1,8 @@
 package xyz.devvydont.smprpg;
 
-import org.bukkit.configuration.file.YamlConfiguration;
+import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.format.NamedTextColor;
+import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import xyz.devvydont.smprpg.config.ConfigManager;
@@ -9,8 +11,8 @@ import xyz.devvydont.smprpg.listeners.*;
 import xyz.devvydont.smprpg.loot.LootListener;
 import xyz.devvydont.smprpg.services.*;
 import xyz.devvydont.smprpg.util.animations.AnimationService;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,6 +45,13 @@ public final class SMPRPG extends JavaPlugin implements Listener {
     AnimationService animationService;
 
     List<BaseService> services;
+
+    public static void broadcastToOperators(TextComponent alert) {
+        Bukkit.getLogger().warning(alert.content());
+        for (var player : Bukkit.getOnlinePlayers())
+            if (player.isOp())
+                player.sendMessage(ComponentUtils.alert(ComponentUtils.create("OP MSG", NamedTextColor.DARK_RED), alert));
+    }
 
     public EntityDamageCalculatorService getEntityDamageCalculatorService() {
         return entityDamageCalculatorService;
@@ -151,7 +160,6 @@ public final class SMPRPG extends JavaPlugin implements Listener {
         new HealthScaleListener(this);
         new AnvilEnchantmentCombinationFixListener(this);
         new DimensionPortalLockingListener(this);
-        new TrialChamberFixListener(this);
         new PvPListener();
 
         new StructureEntitySpawnListener(this);

@@ -84,7 +84,7 @@ public class MenuReforge extends MenuBase {
         SMPItemBlueprint blueprint = SMPRPG.getInstance().getItemService().getBlueprint(input);
 
         // Is this item not able to receive a reforge?
-        if (getRandomReforge(blueprint.getItemClassification(), blueprint.getReforgeType(input.getItemMeta())).getType().equals(ReforgeType.ERROR)) {
+        if (getRandomReforge(blueprint.getItemClassification(), blueprint.getReforgeType(input)).getType().equals(ReforgeType.ERROR)) {
             lore.add(ComponentUtils.EMPTY);
             lore.add(ComponentUtils.create("This item cannot be reforged!", NamedTextColor.RED));
             anvil.editMeta(meta -> {
@@ -104,7 +104,7 @@ public class MenuReforge extends MenuBase {
         lore.add(ComponentUtils.create("Your balance: ").append(ComponentUtils.create(EconomyService.formatMoney(bal), NamedTextColor.GOLD)));
         if (cost > bal)
             lore.add(ComponentUtils.create("Insufficient funds! You cannot afford this!", NamedTextColor.RED));
-        if (blueprint.isReforged(input.getItemMeta())) {
+        if (blueprint.isReforged(input)) {
             lore.add(ComponentUtils.EMPTY);
             lore.add(ComponentUtils.create("NOTE: Previous reforge will be overwritten!", NamedTextColor.RED));
         }
@@ -174,7 +174,7 @@ public class MenuReforge extends MenuBase {
         }
 
         // Analyze the current reforge on the gear and determine if we can even roll another reforge without erroring
-        ReforgeType currentReforgeType = blueprint.getReforgeType(item.getItemMeta());
+        ReforgeType currentReforgeType = blueprint.getReforgeType(item);
         ReforgeBase newReforge = getRandomReforge(blueprint.getItemClassification(), currentReforgeType);
         boolean success = !newReforge.getType().equals(ReforgeType.ERROR);
 

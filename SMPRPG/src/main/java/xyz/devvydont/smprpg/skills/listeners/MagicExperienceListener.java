@@ -234,7 +234,7 @@ public class MagicExperienceListener implements Listener {
         int multiplier = 1;
         if (blueprint instanceof IAttributeItem attributeable)
             multiplier = attributeable.getPowerRating();
-        else if (blueprint instanceof ItemEnchantedBook book && book.getEnchantment(result.getItemMeta()) != null)
+        else if (blueprint instanceof ItemEnchantedBook book && book.getEnchantment(result) != null)
             multiplier = book.getRarity(result).ordinal() + 3;
 
         int exp = event.getView().getRepairCost() * multiplier;

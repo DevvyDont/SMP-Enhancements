@@ -10,13 +10,13 @@ import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.base.CustomItemBlueprint;
-import xyz.devvydont.smprpg.items.interfaces.Craftable;
+import xyz.devvydont.smprpg.items.interfaces.ICraftable;
 import xyz.devvydont.smprpg.services.ItemService;
 
 import java.util.Collection;
 import java.util.List;
 
-public class DiamondToolRod extends CustomItemBlueprint implements Craftable {
+public class DiamondToolRod extends CustomItemBlueprint implements ICraftable {
 
 
     public DiamondToolRod(ItemService itemService, CustomItemType type) {

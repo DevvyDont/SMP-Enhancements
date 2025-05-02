@@ -9,14 +9,14 @@ import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
 import xyz.devvydont.smprpg.items.base.VanillaAttributeItem;
-import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
+import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.items.ToolsUtil;
 
 import java.util.Collection;
 import java.util.List;
 
-public class ItemPickaxe extends VanillaAttributeItem implements ToolBreakable {
+public class ItemPickaxe extends VanillaAttributeItem implements IBreakableEquipment {
 
     public static double getPickaxeDamage(Material material) {
         return switch (material) {
@@ -44,8 +44,8 @@ public class ItemPickaxe extends VanillaAttributeItem implements ToolBreakable {
 
     public static double PICKAXE_ATTACK_SPEED_DEBUFF = -0.7;
 
-    public ItemPickaxe(ItemService itemService, ItemStack item) {
-        super(itemService, item);
+    public ItemPickaxe(ItemService itemService, Material material) {
+        super(itemService, material);
     }
 
     @Override
@@ -56,14 +56,14 @@ public class ItemPickaxe extends VanillaAttributeItem implements ToolBreakable {
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(Attribute.ATTACK_DAMAGE, getPickaxeDamage(getItem().getType())),
+                new AdditiveAttributeEntry(Attribute.ATTACK_DAMAGE, getPickaxeDamage(material)),
                 new MultiplicativeAttributeEntry(Attribute.ATTACK_SPEED, PICKAXE_ATTACK_SPEED_DEBUFF)
         );
     }
 
     @Override
     public int getPowerRating() {
-        return getPickaxeRating(getItem().getType());
+        return getPickaxeRating(material);
     }
 
     @Override
@@ -73,7 +73,7 @@ public class ItemPickaxe extends VanillaAttributeItem implements ToolBreakable {
 
     @Override
     public int getMaxDurability() {
-        return switch (getItem().getType()) {
+        return switch (material) {
             case NETHERITE_PICKAXE -> ToolsUtil.NETHERITE_TOOL_DURABILITY;
             case DIAMOND_PICKAXE -> ToolsUtil.DIAMOND_TOOL_DURABILITY;
             case GOLDEN_PICKAXE -> ToolsUtil.GOLD_TOOL_DURABILITY;

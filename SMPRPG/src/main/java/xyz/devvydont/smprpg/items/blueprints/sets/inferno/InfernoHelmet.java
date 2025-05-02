@@ -58,6 +58,6 @@ public class InfernoHelmet extends InfernoArmorSet {
 
     @Override
     public CraftingRecipe getCustomRecipe() {
-        return new HelmetRecipe(this, ItemService.getItem(CustomItemType.INFERNO_REMNANT), generate()).build();
+        return new HelmetRecipe(this, ItemService.generate(CustomItemType.INFERNO_REMNANT), generate()).build();
     }
 }

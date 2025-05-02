@@ -9,14 +9,14 @@ import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
 import xyz.devvydont.smprpg.items.base.VanillaAttributeItem;
-import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
+import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.items.ToolsUtil;
 
 import java.util.Collection;
 import java.util.List;
 
-public class ItemShovel extends VanillaAttributeItem implements ToolBreakable {
+public class ItemShovel extends VanillaAttributeItem implements IBreakableEquipment {
 
     public static double getShovelDamage(Material material) {
         return switch (material) {
@@ -44,8 +44,8 @@ public class ItemShovel extends VanillaAttributeItem implements ToolBreakable {
 
     public static double SHOVEL_ATTACK_SPEED_DEBUFF = -0.75;
 
-    public ItemShovel(ItemService itemService, ItemStack item) {
-        super(itemService, item);
+    public ItemShovel(ItemService itemService, Material material) {
+        super(itemService, material);
     }
 
     @Override
@@ -56,14 +56,14 @@ public class ItemShovel extends VanillaAttributeItem implements ToolBreakable {
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(Attribute.ATTACK_DAMAGE, getShovelDamage(getItem().getType())),
+                new AdditiveAttributeEntry(Attribute.ATTACK_DAMAGE, getShovelDamage(material)),
                 new MultiplicativeAttributeEntry(Attribute.ATTACK_SPEED, SHOVEL_ATTACK_SPEED_DEBUFF)
         );
     }
 
     @Override
     public int getPowerRating() {
-        return getShovelRating(getItem().getType());
+        return getShovelRating(material);
     }
 
     @Override
@@ -73,7 +73,7 @@ public class ItemShovel extends VanillaAttributeItem implements ToolBreakable {
 
     @Override
     public int getMaxDurability() {
-        return switch (getItem().getType()) {
+        return switch (material) {
             case NETHERITE_SHOVEL -> ToolsUtil.NETHERITE_TOOL_DURABILITY;
             case DIAMOND_SHOVEL -> ToolsUtil.DIAMOND_TOOL_DURABILITY;
             case GOLDEN_SHOVEL -> ToolsUtil.GOLD_TOOL_DURABILITY;

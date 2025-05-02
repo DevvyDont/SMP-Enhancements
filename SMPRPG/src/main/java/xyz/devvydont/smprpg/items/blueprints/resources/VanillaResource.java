@@ -2,9 +2,8 @@ package xyz.devvydont.smprpg.items.blueprints.resources;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import xyz.devvydont.smprpg.items.base.VanillaItemBlueprint;
-import xyz.devvydont.smprpg.items.interfaces.Sellable;
+import xyz.devvydont.smprpg.items.interfaces.ISellable;
 import xyz.devvydont.smprpg.services.ItemService;
 
 import java.util.HashMap;
@@ -16,7 +15,7 @@ import java.util.Map;
  *
  * todo make this into a file.
  */
-public class VanillaResource extends VanillaItemBlueprint implements Sellable {
+public class VanillaResource extends VanillaItemBlueprint implements ISellable {
 
     private static final Map<Material, Integer> materialWorthMap;
 
@@ -267,18 +266,12 @@ public class VanillaResource extends VanillaItemBlueprint implements Sellable {
         return materialWorthMap;
     }
 
-
-    public VanillaResource(ItemService itemService, ItemStack item) {
-        super(itemService, item);
+    public VanillaResource(ItemService itemService, Material material) {
+        super(itemService, material);
     }
 
     @Override
-    public int getWorth() {
-        return getMaterialValue(getItem().getType());
-    }
-
-    @Override
-    public int getWorth(ItemMeta meta) {
-        return getWorth();
+    public int getWorth(ItemStack itemStack) {
+        return getMaterialValue(itemStack.getType()) * itemStack.getAmount();
     }
 }

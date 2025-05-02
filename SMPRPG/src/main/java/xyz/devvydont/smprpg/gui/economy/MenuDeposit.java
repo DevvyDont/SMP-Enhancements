@@ -7,7 +7,7 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.gui.base.MenuBase;
-import xyz.devvydont.smprpg.items.interfaces.Sellable;
+import xyz.devvydont.smprpg.items.interfaces.ISellable;
 import xyz.devvydont.smprpg.services.EconomyService;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
@@ -48,7 +48,7 @@ public final class MenuDeposit extends MenuBase {
 
         // If the item clicked is not sellable, we can't do anything with it.
         var itemBlueprint = this.itemService.getBlueprint(event.getCurrentItem());
-        event.setCancelled(!(itemBlueprint instanceof Sellable));
+        event.setCancelled(!(itemBlueprint instanceof ISellable));
     }
 
     @Override
@@ -62,9 +62,9 @@ public final class MenuDeposit extends MenuBase {
             }
 
             var itemBlueprint = this.itemService.getBlueprint(depositedItem);
-            if (itemBlueprint instanceof Sellable sellable) {
+            if (itemBlueprint instanceof ISellable sellable) {
                 quantitySold += depositedItem.getAmount();
-                amountToCredit += sellable.getWorth() * depositedItem.getAmount();
+                amountToCredit += sellable.getWorth(depositedItem);
                 depositedItem.setAmount(0);
             }
         }

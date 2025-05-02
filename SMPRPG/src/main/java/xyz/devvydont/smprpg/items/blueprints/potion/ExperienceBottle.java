@@ -12,24 +12,24 @@ import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.base.CustomItemBlueprint;
-import xyz.devvydont.smprpg.items.interfaces.Craftable;
+import xyz.devvydont.smprpg.items.interfaces.ICraftable;
 import xyz.devvydont.smprpg.items.interfaces.ExperienceThrowable;
-import xyz.devvydont.smprpg.items.interfaces.Sellable;
+import xyz.devvydont.smprpg.items.interfaces.ISellable;
 import xyz.devvydont.smprpg.services.ItemService;
 
 import java.util.Collection;
 import java.util.List;
 
-public class ExperienceBottle extends CustomItemBlueprint implements ExperienceThrowable, Craftable, Sellable {
+public class ExperienceBottle extends CustomItemBlueprint implements ExperienceThrowable, ICraftable, ISellable {
 
     @Nullable
     public static ItemStack getCraftingComponent(CustomItemType expBottleType) {
         return switch (expBottleType) {
-            case EXPERIENCE_BOTTLE -> ItemService.getItem(Material.LAPIS_LAZULI);
-            case LARGE_EXPERIENCE_BOTTLE -> ItemService.getItem(Material.LAPIS_BLOCK);
-            case HEFTY_EXPERIENCE_BOTTLE -> ItemService.getItem(CustomItemType.ENCHANTED_LAPIS);
-            case GIGANTIC_EXPERIENCE_BOTTLE -> ItemService.getItem(CustomItemType.ENCHANTED_LAPIS_BLOCK);
-            case COLOSSAL_EXPERIENCE_BOTTLE -> ItemService.getItem(CustomItemType.LAPIS_SINGULARITY);
+            case EXPERIENCE_BOTTLE -> ItemService.generate(Material.LAPIS_LAZULI);
+            case LARGE_EXPERIENCE_BOTTLE -> ItemService.generate(Material.LAPIS_BLOCK);
+            case HEFTY_EXPERIENCE_BOTTLE -> ItemService.generate(CustomItemType.ENCHANTED_LAPIS);
+            case GIGANTIC_EXPERIENCE_BOTTLE -> ItemService.generate(CustomItemType.ENCHANTED_LAPIS_BLOCK);
+            case COLOSSAL_EXPERIENCE_BOTTLE -> ItemService.generate(CustomItemType.LAPIS_SINGULARITY);
             default -> null;
         };
     }
@@ -95,12 +95,7 @@ public class ExperienceBottle extends CustomItemBlueprint implements ExperienceT
     }
 
     @Override
-    public int getWorth() {
-        return getExperienceForBottle(getCustomItemType());
-    }
-
-    @Override
-    public int getWorth(ItemMeta meta) {
-        return getWorth();
+    public int getWorth(ItemStack itemStack) {
+        return getExperienceForBottle(getCustomItemType()) * itemStack.getAmount();
     }
 }

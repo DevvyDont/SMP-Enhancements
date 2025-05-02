@@ -26,9 +26,9 @@ import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomAttributeItem;
 import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
 import xyz.devvydont.smprpg.items.blueprints.vanilla.ItemPickaxe;
-import xyz.devvydont.smprpg.items.interfaces.Craftable;
-import xyz.devvydont.smprpg.items.interfaces.HeaderDescribable;
-import xyz.devvydont.smprpg.items.interfaces.ToolBreakable;
+import xyz.devvydont.smprpg.items.interfaces.ICraftable;
+import xyz.devvydont.smprpg.items.interfaces.IHeaderDescribable;
+import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
@@ -36,7 +36,7 @@ import xyz.devvydont.smprpg.util.items.AbilityUtil;
 
 import java.util.*;
 
-public class BoilingPickaxe extends CustomAttributeItem implements Listener, HeaderDescribable, ToolBreakable, Craftable {
+public class BoilingPickaxe extends CustomAttributeItem implements Listener, IHeaderDescribable, IBreakableEquipment, ICraftable {
 
     public static final Map<Material, Material> autoSmeltMap = new HashMap<>();
 
@@ -55,8 +55,8 @@ public class BoilingPickaxe extends CustomAttributeItem implements Listener, Hea
     }
 
     @Override
-    public int getWorth() {
-        return 48_000;
+    public int getWorth(ItemStack itemStack) {
+        return 48_000 * itemStack.getAmount();
     }
 
     @Override
