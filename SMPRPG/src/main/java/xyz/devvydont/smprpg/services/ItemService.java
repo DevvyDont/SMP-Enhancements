@@ -893,7 +893,7 @@ public class ItemService implements BaseService, Listener {
 
         // For now just force update all the time, maybe in the future we can have item versioning
         SMPItemBlueprint blueprint = getBlueprint(itemStack);
-        blueprint.updateMeta(itemStack);
+        blueprint.updateItemData(itemStack);
         return itemStack;
     }
 

@@ -118,7 +118,7 @@ public abstract class ReforgeBase implements Keyed, IAttributeContainer {
 
         // Update the item (Attributes will be updated from doing this)
         SMPItemBlueprint blueprint = getItemService().getBlueprint(item);
-        blueprint.updateMeta(item);
+        blueprint.updateItemData(item);
 
         return ReforgeResult.SUCCESS;
     }
@@ -142,7 +142,7 @@ public abstract class ReforgeBase implements Keyed, IAttributeContainer {
         removeItemPersistence(item);
 
         // Now that it is removed, update the item
-        blueprint.updateMeta(item);
+        blueprint.updateItemData(item);
     }
 
     /**

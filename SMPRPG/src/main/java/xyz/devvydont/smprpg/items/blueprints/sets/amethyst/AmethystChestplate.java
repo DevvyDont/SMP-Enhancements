@@ -1,6 +1,7 @@
 package xyz.devvydont.smprpg.items.blueprints.sets.amethyst;
 
 import org.bukkit.inventory.CraftingRecipe;
+import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.meta.trim.TrimPattern;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
@@ -12,6 +13,11 @@ public class AmethystChestplate extends AmethystArmorSet {
 
     public AmethystChestplate(ItemService itemService, CustomItemType type) {
         super(itemService, type);
+    }
+
+    @Override
+    public EquipmentSlotGroup getActiveSlot() {
+        return EquipmentSlotGroup.CHEST;
     }
 
     @Override

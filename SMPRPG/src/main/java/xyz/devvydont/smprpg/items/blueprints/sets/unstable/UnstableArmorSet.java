@@ -2,16 +2,17 @@ package xyz.devvydont.smprpg.items.blueprints.sets.unstable;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.trim.TrimMaterial;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
-import xyz.devvydont.smprpg.items.base.CustomArmorBlueprint;
+import xyz.devvydont.smprpg.items.base.CustomAttributeItem;
 import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
 import xyz.devvydont.smprpg.items.interfaces.IFooterDescribable;
-import xyz.devvydont.smprpg.items.interfaces.Trimmable;
+import xyz.devvydont.smprpg.items.interfaces.ITrimmable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
@@ -20,7 +21,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public abstract class UnstableArmorSet extends CustomArmorBlueprint implements Trimmable, IBreakableEquipment, IFooterDescribable {
+public abstract class UnstableArmorSet extends CustomAttributeItem implements ITrimmable, IBreakableEquipment, IFooterDescribable {
 
     public UnstableArmorSet(ItemService itemService, CustomItemType type) {
         super(itemService, type);
@@ -42,6 +43,11 @@ public abstract class UnstableArmorSet extends CustomArmorBlueprint implements T
                 new ScalarAttributeEntry(AttributeWrapper.STRENGTH, randomFloat(.05f, .3f) * getStatMultiplier()),
                 new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, randomFloat(.02f, .3f) * getStatMultiplier())
         );
+    }
+
+    @Override
+    public EquipmentSlotGroup getActiveSlot() {
+        return EquipmentSlotGroup.ARMOR;
     }
 
     public abstract double getStatMultiplier();

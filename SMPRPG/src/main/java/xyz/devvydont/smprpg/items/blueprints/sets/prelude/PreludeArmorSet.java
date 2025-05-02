@@ -1,16 +1,22 @@
 package xyz.devvydont.smprpg.items.blueprints.sets.prelude;
 
+import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.meta.trim.TrimPattern;
 import xyz.devvydont.smprpg.items.CustomItemType;
-import xyz.devvydont.smprpg.items.base.CustomArmorBlueprint;
+import xyz.devvydont.smprpg.items.base.CustomAttributeItem;
 import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
-import xyz.devvydont.smprpg.items.interfaces.Trimmable;
+import xyz.devvydont.smprpg.items.interfaces.ITrimmable;
 import xyz.devvydont.smprpg.services.ItemService;
 
-public abstract class PreludeArmorSet extends CustomArmorBlueprint implements Trimmable, IBreakableEquipment {
+public abstract class PreludeArmorSet extends CustomAttributeItem implements ITrimmable, IBreakableEquipment {
 
     public PreludeArmorSet(ItemService itemService, CustomItemType type) {
         super(itemService, type);
+    }
+
+    @Override
+    public EquipmentSlotGroup getActiveSlot() {
+        return EquipmentSlotGroup.ARMOR;
     }
 
     @Override

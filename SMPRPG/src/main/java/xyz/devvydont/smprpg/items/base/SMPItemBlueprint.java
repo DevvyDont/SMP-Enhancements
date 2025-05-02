@@ -5,20 +5,24 @@ import io.papermc.paper.datacomponent.item.CustomModelData;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ArmorMeta;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.components.FoodComponent;
+import org.bukkit.inventory.meta.trim.ArmorTrim;
+import org.bukkit.inventory.meta.trim.TrimMaterial;
+import org.bukkit.inventory.meta.trim.TrimPattern;
 import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.enchantments.CustomEnchantment;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.ItemRarity;
-import xyz.devvydont.smprpg.items.interfaces.IEdible;
-import xyz.devvydont.smprpg.items.interfaces.IConsumable;
-import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
+import xyz.devvydont.smprpg.items.interfaces.*;
 import xyz.devvydont.smprpg.reforge.ReforgeBase;
 import xyz.devvydont.smprpg.reforge.ReforgeType;
 import xyz.devvydont.smprpg.services.ItemService;
@@ -226,7 +230,7 @@ public abstract class SMPItemBlueprint {
     /**
      * Called to set various components and attributes of this item, can be overidden for extra functionality
      */
-    public void updateMeta(ItemMeta meta) {
+    public void updateItemData(ItemMeta meta) {
 
         // Add fake glow (if wanted)
         if (wantFakeEnchantGlow())
@@ -250,12 +254,30 @@ public abstract class SMPItemBlueprint {
             meta.setFood(food);
         }
 
+        // Apply a color! (if we want them and can actually apply them...)
+        if (this instanceof IDyeable && meta instanceof LeatherArmorMeta) {
+            LeatherArmorMeta armorMeta = (LeatherArmorMeta) meta;
+            Color color = ((IDyeable) this).getColor();
+            armorMeta.setColor(color);
+            armorMeta.addItemFlags(ItemFlag.HIDE_DYE);
+        }
+
+        // Apply armor trims! (if we want them and can actually apply them...)
+        if (this instanceof ITrimmable && meta instanceof ArmorMeta) {
+            ArmorMeta armorMeta = (ArmorMeta) meta;
+            TrimMaterial material = ((ITrimmable) this).getTrimMaterial();
+            TrimPattern pattern = ((ITrimmable) this).getTrimPattern();
+            armorMeta.setTrim(new ArmorTrim(material, pattern));
+            armorMeta.addItemFlags(ItemFlag.HIDE_ARMOR_TRIM);
+        }
+
         // Set this item to be vulnerable to damage if it is custom no matter what.
         if (isCustom())
             meta.setDamageResistant(null);
 
         // Never allow vanilla attribute data to show.
         meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
     }
 
     public void updateVanillaFoodComponent(ItemStack item) {
@@ -273,7 +295,7 @@ public abstract class SMPItemBlueprint {
     /**
      * Called to retrieve item meta off of an item stack, apply new updated item meta to it, and apply it
      */
-    public void updateMeta(ItemStack itemStack) {
+    public void updateItemData(ItemStack itemStack) {
 
         // If this is a vanilla item, we need to hack the vanilla food component back on the item.
         if (!isCustom())
@@ -284,6 +306,16 @@ public abstract class SMPItemBlueprint {
                 .addString(this.getCustomModelDataIdentifier())
                 .build()
         );
+
+        // Apply a model override if desired.
+        if (this instanceof IModelOverridden overridden)
+            itemStack.setData(DataComponentTypes.ITEM_MODEL, IModelOverridden.ofMaterial(overridden.getDisplayMaterial()));
+
+        // If this is a faked armor piece, override the equipment data.
+        if (this instanceof IEquippableOverride override) {
+            itemStack.setData(DataComponentTypes.EQUIPPABLE, override.getEquipmentOverride());
+            itemStack.editMeta(meta -> meta.setMaxStackSize(1));  // Also don't allow it to stack.
+        }
 
         // If this is a consumable, apply the consumable data to the item stack.
         if (this instanceof IConsumable consumable)
@@ -297,7 +329,7 @@ public abstract class SMPItemBlueprint {
 
         // Update the item meta
         ItemMeta meta = itemStack.getItemMeta();
-        updateMeta(meta);
+        updateItemData(meta);
         itemStack.setItemMeta(meta);
 
         // Finally, after applying all updates re-render the lore of the item.

@@ -4,6 +4,7 @@ import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.CraftingRecipe;
+import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.trim.TrimMaterial;
 import org.bukkit.inventory.meta.trim.TrimPattern;
@@ -13,12 +14,12 @@ import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
-import xyz.devvydont.smprpg.items.base.CustomArmorBlueprint;
+import xyz.devvydont.smprpg.items.base.CustomAttributeItem;
 import xyz.devvydont.smprpg.items.blueprints.vanilla.ItemArmor;
-import xyz.devvydont.smprpg.items.interfaces.ICraftable;
-import xyz.devvydont.smprpg.items.interfaces.Dyeable;
 import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
-import xyz.devvydont.smprpg.items.interfaces.Trimmable;
+import xyz.devvydont.smprpg.items.interfaces.ICraftable;
+import xyz.devvydont.smprpg.items.interfaces.IDyeable;
+import xyz.devvydont.smprpg.items.interfaces.ITrimmable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
 import xyz.devvydont.smprpg.util.crafting.builders.ChestplateRecipe;
@@ -26,7 +27,7 @@ import xyz.devvydont.smprpg.util.crafting.builders.ChestplateRecipe;
 import java.util.Collection;
 import java.util.List;
 
-public class CobblestoneChestplate extends CustomArmorBlueprint implements IBreakableEquipment, Trimmable, Dyeable, ICraftable {
+public class CobblestoneChestplate extends CustomAttributeItem implements IBreakableEquipment, ITrimmable, IDyeable, ICraftable {
 
     public CobblestoneChestplate(ItemService itemService, CustomItemType type) {
         super(itemService, type);
@@ -38,6 +39,11 @@ public class CobblestoneChestplate extends CustomArmorBlueprint implements IBrea
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, ItemArmor.getDefenseFromMaterial(Material.DIAMOND_CHESTPLATE)),
                 new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, -0.1)
         );
+    }
+
+    @Override
+    public EquipmentSlotGroup getActiveSlot() {
+        return EquipmentSlotGroup.CHEST;
     }
 
     @Override

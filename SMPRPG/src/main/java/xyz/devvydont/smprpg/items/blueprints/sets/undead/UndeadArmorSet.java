@@ -3,22 +3,23 @@ package xyz.devvydont.smprpg.items.blueprints.sets.undead;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemStack;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
-import xyz.devvydont.smprpg.items.base.CustomArmorBlueprint;
-import xyz.devvydont.smprpg.items.interfaces.ICraftable;
-import xyz.devvydont.smprpg.items.interfaces.Dyeable;
+import xyz.devvydont.smprpg.items.base.CustomAttributeItem;
 import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
+import xyz.devvydont.smprpg.items.interfaces.ICraftable;
+import xyz.devvydont.smprpg.items.interfaces.IDyeable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
 
 import java.util.Collection;
 import java.util.List;
 
-public abstract class UndeadArmorSet extends CustomArmorBlueprint implements Dyeable, IBreakableEquipment, ICraftable {
+public abstract class UndeadArmorSet extends CustomAttributeItem implements IDyeable, IBreakableEquipment, ICraftable {
 
 
     public UndeadArmorSet(ItemService itemService, CustomItemType type) {
@@ -30,6 +31,11 @@ public abstract class UndeadArmorSet extends CustomArmorBlueprint implements Dye
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, getHealth())
         );
+    }
+
+    @Override
+    public EquipmentSlotGroup getActiveSlot() {
+        return EquipmentSlotGroup.ARMOR;
     }
 
     @Override

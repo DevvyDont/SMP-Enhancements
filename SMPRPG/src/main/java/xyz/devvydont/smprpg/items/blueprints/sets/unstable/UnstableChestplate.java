@@ -4,10 +4,10 @@ import org.bukkit.Color;
 import org.bukkit.inventory.meta.trim.TrimPattern;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
-import xyz.devvydont.smprpg.items.interfaces.Dyeable;
+import xyz.devvydont.smprpg.items.interfaces.IDyeable;
 import xyz.devvydont.smprpg.services.ItemService;
 
-public class UnstableChestplate extends UnstableArmorSet implements Dyeable {
+public class UnstableChestplate extends UnstableArmorSet implements IDyeable {
 
 
     public UnstableChestplate(ItemService itemService, CustomItemType type) {

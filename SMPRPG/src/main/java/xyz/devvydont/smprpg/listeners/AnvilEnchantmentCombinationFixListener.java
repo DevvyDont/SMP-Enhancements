@@ -143,7 +143,7 @@ public class AnvilEnchantmentCombinationFixListener implements Listener {
             cost += repairable.getRepairCost();
 
         SMPItemBlueprint resultBlueprint = SMPRPG.getInstance().getItemService().getBlueprint(result);
-        resultBlueprint.updateMeta(result);
+        resultBlueprint.updateItemData(result);
         return new EnchantmentCombination(result, cost);
     }
 

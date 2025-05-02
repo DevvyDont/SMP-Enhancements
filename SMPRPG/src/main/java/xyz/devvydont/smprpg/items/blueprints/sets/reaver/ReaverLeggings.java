@@ -4,9 +4,10 @@ import org.bukkit.inventory.meta.trim.TrimMaterial;
 import org.bukkit.inventory.meta.trim.TrimPattern;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
+import xyz.devvydont.smprpg.items.interfaces.ITrimmable;
 import xyz.devvydont.smprpg.services.ItemService;
 
-public class ReaverLeggings extends ReaverArmorSet {
+public class ReaverLeggings extends ReaverArmorSet implements ITrimmable {
 
 
     public ReaverLeggings(ItemService itemService, CustomItemType type) {

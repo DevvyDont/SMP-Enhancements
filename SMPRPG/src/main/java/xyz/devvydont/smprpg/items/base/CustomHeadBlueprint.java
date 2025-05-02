@@ -61,8 +61,8 @@ public class CustomHeadBlueprint extends CustomItemBlueprint implements Listener
     }
 
     @Override
-    public void updateMeta(ItemMeta meta) {
-        super.updateMeta(meta);
+    public void updateItemData(ItemMeta meta) {
+        super.updateItemData(meta);
         SkullMeta skullMeta = getMeta(meta);
         skullMeta.setPlayerProfile(getProfile(String.format("https://textures.minecraft.net/texture/%s", getCustomItemType().getUrl())));
     }

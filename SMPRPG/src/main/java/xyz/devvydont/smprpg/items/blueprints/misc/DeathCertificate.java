@@ -122,7 +122,7 @@ public class DeathCertificate extends CustomItemBlueprint implements Listener, I
 
         ItemStack paper = generate();
         setData(paper, event.getPlayer());
-        updateMeta(paper);
+        updateItemData(paper);
 
         event.getPlayer().getInventory().addItem(paper);
     }

@@ -1,5 +1,6 @@
 package xyz.devvydont.smprpg.items.blueprints.sets.araxys;
 
+import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemStack;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
@@ -16,6 +17,11 @@ public class AraxysBoots extends AraxysArmorPiece {
 
     public AraxysBoots(ItemService itemService, CustomItemType type) {
         super(itemService, type);
+    }
+
+    @Override
+    public EquipmentSlotGroup getActiveSlot() {
+        return EquipmentSlotGroup.FEET;
     }
 
     @Override

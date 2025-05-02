@@ -8,14 +8,14 @@ import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
-import xyz.devvydont.smprpg.items.interfaces.Trimmable;
+import xyz.devvydont.smprpg.items.interfaces.ITrimmable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
 
 import java.util.Collection;
 import java.util.List;
 
-public class ValiantHelmet extends ValiantArmorSet implements Trimmable {
+public class ValiantHelmet extends ValiantArmorSet implements ITrimmable {
 
     public ValiantHelmet(ItemService itemService, CustomItemType type) {
         super(itemService, type);

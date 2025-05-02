@@ -78,8 +78,8 @@ public class CopperPickaxe extends CustomAttributeItem implements IBreakableEqui
     }
 
     @Override
-    public void updateMeta(ItemStack itemStack) {
-        super.updateMeta(itemStack);
+    public void updateItemData(ItemStack itemStack) {
+        super.updateItemData(itemStack);
         itemStack.setData(DataComponentTypes.TOOL, TOOL_COMPONENT);
     }
 

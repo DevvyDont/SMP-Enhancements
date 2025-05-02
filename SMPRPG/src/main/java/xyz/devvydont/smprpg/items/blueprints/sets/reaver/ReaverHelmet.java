@@ -1,33 +1,31 @@
 package xyz.devvydont.smprpg.items.blueprints.sets.reaver;
 
+import io.papermc.paper.datacomponent.item.Equippable;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import org.bukkit.Material;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import xyz.devvydont.smprpg.items.CustomItemType;
-import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
-import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
-import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
-import xyz.devvydont.smprpg.items.base.CustomFakeHelmetBlueprint;
+import xyz.devvydont.smprpg.items.ItemClassification;
+import xyz.devvydont.smprpg.items.base.IEquippableOverride;
 import xyz.devvydont.smprpg.items.interfaces.IHeaderDescribable;
 import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.items.AbilityUtil;
 
-import java.util.Collection;
 import java.util.List;
 
-public class ReaverHelmet extends CustomFakeHelmetBlueprint implements IHeaderDescribable, IBreakableEquipment, Listener {
+public class ReaverHelmet extends ReaverArmorSet implements IHeaderDescribable, IBreakableEquipment, IEquippableOverride, Listener {
 
     public ReaverHelmet(ItemService itemService, CustomItemType type) {
         super(itemService, type);
+    }
+
+    @Override
+    public Equippable getEquipmentOverride() {
+        return IEquippableOverride.generateDefault(EquipmentSlot.HEAD);
     }
 
     public List<Component> getHeader(ItemStack itemStack) {
@@ -40,17 +38,23 @@ public class ReaverHelmet extends CustomFakeHelmetBlueprint implements IHeaderDe
     }
 
     @Override
-    public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
-        return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 45),
-                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 5),
-                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .25)
-        );
+    public int getDefense() {
+        return 45;
     }
 
     @Override
-    public int getPowerRating() {
-        return ReaverArmorSet.POWER;
+    public int getHealth() {
+        return 5;
+    }
+
+    @Override
+    public double getStrength() {
+        return .25;
+    }
+
+    @Override
+    public ItemClassification getItemClassification() {
+        return ItemClassification.HELMET;
     }
 
     @Override
@@ -58,24 +62,4 @@ public class ReaverHelmet extends CustomFakeHelmetBlueprint implements IHeaderDe
         return ReaverArmorSet.DURABILITY;
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-    public void onTakeWitherDamageWhileWearing(EntityDamageEvent event) {
-
-        // Only listen to wither damage
-        if (!event.getCause().equals(EntityDamageEvent.DamageCause.WITHER))
-            return;
-
-        // Check if we are wearing the set
-        if (!(event.getEntity() instanceof Player player))
-            return;
-
-        // Loop through all armor pieces, if its either null, air, or not the type of this item we do not care
-        ItemStack item = player.getInventory().getHelmet();
-        if (item == null || item.getType().equals(Material.AIR) || !isItemOfType(item))
-            return;
-
-        // We are wearing the armor, decrease the damage
-        double multiplier = 1 - (ReaverArmorSet.WITHER_RESIST / 100.0);
-        event.setDamage(EntityDamageEvent.DamageModifier.BASE, event.getDamage() * multiplier);
-    }
 }

@@ -3,8 +3,6 @@ package xyz.devvydont.smprpg.items.blueprints.sets.forsaken;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.trim.TrimMaterial;
-import org.bukkit.inventory.meta.trim.TrimPattern;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
@@ -54,16 +52,6 @@ public abstract class ForsakenArmorSet extends ReaverArmorSet implements ICrafta
     @Override
     public int getMaxDurability() {
         return 40_000;
-    }
-
-    @Override
-    public TrimMaterial getTrimMaterial() {
-        return TrimMaterial.EMERALD;
-    }
-
-    @Override
-    public TrimPattern getTrimPattern() {
-        return TrimPattern.SPIRE;
     }
 
     @Override

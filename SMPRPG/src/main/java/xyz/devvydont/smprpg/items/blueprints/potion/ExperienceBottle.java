@@ -50,8 +50,8 @@ public class ExperienceBottle extends CustomItemBlueprint implements ExperienceT
     }
 
     @Override
-    public void updateMeta(ItemMeta meta) {
-        super.updateMeta(meta);
+    public void updateItemData(ItemMeta meta) {
+        super.updateItemData(meta);
     }
 
     @Override

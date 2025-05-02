@@ -4,11 +4,11 @@ import org.bukkit.Color;
 import org.bukkit.inventory.CraftingRecipe;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
-import xyz.devvydont.smprpg.items.interfaces.Dyeable;
+import xyz.devvydont.smprpg.items.interfaces.IDyeable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.crafting.builders.ChestplateRecipe;
 
-public class LuxeChestplate extends LuxeArmorSet implements Dyeable {
+public class LuxeChestplate extends LuxeArmorSet implements IDyeable {
 
     public LuxeChestplate(ItemService itemService, CustomItemType type) {
         super(itemService, type);

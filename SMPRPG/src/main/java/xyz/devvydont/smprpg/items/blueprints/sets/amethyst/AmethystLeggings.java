@@ -1,6 +1,7 @@
 package xyz.devvydont.smprpg.items.blueprints.sets.amethyst;
 
 import org.bukkit.inventory.CraftingRecipe;
+import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.meta.trim.TrimPattern;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
@@ -16,6 +17,11 @@ public class AmethystLeggings extends AmethystArmorSet {
     @Override
     public int getHealth() {
         return 10;
+    }
+
+    @Override
+    public EquipmentSlotGroup getActiveSlot() {
+        return EquipmentSlotGroup.LEGS;
     }
 
     @Override

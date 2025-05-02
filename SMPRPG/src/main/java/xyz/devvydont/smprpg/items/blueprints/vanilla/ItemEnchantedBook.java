@@ -142,8 +142,8 @@ public class ItemEnchantedBook extends VanillaItemBlueprint implements IHeaderDe
     }
 
     @Override
-    public void updateMeta(ItemMeta meta) {
-        super.updateMeta(meta);
+    public void updateItemData(ItemMeta meta) {
+        super.updateItemData(meta);
         meta.addItemFlags(ItemFlag.HIDE_STORED_ENCHANTS);
 
         // Enchanted books can only have one enchantment on them. Pick a random one if it has multiple
@@ -157,7 +157,7 @@ public class ItemEnchantedBook extends VanillaItemBlueprint implements IHeaderDe
 
             // Apply the one we want to keep and reupdate the meta
             enchantmentStorageMeta.addStoredEnchant(toKeep, level, true);
-            updateMeta(meta);
+            updateItemData(meta);
         }
     }
 }

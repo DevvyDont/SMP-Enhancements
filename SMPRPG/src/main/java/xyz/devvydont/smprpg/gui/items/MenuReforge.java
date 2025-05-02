@@ -193,7 +193,7 @@ public class MenuReforge extends MenuBase {
 
         Location soundOrigin = player.getLocation().add(player.getLocation().getDirection().normalize().multiply(2));
         player.getWorld().playSound(soundOrigin, success ? Sound.BLOCK_ANVIL_USE : Sound.ENTITY_VILLAGER_NO, .5f, .75f);
-        blueprint.updateMeta(item);
+        blueprint.updateItemData(item);
 
         if (success)
             playSuccessAnimation();

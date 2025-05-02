@@ -51,7 +51,7 @@ public abstract class ChargedItemBlueprint extends CustomItemBlueprint implement
             return;
 
         damageable.setDamage(charges);
-        updateMeta(meta);
+        updateItemData(meta);
     }
 
     public int getChargesUsed(ItemMeta meta) {
@@ -70,11 +70,11 @@ public abstract class ChargedItemBlueprint extends CustomItemBlueprint implement
     }
 
     @Override
-    public void updateMeta(ItemMeta meta) {
+    public void updateItemData(ItemMeta meta) {
         if (meta instanceof Damageable damageable)
             damageable.setMaxDamage(maxCharges(meta));
 
-        super.updateMeta(meta);
+        super.updateItemData(meta);
 
         meta.setUnbreakable(false);
     }

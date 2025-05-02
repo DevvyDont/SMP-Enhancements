@@ -48,11 +48,11 @@ public abstract class CustomItemBlueprint extends SMPItemBlueprint {
     }
 
     @Override
-    public void updateMeta(ItemMeta meta) {
+    public void updateItemData(ItemMeta meta) {
 
         // Apply the key to the item so the plugin knows this item is custom
         meta.getPersistentDataContainer().set(itemService.ITEM_TYPE_KEY, PersistentDataType.STRING, getCustomItemType().getKey());
-        super.updateMeta(meta);
+        super.updateItemData(meta);
     }
 
     @Override
@@ -62,7 +62,7 @@ public abstract class CustomItemBlueprint extends SMPItemBlueprint {
         var itemStack = of(_type.material);
 
         // Apply updates to this item according to our blueprint's spec.
-        updateMeta(itemStack);
+        updateItemData(itemStack);
         return itemStack;
     }
 

@@ -22,8 +22,8 @@ public class InfinityBoots extends CustomAttributeItem {
     }
 
     @Override
-    public void updateMeta(ItemMeta meta) {
-        super.updateMeta(meta);
+    public void updateItemData(ItemMeta meta) {
+        super.updateItemData(meta);
         meta.setUnbreakable(true);
     }
 

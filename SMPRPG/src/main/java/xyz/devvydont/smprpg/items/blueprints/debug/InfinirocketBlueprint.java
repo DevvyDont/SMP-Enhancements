@@ -19,8 +19,8 @@ public class InfinirocketBlueprint extends CustomItemBlueprint implements Listen
     }
 
     @Override
-    public void updateMeta(ItemStack itemStack) {
-        super.updateMeta(itemStack);
+    public void updateItemData(ItemStack itemStack) {
+        super.updateItemData(itemStack);
         itemStack.addUnsafeEnchantment(EnchantmentService.KEEPING_BLESSING.getEnchantment(), 1);
     }
 

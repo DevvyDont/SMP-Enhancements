@@ -28,6 +28,8 @@ public class SnowfallBoots extends SnowfallArmorSet {
         );
     }
 
+
+
     @Override
     public ItemClassification getItemClassification() {
         return ItemClassification.BOOTS;

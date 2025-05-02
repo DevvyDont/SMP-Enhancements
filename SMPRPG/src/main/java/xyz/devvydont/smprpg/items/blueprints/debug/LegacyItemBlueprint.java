@@ -36,12 +36,12 @@ public class LegacyItemBlueprint extends CustomItemBlueprint implements IHeaderD
      * Override the updateMeta method to not actually modify any item properties except the lore to show our
      * message.
      */
-    public void updateMeta(ItemStack item) {
+    public void updateItemData(ItemStack item) {
         item.editMeta(meta -> meta.displayName(getNameComponent(item)));
     }
 
     @Override
-    public void updateMeta(ItemMeta meta) {
+    public void updateItemData(ItemMeta meta) {
 
     }
 

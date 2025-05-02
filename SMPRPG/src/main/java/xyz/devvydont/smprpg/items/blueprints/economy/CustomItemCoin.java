@@ -114,8 +114,8 @@ public class CustomItemCoin extends CustomItemBlueprint implements IHeaderDescri
     }
 
     @Override
-    public void updateMeta(ItemMeta meta) {
-        super.updateMeta(meta);
+    public void updateItemData(ItemMeta meta) {
+        super.updateItemData(meta);
         meta.setMaxStackSize(99);
     }
 

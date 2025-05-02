@@ -10,15 +10,15 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemStack;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
-import xyz.devvydont.smprpg.items.base.CustomArmorBlueprint;
-import xyz.devvydont.smprpg.items.interfaces.IHeaderDescribable;
+import xyz.devvydont.smprpg.items.base.CustomAttributeItem;
 import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
-import xyz.devvydont.smprpg.items.interfaces.Trimmable;
+import xyz.devvydont.smprpg.items.interfaces.IHeaderDescribable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
@@ -27,7 +27,7 @@ import xyz.devvydont.smprpg.util.items.AbilityUtil;
 import java.util.Collection;
 import java.util.List;
 
-public abstract class ReaverArmorSet extends CustomArmorBlueprint implements IHeaderDescribable, IBreakableEquipment, Trimmable, Listener {
+public abstract class ReaverArmorSet extends CustomAttributeItem implements IHeaderDescribable, IBreakableEquipment, Listener {
 
     public static final int POWER = 25;
     public static final int DURABILITY = 32_000;
@@ -39,6 +39,11 @@ public abstract class ReaverArmorSet extends CustomArmorBlueprint implements IHe
 
     public int getWitherResistance() {
         return WITHER_RESIST;
+    }
+
+    @Override
+    public EquipmentSlotGroup getActiveSlot() {
+        return EquipmentSlotGroup.ARMOR;
     }
 
     @Override

@@ -69,8 +69,8 @@ public class BoilingPickaxe extends CustomAttributeItem implements Listener, IHe
     }
 
     @Override
-    public void updateMeta(ItemMeta meta) {
-        super.updateMeta(meta);
+    public void updateItemData(ItemMeta meta) {
+        super.updateItemData(meta);
         meta.removeEnchant(Enchantment.SILK_TOUCH);
     }
 
@@ -127,7 +127,7 @@ public class BoilingPickaxe extends CustomAttributeItem implements Listener, IHe
             // Transform the item stack.
             ItemStack updatedItem = itemstack.withType(smeltedMaterial);
             blueprint = itemService.getBlueprint(updatedItem);
-            blueprint.updateMeta(updatedItem);
+            blueprint.updateItemData(updatedItem);
             drop.setItemStack(updatedItem);
         }
 

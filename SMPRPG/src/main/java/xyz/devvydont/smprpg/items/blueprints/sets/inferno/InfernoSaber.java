@@ -1,7 +1,5 @@
 package xyz.devvydont.smprpg.items.blueprints.sets.inferno;
 
-import io.papermc.paper.datacomponent.DataComponentTypes;
-import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
@@ -27,6 +25,7 @@ import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomAttributeItem;
+import xyz.devvydont.smprpg.items.base.IModelOverridden;
 import xyz.devvydont.smprpg.items.blueprints.vanilla.ItemAxe;
 import xyz.devvydont.smprpg.items.interfaces.ICraftable;
 import xyz.devvydont.smprpg.items.interfaces.IHeaderDescribable;
@@ -37,13 +36,12 @@ import xyz.devvydont.smprpg.util.items.AbilityUtil;
 
 import java.util.*;
 
-public class InfernoSaber extends CustomAttributeItem implements IHeaderDescribable, Listener, ICraftable {
+public class InfernoSaber extends CustomAttributeItem implements IHeaderDescribable, Listener, ICraftable, IModelOverridden {
 
     public static final int COOLDOWN = 3;
     public static final int COST = 150;
     public static final int DAMAGE = 15_000;
     public static final double EXPLOSION_RADIUS = 5;
-    public static Key MODEL = ItemStack.of(Material.BLAZE_ROD).getData(DataComponentTypes.ITEM_MODEL);
 
     // We need a reference to projectiles that we shoot so that we can handle them at different stages in its life
     // since PDCs do not work during the EntityExplodeEvent
@@ -62,9 +60,8 @@ public class InfernoSaber extends CustomAttributeItem implements IHeaderDescriba
     }
 
     @Override
-    public void updateMeta(ItemStack itemStack) {
-        super.updateMeta(itemStack);
-        itemStack.setData(DataComponentTypes.ITEM_MODEL, MODEL);  // Make the item appear as a blaze rod.
+    public Material getDisplayMaterial() {
+        return Material.BLAZE_ROD;
     }
 
     @Override
