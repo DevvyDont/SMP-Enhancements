@@ -209,13 +209,14 @@ public class InfernoArrow extends CustomItemBlueprint implements IHeaderDescriba
 
         // Summon the boss!
         player.getWorld().playSound(player.getLocation(), Sound.ENTITY_BLAZE_DEATH, 1, .3f);
-        String playername = SMPRPG.getInstance().getChatService().getPlayerDisplayname(player);
-        Bukkit.broadcast(
-                ComponentUtils.alert(ComponentUtils.create(playername)
-                                .append(ComponentUtils.create(" summoned an ")))
-                        .append(boss.getDisplaynameNametagComponent())
-                        .append(ComponentUtils.SYMBOL_EXCLAMATION)
-        );
+        var name = SMPRPG.getInstance().getChatService().getPlayerDisplay(player);
+
+        Bukkit.broadcast(ComponentUtils.merge(
+                name,
+                ComponentUtils.create(" summoned an"),
+                boss.getDisplaynameNametagComponent(),
+                ComponentUtils.SYMBOL_EXCLAMATION
+        ));
 
         for (int i = 0; i < 5; i++)
             Bukkit.getScheduler().runTaskLater(SMPRPG.getInstance(), () -> boss.getEntity().getWorld().createExplosion(boss.getEntity().getLocation().add(0, 5, 0), 5.0f, false, false), i*3);

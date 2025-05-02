@@ -2,27 +2,23 @@ package xyz.devvydont.smprpg.services;
 
 import io.papermc.paper.chat.ChatRenderer;
 import io.papermc.paper.event.player.AsyncChatEvent;
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
-import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import net.milkbowl.vault.chat.Chat;
-import org.apache.commons.lang3.CharUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.util.chat.CustomChatRenderer;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
-import xyz.devvydont.smprpg.util.formatting.MinecraftStringUtils;
 import xyz.devvydont.smprpg.util.formatting.PlayerChatInformation;
-import xyz.devvydont.smprpg.util.formatting.Symbols;
-
-import java.awt.*;
 
 public class ChatService implements BaseService, Listener {
 
@@ -70,73 +66,55 @@ public class ChatService implements BaseService, Listener {
         return true;
     }
 
-    private TextColor translateLegacyChatColor(ChatColor color) {
-        return switch (color) {
-            case RED -> NamedTextColor.RED;
-            case AQUA -> NamedTextColor.AQUA;
-            case BLUE -> NamedTextColor.BLUE;
-            case GREEN -> NamedTextColor.GREEN;
-            case YELLOW -> NamedTextColor.YELLOW;
-            case GRAY -> NamedTextColor.GRAY;
-            case BLACK -> NamedTextColor.BLACK;
-            case DARK_RED -> NamedTextColor.DARK_RED;
-            case DARK_AQUA -> NamedTextColor.DARK_AQUA;
-            case DARK_BLUE -> NamedTextColor.DARK_BLUE;
-            case DARK_GREEN -> NamedTextColor.DARK_GREEN;
-            case DARK_GRAY -> NamedTextColor.DARK_GRAY;
-            case DARK_PURPLE -> NamedTextColor.DARK_PURPLE;
-            case LIGHT_PURPLE -> NamedTextColor.LIGHT_PURPLE;
-            case GOLD -> NamedTextColor.GOLD;
-            default -> NamedTextColor.WHITE;
-        };
+    private TextColor determineNameColor(OfflinePlayer player) {
+        var difficulty = SMPRPG.getInstance().getDifficultyService().getDifficulty(player);
+        return difficulty.Color;
     }
 
-    private TextColor determineNameColor(String prefix) {
-        int index = prefix.lastIndexOf('&');
-        if (index == -1 || index == prefix.length() - 1)
-            return NamedTextColor.WHITE;
-
-        ChatColor color = ChatColor.getByChar(prefix.charAt(index+1));
-        if (color == null)
-            return NamedTextColor.WHITE;
-
-        return translateLegacyChatColor(color);
+    public Component getPlayerDisplay(OfflinePlayer player) {
+        var info = getPlayerInfo(player);
+        return ComponentUtils.merge(
+                Component.text(info.prefix()),
+                ComponentUtils.create(player.getName(), info.nameColor())
+        );
     }
 
     public PlayerChatInformation getPlayerInfo(Player player) {
         String prefix = chat.getPlayerPrefix(player);
-        return new PlayerChatInformation(player, prefix, chat.getPlayerSuffix(player), determineNameColor(prefix));
+        return new PlayerChatInformation(player, prefix, chat.getPlayerSuffix(player), determineNameColor(player));
     }
 
     public PlayerChatInformation getPlayerInfo(OfflinePlayer player) {
         String world = Bukkit.getWorlds().get(0).getName();
         String prefix = chat.getPlayerPrefix(world, player);
-        return new PlayerChatInformation(player, prefix, chat.getPlayerSuffix(world, player), determineNameColor(prefix));
-    }
-
-    public PlayerChatInformation getPlayerInfo(String name) {
-        OfflinePlayer p = Bukkit.getPlayer(name);
-        if (p == null)
-            p = Bukkit.getOfflinePlayerIfCached(name);
-        if (p == null)
-            p = Bukkit.getOfflinePlayer(name);
-
-        String prefix = chat.getPlayerPrefix("world", p);
-        return new PlayerChatInformation(p, prefix, chat.getPlayerSuffix("world", p), determineNameColor(prefix));
-    }
-
-    public String getPlayerDisplayname(OfflinePlayer player) {
-        PlayerChatInformation information = getPlayerInfo(player);
-        return ChatColor.translateAlternateColorCodes('&', (information.prefix() + player.getName() + information.suffix().stripTrailing()));
+        return new PlayerChatInformation(player, prefix, chat.getPlayerSuffix(world, player), determineNameColor(player));
     }
 
     /**
      * Injects the player level into a chat message no matter what chat plugins are doing.
-     *
-     * @param event
      */
     @EventHandler(priority = EventPriority.HIGHEST)
     private void __onChat(AsyncChatEvent event) {
         event.renderer(CHAT_RENDERER);
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    private void __onJoin(PlayerJoinEvent event) {
+        var name = getPlayerDisplay(event.getPlayer());
+        var msg = ComponentUtils.merge(
+                name,
+                ComponentUtils.create(" has joined the game!", NamedTextColor.YELLOW)
+        );
+        event.joinMessage(ComponentUtils.alert(msg, NamedTextColor.GREEN));
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    private void __onLeave(PlayerQuitEvent event) {
+        var name = getPlayerDisplay(event.getPlayer());
+        var msg = ComponentUtils.merge(
+                name,
+                ComponentUtils.create(" has left the game!", NamedTextColor.YELLOW)
+        );
+        event.quitMessage(ComponentUtils.alert(msg, NamedTextColor.RED));
     }
 }

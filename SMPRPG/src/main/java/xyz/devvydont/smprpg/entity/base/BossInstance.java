@@ -241,9 +241,10 @@ public abstract class BossInstance extends EnemyEntity implements Listener {
             Player player = entry.player();
             int damage = entry.damage();
             int place = i + 1;
+            var name = plugin.getChatService().getPlayerDisplay(player);
             rankings.add(ComponentUtils.merge(
                 ComponentUtils.create(place + getPlaceth(place) + ": ", getPlaceColor(place)),
-                ComponentUtils.create(plugin.getChatService().getPlayerDisplayname(player)),
+                name,
                 ComponentUtils.create(" - "),
                 ComponentUtils.create(MinecraftStringUtils.formatNumber(damage), NamedTextColor.RED),
                 ComponentUtils.create(String.format(" (%d%%)", (int)(damage/getMaxHp()*100)), NamedTextColor.DARK_GRAY)
@@ -422,7 +423,8 @@ public abstract class BossInstance extends EnemyEntity implements Listener {
         Bukkit.broadcast(ComponentUtils.create("-----------------------------"));
         Bukkit.broadcast(generateNametagComponent().append(getDisplaynameNametagComponent()).append(ComponentUtils.create(" Defeated!", determineNametagColor())));
         Bukkit.broadcast(ComponentUtils.EMPTY);
-        Bukkit.broadcast(ComponentUtils.create(plugin.getChatService().getPlayerDisplayname(player)).append(ComponentUtils.create(" dealt the final blow!")));
+        var winnerChatInfo = SMPRPG.getInstance().getChatService().getPlayerInfo(player);
+        Bukkit.broadcast(ComponentUtils.create(winnerChatInfo.prefix(), NamedTextColor.WHITE).append(ComponentUtils.create(player.getName(), winnerChatInfo.nameColor())).append(ComponentUtils.create(" dealt the final blow!")));
         Bukkit.broadcast(ComponentUtils.EMPTY);
         for (Component component : getRankingsComponents())
             Bukkit.broadcast(component);

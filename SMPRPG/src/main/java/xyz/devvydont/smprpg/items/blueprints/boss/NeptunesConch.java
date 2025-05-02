@@ -134,9 +134,8 @@ public class NeptunesConch extends CustomItemBlueprint implements IHeaderDescrib
 
         // Summon the boss!
         event.getPlayer().getWorld().playSound(event.getPlayer().getLocation(), Sound.ENTITY_ELDER_GUARDIAN_CURSE, 1, 1);
-        String playername = SMPRPG.getInstance().getChatService().getPlayerDisplayname(event.getPlayer());
         Bukkit.broadcast(
-                ComponentUtils.alert(ComponentUtils.create(playername)
+                ComponentUtils.alert(SMPRPG.getInstance().getChatService().getPlayerDisplay(event.getPlayer())
                         .append(ComponentUtils.create(" summoned an ")))
                         .append(ComponentUtils.create("Elder Guardian", NamedTextColor.DARK_PURPLE))
                         .append(ComponentUtils.create("!"))

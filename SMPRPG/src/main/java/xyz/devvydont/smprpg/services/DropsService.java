@@ -515,7 +515,8 @@ public class DropsService implements BaseService, Listener {
                 ComponentUtils.create(rarityOfDrop.name() + " DROP!!! ", rarityOfDrop.color, TextDecoration.BOLD),
                 NamedTextColor.YELLOW
         );
-        Component player = ComponentUtils.create(event.getPlayer().getName(), NamedTextColor.AQUA);
+
+        Component player = plugin.getChatService().getPlayerDisplay(event.getPlayer());
         Component item = event.getItem().displayName().hoverEvent(event.getItem().asHoverEvent());
         Component suffix = ComponentUtils.create(" found ").append(item).append(ComponentUtils.create(" from ")).append(event.getSource().getAsComponent()).append(ComponentUtils.create("!"));
         Component chance = ComponentUtils.create(" (" + event.getFormattedChance() + ")", NamedTextColor.DARK_GRAY);

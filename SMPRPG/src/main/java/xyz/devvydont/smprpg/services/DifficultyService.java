@@ -2,6 +2,7 @@ package xyz.devvydont.smprpg.services;
 
 import com.destroystokyo.paper.event.player.PlayerPickupExperienceEvent;
 import org.bukkit.NamespacedKey;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -84,6 +85,11 @@ public class DifficultyService implements BaseService, Listener {
      */
     @NotNull
     public ProfileDifficulty getDifficulty(Player player) {
+        return player.getPersistentDataContainer().getOrDefault(difficultyKey, ProfileDifficulty.ADAPTER, ProfileDifficulty.NOT_CHOSEN);
+    }
+
+    @NotNull
+    public ProfileDifficulty getDifficulty(OfflinePlayer player) {
         return player.getPersistentDataContainer().getOrDefault(difficultyKey, ProfileDifficulty.ADAPTER, ProfileDifficulty.NOT_CHOSEN);
     }
 

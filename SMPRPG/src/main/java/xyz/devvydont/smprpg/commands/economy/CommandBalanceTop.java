@@ -77,10 +77,10 @@ public class CommandBalanceTop extends CommandBase {
                     if (rank > 10)
                         break;
 
-                    String legacyName = SMPRPG.getInstance().getChatService().getPlayerDisplayname(entry.player);
+                    var name = SMPRPG.getInstance().getChatService().getPlayerDisplay(entry.player);
                     output = output.append(ComponentUtils.merge(
                             ComponentUtils.create(String.format("#%d: ", rank), NamedTextColor.AQUA, TextDecoration.ITALIC),
-                            ComponentUtils.create(legacyName),
+                            name,
                             ComponentUtils.create(" - "),
                             ComponentUtils.create(EconomyService.formatMoney(entry.balance), NamedTextColor.GOLD),
                             ComponentUtils.create("\n")
