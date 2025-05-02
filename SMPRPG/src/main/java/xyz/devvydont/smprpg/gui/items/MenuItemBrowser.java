@@ -113,7 +113,7 @@ public class MenuItemBrowser extends MenuBase {
         // Loop through every custom item in the game and see if the query makes this something of interest.
         for (CustomItemType itemType : CustomItemType.values()) {
 
-            String simpleName = itemType.getName().toLowerCase();
+            String simpleName = itemType.ItemName.toLowerCase();
             ItemStack item = ItemService.generate(itemType);
 
             // Blacklisting process, does this item's name not contain any similar character patterns as the query?

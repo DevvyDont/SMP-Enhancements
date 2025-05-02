@@ -9,17 +9,23 @@ import org.bukkit.inventory.recipe.CraftingBookCategory;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
-import xyz.devvydont.smprpg.items.base.CustomHeadBlueprint;
+import xyz.devvydont.smprpg.items.base.CustomItemBlueprint;
 import xyz.devvydont.smprpg.items.interfaces.ICraftable;
+import xyz.devvydont.smprpg.items.interfaces.ICustomTextured;
 import xyz.devvydont.smprpg.services.ItemService;
 
 import java.util.Collection;
 import java.util.List;
 
-public class DraconicCrystal extends CustomHeadBlueprint implements ICraftable {
+public class DraconicCrystal extends CustomItemBlueprint implements ICraftable, ICustomTextured {
 
     public DraconicCrystal(ItemService itemService, CustomItemType type) {
         super(itemService, type);
+    }
+
+    @Override
+    public String getTextureUrl() {
+        return "c145dd7e0a35db50c9a4bdc465ca1235356fc5dd470737d2a74ea99cc1525bdb";
     }
 
     @Override

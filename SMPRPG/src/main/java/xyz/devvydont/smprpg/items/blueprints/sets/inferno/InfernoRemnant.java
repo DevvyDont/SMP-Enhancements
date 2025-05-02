@@ -8,18 +8,24 @@ import org.bukkit.inventory.recipe.CraftingBookCategory;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
-import xyz.devvydont.smprpg.items.base.CustomHeadBlueprint;
+import xyz.devvydont.smprpg.items.base.CustomItemBlueprint;
 import xyz.devvydont.smprpg.items.interfaces.ICraftable;
+import xyz.devvydont.smprpg.items.interfaces.ICustomTextured;
 import xyz.devvydont.smprpg.items.interfaces.ISellable;
 import xyz.devvydont.smprpg.services.ItemService;
 
 import java.util.Collection;
 import java.util.List;
 
-public class InfernoRemnant extends CustomHeadBlueprint implements ICraftable, ISellable {
+public class InfernoRemnant extends CustomItemBlueprint implements ICraftable, ISellable, ICustomTextured {
 
     public InfernoRemnant(ItemService itemService, CustomItemType type) {
         super(itemService, type);
+    }
+
+    @Override
+    public String getTextureUrl() {
+        return "391a40e212d620de62babfac5488746d0ab4c28e7a8c2263662161723674cc28";
     }
 
     @Override

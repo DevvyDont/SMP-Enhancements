@@ -39,12 +39,12 @@ public abstract class CustomItemBlueprint extends SMPItemBlueprint {
 
     @Override
     public ItemRarity getDefaultRarity() {
-        return getCustomItemType().rarity;
+        return getCustomItemType().DefaultRarity;
     }
 
     @Override
     public String getItemName(ItemStack item) {
-        return getCustomItemType().name;
+        return getCustomItemType().ItemName;
     }
 
     @Override
@@ -59,7 +59,7 @@ public abstract class CustomItemBlueprint extends SMPItemBlueprint {
     public ItemStack generate() {
 
         // Make the starting item.
-        var itemStack = of(_type.material);
+        var itemStack = of(_type.DisplayMaterial);
 
         // Apply updates to this item according to our blueprint's spec.
         updateItemData(itemStack);
@@ -89,6 +89,6 @@ public abstract class CustomItemBlueprint extends SMPItemBlueprint {
 
     @Override
     public boolean wantFakeEnchantGlow() {
-        return getCustomItemType().glow;
+        return getCustomItemType().WantGlow;
     }
 }

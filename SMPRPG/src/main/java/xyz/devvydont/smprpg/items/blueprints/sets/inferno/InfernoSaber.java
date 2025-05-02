@@ -25,7 +25,7 @@ import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomAttributeItem;
-import xyz.devvydont.smprpg.items.base.IModelOverridden;
+import xyz.devvydont.smprpg.items.interfaces.IModelOverridden;
 import xyz.devvydont.smprpg.items.blueprints.vanilla.ItemAxe;
 import xyz.devvydont.smprpg.items.interfaces.ICraftable;
 import xyz.devvydont.smprpg.items.interfaces.IHeaderDescribable;
@@ -130,7 +130,7 @@ public class InfernoSaber extends CustomAttributeItem implements IHeaderDescriba
         Projectile projectile = player.launchProjectile(Fireball.class, player.getLocation().getDirection().normalize().multiply(2));
         SMPRPG.getInstance().getEntityDamageCalculatorService().setBaseProjectileDamage(projectile, DAMAGE);
         player.damage(COST, DamageSource.builder(DamageType.MAGIC).withCausingEntity(player).withDirectEntity(player).build());
-        player.setCooldown(getCustomItemType().material, COOLDOWN*20);
+        player.setCooldown(getCustomItemType().DisplayMaterial, COOLDOWN*20);
         setInfernoProjectile(projectile);
     }
 
@@ -154,7 +154,7 @@ public class InfernoSaber extends CustomAttributeItem implements IHeaderDescriba
             return;
 
         // Are we on cooldown?
-        if (event.getPlayer().getCooldown(getCustomItemType().material) > 0)
+        if (event.getPlayer().getCooldown(getCustomItemType().DisplayMaterial) > 0)
             return;
 
         event.setCancelled(true);

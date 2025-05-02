@@ -318,7 +318,7 @@ public class ItemService implements BaseService, Listener {
 
             CustomItemBlueprint blueprint;
             try {
-                blueprint = customItemType.getHandler().getConstructor(ItemService.class, CustomItemType.class).newInstance(this, customItemType);
+                blueprint = customItemType.Handler.getConstructor(ItemService.class, CustomItemType.class).newInstance(this, customItemType);
             } catch (InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException e) {
                 plugin.getLogger().severe("Failed to register custom item: " + customItemType + e.getMessage());
                 continue;
@@ -415,7 +415,7 @@ public class ItemService implements BaseService, Listener {
     }
 
     private void registerCustomItem(CustomItemBlueprint blueprint) {
-        plugin.getLogger().finest(String.format("Registering custom item %s {key=%s,model=%d}", blueprint.getCustomItemType().name, blueprint.getCustomItemType().getKey(), blueprint.getCustomItemType().getModelData()));
+        plugin.getLogger().finest(String.format("Registering custom item %s {key=%s}", blueprint.getCustomItemType().ItemName, blueprint.getCustomItemType().getKey()));
 
         blueprints.put(blueprint.getCustomItemType(), blueprint);
         keyMappings.put(blueprint.getCustomItemType().getKey(), blueprint.getCustomItemType());

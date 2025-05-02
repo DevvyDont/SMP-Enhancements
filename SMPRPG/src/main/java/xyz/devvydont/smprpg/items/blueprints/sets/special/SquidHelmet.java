@@ -1,16 +1,22 @@
 package xyz.devvydont.smprpg.items.blueprints.sets.special;
 
+import io.papermc.paper.datacomponent.item.Equippable;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.CraftingRecipe;
+import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemStack;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.items.CustomItemType;
+import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
-import xyz.devvydont.smprpg.items.base.CustomTexturedAttributeHelmetBlueprint;
-import xyz.devvydont.smprpg.items.interfaces.ICraftable;
+import xyz.devvydont.smprpg.items.base.CustomAttributeItem;
+import xyz.devvydont.smprpg.items.interfaces.IEquippableOverride;
 import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
+import xyz.devvydont.smprpg.items.interfaces.ICraftable;
+import xyz.devvydont.smprpg.items.interfaces.ICustomTextured;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
 import xyz.devvydont.smprpg.util.crafting.builders.HelmetRecipe;
@@ -18,10 +24,30 @@ import xyz.devvydont.smprpg.util.crafting.builders.HelmetRecipe;
 import java.util.Collection;
 import java.util.List;
 
-public class SquidHelmet extends CustomTexturedAttributeHelmetBlueprint implements IBreakableEquipment, ICraftable {
+public class SquidHelmet extends CustomAttributeItem implements IBreakableEquipment, ICraftable, ICustomTextured, IEquippableOverride {
 
     public SquidHelmet(ItemService itemService, CustomItemType type) {
         super(itemService, type);
+    }
+
+    @Override
+    public String getTextureUrl() {
+        return "464bdc6f600656511bef596c1a16aab1d3f5dbaae8bee19d5c04de0db21ce92c";
+    }
+
+    @Override
+    public Equippable getEquipmentOverride() {
+        return IEquippableOverride.generateDefault(EquipmentSlot.HEAD);
+    }
+
+    @Override
+    public ItemClassification getItemClassification() {
+        return ItemClassification.HELMET;
+    }
+
+    @Override
+    public EquipmentSlotGroup getActiveSlot() {
+        return EquipmentSlotGroup.HEAD;
     }
 
     @Override

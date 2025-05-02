@@ -20,6 +20,6 @@ public class SellableResource extends CustomItemBlueprint implements ISellable {
 
     @Override
     public int getWorth(ItemStack itemStack) {
-        return getCustomItemType().defaultWorth * itemStack.getAmount();
+        return getCustomItemType().Worth * itemStack.getAmount();
     }
 }

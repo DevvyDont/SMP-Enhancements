@@ -1,7 +1,6 @@
 package xyz.devvydont.smprpg.items;
 
 import org.bukkit.Material;
-import xyz.devvydont.smprpg.items.base.CustomHeadBlueprint;
 import xyz.devvydont.smprpg.items.base.CustomItemBlueprint;
 import xyz.devvydont.smprpg.items.blueprints.boss.DiamondToolRod;
 import xyz.devvydont.smprpg.items.blueprints.boss.InfernoArrow;
@@ -22,6 +21,7 @@ import xyz.devvydont.smprpg.items.blueprints.resources.SellableResource;
 import xyz.devvydont.smprpg.items.blueprints.resources.crafting.DraconicCrystal;
 import xyz.devvydont.smprpg.items.blueprints.resources.mining.*;
 import xyz.devvydont.smprpg.items.blueprints.resources.mob.*;
+import xyz.devvydont.smprpg.items.blueprints.reusable.SimpleTexturedItem;
 import xyz.devvydont.smprpg.items.blueprints.sets.amethyst.AmethystBoots;
 import xyz.devvydont.smprpg.items.blueprints.sets.amethyst.AmethystChestplate;
 import xyz.devvydont.smprpg.items.blueprints.sets.amethyst.AmethystHelmet;
@@ -125,6 +125,7 @@ import xyz.devvydont.smprpg.items.blueprints.sets.valiant.ValiantBoots;
 import xyz.devvydont.smprpg.items.blueprints.sets.valiant.ValiantChestplate;
 import xyz.devvydont.smprpg.items.blueprints.sets.valiant.ValiantHelmet;
 import xyz.devvydont.smprpg.items.blueprints.sets.valiant.ValiantLeggings;
+import xyz.devvydont.smprpg.items.interfaces.ICustomTextured;
 
 public enum CustomItemType {
 
@@ -269,7 +270,7 @@ public enum CustomItemType {
     FORSAKEN_LEGGINGS(  "Forsaken Leggings",   Material.NETHERITE_LEGGINGS,  ItemRarity.LEGENDARY, ForsakenLeggings.class),
     FORSAKEN_BOOTS(     "Forsaken Boots",      Material.LEATHER_BOOTS,       ItemRarity.LEGENDARY, ForsakenBoots.class),
     FORSAKEN_CUTLASS(     "Forsaken Cutlass",  Material.NETHERITE_SWORD,     ItemRarity.LEGENDARY, ForsakenCutlass.class),
-    DESOLATED_STONE(     "Desolated Stone", "895a05992afa37b3806b81f0003ca617b3c1cbb9170a2309115b9c6a03eb73af", ItemRarity.LEGENDARY, DesolatedStone.class),
+    DESOLATED_STONE(     "Desolated Stone", ItemRarity.LEGENDARY, DesolatedStone.class),
 
     // CYRAX
     CYRAX_HELMET(    "Cyrax Helmet",     Material.GOLDEN_HELMET,     ItemRarity.EPIC, CryaxHelmet.class),
@@ -295,7 +296,7 @@ public enum CustomItemType {
 
     SCORCHING_STRING("Scorching String", Material.STRING, ItemRarity.RARE, true, ScorchingString.class),
     INFERNO_RESIDUE("Inferno Residue", Material.ORANGE_DYE, ItemRarity.RARE, true, InfernoResidue.class),
-    INFERNO_REMNANT("Inferno Remnant", "391a40e212d620de62babfac5488746d0ab4c28e7a8c2263662161723674cc28", ItemRarity.EPIC, InfernoRemnant.class),
+    INFERNO_REMNANT("Inferno Remnant", ItemRarity.EPIC, InfernoRemnant.class),
 
     // ELDERFLAME
     ELDERFLAME_HELMET(    "Elderflame Helmet",     Material.NETHERITE_HELMET,    ItemRarity.LEGENDARY, ElderflameHelmet.class),
@@ -353,8 +354,8 @@ public enum CustomItemType {
     EXILED_AXE("Exiled Axe", Material.IRON_AXE, ItemRarity.EPIC,  ExiledAxe.class),
 
     // MISC TOOLS
-    SQUID_HELMET("Squid Helmet", "464bdc6f600656511bef596c1a16aab1d3f5dbaae8bee19d5c04de0db21ce92c", ItemRarity.RARE, SquidHelmet.class),
-    MAGMA_HELMET("Magma Helmet", "eaa9228bc7ac94b3631ff0f43db6b4e2d0f50a107f592538ae704e197fe1239d", ItemRarity.RARE, MagmaHelmet.class),
+    SQUID_HELMET("Squid Helmet", ItemRarity.RARE, SquidHelmet.class),
+    MAGMA_HELMET("Magma Helmet", ItemRarity.RARE, MagmaHelmet.class),
     GRAPPLING_HOOK("Grappling Hook", Material.FISHING_ROD, ItemRarity.RARE, GrapplingHook.class),
 
     // FOOD
@@ -536,13 +537,13 @@ public enum CustomItemType {
     DIAMOND_TOOL_ROD("Diamond Tool Rod", Material.BREEZE_ROD, ItemRarity.UNCOMMON, DiamondToolRod.class),
     NEPTUNES_CONCH("Neptune's Conch Shell", Material.NAUTILUS_SHELL, ItemRarity.EPIC, true, NeptunesConch.class),
     PLUTO_FRAGMENT("Pluto Fragment", Material.PRISMARINE_SHARD, ItemRarity.RARE, true, 4000),
-    PLUTOS_ARTIFACT("Pluto's Artifact", "d919c3488fe9f4934429856fb43f860b8dab6096482e8632050810f44ef7cb17", ItemRarity.EPIC, PlutosArtifact.class),
+    PLUTOS_ARTIFACT("Pluto's Artifact", ItemRarity.EPIC, PlutosArtifact.class),
     JUPITER_CRYSTAL("Jupiter Crystal", Material.PRISMARINE_CRYSTALS, ItemRarity.RARE, true, 1000),
-    JUPITERS_ARTIFACT("Jupiter's Artifact", "e19e936ae7b42d666eed981c8f44cc7f1872b45f5d3faac38e34fa226800f3ef", ItemRarity.EPIC, JupiterArtifact.class),
+    JUPITERS_ARTIFACT("Jupiter's Artifact", ItemRarity.EPIC, JupiterArtifact.class),
 
     // DRAGON
     DRAGON_SCALES(   "Dragon Scales",    Material.PHANTOM_MEMBRANE, ItemRarity.RARE, true),
-    DRACONIC_CRYSTAL("Draconic Crystal", "c145dd7e0a35db50c9a4bdc465ca1235356fc5dd470737d2a74ea99cc1525bdb", ItemRarity.EPIC, DraconicCrystal.class),
+    DRACONIC_CRYSTAL("Draconic Crystal", ItemRarity.EPIC, DraconicCrystal.class),
 
     // PASSIVE MOBS
     PREMIUM_PORKCHOP("Premium Porkchop", Material.COOKED_PORKCHOP, ItemRarity.UNCOMMON, true, PorkchopFamilyBlueprint.class),
@@ -590,7 +591,7 @@ public enum CustomItemType {
 
     GAME_BREAKER("Game Breaker", Material.TNT, ItemRarity.SPECIAL, true, GameBreaker.class),
 
-    BURGER("Burger", "545440bd8a551aea344d81bf398c9f7cfbaaad582b184785abf0ac1d1d78bb26", ItemRarity.SPECIAL),
+    BURGER("Burger", Material.PLAYER_HEAD, ItemRarity.SPECIAL, SimpleTexturedItem.class),
 
     SPACE_HELMET("Space Helmet", Material.RED_STAINED_GLASS, ItemRarity.SPECIAL, true, SpaceHelmet.class),
     SPIDER_REPELLENT("Spider Repellent", Material.POTION, ItemRarity.SPECIAL, true, SpiderRepellentBlueprint.class),
@@ -604,132 +605,92 @@ public enum CustomItemType {
     DUMMY_SMITHING_RESULT("DUMMY SMITHING RESULT", Material.BARRIER, ItemRarity.SPECIAL)
     ;
 
-    public final String name;
-    public String url = "";
-    public final Material material;
-    public final ItemRarity rarity;
-    public final boolean glow;
-    public int defaultWorth = 0;
-    public final Class<? extends CustomItemBlueprint> handler;
+    public final String ItemName;
+    public final Material DisplayMaterial;
+    public final ItemRarity DefaultRarity;
+    public final boolean WantGlow;
+    public int Worth = 0;
+    public final Class<? extends CustomItemBlueprint> Handler;
 
-    public static final int MODEL_DATA_OFFSET = 0x849FFB;
-
-    CustomItemType(String name, String URL, ItemRarity rarity) {
-        this.name = name;
-        this.url = URL;
-        this.material = Material.PLAYER_HEAD;
-        this.rarity = rarity;
-        this.glow = false;
-        this.handler = CustomHeadBlueprint.class;
+    /**
+     * The default constructor for a custom item.
+     * Provides all the options that tweak how this special item behaves.
+     * @param name The name of the item.
+     * @param material The material this item displays as.
+     * @param rarity The default rarity of this item.
+     * @param glow If this item should be forced to glow.
+     * @param handler The special handler blueprint class for this item.
+     */
+    CustomItemType(String name, Material material, ItemRarity rarity, boolean glow, Class<? extends CustomItemBlueprint> handler) {
+        this.ItemName = name;
+        this.DisplayMaterial = material;
+        this.DefaultRarity = rarity;
+        this.WantGlow = glow;
+        this.Handler = handler;
     }
 
-    CustomItemType(String name, String URL, ItemRarity rarity, Class<? extends CustomHeadBlueprint> handler) {
-        this.name = name;
-        this.url = URL;
-        this.material = Material.PLAYER_HEAD;
-        this.rarity = rarity;
-        this.glow = false;
-        this.handler = handler;
-    }
-
-    CustomItemType(String name, Material material) {
-        this.name = name;
-        this.material = material;
-        this.rarity = ItemRarity.COMMON;
-        this.glow = false;
-        this.handler = EmptyBlueprint.class;
-    }
-
+    /**
+     * Creates an item type that is defaulted to common rarity with no glow.
+     * @param name The name of the item.
+     * @param material The material to make the item display as.
+     * @param handler Then handler class of the item.
+     */
     CustomItemType(String name, Material material, Class<? extends CustomItemBlueprint> handler) {
-        this.name = name;
-        this.material = material;
-        this.rarity = ItemRarity.COMMON;
-        this.glow = false;
-        this.handler = handler;
+        this(name, material, ItemRarity.COMMON, false, handler);
     }
 
+    /**
+     * Creates an item type that does not glow and has no associated special handler.
+     * Great for items that don't have any special logic.
+     * @param name The name of the item.
+     * @param material The material to make the item display as.
+     * @param rarity The default rarity of the item.
+     */
     CustomItemType(String name, Material material, ItemRarity rarity) {
-        this.name = name;
-        this.material = material;
-        this.rarity = rarity;
-        this.glow = false;
-        this.handler = EmptyBlueprint.class;
+        this(name, material, rarity, false, EmptyBlueprint.class);
     }
 
-    CustomItemType(String name, Material material, boolean glow) {
-        this.name = name;
-        this.material = material;
-        this.rarity = ItemRarity.COMMON;
-        this.glow = glow;
-        this.handler = EmptyBlueprint.class;
-    }
-
-    CustomItemType(String name, Material material, ItemRarity rarity, boolean glow) {
-        this.name = name;
-        this.material = material;
-        this.rarity = rarity;
-        this.glow = glow;
-        this.handler = EmptyBlueprint.class;
+    /**
+     * Creates an item type that needs a glow override but has no special logic.
+     * Great for items that don't have any special logic.
+     * @param name The name of the item.
+     * @param material The material to make the item display as.
+     * @param rarity The default rarity of the item.
+     */
+    CustomItemType(String name, Material material, ItemRarity rarity, boolean WantGlow) {
+        this(name, material, rarity, WantGlow, EmptyBlueprint.class);
     }
 
     CustomItemType(String name, Material material, ItemRarity rarity, Class<? extends CustomItemBlueprint> handler) {
-        this.name = name;
-        this.material = material;
-        this.rarity = rarity;
-        this.glow = false;
-        this.handler = handler;
+        this(name, material, rarity, false, handler);
     }
 
-    CustomItemType(String name, Material material, ItemRarity rarity, boolean glow, Class<? extends CustomItemBlueprint> handler) {
-        this.name = name;
-        this.material = material;
-        this.rarity = rarity;
-        this.glow = glow;
-        this.handler = handler;
+    /**
+     * Constructor for instantiating an item that is deemed a simple and sellable resource.
+     * @param name The name of the item.
+     * @param material The material this item displays as.
+     * @param rarity The default rarity of the item.
+     * @param WantGlow If this item should glow.
+     * @param worth The worth of the item.
+     */
+    CustomItemType(String name, Material material, ItemRarity rarity, boolean WantGlow, int worth) {
+        this(name, material, rarity, WantGlow, SellableResource.class);
+        this.Worth = worth;
     }
 
-    CustomItemType(String name, Material material, ItemRarity rarity, boolean glow, int defaultWorth) {
-        this.name = name;
-        this.material = material;
-        this.rarity = rarity;
-        this.glow = glow;
-        this.defaultWorth = defaultWorth;
-        this.handler = SellableResource.class;
+    /**
+     * Constructor for instantiating textured heads that are pretending to be items.
+     * Since these items have to be player heads, we can force the material to be a head.
+     * @param name The name of the item.
+     * @param itemRarity The default rarity of the item.
+     * @param handler The blueprint handler class.
+     * @param <T> A class that extends CustomItemBlueprint but also implements the ICustomTextured interface.
+     */
+    <T extends CustomItemBlueprint & ICustomTextured> CustomItemType(String name, ItemRarity itemRarity, Class<T> handler) {
+        this(name, Material.PLAYER_HEAD, itemRarity, handler);
     }
 
     public String getKey() {
         return this.toString().toLowerCase();
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public boolean hasCustomHeadTexture() {
-        return !getUrl().isEmpty();
-    }
-
-    public int getModelData() {
-        return MODEL_DATA_OFFSET + this.ordinal();
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public Material getMaterial() {
-        return material;
-    }
-
-    public ItemRarity getRarity() {
-        return rarity;
-    }
-
-    public boolean isGlowing() {
-        return glow;
-    }
-
-    public Class<? extends CustomItemBlueprint> getHandler() {
-        return handler;
     }
 }

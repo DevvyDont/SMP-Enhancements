@@ -3,12 +3,11 @@ package xyz.devvydont.smprpg.items.blueprints.equipment;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.attribute.AttributeModifier;
-import org.bukkit.inventory.meta.ItemMeta;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.ItemRarity;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
-import xyz.devvydont.smprpg.items.base.CustomHeadBlueprint;
+import xyz.devvydont.smprpg.items.base.CustomItemBlueprint;
 import xyz.devvydont.smprpg.items.interfaces.ReforgeApplicator;
 import xyz.devvydont.smprpg.reforge.ReforgeBase;
 import xyz.devvydont.smprpg.services.ItemService;
@@ -20,7 +19,7 @@ import xyz.devvydont.smprpg.util.formatting.MinecraftStringUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class ReforgeStone extends CustomHeadBlueprint implements ReforgeApplicator {
+public abstract class ReforgeStone extends CustomItemBlueprint implements ReforgeApplicator {
 
     public static final ItemRarity DISPLAY_RARITY = ItemRarity.EPIC;
 

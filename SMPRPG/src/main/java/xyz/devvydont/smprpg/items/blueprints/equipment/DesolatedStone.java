@@ -9,6 +9,7 @@ import org.bukkit.inventory.recipe.CraftingBookCategory;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.interfaces.ICraftable;
+import xyz.devvydont.smprpg.items.interfaces.ICustomTextured;
 import xyz.devvydont.smprpg.items.interfaces.ISellable;
 import xyz.devvydont.smprpg.reforge.ReforgeType;
 import xyz.devvydont.smprpg.services.ItemService;
@@ -16,10 +17,15 @@ import xyz.devvydont.smprpg.services.ItemService;
 import java.util.Collection;
 import java.util.List;
 
-public class DesolatedStone extends ReforgeStone implements ICraftable, ISellable {
+public class DesolatedStone extends ReforgeStone implements ICraftable, ISellable, ICustomTextured {
 
     public DesolatedStone(ItemService itemService, CustomItemType type) {
         super(itemService, type);
+    }
+
+    @Override
+    public String getTextureUrl() {
+        return "895a05992afa37b3806b81f0003ca617b3c1cbb9170a2309115b9c6a03eb73af";
     }
 
     @Override

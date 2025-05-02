@@ -1,4 +1,4 @@
-package xyz.devvydont.smprpg.items.base;
+package xyz.devvydont.smprpg.items.interfaces;
 
 public interface IMace {
 

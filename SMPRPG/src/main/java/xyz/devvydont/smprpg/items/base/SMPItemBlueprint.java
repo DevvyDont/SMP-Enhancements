@@ -76,7 +76,7 @@ public abstract class SMPItemBlueprint {
      * Given item meta, determine how this item's display name should look
      */
     public Component getNameComponent(ItemStack item) {
-        return getRarity(item).applyDecoration(ComponentUtils.create(getReforgePrefix(item) + getItemName(item))).decoration(TextDecoration.ITALIC, false);
+        return getRarity(item).applyDecoration(ComponentUtils.create(getReforgePrefix(item) + getItemName(item)));
     }
 
     /**
@@ -212,22 +212,6 @@ public abstract class SMPItemBlueprint {
     }
 
     /**
-     * Applies this blueprint's lore when we have a given itemstack.
-     * For most items, the structure of lore will be like so:
-     * -
-     * - Enchants (if it has any)
-     * -
-     * - Description
-     * -
-     * [RARITY] ITEM
-     */
-    public void updateLore(ItemStack itemStack) {
-        ItemMeta meta = itemStack.getItemMeta();
-        meta.lore(itemService.renderItemStackLore(itemStack));
-        itemStack.setItemMeta(meta);
-    }
-
-    /**
      * Called to set various components and attributes of this item, can be overidden for extra functionality
      */
     public void updateItemData(ItemMeta meta) {
@@ -255,16 +239,14 @@ public abstract class SMPItemBlueprint {
         }
 
         // Apply a color! (if we want them and can actually apply them...)
-        if (this instanceof IDyeable && meta instanceof LeatherArmorMeta) {
-            LeatherArmorMeta armorMeta = (LeatherArmorMeta) meta;
+        if (this instanceof IDyeable && meta instanceof LeatherArmorMeta armorMeta) {
             Color color = ((IDyeable) this).getColor();
             armorMeta.setColor(color);
             armorMeta.addItemFlags(ItemFlag.HIDE_DYE);
         }
 
         // Apply armor trims! (if we want them and can actually apply them...)
-        if (this instanceof ITrimmable && meta instanceof ArmorMeta) {
-            ArmorMeta armorMeta = (ArmorMeta) meta;
+        if (this instanceof ITrimmable && meta instanceof ArmorMeta armorMeta) {
             TrimMaterial material = ((ITrimmable) this).getTrimMaterial();
             TrimPattern pattern = ((ITrimmable) this).getTrimPattern();
             armorMeta.setTrim(new ArmorTrim(material, pattern));
@@ -294,6 +276,7 @@ public abstract class SMPItemBlueprint {
 
     /**
      * Called to retrieve item meta off of an item stack, apply new updated item meta to it, and apply it
+     * Ideally, we should only be working with the new component API over item meta.
      */
     public void updateItemData(ItemStack itemStack) {
 
@@ -311,6 +294,13 @@ public abstract class SMPItemBlueprint {
         if (this instanceof IModelOverridden overridden)
             itemStack.setData(DataComponentTypes.ITEM_MODEL, IModelOverridden.ofMaterial(overridden.getDisplayMaterial()));
 
+        // Apply custom texture data if present. This also will remove the ability to equip it.
+        if (this instanceof ICustomTextured textured) {
+            ICustomTextured.update(itemStack, textured);
+            // It also turns out that for some reason setting the name doesn't work for skull items. Lovely.
+            itemStack.setData(DataComponentTypes.CUSTOM_NAME, getNameComponent(itemStack).decoration(TextDecoration.ITALIC, false));
+        }
+
         // If this is a faked armor piece, override the equipment data.
         if (this instanceof IEquippableOverride override) {
             itemStack.setData(DataComponentTypes.EQUIPPABLE, override.getEquipmentOverride());
@@ -324,16 +314,16 @@ public abstract class SMPItemBlueprint {
         // If this item contains attributes, apply them.
         AttributeUtil.applyModifiers(this, itemStack);
 
-        // Set name of item
-        itemStack.editMeta(meta -> meta.displayName(getNameComponent(itemStack)));
-
-        // Update the item meta
+        // Update meta properties. Eventually, I think we should remove this. We can edit meta using this method.
         ItemMeta meta = itemStack.getItemMeta();
         updateItemData(meta);
         itemStack.setItemMeta(meta);
 
+        // Set name of item
+        itemStack.setData(DataComponentTypes.ITEM_NAME, getNameComponent(itemStack));
+
         // Finally, after applying all updates re-render the lore of the item.
-        updateLore(itemStack);
+        itemStack.lore(itemService.renderItemStackLore(itemStack));
     }
 
 }

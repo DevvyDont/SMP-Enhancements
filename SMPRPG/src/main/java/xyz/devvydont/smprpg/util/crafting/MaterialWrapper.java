@@ -50,7 +50,7 @@ public class MaterialWrapper {
     public String name() {
 
         if (isCustom())
-            return custom.name;
+            return custom.ItemName;
 
         return MinecraftStringUtils.getTitledString(vanilla.name());
     }
@@ -62,7 +62,7 @@ public class MaterialWrapper {
      */
     public Component component() {
         if (isCustom())
-            return custom.rarity.applyDecoration(ComponentUtils.create(name()));
+            return custom.DefaultRarity.applyDecoration(ComponentUtils.create(name()));
 
         return ItemRarity.ofVanillaMaterial(vanilla).applyDecoration(ComponentUtils.create(name()));
     }
@@ -88,7 +88,7 @@ public class MaterialWrapper {
         if (isVanilla())
             return vanilla;
 
-        return custom.material;
+        return custom.DisplayMaterial;
     }
 
     /**

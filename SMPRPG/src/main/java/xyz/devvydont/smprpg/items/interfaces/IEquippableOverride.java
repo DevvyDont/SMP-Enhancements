@@ -1,4 +1,4 @@
-package xyz.devvydont.smprpg.items.base;
+package xyz.devvydont.smprpg.items.interfaces;
 
 import io.papermc.paper.datacomponent.item.Equippable;
 import org.bukkit.inventory.EquipmentSlot;

@@ -9,18 +9,24 @@ import org.bukkit.inventory.recipe.CraftingBookCategory;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
-import xyz.devvydont.smprpg.items.base.CustomHeadBlueprint;
+import xyz.devvydont.smprpg.items.base.CustomItemBlueprint;
 import xyz.devvydont.smprpg.items.interfaces.ICraftable;
+import xyz.devvydont.smprpg.items.interfaces.ICustomTextured;
 import xyz.devvydont.smprpg.items.interfaces.ISellable;
 import xyz.devvydont.smprpg.services.ItemService;
 
 import java.util.Collection;
 import java.util.List;
 
-public class JupiterArtifact extends CustomHeadBlueprint implements ISellable, ICraftable {
+public class JupiterArtifact extends CustomItemBlueprint implements ISellable, ICraftable, ICustomTextured {
 
     public JupiterArtifact(ItemService itemService, CustomItemType type) {
         super(itemService, type);
+    }
+
+    @Override
+    public String getTextureUrl() {
+        return "e19e936ae7b42d666eed981c8f44cc7f1872b45f5d3faac38e34fa226800f3ef";
     }
 
     @Override

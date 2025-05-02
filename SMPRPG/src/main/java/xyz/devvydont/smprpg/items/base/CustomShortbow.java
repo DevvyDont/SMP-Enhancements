@@ -76,7 +76,7 @@ public abstract class CustomShortbow extends CustomAttributeItem implements IHea
             return;
 
         // Are we on attack cooldown?
-        if (event.getPlayer().getCooldown(getCustomItemType().material) > 0)
+        if (event.getPlayer().getCooldown(getCustomItemType().DisplayMaterial) > 0)
             return;
 
         // Do we have an arrow to use as a consumable?
@@ -128,7 +128,7 @@ public abstract class CustomShortbow extends CustomAttributeItem implements IHea
         event.getPlayer().getWorld().playSound(event.getPlayer().getEyeLocation(), Sound.ENTITY_ARROW_SHOOT, 1, 1.5f);
         event.getPlayer().resetCooldown();
         int cooldown = (int) (20 / event.getPlayer().getAttribute(Attribute.ATTACK_SPEED).getValue());
-        event.getPlayer().setCooldown(getCustomItemType().material, cooldown);
+        event.getPlayer().setCooldown(getCustomItemType().DisplayMaterial, cooldown);
 
         // If the arrow shot was a normal arrow and the bow has infinity, consumable logic is handled by
         // the infinity enchantment class.
