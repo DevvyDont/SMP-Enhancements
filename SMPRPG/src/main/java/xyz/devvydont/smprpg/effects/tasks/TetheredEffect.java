@@ -48,17 +48,17 @@ public class TetheredEffect extends SpecialEffectTask implements Listener {
     protected void tick() {
 
         // If we break LOS, then we add to the counter of broken LOS ticks.
-        if (!tetheredTo.hasLineOfSight(player))
+        if (!tetheredTo.hasLineOfSight(_player))
             currentlyBrokenLOSTicks++;
 
         // If we have enough of those ticks, we can remove the effect.
         if (currentlyBrokenLOSTicks >= LOS_BREAK_TICKS) {
-            service.removeEffect(player, this.getClass());
+            service.removeEffect(_player, this.getClass());
             return;
         }
 
-        ParticleUtil.spawnParticlesBetweenTwoPoints(Particle.FLAME, player.getWorld(), player.getEyeLocation().toVector(), tetheredTo.getEyeLocation().toVector(), 30);
-        player.setFireTicks(20);
+        ParticleUtil.spawnParticlesBetweenTwoPoints(Particle.FLAME, _player.getWorld(), _player.getEyeLocation().toVector(), tetheredTo.getEyeLocation().toVector(), 30);
+        _player.setFireTicks(20);
     }
 
     /*
@@ -66,19 +66,19 @@ public class TetheredEffect extends SpecialEffectTask implements Listener {
      */
     @Override
     protected void expire() {
-        @NotNull Vector dir = tetheredTo.getLocation().toVector().subtract(player.getLocation().toVector()).normalize();
+        @NotNull Vector dir = tetheredTo.getLocation().toVector().subtract(_player.getLocation().toVector()).normalize();
         dir.multiply(5);
         dir.add(new Vector(0, 2, 0));
-        player.setVelocity(dir);
-        player.getWorld().playSound(player.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_LAUNCH, 1, 1.25f);
-        ParticleUtil.spawnParticlesBetweenTwoPoints(Particle.SOUL_FIRE_FLAME, player.getWorld(), player.getEyeLocation().toVector(), tetheredTo.getEyeLocation().toVector(), 30);
+        _player.setVelocity(dir);
+        _player.getWorld().playSound(_player.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_LAUNCH, 1, 1.25f);
+        ParticleUtil.spawnParticlesBetweenTwoPoints(Particle.SOUL_FIRE_FLAME, _player.getWorld(), _player.getEyeLocation().toVector(), tetheredTo.getEyeLocation().toVector(), 30);
     }
 
     @Override
     public void removed() {
-        player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ITEM_BREAK, 1, 1.9f);
-        ParticleUtil.spawnParticlesBetweenTwoPoints(Particle.END_ROD, player.getWorld(), player.getEyeLocation().toVector(), tetheredTo.getEyeLocation().toVector(), 30);
-        player.setFireTicks(0);
+        _player.getWorld().playSound(_player.getLocation(), Sound.ENTITY_ITEM_BREAK, 1, 1.9f);
+        ParticleUtil.spawnParticlesBetweenTwoPoints(Particle.END_ROD, _player.getWorld(), _player.getEyeLocation().toVector(), tetheredTo.getEyeLocation().toVector(), 30);
+        _player.setFireTicks(0);
     }
 
     /*
@@ -90,6 +90,6 @@ public class TetheredEffect extends SpecialEffectTask implements Listener {
         if (!event.getEntity().equals(tetheredTo))
             return;
 
-        service.removeEffect(player, this.getClass());
+        service.removeEffect(_player, this.getClass());
     }
 }

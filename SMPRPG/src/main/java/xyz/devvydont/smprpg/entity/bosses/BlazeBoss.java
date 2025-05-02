@@ -1,6 +1,8 @@
 package xyz.devvydont.smprpg.entity.bosses;
 
 import net.kyori.adventure.bossbar.BossBar;
+import net.kyori.adventure.text.event.HoverEvent;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.damage.DamageSource;
@@ -15,9 +17,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
+import xyz.devvydont.smprpg.effects.tasks.OverheatingEffect;
 import xyz.devvydont.smprpg.effects.tasks.TetheredEffect;
 import xyz.devvydont.smprpg.entity.CustomEntityType;
 import xyz.devvydont.smprpg.entity.base.CustomBossInstance;
@@ -215,21 +219,91 @@ public class BlazeBoss extends CustomBossInstance implements Listener {
         return phase == BlazeBossPhase.MOBBING ? MAX_MINIONS : (MAX_MINIONS/2);
     }
 
+    private void spawnMinion(Location location) {
+        LeveledEntity mob = plugin.getEntityService().spawnCustomEntity(CustomEntityType.PHOENIX, location);
+        if (mob == null || mob.getEntity() == null)
+            return;
+
+        minions.put(mob.getEntity().getUniqueId(), mob);
+    }
+
+    private void handleFireballHitPlayer(Player player, boolean fromBoss) {
+
+        // If this player already has an ailment, no need to do anything.
+        if (plugin.getSpecialEffectsService().hasEffect(player))
+            return;
+
+        // If they have fire resistance, make them overheat.
+        if (player.hasPotionEffect(PotionEffectType.FIRE_RESISTANCE)) {
+            var effect = new OverheatingEffect(plugin.getSpecialEffectsService(), player, 10);
+            var msg = ComponentUtils.merge(
+                    ComponentUtils.create("From "),
+                    getDisplaynameNametagComponent(), ComponentUtils.create(": "),
+                    ComponentUtils.create("\"Your mortal alchemy reeks of fear. Let the fire you sought to tame now consume you.\"", NamedTextColor.RED)
+            ).hoverEvent(HoverEvent.showText(ComponentUtils.merge(
+                    ComponentUtils.create("You were punished for being under the effect of "),
+                    ComponentUtils.create("Fire Resistance", NamedTextColor.GOLD),
+                    ComponentUtils.create(" when being hit by a "),
+                    ComponentUtils.create("Phoenix fireball", NamedTextColor.RED),
+                    ComponentUtils.create(". While under the effect of the "),
+                    effect.getNameComponent(),
+                    ComponentUtils.create(" ailment, you suffer from constant damage and eventually will have your "),
+                    ComponentUtils.create("Fire Resistance", NamedTextColor.GOLD),
+                    ComponentUtils.create(" replaced with "),
+                    ComponentUtils.create("Poison", NamedTextColor.DARK_GREEN),
+                    ComponentUtils.create(".")
+            )));
+            player.sendMessage(msg);
+            player.playSound(player.getLocation(), Sound.ENTITY_BLAZE_DEATH, 1, .5f);
+            plugin.getSpecialEffectsService().giveEffect(player, effect);
+            return;
+        }
+
+        // If this is the boss, tether them.
+        if (fromBoss) {
+            var effect = new TetheredEffect(plugin.getSpecialEffectsService(), player, getBlazeEntity(), 5);
+            var msg = ComponentUtils.merge(
+                    ComponentUtils.create("From "),
+                    getDisplaynameNametagComponent(), ComponentUtils.create(": "),
+                    ComponentUtils.create("\"The fire has marked you. Now, it must draw you home. Do not avert your gaze.\"", NamedTextColor.RED)
+            ).hoverEvent(HoverEvent.showText(ComponentUtils.merge(
+                ComponentUtils.create("The "),
+                    getDisplaynameNametagComponent(),
+                    ComponentUtils.create(" managed to hit you directly with a "),
+                    ComponentUtils.create("Phoenix fireball", NamedTextColor.RED),
+                    ComponentUtils.create("! If you do not remove the "),
+                    effect.getNameComponent(),
+                    ComponentUtils.create(" ailment quickly, you will be "),
+                    ComponentUtils.create("sent flying to your demise", NamedTextColor.DARK_RED),
+                    ComponentUtils.create("!")
+            )));
+            player.sendMessage(msg);
+            plugin.getSpecialEffectsService().giveEffect(player, effect);
+        }
+
+    }
+
     /*
      * When our boss shoots a fireball and it explodes, it will summon a normal phoenix enemy
      * Also, if it hits a player directly, they get "tethered"
      */
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onBossFireballExplode(ProjectileHitEvent event) {
+    private void __onBossFireballExplode(ProjectileHitEvent event) {
 
+        // Did a minion hit the player?
+        for (var minion : minions.values())
+            if (minion.getEntity().equals(event.getEntity().getShooter()) && event.getHitEntity() instanceof Player player)
+                handleFireballHitPlayer(player, false);
+
+        // Ignore fireballs not shot by the boss
         if (!entity.equals(event.getEntity().getShooter()))
             return;
 
         // Did we hit a player directly? if so, we need to tether them.
         if (event.getHitEntity() instanceof Player hitPlayer)
-            plugin.getSpecialEffectsService().giveEffect(hitPlayer, new TetheredEffect(plugin.getSpecialEffectsService(), hitPlayer, getBlazeEntity(), 5));
+            handleFireballHitPlayer(hitPlayer, true);
 
-        // Do we have too many?
+        // Do we have too many minions?
         if (minions.size() >= getMinionLimit())
             return;
 
@@ -250,7 +324,7 @@ public class BlazeBoss extends CustomBossInstance implements Listener {
      * When a player damages the boss....
      */
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onDamageBoss(EntityDamageEvent event) {
+    private void __onDamageBoss(EntityDamageEvent event) {
 
         if (!(event.getEntity() instanceof LivingEntity living))
             return;
@@ -288,19 +362,13 @@ public class BlazeBoss extends CustomBossInstance implements Listener {
         phase = BlazeBossPhase.MOBBING;
     }
 
-    private void spawnMinion(Location location) {
-        LeveledEntity mob = plugin.getEntityService().spawnCustomEntity(CustomEntityType.PHOENIX, location);
-        if (mob == null || mob.getEntity() == null)
-            return;
 
-        minions.put(mob.getEntity().getUniqueId(), mob);
-    }
 
     /*
      * When a minion dies, spawn a fire particle trail, and damage the boss
      */
     @EventHandler
-    public void onMinionDeath(EntityDeathEvent event) {
+    private void __onMinionDeath(EntityDeathEvent event) {
 
         // Was the killed entity a minion?
         if (!minions.containsKey(event.getEntity().getUniqueId()))
@@ -318,11 +386,11 @@ public class BlazeBoss extends CustomBossInstance implements Listener {
         if (event.getDamageSource().getCausingEntity() == null || event.getDamageSource().getDirectEntity() == null)
             return;
 
-        // Damage the boss for how much health the minion had / 2
+        // Damage the boss for how much health the minion had
         double damage = event.getEntity().getAttribute(Attribute.MAX_HEALTH).getValue();
         boolean invulnState = entity.isInvulnerable();
         entity.setInvulnerable(false);
-        getBlazeEntity().damage(damage * .5, DamageSource.builder(DamageType.MAGIC).withCausingEntity(event.getDamageSource().getCausingEntity()).withDirectEntity(event.getDamageSource().getDirectEntity()).build());
+        getBlazeEntity().damage(damage, DamageSource.builder(DamageType.MAGIC).withCausingEntity(event.getDamageSource().getCausingEntity()).withDirectEntity(event.getDamageSource().getDirectEntity()).build());
         entity.setInvulnerable(invulnState);
         ParticleUtil.spawnParticlesBetweenTwoPoints(Particle.FLAME, event.getEntity().getWorld(), getBlazeEntity().getEyeLocation().toVector(), event.getEntity().getEyeLocation().toVector(), 100);
     }

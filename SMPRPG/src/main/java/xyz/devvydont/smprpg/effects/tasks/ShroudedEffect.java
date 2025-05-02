@@ -21,7 +21,7 @@ public class ShroudedEffect extends SpecialEffectTask implements Listener {
 
     @Override
     public Component getExpiredComponent() {
-        return ComponentUtils.create("EXPIRED!", NamedTextColor.RED);
+        return ComponentUtils.create("REVEALED!", NamedTextColor.RED);
     }
 
     @Override
@@ -98,7 +98,7 @@ public class ShroudedEffect extends SpecialEffectTask implements Listener {
             return;
 
         // Ignore players that aren't our player
-        if (!eventPlayer.equals(player))
+        if (!eventPlayer.equals(_player))
             return;
 
         service.removeEffect(eventPlayer);

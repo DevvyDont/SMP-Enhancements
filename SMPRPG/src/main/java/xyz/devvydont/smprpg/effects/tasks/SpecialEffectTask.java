@@ -20,18 +20,18 @@ public abstract class SpecialEffectTask extends BukkitRunnable {
     public static final int PERIOD = 2;
 
     protected final SpecialEffectService service;
-    protected final Player player;
+    protected final Player _player;
     int seconds;
-    private int ticks = 0;
+    protected int _ticks = 0;
 
     public SpecialEffectTask(SpecialEffectService service, Player player, int seconds) {
         this.service = service;
-        this.player = player;
+        this._player = player;
         this.seconds = seconds;
     }
 
     public Player getPlayer() {
-        return player;
+        return _player;
     }
 
     public int getSeconds() {
@@ -68,13 +68,13 @@ public abstract class SpecialEffectTask extends BukkitRunnable {
     private Component generateComponent(int seconds) {
 
         int displaySeconds = seconds-1;
-        int minutes = displaySeconds / 60;
+        int minutes = (displaySeconds+1) / 60;
 
         boolean expired = seconds <= 0;
         Component time;
         String timestring = String.format("%d:%02d", minutes, seconds % 60);
         if (displaySeconds <= 59)
-            timestring = String.format("%d.%d", displaySeconds, (9-ticks%10));
+            timestring = String.format("%d.%d", displaySeconds, (9- _ticks %10));
         if (expired)
             time = getExpiredComponent();
         else
@@ -87,28 +87,28 @@ public abstract class SpecialEffectTask extends BukkitRunnable {
     }
 
     public void sendActionBar(int seconds) {
-        SMPRPG.getInstance().getActionBarService().addActionBarComponent(player, ActionBarService.ActionBarSource.AILMENT, generateComponent(seconds), 2);
+        SMPRPG.getInstance().getActionBarService().addActionBarComponent(_player, ActionBarService.ActionBarSource.AILMENT, generateComponent(seconds), 2);
     }
 
     @Override
     public void run() {
 
-        ticks++;
+        _ticks++;
 
         // If we were canceled from somewhere else, they handled the logic already
         if (isCancelled())
             return;
 
         // Did they log out or did we lose the reference? Cancel the task if that is the case
-        if (!player.isValid()) {
+        if (!_player.isValid()) {
             removed();
-            service.removeEffect(player.getUniqueId());
+            service.removeEffect(_player.getUniqueId());
             cancel();
             return;
         }
 
         // If a second has gone by (PERIOD * ticks is divisible by the tick rate of the server), then take a second away
-        if (PERIOD * ticks % 20 == 0)
+        if (PERIOD * _ticks % 20 == 0)
             seconds--;
 
         // Announce to them how much time they have left with this effect
@@ -119,7 +119,7 @@ public abstract class SpecialEffectTask extends BukkitRunnable {
         if (seconds <= 0) {
             expire();
             sendActionBar(-1);
-            service.removeEffect(player.getUniqueId());
+            service.removeEffect(_player.getUniqueId());
             cancel();
             return;
         }
