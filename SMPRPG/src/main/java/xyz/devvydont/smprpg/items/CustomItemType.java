@@ -574,6 +574,11 @@ public enum CustomItemType {
 
     DEATH_CERTIFICATE("Death Certificate", Material.PAPER, ItemRarity.SPECIAL, DeathCertificate.class),
 
+    // ADMIN UTILITY
+    INFINILYTRA("Infini-lytra", Material.ELYTRA, ItemRarity.SPECIAL, InfinilytraBlueprint.class),
+    INFINIROCKET("Infini-rocket", Material.FIREWORK_ROCKET, ItemRarity.SPECIAL, InfinirocketBlueprint.class),
+    INFINIFOOD("Infini-food", Material.COOKED_BEEF, ItemRarity.SPECIAL, InfinifoodBlueprint.class),
+
     // DEBUG
     // Admin armor, makes you invincible basically
     INFINITY_HELMET(    "Infinity Helmet",     Material.NETHERITE_HELMET,     ItemRarity.TRANSCENDENT, InfinityHelmet.class),
