@@ -4,17 +4,22 @@ import net.kyori.adventure.bossbar.BossBar;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
 import org.jetbrains.annotations.Nullable;
-import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.CustomEntityType;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
-public class CustomBossInstance extends BossInstance {
+public class CustomBossInstance<T extends LivingEntity> extends BossInstance<T> {
 
     private final CustomEntityType type;
 
-    public CustomBossInstance(SMPRPG plugin, Entity entity, CustomEntityType type) {
-        super(plugin, entity);
+    public CustomBossInstance(Entity entity, CustomEntityType type) {
+        super(entity);
+        this.type = type;
+    }
+
+    public CustomBossInstance(T entity, CustomEntityType type) {
+        super(entity);
         this.type = type;
     }
 
@@ -30,41 +35,41 @@ public class CustomBossInstance extends BossInstance {
 
     @Override
     public EntityType getDefaultEntityType() {
-        return type.entityType;
+        return type.Type;
     }
 
     @Override
     public String getEntityName() {
-        return type.name;
+        return type.Name;
     }
 
     @Override
     public int getDefaultLevel() {
-        return type.baseLevel;
+        return type.Level;
     }
 
     @Override
     public double calculateBaseHealth() {
-        return type.baseHp;
+        return type.Hp;
     }
 
     @Override
     public double calculateBaseAttackDamage() {
-        return type.baseDamage;
+        return type.Damage;
     }
 
     @Override
     public void updateAttributes() {
-        updateBaseAttribute(Attribute.MAX_HEALTH, type.baseHp);
+        updateBaseAttribute(Attribute.MAX_HEALTH, type.Hp);
         heal();
         updateBaseAttribute(Attribute.ATTACK_DAMAGE, calculateBaseAttackDamage());
     }
 
     public boolean isEntityOfType(Entity entity) {
-        return type.isOfType(plugin.getEntityService(), entity);
+        return type.isOfType(_plugin.getEntityService(), entity);
     }
 
     public boolean isEntity(Entity entity) {
-        return entity.equals(this.entity);
+        return entity.equals(this._entity);
     }
 }

@@ -3,7 +3,7 @@ package xyz.devvydont.smprpg.entity.vanilla;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Biome;
-import org.bukkit.entity.Entity;
+import org.bukkit.entity.Enderman;
 import org.bukkit.event.Listener;
 import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
@@ -15,13 +15,13 @@ import xyz.devvydont.smprpg.util.items.LootDrop;
 import java.util.Collection;
 import java.util.List;
 
-public class LeveledEnderman extends VanillaEntity implements Listener {
+public class LeveledEnderman extends VanillaEntity<Enderman> implements Listener {
 
     public static final int MINIMUM_LEVEL = 50;
     public static final int END_MINIMUM_LEVEL = 60;
 
-    public LeveledEnderman(SMPRPG plugin, Entity entity) {
-        super(plugin, entity);
+    public LeveledEnderman(Enderman entity) {
+        super(entity);
     }
 
     @Override
@@ -29,7 +29,7 @@ public class LeveledEnderman extends VanillaEntity implements Listener {
 
         int level = MINIMUM_LEVEL;
 
-        if (entity.getWorld().getEnvironment().equals(World.Environment.THE_END))
+        if (_entity.getWorld().getEnvironment().equals(World.Environment.THE_END))
             level = END_MINIMUM_LEVEL;
 
         level += getLevelDistanceBoost();

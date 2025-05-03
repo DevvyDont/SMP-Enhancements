@@ -1,16 +1,14 @@
 package xyz.devvydont.smprpg.entity.vanilla;
 
 import org.bukkit.Material;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Zombie;
 import org.bukkit.inventory.ItemStack;
-import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.base.VanillaEntity;
 
-public class LeveledZombie extends VanillaEntity {
+public class LeveledZombie extends VanillaEntity<Zombie> {
 
-    public LeveledZombie(SMPRPG plugin, Entity entity) {
-        super(plugin, entity);
+    public LeveledZombie(Zombie entity) {
+        super(entity);
     }
 
     @Override
@@ -18,10 +16,11 @@ public class LeveledZombie extends VanillaEntity {
         super.setup();
 
         // Remove enchantments from zombie's items
-        if (entity instanceof LivingEntity living && living.getEquipment() != null && !living.getEquipment().getItemInMainHand().getType().equals(Material.AIR)) {
-            ItemStack item = living.getEquipment().getItemInMainHand();
+        _entity.getEquipment();
+        if (!_entity.getEquipment().getItemInMainHand().getType().equals(Material.AIR)) {
+            ItemStack item = _entity.getEquipment().getItemInMainHand();
             item.removeEnchantments();
-            living.getEquipment().setItemInMainHand(item);
+            _entity.getEquipment().setItemInMainHand(item);
         }
     }
 

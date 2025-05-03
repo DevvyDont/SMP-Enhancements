@@ -1,6 +1,6 @@
 package xyz.devvydont.smprpg.entity.vanilla;
 
-import org.bukkit.entity.Entity;
+import org.bukkit.entity.Creeper;
 import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.base.VanillaEntity;
@@ -11,10 +11,10 @@ import xyz.devvydont.smprpg.util.items.LootDrop;
 import java.util.Collection;
 import java.util.List;
 
-public class LeveledCreeper extends VanillaEntity {
+public class LeveledCreeper extends VanillaEntity<Creeper> {
 
-    public LeveledCreeper(SMPRPG plugin, Entity entity) {
-        super(plugin, entity);
+    public LeveledCreeper(Creeper entity) {
+        super(entity);
     }
 
     @Override

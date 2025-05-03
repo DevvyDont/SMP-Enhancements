@@ -4,7 +4,6 @@ import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.jetbrains.annotations.Nullable;
-import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.CustomEntityType;
 import xyz.devvydont.smprpg.entity.base.CustomEntityInstance;
 import xyz.devvydont.smprpg.items.CustomItemType;
@@ -14,10 +13,14 @@ import xyz.devvydont.smprpg.util.items.LootDrop;
 import java.util.Collection;
 import java.util.List;
 
-public class WoodlandExile extends CustomEntityInstance {
+public class WoodlandExile<T extends LivingEntity> extends CustomEntityInstance<T> {
 
-    public WoodlandExile(SMPRPG plugin, Entity entity, CustomEntityType entityType) {
-        super(plugin, entity, entityType);
+    public WoodlandExile(Entity entity, CustomEntityType entityType) {
+        super(entity, entityType);
+    }
+
+    public WoodlandExile(T entity, CustomEntityType entityType) {
+        super(entity, entityType);
     }
 
     @Override
@@ -25,27 +28,27 @@ public class WoodlandExile extends CustomEntityInstance {
         super.setup();
         removeEquipment();
         setNoDropEquipment();
-        if (entity instanceof LivingEntity living && living.getEquipment() != null) {
+
+        if (_entity.getEquipment() != null)
             if (getEntityType().equals(CustomEntityType.WOODLAND_BERSERKER))
-                living.getEquipment().setItemInMainHand(getAttributelessItem(Material.IRON_AXE));
+                _entity.getEquipment().setItemInMainHand(getAttributelessItem(Material.IRON_AXE));
             else
-                living.getEquipment().setItemInMainHand(getAttributelessItem(Material.CROSSBOW));
-        }
+                _entity.getEquipment().setItemInMainHand(getAttributelessItem(Material.CROSSBOW));
     }
 
     @Override
     public @Nullable Collection<LootDrop> getItemDrops() {
         return List.of(
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.POTATO_CHIP), 2, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(Material.EMERALD), 5, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(Material.EMERALD_BLOCK), 90, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.ENCHANTED_EMERALD), 1250, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.ENCHANTED_EMERALD_BLOCK), 80_000, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.STRENGTH_CHARM), 750, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.LUCKY_CHARM), 750, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.SPEED_CHARM), 850, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.EXILED_CROSSBOW), 700, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.EXILED_AXE), 700, this)
+                new ChancedItemDrop(_plugin.getItemService().getCustomItem(CustomItemType.POTATO_CHIP), 2, this),
+                new ChancedItemDrop(_plugin.getItemService().getCustomItem(Material.EMERALD), 5, this),
+                new ChancedItemDrop(_plugin.getItemService().getCustomItem(Material.EMERALD_BLOCK), 90, this),
+                new ChancedItemDrop(_plugin.getItemService().getCustomItem(CustomItemType.ENCHANTED_EMERALD), 1250, this),
+                new ChancedItemDrop(_plugin.getItemService().getCustomItem(CustomItemType.ENCHANTED_EMERALD_BLOCK), 80_000, this),
+                new ChancedItemDrop(_plugin.getItemService().getCustomItem(CustomItemType.STRENGTH_CHARM), 750, this),
+                new ChancedItemDrop(_plugin.getItemService().getCustomItem(CustomItemType.LUCKY_CHARM), 750, this),
+                new ChancedItemDrop(_plugin.getItemService().getCustomItem(CustomItemType.SPEED_CHARM), 850, this),
+                new ChancedItemDrop(_plugin.getItemService().getCustomItem(CustomItemType.EXILED_CROSSBOW), 700, this),
+                new ChancedItemDrop(_plugin.getItemService().getCustomItem(CustomItemType.EXILED_AXE), 700, this)
         );
     }
 }

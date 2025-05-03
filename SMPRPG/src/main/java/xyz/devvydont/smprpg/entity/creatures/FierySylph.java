@@ -2,6 +2,7 @@ package xyz.devvydont.smprpg.entity.creatures;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.CustomEntityType;
@@ -13,10 +14,14 @@ import xyz.devvydont.smprpg.util.items.LootDrop;
 import java.util.Collection;
 import java.util.List;
 
-public class FierySylph extends CustomEntityInstance {
+public class FierySylph<T extends LivingEntity> extends CustomEntityInstance<T> {
 
-    public FierySylph(SMPRPG plugin, Entity entity, CustomEntityType entityType) {
-        super(plugin, entity, entityType);
+    public FierySylph(Entity entity, CustomEntityType entityType) {
+        super(entity, entityType);
+    }
+
+    public FierySylph(T entity, CustomEntityType entityType) {
+        super(entity, entityType);
     }
 
     @Override

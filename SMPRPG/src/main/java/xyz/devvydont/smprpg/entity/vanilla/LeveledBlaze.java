@@ -1,7 +1,7 @@
 package xyz.devvydont.smprpg.entity.vanilla;
 
 import org.bukkit.Material;
-import org.bukkit.entity.Entity;
+import org.bukkit.entity.Blaze;
 import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.base.VanillaEntity;
@@ -12,10 +12,10 @@ import xyz.devvydont.smprpg.util.items.LootDrop;
 import java.util.Collection;
 import java.util.List;
 
-public class LeveledBlaze extends VanillaEntity {
+public class LeveledBlaze extends VanillaEntity<Blaze> {
 
-    public LeveledBlaze(SMPRPG plugin, Entity entity) {
-        super(plugin, entity);
+    public LeveledBlaze(Blaze entity) {
+        super(entity);
     }
 
     @Override

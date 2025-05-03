@@ -32,13 +32,13 @@ public class CommandSkill extends CommandBase {
             inst.addExperience(targetExp - inst.getExperience(), SkillExperienceGainEvent.ExperienceSource.COMMANDS);
         else
             inst.setExperience(targetExp);
-        player.getPlayer().sendMessage(ComponentUtils.success("Set your " + skill.getDisplayName() + " skill to level " + inst.getLevel()));
+        player.getEntity().sendMessage(ComponentUtils.success("Set your " + skill.getDisplayName() + " skill to level " + inst.getLevel()));
     }
 
     private List<Component> getSkillDisplay(LeveledPlayer player) {
         var output = new ArrayList<Component>();
         output.add(ComponentUtils.EMPTY);
-        for (SkillInstance skill : player.getSkills()) {
+        for (var skill : player.getSkills()) {
             output.add(ComponentUtils.merge(
                     ComponentUtils.create(skill.getType().getDisplayName() + " " + skill.getLevel(), NamedTextColor.AQUA),
                     ComponentUtils.create(" - "),

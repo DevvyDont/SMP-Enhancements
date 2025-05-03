@@ -1,13 +1,10 @@
 package xyz.devvydont.smprpg.entity.vanilla;
 
 import net.kyori.adventure.bossbar.BossBar;
-import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Material;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Warden;
 import org.jetbrains.annotations.Nullable;
-import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.base.BossInstance;
 import xyz.devvydont.smprpg.entity.base.VanillaEntity;
 import xyz.devvydont.smprpg.items.CustomItemType;
@@ -19,11 +16,11 @@ import xyz.devvydont.smprpg.util.items.QuantityLootDrop;
 import java.util.Collection;
 import java.util.List;
 
-public class LeveledWarden extends BossInstance {
+public class LeveledWarden extends BossInstance<Warden> {
 
 
-    public LeveledWarden(SMPRPG plugin, Entity entity) {
-        super(plugin, entity);
+    public LeveledWarden(Warden entity) {
+        super(entity);
     }
 
     @Override
@@ -67,20 +64,15 @@ public class LeveledWarden extends BossInstance {
     }
 
     @Override
-    public TextColor determineNametagColor() {
-        return NamedTextColor.DARK_PURPLE;
-    }
-
-    @Override
     public @Nullable Collection<LootDrop> getItemDrops() {
         return List.of(
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.PRELUDE_HELMET), 1000, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.PRELUDE_CHESTPLATE), 1000, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.PRELUDE_LEGGINGS), 1000, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.PRELUDE_BOOTS), 1000, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.PREMIUM_ECHO_SHARD), 80, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.ENCHANTED_ECHO_SHARD), 500, this),
-                new QuantityLootDrop(plugin.getItemService().getCustomItem(Material.ECHO_SHARD), 2, 7, this)
+                new ChancedItemDrop(_plugin.getItemService().getCustomItem(CustomItemType.PRELUDE_HELMET), 1000, this),
+                new ChancedItemDrop(_plugin.getItemService().getCustomItem(CustomItemType.PRELUDE_CHESTPLATE), 1000, this),
+                new ChancedItemDrop(_plugin.getItemService().getCustomItem(CustomItemType.PRELUDE_LEGGINGS), 1000, this),
+                new ChancedItemDrop(_plugin.getItemService().getCustomItem(CustomItemType.PRELUDE_BOOTS), 1000, this),
+                new ChancedItemDrop(_plugin.getItemService().getCustomItem(CustomItemType.PREMIUM_ECHO_SHARD), 80, this),
+                new ChancedItemDrop(_plugin.getItemService().getCustomItem(CustomItemType.ENCHANTED_ECHO_SHARD), 500, this),
+                new QuantityLootDrop(_plugin.getItemService().getCustomItem(Material.ECHO_SHARD), 2, 7, this)
         );
     }
 }

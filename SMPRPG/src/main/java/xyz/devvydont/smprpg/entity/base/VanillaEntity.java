@@ -4,12 +4,11 @@ import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.*;
-import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.util.attributes.EntityHelpers;
 import xyz.devvydont.smprpg.util.formatting.MinecraftStringUtils;
 
 
-public class VanillaEntity extends EnemyEntity {
+public class VanillaEntity<T extends Entity> extends EnemyEntity<T> {
 
     // How aggresively should stats of this mob scale?
     public static final double STAT_SCALING_FACTOR = 1.0964782;
@@ -20,8 +19,8 @@ public class VanillaEntity extends EnemyEntity {
     public static final String VANILLA_CLASS_KEY = "vanilla";
 
 
-    public VanillaEntity(SMPRPG plugin, Entity entity) {
-        super(plugin, entity);
+    public VanillaEntity(T entity) {
+        super(entity);
     }
 
     @Override
@@ -36,24 +35,24 @@ public class VanillaEntity extends EnemyEntity {
 
     @Override
     public EntityType getDefaultEntityType() {
-        return entity.getType();
+        return _entity.getType();
     }
 
     @Override
     public String getEntityName() {
-        return MinecraftStringUtils.getTitledString(entity.getType().name());
+        return MinecraftStringUtils.getTitledString(_entity.getType().name());
     }
 
     public int getLevelDistanceBoost() {
-        return (int) (entity.getLocation().distance(entity.getWorld().getSpawnLocation()) / 5000) * 5;
+        return (int) (_entity.getLocation().distance(_entity.getWorld().getSpawnLocation()) / 5000) * 5;
     }
 
     public int getLevelDepthBoost() {
 
-        if (entity.getLocation().getY() >= 64)
+        if (_entity.getLocation().getY() >= 64)
             return 0;
 
-        double x = Math.abs(64.0 - entity.getLocation().getY());
+        double x = Math.abs(64.0 - _entity.getLocation().getY());
         return (int) (x / 20);
     }
 
@@ -77,7 +76,7 @@ public class VanillaEntity extends EnemyEntity {
     @Override
     public int getDefaultLevel() {
         int level = EntityHelpers.getMinimumLevel(getDefaultEntityType());
-        level = Math.max(level, getMinimumEnvironmentLevel(entity.getLocation().getWorld().getEnvironment()));
+        level = Math.max(level, getMinimumEnvironmentLevel(_entity.getLocation().getWorld().getEnvironment()));
         level += (int) (Math.random() * 6);
 
         level += getLevelDistanceBoost();
@@ -89,16 +88,16 @@ public class VanillaEntity extends EnemyEntity {
 
     public double calculateBaseHealthMultiplier() {
 
-        if (entity instanceof Monster)
+        if (_entity instanceof Monster)
             return 1.0;
 
-        if (entity instanceof Animals)
+        if (_entity instanceof Animals)
             return .2;
 
-        if (entity instanceof Fish)
+        if (_entity instanceof Fish)
             return .1;
 
-        if (entity instanceof Ambient)
+        if (_entity instanceof Ambient)
             return .1;
 
         return 1.0;
@@ -129,7 +128,7 @@ public class VanillaEntity extends EnemyEntity {
 
     public double calculateBaseDamageMultiplier() {
 
-        if (!(entity instanceof LivingEntity living))
+        if (!(_entity instanceof LivingEntity living))
             return 1;
 
         // Based on vanilla minecraft's rules for damage, figure out a suitable damage multiplier for this entity

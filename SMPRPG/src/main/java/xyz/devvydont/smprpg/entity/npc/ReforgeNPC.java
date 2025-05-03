@@ -5,31 +5,30 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
-import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.CustomEntityType;
 import xyz.devvydont.smprpg.entity.base.NPCEntity;
 import xyz.devvydont.smprpg.gui.items.MenuReforge;
 
-public class ReforgeNPC extends NPCEntity {
+public class ReforgeNPC extends NPCEntity<Villager> {
 
-    public ReforgeNPC(SMPRPG plugin, Entity entity, CustomEntityType entityType) {
-        super(plugin, entity, entityType);
+    public ReforgeNPC(Entity entity, CustomEntityType type) {
+        super(entity, type);
     }
 
-    public Villager getVillager() {
-        return (Villager) entity;
+    public ReforgeNPC(Villager entity, CustomEntityType entityType) {
+        super(entity, entityType);
     }
 
     @Override
     public void setup() {
         super.setup();
-        getVillager().setProfession(Villager.Profession.TOOLSMITH);
+        _entity.setProfession(Villager.Profession.TOOLSMITH);
     }
 
     @Override
     public void handleInteract(Player player) {
         new MenuReforge(player).openMenu();
-        entity.getWorld().playSound(entity.getLocation(), Sound.ENTITY_VILLAGER_YES, 0.5F, 0.75F);
+        _entity.getWorld().playSound(_entity.getLocation(), Sound.ENTITY_VILLAGER_YES, 0.5F, 0.75F);
     }
 
     @Override

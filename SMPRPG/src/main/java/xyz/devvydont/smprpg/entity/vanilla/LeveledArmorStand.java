@@ -1,13 +1,12 @@
 package xyz.devvydont.smprpg.entity.vanilla;
 
-import org.bukkit.entity.Entity;
-import xyz.devvydont.smprpg.SMPRPG;
+import org.bukkit.entity.ArmorStand;
 import xyz.devvydont.smprpg.entity.base.VanillaEntity;
 
-public class LeveledArmorStand extends VanillaEntity {
+public class LeveledArmorStand extends VanillaEntity<ArmorStand> {
 
-    public LeveledArmorStand(SMPRPG plugin, Entity entity) {
-        super(plugin, entity);
+    public LeveledArmorStand(ArmorStand entity) {
+        super(entity);
     }
 
     @Override
@@ -28,7 +27,7 @@ public class LeveledArmorStand extends VanillaEntity {
     @Override
     public void updateNametag() {
         super.updateNametag();
-        entity.setCustomNameVisible(false);
+        _entity.setCustomNameVisible(false);
     }
 
     @Override

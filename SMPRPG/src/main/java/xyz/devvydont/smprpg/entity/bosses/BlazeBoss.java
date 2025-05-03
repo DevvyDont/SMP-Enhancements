@@ -36,7 +36,7 @@ import xyz.devvydont.smprpg.util.particles.ParticleUtil;
 
 import java.util.*;
 
-public class BlazeBoss extends CustomBossInstance implements Listener {
+public class BlazeBoss extends CustomBossInstance<Blaze> implements Listener {
 
     private enum BlazeBossPhase {
         STARTING,
@@ -52,19 +52,19 @@ public class BlazeBoss extends CustomBossInstance implements Listener {
      * A collection of minions spawned by the boss. Used so we don't spawn too many, to use in instances where we want
      * to track them for certain mechanics.
      */
-    private final Map<UUID, LeveledEntity> minions = new HashMap<>();
+    private final Map<UUID, LeveledEntity<LivingEntity>> minions = new HashMap<>();
 
     // The current tick this boss has been alive for, used for certain aspects during the fight
     private int tick = 0;
 
     private BlazeBossPhase phase = BlazeBossPhase.STARTING;
 
-    public BlazeBoss(SMPRPG plugin, Entity entity, CustomEntityType type) {
-        super(plugin, entity, type);
+    public BlazeBoss(Entity entity, CustomEntityType type) {
+        super(entity, type);
     }
 
-    public Blaze getBlazeEntity() {
-        return (Blaze) entity;
+    public BlazeBoss(Blaze entity, CustomEntityType type) {
+        super(entity, type);
     }
 
     @Override
@@ -78,27 +78,24 @@ public class BlazeBoss extends CustomBossInstance implements Listener {
         tick++;
 
         // Check on all the minions. If they are either too far or not alive, clear them
-        for (UUID uuid : minions.keySet().stream().toList()) {
-            Entity minion = Bukkit.getEntity(uuid);
-            if (minion == null) {
+        for (var entry : minions.entrySet()) {
+
+            var uuid = entry.getKey();
+            var minion = entry.getValue();
+
+            if (!minion.getEntity().isValid()) {
                 minions.remove(uuid);
                 continue;
             }
 
-            if (!minion.isValid()) {
+            if (minion.getEntity().getHealth() <= 0) {
                 minions.remove(uuid);
                 continue;
             }
 
-            if (minion instanceof LivingEntity living && living.getHealth() <= 0) {
+            if (minion.getEntity().getLocation().distance(_entity.getLocation()) > 100) {
                 minions.remove(uuid);
-                continue;
-            }
-
-            if (minion.getLocation().distance(entity.getLocation()) > 100) {
-                minions.remove(uuid);
-                minion.remove();
-                continue;
+                minion.getEntity().remove();
             }
         }
 
@@ -109,15 +106,15 @@ public class BlazeBoss extends CustomBossInstance implements Listener {
 
         // If the blaze cannot be hit, set its bar color to white, otherwise red.
         if (bossBar != null)
-            bossBar.color(entity.isInvulnerable() ? BossBar.Color.WHITE : BossBar.Color.RED);
+            bossBar.color(_entity.isInvulnerable() ? BossBar.Color.WHITE : BossBar.Color.RED);
 
         // If we are in the mobbing phase, we are invulnerable
         if (phase == BlazeBossPhase.MOBBING) {
-            entity.setInvulnerable(true);
-            getBlazeEntity().setAI(false);
+            _entity.setInvulnerable(true);
+            getEntity().setAI(false);
 
-            for (LeveledEntity minion : minions.values())
-                ParticleUtil.spawnParticlesBetweenTwoPoints(Particle.ENCHANTED_HIT, entity.getWorld(), getBlazeEntity().getEyeLocation().toVector(), minion.getEntity().getLocation().add(0, 1, 0).toVector(), 50);
+            for (var minion : minions.values())
+                ParticleUtil.spawnParticlesBetweenTwoPoints(Particle.ENCHANTED_HIT, _entity.getWorld(), getEntity().getEyeLocation().toVector(), minion.getEntity().getLocation().add(0, 1, 0).toVector(), 50);
 
             // No minions left? Back to default
             if (minions.isEmpty())
@@ -129,8 +126,8 @@ public class BlazeBoss extends CustomBossInstance implements Listener {
         // If we are in the default phase, don't do anything. This is basically the "DPS" phase
         // We can also move from one phase to another here
         if (phase == BlazeBossPhase.DEFAULT) {
-            entity.setInvulnerable(false);
-            getBlazeEntity().setAI(true);
+            _entity.setInvulnerable(false);
+            getEntity().setAI(true);
             return;
         }
 
@@ -139,18 +136,18 @@ public class BlazeBoss extends CustomBossInstance implements Listener {
 
             double chargeProgress = tick * CHARGE_PROGRESS_PER_TICK + .001;
 
-            entity.setInvulnerable(true);
-            getBlazeEntity().setAI(false);
+            _entity.setInvulnerable(true);
+            getEntity().setAI(false);
             setHealthPercentage(Math.min(chargeProgress, 1.0));
             updateBaseAttribute(Attribute.SCALE, chargeProgress * GOAL_SCALE);
 
             // Are we done charging?
             if (chargeProgress >= 1.0) {
-                entity.setInvulnerable(false);
-                getBlazeEntity().setAI(true);
+                _entity.setInvulnerable(false);
+                getEntity().setAI(true);
                 phase = BlazeBossPhase.DEFAULT;
-                entity.getWorld().strikeLightningEffect(getBlazeEntity().getEyeLocation());
-                entity.getWorld().playSound(entity.getLocation(), Sound.ENTITY_BLAZE_DEATH, 10f, .25f);
+                _entity.getWorld().strikeLightningEffect(getEntity().getEyeLocation());
+                _entity.getWorld().playSound(_entity.getLocation(), Sound.ENTITY_BLAZE_DEATH, 10f, .25f);
             }
             return;
         }
@@ -170,9 +167,9 @@ public class BlazeBoss extends CustomBossInstance implements Listener {
     @Override
     public void cleanup() {
         super.cleanup();
-        for (LeveledEntity leveledEntity : minions.values().stream().toList())
-            if (leveledEntity.getEntity().isValid() && leveledEntity.getEntity() instanceof LivingEntity living)
-                living.damage(999_999_999);
+        for (var leveledEntity : minions.values().stream().toList())
+            if (leveledEntity.getEntity().isValid())
+                leveledEntity.getEntity().damage(999_999_999);
         minions.clear();
     }
 
@@ -220,7 +217,7 @@ public class BlazeBoss extends CustomBossInstance implements Listener {
     }
 
     private void spawnMinion(Location location) {
-        LeveledEntity mob = plugin.getEntityService().spawnCustomEntity(CustomEntityType.PHOENIX, location);
+        LeveledEntity mob = _plugin.getEntityService().spawnCustomEntity(CustomEntityType.PHOENIX, location);
         if (mob == null || mob.getEntity() == null)
             return;
 
@@ -230,12 +227,12 @@ public class BlazeBoss extends CustomBossInstance implements Listener {
     private void handleFireballHitPlayer(Player player, boolean fromBoss) {
 
         // If this player already has an ailment, no need to do anything.
-        if (plugin.getSpecialEffectsService().hasEffect(player))
+        if (_plugin.getSpecialEffectsService().hasEffect(player))
             return;
 
         // If they have fire resistance, make them overheat.
         if (player.hasPotionEffect(PotionEffectType.FIRE_RESISTANCE)) {
-            var effect = new OverheatingEffect(plugin.getSpecialEffectsService(), player, 10);
+            var effect = new OverheatingEffect(_plugin.getSpecialEffectsService(), player, 10);
             var msg = ComponentUtils.merge(
                     ComponentUtils.create("From "),
                     getDisplaynameNametagComponent(), ComponentUtils.create(": "),
@@ -255,13 +252,13 @@ public class BlazeBoss extends CustomBossInstance implements Listener {
             )));
             player.sendMessage(msg);
             player.playSound(player.getLocation(), Sound.ENTITY_BLAZE_DEATH, 1, .5f);
-            plugin.getSpecialEffectsService().giveEffect(player, effect);
+            _plugin.getSpecialEffectsService().giveEffect(player, effect);
             return;
         }
 
         // If this is the boss, tether them.
         if (fromBoss) {
-            var effect = new TetheredEffect(plugin.getSpecialEffectsService(), player, getBlazeEntity(), 5);
+            var effect = new TetheredEffect(_plugin.getSpecialEffectsService(), player, getEntity(), 5);
             var msg = ComponentUtils.merge(
                     ComponentUtils.create("From "),
                     getDisplaynameNametagComponent(), ComponentUtils.create(": "),
@@ -278,7 +275,7 @@ public class BlazeBoss extends CustomBossInstance implements Listener {
                     ComponentUtils.create("!")
             )));
             player.sendMessage(msg);
-            plugin.getSpecialEffectsService().giveEffect(player, effect);
+            _plugin.getSpecialEffectsService().giveEffect(player, effect);
         }
 
     }
@@ -296,7 +293,7 @@ public class BlazeBoss extends CustomBossInstance implements Listener {
                 handleFireballHitPlayer(player, false);
 
         // Ignore fireballs not shot by the boss
-        if (!entity.equals(event.getEntity().getShooter()))
+        if (!_entity.equals(event.getEntity().getShooter()))
             return;
 
         // Did we hit a player directly? if so, we need to tether them.
@@ -313,7 +310,7 @@ public class BlazeBoss extends CustomBossInstance implements Listener {
 
         // This fireball is from our blaze boss.
         Location spawn = event.getEntity().getLocation();
-        LeveledEntity mob = plugin.getEntityService().spawnCustomEntity(CustomEntityType.PHOENIX, spawn);
+        LeveledEntity mob = _plugin.getEntityService().spawnCustomEntity(CustomEntityType.PHOENIX, spawn);
         if (mob == null || mob.getEntity() == null)
             return;
 
@@ -330,7 +327,7 @@ public class BlazeBoss extends CustomBossInstance implements Listener {
             return;
 
         // Was the damaged entity the boss?
-        if (!event.getEntity().equals(entity))
+        if (!event.getEntity().equals(_entity))
             return;
 
         // Is the boss already under half HP?
@@ -339,7 +336,7 @@ public class BlazeBoss extends CustomBossInstance implements Listener {
 
         double threshold = getMaxHp() / 2;
         // Are we hitting the half hp threshold?
-        if (!(getBlazeEntity().getHealth() - event.getDamage() < threshold))
+        if (!(getEntity().getHealth() - event.getDamage() < threshold))
             return;
 
         // Set the damage to hit the threshold exactly and spawn a bunch of minions
@@ -348,7 +345,7 @@ public class BlazeBoss extends CustomBossInstance implements Listener {
         if (getActivelyInvolvedPlayers().isEmpty())
             return;
 
-        getBlazeEntity().getWorld().playSound(getBlazeEntity().getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 10f, .2f);
+        getEntity().getWorld().playSound(getEntity().getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 10f, .2f);
 
         int minionsSpawned = 0;
 
@@ -388,10 +385,10 @@ public class BlazeBoss extends CustomBossInstance implements Listener {
 
         // Damage the boss for how much health the minion had
         double damage = event.getEntity().getAttribute(Attribute.MAX_HEALTH).getValue();
-        boolean invulnState = entity.isInvulnerable();
-        entity.setInvulnerable(false);
-        getBlazeEntity().damage(damage, DamageSource.builder(DamageType.MAGIC).withCausingEntity(event.getDamageSource().getCausingEntity()).withDirectEntity(event.getDamageSource().getDirectEntity()).build());
-        entity.setInvulnerable(invulnState);
-        ParticleUtil.spawnParticlesBetweenTwoPoints(Particle.FLAME, event.getEntity().getWorld(), getBlazeEntity().getEyeLocation().toVector(), event.getEntity().getEyeLocation().toVector(), 100);
+        boolean invulnState = _entity.isInvulnerable();
+        _entity.setInvulnerable(false);
+        getEntity().damage(damage, DamageSource.builder(DamageType.MAGIC).withCausingEntity(event.getDamageSource().getCausingEntity()).withDirectEntity(event.getDamageSource().getDirectEntity()).build());
+        _entity.setInvulnerable(invulnState);
+        ParticleUtil.spawnParticlesBetweenTwoPoints(Particle.FLAME, event.getEntity().getWorld(), getEntity().getEyeLocation().toVector(), event.getEntity().getEyeLocation().toVector(), 100);
     }
 }

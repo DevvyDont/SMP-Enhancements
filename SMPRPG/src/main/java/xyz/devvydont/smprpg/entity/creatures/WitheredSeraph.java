@@ -15,24 +15,25 @@ import xyz.devvydont.smprpg.util.items.QuantityLootDrop;
 import java.util.Collection;
 import java.util.List;
 
-public class WitheredSeraph extends CustomEntityInstance {
+public class WitheredSeraph<T extends LivingEntity> extends CustomEntityInstance<T> {
 
-    public WitheredSeraph(SMPRPG plugin, Entity entity, CustomEntityType entityType) {
-        super(plugin, entity, entityType);
+    public WitheredSeraph(T entity, CustomEntityType entityType) {
+        super(entity, entityType);
+    }
+
+    public WitheredSeraph(Entity entity, CustomEntityType type) {
+        super(entity, type);
     }
 
     @Override
     public void setup() {
         super.setup();
 
-        if (!(entity instanceof LivingEntity living))
+        if (_entity.getEquipment() == null)
             return;
 
-        if (living.getEquipment() == null)
-            return;
-
-        living.getEquipment().setItemInMainHand(getAttributelessItem(Material.NETHERITE_HOE));
-        living.getEquipment().setChestplate(getAttributelessItem(Material.NETHERITE_CHESTPLATE));
+        _entity.getEquipment().setItemInMainHand(getAttributelessItem(Material.NETHERITE_HOE));
+        _entity.getEquipment().setChestplate(getAttributelessItem(Material.NETHERITE_CHESTPLATE));
     }
 
     @Override

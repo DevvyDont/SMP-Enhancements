@@ -1,19 +1,33 @@
 package xyz.devvydont.smprpg.entity.vanilla;
 
-import org.bukkit.entity.Entity;
-import xyz.devvydont.smprpg.SMPRPG;
+import org.bukkit.entity.BlockDisplay;
+import org.bukkit.entity.Display;
+import org.bukkit.entity.ItemDisplay;
+import org.bukkit.entity.TextDisplay;
 import xyz.devvydont.smprpg.entity.base.VanillaEntity;
 
-public class LeveledDisplay extends VanillaEntity {
+public class LeveledDisplay extends VanillaEntity<Display> {
 
-    public LeveledDisplay(SMPRPG plugin, Entity entity) {
-        super(plugin, entity);
+    public LeveledDisplay(Display entity) {
+        super(entity);
+    }
+
+    public LeveledDisplay(TextDisplay entity) {
+        super(entity);
+    }
+
+    public LeveledDisplay(ItemDisplay entity) {
+        super(entity);
+    }
+
+    public LeveledDisplay(BlockDisplay entity) {
+        super(entity);
     }
 
     @Override
     public void updateNametag() {
         super.updateNametag();
-        entity.setCustomNameVisible(false);
+        _entity.setCustomNameVisible(false);
     }
 
     @Override

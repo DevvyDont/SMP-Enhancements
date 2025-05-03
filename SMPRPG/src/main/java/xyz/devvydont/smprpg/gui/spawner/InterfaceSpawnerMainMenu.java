@@ -5,21 +5,16 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.inventory.ItemStack;
-import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.spawning.EntitySpawner;
 import xyz.devvydont.smprpg.gui.InterfaceUtil;
-import xyz.devvydont.smprpg.gui.PrivateInterface;
 import xyz.devvydont.smprpg.gui.base.MenuBase;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class InterfaceSpawnerMainMenu extends MenuBase {
 
@@ -155,7 +150,7 @@ public class InterfaceSpawnerMainMenu extends MenuBase {
         lore.add(ComponentUtils.EMPTY);
         lore.add(ComponentUtils.create("Currently spawning " + this.getSpawner().getOptions().getEntries().size() + " entities"));
         for (EntitySpawner.SpawnerEntry entry : this.getSpawner().getOptions().getEntries())
-            lore.add(ComponentUtils.create("- Entity: ").append(ComponentUtils.create(entry.type().name, NamedTextColor.RED)).append(ComponentUtils.create(" Weight: ").append(ComponentUtils.create("" + entry.weight(), NamedTextColor.GREEN))));
+            lore.add(ComponentUtils.create("- Entity: ").append(ComponentUtils.create(entry.type().Name, NamedTextColor.RED)).append(ComponentUtils.create(" Weight: ").append(ComponentUtils.create("" + entry.weight(), NamedTextColor.GREEN))));
         lore.add(ComponentUtils.EMPTY);
         lore.add(ComponentUtils.create("Click to edit!", NamedTextColor.YELLOW));
         display.editMeta(meta -> {

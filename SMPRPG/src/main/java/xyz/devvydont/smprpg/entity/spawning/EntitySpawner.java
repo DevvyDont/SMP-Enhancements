@@ -24,7 +24,7 @@ import xyz.devvydont.smprpg.util.persistence.PersistentSpawnerOptionsDatatype;
 
 import java.util.*;
 
-public class EntitySpawner extends CustomEntityInstance implements Listener {
+public class EntitySpawner extends CustomEntityInstance<Entity> implements Listener {
 
     public record SpawnerEntry (CustomEntityType type, int weight){
 
@@ -135,7 +135,7 @@ public class EntitySpawner extends CustomEntityInstance implements Listener {
         public static final int UPDATE_PERIOD = 2 * 20;
         public static final float SCALE = .25f;
 
-        private ItemDisplay display;
+        private final ItemDisplay display;
         Matrix4f matrix = new Matrix4f().scale(SCALE);
         int tick = 0;
 
@@ -157,9 +157,9 @@ public class EntitySpawner extends CustomEntityInstance implements Listener {
             display.setTransformationMatrix(matrix.rotateY(((float) Math.toRadians(180)) + 0.1F).translate(0, y, 0));
             display.setInterpolationDelay(0);
             display.setInterpolationDuration(UPDATE_PERIOD);
-            entity.getWorld().spawnParticle(Particle.END_ROD, entity.getX(), entity.getY(), entity.getZ(), 5, .2, .1, .2, 0);
+            _entity.getWorld().spawnParticle(Particle.END_ROD, _entity.getX(), _entity.getY(), _entity.getZ(), 5, .2, .1, .2, 0);
 
-            for (LeveledEntity tracked : spawned.values().stream().toList()) {
+            for (var tracked : spawned.values().stream().toList()) {
 
                 if (!tracked.getEntity().isValid()) {
                     spawned.remove(tracked.getEntity().getUniqueId());
@@ -184,19 +184,20 @@ public class EntitySpawner extends CustomEntityInstance implements Listener {
     private SpawnerOptions options;
     private SpawnerTask tickTask = null;
 
-    Map<UUID, LeveledEntity> spawned = new HashMap<>();
+    Map<UUID, LeveledEntity<?>> spawned = new HashMap<>();
 
-    public EntitySpawner(SMPRPG plugin, Entity entity, CustomEntityType entityType) {
-        super(plugin, entity, entityType);
+
+    public EntitySpawner(Entity entity, CustomEntityType entityType) {
+        super(entity, entityType);
 
     }
 
     public void loadOptions() {
-        options = SpawnerOptions.load(entity);
+        options = SpawnerOptions.load(_entity);
     }
 
     public void saveOptions() {
-        options.save(entity);
+        options.save(_entity);
     }
 
     public SpawnerOptions getOptions() {
@@ -220,13 +221,13 @@ public class EntitySpawner extends CustomEntityInstance implements Listener {
         double rng = radius * Math.sqrt(Math.random());
         double theta = Math.random() * 2 * Math.PI;
 
-        double centerX = entity.getLocation().getX();
-        double centerZ = entity.getLocation().getZ();
+        double centerX = _entity.getLocation().getX();
+        double centerZ = _entity.getLocation().getZ();
         double x = centerX + rng * Math.cos(theta);
         double z = centerZ + rng * Math.sin(theta);
-        double y = entity.getLocation().getY();
+        double y = _entity.getLocation().getY();
 
-        Location location = new Location(entity.getWorld(), x, y, z);
+        Location location = new Location(_entity.getWorld(), x, y, z);
         int yoffset = 0;
         while (!isGoodSpawnpoint(location)) {
 
@@ -264,7 +265,7 @@ public class EntitySpawner extends CustomEntityInstance implements Listener {
 
         // No location found, just use spawner location
         if (location == null)
-            location = entity.getLocation();
+            location = _entity.getLocation();
 
         // Roll for custom entity using weight map
         // todo do this more optimally
@@ -278,20 +279,20 @@ public class EntitySpawner extends CustomEntityInstance implements Listener {
         if (!types.isEmpty())
             type = types.getFirst();
 
-        LeveledEntity instance = plugin.getEntityService().spawnCustomEntity(type, location);
+        var instance = _plugin.getEntityService().spawnCustomEntity(type, location);
         if (instance == null)
             return;
 
         instance.getEntity().setPersistent(false);
 
-        Vector direction = instance.getEntity().getLocation().toVector().subtract(entity.getLocation().toVector());
+        Vector direction = instance.getEntity().getLocation().toVector().subtract(_entity.getLocation().toVector());
         for (int i = 0; i < 25; i++){
-            Location particleLocation = entity.getLocation().clone();
+            Location particleLocation = _entity.getLocation().clone();
             float multiplier = i / 25.0f;
             particleLocation.add(direction.clone().multiply(multiplier));
-            entity.getWorld().spawnParticle(Particle.END_ROD, particleLocation.getX(), particleLocation.getY(), particleLocation.getZ(), 1, 0, 0, 0, 0);
+            _entity.getWorld().spawnParticle(Particle.END_ROD, particleLocation.getX(), particleLocation.getY(), particleLocation.getZ(), 1, 0, 0, 0, 0);
         }
-        entity.getWorld().playSound(instance.getEntity().getLocation(), Sound.ENTITY_CHICKEN_EGG, .5f, .5f);
+        _entity.getWorld().playSound(instance.getEntity().getLocation(), Sound.ENTITY_CHICKEN_EGG, .5f, .5f);
 
         spawned.put(instance.getEntity().getUniqueId(), instance);
     }
@@ -307,7 +308,7 @@ public class EntitySpawner extends CustomEntityInstance implements Listener {
     }
 
     public ItemDisplay getBlockDisplay() {
-        return (ItemDisplay) entity;
+        return (ItemDisplay) _entity;
     }
 
     @Override
@@ -321,7 +322,7 @@ public class EntitySpawner extends CustomEntityInstance implements Listener {
         if (tickTask != null)
             tickTask.cancel();
         tickTask = new SpawnerTask(display);
-        tickTask.runTaskTimer(plugin, 1, SpawnerTask.UPDATE_PERIOD);
+        tickTask.runTaskTimer(_plugin, 1, SpawnerTask.UPDATE_PERIOD);
     }
 
     @Override

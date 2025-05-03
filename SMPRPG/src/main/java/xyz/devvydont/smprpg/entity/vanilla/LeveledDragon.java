@@ -2,14 +2,13 @@ package xyz.devvydont.smprpg.entity.vanilla;
 
 import net.kyori.adventure.bossbar.BossBar;
 import org.bukkit.entity.AreaEffectCloud;
-import org.bukkit.entity.Entity;
+import org.bukkit.entity.EnderDragon;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.jetbrains.annotations.Nullable;
-import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.base.BossInstance;
 import xyz.devvydont.smprpg.entity.base.VanillaEntity;
 import xyz.devvydont.smprpg.items.CustomItemType;
@@ -20,12 +19,12 @@ import xyz.devvydont.smprpg.util.items.QuantityLootDrop;
 import java.util.Collection;
 import java.util.List;
 
-public class LeveledDragon extends BossInstance {
+public class LeveledDragon extends BossInstance<EnderDragon> {
 
     private boolean wasSummoned = false;
 
-    public LeveledDragon(SMPRPG plugin, Entity entity) {
-        super(plugin, entity);
+    public LeveledDragon(EnderDragon entity) {
+        super(entity);
     }
 
     @Override
@@ -70,12 +69,12 @@ public class LeveledDragon extends BossInstance {
     @Override
     public @Nullable Collection<LootDrop> getItemDrops() {
         return List.of(
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.ELDERFLAME_HELMET), 500, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.ELDERFLAME_CHESTPLATE), 500, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.ELDERFLAME_LEGGINGS), 500, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.ELDERFLAME_BOOTS), 500, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.DRACONIC_CRYSTAL), 20, this),
-                new QuantityLootDrop(plugin.getItemService().getCustomItem(CustomItemType.DRAGON_SCALES), 2, 7, this)
+                new ChancedItemDrop(_plugin.getItemService().getCustomItem(CustomItemType.ELDERFLAME_HELMET), 500, this),
+                new ChancedItemDrop(_plugin.getItemService().getCustomItem(CustomItemType.ELDERFLAME_CHESTPLATE), 500, this),
+                new ChancedItemDrop(_plugin.getItemService().getCustomItem(CustomItemType.ELDERFLAME_LEGGINGS), 500, this),
+                new ChancedItemDrop(_plugin.getItemService().getCustomItem(CustomItemType.ELDERFLAME_BOOTS), 500, this),
+                new ChancedItemDrop(_plugin.getItemService().getCustomItem(CustomItemType.DRACONIC_CRYSTAL), 20, this),
+                new QuantityLootDrop(_plugin.getItemService().getCustomItem(CustomItemType.DRAGON_SCALES), 2, 7, this)
         );
     }
 
@@ -91,7 +90,7 @@ public class LeveledDragon extends BossInstance {
             return;
 
         // Check if the owner of the cloud matches this dragon
-        if (!entity.getUniqueId().equals(cloud.getOwnerUniqueId()))
+        if (!_entity.getUniqueId().equals(cloud.getOwnerUniqueId()))
             return;
 
         // Set the damage

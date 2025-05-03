@@ -14,10 +14,14 @@ import xyz.devvydont.smprpg.util.items.LootDrop;
 import java.util.Collection;
 import java.util.List;
 
-public class PalaceThug extends CustomEntityInstance {
+public class PalaceThug<T extends LivingEntity> extends CustomEntityInstance<T> {
 
-    public PalaceThug(SMPRPG plugin, Entity entity, CustomEntityType entityType) {
-        super(plugin, entity, entityType);
+    public PalaceThug(Entity entity, CustomEntityType entityType) {
+        super(entity, entityType);
+    }
+
+    public PalaceThug(T entity, CustomEntityType entityType) {
+        super(entity, entityType);
     }
 
     @Override
@@ -25,11 +29,11 @@ public class PalaceThug extends CustomEntityInstance {
         super.setup();
         removeEquipment();
         setNoDropEquipment();
-        if (entity instanceof LivingEntity living && living.getEquipment() != null) {
-            living.getEquipment().setHelmet(getAttributelessItem(Material.DIAMOND_BLOCK));
-            living.getEquipment().setBoots(getAttributelessItem(Material.IRON_BOOTS));
-            living.getEquipment().setItemInOffHand(getAttributelessItem(Material.COPPER_BLOCK));
-            living.getEquipment().setItemInMainHand(getAttributelessItem(Material.DIAMOND_SWORD));
+        if (_entity.getEquipment() != null) {
+            _entity.getEquipment().setHelmet(getAttributelessItem(Material.DIAMOND_BLOCK));
+            _entity.getEquipment().setBoots(getAttributelessItem(Material.IRON_BOOTS));
+            _entity.getEquipment().setItemInOffHand(getAttributelessItem(Material.COPPER_BLOCK));
+            _entity.getEquipment().setItemInMainHand(getAttributelessItem(Material.DIAMOND_SWORD));
         }
     }
 

@@ -10,7 +10,6 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemStack;
-import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.CustomEntityType;
 
 /**
@@ -18,12 +17,19 @@ import xyz.devvydont.smprpg.entity.CustomEntityType;
  * If a custom entity needs to listen and react to events, make a child class that extends this and implement
  * Listener
  */
-public class CustomEntityInstance extends EnemyEntity {
+public class CustomEntityInstance<T extends Entity> extends EnemyEntity<T> {
 
     private final CustomEntityType entityType;
 
-    public CustomEntityInstance(SMPRPG plugin, Entity entity, CustomEntityType entityType) {
-        super(plugin, entity);
+    /**
+     * An unsafe constructor to use to allow dynamic creation of custom entities.
+     * This is specifically used as a casting hack for the CustomEntityType enum in order to dynamically create
+     * entities.
+     * @param entity The entity that should map the T type parameter.
+     * @param entityType The entity type.
+     */
+    public CustomEntityInstance(Entity entity, CustomEntityType entityType) {
+        super(entity);
         this.entityType = entityType;
     }
 
@@ -49,37 +55,37 @@ public class CustomEntityInstance extends EnemyEntity {
 
     @Override
     public EntityType getDefaultEntityType() {
-        return entityType.entityType;
+        return entityType.Type;
     }
 
     @Override
     public String getEntityName() {
-        return entityType.name;
+        return entityType.Name;
     }
 
     @Override
     public int getDefaultLevel() {
-        return entityType.baseLevel;
+        return entityType.Level;
     }
 
     @Override
     public double calculateBaseAttackDamage() {
-        return entityType.baseDamage;
+        return entityType.Damage;
     }
 
     @Override
     public void updateAttributes() {
-        updateBaseAttribute(Attribute.MAX_HEALTH, entityType.baseHp);
+        updateBaseAttribute(Attribute.MAX_HEALTH, entityType.Hp);
         heal();
         updateBaseAttribute(Attribute.ATTACK_DAMAGE, calculateBaseAttackDamage());
     }
 
     public boolean isEntityOfType(Entity entity) {
-        return getEntityType().isOfType(plugin.getEntityService(), entity);
+        return getEntityType().isOfType(_plugin.getEntityService(), entity);
     }
 
     public boolean isEntity(Entity entity) {
-        return entity.equals(this.entity);
+        return entity.equals(this._entity);
     }
 
     protected ItemStack getAttributelessItem(Material material) {
@@ -89,7 +95,7 @@ public class CustomEntityInstance extends EnemyEntity {
             meta.addAttributeModifier(Attribute.ARMOR, new AttributeModifier(new NamespacedKey("smprpg", "dummy-attribute"), 0, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlotGroup.ANY));
             meta.addAttributeModifier(Attribute.ATTACK_DAMAGE, new AttributeModifier(new NamespacedKey("smprpg", "dummy-attribute"), 0, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlotGroup.ANY));
         });
-        plugin.getItemService().setIgnoreMetaUpdate(item);
+        _plugin.getItemService().setIgnoreMetaUpdate(item);
         return item;
     }
 
@@ -98,7 +104,7 @@ public class CustomEntityInstance extends EnemyEntity {
      */
     protected void setNoDropEquipment() {
 
-        if (!(entity instanceof LivingEntity living))
+        if (!(_entity instanceof LivingEntity living))
             return;
 
         EntityEquipment equipment = living.getEquipment();
@@ -118,7 +124,7 @@ public class CustomEntityInstance extends EnemyEntity {
      */
     protected void removeEquipment() {
 
-        if (!(entity instanceof LivingEntity living))
+        if (!(_entity instanceof LivingEntity living))
             return;
 
         EntityEquipment equipment = living.getEquipment();

@@ -56,7 +56,7 @@ public class SpawnerEditorBlueprint extends CustomItemBlueprint implements Liste
             return;
         }
 
-        Collection<Entity> nearbyDisplays = event.getPlayer().getWorld().getNearbyEntitiesByType(CustomEntityType.SPAWNER.entityType.getEntityClass(), event.getPlayer().getEyeLocation(), 2.5);
+        Collection<Entity> nearbyDisplays = event.getPlayer().getWorld().getNearbyEntitiesByType(CustomEntityType.SPAWNER.Type.getEntityClass(), event.getPlayer().getEyeLocation(), 2.5);
         List<EntitySpawner> nearbySpawners = new ArrayList<>();
         for (Entity display : nearbyDisplays)
             if (SMPRPG.getInstance().getEntityService().getEntityInstance(display) instanceof EntitySpawner spawner)

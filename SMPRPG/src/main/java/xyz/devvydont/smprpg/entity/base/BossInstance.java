@@ -8,6 +8,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -29,7 +30,7 @@ import xyz.devvydont.smprpg.util.scoreboard.SimpleGlobalScoreboard;
 
 import java.util.*;
 
-public abstract class BossInstance extends EnemyEntity implements Listener {
+public abstract class BossInstance<T extends LivingEntity> extends EnemyEntity<T> implements Listener {
 
     private record PlayerDamageEntry (Player player, int damage){}
 
@@ -58,8 +59,12 @@ public abstract class BossInstance extends EnemyEntity implements Listener {
      */
     private final Map<UUID, Player> activelyInvolvedPlayers = new HashMap<>();
 
-    public BossInstance(SMPRPG plugin, Entity entity) {
-        super(plugin, entity);
+    public BossInstance(Entity entity) {
+        super(entity);
+    }
+
+    public BossInstance(T entity) {
+        super(entity);
     }
 
     /*
@@ -139,14 +144,14 @@ public abstract class BossInstance extends EnemyEntity implements Listener {
      */
     public void tick() {
 
-        if (!entity.isValid()) {
+        if (!_entity.isValid()) {
             cleanupBrainTickTask();
             return;
         }
 
         // If the boss bar is defined, update the progress and the name display
         if (bossBar != null) {
-            Component name = entity.customName();
+            Component name = _entity.customName();
             if (name != null)
                 bossBar.name(name);
             bossBar.progress((float) Math.clamp(getHealthPercentage(), 0f, 1f));
@@ -195,7 +200,7 @@ public abstract class BossInstance extends EnemyEntity implements Listener {
             p.playSound(p.getLocation(), Sound.ENTITY_WARDEN_SONIC_BOOM, 1, .1f);
 
         cleanupBrainTickTask();
-        entity.remove();
+        _entity.remove();
     }
 
     @Override
@@ -241,7 +246,7 @@ public abstract class BossInstance extends EnemyEntity implements Listener {
             Player player = entry.player();
             int damage = entry.damage();
             int place = i + 1;
-            var name = plugin.getChatService().getPlayerDisplay(player);
+            var name = _plugin.getChatService().getPlayerDisplay(player);
             rankings.add(ComponentUtils.merge(
                 ComponentUtils.create(place + getPlaceth(place) + ": ", getPlaceColor(place)),
                 name,
@@ -373,8 +378,8 @@ public abstract class BossInstance extends EnemyEntity implements Listener {
         heal();
         bossBar = createBossBar();
         cleanupBrainTickTask();
-        entityBrainTask = Bukkit.getScheduler().runTaskTimer(plugin, this::tick, 1, 1);
-        entity.setPersistent(true);
+        entityBrainTask = Bukkit.getScheduler().runTaskTimer(_plugin, this::tick, 1, 1);
+        _entity.setPersistent(true);
     }
 
     @Override
@@ -409,7 +414,7 @@ public abstract class BossInstance extends EnemyEntity implements Listener {
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onBossDeath(EntityDeathEvent event) {
 
-        if (!entity.equals(event.getEntity()))
+        if (!_entity.equals(event.getEntity()))
             return;
 
         cleanupBrainTickTask();
@@ -440,7 +445,7 @@ public abstract class BossInstance extends EnemyEntity implements Listener {
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onDamage(EntityDamageEvent event) {
 
-        if (!entity.equals(event.getEntity()))
+        if (!_entity.equals(event.getEntity()))
             return;
 
         if (!(event.getDamageSource().getCausingEntity() instanceof Player player))
@@ -481,13 +486,13 @@ public abstract class BossInstance extends EnemyEntity implements Listener {
     @EventHandler
     public void onPlayerDistanced(PlayerMoveEvent event) {
 
-        if (!event.getPlayer().getWorld().equals(entity.getWorld()))
+        if (!event.getPlayer().getWorld().equals(_entity.getWorld()))
             return;
 
         if (!event.hasChangedBlock())
             return;
 
-        if (event.getPlayer().getLocation().distance(entity.getLocation()) < 200) {
+        if (event.getPlayer().getLocation().distance(_entity.getLocation()) < 200) {
             if (bossBar != null)
                 bossBar.addViewer(event.getPlayer());
             return;

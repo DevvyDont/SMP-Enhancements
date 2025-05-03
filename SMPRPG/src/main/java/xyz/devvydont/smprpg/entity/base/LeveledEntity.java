@@ -23,14 +23,14 @@ import xyz.devvydont.smprpg.util.items.LootSource;
 
 import java.util.Collection;
 
-public abstract class LeveledEntity implements LootSource {
+public abstract class LeveledEntity<T extends Entity> implements LootSource {
 
-    protected final SMPRPG plugin;
-    protected final Entity entity;
+    protected final SMPRPG _plugin;
+    protected final T _entity;
 
-    public LeveledEntity(SMPRPG plugin, Entity entity) {
-        this.plugin =  plugin;
-        this.entity = entity;
+    public LeveledEntity(Entity entity) {
+        this._plugin =  SMPRPG.getInstance();
+        this._entity = (T) entity;
     }
 
     /**
@@ -93,7 +93,7 @@ public abstract class LeveledEntity implements LootSource {
         updateAttributes();
         dimNametag();
         updateNametag();
-        if (entity instanceof LivingEntity living)
+        if (_entity instanceof LivingEntity living)
             setupLivingEnitity(living);
     }
 
@@ -121,7 +121,7 @@ public abstract class LeveledEntity implements LootSource {
      */
     public void addPersistentEntityClassTag() {
         // Tag this entity with its class key so it can be found later
-        entity.getPersistentDataContainer().set(plugin.getEntityService().getClassNamespacedKey(), PersistentDataType.STRING, getClassKey());
+        _entity.getPersistentDataContainer().set(_plugin.getEntityService().getClassNamespacedKey(), PersistentDataType.STRING, getClassKey());
     }
 
     /**
@@ -129,7 +129,7 @@ public abstract class LeveledEntity implements LootSource {
      * to effectively "turn off" the wallhacks you get by seeing entity nametags in caves below the world.
      */
     public void dimNametag() {
-        entity.setSneaking(true);
+        _entity.setSneaking(true);
     }
 
     /**
@@ -137,12 +137,12 @@ public abstract class LeveledEntity implements LootSource {
      * like a normal nametag.
      */
     public void brightenNametag() {
-        entity.setSneaking(false);
+        _entity.setSneaking(false);
     }
 
 
-    public Entity getEntity() {
-        return entity;
+    public T getEntity() {
+        return _entity;
     }
 
     /**
@@ -151,7 +151,7 @@ public abstract class LeveledEntity implements LootSource {
      * @return
      */
     public TextColor determineNametagColor() {
-        return switch (entity) {
+        return switch (_entity) {
             case Boss boss -> NamedTextColor.DARK_PURPLE;
             case Enemy enemy -> NamedTextColor.RED;
             case Tameable tameable when tameable.isTamed() -> NamedTextColor.AQUA;
@@ -231,14 +231,14 @@ public abstract class LeveledEntity implements LootSource {
      * Default nametag behavior. Displays as [✦3] Zombie 100/100❤
      */
     public void updateNametag() {
-        entity.setCustomNameVisible(true);
+        _entity.setCustomNameVisible(true);
         var component = ComponentUtils.merge(
                 generateNametagComponent(),
                 ComponentUtils.create(" "),
                 getDisplaynameNametagComponent(),
                 getHealthNametagComponent()
         );
-        entity.customName(component);
+        _entity.customName(component);
     }
 
     /**
@@ -247,7 +247,7 @@ public abstract class LeveledEntity implements LootSource {
      * @return
      */
     public double getAbsorptionHealth() {
-        if (entity instanceof LivingEntity living)
+        if (_entity instanceof LivingEntity living)
             return living.getAbsorptionAmount() * getHalfHeartValue();
         return 0;
     }
@@ -258,7 +258,7 @@ public abstract class LeveledEntity implements LootSource {
      * @return
      */
     public void setAbsorptionHealth(double amount) {
-        if (entity instanceof LivingEntity living)
+        if (_entity instanceof LivingEntity living)
             living.setAbsorptionAmount(amount / getHalfHeartValue());
     }
 
@@ -276,7 +276,7 @@ public abstract class LeveledEntity implements LootSource {
      * @return a double representing the entity's health
      */
     public double getHp() {
-        if (entity instanceof LivingEntity living)
+        if (_entity instanceof LivingEntity living)
             return living.getHealth();
         return 0;
     }
@@ -287,7 +287,7 @@ public abstract class LeveledEntity implements LootSource {
      * @return a double representing the enitity's total amount of health
      */
     public double getTotalHp() {
-        if (entity instanceof LivingEntity living)
+        if (_entity instanceof LivingEntity living)
             return living.getHealth() + getAbsorptionHealth();
         return 0;
     }
@@ -298,7 +298,7 @@ public abstract class LeveledEntity implements LootSource {
      * @return a double representing this entity's max health
      */
     public double getMaxHp() {
-        if (entity instanceof LivingEntity living)
+        if (_entity instanceof LivingEntity living)
             return living.getAttribute(Attribute.MAX_HEALTH).getValue();
         return 1;
     }
@@ -333,7 +333,7 @@ public abstract class LeveledEntity implements LootSource {
      */
     public double getBaseAttackDamage() {
 
-        if (!(entity instanceof LivingEntity living))
+        if (!(_entity instanceof LivingEntity living))
             return 0;
 
         AttributeInstance attack = living.getAttribute(Attribute.ATTACK_DAMAGE);
@@ -351,10 +351,10 @@ public abstract class LeveledEntity implements LootSource {
     public int getLevel() {
 
         // If this entity doesn't have a level yet it must mean that we need to give them their default
-        if (!entity.getPersistentDataContainer().has(plugin.getEntityService().getLevelNamespacedKey()))
+        if (!_entity.getPersistentDataContainer().has(_plugin.getEntityService().getLevelNamespacedKey()))
             resetLevel();
 
-        return entity.getPersistentDataContainer().getOrDefault(plugin.getEntityService().getLevelNamespacedKey(), PersistentDataType.INTEGER, getDefaultLevel());
+        return _entity.getPersistentDataContainer().getOrDefault(_plugin.getEntityService().getLevelNamespacedKey(), PersistentDataType.INTEGER, getDefaultLevel());
     }
 
     /**
@@ -364,7 +364,7 @@ public abstract class LeveledEntity implements LootSource {
      * @param level The level to set the entity to
      */
     public void setLevel(int level) {
-        entity.getPersistentDataContainer().set(plugin.getEntityService().getLevelNamespacedKey(), PersistentDataType.INTEGER, level);
+        _entity.getPersistentDataContainer().set(_plugin.getEntityService().getLevelNamespacedKey(), PersistentDataType.INTEGER, level);
     }
 
     /**
@@ -384,13 +384,13 @@ public abstract class LeveledEntity implements LootSource {
      */
     protected void updateBaseAttribute(Attribute attribute, double value) {
 
-        if (!(entity instanceof LivingEntity living))
+        if (!(_entity instanceof LivingEntity living))
             return;
 
         AttributeInstance attrInstance = living.getAttribute(attribute);
         if (attrInstance == null) {
             living.registerAttribute(attribute);
-            plugin.getLogger().fine(String.format("Tried to set %s attribute on %s, does not have it", attribute.key().asMinimalString(), entity.getName()));
+            _plugin.getLogger().fine(String.format("Tried to set %s attribute on %s, does not have it", attribute.key().asMinimalString(), _entity.getName()));
             attrInstance = living.getAttribute(attribute);
         }
 
@@ -403,7 +403,7 @@ public abstract class LeveledEntity implements LootSource {
      */
     public void heal() {
 
-        if (!(entity instanceof LivingEntity living))
+        if (!(_entity instanceof LivingEntity living))
             return;
 
         living.setHealth(getMaxHp());
@@ -456,7 +456,7 @@ public abstract class LeveledEntity implements LootSource {
 
     public void setHealthPercentage(double percentage) {
 
-        if (!(entity instanceof LivingEntity living))
+        if (!(_entity instanceof LivingEntity living))
             return;
 
         living.setHealth(getMaxHp() * Math.max(0, Math.min(1.0, percentage)));
@@ -469,13 +469,13 @@ public abstract class LeveledEntity implements LootSource {
      */
     public double getCombatExperienceMultiplier() {
 
-        if (entity instanceof Boss)
+        if (_entity instanceof Boss)
             return 75;
 
-        else if (entity instanceof Animals)
+        else if (_entity instanceof Animals)
             return .8;
 
-        else if (entity instanceof Creature)
+        else if (_entity instanceof Creature)
             return 3;
 
         return 0;

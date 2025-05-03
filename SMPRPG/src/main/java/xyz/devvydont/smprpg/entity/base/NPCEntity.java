@@ -9,14 +9,17 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
-import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.CustomEntityType;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
-public abstract class NPCEntity extends CustomEntityInstance implements Listener {
+public abstract class NPCEntity<T extends LivingEntity> extends CustomEntityInstance<T> implements Listener {
 
-    public NPCEntity(SMPRPG plugin, Entity entity, CustomEntityType entityType) {
-        super(plugin, entity, entityType);
+    public NPCEntity(Entity entity, CustomEntityType entityType) {
+        super(entity, entityType);
+    }
+
+    public NPCEntity(T entity, CustomEntityType entityType) {
+        super(entity, entityType);
     }
 
     public abstract void handleInteract(Player player);
@@ -24,11 +27,10 @@ public abstract class NPCEntity extends CustomEntityInstance implements Listener
     @Override
     public void setup() {
         super.setup();
-        if (entity instanceof LivingEntity living)
-            living.setAI(false);
-        entity.setInvulnerable(true);
-        entity.setPersistent(true);
-        entity.setSilent(true);
+        getEntity().setAI(false);
+        _entity.setInvulnerable(true);
+        _entity.setPersistent(true);
+        _entity.setSilent(true);
         brightenNametag();
     }
 
@@ -72,7 +74,7 @@ public abstract class NPCEntity extends CustomEntityInstance implements Listener
     public void onInteractWithNPC(PlayerInteractEntityEvent event) {
 
         // Only listen if it is this entity
-        if (!entity.equals(event.getRightClicked()))
+        if (!_entity.equals(event.getRightClicked()))
             return;
 
         event.setCancelled(true);

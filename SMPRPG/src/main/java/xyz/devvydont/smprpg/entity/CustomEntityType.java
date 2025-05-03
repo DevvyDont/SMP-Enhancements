@@ -12,116 +12,123 @@ import xyz.devvydont.smprpg.entity.base.LeveledEntity;
 import xyz.devvydont.smprpg.entity.bosses.BlazeBoss;
 import xyz.devvydont.smprpg.entity.creatures.*;
 import xyz.devvydont.smprpg.entity.npc.ReforgeNPC;
-import xyz.devvydont.smprpg.entity.spawning.*;
+import xyz.devvydont.smprpg.entity.spawning.EntitySpawnCondition;
+import xyz.devvydont.smprpg.entity.spawning.EntitySpawner;
 import xyz.devvydont.smprpg.services.EntityService;
+
+import java.util.function.BiFunction;
 
 // Enums to use for the retrieval, storage, and statistics of "custom" entities.
 public enum CustomEntityType {
 
     // Mobs that spawn in castles.
     CASTLE_DWELLER(EntityType.ZOMBIE_VILLAGER, "Castle Dweller",
-            15, 400, 50, CastleDweller.class),
+            15, 400, 50, CastleDweller::new),
 
     UNDEAD_ARCHER(EntityType.SKELETON, "Undead Archer",
-            15, 350, 40, UndeadArcher.class),
+            15, 350, 40, UndeadArcher::new),
 
     // Mobs that spawn in woodland mansions.
     MANSION_SPIDER(EntityType.SPIDER, "Mansion Spider",
             25, 800, 90,
-            new EntitySpawnCondition[]{new StructureSpawnCondition(Structure.MANSION)}, 20,
-            MansionSpider.class),
+            MansionSpider::new,
+            EntitySpawnCondition.StructureSpawnCondition
+                    .structure(Structure.MANSION)
+                    .withChance(.20f)),
 
     WOODLAND_EXILE(EntityType.PILLAGER, "Woodland Exile",
             25, 1_100, 120,
-            new EntitySpawnCondition[]{new StructureSpawnCondition(Structure.MANSION)}, 35,
-            WoodlandExile.class),
+            WoodlandExile::new,
+            EntitySpawnCondition.StructureSpawnCondition
+                    .structure(Structure.MANSION)
+                    .withChance(.35f)),
 
     WOODLAND_BERSERKER(EntityType.VINDICATOR, "Woodland Berserker",
             25, 950, 140,
-            new EntitySpawnCondition[]{new StructureSpawnCondition(Structure.MANSION)}, 35,
-            WoodlandExile.class),
+            WoodlandExile::new,
+            EntitySpawnCondition.StructureSpawnCondition
+                    .structure(Structure.MANSION)
+                    .withChance(.35f)),
 
     PALACE_THUG(EntityType.WITHER_SKELETON, "Palace Thug",
             35, 2_500, 350,
-            new EntitySpawnCondition[]{new StructureSpawnCondition(Structure.FORTRESS)}, 10,
-            PalaceThug.class),
+            PalaceThug::new,
+            EntitySpawnCondition.StructureSpawnCondition
+                    .structure(Structure.MANSION)
+                    .withChance(.10f)),
 
     FIERY_SYLPH(EntityType.BLAZE, "Fiery Sylph",
             35, 2_100, 300,
-            new EntitySpawnCondition[]{new StructureSpawnCondition(Structure.FORTRESS)}, 10,
-            FierySylph.class),
+            FierySylph::new,
+            EntitySpawnCondition.StructureSpawnCondition
+                    .structure(Structure.FORTRESS)
+                    .withChance(.10f)),
 
     PHOENIX(EntityType.BLAZE, "Phoenix",
-            40, 5_000, 600, CustomEntityInstance.class),
+            40, 5_000, 600,
+            CustomEntityInstance::new),
 
     INFERNAL_PHOENIX(EntityType.BLAZE, "Infernal Phoenix",
-            40, 750_000, 750, BlazeBoss.class),
+            40, 750_000, 750, BlazeBoss::new),
 
     // Wither skeletons that spawn on the end island
     WITHERED_SERAPH(EntityType.WITHER_SKELETON, "Withered Seraph",
             45, 6_000, 1_000,
-            new BiomeSpawnCondition[]{new BiomeSpawnCondition(Biome.THE_END)}, 10,
-            WitheredSeraph.class
-    ),
+            WitheredSeraph::new,
+            EntitySpawnCondition.BiomeSpawnCondition.biome(Biome.THE_END).withChance(.1f)),
 
-    TEST_ZOMBIE(EntityType.ZOMBIE, "Test Zombie", 5, 120, 15, TestZombie.class),
-    TEST_SKELETON(EntityType.SKELETON, "Test Skeleton", 5, 100, 10, CustomEntityInstance.class),
+    TEST_ZOMBIE(EntityType.ZOMBIE, "Test Zombie",
+            5, 120, 15,
+            TestZombie::new),
+
+    TEST_SKELETON(EntityType.SKELETON, "Test Skeleton", 5, 100, 10),
 
     // NPCs
-    REFORGE_NPC(EntityType.VILLAGER, "Tool Reforger", ReforgeNPC.class),
+    REFORGE_NPC(EntityType.VILLAGER, "Tool Reforger", ReforgeNPC::new),
 
     // Spawner
-    SPAWNER(EntityType.ITEM_DISPLAY, "Spawner", EntitySpawner.class)
+    SPAWNER(EntityType.ITEM_DISPLAY, "Spawner", EntitySpawner::new)
     ;
 
 
     // The vanilla entity that this entity will display as and spawn as.
-    public final EntityType entityType;
+    public final EntityType Type;
     // The name of this entity
-    public final String name;
+    public final String Name;
     // The "power level" that this entity is, affects default spawning level as well as base for scaling
-    public final int baseLevel;
+    public final int Level;
     // The HP this entity will have when their level is at its base level
-    public final int baseHp;
+    public final int Hp;
     // The base damage this entity will do when their level is at its base level
-    public final int baseDamage;
-    public final EntitySpawnCondition[] spawnConditions;
-    // The chance that this entity will override a vanilla creature spawn given the conditions passed
-    public final int chance;
-    // The handler class to use when instantiating an instance for this class, used if any special event handlers or attributes need to be set for the entity
-    public final Class<? extends LeveledEntity> entityHandler;
+    public final int Damage;
+    public final EntitySpawnCondition SpawnCondition;
 
-    CustomEntityType(EntityType entityType, String name, int baseLevel, int baseHp, int baseDamage, Class<? extends LeveledEntity> entityHandler) {
-        this.entityType = entityType;
-        this.name = name;
-        this.baseLevel = baseLevel;
-        this.baseHp = baseHp;
-        this.baseDamage = baseDamage;
-        this.chance = 0;
-        this.spawnConditions = new EntitySpawnCondition[]{new ImpossibleSpawnCondition()};
-        this.entityHandler = entityHandler;
+    private final BiFunction<Entity, CustomEntityType, LeveledEntity<?>> Factory;
+
+    CustomEntityType(EntityType type, String name, int Level, int Hp, int Damage, BiFunction<Entity, CustomEntityType, LeveledEntity<?>> factory, EntitySpawnCondition condition) {
+        this.Type = type;
+        this.Name = name;
+        this.Level = Level;
+        this.Hp = Hp;
+        this.Damage = Damage;
+        this.Factory = factory;
+        this.SpawnCondition = condition;
     }
 
-    CustomEntityType(EntityType entityType, String name, int baseLevel, int baseHp, int baseDamage, final EntitySpawnCondition[] spawnConditions, int chance, Class<? extends LeveledEntity> entityHandler) {
-        this.entityType = entityType;
-        this.name = name;
-        this.baseLevel = baseLevel;
-        this.baseHp = baseHp;
-        this.baseDamage = baseDamage;
-        this.spawnConditions = spawnConditions;
-        this.chance = chance;
-        this.entityHandler = entityHandler;
+    CustomEntityType(EntityType type, String name, int Level, int Hp, int Damage, BiFunction<Entity, CustomEntityType, LeveledEntity<?>> factory) {
+        this(type, name, Level, Hp, Damage, factory, EntitySpawnCondition.ImpossibleSpawnCondition.create());
     }
 
-    CustomEntityType(EntityType entityType, String name, Class<? extends LeveledEntity> entityHandler) {
-        this.entityType = entityType;
-        this.name = name;
-        this.baseLevel = 0;
-        this.baseHp = 999_999_999;
-        this.baseDamage = 0;
-        this.spawnConditions = new EntitySpawnCondition[]{new ImpossibleSpawnCondition()};
-        this.chance = 0;
-        this.entityHandler = entityHandler;
+    CustomEntityType(EntityType Type, String name, int Level, int Hp, int Damage) {
+        this(Type, name, Level, Hp, Damage, CustomEntityInstance::new);
+    }
+
+    CustomEntityType(EntityType Type, String name, BiFunction<Entity, CustomEntityType, LeveledEntity<?>> factory) {
+        this(Type, name, 0, 999_999_999, 0, factory, EntitySpawnCondition.ImpossibleSpawnCondition.create());
+    }
+
+    public LeveledEntity<?> create(Entity entity) {
+        return Factory.apply(entity, this);
     }
 
     /**
@@ -144,54 +151,28 @@ public enum CustomEntityType {
         return entity.getPersistentDataContainer().getOrDefault(entityService.getClassNamespacedKey(), PersistentDataType.STRING, "").equals(key());
     }
 
-    public EntityType getEntityType() {
-        return entityType;
+    public EntityType getType() {
+        return Type;
     }
 
     public String getName() {
-        return name;
+        return Name;
     }
 
-    public int getBaseLevel() {
-        return baseLevel;
+    public int getLevel() {
+        return Level;
     }
 
-    public int getBaseHp() {
-        return baseHp;
+    public int getHp() {
+        return Hp;
     }
 
-    public int getBaseDamage() {
-        return baseDamage;
-    }
-
-    public EntitySpawnCondition[] getSpawnConditions() {
-        return spawnConditions;
-    }
-
-    public boolean canSpawnNaturally() {
-        for (EntitySpawnCondition spawnCondition : spawnConditions)
-            if (spawnCondition instanceof ImpossibleSpawnCondition)
-                return false;
-        return true;
+    public int getDamage() {
+        return Damage;
     }
 
     public boolean testNaturalSpawn(Location location) {
-
-        // Test every spawn condition for a location. If any of them fail, then the whole spawn attempt will fail.
-        for (EntitySpawnCondition spawnCondition : spawnConditions)
-            if (!spawnCondition.valid(location))
-                return false;
-
-        // We passed, pass true
-        return true;
-    }
-
-    public boolean rollRandomSpawnChance() {
-        return Math.random() * 100 < chance;
-    }
-
-    public Class<? extends LeveledEntity> getEntityHandler() {
-        return entityHandler;
+        return SpawnCondition.test(location);
     }
 
     /**

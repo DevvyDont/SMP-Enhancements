@@ -3,20 +3,19 @@ package xyz.devvydont.smprpg.entity.base;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import xyz.devvydont.smprpg.SMPRPG;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public abstract class EnemyEntity extends LeveledEntity {
+public abstract class EnemyEntity<T extends Entity> extends LeveledEntity<T> {
 
     // Tracks damage done by players (and other entities if desired)
     private Map<UUID, Integer> damageTracker = new HashMap<>();
     private Map<UUID, Integer> hitTracker = new HashMap<>();
 
-    public EnemyEntity(SMPRPG plugin, Entity entity) {
-        super(plugin, entity);
+    public EnemyEntity(Entity entity) {
+        super(entity);
     }
 
     /**

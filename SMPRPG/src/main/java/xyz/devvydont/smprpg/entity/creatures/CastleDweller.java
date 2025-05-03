@@ -6,7 +6,6 @@ import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.ZombieVillager;
 import org.jetbrains.annotations.Nullable;
-import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.CustomEntityType;
 import xyz.devvydont.smprpg.entity.base.CustomEntityInstance;
 import xyz.devvydont.smprpg.items.CustomItemType;
@@ -17,10 +16,14 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-public class CastleDweller extends CustomEntityInstance {
+public class CastleDweller extends CustomEntityInstance<ZombieVillager> {
 
-    public CastleDweller(SMPRPG plugin, Entity entity, CustomEntityType entityType) {
-        super(plugin, entity, entityType);
+    public CastleDweller(Entity entity, CustomEntityType type) {
+        this((ZombieVillager) entity, type);
+    }
+
+    public CastleDweller(ZombieVillager entity, CustomEntityType entityType) {
+        super(entity, entityType);
     }
 
     public static final Material[] WEAPONS = {Material.WOODEN_SHOVEL, Material.WOODEN_AXE, Material.STONE_SHOVEL, Material.STONE_HOE, Material.GOLDEN_SHOVEL};
@@ -28,37 +31,36 @@ public class CastleDweller extends CustomEntityInstance {
     @Override
     public void setup() {
         super.setup();
-        ZombieVillager zv = (ZombieVillager) entity;
         var professions = new java.util.ArrayList<>(RegistryAccess.registryAccess().getRegistry(RegistryKey.VILLAGER_PROFESSION).stream().toList());
         Collections.shuffle(professions);
         var profession = professions.getFirst();
-        zv.setVillagerProfession(profession);
+        _entity.setVillagerProfession(profession);
 
-        zv.getEquipment().setHelmet(null);
-        zv.getEquipment().setChestplate(null);
-        zv.getEquipment().setLeggings(null);
-        zv.getEquipment().setBoots(null);
+        _entity.getEquipment().setHelmet(null);
+        _entity.getEquipment().setChestplate(null);
+        _entity.getEquipment().setLeggings(null);
+        _entity.getEquipment().setBoots(null);
 
-        zv.getEquipment().setHelmet(getAttributelessItem(Material.IRON_HELMET));
+        _entity.getEquipment().setHelmet(getAttributelessItem(Material.IRON_HELMET));
 
         if (Math.random() < .75)
-            zv.getEquipment().setItemInMainHand(getAttributelessItem(WEAPONS[(int) (Math.random()*WEAPONS.length)]));
+            _entity.getEquipment().setItemInMainHand(getAttributelessItem(WEAPONS[(int) (Math.random()*WEAPONS.length)]));
 
         if (Math.random() < .33)
-            zv.getEquipment().setChestplate(getAttributelessItem(Material.GOLDEN_CHESTPLATE));
+            _entity.getEquipment().setChestplate(getAttributelessItem(Material.GOLDEN_CHESTPLATE));
     }
 
 
     @Override
     public @Nullable Collection<LootDrop> getItemDrops() {
         return List.of(
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.MYSTBLOOM_HELMET), 400, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.MYSTBLOOM_CHESTPLATE), 425, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.MYSTBLOOM_LEGGINGS), 400, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.MYSTBLOOM_BOOTS), 390, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.MYSTBLOOM_KUNAI), 430, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(Material.ROTTEN_FLESH), 3, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.STALE_BREAD), 3, this)
+                new ChancedItemDrop(_plugin.getItemService().getCustomItem(CustomItemType.MYSTBLOOM_HELMET), 400, this),
+                new ChancedItemDrop(_plugin.getItemService().getCustomItem(CustomItemType.MYSTBLOOM_CHESTPLATE), 425, this),
+                new ChancedItemDrop(_plugin.getItemService().getCustomItem(CustomItemType.MYSTBLOOM_LEGGINGS), 400, this),
+                new ChancedItemDrop(_plugin.getItemService().getCustomItem(CustomItemType.MYSTBLOOM_BOOTS), 390, this),
+                new ChancedItemDrop(_plugin.getItemService().getCustomItem(CustomItemType.MYSTBLOOM_KUNAI), 430, this),
+                new ChancedItemDrop(_plugin.getItemService().getCustomItem(Material.ROTTEN_FLESH), 3, this),
+                new ChancedItemDrop(_plugin.getItemService().getCustomItem(CustomItemType.STALE_BREAD), 3, this)
         );
     }
 }

@@ -1,26 +1,20 @@
 package xyz.devvydont.smprpg.gui.spawner;
 
 import net.kyori.adventure.text.format.NamedTextColor;
-import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.inventory.ItemStack;
-import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.CustomEntityType;
 import xyz.devvydont.smprpg.entity.spawning.EntitySpawner;
 import xyz.devvydont.smprpg.gui.InterfaceUtil;
-import xyz.devvydont.smprpg.gui.PrivateInterface;
 import xyz.devvydont.smprpg.gui.base.MenuBase;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.formatting.MinecraftStringUtils;
 import xyz.devvydont.smprpg.util.formatting.Symbols;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class InterfaceSpawnerEntitySubmenu extends MenuBase {
 
@@ -53,10 +47,10 @@ public class InterfaceSpawnerEntitySubmenu extends MenuBase {
                         ComponentUtils.create("Current Weight:").append(ComponentUtils.create(" " + spawner.getOptions().getWeight(type), NamedTextColor.GREEN)),
                         ComponentUtils.EMPTY,
                         ComponentUtils.create("Default Statistics:", NamedTextColor.GOLD),
-                        ComponentUtils.powerLevel(type.getBaseLevel()).append(ComponentUtils.create(" " + type.getName(), NamedTextColor.RED)),
-                        ComponentUtils.create("Base Health: ").append(ComponentUtils.create(MinecraftStringUtils.formatNumber(type.getBaseHp()), NamedTextColor.GREEN)).append(ComponentUtils.create(Symbols.HEART, NamedTextColor.RED)),
-                        ComponentUtils.create("Base Damage: ").append(ComponentUtils.create(MinecraftStringUtils.formatNumber(type.getBaseDamage()), NamedTextColor.RED)).append(ComponentUtils.create(Symbols.SKULL, NamedTextColor.DARK_GRAY)),
-                        ComponentUtils.create("Base Entity: ").append(ComponentUtils.create(type.getEntityType().name(), NamedTextColor.GOLD)),
+                        ComponentUtils.powerLevel(type.getLevel()).append(ComponentUtils.create(" " + type.getName(), NamedTextColor.RED)),
+                        ComponentUtils.create("Base Health: ").append(ComponentUtils.create(MinecraftStringUtils.formatNumber(type.getHp()), NamedTextColor.GREEN)).append(ComponentUtils.create(Symbols.HEART, NamedTextColor.RED)),
+                        ComponentUtils.create("Base Damage: ").append(ComponentUtils.create(MinecraftStringUtils.formatNumber(type.getDamage()), NamedTextColor.RED)).append(ComponentUtils.create(Symbols.SKULL, NamedTextColor.DARK_GRAY)),
+                        ComponentUtils.create("Base Entity: ").append(ComponentUtils.create(type.getType().name(), NamedTextColor.GOLD)),
                         ComponentUtils.EMPTY,
                         ComponentUtils.create("Left click to increase, Right click to decrease"),
                         ComponentUtils.EMPTY,

@@ -37,7 +37,6 @@ import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
 import xyz.devvydont.smprpg.util.crafting.ItemUtil;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.items.DropFireworkTask;
-import xyz.devvydont.smprpg.util.items.LootDrop;
 import xyz.devvydont.smprpg.util.persistence.UUIDPersistentDataType;
 
 import java.util.*;
@@ -408,7 +407,7 @@ public class DropsService implements BaseService, Listener {
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onEntityHasDrops(EntityDeathEvent event) {
 
-        LeveledEntity entity = plugin.getEntityService().getEntityInstance(event.getEntity());
+        LeveledEntity<?> entity = plugin.getEntityService().getEntityInstance(event.getEntity());
 
         // Clear the drops from the vanilla roll if desired
         if (!entity.hasVanillaDrops())
@@ -432,7 +431,7 @@ public class DropsService implements BaseService, Listener {
         involvedPlayers.put(killer, 1.0);  // Ensure killer at least gets credit for the kill
 
         // If this entity has a damage map go through all participants and add them to the involved players
-        if (entity instanceof EnemyEntity enemy)
+        if (entity instanceof EnemyEntity<?> enemy)
             for (Map.Entry<Player, Integer> entry : enemy.getPlayerDamageTracker().entrySet())
                 // Add this player damage to max hp ratio
                 involvedPlayers.put(entry.getKey(), Math.min(entry.getValue() / enemy.getMaxHp(), 1.0));
@@ -453,7 +452,7 @@ public class DropsService implements BaseService, Listener {
                 event.getDrops().addAll(ItemUtil.getOptimalCoinStacks(plugin.getItemService(), (int) (entity.getLevel() * (Math.random() * 3))));
 
             // Loop through all the droppable items from the entity
-            for (LootDrop drop : entity.getItemDrops()) {
+            for (var drop : entity.getItemDrops()) {
 
                 List<ItemStack> allInvolvedPlayersDrops = new ArrayList<>();
 

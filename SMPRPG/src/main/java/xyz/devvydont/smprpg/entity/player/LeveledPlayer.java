@@ -27,7 +27,7 @@ import xyz.devvydont.smprpg.util.formatting.PlayerChatInformation;
 import java.util.Collection;
 import java.util.List;
 
-public class LeveledPlayer extends LeveledEntity implements Listener {
+public class LeveledPlayer extends LeveledEntity<Player> implements Listener {
 
     // Used as a shortcut for skill modification
     private final SkillInstance combatSkill;
@@ -38,7 +38,7 @@ public class LeveledPlayer extends LeveledEntity implements Listener {
     private final SkillInstance magicSkill;
 
     public LeveledPlayer(SMPRPG plugin, Player entity) {
-        super(plugin, entity);
+        super(entity);
 
         // Skill shortcuts
         this.combatSkill = plugin.getSkillService().getNewSkillInstance(entity, SkillType.COMBAT);
@@ -112,7 +112,7 @@ public class LeveledPlayer extends LeveledEntity implements Listener {
 
     @Override
     public String getEntityName() {
-        return entity.getName();
+        return _entity.getName();
     }
 
     @Override
@@ -147,7 +147,7 @@ public class LeveledPlayer extends LeveledEntity implements Listener {
             if (item == null || item.getType().equals(Material.AIR))
                 continue;
 
-            SMPItemBlueprint blueprint = plugin.getItemService().getBlueprint(item);
+            SMPItemBlueprint blueprint = _plugin.getItemService().getBlueprint(item);
             if (!(blueprint instanceof IAttributeItem attributeable))
                 continue;
 
@@ -254,7 +254,7 @@ public class LeveledPlayer extends LeveledEntity implements Listener {
     @Override
     public void updateNametag() {
         Team team = getNametagTeam();
-        PlayerChatInformation chatInformation = plugin.getChatService().getPlayerInfo(getPlayer());
+        PlayerChatInformation chatInformation = _plugin.getChatService().getPlayerInfo(getPlayer());
         Component newPrefix = ComponentUtils.powerLevelPrefix(getLevel()).append(ComponentUtils.SPACE);
         team.prefix(newPrefix);
         if (!chatInformation.prefix().isEmpty())
@@ -290,7 +290,7 @@ public class LeveledPlayer extends LeveledEntity implements Listener {
     }
 
     public Player getPlayer() {
-        return (Player) entity;
+        return _entity;
     }
 
     @Override
@@ -306,7 +306,7 @@ public class LeveledPlayer extends LeveledEntity implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     private void __onEntityAddToWorld(EntityAddToWorldEvent event) {
 
-        if (event.getEntity().equals(entity))
+        if (event.getEntity().equals(_entity))
             updateNametag();
 
     }

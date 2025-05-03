@@ -1,7 +1,7 @@
 package xyz.devvydont.smprpg.entity.vanilla;
 
 import org.bukkit.Material;
-import org.bukkit.entity.Entity;
+import org.bukkit.entity.Guardian;
 import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.base.VanillaEntity;
@@ -13,10 +13,10 @@ import xyz.devvydont.smprpg.util.items.QuantityLootDrop;
 import java.util.Collection;
 import java.util.List;
 
-public class LeveledGuardian extends VanillaEntity {
+public class LeveledGuardian extends VanillaEntity<Guardian> {
 
-    public LeveledGuardian(SMPRPG plugin, Entity entity) {
-        super(plugin, entity);
+    public LeveledGuardian(Guardian entity) {
+        super(entity);
     }
 
     @Override
@@ -27,21 +27,21 @@ public class LeveledGuardian extends VanillaEntity {
     @Override
     public @Nullable Collection<LootDrop> getItemDrops() {
         return List.of(
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.SOGGY_LETTUCE), 2, this),
+                new ChancedItemDrop(_plugin.getItemService().getCustomItem(CustomItemType.SOGGY_LETTUCE), 2, this),
 
-                new QuantityLootDrop(plugin.getItemService().getCustomItem(Material.PRISMARINE_SHARD), 1, 3, this),
-                new QuantityLootDrop(plugin.getItemService().getCustomItem(Material.PRISMARINE_CRYSTALS), 1, 3, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(Material.DIAMOND), 10, this),
+                new QuantityLootDrop(_plugin.getItemService().getCustomItem(Material.PRISMARINE_SHARD), 1, 3, this),
+                new QuantityLootDrop(_plugin.getItemService().getCustomItem(Material.PRISMARINE_CRYSTALS), 1, 3, this),
+                new ChancedItemDrop(_plugin.getItemService().getCustomItem(Material.DIAMOND), 10, this),
 
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.PREMIUM_PRISMARINE_SHARD), 30, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.PREMIUM_PRISMARINE_CRYSTAL), 30, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.ENCHANTED_DIAMOND), 500, this),
+                new ChancedItemDrop(_plugin.getItemService().getCustomItem(CustomItemType.PREMIUM_PRISMARINE_SHARD), 30, this),
+                new ChancedItemDrop(_plugin.getItemService().getCustomItem(CustomItemType.PREMIUM_PRISMARINE_CRYSTAL), 30, this),
+                new ChancedItemDrop(_plugin.getItemService().getCustomItem(CustomItemType.ENCHANTED_DIAMOND), 500, this),
 
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.ENCHANTED_PRISMARINE_SHARD), 140, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.ENCHANTED_PRISMARINE_CRYSTAL), 140, this),
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.ENCHANTED_DIAMOND_BLOCK), 15000, this),
+                new ChancedItemDrop(_plugin.getItemService().getCustomItem(CustomItemType.ENCHANTED_PRISMARINE_SHARD), 140, this),
+                new ChancedItemDrop(_plugin.getItemService().getCustomItem(CustomItemType.ENCHANTED_PRISMARINE_CRYSTAL), 140, this),
+                new ChancedItemDrop(_plugin.getItemService().getCustomItem(CustomItemType.ENCHANTED_DIAMOND_BLOCK), 15000, this),
 
-                new ChancedItemDrop(plugin.getItemService().getCustomItem(CustomItemType.NEPTUNES_CONCH), 80, this),
+                new ChancedItemDrop(_plugin.getItemService().getCustomItem(CustomItemType.NEPTUNES_CONCH), 80, this),
 
                 // Extremely rare pity drops
                 new ChancedItemDrop(SMPRPG.getInstance().getItemService().getCustomItem(CustomItemType.NEPTUNE_HELMET), 200_000, this),
