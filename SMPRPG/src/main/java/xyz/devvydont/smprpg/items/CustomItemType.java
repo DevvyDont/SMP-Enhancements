@@ -125,6 +125,7 @@ import xyz.devvydont.smprpg.items.blueprints.sets.valiant.ValiantBoots;
 import xyz.devvydont.smprpg.items.blueprints.sets.valiant.ValiantChestplate;
 import xyz.devvydont.smprpg.items.blueprints.sets.valiant.ValiantHelmet;
 import xyz.devvydont.smprpg.items.blueprints.sets.valiant.ValiantLeggings;
+import xyz.devvydont.smprpg.items.blueprints.storage.*;
 import xyz.devvydont.smprpg.items.interfaces.ICustomTextured;
 
 public enum CustomItemType {
@@ -357,6 +358,12 @@ public enum CustomItemType {
     SQUID_HELMET("Squid Helmet", ItemRarity.RARE, SquidHelmet.class),
     MAGMA_HELMET("Magma Helmet", ItemRarity.RARE, MagmaHelmet.class),
     GRAPPLING_HOOK("Grappling Hook", Material.FISHING_ROD, ItemRarity.RARE, GrapplingHook.class),
+
+    SMALL_BACKPACK("Small Backpack", Material.FIREWORK_STAR, ItemRarity.COMMON, SmallBackpack.class),
+    MEDIUM_BACKPACK("Medium Backpack", Material.FIREWORK_STAR, ItemRarity.UNCOMMON, MediumBackpack.class),
+    LARGE_BACKPACK("Large Backpack", Material.FIREWORK_STAR, ItemRarity.RARE, LargeBackpack.class),
+    GIGANTIC_BACKPACK("Gigantic Backpack", Material.FIREWORK_STAR, ItemRarity.EPIC, GiganticBackpack.class),
+    COLOSSAL_BACKPACK("Colossal Backpack", Material.FIREWORK_STAR, ItemRarity.LEGENDARY, ColossalBackpack.class),
 
     // FOOD
     STALE_BREAD("Stale Bread", Material.BREAD, ItemRarity.COMMON, StaleBread.class),

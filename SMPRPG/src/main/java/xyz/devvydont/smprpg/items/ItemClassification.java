@@ -38,6 +38,8 @@ public enum ItemClassification {
     MATERIAL,
     // Stuff that can be eaten
     CONSUMABLE,
+    // Can hold items
+    STORAGE,
     // Literally everything else
     ITEM,
     ;

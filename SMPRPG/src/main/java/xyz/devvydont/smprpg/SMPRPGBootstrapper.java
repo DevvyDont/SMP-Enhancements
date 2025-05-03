@@ -1,9 +1,7 @@
 package xyz.devvydont.smprpg;
 
-import io.papermc.paper.command.brigadier.Commands;
 import io.papermc.paper.plugin.bootstrap.BootstrapContext;
 import io.papermc.paper.plugin.bootstrap.PluginBootstrap;
-import io.papermc.paper.plugin.lifecycle.event.LifecycleEventManager;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.commands.CommandBase;
@@ -15,7 +13,6 @@ import xyz.devvydont.smprpg.commands.items.CommandGiveItem;
 import xyz.devvydont.smprpg.commands.items.CommandSearchItem;
 import xyz.devvydont.smprpg.commands.items.CommandTrashItems;
 import xyz.devvydont.smprpg.commands.player.*;
-import xyz.devvydont.smprpg.enchantments.CustomEnchantment;
 import xyz.devvydont.smprpg.services.EnchantmentService;
 
 public class SMPRPGBootstrapper implements PluginBootstrap {

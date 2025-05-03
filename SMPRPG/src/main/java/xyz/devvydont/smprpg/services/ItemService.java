@@ -44,6 +44,7 @@ import xyz.devvydont.smprpg.items.base.*;
 import xyz.devvydont.smprpg.items.blueprints.resources.VanillaResource;
 import xyz.devvydont.smprpg.items.blueprints.vanilla.*;
 import xyz.devvydont.smprpg.items.interfaces.*;
+import xyz.devvydont.smprpg.items.listeners.BackpackInteractionListener;
 import xyz.devvydont.smprpg.items.listeners.ExperienceBottleListener;
 import xyz.devvydont.smprpg.items.listeners.ShieldBlockingListener;
 import xyz.devvydont.smprpg.reforge.ReforgeBase;
@@ -142,6 +143,7 @@ public class ItemService implements BaseService, Listener {
 
         listeners.add(new ShieldBlockingListener());
         listeners.add(new ExperienceBottleListener());
+        listeners.add(new BackpackInteractionListener());
 
         // Register all the listeners.
         for (Listener listener : listeners)
