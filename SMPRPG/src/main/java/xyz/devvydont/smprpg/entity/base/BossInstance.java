@@ -24,13 +24,17 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
+import xyz.devvydont.smprpg.entity.components.DamageTracker;
+import xyz.devvydont.smprpg.entity.interfaces.IDamageTrackable;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.formatting.MinecraftStringUtils;
 import xyz.devvydont.smprpg.util.scoreboard.SimpleGlobalScoreboard;
 
 import java.util.*;
 
-public abstract class BossInstance<T extends LivingEntity> extends EnemyEntity<T> implements Listener {
+public abstract class BossInstance<T extends LivingEntity> extends LeveledEntity<T> implements IDamageTrackable, Listener {
+
+    private final DamageTracker _tracker = new DamageTracker();
 
     private record PlayerDamageEntry (Player player, int damage){}
 
@@ -65,6 +69,11 @@ public abstract class BossInstance<T extends LivingEntity> extends EnemyEntity<T
 
     public BossInstance(T entity) {
         super(entity);
+    }
+
+    @Override
+    public DamageTracker getDamageTracker() {
+        return _tracker;
     }
 
     /*
@@ -234,7 +243,7 @@ public abstract class BossInstance<T extends LivingEntity> extends EnemyEntity<T
     public List<Component> getRankingsComponents() {
         ArrayList<Component> rankings = new ArrayList<>();
         List<PlayerDamageEntry> entries = new ArrayList<>();
-        for (Map.Entry<Player, Integer> entry : getPlayerDamageTracker().entrySet())
+        for (var entry : this.getDamageTracker().getPlayerDamageTracker().entrySet())
             entries.add(new PlayerDamageEntry(entry.getKey(), entry.getValue()));
         entries.sort((o1, o2) -> {
             if (o1.damage() == o2.damage())
@@ -419,7 +428,7 @@ public abstract class BossInstance<T extends LivingEntity> extends EnemyEntity<T
 
         cleanupBrainTickTask();
 
-        if (getPlayerDamageTracker().isEmpty() || event.getEntity().getKiller() == null)
+        if (this.getDamageTracker().getPlayerDamageTracker().isEmpty() || event.getEntity().getKiller() == null)
             return;
 
         Player player = event.getEntity().getKiller();

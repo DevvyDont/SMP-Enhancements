@@ -27,8 +27,8 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
-import xyz.devvydont.smprpg.entity.base.EnemyEntity;
 import xyz.devvydont.smprpg.entity.base.LeveledEntity;
+import xyz.devvydont.smprpg.entity.interfaces.IDamageTrackable;
 import xyz.devvydont.smprpg.entity.player.LeveledPlayer;
 import xyz.devvydont.smprpg.events.CustomChancedItemDropSuccessEvent;
 import xyz.devvydont.smprpg.events.CustomItemDropRollEvent;
@@ -431,10 +431,10 @@ public class DropsService implements BaseService, Listener {
         involvedPlayers.put(killer, 1.0);  // Ensure killer at least gets credit for the kill
 
         // If this entity has a damage map go through all participants and add them to the involved players
-        if (entity instanceof EnemyEntity<?> enemy)
-            for (Map.Entry<Player, Integer> entry : enemy.getPlayerDamageTracker().entrySet())
+        if (entity instanceof IDamageTrackable trackable)
+            for (var entry : trackable.getDamageTracker().getPlayerDamageTracker().entrySet())
                 // Add this player damage to max hp ratio
-                involvedPlayers.put(entry.getKey(), Math.min(entry.getValue() / enemy.getMaxHp(), 1.0));
+                involvedPlayers.put(entry.getKey(), Math.min(entry.getValue() / entity.getMaxHp(), 1.0));
 
         // Loop through every involved player
         for (Map.Entry<Player, Double> entry : involvedPlayers.entrySet()) {

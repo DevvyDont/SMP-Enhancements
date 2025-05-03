@@ -5,7 +5,10 @@ import com.destroystokyo.paper.event.entity.EntityRemoveFromWorldEvent;
 import com.destroystokyo.paper.event.player.PlayerArmorChangeEvent;
 import com.destroystokyo.paper.event.player.PlayerPostRespawnEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -26,9 +29,9 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.CustomEntityType;
-import xyz.devvydont.smprpg.entity.base.EnemyEntity;
 import xyz.devvydont.smprpg.entity.base.LeveledEntity;
 import xyz.devvydont.smprpg.entity.base.VanillaEntity;
+import xyz.devvydont.smprpg.entity.interfaces.IDamageTrackable;
 import xyz.devvydont.smprpg.entity.player.LeveledPlayer;
 import xyz.devvydont.smprpg.entity.vanilla.*;
 import xyz.devvydont.smprpg.events.LeveledEntitySpawnEvent;
@@ -474,8 +477,8 @@ public class EntityService implements BaseService, Listener {
             return;
 
         // Show the nametag and track the damage dealt if it is a monster
-        if (leveled instanceof EnemyEntity<?> enemy)
-            enemy.addDamageDealtByEntity(player, (int)event.getDamage());
+        if (leveled instanceof IDamageTrackable trackable)
+            trackable.getDamageTracker().addDamageDealtByEntity(player, (int)event.getDamage());
 
         leveled.brightenNametag();
     }

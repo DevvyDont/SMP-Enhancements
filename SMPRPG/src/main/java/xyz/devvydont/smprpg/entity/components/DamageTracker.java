@@ -1,4 +1,4 @@
-package xyz.devvydont.smprpg.entity.base;
+package xyz.devvydont.smprpg.entity.components;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
@@ -8,21 +8,21 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public abstract class EnemyEntity<T extends Entity> extends LeveledEntity<T> {
+/**
+ * A simple entity component that tracks how much damage other entities have done to it.
+ * Can be used to figure out what players contributed to kills, or if other entities also
+ * helped. (Such as a player's pet dog)
+ */
+public class DamageTracker {
 
     // Tracks damage done by players (and other entities if desired)
-    private Map<UUID, Integer> damageTracker = new HashMap<>();
-    private Map<UUID, Integer> hitTracker = new HashMap<>();
-
-    public EnemyEntity(Entity entity) {
-        super(entity);
-    }
+    private final Map<UUID, Integer> damageTracker = new HashMap<>();
+    private final Map<UUID, Integer> hitTracker = new HashMap<>();
 
     /**
      * Gets how much damage another entity has dealt to this entity
-     *
      * @param entity The entity we are querying damage for
-     * @return
+     * @return The amount of damage the entity did.
      */
     public int getDamageDealtByEntity(Entity entity) {
         return damageTracker.getOrDefault(entity.getUniqueId(), 0);
@@ -30,9 +30,8 @@ public abstract class EnemyEntity<T extends Entity> extends LeveledEntity<T> {
 
     /**
      * Gets how many times another entity has hit this entity.
-     *
      * @param entity The entity we are querying hits for
-     * @return
+     * @return The amount of times the entity has damaged this entity.
      */
     public int getNumberOfHitsDealtByEntity(Entity entity) {
         return hitTracker.getOrDefault(entity.getUniqueId(), 0);
@@ -40,10 +39,9 @@ public abstract class EnemyEntity<T extends Entity> extends LeveledEntity<T> {
 
     /**
      * Adds damage dealt to this entity to its tracker to be retrieved later if desired
-     *
-     * @param entity
-     * @param damage
-     * @return
+     * @param entity The entity that dealt damage.
+     * @param damage The amount of damage.
+     * @return The new amount of total damage this entity has done.
      */
     public int addDamageDealtByEntity(Entity entity, int damage) {
         int old = damageTracker.getOrDefault(entity.getUniqueId(), 0);
@@ -55,17 +53,13 @@ public abstract class EnemyEntity<T extends Entity> extends LeveledEntity<T> {
         return _new;
     }
 
-    public Map<UUID, Integer> getDamageTracker() {
-        return damageTracker;
-    }
-
     /**
      * Gets a version of the damage tracker that only contains online players at the time of execution
-     *
-     * @return
+     * @return A newly created map that only contains currently online players that have damaged this entity.
      */
     public Map<Player, Integer> getPlayerDamageTracker() {
-        Map<Player, Integer> map = new HashMap<>();
+
+        var map = new HashMap<Player, Integer>();
         for (Map.Entry<UUID, Integer> entry : damageTracker.entrySet()) {
 
             Player p = Bukkit.getPlayer(entry.getKey());
@@ -76,7 +70,5 @@ public abstract class EnemyEntity<T extends Entity> extends LeveledEntity<T> {
         }
         return map;
     }
-
-
 
 }

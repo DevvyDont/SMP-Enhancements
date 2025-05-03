@@ -17,7 +17,7 @@ import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.enchantments.CustomEnchantment;
 import xyz.devvydont.smprpg.enchantments.EnchantmentRarity;
-import xyz.devvydont.smprpg.entity.base.EnemyEntity;
+import xyz.devvydont.smprpg.entity.interfaces.IDamageTrackable;
 import xyz.devvydont.smprpg.events.CustomEntityDamageByEntityEvent;
 import xyz.devvydont.smprpg.services.EnchantmentService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
@@ -85,7 +85,7 @@ public class DoubleTapEnchantment extends CustomEnchantment implements Listener 
     }
 
     @Override
-    public @NotNull RegistryKeySet<Enchantment> getConflictingEnchantments() {
+    public @NotNull RegistryKeySet<@NotNull Enchantment> getConflictingEnchantments() {
         return RegistrySet.keySet(RegistryKey.ENCHANTMENT, EnchantmentService.FIRST_STRIKE.getTypedKey());
     }
 
@@ -96,10 +96,10 @@ public class DoubleTapEnchantment extends CustomEnchantment implements Listener 
             return;
 
         // Is this the first/second hit?
-        if (!(SMPRPG.getInstance().getEntityService().getEntityInstance(event.getDamaged()) instanceof EnemyEntity enemyEntity))
+        if (!(SMPRPG.getInstance().getEntityService().getEntityInstance(event.getDamaged()) instanceof IDamageTrackable trackable))
             return;
 
-        int numHits = enemyEntity.getNumberOfHitsDealtByEntity(event.getDealer());
+        int numHits = trackable.getDamageTracker().getNumberOfHitsDealtByEntity(event.getDealer());
         if (numHits > 1)
             return;
 

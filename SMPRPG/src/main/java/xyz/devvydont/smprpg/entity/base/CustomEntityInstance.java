@@ -11,15 +11,18 @@ import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemStack;
 import xyz.devvydont.smprpg.entity.CustomEntityType;
+import xyz.devvydont.smprpg.entity.components.DamageTracker;
+import xyz.devvydont.smprpg.entity.interfaces.IDamageTrackable;
 
 /**
  * Can be used for enemies that don't have any special functionality defined in CustomEntityType.
  * If a custom entity needs to listen and react to events, make a child class that extends this and implement
  * Listener
  */
-public class CustomEntityInstance<T extends Entity> extends EnemyEntity<T> {
+public class CustomEntityInstance<T extends Entity> extends LeveledEntity<T> implements IDamageTrackable {
 
     private final CustomEntityType entityType;
+    private final DamageTracker _tracker = new DamageTracker();
 
     /**
      * An unsafe constructor to use to allow dynamic creation of custom entities.
@@ -31,6 +34,11 @@ public class CustomEntityInstance<T extends Entity> extends EnemyEntity<T> {
     public CustomEntityInstance(Entity entity, CustomEntityType entityType) {
         super(entity);
         this.entityType = entityType;
+    }
+
+    @Override
+    public DamageTracker getDamageTracker() {
+        return _tracker;
     }
 
     @Override

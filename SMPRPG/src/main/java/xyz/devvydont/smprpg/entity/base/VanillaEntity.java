@@ -4,11 +4,13 @@ import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.*;
+import xyz.devvydont.smprpg.entity.components.DamageTracker;
+import xyz.devvydont.smprpg.entity.interfaces.IDamageTrackable;
 import xyz.devvydont.smprpg.util.attributes.EntityHelpers;
 import xyz.devvydont.smprpg.util.formatting.MinecraftStringUtils;
 
 
-public class VanillaEntity<T extends Entity> extends EnemyEntity<T> {
+public class VanillaEntity<T extends Entity> extends LeveledEntity<T> implements IDamageTrackable {
 
     // How aggresively should stats of this mob scale?
     public static final double STAT_SCALING_FACTOR = 1.0964782;
@@ -18,9 +20,16 @@ public class VanillaEntity<T extends Entity> extends EnemyEntity<T> {
 
     public static final String VANILLA_CLASS_KEY = "vanilla";
 
+    private final DamageTracker _tracker = new DamageTracker();
+
 
     public VanillaEntity(T entity) {
         super(entity);
+    }
+
+    @Override
+    public DamageTracker getDamageTracker() {
+        return _tracker;
     }
 
     @Override
