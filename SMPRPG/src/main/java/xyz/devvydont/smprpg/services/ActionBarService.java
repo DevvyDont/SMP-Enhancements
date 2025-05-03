@@ -84,7 +84,7 @@ public class ActionBarService implements BaseService, Listener {
 
         LeveledPlayer leveledPlayer = plugin.getEntityService().getPlayerInstance(player);
         int hp = (int) Math.ceil(leveledPlayer.getTotalHp());
-        int maxHP = (int) leveledPlayer.getMaxHp();
+        int maxHP = (int) Math.ceil(leveledPlayer.getMaxHp());
         TextColor color = LeveledEntity.getChatColorFromHealth(hp, maxHP);
         return ComponentUtils.create(hp + "", color)
                 .append(ComponentUtils.create("/"))
