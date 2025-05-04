@@ -214,7 +214,7 @@ public class InfernoArrow extends CustomItemBlueprint implements IHeaderDescriba
         Bukkit.broadcast(ComponentUtils.merge(
                 name,
                 ComponentUtils.create(" summoned an"),
-                boss.getDisplaynameNametagComponent(),
+                boss.getNameComponent(),
                 ComponentUtils.SYMBOL_EXCLAMATION
         ));
 

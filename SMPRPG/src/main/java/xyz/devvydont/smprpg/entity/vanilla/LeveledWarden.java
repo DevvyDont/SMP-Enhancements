@@ -7,6 +7,7 @@ import org.bukkit.entity.Warden;
 import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.entity.base.BossInstance;
 import xyz.devvydont.smprpg.entity.base.VanillaEntity;
+import xyz.devvydont.smprpg.entity.components.EntityConfiguration;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.items.ChancedItemDrop;
@@ -34,18 +35,12 @@ public class LeveledWarden extends BossInstance<Warden> {
     }
 
     @Override
-    public int getDefaultLevel() {
-        return 100;
-    }
-
-    @Override
-    public double calculateBaseHealth() {
-        return 250_000_000;
-    }
-
-    @Override
-    public double calculateBaseAttackDamage() {
-        return 100_000;
+    public EntityConfiguration getDefaultConfiguration() {
+        return EntityConfiguration.builder()
+                .withLevel(100)
+                .withHealth(250_000_000)
+                .withDamage(200_000)
+                .build();
     }
 
     @Override

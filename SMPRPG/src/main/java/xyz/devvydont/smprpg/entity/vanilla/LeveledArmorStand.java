@@ -31,17 +31,8 @@ public class LeveledArmorStand extends VanillaEntity<ArmorStand> {
     }
 
     @Override
-    public int getDefaultLevel() {
-        return 1;
-    }
-
-    @Override
     public void setup() {
         super.setup();
     }
 
-    @Override
-    public double calculateBaseHealth() {
-        return 5;
-    }
 }

@@ -235,7 +235,7 @@ public class BlazeBoss extends CustomBossInstance<Blaze> implements Listener {
             var effect = new OverheatingEffect(_plugin.getSpecialEffectsService(), player, 10);
             var msg = ComponentUtils.merge(
                     ComponentUtils.create("From "),
-                    getDisplaynameNametagComponent(), ComponentUtils.create(": "),
+                    getNameComponent(), ComponentUtils.create(": "),
                     ComponentUtils.create("\"Your mortal alchemy reeks of fear. Let the fire you sought to tame now consume you.\"", NamedTextColor.RED)
             ).hoverEvent(HoverEvent.showText(ComponentUtils.merge(
                     ComponentUtils.create("You were punished for being under the effect of "),
@@ -261,11 +261,11 @@ public class BlazeBoss extends CustomBossInstance<Blaze> implements Listener {
             var effect = new TetheredEffect(_plugin.getSpecialEffectsService(), player, getEntity(), 5);
             var msg = ComponentUtils.merge(
                     ComponentUtils.create("From "),
-                    getDisplaynameNametagComponent(), ComponentUtils.create(": "),
+                    getNameComponent(), ComponentUtils.create(": "),
                     ComponentUtils.create("\"The fire has marked you. Now, it must draw you home. Do not avert your gaze.\"", NamedTextColor.RED)
             ).hoverEvent(HoverEvent.showText(ComponentUtils.merge(
                 ComponentUtils.create("The "),
-                    getDisplaynameNametagComponent(),
+                    getNameComponent(),
                     ComponentUtils.create(" managed to hit you directly with a "),
                     ComponentUtils.create("Phoenix fireball", NamedTextColor.RED),
                     ComponentUtils.create("! If you do not remove the "),

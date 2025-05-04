@@ -31,17 +31,8 @@ public class LeveledDisplay extends VanillaEntity<Display> {
     }
 
     @Override
-    public int getDefaultLevel() {
-        return 1;
-    }
-
-    @Override
     public void setup() {
         super.setup();
     }
 
-    @Override
-    public double calculateBaseHealth() {
-        return 5;
-    }
 }

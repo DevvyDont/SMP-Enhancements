@@ -298,12 +298,12 @@ public class EntitySpawner extends CustomEntityInstance<Entity> implements Liste
     }
 
     @Override
-    public Component generateNametagComponent() {
+    public Component getPowerComponent() {
         return ComponentUtils.EMPTY;
     }
 
     @Override
-    public Component getHealthNametagComponent() {
+    public Component getHealthComponent() {
         return ComponentUtils.EMPTY;
     }
 

@@ -1,8 +1,6 @@
 package xyz.devvydont.smprpg.entity.vanilla;
 
 import net.kyori.adventure.bossbar.BossBar;
-import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Material;
 import org.bukkit.entity.ElderGuardian;
 import org.bukkit.entity.EntityType;
@@ -10,6 +8,7 @@ import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.base.BossInstance;
 import xyz.devvydont.smprpg.entity.base.VanillaEntity;
+import xyz.devvydont.smprpg.entity.components.EntityConfiguration;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.items.ChancedItemDrop;
@@ -31,21 +30,6 @@ public class LeveledElderGuardian extends BossInstance<ElderGuardian> {
     }
 
     @Override
-    public int getDefaultLevel() {
-        return 20;
-    }
-
-    @Override
-    public double calculateBaseHealth() {
-        return 125_000;
-    }
-
-    @Override
-    public double calculateBaseAttackDamage() {
-        return 90;
-    }
-
-    @Override
     public String getClassKey() {
         return VanillaEntity.VANILLA_CLASS_KEY;
     }
@@ -61,8 +45,12 @@ public class LeveledElderGuardian extends BossInstance<ElderGuardian> {
     }
 
     @Override
-    public TextColor determineNametagColor() {
-        return NamedTextColor.DARK_PURPLE;
+    public EntityConfiguration getDefaultConfiguration() {
+        return EntityConfiguration.builder()
+                .withLevel(20)
+                .withHealth(125_000)
+                .withDamage(90)
+                .build();
     }
 
     @Override

@@ -43,7 +43,7 @@ public abstract class NPCEntity<T extends LivingEntity> extends CustomEntityInst
     public abstract String getEntityName();
 
     @Override
-    public TextColor determineNametagColor() {
+    public TextColor getNameColor() {
         return NamedTextColor.WHITE;
     }
 
@@ -53,7 +53,7 @@ public abstract class NPCEntity<T extends LivingEntity> extends CustomEntityInst
      * @return
      */
     @Override
-    public Component generateNametagComponent() {
+    public Component getPowerComponent() {
         return ComponentUtils.EMPTY
             .append(ComponentUtils.SYMBOL_BRACKET_LEFT)
             .append(ComponentUtils.create("NPC", NamedTextColor.YELLOW))
@@ -66,7 +66,7 @@ public abstract class NPCEntity<T extends LivingEntity> extends CustomEntityInst
      * @return
      */
     @Override
-    public Component getHealthNametagComponent() {
+    public Component getHealthComponent() {
         return ComponentUtils.EMPTY;
     }
 

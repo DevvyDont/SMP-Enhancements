@@ -17,6 +17,7 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.base.LeveledEntity;
+import xyz.devvydont.smprpg.entity.components.EntityConfiguration;
 import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
 import xyz.devvydont.smprpg.items.interfaces.IAttributeItem;
 import xyz.devvydont.smprpg.skills.SkillInstance;
@@ -116,11 +117,6 @@ public class LeveledPlayer extends LeveledEntity<Player> implements Listener {
     }
 
     @Override
-    public int getDefaultLevel() {
-        return getLevel();
-    }
-
-    @Override
     public int getLevel() {
 
         // If we haven't fully initialized yet we cannot get a good calculation yet
@@ -148,10 +144,10 @@ public class LeveledPlayer extends LeveledEntity<Player> implements Listener {
                 continue;
 
             SMPItemBlueprint blueprint = _plugin.getItemService().getBlueprint(item);
-            if (!(blueprint instanceof IAttributeItem attributeable))
+            if (!(blueprint instanceof IAttributeItem attributable))
                 continue;
 
-            total += attributeable.getPowerRating();
+            total += attributable.getPowerRating();
             factor += 1;
         }
 
@@ -161,58 +157,41 @@ public class LeveledPlayer extends LeveledEntity<Player> implements Listener {
     }
 
     /**
-     * The amount of base health a player has
-     *
-     * @return the starting health as an integer for a player when they first join the server
-     */
-    public int getBaseHealth() {
-
-        // Players on hard have 50 base health. Otherwise, 100.
-        return getDifficulty().equals(ProfileDifficulty.HARD) ?
-                50 :
-                100;
-    }
-
-    public int getBaseAttack() {
-        return getDifficulty().equals(ProfileDifficulty.HARD) ?
-                2 :
-                5;
-    }
-
-    /**
-     * The amount of hearts to render for the player, certain aspects can increase this
-     *
-     * @return An integer acting as the amount of HP to display to the player in half hearts.
+     * Calculates the number of half-hearts to render for the player, based on max HP.
+     * Display rules:
+     * - 100 HP = 1 full row = 20 half-hearts
+     * - 1000 HP = 2 full rows = 40 half-hearts
+     * - 2500 HP = 3 full rows = 60 half-hearts (cap)
+     * The scale is calculated in tiers:
+     * - Below 100 HP: 1 half-heart per 5 HP
+     * - Between 100–1000 HP: 1 half-heart per 40 HP above 200 (starts from 20)
+     * - Above 1000 HP: 1 half-heart per 75 HP above 1000 (starts from 40)
+     * Always rounded up to the nearest even number (Minecraft only displays full hearts).
+     * @return The health scale (number of half-hearts) to display to the client (min 2, max 60).
      */
     public int getHealthScale() {
-
-        // When someone achieves max HP of 2500, they should have 3 rows of hearts (displays as 60 hp)
-        // When someone is at starting HP of 100, they should only have 5 hearts (displays as 10 hp)
-
-        // If we are under 100 HP, we achieve 1 scale point for every 5 HP (100HP = 20 scale points)
+        float hp = (float) getMaxHp();
         int scale;
-        if (getMaxHp() < 100)
-            scale = (int) (getMaxHp() / 5);
 
-        // If we are under 1000 HP, we achieve 1 additional scale point for every 40 HP above 200 (1000HP = 40 scale points)
-        else if (getMaxHp() < 1000)
-            scale = (int) (20 + ((getMaxHp() - 200) / 40));
+        if (hp < 100) {
+            scale = Math.round(hp / 5f); // 20 at 100 HP
+        } else if (hp < 1000) {
+            scale = 20 + Math.round((hp - 200) / 40f); // 40 at 1000 HP
+        } else {
+            scale = 40 + Math.round((hp - 1000) / 75f); // 60 at 2500 HP
+        }
 
-        // If we are at anything else, we achieve 1 scale point for every 75 HP (2500HP = 60 scale points)
-        else
-            scale = (int) (40 + ((getMaxHp() - 1000) / 75));
-
-        // Never allow half hearts to show, only full hearts
+        // Round up to nearest even number to avoid half-hearts
         if (scale % 2 != 0)
             scale++;
+
         return Math.min(Math.max(2, scale), 60);
     }
 
     /**
      * The current value of HP this player's half of heart is HP wise
      * This amount of HP is used a lot for damage such as fall damage, burning, and regeneration values
-     *
-     * @return
+     * @return The amount of HP this player's half heart is currently worth.
      */
     @Override
     public double getHalfHeartValue() {
@@ -224,13 +203,13 @@ public class LeveledPlayer extends LeveledEntity<Player> implements Listener {
 
         // Update max health to 100 while maintaining their current HP
         double percent = getHealthPercentage();
-        updateBaseAttribute(Attribute.MAX_HEALTH, getBaseHealth());
+        updateBaseAttribute(Attribute.MAX_HEALTH, this._config.getBaseHealth());
 
         if (percent > .01)
             setHealthPercentage(percent);
 
         // Set mic default base attributes that players should have
-        updateBaseAttribute(Attribute.ATTACK_DAMAGE, getBaseAttack());
+        updateBaseAttribute(Attribute.ATTACK_DAMAGE, this._config.getBaseDamage());
         updateBaseAttribute(Attribute.KNOCKBACK_RESISTANCE, .05);
         updateBaseAttribute(Attribute.EXPLOSION_KNOCKBACK_RESISTANCE, .05);
         updateBaseAttribute(Attribute.SWEEPING_DAMAGE_RATIO, .05);
@@ -289,13 +268,18 @@ public class LeveledPlayer extends LeveledEntity<Player> implements Listener {
         // does nothing
     }
 
-    public Player getPlayer() {
-        return _entity;
+    @Override
+    public EntityConfiguration getDefaultConfiguration() {
+        var difficulty = getDifficulty();
+        return EntityConfiguration.builder()
+                .withLevel(0)
+                .withHealth(difficulty == ProfileDifficulty.HARD ? 50 : 100)
+                .withDamage(difficulty == ProfileDifficulty.HARD ? 2 : 5)
+                .build();
     }
 
-    @Override
-    public double calculateBaseAttackDamage() {
-        return 1.0;
+    public Player getPlayer() {
+        return _entity;
     }
 
     @Override

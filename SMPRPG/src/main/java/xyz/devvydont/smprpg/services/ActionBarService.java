@@ -10,7 +10,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import xyz.devvydont.smprpg.SMPRPG;
-import xyz.devvydont.smprpg.entity.base.LeveledEntity;
+import xyz.devvydont.smprpg.entity.EntityGlobals;
 import xyz.devvydont.smprpg.entity.player.LeveledPlayer;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.formatting.Symbols;
@@ -85,7 +85,7 @@ public class ActionBarService implements BaseService, Listener {
         LeveledPlayer leveledPlayer = plugin.getEntityService().getPlayerInstance(player);
         int hp = (int) Math.ceil(leveledPlayer.getTotalHp());
         int maxHP = (int) Math.ceil(leveledPlayer.getMaxHp());
-        TextColor color = LeveledEntity.getChatColorFromHealth(hp, maxHP);
+        TextColor color = EntityGlobals.getChatColorFromHealth(hp, maxHP);
         return ComponentUtils.create(hp + "", color)
                 .append(ComponentUtils.create("/"))
                 .append(ComponentUtils.create(maxHP + "", NamedTextColor.GREEN))

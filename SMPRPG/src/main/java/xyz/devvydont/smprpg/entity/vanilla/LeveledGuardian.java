@@ -20,11 +20,6 @@ public class LeveledGuardian extends VanillaEntity<Guardian> {
     }
 
     @Override
-    public double calculateBaseHealthMultiplier() {
-        return .6;
-    }
-
-    @Override
     public @Nullable Collection<LootDrop> getItemDrops() {
         return List.of(
                 new ChancedItemDrop(_plugin.getItemService().getCustomItem(CustomItemType.SOGGY_LETTUCE), 2, this),

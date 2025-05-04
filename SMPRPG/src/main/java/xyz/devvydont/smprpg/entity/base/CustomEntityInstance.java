@@ -12,6 +12,7 @@ import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemStack;
 import xyz.devvydont.smprpg.entity.CustomEntityType;
 import xyz.devvydont.smprpg.entity.components.DamageTracker;
+import xyz.devvydont.smprpg.entity.components.EntityConfiguration;
 import xyz.devvydont.smprpg.entity.interfaces.IDamageTrackable;
 
 /**
@@ -48,6 +49,15 @@ public class CustomEntityInstance<T extends Entity> extends LeveledEntity<T> imp
     }
 
     @Override
+    public EntityConfiguration getDefaultConfiguration() {
+        return EntityConfiguration.builder()
+                .withLevel(entityType.getLevel())
+                .withHealth(entityType.getHp())
+                .withDamage(entityType.getDamage())
+                .build();
+    }
+
+    @Override
     public int getInvincibilityTicks() {
         return 0;
     }
@@ -72,20 +82,10 @@ public class CustomEntityInstance<T extends Entity> extends LeveledEntity<T> imp
     }
 
     @Override
-    public int getDefaultLevel() {
-        return entityType.Level;
-    }
-
-    @Override
-    public double calculateBaseAttackDamage() {
-        return entityType.Damage;
-    }
-
-    @Override
     public void updateAttributes() {
-        updateBaseAttribute(Attribute.MAX_HEALTH, entityType.Hp);
+        updateBaseAttribute(Attribute.MAX_HEALTH, this._config.getBaseHealth());
+        updateBaseAttribute(Attribute.ATTACK_DAMAGE, this._config.getBaseDamage());
         heal();
-        updateBaseAttribute(Attribute.ATTACK_DAMAGE, calculateBaseAttackDamage());
     }
 
     public boolean isEntityOfType(Entity entity) {

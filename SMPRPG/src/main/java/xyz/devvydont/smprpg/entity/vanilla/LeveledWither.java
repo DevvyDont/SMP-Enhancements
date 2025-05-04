@@ -7,6 +7,7 @@ import org.bukkit.entity.Wither;
 import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.entity.base.BossInstance;
 import xyz.devvydont.smprpg.entity.base.VanillaEntity;
+import xyz.devvydont.smprpg.entity.components.EntityConfiguration;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.util.items.ChancedItemDrop;
 import xyz.devvydont.smprpg.util.items.LootDrop;
@@ -35,13 +36,12 @@ public class LeveledWither extends BossInstance<Wither> {
     }
 
     @Override
-    public int getDefaultLevel() {
-        return 40;
-    }
-
-    @Override
-    public double calculateBaseAttackDamage() {
-        return 1450;
+    public EntityConfiguration getDefaultConfiguration() {
+        return EntityConfiguration.builder()
+                .withLevel(40)
+                .withHealth(400_000)
+                .withDamage(1450)
+                .build();
     }
 
     @Override
@@ -57,11 +57,6 @@ public class LeveledWither extends BossInstance<Wither> {
     @Override
     public String getEntityName() {
         return "Wither";
-    }
-
-    @Override
-    public double calculateBaseHealth() {
-        return 400_000;
     }
 
     @Override

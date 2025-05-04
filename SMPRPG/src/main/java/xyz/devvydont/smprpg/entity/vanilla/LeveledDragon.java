@@ -11,6 +11,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.entity.base.BossInstance;
 import xyz.devvydont.smprpg.entity.base.VanillaEntity;
+import xyz.devvydont.smprpg.entity.components.EntityConfiguration;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.util.items.ChancedItemDrop;
 import xyz.devvydont.smprpg.util.items.LootDrop;
@@ -21,7 +22,7 @@ import java.util.List;
 
 public class LeveledDragon extends BossInstance<EnderDragon> {
 
-    private boolean wasSummoned = false;
+    private final boolean wasSummoned = false;
 
     public LeveledDragon(EnderDragon entity) {
         super(entity);
@@ -33,18 +34,8 @@ public class LeveledDragon extends BossInstance<EnderDragon> {
     }
 
     @Override
-    public int getDefaultLevel() {
-        return wasSummoned ? 50 : 40;
-    }
-
-    @Override
     public long getTimeLimit() {
         return wasSummoned ? 60*5 : INFINITE_TIME_LIMIT;
-    }
-
-    @Override
-    public double calculateBaseAttackDamage() {
-        return wasSummoned ? 1250 : 500;
     }
 
     @Override
@@ -62,8 +53,13 @@ public class LeveledDragon extends BossInstance<EnderDragon> {
         return "Ender Dragon";
     }
 
-    public double calculateBaseHealth() {
-        return !wasSummoned ? 1_000_000 : 3_000_000;
+    @Override
+    public EntityConfiguration getDefaultConfiguration() {
+        return EntityConfiguration.builder()
+                .withLevel(wasSummoned ? 50 : 40)
+                .withHealth(wasSummoned ? 3_000_000 : 1_000_000)
+                .withDamage(wasSummoned ? 1250 : 500)
+                .build();
     }
 
     @Override
@@ -94,7 +90,7 @@ public class LeveledDragon extends BossInstance<EnderDragon> {
             return;
 
         // Set the damage
-        e.setDamage(getBaseAttackDamage());
+        e.setDamage(this._config.getBaseDamage());
     }
 
 }

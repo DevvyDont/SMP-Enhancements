@@ -112,7 +112,7 @@ public class DifficultyService implements BaseService, Listener {
         // Set the state of the player necessary for this difficulty.
         // For now, we just have to make sure their stats are sanity checked, as everything else is dynamically handled.
         SMPRPG.getInstance().getSkillService().syncSkillAttributes(playerWrapper);
-        playerWrapper.updateAttributes();
+        playerWrapper.setConfiguration(playerWrapper.getDefaultConfiguration());
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)

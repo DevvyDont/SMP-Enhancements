@@ -7,6 +7,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.entity.CustomEntityType;
+import xyz.devvydont.smprpg.entity.components.EntityConfiguration;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 public class CustomBossInstance<T extends LivingEntity> extends BossInstance<T> {
@@ -44,25 +45,19 @@ public class CustomBossInstance<T extends LivingEntity> extends BossInstance<T> 
     }
 
     @Override
-    public int getDefaultLevel() {
-        return type.Level;
-    }
-
-    @Override
-    public double calculateBaseHealth() {
-        return type.Hp;
-    }
-
-    @Override
-    public double calculateBaseAttackDamage() {
-        return type.Damage;
-    }
-
-    @Override
     public void updateAttributes() {
-        updateBaseAttribute(Attribute.MAX_HEALTH, type.Hp);
+        updateBaseAttribute(Attribute.MAX_HEALTH, this._config.getBaseHealth());
+        updateBaseAttribute(Attribute.ATTACK_DAMAGE, this._config.getBaseDamage());
         heal();
-        updateBaseAttribute(Attribute.ATTACK_DAMAGE, calculateBaseAttackDamage());
+    }
+
+    @Override
+    public EntityConfiguration getDefaultConfiguration() {
+        return EntityConfiguration.builder()
+                .withLevel(type.Level)
+                .withHealth(type.Hp)
+                .withDamage(type.Damage)
+                .build();
     }
 
     public boolean isEntityOfType(Entity entity) {

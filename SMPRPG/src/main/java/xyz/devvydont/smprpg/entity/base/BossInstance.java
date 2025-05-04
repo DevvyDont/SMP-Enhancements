@@ -200,8 +200,8 @@ public abstract class BossInstance<T extends LivingEntity> extends LeveledEntity
 
         Bukkit.broadcast(ComponentUtils.alert(ComponentUtils.merge(
             ComponentUtils.create("The "),
-            generateNametagComponent(),
-            getDisplaynameNametagComponent(),
+            getPowerComponent(),
+            getNameComponent(),
             ComponentUtils.create(" has reigned victorious and wiped out those who challenged it.")
         )));
 
@@ -213,7 +213,7 @@ public abstract class BossInstance<T extends LivingEntity> extends LeveledEntity
     }
 
     @Override
-    public TextColor determineNametagColor() {
+    public TextColor getNameColor() {
         return NamedTextColor.DARK_PURPLE;
     }
 
@@ -278,7 +278,7 @@ public abstract class BossInstance<T extends LivingEntity> extends LeveledEntity
 
         // Add HP description, 3 lines
         lines.add(ComponentUtils.EMPTY);
-        lines.add(ComponentUtils.create("Boss Health: ").append(getHealthNametagComponent()));
+        lines.add(ComponentUtils.create("Boss Health: ").append(getHealthComponent()));
         lines.add(ComponentUtils.EMPTY);
 
         // Add damage rankings (7 lines max!)
@@ -328,11 +328,9 @@ public abstract class BossInstance<T extends LivingEntity> extends LeveledEntity
 
     @Override
     public void updateAttributes() {
-        updateBaseAttribute(Attribute.ATTACK_DAMAGE, calculateBaseAttackDamage());
-        updateBaseAttribute(Attribute.MAX_HEALTH, calculateBaseHealth());
+        updateBaseAttribute(Attribute.ATTACK_DAMAGE, this._config.getBaseDamage());
+        updateBaseAttribute(Attribute.MAX_HEALTH, this._config.getBaseHealth());
     }
-
-    public abstract double calculateBaseHealth();
 
     private Scoreboard cloneScoreboard() {
         Scoreboard scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
@@ -383,7 +381,7 @@ public abstract class BossInstance<T extends LivingEntity> extends LeveledEntity
     @Override
     public void setup() {
         super.setup();
-        scoreboard = new SimpleGlobalScoreboard(cloneScoreboard(), generateNametagComponent().append(getDisplaynameNametagComponent()));
+        scoreboard = new SimpleGlobalScoreboard(cloneScoreboard(), getPowerComponent().append(getNameComponent()));
         heal();
         bossBar = createBossBar();
         cleanupBrainTickTask();
@@ -435,7 +433,7 @@ public abstract class BossInstance<T extends LivingEntity> extends LeveledEntity
 
         // We died!!!
         Bukkit.broadcast(ComponentUtils.create("-----------------------------"));
-        Bukkit.broadcast(generateNametagComponent().append(getDisplaynameNametagComponent()).append(ComponentUtils.create(" Defeated!", determineNametagColor())));
+        Bukkit.broadcast(getPowerComponent().append(getNameComponent()).append(ComponentUtils.create(" Defeated!", getNameColor())));
         Bukkit.broadcast(ComponentUtils.EMPTY);
         var winnerChatInfo = SMPRPG.getInstance().getChatService().getPlayerInfo(player);
         Bukkit.broadcast(ComponentUtils.create(winnerChatInfo.prefix(), NamedTextColor.WHITE).append(ComponentUtils.create(player.getName(), winnerChatInfo.nameColor())).append(ComponentUtils.create(" dealt the final blow!")));

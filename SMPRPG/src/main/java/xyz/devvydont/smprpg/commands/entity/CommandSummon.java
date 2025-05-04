@@ -10,7 +10,6 @@ import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.commands.CommandBase;
 import xyz.devvydont.smprpg.entity.CustomEntityType;
-import xyz.devvydont.smprpg.entity.base.LeveledEntity;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.ArrayList;
@@ -49,14 +48,14 @@ public class CommandSummon extends CommandBase {
         // First look for a custom mob
         for (CustomEntityType type : CustomEntityType.values()) {
             if (type.name().equalsIgnoreCase(toSpawn)) {
-                LeveledEntity entity = SMPRPG.getInstance().getEntityService().spawnCustomEntity(type, commandSourceStack.getLocation());
+                var entity = SMPRPG.getInstance().getEntityService().spawnCustomEntity(type, commandSourceStack.getLocation());
                 if (entity == null) {
                     executor.sendMessage(ComponentUtils.error("Failed to spawn a " + toSpawn + ". Check console for details"));
                     return;
                 }
+                entity.setup();
                 if (level >= 0)
                     entity.setLevel(level);
-                entity.setup();
                 executor.sendMessage(ComponentUtils.success("Successfully spawned a " + toSpawn + " (lv. " + level + ")"));
                 return;
             }
@@ -67,9 +66,9 @@ public class CommandSummon extends CommandBase {
             if (type.name().equalsIgnoreCase(toSpawn)) {
                 Entity entity = commandSourceStack.getLocation().getWorld().spawnEntity(commandSourceStack.getLocation(), type, CreatureSpawnEvent.SpawnReason.CUSTOM);
                 if (level >= 0 && entity instanceof LivingEntity living) {
-                    LeveledEntity leveled = SMPRPG.getInstance().getEntityService().getEntityInstance(living);
-                    leveled.setLevel(level);
+                    var leveled = SMPRPG.getInstance().getEntityService().getEntityInstance(living);
                     leveled.setup();
+                    leveled.setLevel(level);
                 }
                 executor.sendMessage(ComponentUtils.success("Successfully spawned a " + toSpawn + " (lv. " + level + ")"));
                 return;

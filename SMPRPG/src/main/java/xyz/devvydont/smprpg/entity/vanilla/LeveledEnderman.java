@@ -7,7 +7,9 @@ import org.bukkit.entity.Enderman;
 import org.bukkit.event.Listener;
 import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
+import xyz.devvydont.smprpg.entity.EntityGlobals;
 import xyz.devvydont.smprpg.entity.base.VanillaEntity;
+import xyz.devvydont.smprpg.entity.components.EntityConfiguration;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.util.items.ChancedItemDrop;
 import xyz.devvydont.smprpg.util.items.LootDrop;
@@ -17,28 +19,31 @@ import java.util.List;
 
 public class LeveledEnderman extends VanillaEntity<Enderman> implements Listener {
 
-    public static final int MINIMUM_LEVEL = 50;
-    public static final int END_MINIMUM_LEVEL = 60;
+    public static final int MINIMUM_LEVEL = 35;
+    public static final int END_MINIMUM_LEVEL = 45;
 
     public LeveledEnderman(Enderman entity) {
         super(entity);
     }
 
-    @Override
-    public int getDefaultLevel() {
-
+    private int determineLevel() {
         int level = MINIMUM_LEVEL;
 
         if (_entity.getWorld().getEnvironment().equals(World.Environment.THE_END))
             level = END_MINIMUM_LEVEL;
 
-        level += getLevelDistanceBoost();
-        return Math.min(level, 99);
+        level += EntityGlobals.getLevelDistanceBoost(_entity.getLocation());
+        return Math.min(level, EntityGlobals.NATURAL_ENTITY_LEVEL_CAP);
     }
 
     @Override
-    public double calculateBaseHealthMultiplier() {
-        return 1.2;
+    public EntityConfiguration getDefaultConfiguration() {
+        var level = determineLevel();
+        return EntityConfiguration.builder()
+                .withLevel(level)
+                .withDamage(EntityGlobals.calculateExpectedEntityEhp(level) / 6)
+                .withHealth((int)(EntityGlobals.calculateExpectedEntityEhp(level) * 1.3))
+                .build();
     }
 
     public boolean canDropCrystal() {
