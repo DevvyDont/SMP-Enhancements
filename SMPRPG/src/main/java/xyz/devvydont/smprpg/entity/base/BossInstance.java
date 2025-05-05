@@ -6,7 +6,6 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -24,6 +23,7 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
+import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.entity.components.DamageTracker;
 import xyz.devvydont.smprpg.entity.interfaces.IDamageTrackable;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
@@ -328,8 +328,8 @@ public abstract class BossInstance<T extends LivingEntity> extends LeveledEntity
 
     @Override
     public void updateAttributes() {
-        updateBaseAttribute(Attribute.ATTACK_DAMAGE, this._config.getBaseDamage());
-        updateBaseAttribute(Attribute.MAX_HEALTH, this._config.getBaseHealth());
+        updateBaseAttribute(AttributeWrapper.STRENGTH, this._config.getBaseDamage());
+        updateBaseAttribute(AttributeWrapper.HEALTH, this._config.getBaseHealth());
     }
 
     private Scoreboard cloneScoreboard() {

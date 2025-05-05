@@ -1,6 +1,5 @@
 package xyz.devvydont.smprpg.services;
 
-import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -14,9 +13,8 @@ import xyz.devvydont.smprpg.skills.SkillType;
 import xyz.devvydont.smprpg.skills.listeners.*;
 import xyz.devvydont.smprpg.skills.rewards.AttributeReward;
 import xyz.devvydont.smprpg.skills.rewards.ISkillReward;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
 
-public class SkillService implements BaseService, Listener {
+public class SkillService implements IService, Listener {
 
     private final SMPRPG plugin;
 

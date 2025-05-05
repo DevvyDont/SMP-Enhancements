@@ -19,7 +19,7 @@ import xyz.devvydont.smprpg.items.blueprints.vanilla.ItemArmor;
 import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
 import xyz.devvydont.smprpg.items.interfaces.ICraftable;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
+import xyz.devvydont.smprpg.util.attributes.AttributeWrapperLegacy;
 import xyz.devvydont.smprpg.util.crafting.builders.HelmetRecipe;
 
 import java.util.Collection;
@@ -49,8 +49,8 @@ public class CobblestoneHelmet extends CustomAttributeItem implements ICraftable
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, ItemArmor.getDefenseFromMaterial(Material.DIAMOND_HELMET)),
-                new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, -0.1)
+                new AdditiveAttributeEntry(AttributeWrapperLegacy.DEFENSE, ItemArmor.getDefenseFromMaterial(Material.DIAMOND_HELMET)),
+                new ScalarAttributeEntry(AttributeWrapperLegacy.MOVEMENT_SPEED, -0.1)
         );
     }
 

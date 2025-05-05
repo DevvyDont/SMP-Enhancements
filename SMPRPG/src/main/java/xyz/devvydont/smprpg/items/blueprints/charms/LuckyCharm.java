@@ -10,7 +10,7 @@ import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomAttributeItem;
 import xyz.devvydont.smprpg.items.interfaces.IModelOverridden;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
+import xyz.devvydont.smprpg.util.attributes.AttributeWrapperLegacy;
 
 import java.util.Collection;
 import java.util.List;
@@ -29,7 +29,7 @@ public class LuckyCharm extends CustomAttributeItem implements IModelOverridden 
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new MultiplicativeAttributeEntry(AttributeWrapper.LUCK, .3)
+                new MultiplicativeAttributeEntry(AttributeWrapperLegacy.LUCK, .3)
         );
     }
 

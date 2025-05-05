@@ -6,7 +6,7 @@ import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.reforge.ReforgeBase;
 import xyz.devvydont.smprpg.reforge.ReforgeType;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
+import xyz.devvydont.smprpg.util.attributes.AttributeWrapperLegacy;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.Collection;
@@ -21,8 +21,8 @@ public class ExtendedReforge extends ReforgeBase {
     @Override
     public Collection<AttributeEntry> getAttributeModifiersWithRarity(ItemRarity rarity) {
         return List.of(
-                new ScalarAttributeEntry(AttributeWrapper.MINING_REACH, .2),
-                new ScalarAttributeEntry(AttributeWrapper.COMBAT_REACH, .2)
+                new ScalarAttributeEntry(AttributeWrapperLegacy.MINING_REACH, .2),
+                new ScalarAttributeEntry(AttributeWrapperLegacy.COMBAT_REACH, .2)
         );
     }
 

@@ -11,7 +11,7 @@ import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.items.blueprints.sets.reaver.ReaverArmorSet;
 import xyz.devvydont.smprpg.items.interfaces.ICraftable;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
+import xyz.devvydont.smprpg.util.attributes.AttributeWrapperLegacy;
 
 import java.util.Collection;
 import java.util.List;
@@ -33,10 +33,10 @@ public abstract class ForsakenArmorSet extends ReaverArmorSet implements ICrafta
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, getDefense()),
-                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, getHealth()),
-                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, getStrength()),
-                new AdditiveAttributeEntry(AttributeWrapper.KNOCKBACK_RESISTANCE, .25)
+                new AdditiveAttributeEntry(AttributeWrapperLegacy.DEFENSE, getDefense()),
+                new AdditiveAttributeEntry(AttributeWrapperLegacy.HEALTH, getHealth()),
+                new ScalarAttributeEntry(AttributeWrapperLegacy.STRENGTH, getStrength()),
+                new AdditiveAttributeEntry(AttributeWrapperLegacy.KNOCKBACK_RESISTANCE, .25)
         );
     }
 

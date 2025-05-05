@@ -8,7 +8,7 @@ import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.reforge.ReforgeBase;
 import xyz.devvydont.smprpg.reforge.ReforgeType;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
+import xyz.devvydont.smprpg.util.attributes.AttributeWrapperLegacy;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.Collection;
@@ -23,9 +23,9 @@ public class OverheatingReforge extends ReforgeBase {
     @Override
     public Collection<AttributeEntry> getAttributeModifiersWithRarity(ItemRarity rarity) {
         return List.of(
-                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, SpicyReforge.getDamageBonus(rarity) - .05),
-                new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, SwiftReforge.getAttackSpeedBuff(rarity)),
-                new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, AgileReforge.getMovementSpeedBuff(rarity))
+                new ScalarAttributeEntry(AttributeWrapperLegacy.STRENGTH, SpicyReforge.getDamageBonus(rarity) - .05),
+                new MultiplicativeAttributeEntry(AttributeWrapperLegacy.ATTACK_SPEED, SwiftReforge.getAttackSpeedBuff(rarity)),
+                new ScalarAttributeEntry(AttributeWrapperLegacy.MOVEMENT_SPEED, AgileReforge.getMovementSpeedBuff(rarity))
         );
     }
 

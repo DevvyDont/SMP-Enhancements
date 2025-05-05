@@ -26,7 +26,7 @@ import xyz.devvydont.smprpg.items.interfaces.ICraftable;
 import xyz.devvydont.smprpg.items.interfaces.ICustomTextured;
 import xyz.devvydont.smprpg.items.interfaces.IHeaderDescribable;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
+import xyz.devvydont.smprpg.util.attributes.AttributeWrapperLegacy;
 import xyz.devvydont.smprpg.util.crafting.builders.HelmetRecipe;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.formatting.Symbols;
@@ -65,7 +65,7 @@ public class MagmaHelmet extends CustomAttributeItem implements ICraftable, IHea
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 50)
+                new AdditiveAttributeEntry(AttributeWrapperLegacy.HEALTH, 50)
         );
     }
 

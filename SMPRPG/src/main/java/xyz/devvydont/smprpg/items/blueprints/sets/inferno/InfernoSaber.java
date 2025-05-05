@@ -30,7 +30,7 @@ import xyz.devvydont.smprpg.items.blueprints.vanilla.ItemAxe;
 import xyz.devvydont.smprpg.items.interfaces.ICraftable;
 import xyz.devvydont.smprpg.items.interfaces.IHeaderDescribable;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
+import xyz.devvydont.smprpg.util.attributes.AttributeWrapperLegacy;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.items.AbilityUtil;
 
@@ -67,9 +67,9 @@ public class InfernoSaber extends CustomAttributeItem implements IHeaderDescriba
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, ItemAxe.getAxeDamage(Material.NETHERITE_AXE)),
-                new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, -.6),
-                new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, .25)
+                new AdditiveAttributeEntry(AttributeWrapperLegacy.STRENGTH, ItemAxe.getAxeDamage(Material.NETHERITE_AXE)),
+                new MultiplicativeAttributeEntry(AttributeWrapperLegacy.ATTACK_SPEED, -.6),
+                new ScalarAttributeEntry(AttributeWrapperLegacy.MOVEMENT_SPEED, .25)
         );
     }
 

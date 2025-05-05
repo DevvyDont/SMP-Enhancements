@@ -9,29 +9,29 @@ import org.bukkit.inventory.EquipmentSlotGroup;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.player.ProfileDifficulty;
 import xyz.devvydont.smprpg.skills.SkillType;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
+import xyz.devvydont.smprpg.util.attributes.AttributeWrapperLegacy;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 public class AttributeReward implements ISkillReward {
 
-    protected AttributeWrapper attribute;
+    protected AttributeWrapperLegacy attribute;
     protected AttributeModifier.Operation operation;
 
     protected double amount;
     protected double previousAmount;
 
-    public AttributeReward(AttributeWrapper attribute, AttributeModifier.Operation operation, double amount, double previousAmount) {
+    public AttributeReward(AttributeWrapperLegacy attribute, AttributeModifier.Operation operation, double amount, double previousAmount) {
         this.attribute = attribute;
         this.operation = operation;
         this.amount = amount;
         this.previousAmount = previousAmount;
     }
 
-    public AttributeReward(AttributeWrapper attribute, AttributeModifier.Operation operation, double amount) {
+    public AttributeReward(AttributeWrapperLegacy attribute, AttributeModifier.Operation operation, double amount) {
         this(attribute, operation, amount, 0);
     }
 
-    public AttributeWrapper getAttribute() {
+    public AttributeWrapperLegacy getAttribute() {
         return attribute;
     }
 

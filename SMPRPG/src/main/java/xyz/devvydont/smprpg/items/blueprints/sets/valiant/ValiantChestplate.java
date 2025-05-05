@@ -10,7 +10,7 @@ import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.items.interfaces.ITrimmable;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
+import xyz.devvydont.smprpg.util.attributes.AttributeWrapperLegacy;
 
 import java.util.Collection;
 import java.util.List;
@@ -25,9 +25,9 @@ public class ValiantChestplate extends ValiantArmorSet implements ITrimmable {
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 620),
-                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 390),
-                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .5)
+                new AdditiveAttributeEntry(AttributeWrapperLegacy.DEFENSE, 620),
+                new AdditiveAttributeEntry(AttributeWrapperLegacy.HEALTH, 390),
+                new ScalarAttributeEntry(AttributeWrapperLegacy.STRENGTH, .5)
         );
     }
 

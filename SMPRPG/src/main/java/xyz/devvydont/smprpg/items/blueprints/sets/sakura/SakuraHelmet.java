@@ -14,7 +14,7 @@ import xyz.devvydont.smprpg.items.interfaces.IEquippableOverride;
 import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
 import xyz.devvydont.smprpg.items.interfaces.ICraftable;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
+import xyz.devvydont.smprpg.util.attributes.AttributeWrapperLegacy;
 import xyz.devvydont.smprpg.util.crafting.builders.HelmetRecipe;
 
 import java.util.Collection;
@@ -29,7 +29,7 @@ public class SakuraHelmet extends SakuraArmorSet implements IBreakableEquipment,
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 15)
+                new AdditiveAttributeEntry(AttributeWrapperLegacy.HEALTH, 15)
         );
     }
 

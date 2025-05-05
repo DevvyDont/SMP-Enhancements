@@ -13,7 +13,7 @@ import xyz.devvydont.smprpg.items.base.CustomAttributeItem;
 import xyz.devvydont.smprpg.items.interfaces.ICraftable;
 import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
+import xyz.devvydont.smprpg.util.attributes.AttributeWrapperLegacy;
 import xyz.devvydont.smprpg.util.crafting.builders.BowRecipe;
 
 import java.util.Collection;
@@ -33,7 +33,7 @@ public class NeptuneBow extends CustomAttributeItem implements IBreakableEquipme
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, 90)
+                new AdditiveAttributeEntry(AttributeWrapperLegacy.STRENGTH, 90)
         );
     }
 

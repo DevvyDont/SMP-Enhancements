@@ -20,7 +20,7 @@ import xyz.devvydont.smprpg.util.chat.CustomChatRenderer;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.formatting.PlayerChatInformation;
 
-public class ChatService implements BaseService, Listener {
+public class ChatService implements IService, Listener {
 
 
     public static final ChatRenderer CHAT_RENDERER = new CustomChatRenderer();

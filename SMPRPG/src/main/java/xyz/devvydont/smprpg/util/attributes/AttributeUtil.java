@@ -53,27 +53,27 @@ public class AttributeUtil {
      * @param result
      * @return
      */
-    public static Component getAttributeNumber(AttributeWrapper wrapper, AttributeUtil.AttributeCalculationResult result, boolean forcePercent) {
+    public static Component getAttributeNumber(AttributeWrapperLegacy wrapper, AttributeUtil.AttributeCalculationResult result, boolean forcePercent) {
 
         TextColor color = NamedTextColor.GREEN;
 
-        if (wrapper.getAttributeType().equals(AttributeWrapper.AttributeType.POSITIVE)) {
+        if (wrapper.getAttributeType().equals(AttributeWrapperLegacy.AttributeTypeLegacy.POSITIVE)) {
             if (result.total() < 0 || (result.percentage() && result.getTotal() < 1))
                 color = NamedTextColor.RED;
-        } else if (wrapper.getAttributeType().equals(AttributeWrapper.AttributeType.NEGATIVE)) {
+        } else if (wrapper.getAttributeType().equals(AttributeWrapperLegacy.AttributeTypeLegacy.NEGATIVE)) {
             color = NamedTextColor.RED;
             if (result.total() < 0 || (result.percentage() && result.getTotal() < 1))
                 color = NamedTextColor.GREEN;
         }
 
-        if (wrapper.getAttributeType().equals(AttributeWrapper.AttributeType.SPECIAL))
+        if (wrapper.getAttributeType().equals(AttributeWrapperLegacy.AttributeTypeLegacy.SPECIAL))
             color = NamedTextColor.LIGHT_PURPLE;
 
         // Some attributes are weird and are always percents
         return ComponentUtils.create(result.formatTotal(forcePercent), color);
     }
 
-    public static Component formatAttribute(AttributeWrapper wrapper, AttributeUtil.AttributeCalculationResult result, boolean forcePercent) {
+    public static Component formatAttribute(AttributeWrapperLegacy wrapper, AttributeUtil.AttributeCalculationResult result, boolean forcePercent) {
 
         return ComponentUtils.create(wrapper.getCleanName() + ": ")
                 .append(getAttributeNumber(wrapper, result, forcePercent));
@@ -87,7 +87,7 @@ public class AttributeUtil {
      * Some attributes should force display as percents since that is how minecraft treats them. An example of this
      * is fall damage multiplier.
      */
-    public static boolean forceAttributePercentage(AttributeWrapper wrapper) {
+    public static boolean forceAttributePercentage(AttributeWrapperLegacy wrapper) {
         return forceAttributePercentage(wrapper.getAttribute());
     }
 
@@ -115,7 +115,7 @@ public class AttributeUtil {
         meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 
         // Loop through every single attribute modifier stored on this item in the order that we defined them
-        for (AttributeWrapper wrapper : AttributeWrapper.values()) {
+        for (AttributeWrapperLegacy wrapper : AttributeWrapperLegacy.values()) {
 
             // Is this attribute present on this item? If not skip it
             Collection<AttributeModifier> modifers = meta.getAttributeModifiers(wrapper.getAttribute());

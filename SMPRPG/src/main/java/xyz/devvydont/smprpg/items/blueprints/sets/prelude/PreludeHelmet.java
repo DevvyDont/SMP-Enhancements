@@ -9,7 +9,7 @@ import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
+import xyz.devvydont.smprpg.util.attributes.AttributeWrapperLegacy;
 
 import java.util.Collection;
 import java.util.List;
@@ -23,13 +23,13 @@ public class PreludeHelmet extends PreludeArmorSet {
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 700),
-                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 365),
-                new AdditiveAttributeEntry(AttributeWrapper.ARMOR, 4),
-                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .65),
-                new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, .2),
-                new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, .2),
-                new ScalarAttributeEntry(AttributeWrapper.LUCK, .45)
+                new AdditiveAttributeEntry(AttributeWrapperLegacy.DEFENSE, 700),
+                new AdditiveAttributeEntry(AttributeWrapperLegacy.HEALTH, 365),
+                new AdditiveAttributeEntry(AttributeWrapperLegacy.ARMOR, 4),
+                new ScalarAttributeEntry(AttributeWrapperLegacy.STRENGTH, .65),
+                new ScalarAttributeEntry(AttributeWrapperLegacy.MOVEMENT_SPEED, .2),
+                new MultiplicativeAttributeEntry(AttributeWrapperLegacy.ATTACK_SPEED, .2),
+                new ScalarAttributeEntry(AttributeWrapperLegacy.LUCK, .45)
         );
     }
 

@@ -14,7 +14,7 @@ import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
 import xyz.devvydont.smprpg.items.interfaces.IFooterDescribable;
 import xyz.devvydont.smprpg.items.interfaces.ITrimmable;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
+import xyz.devvydont.smprpg.util.attributes.AttributeWrapperLegacy;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.ArrayList;
@@ -38,10 +38,10 @@ public abstract class UnstableArmorSet extends CustomAttributeItem implements IT
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, (int)(randomInt(50, 500) * getStatMultiplier())),
-                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, (int)(randomInt(30, 400) * getStatMultiplier())),
-                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, randomFloat(.05f, .3f) * getStatMultiplier()),
-                new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, randomFloat(.02f, .3f) * getStatMultiplier())
+                new AdditiveAttributeEntry(AttributeWrapperLegacy.DEFENSE, (int)(randomInt(50, 500) * getStatMultiplier())),
+                new AdditiveAttributeEntry(AttributeWrapperLegacy.HEALTH, (int)(randomInt(30, 400) * getStatMultiplier())),
+                new ScalarAttributeEntry(AttributeWrapperLegacy.STRENGTH, randomFloat(.05f, .3f) * getStatMultiplier()),
+                new ScalarAttributeEntry(AttributeWrapperLegacy.MOVEMENT_SPEED, randomFloat(.02f, .3f) * getStatMultiplier())
         );
     }
 

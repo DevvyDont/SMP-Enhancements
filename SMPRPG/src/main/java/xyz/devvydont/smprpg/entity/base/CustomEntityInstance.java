@@ -10,6 +10,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemStack;
+import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.entity.CustomEntityType;
 import xyz.devvydont.smprpg.entity.components.DamageTracker;
 import xyz.devvydont.smprpg.entity.components.EntityConfiguration;
@@ -83,8 +84,8 @@ public class CustomEntityInstance<T extends Entity> extends LeveledEntity<T> imp
 
     @Override
     public void updateAttributes() {
-        updateBaseAttribute(Attribute.MAX_HEALTH, this._config.getBaseHealth());
-        updateBaseAttribute(Attribute.ATTACK_DAMAGE, this._config.getBaseDamage());
+        updateBaseAttribute(AttributeWrapper.HEALTH, this._config.getBaseHealth());
+        updateBaseAttribute(AttributeWrapper.STRENGTH, this._config.getBaseDamage());
         heal();
     }
 

@@ -5,6 +5,7 @@ public class Symbols {
     public static final String POWER = "✦";
 
     public static final String HEART = "❤";
+    public static final String MANA = "❉";
     public static final String SHIELD = "⛊";
     public static final String SKULL = "☠";
     public static final String ENCLOSED_STAR = "✪";

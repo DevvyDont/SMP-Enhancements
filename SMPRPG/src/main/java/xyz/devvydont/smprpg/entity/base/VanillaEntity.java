@@ -1,8 +1,8 @@
 package xyz.devvydont.smprpg.entity.base;
 
-import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.entity.EntityGlobals;
 import xyz.devvydont.smprpg.entity.components.DamageTracker;
 import xyz.devvydont.smprpg.entity.components.EntityConfiguration;
@@ -53,8 +53,8 @@ public class VanillaEntity<T extends Entity> extends LeveledEntity<T> implements
 
     @Override
     public void updateAttributes() {
-        updateBaseAttribute(Attribute.MAX_HEALTH, this._config.getBaseHealth());
-        updateBaseAttribute(Attribute.ATTACK_DAMAGE, this._config.getBaseDamage());
+        updateBaseAttribute(AttributeWrapper.HEALTH, this._config.getBaseHealth());
+        updateBaseAttribute(AttributeWrapper.STRENGTH, this._config.getBaseDamage());
         heal();
     }
 

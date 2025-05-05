@@ -7,7 +7,7 @@ import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.reforge.ReforgeBase;
 import xyz.devvydont.smprpg.reforge.ReforgeType;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
+import xyz.devvydont.smprpg.util.attributes.AttributeWrapperLegacy;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.Collection;
@@ -44,9 +44,9 @@ public class HeavyReforge extends ReforgeBase {
     @Override
     public Collection<AttributeEntry> getAttributeModifiersWithRarity(ItemRarity rarity) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.KNOCKBACK_RESISTANCE, getKnockbackResist(rarity)),
-                new AdditiveAttributeEntry(AttributeWrapper.EXPLOSION_KNOCKBACK_RESISTANCE, getKnockbackResist(rarity)),
-                new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, -getSpeedDebuff(rarity))
+                new AdditiveAttributeEntry(AttributeWrapperLegacy.KNOCKBACK_RESISTANCE, getKnockbackResist(rarity)),
+                new AdditiveAttributeEntry(AttributeWrapperLegacy.EXPLOSION_KNOCKBACK_RESISTANCE, getKnockbackResist(rarity)),
+                new ScalarAttributeEntry(AttributeWrapperLegacy.MOVEMENT_SPEED, -getSpeedDebuff(rarity))
         );
     }
 

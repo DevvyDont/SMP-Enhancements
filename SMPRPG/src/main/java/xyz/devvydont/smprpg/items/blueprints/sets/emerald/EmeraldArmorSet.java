@@ -16,7 +16,7 @@ import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
 import xyz.devvydont.smprpg.items.interfaces.ICraftable;
 import xyz.devvydont.smprpg.items.interfaces.ITrimmable;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
+import xyz.devvydont.smprpg.util.attributes.AttributeWrapperLegacy;
 
 import java.util.Collection;
 import java.util.List;
@@ -38,9 +38,9 @@ public abstract class EmeraldArmorSet extends CustomAttributeItem implements IBr
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, getDefense()),
-                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, getHealth()),
-                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, getStrength()/100.0)
+                new AdditiveAttributeEntry(AttributeWrapperLegacy.DEFENSE, getDefense()),
+                new AdditiveAttributeEntry(AttributeWrapperLegacy.HEALTH, getHealth()),
+                new ScalarAttributeEntry(AttributeWrapperLegacy.STRENGTH, getStrength()/100.0)
         );
     }
 

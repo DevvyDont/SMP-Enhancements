@@ -18,7 +18,7 @@ import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
 import xyz.devvydont.smprpg.items.interfaces.IHeaderDescribable;
 import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
+import xyz.devvydont.smprpg.util.attributes.AttributeWrapperLegacy;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.items.AbilityUtil;
 
@@ -47,8 +47,8 @@ public class ReaverKnife extends CustomAttributeItem implements IBreakableEquipm
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, 90),
-                new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, -.4)
+                new AdditiveAttributeEntry(AttributeWrapperLegacy.STRENGTH, 90),
+                new MultiplicativeAttributeEntry(AttributeWrapperLegacy.ATTACK_SPEED, -.4)
         );
     }
 

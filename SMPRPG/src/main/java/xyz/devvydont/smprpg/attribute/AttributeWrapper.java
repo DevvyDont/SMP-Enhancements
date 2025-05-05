@@ -1,0 +1,486 @@
+package xyz.devvydont.smprpg.attribute;
+
+import net.kyori.adventure.text.Component;
+import org.bukkit.NamespacedKey;
+import org.bukkit.attribute.Attribute;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import static net.kyori.adventure.text.format.NamedTextColor.*;
+import static xyz.devvydont.smprpg.util.formatting.ComponentUtils.create;
+import static xyz.devvydont.smprpg.util.formatting.ComponentUtils.merge;
+
+/**
+ * Contains all the possible attributes that can be associated with items, players, and entities.
+ * This functions as a way to unify minecraft's vanilla attribute system and well as add our own
+ * custom attributes that attempt to function extremely similar to how the vanilla attributes
+ * work. The goal is to keep all the ugliness confined to the attribute package of the project
+ * so that the rest of the project can simply call AttributeService.getAttribute(player, MANA).setBaseValue(100) etc.
+ * This will also allow us to go more in depth with combat attributes, allowing things like crit damage and crit % (w/o jumping)
+ */
+public enum AttributeWrapper {
+
+    // First, start with vanilla attributes. These attributes interact with the vanilla attribute system in our API.
+    // Keep in mind, if an attribute has vanilla support, it should be used over a custom one.
+    HEALTH(Attribute.MAX_HEALTH,
+            "Health",
+            AttributeCategory.COMBAT,
+            AttributeType.HELPFUL,
+            merge(
+                create("The amount of "),
+                create("health", GREEN),
+                create(" you have in half hearts.")
+            )),
+
+    DEFENSE(Attribute.ARMOR_TOUGHNESS,
+            "Defense",
+            AttributeCategory.COMBAT,
+            AttributeType.HELPFUL,
+            merge(
+                create("Amount of general "),
+                create("damage reduction", RED),
+                create(" from most sources.")
+            )),
+
+    ARMOR(Attribute.ARMOR,
+            "Armor",
+            AttributeCategory.COMBAT,
+            AttributeType.HELPFUL,
+            merge(
+                create("Amount of "),
+                create("'invincibility frames'", YELLOW),
+                create(" you receive before you can take damage again.")
+            )),
+
+    ABSORPTION(Attribute.MAX_ABSORPTION,
+            "Absorption",
+            AttributeCategory.COMBAT,
+            AttributeType.HELPFUL,
+            merge(
+                create("Amount of "),
+                create("overflow absorption health", YELLOW),
+                create("is retained with the "),
+                create("absorption", YELLOW),
+                create(" potion effect.")
+            )),
+
+    KNOCKBACK_RESISTANCE(Attribute.KNOCKBACK_RESISTANCE,
+            "Sturdiness",
+            AttributeCategory.COMBAT,
+            AttributeType.HELPFUL,
+            merge(
+                create("Reduces "),
+                create("knockback", GOLD),
+                create(" inflicted from incoming damage.")
+            )),
+
+    EXPLOSION_KNOCKBACK_RESISTANCE(Attribute.EXPLOSION_KNOCKBACK_RESISTANCE,
+            "Explosion Knockback Resistance",
+            AttributeCategory.COMBAT,
+            AttributeType.HELPFUL,
+            merge(
+                create("Reduces "),
+                create("knockback", GOLD),
+                create(" inflicted from explosions.")
+            )),
+
+    BURNING_TIME(Attribute.BURNING_TIME,
+            "Burn Time",
+            AttributeCategory.COMBAT,
+            AttributeType.PUNISHING,
+            merge(
+                create("Amount of time "),
+                create("fire ticks", RED),
+                create(" last when ignited.")
+            )),
+
+    STRENGTH(Attribute.ATTACK_DAMAGE,
+            "Strength",
+            AttributeCategory.COMBAT,
+            AttributeType.HELPFUL,
+            merge(
+                create("How much "),
+                create("base damage", RED),
+                create(" is dealt when attacking.")
+            )),
+
+    SWEEPING(Attribute.SWEEPING_DAMAGE_RATIO,
+            "Sweep Damage",
+            AttributeCategory.COMBAT,
+            AttributeType.HELPFUL,
+            merge(
+                create("How much "),
+                create("base damage", RED),
+                create(" is dealt when attacking with a "),
+                create("sweeping edge", GOLD),
+                create(" attack.")
+            )),
+
+    ATTACK_KNOCKBACK(Attribute.ATTACK_KNOCKBACK,
+            "Knockback",
+            AttributeCategory.COMBAT,
+            AttributeType.HELPFUL,
+            merge(
+                create("How much "),
+                create("outgoing knockback", GOLD),
+                create(" is applied when dealing damage.")
+            )),
+
+    ATTACK_SPEED(Attribute.ATTACK_SPEED,
+            "Recovery",
+            AttributeCategory.COMBAT,
+            AttributeType.HELPFUL,
+            merge(
+                create("How fast you "),
+                create("recover", YELLOW),
+                create(" from the attack cooldown.")
+            )),
+
+
+    MINING_SPEED(Attribute.BLOCK_BREAK_SPEED,
+            "Mining Speed",
+            AttributeCategory.FORAGING,
+            AttributeType.HELPFUL,
+            merge(
+                create("The speed at which "),
+                create("blocks", AQUA),
+                create(" can be broken.")
+            )),
+
+    MINING_EFFICIENCY(Attribute.MINING_EFFICIENCY,
+            "Mining Efficiency",
+            AttributeCategory.FORAGING,
+            AttributeType.HELPFUL,
+            merge(
+                create("The speed at which "),
+                create("blocks", AQUA),
+                create(" can be mined when using the"),
+                create(" correct tool.", GOLD)
+            )),
+
+    UNDERWATER_MINING(Attribute.SUBMERGED_MINING_SPEED,
+            "Underwater Mining Speed",
+            AttributeCategory.FORAGING,
+            AttributeType.HELPFUL,
+            merge(
+                create("The speed at which "),
+                create("blocks", AQUA),
+                create(" can be broken while"),
+                create(" underwater.", BLUE)
+            )),
+
+    MOVEMENT_SPEED(Attribute.MOVEMENT_SPEED,
+            "Speed",
+            AttributeCategory.COMBAT,
+            AttributeType.HELPFUL,
+            merge(
+                create("How quickly you "),
+                create("traverse the world", WHITE),
+                create(" on foot.")
+            )),
+
+    SNEAKING_SPEED(Attribute.SNEAKING_SPEED,
+            "Sneak Speed",
+            AttributeCategory.SPECIAL,
+            AttributeType.HELPFUL,
+            merge(
+                create("How quickly you "),
+                create("traverse the world", WHITE),
+                create(" while sneaking", GOLD),
+                create(".")
+            )),
+
+    MOVEMENT_EFFICIENCY(Attribute.MOVEMENT_EFFICIENCY,
+            "Movement Efficiency",
+            AttributeCategory.SPECIAL,
+            AttributeType.HELPFUL,
+            merge(
+                create("Decreases "),
+                create("movement penalty", RED),
+                create(" when walking on certain surfaces.")
+            )),
+
+    OXYGEN_BONUS(Attribute.OXYGEN_BONUS,
+            "Lung Capacity",
+            AttributeCategory.SPECIAL,
+            AttributeType.HELPFUL,
+            merge(
+                create("Amount of time "),
+                create("breath can be held", AQUA),
+                create(" while underwater.")
+            )),
+
+
+    WATER_MOVEMENT(Attribute.WATER_MOVEMENT_EFFICIENCY,
+            "Water Speed",
+            AttributeCategory.SPECIAL,
+            AttributeType.HELPFUL,
+            merge(
+                create("The speed of "),
+                create("traversal", WHITE),
+                create(" while underwater.")
+            )),
+
+    MINING_REACH(Attribute.BLOCK_INTERACTION_RANGE,
+            "Mining Reach",
+            AttributeCategory.FORAGING,
+            AttributeType.HELPFUL,
+            merge(
+                create("The distance at which "),
+                create("blocks", BLUE),
+                create(" can be mined.")
+            )),
+
+    COMBAT_REACH(Attribute.ENTITY_INTERACTION_RANGE,
+            "Combat Reach",
+            AttributeCategory.COMBAT,
+            AttributeType.HELPFUL,
+            merge(
+                create("The distance at which "),
+                create("entities", BLUE),
+                create(" can be attacked.")
+            )),
+
+    FOLLOW_RANGE(Attribute.FOLLOW_RANGE,
+            "Follow Range",
+            AttributeCategory.SPECIAL,
+            AttributeType.HELPFUL),
+
+    FLYING_SPEED(Attribute.FLYING_SPEED,
+            "Flying Speed",
+            AttributeCategory.SPECIAL,
+            AttributeType.HELPFUL,
+            merge(
+                create("The "),
+                create("speed", WHITE),
+                create(" of flight.")
+
+            )),
+
+    FALL_DAMAGE_MULTIPLIER(Attribute.FALL_DAMAGE_MULTIPLIER,
+            "Fall Damage",
+            AttributeCategory.SPECIAL,
+            AttributeType.PUNISHING,
+            merge(
+                create("The multiplier of incoming damage due to "),
+                create("falling", RED),
+                create(".")
+            )),
+
+    SAFE_FALL(Attribute.SAFE_FALL_DISTANCE,
+            "Safe Fall",
+            AttributeCategory.SPECIAL,
+            AttributeType.HELPFUL,
+            merge(
+                create("Affects the height at which "),
+                create("fall damage", RED),
+                create(" is ignored.")
+            )),
+
+    STEP(Attribute.FLYING_SPEED,
+            "Step",
+            AttributeCategory.SPECIAL,
+            AttributeType.HELPFUL,
+            merge(
+                create("Affects the "),
+                create("step height", LIGHT_PURPLE),
+                create(" for climbing higher without jumping.")
+            )),
+
+    GRAVITY(Attribute.GRAVITY,
+            "Gravity",
+            AttributeCategory.SPECIAL,
+            AttributeType.SPECIAL,
+            merge(
+                create("The strength of "),
+                create("gravity's influence", LIGHT_PURPLE),
+                create(" when airborne.")
+            )),
+
+    JUMP_HEIGHT(Attribute.JUMP_STRENGTH,
+            "Jump Strength",
+            AttributeCategory.SPECIAL,
+            AttributeType.SPECIAL,
+            merge(
+                create("How high "),
+                create("jumping", LIGHT_PURPLE),
+                create(" is.")
+            )),
+
+    LUCK(Attribute.LUCK,
+            "Luckiness",
+            AttributeCategory.SPECIAL,
+            AttributeType.HELPFUL,
+            merge(
+                create("Rate at which "),
+                create("rare items", LIGHT_PURPLE),
+                create(" are dropped/generated.")
+            )),
+
+    SCALE(Attribute.SCALE,
+            "Size",
+            AttributeCategory.SPECIAL,
+            AttributeType.SPECIAL,
+            merge(
+                create("How "),
+                create("big or small", LIGHT_PURPLE),
+                create(" you are.")
+            )),
+
+    ZOMBIE_REINFORCEMENTS(Attribute.SPAWN_REINFORCEMENTS,
+            "Zombie Reinforcements",
+            AttributeCategory.SPECIAL,
+            AttributeType.SPECIAL),
+
+    // Now define some custom attributes. The addition of new attributes should also be supported,
+    // as PDCs are allowed to be missing attribute enums.
+
+    INTELLIGENCE("Intelligence",
+            AttributeCategory.COMBAT,
+            AttributeType.HELPFUL,
+            merge(
+                    create("Affects the "),
+                    create("maximum mana", BLUE),
+                    create(" available and the effectiveness of"),
+                    create(" magic", LIGHT_PURPLE),
+                    create(" and "),
+                    create("abilities", GOLD),
+                    create(".")
+            )),
+
+    REGENERATION("Regeneration",
+            AttributeCategory.COMBAT,
+            AttributeType.HELPFUL,
+            merge(
+               create("Affects the amount of health received from passive"),
+               create(" health regeneration", RED),
+               create(".")
+            )),
+
+    ;
+
+    @Nullable
+    public static AttributeWrapper fromKey(NamespacedKey attributeKey) {
+
+        if (!attributeKey.getNamespace().equals("smprpg"))
+            return null;
+        try {
+            return AttributeWrapper.valueOf(attributeKey.getKey().toUpperCase());
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
+    }
+    
+    @Nullable
+    private Attribute _vanillaAttribute = null;
+    
+    @NotNull
+    public final String DisplayName;
+    
+    @Nullable
+    public final Component Description;
+    
+    @NotNull
+    public final AttributeCategory Category;
+    
+    @NotNull
+    public final AttributeType Type;
+
+    @NotNull
+    private final NamespacedKey _key;
+
+    /**
+     * Builds an attribute. This is called for either custom or vanilla ones.
+     * @param displayName The safe display name to render on components in game.
+     * @param category The category of the attribute for organization.
+     * @param type The type of attribute, (helpful, harmful?)
+     * @param description An explanation of what this attribute does.
+     */
+    AttributeWrapper(@NotNull String displayName,
+                     @NotNull AttributeCategory category,
+                     @NotNull AttributeType type,
+                     @Nullable Component description) {
+        this.DisplayName = displayName;
+        this.Category = category;
+        this.Type = type;
+        this.Description = description;
+        _key = new NamespacedKey("smprpg", this.name().toLowerCase());
+    }
+
+    /**
+     * Builds an attribute without a description.
+     * Some attributes don't exactly need a description, but every attribute probably should just to be safe.
+     * @param displayName The safe display name to render on components in game.
+     * @param category The category of the attribute for organization.
+     * @param type The type of attribute, (helpful, harmful?)
+     */
+    AttributeWrapper(@NotNull String displayName,
+                     @NotNull AttributeCategory category,
+                     @NotNull AttributeType type) {
+        this(displayName, category, type, null);
+    }
+    
+    /**
+     * Builds an attribute that is considered vanilla, meaning we are just wrapping over an already existing attribute.
+     * @param vanillaAttribute The vanilla attribute type.
+     * @param displayName The safe display name to render on components in game.
+     * @param category The category of the attribute for organization.
+     * @param type The type of attribute, (helpful, harmful?)
+     * @param description An explanation of what this attribute does.
+     */
+    AttributeWrapper(@NotNull Attribute vanillaAttribute,
+                     String displayName,
+                     AttributeCategory category,
+                     AttributeType type,
+                     Component description) {
+        this(displayName, category, type, description);
+        _vanillaAttribute = vanillaAttribute;
+    }
+
+    /**
+     * Builds an attribute that is considered vanilla, but omits the description.
+     * @param vanillaAttribute The vanilla attribute type.
+     * @param displayName The safe display name to render on components in game.
+     * @param category The category of the attribute for organization.
+     * @param type The type of attribute, (helpful, harmful?)
+     */
+    AttributeWrapper(Attribute vanillaAttribute, String displayName, AttributeCategory category, AttributeType type) {
+        this(displayName, category, type, create("This attribute does not have a description."));
+    }
+
+
+
+    /**
+     * Checks if this is simply a wrapper for a vanilla attribute.
+     * @return True if this is a vanilla attribute wrapper.
+     */
+    public boolean isVanilla() {
+        return _vanillaAttribute != null;
+    }
+
+    /**
+     * Checks if this is a custom and new attribute.
+     * @return True if this is a custom attribute.
+     */
+    public boolean isCustom() {
+        return !isVanilla();
+    }
+
+    /**
+     * Gets the wrapped attribute this attribute refers to.
+     * Keep in mind, this will only return non-null values when isVanilla() is true.
+     * @return The vanilla attribute this instance is wrapping. Returns null if this is a custom attribute.
+     */
+    @Nullable
+    public Attribute getWrappedAttribute() {
+        return _vanillaAttribute;
+    }
+
+    /**
+     * Retrieve the unique key for this attribute. Useful for persistent data containers.
+     * @return A valid unique identifier for this attribute.
+     */
+    public @NotNull NamespacedKey key() {
+        return _key;
+    }
+}

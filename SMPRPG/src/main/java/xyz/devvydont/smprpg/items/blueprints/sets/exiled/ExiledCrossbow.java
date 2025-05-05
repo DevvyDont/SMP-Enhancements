@@ -11,7 +11,7 @@ import xyz.devvydont.smprpg.items.base.CustomAttributeItem;
 import xyz.devvydont.smprpg.items.blueprints.vanilla.ItemAxe;
 import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
+import xyz.devvydont.smprpg.util.attributes.AttributeWrapperLegacy;
 
 import java.util.Collection;
 import java.util.List;
@@ -25,7 +25,7 @@ public class ExiledCrossbow extends CustomAttributeItem implements IBreakableEqu
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, ItemAxe.getAxeDamage(Material.DIAMOND_AXE))
+                new AdditiveAttributeEntry(AttributeWrapperLegacy.STRENGTH, ItemAxe.getAxeDamage(Material.DIAMOND_AXE))
         );
     }
 

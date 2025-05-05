@@ -15,7 +15,7 @@ import xyz.devvydont.smprpg.events.CustomItemDropRollEvent;
 import xyz.devvydont.smprpg.events.skills.SkillExperienceGainEvent;
 import xyz.devvydont.smprpg.gui.player.MenuDifficultyChooser;
 
-public class DifficultyService implements BaseService, Listener {
+public class DifficultyService implements IService, Listener {
 
     /**
      * Given a difficulty, determine the skill experience multiplier.

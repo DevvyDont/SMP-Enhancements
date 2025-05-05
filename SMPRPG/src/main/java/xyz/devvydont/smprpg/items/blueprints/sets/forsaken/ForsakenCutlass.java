@@ -30,7 +30,7 @@ import xyz.devvydont.smprpg.items.interfaces.ICraftable;
 import xyz.devvydont.smprpg.items.interfaces.IHeaderDescribable;
 import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
+import xyz.devvydont.smprpg.util.attributes.AttributeWrapperLegacy;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.items.AbilityUtil;
 
@@ -61,8 +61,8 @@ public class ForsakenCutlass extends CustomAttributeItem implements Listener, IH
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, ItemSword.getSwordDamage(Material.NETHERITE_SWORD)-10),
-                new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, -.3)
+                new AdditiveAttributeEntry(AttributeWrapperLegacy.STRENGTH, ItemSword.getSwordDamage(Material.NETHERITE_SWORD)-10),
+                new MultiplicativeAttributeEntry(AttributeWrapperLegacy.ATTACK_SPEED, -.3)
         );
     }
 

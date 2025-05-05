@@ -12,7 +12,7 @@ import xyz.devvydont.smprpg.items.interfaces.ReforgeApplicator;
 import xyz.devvydont.smprpg.reforge.ReforgeBase;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.attributes.AttributeUtil;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
+import xyz.devvydont.smprpg.util.attributes.AttributeWrapperLegacy;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.formatting.MinecraftStringUtils;
 
@@ -63,11 +63,11 @@ public abstract class ReforgeStone extends CustomItemBlueprint implements Reforg
             String percent = entry.getOperation().equals(AttributeModifier.Operation.ADD_NUMBER) && !forcePercent ? "" : "%";
             String numberSection = String.format("%s%d%s", sign, number, percent);
 
-            AttributeWrapper wrapper = AttributeWrapper.ofAttribute(entry.getAttribute());
-            NamedTextColor numberColor = wrapper.getAttributeType().equals(AttributeWrapper.AttributeType.SPECIAL) ? NamedTextColor.LIGHT_PURPLE :
-                    wrapper.getAttributeType().equals(AttributeWrapper.AttributeType.POSITIVE) && number > 0 ? NamedTextColor.GREEN : NamedTextColor.RED;
+            AttributeWrapperLegacy wrapper = AttributeWrapperLegacy.ofAttribute(entry.getAttribute());
+            NamedTextColor numberColor = wrapper.getAttributeType().equals(AttributeWrapperLegacy.AttributeTypeLegacy.SPECIAL) ? NamedTextColor.LIGHT_PURPLE :
+                    wrapper.getAttributeType().equals(AttributeWrapperLegacy.AttributeTypeLegacy.POSITIVE) && number > 0 ? NamedTextColor.GREEN : NamedTextColor.RED;
             Component numberComponent = ComponentUtils.create(numberSection, numberColor);
-            lines.add(ComponentUtils.create(AttributeWrapper.ofAttribute(entry.getAttribute()).getCleanName() + ": ").append(numberComponent));
+            lines.add(ComponentUtils.create(AttributeWrapperLegacy.ofAttribute(entry.getAttribute()).getCleanName() + ": ").append(numberComponent));
         }
         lines.add(ComponentUtils.create("Example bonuses for " + DISPLAY_RARITY.name() +" item are shown.", NamedTextColor.DARK_GRAY));
         lines.add(ComponentUtils.create("Results vary based on item rarity!", NamedTextColor.DARK_GRAY));

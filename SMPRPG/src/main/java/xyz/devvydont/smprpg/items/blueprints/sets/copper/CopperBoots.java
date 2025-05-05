@@ -21,7 +21,7 @@ import xyz.devvydont.smprpg.items.interfaces.ICraftable;
 import xyz.devvydont.smprpg.items.interfaces.IDyeable;
 import xyz.devvydont.smprpg.items.interfaces.ITrimmable;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
+import xyz.devvydont.smprpg.util.attributes.AttributeWrapperLegacy;
 import xyz.devvydont.smprpg.util.crafting.builders.BootsRecipe;
 
 import java.util.Collection;
@@ -36,9 +36,9 @@ public class CopperBoots extends CustomAttributeItem implements IBreakableEquipm
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, ItemArmor.getDefenseFromMaterial(Material.LEATHER_BOOTS)),
-                new ScalarAttributeEntry(AttributeWrapper.MINING_EFFICIENCY, .05),
-                new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, .02)
+                new AdditiveAttributeEntry(AttributeWrapperLegacy.DEFENSE, ItemArmor.getDefenseFromMaterial(Material.LEATHER_BOOTS)),
+                new ScalarAttributeEntry(AttributeWrapperLegacy.MINING_EFFICIENCY, .05),
+                new ScalarAttributeEntry(AttributeWrapperLegacy.MOVEMENT_SPEED, .02)
         );
     }
 

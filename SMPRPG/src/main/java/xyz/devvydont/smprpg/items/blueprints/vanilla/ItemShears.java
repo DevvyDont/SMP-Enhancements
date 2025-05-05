@@ -11,7 +11,7 @@ import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
 import xyz.devvydont.smprpg.items.base.VanillaAttributeItem;
 import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
+import xyz.devvydont.smprpg.util.attributes.AttributeWrapperLegacy;
 
 import java.util.Collection;
 import java.util.List;
@@ -30,7 +30,7 @@ public class ItemShears extends VanillaAttributeItem implements IBreakableEquipm
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, 5),
+                new AdditiveAttributeEntry(AttributeWrapperLegacy.STRENGTH, 5),
                 new MultiplicativeAttributeEntry(Attribute.ATTACK_SPEED, -.1)
         );
     }

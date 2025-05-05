@@ -59,7 +59,7 @@ import xyz.devvydont.smprpg.util.formatting.Symbols;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
-public class ItemService implements BaseService, Listener {
+public class ItemService implements IService, Listener {
 
     // Integer to tag items with whenever we update them to prevent unnecessary work
     public static final int VERSION = 1;

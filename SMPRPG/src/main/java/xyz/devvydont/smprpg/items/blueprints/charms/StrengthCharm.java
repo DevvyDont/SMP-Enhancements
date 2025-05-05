@@ -10,7 +10,7 @@ import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomAttributeItem;
 import xyz.devvydont.smprpg.items.interfaces.IModelOverridden;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
+import xyz.devvydont.smprpg.util.attributes.AttributeWrapperLegacy;
 
 import java.util.Collection;
 import java.util.List;
@@ -29,7 +29,7 @@ public class StrengthCharm extends CustomAttributeItem implements IModelOverridd
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .3)
+                new ScalarAttributeEntry(AttributeWrapperLegacy.STRENGTH, .3)
         );
     }
 

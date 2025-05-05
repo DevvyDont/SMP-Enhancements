@@ -23,7 +23,7 @@ import xyz.devvydont.smprpg.listeners.EntityDamageCalculatorService;
 import xyz.devvydont.smprpg.services.EntityService;
 import xyz.devvydont.smprpg.skills.SkillInstance;
 import xyz.devvydont.smprpg.util.attributes.AttributeUtil;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
+import xyz.devvydont.smprpg.util.attributes.AttributeWrapperLegacy;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.formatting.MinecraftStringUtils;
 import xyz.devvydont.smprpg.util.formatting.Symbols;
@@ -135,15 +135,15 @@ public class InterfaceStats extends MenuBase {
         var def = entity.getDefense();
         var ehp = EntityDamageCalculatorService.calculateEffectiveHealth(hp, def);
 
-        for (AttributeWrapper attributeWrapper : AttributeWrapper.values()) {
+        for (AttributeWrapperLegacy attributeWrapperLegacy : AttributeWrapperLegacy.values()) {
 
             // We can skip attributes we don't have
-            AttributeInstance attribute = this.targetEntity.getAttribute(attributeWrapper.getAttribute());
+            AttributeInstance attribute = this.targetEntity.getAttribute(attributeWrapperLegacy.getAttribute());
             if (attribute == null)
                 continue;
 
             NamedTextColor numberColor = NamedTextColor.DARK_GRAY;
-            double attributeValue = AttributeUtil.getAttributeValue(attributeWrapper.getAttribute(), this.targetEntity);
+            double attributeValue = AttributeUtil.getAttributeValue(attributeWrapperLegacy.getAttribute(), this.targetEntity);
             double baseAttributeValue = attribute.getBaseValue();
             if (attributeValue > baseAttributeValue)
                 numberColor = NamedTextColor.GREEN;
@@ -151,7 +151,7 @@ public class InterfaceStats extends MenuBase {
                 numberColor = NamedTextColor.RED;
 
             NamedTextColor attributeNameColor = NamedTextColor.GOLD;
-            if (attributeWrapper.getAttributeType().equals(AttributeWrapper.AttributeType.SPECIAL))
+            if (attributeWrapperLegacy.getAttributeType().equals(AttributeWrapperLegacy.AttributeTypeLegacy.SPECIAL))
                 attributeNameColor = NamedTextColor.LIGHT_PURPLE;
 
             double deltaDiff = (baseAttributeValue - attributeValue) / baseAttributeValue * 100 * -1;
@@ -159,10 +159,10 @@ public class InterfaceStats extends MenuBase {
             if (deltaDiff == 0 || Double.isNaN(deltaDiff) || Double.isInfinite(deltaDiff))
                 deltaPercentComponent = ComponentUtils.EMPTY;
 
-            lore.add(ComponentUtils.create(attributeWrapper.getCleanName() + ": ", attributeNameColor).append(ComponentUtils.create(String.format("%.2f", attributeValue), numberColor)).append(deltaPercentComponent));
+            lore.add(ComponentUtils.create(attributeWrapperLegacy.getCleanName() + ": ", attributeNameColor).append(ComponentUtils.create(String.format("%.2f", attributeValue), numberColor)).append(deltaPercentComponent));
 
             // Append Defense/EHP if def stat
-            if (attributeWrapper.equals(AttributeWrapper.DEFENSE)) {
+            if (attributeWrapperLegacy.equals(AttributeWrapperLegacy.DEFENSE)) {
                 lore.add(ComponentUtils.merge(
                     ComponentUtils.create("- Effective Health: ", NamedTextColor.YELLOW),
                     ComponentUtils.create(String.format("%d ", (int)ehp), NamedTextColor.GREEN),
@@ -193,8 +193,8 @@ public class InterfaceStats extends MenuBase {
         ));
         lore.add(ComponentUtils.EMPTY);
 
-        for (AttributeWrapper attributeWrapper : AttributeWrapper.values())
-            lore.add(ComponentUtils.create(attributeWrapper.getCleanName(), NamedTextColor.GOLD).append(ComponentUtils.create(" - ").append(attributeWrapper.getDescription())));
+        for (AttributeWrapperLegacy attributeWrapperLegacy : AttributeWrapperLegacy.values())
+            lore.add(ComponentUtils.create(attributeWrapperLegacy.getCleanName(), NamedTextColor.GOLD).append(ComponentUtils.create(" - ").append(attributeWrapperLegacy.getDescription())));
 
         meta.lore(ComponentUtils.cleanItalics(lore));
 

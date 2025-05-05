@@ -6,7 +6,7 @@ import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
 import xyz.devvydont.smprpg.reforge.ReforgeBase;
 import xyz.devvydont.smprpg.reforge.ReforgeType;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
+import xyz.devvydont.smprpg.util.attributes.AttributeWrapperLegacy;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.Collection;
@@ -22,7 +22,7 @@ public class RapidReforge extends ReforgeBase {
     @Override
     public Collection<AttributeEntry> getAttributeModifiersWithRarity(ItemRarity rarity) {
         return List.of(
-                new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, .1 * rarity.ordinal() + .25)
+                new MultiplicativeAttributeEntry(AttributeWrapperLegacy.ATTACK_SPEED, .1 * rarity.ordinal() + .25)
         );
     }
 

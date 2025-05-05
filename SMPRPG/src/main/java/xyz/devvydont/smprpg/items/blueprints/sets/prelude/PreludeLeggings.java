@@ -9,7 +9,7 @@ import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
+import xyz.devvydont.smprpg.util.attributes.AttributeWrapperLegacy;
 
 import java.util.Collection;
 import java.util.List;
@@ -23,12 +23,12 @@ public class PreludeLeggings extends PreludeArmorSet {
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 730),
-                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 380),
-                new AdditiveAttributeEntry(AttributeWrapper.ARMOR, 6),
-                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .75),
-                new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, .2),
-                new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, .2)
+                new AdditiveAttributeEntry(AttributeWrapperLegacy.DEFENSE, 730),
+                new AdditiveAttributeEntry(AttributeWrapperLegacy.HEALTH, 380),
+                new AdditiveAttributeEntry(AttributeWrapperLegacy.ARMOR, 6),
+                new ScalarAttributeEntry(AttributeWrapperLegacy.STRENGTH, .75),
+                new ScalarAttributeEntry(AttributeWrapperLegacy.MOVEMENT_SPEED, .2),
+                new MultiplicativeAttributeEntry(AttributeWrapperLegacy.ATTACK_SPEED, .2)
         );
     }
 

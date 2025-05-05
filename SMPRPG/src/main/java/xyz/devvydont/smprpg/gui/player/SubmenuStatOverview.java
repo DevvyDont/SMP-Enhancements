@@ -10,7 +10,7 @@ import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.gui.base.MenuBase;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
+import xyz.devvydont.smprpg.util.attributes.AttributeWrapperLegacy;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.ArrayList;
@@ -38,7 +38,7 @@ public class SubmenuStatOverview extends MenuBase {
         this.setBackButton(49);
 
         var index = 0;
-        for (var attribute : AttributeWrapper.values()) {
+        for (var attribute : AttributeWrapperLegacy.values()) {
             var attributeInstance = this.player.getAttribute(attribute.getAttribute());
             if (attributeInstance == null)
                 continue;
@@ -51,7 +51,7 @@ public class SubmenuStatOverview extends MenuBase {
         }
     }
 
-    private ItemStack generateItemDisplay(AttributeWrapper attribute) {
+    private ItemStack generateItemDisplay(AttributeWrapperLegacy attribute) {
 
         var item = ItemStack.of(Material.DIAMOND_PICKAXE);
         var attributeInstance = this.player.getAttribute(attribute.getAttribute());
@@ -76,7 +76,7 @@ public class SubmenuStatOverview extends MenuBase {
         return item;
     }
 
-    private void handleClick(AttributeWrapper attribute) {
+    private void handleClick(AttributeWrapperLegacy attribute) {
 
     }
 

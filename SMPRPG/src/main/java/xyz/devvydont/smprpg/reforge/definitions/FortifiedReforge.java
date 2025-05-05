@@ -6,7 +6,7 @@ import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.reforge.ReforgeBase;
 import xyz.devvydont.smprpg.reforge.ReforgeType;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
+import xyz.devvydont.smprpg.util.attributes.AttributeWrapperLegacy;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.Collection;
@@ -21,8 +21,8 @@ public class FortifiedReforge extends ReforgeBase  {
     @Override
     public Collection<AttributeEntry> getAttributeModifiersWithRarity(ItemRarity rarity) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, (rarity.ordinal()+1)*10),
-                new AdditiveAttributeEntry(AttributeWrapper.ARMOR, 1)
+                new AdditiveAttributeEntry(AttributeWrapperLegacy.DEFENSE, (rarity.ordinal()+1)*10),
+                new AdditiveAttributeEntry(AttributeWrapperLegacy.ARMOR, 1)
         );
     }
 

@@ -16,7 +16,7 @@ import xyz.devvydont.smprpg.items.blueprints.vanilla.ItemAxe;
 import xyz.devvydont.smprpg.items.interfaces.ICraftable;
 import xyz.devvydont.smprpg.items.interfaces.ISellable;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
+import xyz.devvydont.smprpg.util.attributes.AttributeWrapperLegacy;
 
 import java.util.Collection;
 import java.util.List;
@@ -30,8 +30,8 @@ public class InfernoShortbow extends CustomShortbow implements ICraftable, ISell
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, ItemAxe.getAxeDamage(Material.NETHERITE_AXE)-10),
-                new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, -.4)
+                new AdditiveAttributeEntry(AttributeWrapperLegacy.STRENGTH, ItemAxe.getAxeDamage(Material.NETHERITE_AXE)-10),
+                new MultiplicativeAttributeEntry(AttributeWrapperLegacy.ATTACK_SPEED, -.4)
         );
     }
 

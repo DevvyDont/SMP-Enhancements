@@ -13,7 +13,7 @@ import xyz.devvydont.smprpg.enchantments.base.AttributeEnchantment;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeModifierType;
 import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
+import xyz.devvydont.smprpg.util.attributes.AttributeWrapperLegacy;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.Collection;
@@ -80,7 +80,7 @@ public class ClimbingEnchantment extends CustomEnchantment implements AttributeE
     @Override
     public Collection<AttributeEntry> getHeldAttributes() {
         return List.of(
-                new ScalarAttributeEntry(AttributeWrapper.STEP, getStepIncrease(getLevel()))
+                new ScalarAttributeEntry(AttributeWrapperLegacy.STEP, getStepIncrease(getLevel()))
         );
     }
 

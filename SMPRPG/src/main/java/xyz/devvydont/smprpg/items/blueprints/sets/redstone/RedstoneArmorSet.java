@@ -20,7 +20,7 @@ import xyz.devvydont.smprpg.items.interfaces.ICraftable;
 import xyz.devvydont.smprpg.items.interfaces.IDyeable;
 import xyz.devvydont.smprpg.items.interfaces.ITrimmable;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
+import xyz.devvydont.smprpg.util.attributes.AttributeWrapperLegacy;
 
 import java.util.Collection;
 import java.util.List;
@@ -49,7 +49,7 @@ public abstract class RedstoneArmorSet extends CustomAttributeItem implements IB
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, getDefense()),
+                new AdditiveAttributeEntry(AttributeWrapperLegacy.DEFENSE, getDefense()),
                 new ScalarAttributeEntry(Attribute.MOVEMENT_SPEED, MOVEMENT_BUFF),
                 new MultiplicativeAttributeEntry(Attribute.ATTACK_SPEED, ATTACK_BUFF),
                 new ScalarAttributeEntry(Attribute.MINING_EFFICIENCY, MINING_BUFF)

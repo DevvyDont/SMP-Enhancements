@@ -4,7 +4,6 @@ import io.papermc.paper.registry.RegistryAccess;
 import io.papermc.paper.registry.RegistryKey;
 import io.papermc.paper.registry.TypedKey;
 import io.papermc.paper.registry.keys.EnchantmentKeys;
-import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Registry;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentOffer;
@@ -34,7 +33,7 @@ import xyz.devvydont.smprpg.entity.player.LeveledPlayer;
 
 import java.util.*;
 
-public class EnchantmentService implements BaseService, Listener {
+public class EnchantmentService implements IService, Listener {
 
     // Vanilla overrides
     public final static CustomEnchantment AQUA_AFFINITY = new AquaAffinityEnchantment(EnchantmentKeys.AQUA_AFFINITY);

@@ -3,7 +3,7 @@ package xyz.devvydont.smprpg.services;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.unstable.listeners.DamageParticleRemover;
 
-public class UnstableListenersService implements BaseService {
+public class UnstableListenersService implements IService {
 
     final SMPRPG plugin;
 

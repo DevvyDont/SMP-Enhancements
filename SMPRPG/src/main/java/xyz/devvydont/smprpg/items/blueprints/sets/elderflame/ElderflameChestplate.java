@@ -9,7 +9,7 @@ import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
+import xyz.devvydont.smprpg.util.attributes.AttributeWrapperLegacy;
 import xyz.devvydont.smprpg.util.crafting.builders.ChestplateRecipe;
 
 import java.util.Collection;
@@ -24,12 +24,12 @@ public class ElderflameChestplate extends ElderflameArmorSet {
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 300),
-                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 250),
-                new AdditiveAttributeEntry(AttributeWrapper.ARMOR, 4),
-                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .5),
-                new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, .1),
-                new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, .2)
+                new AdditiveAttributeEntry(AttributeWrapperLegacy.DEFENSE, 300),
+                new AdditiveAttributeEntry(AttributeWrapperLegacy.HEALTH, 250),
+                new AdditiveAttributeEntry(AttributeWrapperLegacy.ARMOR, 4),
+                new ScalarAttributeEntry(AttributeWrapperLegacy.STRENGTH, .5),
+                new ScalarAttributeEntry(AttributeWrapperLegacy.MOVEMENT_SPEED, .1),
+                new MultiplicativeAttributeEntry(AttributeWrapperLegacy.ATTACK_SPEED, .2)
         );
     }
 

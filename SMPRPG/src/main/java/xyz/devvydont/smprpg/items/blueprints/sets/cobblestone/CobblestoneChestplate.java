@@ -21,7 +21,7 @@ import xyz.devvydont.smprpg.items.interfaces.ICraftable;
 import xyz.devvydont.smprpg.items.interfaces.IDyeable;
 import xyz.devvydont.smprpg.items.interfaces.ITrimmable;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
+import xyz.devvydont.smprpg.util.attributes.AttributeWrapperLegacy;
 import xyz.devvydont.smprpg.util.crafting.builders.ChestplateRecipe;
 
 import java.util.Collection;
@@ -36,8 +36,8 @@ public class CobblestoneChestplate extends CustomAttributeItem implements IBreak
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, ItemArmor.getDefenseFromMaterial(Material.DIAMOND_CHESTPLATE)),
-                new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, -0.1)
+                new AdditiveAttributeEntry(AttributeWrapperLegacy.DEFENSE, ItemArmor.getDefenseFromMaterial(Material.DIAMOND_CHESTPLATE)),
+                new ScalarAttributeEntry(AttributeWrapperLegacy.MOVEMENT_SPEED, -0.1)
         );
     }
 

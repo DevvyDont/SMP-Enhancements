@@ -17,7 +17,7 @@ import xyz.devvydont.smprpg.items.blueprints.vanilla.ItemSword;
 import xyz.devvydont.smprpg.items.interfaces.ICraftable;
 import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
+import xyz.devvydont.smprpg.util.attributes.AttributeWrapperLegacy;
 import xyz.devvydont.smprpg.util.items.ToolsUtil;
 
 import java.util.Collection;
@@ -33,7 +33,7 @@ public class NetheriteBow extends CustomAttributeItem implements ICraftable, IBr
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, ItemSword.getSwordDamage(Material.NETHERITE_SWORD)-10)
+                new AdditiveAttributeEntry(AttributeWrapperLegacy.STRENGTH, ItemSword.getSwordDamage(Material.NETHERITE_SWORD)-10)
         );
     }
 

@@ -14,7 +14,7 @@ import xyz.devvydont.smprpg.items.base.CustomAttributeItem;
 import xyz.devvydont.smprpg.items.interfaces.IEquippableOverride;
 import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
+import xyz.devvydont.smprpg.util.attributes.AttributeWrapperLegacy;
 
 import java.util.Collection;
 import java.util.List;
@@ -43,12 +43,12 @@ public class SingularityHelmet extends CustomAttributeItem implements IBreakable
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.ARMOR, 6),
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 600),
-                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 300),
+                new AdditiveAttributeEntry(AttributeWrapperLegacy.ARMOR, 6),
+                new AdditiveAttributeEntry(AttributeWrapperLegacy.DEFENSE, 600),
+                new AdditiveAttributeEntry(AttributeWrapperLegacy.HEALTH, 300),
                 new ScalarAttributeEntry(Attribute.KNOCKBACK_RESISTANCE, .2),
-                new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, .2),
-                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .2)
+                new ScalarAttributeEntry(AttributeWrapperLegacy.MOVEMENT_SPEED, .2),
+                new ScalarAttributeEntry(AttributeWrapperLegacy.STRENGTH, .2)
         );
     }
 

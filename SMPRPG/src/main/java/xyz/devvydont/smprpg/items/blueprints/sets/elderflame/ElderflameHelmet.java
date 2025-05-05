@@ -9,7 +9,7 @@ import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
+import xyz.devvydont.smprpg.util.attributes.AttributeWrapperLegacy;
 import xyz.devvydont.smprpg.util.crafting.builders.HelmetRecipe;
 
 import java.util.Collection;
@@ -24,13 +24,13 @@ public class ElderflameHelmet extends ElderflameArmorSet {
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 270),
-                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 225),
-                new AdditiveAttributeEntry(AttributeWrapper.ARMOR, 3),
-                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .35),
-                new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, .1),
-                new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, .1),
-                new ScalarAttributeEntry(AttributeWrapper.LUCK, .2)
+                new AdditiveAttributeEntry(AttributeWrapperLegacy.DEFENSE, 270),
+                new AdditiveAttributeEntry(AttributeWrapperLegacy.HEALTH, 225),
+                new AdditiveAttributeEntry(AttributeWrapperLegacy.ARMOR, 3),
+                new ScalarAttributeEntry(AttributeWrapperLegacy.STRENGTH, .35),
+                new ScalarAttributeEntry(AttributeWrapperLegacy.MOVEMENT_SPEED, .1),
+                new MultiplicativeAttributeEntry(AttributeWrapperLegacy.ATTACK_SPEED, .1),
+                new ScalarAttributeEntry(AttributeWrapperLegacy.LUCK, .2)
         );
     }
 

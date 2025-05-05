@@ -7,16 +7,18 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.*;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
+import org.bukkit.persistence.PersistentDataHolder;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
+import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.entity.EntityGlobals;
 import xyz.devvydont.smprpg.entity.components.EntityConfiguration;
 import xyz.devvydont.smprpg.listeners.EntityDamageCalculatorService;
 import xyz.devvydont.smprpg.util.attributes.AttributeUtil;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
+import xyz.devvydont.smprpg.util.attributes.AttributeWrapperLegacy;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.formatting.MinecraftStringUtils;
 import xyz.devvydont.smprpg.util.formatting.Symbols;
@@ -342,7 +344,7 @@ public abstract class LeveledEntity<T extends Entity> implements LootSource {
      * @param attribute The attribute to modify
      * @param value The value to set the base value of the attribute to
      */
-    protected void updateBaseAttribute(Attribute attribute, double value) {
+    private void updateBaseAttribute(Attribute attribute, double value) {
 
         if (!(_entity instanceof LivingEntity living))
             return;
@@ -356,6 +358,30 @@ public abstract class LeveledEntity<T extends Entity> implements LootSource {
 
         if (attrInstance != null)
             attrInstance.setBaseValue(value);
+    }
+
+    /**
+     * Helper method to make it quicker to set the value of an attribute on an entity.
+     * Also ensures that the entity will have the attribute registered to them if it is not already
+     * @param attribute The attribute to modify
+     * @param value The value to set the base value of the attribute to
+     */
+    protected void updateBaseAttribute(AttributeWrapper attribute, double value) {
+
+        // If this is a vanilla attribute, do it the vanilla way.
+        if (attribute.isVanilla() && attribute.getWrappedAttribute() != null) {
+            updateBaseAttribute(attribute.getWrappedAttribute(), value);
+            return;
+        }
+
+        // Otherwise, do it the custom way.
+        if (!(_entity instanceof PersistentDataHolder target))
+            return;
+
+        // Retrieve the attribute, set the value, and apply the changes.
+        var attrInstance = SMPRPG.getInstance().getAttributeService().getOrCreateAttribute(target, attribute);
+        attrInstance.setBaseValue(value);
+        SMPRPG.getInstance().getAttributeService().setAttribute(target, attribute, attrInstance);
     }
 
     /**
@@ -399,7 +425,7 @@ public abstract class LeveledEntity<T extends Entity> implements LootSource {
         if (!(getEntity() instanceof LivingEntity living))
             return 0;
 
-        return (int) AttributeUtil.getAttributeValue(AttributeWrapper.DEFENSE.getAttribute(), living);
+        return (int) AttributeUtil.getAttributeValue(AttributeWrapperLegacy.DEFENSE.getAttribute(), living);
     }
 
     /**

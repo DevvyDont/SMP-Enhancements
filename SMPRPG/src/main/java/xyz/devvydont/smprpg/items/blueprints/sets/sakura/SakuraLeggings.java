@@ -11,7 +11,7 @@ import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.interfaces.ITrimmable;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
+import xyz.devvydont.smprpg.util.attributes.AttributeWrapperLegacy;
 import xyz.devvydont.smprpg.util.crafting.builders.LeggingsRecipe;
 
 import java.util.Collection;
@@ -35,7 +35,7 @@ public class SakuraLeggings extends SakuraArmorSet implements ITrimmable {
 
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
-        return List.of(new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 20));
+        return List.of(new AdditiveAttributeEntry(AttributeWrapperLegacy.HEALTH, 20));
     }
 
     @Override

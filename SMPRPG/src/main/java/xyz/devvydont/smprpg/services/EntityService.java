@@ -42,7 +42,7 @@ import xyz.devvydont.smprpg.util.formatting.Symbols;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
-public class EntityService implements BaseService, Listener {
+public class EntityService implements IService, Listener {
 
     public static final String ENTITY_CLASS_KEY = "entity-class";
     public static final String LEVEL_KEY_STRING = "level";

@@ -13,7 +13,7 @@ import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.items.interfaces.IDyeable;
 import xyz.devvydont.smprpg.items.interfaces.ITrimmable;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
+import xyz.devvydont.smprpg.util.attributes.AttributeWrapperLegacy;
 import xyz.devvydont.smprpg.util.crafting.builders.BootsRecipe;
 
 import java.util.ArrayList;
@@ -29,8 +29,8 @@ public class SlimyBoots extends SlimyArmorSet implements IDyeable, ITrimmable {
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         List<AttributeEntry> attributes = new ArrayList<>(super.getAttributeModifiers(item));
-        attributes.add(new ScalarAttributeEntry(AttributeWrapper.FALL_DAMAGE_MULTIPLIER, -.75));
-        attributes.add(new AdditiveAttributeEntry(AttributeWrapper.SAFE_FALL, 7));
+        attributes.add(new ScalarAttributeEntry(AttributeWrapperLegacy.FALL_DAMAGE_MULTIPLIER, -.75));
+        attributes.add(new AdditiveAttributeEntry(AttributeWrapperLegacy.SAFE_FALL, 7));
         return attributes;
     }
 

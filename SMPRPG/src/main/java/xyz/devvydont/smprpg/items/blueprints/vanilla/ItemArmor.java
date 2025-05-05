@@ -10,7 +10,7 @@ import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.items.base.VanillaAttributeItem;
 import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
+import xyz.devvydont.smprpg.util.attributes.AttributeWrapperLegacy;
 import xyz.devvydont.smprpg.util.items.ToolsUtil;
 
 import java.util.ArrayList;
@@ -231,7 +231,7 @@ public class ItemArmor extends VanillaAttributeItem implements IBreakableEquipme
         // If we have damage...
         double dmg = getDamageFromMaterial(material);
         if (dmg > 0)
-            modifiers.add(new ScalarAttributeEntry(AttributeWrapper.STRENGTH, dmg));
+            modifiers.add(new ScalarAttributeEntry(AttributeWrapperLegacy.STRENGTH, dmg));
 
         // If we have no modifiers, we need to have something to get rid of the vanilla stats
         // Crappy armor won't have any attributes since defense isn't an attribute

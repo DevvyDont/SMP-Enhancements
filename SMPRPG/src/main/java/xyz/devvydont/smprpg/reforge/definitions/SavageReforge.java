@@ -8,7 +8,7 @@ import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.reforge.ReforgeBase;
 import xyz.devvydont.smprpg.reforge.ReforgeType;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
+import xyz.devvydont.smprpg.util.attributes.AttributeWrapperLegacy;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.Collection;
@@ -27,10 +27,10 @@ public class SavageReforge extends ReforgeBase {
     @Override
     public Collection<AttributeEntry> getAttributeModifiersWithRarity(ItemRarity rarity) {
         return List.of(
-                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, getDamageBoost(rarity)),
-                new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, .05),
-                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, -50 - 10*rarity.ordinal()),
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, -50 - 10*rarity.ordinal())
+                new ScalarAttributeEntry(AttributeWrapperLegacy.STRENGTH, getDamageBoost(rarity)),
+                new MultiplicativeAttributeEntry(AttributeWrapperLegacy.ATTACK_SPEED, .05),
+                new AdditiveAttributeEntry(AttributeWrapperLegacy.HEALTH, -50 - 10*rarity.ordinal()),
+                new AdditiveAttributeEntry(AttributeWrapperLegacy.DEFENSE, -50 - 10*rarity.ordinal())
         );
     }
 

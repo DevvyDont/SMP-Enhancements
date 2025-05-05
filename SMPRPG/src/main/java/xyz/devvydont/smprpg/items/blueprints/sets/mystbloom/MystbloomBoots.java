@@ -10,7 +10,7 @@ import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.items.blueprints.vanilla.ItemArmor;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
+import xyz.devvydont.smprpg.util.attributes.AttributeWrapperLegacy;
 
 import java.util.Collection;
 import java.util.List;
@@ -29,9 +29,9 @@ public class MystbloomBoots extends MystbloomArmorSet {
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, ItemArmor.getDefenseFromMaterial(Material.DIAMOND_BOOTS)),
-                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, ItemArmor.getHealthFromMaterial(Material.DIAMOND_BOOTS)+5),
-                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .1),
+                new AdditiveAttributeEntry(AttributeWrapperLegacy.DEFENSE, ItemArmor.getDefenseFromMaterial(Material.DIAMOND_BOOTS)),
+                new AdditiveAttributeEntry(AttributeWrapperLegacy.HEALTH, ItemArmor.getHealthFromMaterial(Material.DIAMOND_BOOTS)+5),
+                new ScalarAttributeEntry(AttributeWrapperLegacy.STRENGTH, .1),
                 new AdditiveAttributeEntry(Attribute.SAFE_FALL_DISTANCE, 5)
         );
     }

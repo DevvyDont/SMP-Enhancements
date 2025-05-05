@@ -2,7 +2,7 @@ package xyz.devvydont.smprpg.items.attribute;
 
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
+import xyz.devvydont.smprpg.util.attributes.AttributeWrapperLegacy;
 
 public class ScalarAttributeEntry extends AttributeEntry {
 
@@ -11,7 +11,7 @@ public class ScalarAttributeEntry extends AttributeEntry {
         super(attribute, amount, AttributeModifier.Operation.ADD_SCALAR);
     }
 
-    public ScalarAttributeEntry(AttributeWrapper attribute, double amount) {
+    public ScalarAttributeEntry(AttributeWrapperLegacy attribute, double amount) {
         super(attribute.getAttribute(), amount, AttributeModifier.Operation.ADD_SCALAR);
     }
 }

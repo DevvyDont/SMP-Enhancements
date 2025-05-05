@@ -20,13 +20,13 @@ import org.bukkit.potion.PotionEffectType;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.base.LeveledEntity;
 import xyz.devvydont.smprpg.events.CustomEntityDamageByEntityEvent;
-import xyz.devvydont.smprpg.services.BaseService;
+import xyz.devvydont.smprpg.services.IService;
 import xyz.devvydont.smprpg.services.DifficultyService;
 
 /**
  * Overrides all instances of vanilla damage that is desired to fit our new attribute logic
  */
-public class EntityDamageCalculatorService implements Listener, BaseService {
+public class EntityDamageCalculatorService implements Listener, IService {
 
     /*
      * STATIC CONSTANTS (SETTINGS)

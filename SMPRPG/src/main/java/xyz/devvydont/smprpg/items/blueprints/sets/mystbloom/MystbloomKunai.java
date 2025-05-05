@@ -14,7 +14,7 @@ import xyz.devvydont.smprpg.items.base.CustomAttributeItem;
 import xyz.devvydont.smprpg.items.blueprints.vanilla.ItemSword;
 import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
+import xyz.devvydont.smprpg.util.attributes.AttributeWrapperLegacy;
 
 import java.util.Collection;
 import java.util.List;
@@ -29,7 +29,7 @@ public class MystbloomKunai extends CustomAttributeItem implements IBreakableEqu
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
                 new AdditiveAttributeEntry(Attribute.ATTACK_DAMAGE, ItemSword.getSwordDamage(Material.DIAMOND_SWORD)-10),
-                new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, -.3),
+                new MultiplicativeAttributeEntry(AttributeWrapperLegacy.ATTACK_SPEED, -.3),
                 new ScalarAttributeEntry(Attribute.MOVEMENT_SPEED, .1)
         );
     }

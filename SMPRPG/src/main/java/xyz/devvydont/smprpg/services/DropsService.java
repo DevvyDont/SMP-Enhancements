@@ -46,7 +46,7 @@ import java.util.*;
  * - When a player dies, their items need to be protected and can only be picked up by them
  * - When an entity drops items, they drop items for whoever helped kill it so everyone gets items
  */
-public class DropsService implements BaseService, Listener {
+public class DropsService implements IService, Listener {
 
     public enum DropFlag {
         NULL,

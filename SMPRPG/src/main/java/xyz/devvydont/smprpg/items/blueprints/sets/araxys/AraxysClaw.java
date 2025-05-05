@@ -12,7 +12,7 @@ import xyz.devvydont.smprpg.items.base.CustomAttributeItem;
 import xyz.devvydont.smprpg.items.blueprints.vanilla.ItemSword;
 import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
+import xyz.devvydont.smprpg.util.attributes.AttributeWrapperLegacy;
 
 import java.util.Collection;
 import java.util.List;
@@ -26,8 +26,8 @@ public class AraxysClaw extends CustomAttributeItem implements IBreakableEquipme
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, ItemSword.getSwordDamage(Material.DIAMOND_SWORD)+30),
-                new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, -.25)
+                new AdditiveAttributeEntry(AttributeWrapperLegacy.STRENGTH, ItemSword.getSwordDamage(Material.DIAMOND_SWORD)+30),
+                new MultiplicativeAttributeEntry(AttributeWrapperLegacy.ATTACK_SPEED, -.25)
         );
     }
 
