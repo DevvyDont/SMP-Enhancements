@@ -32,6 +32,15 @@ public enum AttributeWrapper {
                 create(" you have in half hearts.")
             )),
 
+    REGENERATION("Regeneration",
+            AttributeCategory.COMBAT,
+            AttributeType.HELPFUL,
+            merge(
+                    create("Affects the amount of health received from passive"),
+                    create(" health regeneration", RED),
+                    create(".")
+            )),
+
     DEFENSE(Attribute.ARMOR_TOUGHNESS,
             "Defense",
             AttributeCategory.COMBAT,
@@ -40,6 +49,49 @@ public enum AttributeWrapper {
                 create("Amount of general "),
                 create("damage reduction", RED),
                 create(" from most sources.")
+            )),
+
+    INTELLIGENCE("Intelligence",
+            AttributeCategory.COMBAT,
+            AttributeType.HELPFUL,
+            merge(
+                    create("Affects the "),
+                    create("maximum mana", BLUE),
+                    create(" available and the effectiveness of"),
+                    create(" magic", LIGHT_PURPLE),
+                    create(" and "),
+                    create("abilities", GOLD),
+                    create(".")
+            )),
+
+    STRENGTH(Attribute.ATTACK_DAMAGE,
+            "Strength",
+            AttributeCategory.COMBAT,
+            AttributeType.HELPFUL,
+            merge(
+                    create("How much "),
+                    create("base damage", RED),
+                    create(" is dealt when attacking.")
+            )),
+
+    ATTACK_SPEED(Attribute.ATTACK_SPEED,
+            "Recovery",
+            AttributeCategory.COMBAT,
+            AttributeType.HELPFUL,
+            merge(
+                    create("How fast you "),
+                    create("recover", YELLOW),
+                    create(" from the attack cooldown.")
+            )),
+
+    MOVEMENT_SPEED(Attribute.MOVEMENT_SPEED,
+            "Speed",
+            AttributeCategory.COMBAT,
+            AttributeType.HELPFUL,
+            merge(
+                    create("How quickly you "),
+                    create("traverse the world", WHITE),
+                    create(" on foot.")
             )),
 
     ARMOR(Attribute.ARMOR,
@@ -94,15 +146,7 @@ public enum AttributeWrapper {
                 create(" last when ignited.")
             )),
 
-    STRENGTH(Attribute.ATTACK_DAMAGE,
-            "Strength",
-            AttributeCategory.COMBAT,
-            AttributeType.HELPFUL,
-            merge(
-                create("How much "),
-                create("base damage", RED),
-                create(" is dealt when attacking.")
-            )),
+
 
     SWEEPING(Attribute.SWEEPING_DAMAGE_RATIO,
             "Sweep Damage",
@@ -126,15 +170,7 @@ public enum AttributeWrapper {
                 create(" is applied when dealing damage.")
             )),
 
-    ATTACK_SPEED(Attribute.ATTACK_SPEED,
-            "Recovery",
-            AttributeCategory.COMBAT,
-            AttributeType.HELPFUL,
-            merge(
-                create("How fast you "),
-                create("recover", YELLOW),
-                create(" from the attack cooldown.")
-            )),
+
 
 
     MINING_SPEED(Attribute.BLOCK_BREAK_SPEED,
@@ -169,15 +205,7 @@ public enum AttributeWrapper {
                 create(" underwater.", BLUE)
             )),
 
-    MOVEMENT_SPEED(Attribute.MOVEMENT_SPEED,
-            "Speed",
-            AttributeCategory.COMBAT,
-            AttributeType.HELPFUL,
-            merge(
-                create("How quickly you "),
-                create("traverse the world", WHITE),
-                create(" on foot.")
-            )),
+
 
     SNEAKING_SPEED(Attribute.SNEAKING_SPEED,
             "Sneak Speed",
@@ -331,32 +359,6 @@ public enum AttributeWrapper {
             "Zombie Reinforcements",
             AttributeCategory.SPECIAL,
             AttributeType.SPECIAL),
-
-    // Now define some custom attributes. The addition of new attributes should also be supported,
-    // as PDCs are allowed to be missing attribute enums.
-
-    INTELLIGENCE("Intelligence",
-            AttributeCategory.COMBAT,
-            AttributeType.HELPFUL,
-            merge(
-                    create("Affects the "),
-                    create("maximum mana", BLUE),
-                    create(" available and the effectiveness of"),
-                    create(" magic", LIGHT_PURPLE),
-                    create(" and "),
-                    create("abilities", GOLD),
-                    create(".")
-            )),
-
-    REGENERATION("Regeneration",
-            AttributeCategory.COMBAT,
-            AttributeType.HELPFUL,
-            merge(
-               create("Affects the amount of health received from passive"),
-               create(" health regeneration", RED),
-               create(".")
-            )),
-
     ;
 
     @Nullable
