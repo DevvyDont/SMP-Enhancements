@@ -424,6 +424,13 @@ public abstract class MenuBase implements Listener {
         }
     }
 
+    public final void setBorderBottom() {
+
+        // Make all the slots in the bottom row a border.
+        for (var slotIndex = this.inventory.getSize() - 9; slotIndex < this.inventory.getSize(); slotIndex++)
+            this.setSlot(slotIndex, BORDER_NORMAL);
+    }
+
     /**
      * Creates a border which covers every slot in the menus inventory.
      */

@@ -203,7 +203,7 @@ public class LeveledPlayer extends LeveledEntity<Player> implements Listener {
         if (hp < 100) {
             scale = Math.round(hp / 5f); // 20 at 100 HP
         } else if (hp < 1000) {
-            scale = 20 + Math.round((hp - 200) / 40f); // 40 at 1000 HP
+            scale = 20 + Math.round((hp - 100) / 40f); // 40 at 1000 HP
         } else {
             scale = 40 + Math.round((hp - 1000) / 75f); // 60 at 2500 HP
         }
@@ -277,7 +277,7 @@ public class LeveledPlayer extends LeveledEntity<Player> implements Listener {
     @Override
     public void cleanup() {
         super.cleanup();
-        _manaRegenerateTask.cancel();
+        killManaTask();
     }
 
     @Override

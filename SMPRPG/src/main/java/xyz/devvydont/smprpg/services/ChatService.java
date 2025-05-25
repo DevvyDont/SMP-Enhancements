@@ -74,7 +74,7 @@ public class ChatService implements IService, Listener {
     public Component getPlayerDisplay(OfflinePlayer player) {
         var info = getPlayerInfo(player);
         return ComponentUtils.merge(
-                Component.text(info.prefix()),
+                Component.text(info.prefix(), NamedTextColor.WHITE),
                 ComponentUtils.create(player.getName(), info.nameColor())
         );
     }

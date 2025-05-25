@@ -16,7 +16,6 @@ public class VanillaEntity<T extends Entity> extends LeveledEntity<T> implements
 
     private final DamageTracker _tracker = new DamageTracker();
 
-
     public VanillaEntity(T entity) {
         super(entity);
     }
@@ -62,7 +61,7 @@ public class VanillaEntity<T extends Entity> extends LeveledEntity<T> implements
     public EntityConfiguration getDefaultConfiguration() {
         return EntityConfiguration.builder()
                 .withLevel(this.getLevel())
-                .withHealth(EntityGlobals.calculateExpectedEntityEhp(this.getLevel()))
+                .withHealth(EntityGlobals.softRoundHealth(EntityGlobals.calculateExpectedEntityEhp(this.getLevel())))
                 .withDamage(EntityGlobals.calculateExpectedEntityEhp(this.getLevel()) / EntityGlobals.ENTITY_HITS_TO_KILL_PLAYER)
                 .build();
     }

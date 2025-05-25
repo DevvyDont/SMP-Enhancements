@@ -190,7 +190,7 @@ public abstract class SMPItemBlueprint {
         lines.add(ComponentUtils.EMPTY);
         for (CustomEnchantment enchantment : SMPRPG.getInstance().getEnchantmentService().getCustomEnchantments(meta)) {
             Component name = enchantment.getEnchantment().displayName(enchantment.getLevel()).color(enchantment.getEnchantColor());
-            name = ComponentUtils.create(Symbols.ENCHANTMENT + " ", NamedTextColor.LIGHT_PURPLE).append(name);
+            name = ComponentUtils.create(Symbols.SPARKLES + " ", NamedTextColor.LIGHT_PURPLE).append(name);
             lines.add(name);
             if (meta.getEnchants().size() <= 9)
                 lines.add(enchantment.getDescription());

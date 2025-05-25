@@ -2,7 +2,9 @@ package xyz.devvydont.smprpg.attribute;
 
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.AttributeModifier;
+import org.bukkit.persistence.PersistentDataHolder;
 import xyz.devvydont.smprpg.attribute.adapters.CustomAttributeInstanceAdapter;
+import xyz.devvydont.smprpg.services.AttributeService;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -82,6 +84,18 @@ public class CustomAttributeInstance {
 
     public CustomAttributeModifierCollection getModifierCollection() {
         return new CustomAttributeModifierCollection(_modifiers.values().stream().toList());
+    }
+
+    /**
+     * Saves this container to a target's PDC mapped to a given attribute.
+     * Note that if you do not save an attribute instance, changes will not be persistent.
+     * @param target The target that needs the attribute.
+     * @param attribute The attribute to map this instance to.
+     */
+    public void save(PersistentDataHolder target, AttributeWrapper attribute) {
+        var container = AttributeService.getInstance().getAttributeContainer(target);
+        container.addAttribute(attribute, this);
+        AttributeService.getInstance().setAttributeContainer(target, container);
     }
 
     @Override

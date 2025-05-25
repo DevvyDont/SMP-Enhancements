@@ -7,31 +7,32 @@ import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import xyz.devvydont.smprpg.SMPRPG;
+import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.entity.player.ProfileDifficulty;
+import xyz.devvydont.smprpg.services.AttributeService;
 import xyz.devvydont.smprpg.skills.SkillType;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapperLegacy;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 public class AttributeReward implements ISkillReward {
 
-    protected AttributeWrapperLegacy attribute;
+    protected AttributeWrapper attribute;
     protected AttributeModifier.Operation operation;
 
     protected double amount;
     protected double previousAmount;
 
-    public AttributeReward(AttributeWrapperLegacy attribute, AttributeModifier.Operation operation, double amount, double previousAmount) {
+    public AttributeReward(AttributeWrapper attribute, AttributeModifier.Operation operation, double amount, double previousAmount) {
         this.attribute = attribute;
         this.operation = operation;
         this.amount = amount;
         this.previousAmount = previousAmount;
     }
 
-    public AttributeReward(AttributeWrapperLegacy attribute, AttributeModifier.Operation operation, double amount) {
+    public AttributeReward(AttributeWrapper attribute, AttributeModifier.Operation operation, double amount) {
         this(attribute, operation, amount, 0);
     }
 
-    public AttributeWrapperLegacy getAttribute() {
+    public AttributeWrapper getAttribute() {
         return attribute;
     }
 
@@ -58,7 +59,7 @@ public class AttributeReward implements ISkillReward {
         String old = "+" + formatNumber(_rawOld) + perc;
         String _new = "+" + formatNumber(_rawNew) + perc;
         return ComponentUtils.merge(
-                ComponentUtils.create(attribute.getCleanName() + " "),
+                ComponentUtils.create(attribute.DisplayName + " "),
                 ComponentUtils.upgrade(old, _new, NamedTextColor.GREEN)
         );
     }
@@ -75,7 +76,7 @@ public class AttributeReward implements ISkillReward {
 
     public void remove(Player player, SkillType skill) {
 
-        var attributeInstance = player.getAttribute(attribute.getAttribute());
+        var attributeInstance = AttributeService.getInstance().getAttribute(player, attribute);
         if (attributeInstance == null)
             return;
 
@@ -99,7 +100,7 @@ public class AttributeReward implements ISkillReward {
 
         remove(player, skill);
 
-        var attributeInstance = player.getAttribute(attribute.getAttribute());
+        var attributeInstance = AttributeService.getInstance().getAttribute(player, attribute);
         if (attributeInstance == null)
             return;
 

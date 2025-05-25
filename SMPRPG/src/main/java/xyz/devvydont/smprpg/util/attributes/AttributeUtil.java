@@ -11,6 +11,7 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import xyz.devvydont.smprpg.SMPRPG;
+import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.enchantments.CustomEnchantment;
 import xyz.devvydont.smprpg.enchantments.base.AttributeEnchantment;
 import xyz.devvydont.smprpg.items.ItemRarity;
@@ -19,6 +20,7 @@ import xyz.devvydont.smprpg.items.attribute.AttributeModifierType;
 import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
 import xyz.devvydont.smprpg.items.interfaces.IAttributeItem;
 import xyz.devvydont.smprpg.reforge.ReforgeBase;
+import xyz.devvydont.smprpg.services.AttributeService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.*;
@@ -41,6 +43,27 @@ public class AttributeUtil {
 
         // Armor toughness is capped at 20, so we need to actually manually check for it by analyzing armor
         if (attribute.equals(Attribute.ARMOR_TOUGHNESS) && instance.getValue() > 1)
+            return calculateAttributeBonus(instance.getModifiers(), 0).getTotal();
+
+        return instance.getValue();
+    }
+
+    /**
+     * Used to properly retrieve the value of an attribute of an entity. Some attributes are weird and require us
+     * to manually check for them because of limitations in the base game
+     *
+     * @param entity
+     * @return
+     */
+    public static double getAttributeValue(AttributeWrapper attribute, LivingEntity entity) {
+
+        // Otherwise just return the normal value
+        var instance = AttributeService.getInstance().getAttribute(entity, attribute);
+        if (instance == null)
+            return 0;
+
+        // Armor toughness is capped at 20, so we need to actually manually check for it by analyzing armor
+        if (attribute.equals(AttributeWrapper.ARMOR) && instance.getValue() > 1)
             return calculateAttributeBonus(instance.getModifiers(), 0).getTotal();
 
         return instance.getValue();

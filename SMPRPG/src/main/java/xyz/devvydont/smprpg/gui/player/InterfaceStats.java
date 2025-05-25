@@ -3,10 +3,10 @@ package xyz.devvydont.smprpg.gui.player;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -16,14 +16,15 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
-import xyz.devvydont.smprpg.entity.base.LeveledEntity;
+import xyz.devvydont.smprpg.attribute.AttributeCategory;
+import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.entity.player.LeveledPlayer;
 import xyz.devvydont.smprpg.gui.base.MenuBase;
 import xyz.devvydont.smprpg.listeners.EntityDamageCalculatorService;
+import xyz.devvydont.smprpg.services.AttributeService;
 import xyz.devvydont.smprpg.services.EntityService;
 import xyz.devvydont.smprpg.skills.SkillInstance;
 import xyz.devvydont.smprpg.util.attributes.AttributeUtil;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapperLegacy;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.formatting.MinecraftStringUtils;
 import xyz.devvydont.smprpg.util.formatting.Symbols;
@@ -54,8 +55,16 @@ public class InterfaceStats extends MenuBase {
     @Override
     protected void handleInventoryOpened(InventoryOpenEvent event) {
         // Prepare the inventory
-        var title = String.format("Statistics Viewer (%s)", targetEntity.getName());
-        event.titleOverride(ComponentUtils.create(title, NamedTextColor.BLACK));
+
+        var name = this.targetEntity instanceof Player castedPlayer ?
+                SMPRPG.getInstance().getChatService().getPlayerDisplay(castedPlayer) :
+                LegacyComponentSerializer.legacyAmpersand().deserialize(targetEntity.getName());
+
+        event.titleOverride(ComponentUtils.merge(
+                ComponentUtils.create("Statistics Viewer (", NamedTextColor.BLACK),
+                name,
+                ComponentUtils.create(")", NamedTextColor.BLACK)
+        ));
 
         // Render the UI
         this.clear();
@@ -121,7 +130,7 @@ public class InterfaceStats extends MenuBase {
     public ItemStack getStats() {
         ItemStack skull = this.getHead();
         ItemMeta meta = skull.getItemMeta();
-        LeveledEntity entity = this.entityService.getEntityInstance(this.targetEntity);
+        var entity = this.entityService.getEntityInstance(this.targetEntity);
 
         meta.displayName(this.targetEntity.name().color(NamedTextColor.AQUA).append(ComponentUtils.create("'s stats")).decoration(TextDecoration.ITALIC, false));
         List<Component> lore = new ArrayList<>();
@@ -135,15 +144,15 @@ public class InterfaceStats extends MenuBase {
         var def = entity.getDefense();
         var ehp = EntityDamageCalculatorService.calculateEffectiveHealth(hp, def);
 
-        for (AttributeWrapperLegacy attributeWrapperLegacy : AttributeWrapperLegacy.values()) {
+        for (var attributeWrapper : AttributeWrapper.values()) {
 
             // We can skip attributes we don't have
-            AttributeInstance attribute = this.targetEntity.getAttribute(attributeWrapperLegacy.getAttribute());
+            var attribute = AttributeService.getInstance().getAttribute(this.targetEntity, attributeWrapper);
             if (attribute == null)
                 continue;
 
             NamedTextColor numberColor = NamedTextColor.DARK_GRAY;
-            double attributeValue = AttributeUtil.getAttributeValue(attributeWrapperLegacy.getAttribute(), this.targetEntity);
+            double attributeValue = AttributeUtil.getAttributeValue(attributeWrapper, this.targetEntity);
             double baseAttributeValue = attribute.getBaseValue();
             if (attributeValue > baseAttributeValue)
                 numberColor = NamedTextColor.GREEN;
@@ -151,7 +160,7 @@ public class InterfaceStats extends MenuBase {
                 numberColor = NamedTextColor.RED;
 
             NamedTextColor attributeNameColor = NamedTextColor.GOLD;
-            if (attributeWrapperLegacy.getAttributeType().equals(AttributeWrapperLegacy.AttributeTypeLegacy.SPECIAL))
+            if (attributeWrapper.Category.equals(AttributeCategory.SPECIAL))
                 attributeNameColor = NamedTextColor.LIGHT_PURPLE;
 
             double deltaDiff = (baseAttributeValue - attributeValue) / baseAttributeValue * 100 * -1;
@@ -159,10 +168,10 @@ public class InterfaceStats extends MenuBase {
             if (deltaDiff == 0 || Double.isNaN(deltaDiff) || Double.isInfinite(deltaDiff))
                 deltaPercentComponent = ComponentUtils.EMPTY;
 
-            lore.add(ComponentUtils.create(attributeWrapperLegacy.getCleanName() + ": ", attributeNameColor).append(ComponentUtils.create(String.format("%.2f", attributeValue), numberColor)).append(deltaPercentComponent));
+            lore.add(ComponentUtils.create(attributeWrapper.DisplayName + ": ", attributeNameColor).append(ComponentUtils.create(String.format("%.2f", attributeValue), numberColor)).append(deltaPercentComponent));
 
             // Append Defense/EHP if def stat
-            if (attributeWrapperLegacy.equals(AttributeWrapperLegacy.DEFENSE)) {
+            if (attributeWrapper.equals(AttributeWrapper.DEFENSE)) {
                 lore.add(ComponentUtils.merge(
                     ComponentUtils.create("- Effective Health: ", NamedTextColor.YELLOW),
                     ComponentUtils.create(String.format("%d ", (int)ehp), NamedTextColor.GREEN),
@@ -193,8 +202,8 @@ public class InterfaceStats extends MenuBase {
         ));
         lore.add(ComponentUtils.EMPTY);
 
-        for (AttributeWrapperLegacy attributeWrapperLegacy : AttributeWrapperLegacy.values())
-            lore.add(ComponentUtils.create(attributeWrapperLegacy.getCleanName(), NamedTextColor.GOLD).append(ComponentUtils.create(" - ").append(attributeWrapperLegacy.getDescription())));
+        for (var attributeWrapperLegacy : AttributeWrapper.values())
+            lore.add(ComponentUtils.create(attributeWrapperLegacy.DisplayName, NamedTextColor.GOLD).append(ComponentUtils.create(" - ").append(attributeWrapperLegacy.Description != null ? attributeWrapperLegacy.Description : ComponentUtils.create("No description"))));
 
         meta.lore(ComponentUtils.cleanItalics(lore));
 
