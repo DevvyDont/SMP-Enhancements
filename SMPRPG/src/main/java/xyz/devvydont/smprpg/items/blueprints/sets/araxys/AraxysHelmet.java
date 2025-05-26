@@ -12,7 +12,7 @@ import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.items.interfaces.IEquippableOverride;
 import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapperLegacy;
+import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 
 import java.util.Collection;
 import java.util.List;
@@ -41,10 +41,10 @@ public class AraxysHelmet extends AraxysArmorPiece implements IBreakableEquipmen
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapperLegacy.DEFENSE, 30),
-                new AdditiveAttributeEntry(AttributeWrapperLegacy.HEALTH, 5),
-                new ScalarAttributeEntry(AttributeWrapperLegacy.STRENGTH, .25),
-                new ScalarAttributeEntry(AttributeWrapperLegacy.LUCK, .1)
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 30),
+                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 5),
+                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .25),
+                new ScalarAttributeEntry(AttributeWrapper.LUCK, .1)
         );
     }
 

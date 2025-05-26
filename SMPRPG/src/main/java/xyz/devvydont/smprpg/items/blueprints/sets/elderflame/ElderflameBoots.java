@@ -11,7 +11,7 @@ import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.items.interfaces.IDyeable;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapperLegacy;
+import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.util.crafting.builders.BootsRecipe;
 
 import java.util.Collection;
@@ -26,13 +26,13 @@ public class ElderflameBoots extends ElderflameArmorSet implements IDyeable {
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapperLegacy.DEFENSE, 240),
-                new AdditiveAttributeEntry(AttributeWrapperLegacy.HEALTH, 200),
-                new AdditiveAttributeEntry(AttributeWrapperLegacy.ARMOR, 2),
-                new ScalarAttributeEntry(AttributeWrapperLegacy.STRENGTH, .3),
-                new ScalarAttributeEntry(AttributeWrapperLegacy.MOVEMENT_SPEED, .3),
-                new MultiplicativeAttributeEntry(AttributeWrapperLegacy.ATTACK_SPEED, .1),
-                new AdditiveAttributeEntry(AttributeWrapperLegacy.SAFE_FALL, 10)
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 240),
+                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 200),
+                new AdditiveAttributeEntry(AttributeWrapper.ARMOR, 2),
+                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .3),
+                new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, .3),
+                new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, .1),
+                new AdditiveAttributeEntry(AttributeWrapper.SAFE_FALL, 10)
         );
     }
 

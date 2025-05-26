@@ -11,7 +11,7 @@ import xyz.devvydont.smprpg.items.base.CustomAttributeItem;
 import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
 import xyz.devvydont.smprpg.items.interfaces.ITrimmable;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapperLegacy;
+import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 
 import java.util.Collection;
 import java.util.List;
@@ -25,10 +25,10 @@ public abstract class SmiteArmorSet extends CustomAttributeItem implements IBrea
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapperLegacy.DEFENSE, getDefense()),
-                new AdditiveAttributeEntry(AttributeWrapperLegacy.EXPLOSION_KNOCKBACK_RESISTANCE, .25),
-                new ScalarAttributeEntry(AttributeWrapperLegacy.BURNING_TIME, -.2),
-                new ScalarAttributeEntry(AttributeWrapperLegacy.STRENGTH, .1)
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, getDefense()),
+                new AdditiveAttributeEntry(AttributeWrapper.EXPLOSION_KNOCKBACK_RESISTANCE, .25),
+                new ScalarAttributeEntry(AttributeWrapper.BURNING_TIME, -.2),
+                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .1)
         );
     }
 

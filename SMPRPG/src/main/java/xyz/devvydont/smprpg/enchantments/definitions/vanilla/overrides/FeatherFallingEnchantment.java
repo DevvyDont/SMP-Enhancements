@@ -6,7 +6,6 @@ import io.papermc.paper.registry.tag.TagKey;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Sound;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
@@ -15,6 +14,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemType;
 import org.jetbrains.annotations.NotNull;
+import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.enchantments.EnchantmentRarity;
 import xyz.devvydont.smprpg.enchantments.EnchantmentUtil;
 import xyz.devvydont.smprpg.enchantments.base.AttributeEnchantment;
@@ -90,8 +90,8 @@ public class FeatherFallingEnchantment extends VanillaEnchantment implements Att
     @Override
     public Collection<AttributeEntry> getHeldAttributes() {
         return List.of(
-                new MultiplicativeAttributeEntry(Attribute.FALL_DAMAGE_MULTIPLIER, -getFallResistPercent(getLevel()) / 100.0),
-                new AdditiveAttributeEntry(Attribute.SAFE_FALL_DISTANCE, getLevel()*2)
+                new MultiplicativeAttributeEntry(AttributeWrapper.FALL_DAMAGE_MULTIPLIER, -getFallResistPercent(getLevel()) / 100.0),
+                new AdditiveAttributeEntry(AttributeWrapper.SAFE_FALL, getLevel()*2)
         );
     }
 

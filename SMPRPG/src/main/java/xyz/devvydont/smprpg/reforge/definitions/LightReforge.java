@@ -7,7 +7,7 @@ import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.reforge.ReforgeBase;
 import xyz.devvydont.smprpg.reforge.ReforgeType;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapperLegacy;
+import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.Collection;
@@ -30,8 +30,8 @@ public class LightReforge extends ReforgeBase {
     @Override
     public Collection<AttributeEntry> getAttributeModifiersWithRarity(ItemRarity rarity) {
         return List.of(
-                new ScalarAttributeEntry(AttributeWrapperLegacy.MOVEMENT_SPEED, getMovementSpeedBuff(rarity)),
-                new MultiplicativeAttributeEntry(AttributeWrapperLegacy.ATTACK_SPEED, getAttackSpeedBuff(rarity))
+                new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, getMovementSpeedBuff(rarity)),
+                new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, getAttackSpeedBuff(rarity))
         );
     }
 

@@ -14,7 +14,7 @@ import xyz.devvydont.smprpg.items.base.CustomAttributeItem;
 import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
 import xyz.devvydont.smprpg.items.interfaces.ITrimmable;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapperLegacy;
+import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 
 import java.util.Collection;
 import java.util.List;
@@ -43,12 +43,12 @@ public class SingularityLeggings extends CustomAttributeItem implements IBreakab
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapperLegacy.ARMOR, 6),
-                new AdditiveAttributeEntry(AttributeWrapperLegacy.DEFENSE, 930),
-                new AdditiveAttributeEntry(AttributeWrapperLegacy.HEALTH, 460),
-                new ScalarAttributeEntry(Attribute.KNOCKBACK_RESISTANCE, .2),
-                new ScalarAttributeEntry(AttributeWrapperLegacy.MOVEMENT_SPEED, .2),
-                new ScalarAttributeEntry(AttributeWrapperLegacy.STRENGTH, .2)
+                new AdditiveAttributeEntry(AttributeWrapper.ARMOR, 6),
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 930),
+                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 460),
+                new ScalarAttributeEntry(AttributeWrapper.KNOCKBACK_RESISTANCE, .2),
+                new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, .2),
+                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .2)
         );
     }
 

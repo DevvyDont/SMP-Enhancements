@@ -12,7 +12,7 @@ import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomAttributeItem;
 import xyz.devvydont.smprpg.items.interfaces.IModelOverridden;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapperLegacy;
+import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 
 import java.util.Collection;
 import java.util.List;
@@ -31,9 +31,9 @@ public class SpeedCharm extends CustomAttributeItem implements IModelOverridden 
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new ScalarAttributeEntry(Attribute.MOVEMENT_SPEED, .3),
-                new MultiplicativeAttributeEntry(AttributeWrapperLegacy.ATTACK_SPEED, .3),
-                new ScalarAttributeEntry(AttributeWrapperLegacy.MINING_SPEED, .3)
+                new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, .3),
+                new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, .3),
+                new ScalarAttributeEntry(AttributeWrapper.MINING_SPEED, .3)
         );
     }
 

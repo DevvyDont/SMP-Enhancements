@@ -11,7 +11,7 @@ import xyz.devvydont.smprpg.items.base.CustomAttributeItem;
 import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
 import xyz.devvydont.smprpg.items.interfaces.ITrimmable;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapperLegacy;
+import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 
 import java.util.Collection;
 import java.util.List;
@@ -26,10 +26,10 @@ public abstract class ImperiumArmorSet extends CustomAttributeItem implements IB
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapperLegacy.DEFENSE, getDefense()),
-                new AdditiveAttributeEntry(AttributeWrapperLegacy.HEALTH, getHealth()),
-                new ScalarAttributeEntry(AttributeWrapperLegacy.STRENGTH, .4),
-                new AdditiveAttributeEntry(AttributeWrapperLegacy.KNOCKBACK_RESISTANCE, .25)
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, getDefense()),
+                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, getHealth()),
+                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .4),
+                new AdditiveAttributeEntry(AttributeWrapper.KNOCKBACK_RESISTANCE, .25)
         );
     }
 

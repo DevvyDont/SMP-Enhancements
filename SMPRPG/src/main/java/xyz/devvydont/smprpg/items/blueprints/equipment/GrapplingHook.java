@@ -22,7 +22,7 @@ import xyz.devvydont.smprpg.items.base.CustomAttributeItem;
 import xyz.devvydont.smprpg.items.interfaces.ICraftable;
 import xyz.devvydont.smprpg.items.interfaces.IHeaderDescribable;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapperLegacy;
+import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.items.AbilityUtil;
 
@@ -85,8 +85,8 @@ public class GrapplingHook extends CustomAttributeItem implements IHeaderDescrib
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new MultiplicativeAttributeEntry(AttributeWrapperLegacy.FALL_DAMAGE_MULTIPLIER, -.9),
-                new AdditiveAttributeEntry(AttributeWrapperLegacy.SAFE_FALL, 15)
+                new MultiplicativeAttributeEntry(AttributeWrapper.FALL_DAMAGE_MULTIPLIER, -.9),
+                new AdditiveAttributeEntry(AttributeWrapper.SAFE_FALL, 15)
         );
     }
 

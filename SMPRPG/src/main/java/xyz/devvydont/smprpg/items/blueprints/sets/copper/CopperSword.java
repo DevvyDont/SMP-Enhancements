@@ -17,7 +17,7 @@ import xyz.devvydont.smprpg.items.blueprints.vanilla.ItemSword;
 import xyz.devvydont.smprpg.items.interfaces.ICraftable;
 import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapperLegacy;
+import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.util.crafting.builders.SwordRecipe;
 import xyz.devvydont.smprpg.util.items.ToolsUtil;
 
@@ -34,8 +34,8 @@ public class CopperSword extends CustomAttributeItem implements ICraftable, IBre
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapperLegacy.STRENGTH, ItemSword.getSwordDamage(Material.STONE_SWORD)),
-                new MultiplicativeAttributeEntry(Attribute.ATTACK_SPEED, ItemSword.SWORD_ATTACK_SPEED_DEBUFF+.1)
+                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, ItemSword.getSwordDamage(Material.STONE_SWORD)),
+                new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, ItemSword.SWORD_ATTACK_SPEED_DEBUFF+.1)
         );
     }
 

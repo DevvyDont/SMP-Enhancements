@@ -14,7 +14,7 @@ import xyz.devvydont.smprpg.items.blueprints.vanilla.ItemAxe;
 import xyz.devvydont.smprpg.items.blueprints.vanilla.ItemSword;
 import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapperLegacy;
+import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 
 import java.util.Collection;
 import java.util.List;
@@ -28,9 +28,9 @@ public class ExiledAxe extends CustomAttributeItem implements IBreakableEquipmen
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapperLegacy.STRENGTH, ItemSword.getSwordDamage(Material.NETHERITE_SWORD)),
-                new MultiplicativeAttributeEntry(AttributeWrapperLegacy.ATTACK_SPEED, ItemAxe.AXE_ATTACK_SPEED_DEBUFF),
-                new ScalarAttributeEntry(AttributeWrapperLegacy.MINING_EFFICIENCY, .25)
+                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, ItemSword.getSwordDamage(Material.NETHERITE_SWORD)),
+                new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, ItemAxe.AXE_ATTACK_SPEED_DEBUFF),
+                new ScalarAttributeEntry(AttributeWrapper.MINING_EFFICIENCY, .25)
         );
     }
 

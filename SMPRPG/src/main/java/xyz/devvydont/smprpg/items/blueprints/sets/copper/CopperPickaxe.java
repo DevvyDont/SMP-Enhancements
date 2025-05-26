@@ -19,7 +19,7 @@ import xyz.devvydont.smprpg.items.base.CustomAttributeItem;
 import xyz.devvydont.smprpg.items.interfaces.ICraftable;
 import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapperLegacy;
+import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.util.crafting.builders.PickaxeRecipe;
 import xyz.devvydont.smprpg.util.items.ToolsUtil;
 
@@ -47,8 +47,8 @@ public class CopperPickaxe extends CustomAttributeItem implements IBreakableEqui
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapperLegacy.STRENGTH, 6),
-                new MultiplicativeAttributeEntry(Attribute.ATTACK_SPEED, PICKAXE_ATTACK_SPEED_DEBUFF)
+                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, 6),
+                new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, PICKAXE_ATTACK_SPEED_DEBUFF)
         );
     }
 

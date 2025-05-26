@@ -761,7 +761,7 @@ public class ItemService implements IService, Listener {
             int power = attributeable.getPowerRating() + AttributeUtil.getPowerBonus(meta);
             lore.add(ComponentUtils.create("Power Rating: ").append(ComponentUtils.create(Symbols.POWER + power, NamedTextColor.YELLOW)));
             lore.add(ComponentUtils.EMPTY);
-            lore.addAll(AttributeUtil.getAttributeLore(attributeable, meta));
+            lore.addAll(AttributeUtil.getAttributeLore(blueprint, itemStack));
             lore.add(ComponentUtils.create("Slot: " + attributeable.getActiveSlot().toString().toLowerCase(), NamedTextColor.DARK_GRAY));
         }
 

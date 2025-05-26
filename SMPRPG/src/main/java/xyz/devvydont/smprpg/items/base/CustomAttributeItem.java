@@ -36,11 +36,6 @@ public abstract class CustomAttributeItem extends CustomItemBlueprint implements
     }
 
     @Override
-    public AttributeModifierType.AttributeSession getAttributeSession(AttributeModifierType type, ItemMeta meta) {
-        return type.session(this, meta);
-    }
-
-    @Override
     public AttributeModifierType getAttributeModifierType() {
         return AttributeModifierType.BASE;
     }
@@ -55,5 +50,8 @@ public abstract class CustomAttributeItem extends CustomItemBlueprint implements
         return getPowerRating() + AttributeUtil.getPowerBonus(meta);
     }
 
-
+    @Override
+    public String getUniqueModifierKey() {
+        return this.getCustomItemType().name().toLowerCase();
+    }
 }

@@ -17,8 +17,6 @@ import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.entity.EntityGlobals;
 import xyz.devvydont.smprpg.entity.components.EntityConfiguration;
 import xyz.devvydont.smprpg.listeners.EntityDamageCalculatorService;
-import xyz.devvydont.smprpg.util.attributes.AttributeUtil;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapperLegacy;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.formatting.MinecraftStringUtils;
 import xyz.devvydont.smprpg.util.formatting.Symbols;
@@ -420,12 +418,16 @@ public abstract class LeveledEntity<T extends Entity> implements LootSource {
      *
      * @return an integer representing how much defense they have.
      */
-    public int getBaseDefense() {
+    public double getBaseDefense() {
 
         if (!(getEntity() instanceof LivingEntity living))
             return 0;
 
-        return (int) AttributeUtil.getAttributeValue(AttributeWrapperLegacy.DEFENSE.getAttribute(), living);
+        var defense = SMPRPG.getInstance().getAttributeService().getAttribute(living, AttributeWrapper.DEFENSE);
+        if (defense == null)
+            return 0;
+
+        return defense.getValue();
     }
 
     /**
@@ -433,7 +435,7 @@ public abstract class LeveledEntity<T extends Entity> implements LootSource {
      * @return an integer representing defense.
      */
     public int getDefense() {
-        return getBaseDefense() + getDefenseFromEffects();
+        return Math.toIntExact(Math.round(getBaseDefense() + getDefenseFromEffects()));
     }
 
     public double getHealthPercentage() {

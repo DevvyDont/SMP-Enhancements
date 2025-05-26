@@ -7,7 +7,7 @@ import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.reforge.ReforgeBase;
 import xyz.devvydont.smprpg.reforge.ReforgeType;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapperLegacy;
+import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.Collection;
@@ -26,8 +26,8 @@ public class SpicyReforge extends ReforgeBase {
     @Override
     public Collection<AttributeEntry> getAttributeModifiersWithRarity(ItemRarity rarity) {
         return List.of(
-                new ScalarAttributeEntry(AttributeWrapperLegacy.STRENGTH, getDamageBonus(rarity)),
-                new MultiplicativeAttributeEntry(AttributeWrapperLegacy.ATTACK_SPEED, .05f)
+                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, getDamageBonus(rarity)),
+                new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, .05f)
         );
     }
 

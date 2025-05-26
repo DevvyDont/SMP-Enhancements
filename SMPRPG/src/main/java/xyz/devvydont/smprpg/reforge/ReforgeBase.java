@@ -4,16 +4,14 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.Keyed;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.items.ItemRarity;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
-import xyz.devvydont.smprpg.items.attribute.IAttributeContainer;
 import xyz.devvydont.smprpg.items.attribute.AttributeModifierType;
+import xyz.devvydont.smprpg.items.attribute.IAttributeContainer;
 import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
-import xyz.devvydont.smprpg.items.interfaces.IAttributeItem;
 import xyz.devvydont.smprpg.services.ItemService;
 
 import java.util.Collection;
@@ -134,11 +132,8 @@ public abstract class ReforgeBase implements Keyed, IAttributeContainer {
             return;
 
         SMPItemBlueprint blueprint = getItemService().getBlueprint(item);
-        ItemMeta meta = item.getItemMeta();
 
         // Remove this item's attributes that make it reforged under this handler
-        if (blueprint instanceof IAttributeItem attributeable)
-            attributeable.getAttributeSession(AttributeModifierType.REFORGE, meta).removeAttributeModifiers();
         removeItemPersistence(item);
 
         // Now that it is removed, update the item

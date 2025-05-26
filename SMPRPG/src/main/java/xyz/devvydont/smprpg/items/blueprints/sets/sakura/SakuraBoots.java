@@ -13,7 +13,7 @@ import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.interfaces.IDyeable;
 import xyz.devvydont.smprpg.items.interfaces.ITrimmable;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapperLegacy;
+import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.util.crafting.builders.BootsRecipe;
 
 import java.util.Collection;
@@ -37,7 +37,7 @@ public class SakuraBoots extends SakuraArmorSet implements IDyeable, ITrimmable 
 
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
-        return List.of(new AdditiveAttributeEntry(AttributeWrapperLegacy.HEALTH, 15));
+        return List.of(new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 15));
     }
 
     @Override

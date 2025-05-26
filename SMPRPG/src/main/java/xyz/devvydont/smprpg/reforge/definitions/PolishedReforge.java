@@ -8,7 +8,7 @@ import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.reforge.ReforgeBase;
 import xyz.devvydont.smprpg.reforge.ReforgeType;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapperLegacy;
+import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.Collection;
@@ -46,13 +46,13 @@ public class PolishedReforge extends ReforgeBase {
     @Override
     public Collection<AttributeEntry> getAttributeModifiersWithRarity(ItemRarity rarity) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapperLegacy.DEFENSE, getDefenseBonus(rarity)),
-                new AdditiveAttributeEntry(AttributeWrapperLegacy.HEALTH, getDefenseBonus(rarity)),
-                new AdditiveAttributeEntry(AttributeWrapperLegacy.ARMOR, rarity.ordinal() >= ItemRarity.EPIC.ordinal() ? 3 : 2),
-                new ScalarAttributeEntry(AttributeWrapperLegacy.MOVEMENT_SPEED, getMovementSpeedBonus(rarity)),
-                new MultiplicativeAttributeEntry(AttributeWrapperLegacy.ATTACK_SPEED, getMovementSpeedBonus(rarity)),
-                new ScalarAttributeEntry(AttributeWrapperLegacy.STRENGTH, getStrengthBonus(rarity)),
-                new MultiplicativeAttributeEntry(AttributeWrapperLegacy.LUCK, getLuckBonus(rarity))
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, getDefenseBonus(rarity)),
+                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, getDefenseBonus(rarity)),
+                new AdditiveAttributeEntry(AttributeWrapper.ARMOR, rarity.ordinal() >= ItemRarity.EPIC.ordinal() ? 3 : 2),
+                new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, getMovementSpeedBonus(rarity)),
+                new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, getMovementSpeedBonus(rarity)),
+                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, getStrengthBonus(rarity)),
+                new MultiplicativeAttributeEntry(AttributeWrapper.LUCK, getLuckBonus(rarity))
         );
     }
 

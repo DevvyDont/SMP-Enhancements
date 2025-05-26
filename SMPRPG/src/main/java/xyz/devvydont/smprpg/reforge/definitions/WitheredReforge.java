@@ -14,7 +14,7 @@ import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.reforge.ReforgeBase;
 import xyz.devvydont.smprpg.reforge.ReforgeType;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapperLegacy;
+import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.Collection;
@@ -55,8 +55,8 @@ public class WitheredReforge extends ReforgeBase implements Listener {
     @Override
     public Collection<AttributeEntry> getAttributeModifiersWithRarity(ItemRarity rarity) {
         return List.of(
-                new ScalarAttributeEntry(AttributeWrapperLegacy.STRENGTH, getDamageBuff(rarity)),
-                new MultiplicativeAttributeEntry(AttributeWrapperLegacy.ATTACK_SPEED, .12f)
+                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, getDamageBuff(rarity)),
+                new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, .12f)
         );
     }
 

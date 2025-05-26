@@ -9,7 +9,6 @@ import io.papermc.paper.registry.set.RegistrySet;
 import io.papermc.paper.registry.tag.TagKey;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
@@ -19,6 +18,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemType;
 import org.jetbrains.annotations.NotNull;
+import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.enchantments.EnchantmentRarity;
 import xyz.devvydont.smprpg.enchantments.EnchantmentUtil;
 import xyz.devvydont.smprpg.enchantments.base.AttributeEnchantment;
@@ -92,7 +92,7 @@ public class BlastProtectionEnchantment extends VanillaEnchantment implements At
     @Override
     public Collection<AttributeEntry> getHeldAttributes() {
         return List.of(
-                new ScalarAttributeEntry(Attribute.EXPLOSION_KNOCKBACK_RESISTANCE, getExplosiveProtectionPercent(getLevel())/100.0)
+                new ScalarAttributeEntry(AttributeWrapper.EXPLOSION_KNOCKBACK_RESISTANCE, getExplosiveProtectionPercent(getLevel())/100.0)
         );
     }
 
@@ -128,7 +128,7 @@ public class BlastProtectionEnchantment extends VanillaEnchantment implements At
      * @return
      */
     @NotNull
-    public RegistryKeySet<Enchantment> getConflictingEnchantments() {
+    public RegistryKeySet<@NotNull Enchantment> getConflictingEnchantments() {
         return RegistrySet.keySet(RegistryKey.ENCHANTMENT, EnchantmentKeys.FIRE_PROTECTION, EnchantmentKeys.PROTECTION, EnchantmentKeys.PROJECTILE_PROTECTION);
     }
 }

@@ -1,5 +1,6 @@
 package xyz.devvydont.smprpg.attribute;
 
+import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.AttributeModifier;
 import xyz.devvydont.smprpg.attribute.adapters.CustomAttributeModifierCollectionAdapter;
 
@@ -26,6 +27,25 @@ public class CustomAttributeModifierCollection  {
 
     public List<AttributeModifier> getModifiers() {
         return _modifiers;
+    }
+
+    public void addModifier(AttributeModifier modifier) {
+
+        // Remove the modifiers with a matching key.
+        removeModifier(modifier);
+        this._modifiers.add(modifier);
+    }
+
+    public void removeModifier(AttributeModifier modifier) {
+        for (var mod : _modifiers.stream().toList())
+            if (mod.getKey().equals(modifier.getKey()))
+                _modifiers.remove(mod);
+    }
+
+    public void removeModifier(NamespacedKey key) {
+        for (var mod : _modifiers.stream().toList())
+            if (mod.getKey().equals(key))
+                _modifiers.remove(mod);
     }
 
     @Override

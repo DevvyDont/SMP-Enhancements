@@ -10,7 +10,7 @@ import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapperLegacy;
+import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.util.crafting.builders.ChestplateRecipe;
 
 import java.util.Collection;
@@ -25,10 +25,10 @@ public class InfernoChestplate extends InfernoArmorSet {
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapperLegacy.DEFENSE, getDefense()),
-                new AdditiveAttributeEntry(AttributeWrapperLegacy.HEALTH, getHealth()),
-                new ScalarAttributeEntry(AttributeWrapperLegacy.STRENGTH, getStrength()),
-                new MultiplicativeAttributeEntry(AttributeWrapperLegacy.ATTACK_SPEED, .25)
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, getDefense()),
+                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, getHealth()),
+                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, getStrength()),
+                new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, .25)
         );
     }
 

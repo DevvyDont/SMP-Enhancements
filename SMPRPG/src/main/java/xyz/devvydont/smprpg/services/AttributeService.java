@@ -1,5 +1,6 @@
 package xyz.devvydont.smprpg.services;
 
+import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -13,16 +14,15 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataHolder;
+import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
-import xyz.devvydont.smprpg.attribute.AttributeWrapper;
-import xyz.devvydont.smprpg.attribute.CustomAttributeContainer;
-import xyz.devvydont.smprpg.attribute.CustomAttributeInstance;
-import xyz.devvydont.smprpg.attribute.VanillaAttributeInstanceWrapper;
+import xyz.devvydont.smprpg.attribute.*;
 import xyz.devvydont.smprpg.events.CustomAttributeContainerUpdatedEvent;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * Used as an internal API in order to manage and unify vanilla minecraft attributes and our custom defined attributes.
@@ -35,6 +35,7 @@ public class AttributeService implements IService, Listener {
 
     // The path to the root attribute storage container on a PDC holder.
     public static final NamespacedKey ATTRIBUTE_CONTAINER_KEY = new NamespacedKey("smprpg", "custom_attribute_container");
+    public static final NamespacedKey ATTRIBUTE_MODIFIERS_KEY = new NamespacedKey("smprpg", "custom_modifiers");
 
     @Override
     public boolean setup() {
@@ -276,5 +277,158 @@ public class AttributeService implements IService, Listener {
         this.setAttribute(target, AttributeWrapper.REGENERATION, regeneration);
 
         System.out.println(getAttributeContainer(target));
+    }
+
+    /**
+     * Adds an attribute modifier to this item. If the attribute is vanilla, use vanilla behavior. If the attribute is
+     * custom, add the modifier to the modifier container on the item stack.
+     * @param item The item to add a modifier to.
+     * @param attribute The attribute to modify.
+     * @param attributeModifier The modifier to add.
+     */
+    public void addAttributeModifier(ItemStack item, AttributeWrapper attribute, AttributeModifier attributeModifier) {
+
+        // If this is a vanilla attribute, do it the vanilla way.
+        if (attribute.isVanilla() && attribute.getWrappedAttribute() != null) {
+            item.editMeta(meta -> {
+                meta.removeAttributeModifier(attribute.getWrappedAttribute(), attributeModifier);
+                meta.addAttributeModifier(attribute.getWrappedAttribute(), attributeModifier);
+            });
+            return;
+        }
+
+        // If this is custom, retrieve the PDC that holds the attribute modifiers and add the attribute.
+        item.editPersistentDataContainer(container -> {
+            var modifierContainer = container.getOrDefault(ATTRIBUTE_MODIFIERS_KEY, PersistentDataType.TAG_CONTAINER, container.getAdapterContext().newPersistentDataContainer());
+            var modifiersForAttribute = modifierContainer.getOrDefault(attribute.key(), CustomAttributeModifierCollection.ADAPTER, CustomAttributeModifierCollection.empty());
+            modifiersForAttribute.addModifier(attributeModifier);
+            modifierContainer.set(attribute.key(), CustomAttributeModifierCollection.ADAPTER, modifiersForAttribute);
+            container.set(ATTRIBUTE_MODIFIERS_KEY, PersistentDataType.TAG_CONTAINER, modifierContainer);
+        });
+
+    }
+
+    /**
+     * Get all attribute modifiers for a specific attribute on an item.
+     * @param item The item to query modifiers for.
+     * @param wrapper The attribute to filter against.
+     * @return A collection of attribute modifiers for the specific attribute.
+     */
+    @Nullable
+    public Collection<AttributeModifier> getAttributeModifiers(ItemStack item, AttributeWrapper wrapper) {
+
+        // If this is a vanilla attribute, do it the vanilla way.
+        if (wrapper.isVanilla() && wrapper.getWrappedAttribute() != null)
+            return item.getItemMeta().getAttributeModifiers(wrapper.getWrappedAttribute());
+
+        // If this is custom, retrieve the PDC that holds the attribute modifiers and add the attribute.
+        var container = item.getPersistentDataContainer();
+
+        // If this item has no attribute container, return null.
+        var modifierContainer = container.get(ATTRIBUTE_MODIFIERS_KEY, PersistentDataType.TAG_CONTAINER);
+        if (modifierContainer == null)
+            return null;
+
+        // If this item has no modifiers for this attribute, return null.
+        var modifierCollection = modifierContainer.get(wrapper.key(), CustomAttributeModifierCollection.ADAPTER);
+        if (modifierCollection == null)
+            return null;
+
+        return modifierCollection.getModifiers();
+    }
+
+    /**
+     * Query all attribute modifiers of an item, no matter what the modifiers are for.
+     * This will return vanilla AND custom attributes. Returns null if the item has no
+     * attribute modifiers.
+     * @param item The item to query attributes for.
+     * @return A map that contains key value pairs for attributes and their modifiers.
+     */
+    @Nullable
+    public Multimap<AttributeWrapper, AttributeModifier> getAttributeModifiers(ItemStack item) {
+
+        var meta = item.getItemMeta();
+        if (meta == null)
+            return null;
+
+        // We need to find vanilla and custom attributes and put them together into a single map.
+        // If the map ends up being empty, we will just return null to mimic vanilla behavior.
+        HashMultimap<AttributeWrapper, AttributeModifier> modifiers = HashMultimap.create();
+
+        // Start with vanilla modifiers. This is pretty simple as we are just using vanilla behavior.
+        if (meta.getAttributeModifiers() != null)
+            for (var vanillaModifier : meta.getAttributeModifiers().entries())
+                modifiers.put(AttributeWrapper.fromAttribute(vanillaModifier.getKey()), vanillaModifier.getValue());
+
+        // Now do custom. Retrieve the container of modifiers and add all the modifiers.
+        var container = item.getPersistentDataContainer();
+
+        // If this item has no attribute container, return the vanilla modifiers only.
+        var modifierContainer = container.get(ATTRIBUTE_MODIFIERS_KEY, PersistentDataType.TAG_CONTAINER);
+        if (modifierContainer == null)
+            return modifiers.isEmpty() ? null : modifiers;
+
+        // We have a container, now add all the modifiers.
+        for (var key : modifierContainer.getKeys()) {
+            var attribute = AttributeWrapper.fromKey(key);
+            var customModifiers = modifierContainer.get(key, CustomAttributeModifierCollection.ADAPTER);
+            if (customModifiers == null || customModifiers.getModifiers().isEmpty())
+                continue;
+
+            modifiers.putAll(attribute, customModifiers.getModifiers());
+        }
+
+        // Return all the collected modifiers.
+        return modifiers.isEmpty() ? null : modifiers;
+    }
+
+    /**
+     * Removes attribute modifiers on this item that match the given key.
+     * @param item The item to remove modifiers from.
+     * @param namespacedKey The key to identify the attribute modifier.
+     */
+    public void removeAttributeModifiers(ItemStack item, NamespacedKey namespacedKey) {
+
+        var meta = item.getItemMeta();
+        if (meta == null)
+            return;
+
+        // Remove vanilla attribute modifiers that match the key.
+        if (meta.getAttributeModifiers() != null)
+            for (var vanillaModifier : meta.getAttributeModifiers().entries())
+                if (vanillaModifier.getKey().getKey().equals(namespacedKey))
+                    meta.removeAttributeModifier(vanillaModifier.getKey(), vanillaModifier.getValue());
+
+        item.setItemMeta(meta);
+
+        // Remove custom attribute modifiers with a matching key.
+        item.editPersistentDataContainer(container -> {
+            var modifierContainer = container.get(ATTRIBUTE_MODIFIERS_KEY, PersistentDataType.TAG_CONTAINER);
+            if (modifierContainer == null)
+                return;
+
+            for (var key : modifierContainer.getKeys()) {
+                var modifiers = modifierContainer.get(key, CustomAttributeModifierCollection.ADAPTER);
+                if (modifiers == null)
+                    continue;
+
+                // Remove a modifier from this container if it has it.
+                modifiers.removeModifier(namespacedKey);
+                modifierContainer.set(key, CustomAttributeModifierCollection.ADAPTER, modifiers);
+            }
+
+            container.set(ATTRIBUTE_MODIFIERS_KEY, PersistentDataType.TAG_CONTAINER, modifierContainer);
+        });
+    }
+
+    /**
+     * Completely wipe any modifier data from this item.
+     * @param item The item to completely remove all modifier data from.
+     */
+    public void clearAttributeModifiers(ItemStack item) {
+
+        // All we need to do is remove the vanilla modifiers and clear the persistent data relating to modifiers.
+        item.editMeta(meta -> meta.setAttributeModifiers(null));
+        item.editPersistentDataContainer(container -> container.remove(ATTRIBUTE_MODIFIERS_KEY));
     }
 }

@@ -21,7 +21,7 @@ import xyz.devvydont.smprpg.items.interfaces.ICraftable;
 import xyz.devvydont.smprpg.items.interfaces.IDyeable;
 import xyz.devvydont.smprpg.items.interfaces.ITrimmable;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapperLegacy;
+import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.util.crafting.builders.BootsRecipe;
 
 import java.util.Collection;
@@ -37,8 +37,8 @@ public class CobblestoneBoots extends CustomAttributeItem implements IBreakableE
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapperLegacy.DEFENSE, ItemArmor.getDefenseFromMaterial(Material.DIAMOND_BOOTS)),
-                new ScalarAttributeEntry(AttributeWrapperLegacy.MOVEMENT_SPEED, -0.15)
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, ItemArmor.getDefenseFromMaterial(Material.DIAMOND_BOOTS)),
+                new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, -0.15)
         );
     }
 

@@ -13,7 +13,7 @@ import xyz.devvydont.smprpg.enchantments.base.AttributeEnchantment;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeModifierType;
 import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapperLegacy;
+import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.Collection;
@@ -88,7 +88,7 @@ public class VitalityEnchantment extends CustomEnchantment implements AttributeE
     @Override
     public Collection<AttributeEntry> getHeldAttributes() {
         return List.of(
-                new ScalarAttributeEntry(AttributeWrapperLegacy.STRENGTH, getStrength(getLevel()) / 100.0)
+                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, getStrength(getLevel()) / 100.0)
         );
     }
 

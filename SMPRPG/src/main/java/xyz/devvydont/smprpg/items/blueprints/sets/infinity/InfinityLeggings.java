@@ -1,9 +1,9 @@
 package xyz.devvydont.smprpg.items.blueprints.sets.infinity;
 
-import org.bukkit.attribute.Attribute;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
@@ -41,10 +41,10 @@ public class InfinityLeggings extends CustomAttributeItem {
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(Attribute.ARMOR, 30),
-                new AdditiveAttributeEntry(Attribute.ARMOR_TOUGHNESS, 20000),
-                new AdditiveAttributeEntry(Attribute.MAX_HEALTH, 20000),
-                new ScalarAttributeEntry(Attribute.KNOCKBACK_RESISTANCE, .2)
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 250),
+                new AdditiveAttributeEntry(AttributeWrapper.KNOCKBACK_RESISTANCE, 100),
+                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 20000),
+                new ScalarAttributeEntry(AttributeWrapper.KNOCKBACK_RESISTANCE, .2)
         );
     }
 

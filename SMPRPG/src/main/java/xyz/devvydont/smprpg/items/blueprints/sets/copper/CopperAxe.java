@@ -17,7 +17,7 @@ import xyz.devvydont.smprpg.items.blueprints.vanilla.ItemAxe;
 import xyz.devvydont.smprpg.items.interfaces.ICraftable;
 import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapperLegacy;
+import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.util.crafting.builders.AxeRecipe;
 import xyz.devvydont.smprpg.util.items.ToolsUtil;
 
@@ -35,8 +35,8 @@ public class CopperAxe extends CustomAttributeItem implements ICraftable, IBreak
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapperLegacy.STRENGTH, ItemAxe.getAxeDamage(Material.STONE_AXE)),
-                new MultiplicativeAttributeEntry(Attribute.ATTACK_SPEED, AXE_ATTACK_SPEED_DEBUFF+.1)
+                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, ItemAxe.getAxeDamage(Material.STONE_AXE)),
+                new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, AXE_ATTACK_SPEED_DEBUFF+.1)
         );
     }
 

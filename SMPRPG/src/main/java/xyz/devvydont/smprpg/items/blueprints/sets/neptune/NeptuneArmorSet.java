@@ -10,7 +10,7 @@ import xyz.devvydont.smprpg.items.base.CustomAttributeItem;
 import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
 import xyz.devvydont.smprpg.items.interfaces.ICraftable;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapperLegacy;
+import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 
 import java.util.Collection;
 import java.util.List;
@@ -38,11 +38,11 @@ public abstract class NeptuneArmorSet extends CustomAttributeItem implements IBr
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapperLegacy.DEFENSE, getDefense()),
-                new AdditiveAttributeEntry(AttributeWrapperLegacy.HEALTH, getHealth()),
-                new ScalarAttributeEntry(AttributeWrapperLegacy.STRENGTH, getStrength()/100.0),
-                new AdditiveAttributeEntry(AttributeWrapperLegacy.OXYGEN_BONUS, OXYGEN_BONUS),
-                new ScalarAttributeEntry(AttributeWrapperLegacy.BURNING_TIME, -.1)
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, getDefense()),
+                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, getHealth()),
+                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, getStrength()/100.0),
+                new AdditiveAttributeEntry(AttributeWrapper.OXYGEN_BONUS, OXYGEN_BONUS),
+                new ScalarAttributeEntry(AttributeWrapper.BURNING_TIME, -.1)
         );
     }
 

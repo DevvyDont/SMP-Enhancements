@@ -19,7 +19,7 @@ import xyz.devvydont.smprpg.items.interfaces.IMace;
 import xyz.devvydont.smprpg.items.base.VanillaAttributeItem;
 import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapperLegacy;
+import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 
 import java.util.Collection;
 import java.util.List;
@@ -56,8 +56,8 @@ public class ItemMace extends VanillaAttributeItem implements IBreakableEquipmen
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapperLegacy.STRENGTH.getAttribute(), MACE_ATTACK_DAMAGE),
-                new MultiplicativeAttributeEntry(AttributeWrapperLegacy.ATTACK_SPEED.getAttribute(), MACE_ATTACK_SPEED_DEBUFF)
+                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, MACE_ATTACK_DAMAGE),
+                new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, MACE_ATTACK_SPEED_DEBUFF)
         );
     }
 

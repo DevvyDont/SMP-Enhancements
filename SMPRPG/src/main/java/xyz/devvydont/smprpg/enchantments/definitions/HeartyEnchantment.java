@@ -4,10 +4,10 @@ import io.papermc.paper.registry.keys.tags.ItemTypeTagKeys;
 import io.papermc.paper.registry.tag.TagKey;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemType;
 import org.jetbrains.annotations.NotNull;
+import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.enchantments.CustomEnchantment;
 import xyz.devvydont.smprpg.enchantments.EnchantmentRarity;
 import xyz.devvydont.smprpg.enchantments.base.AttributeEnchantment;
@@ -95,7 +95,7 @@ public class HeartyEnchantment extends CustomEnchantment implements AttributeEnc
     @Override
     public Collection<AttributeEntry> getHeldAttributes() {
         return List.of(
-                new AdditiveAttributeEntry(Attribute.MAX_HEALTH, getHealthIncrease(getLevel()))
+                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, getHealthIncrease(getLevel()))
         );
     }
 

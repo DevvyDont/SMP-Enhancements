@@ -17,7 +17,7 @@ import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
 import xyz.devvydont.smprpg.items.interfaces.ICraftable;
 import xyz.devvydont.smprpg.items.interfaces.ITrimmable;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapperLegacy;
+import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 
 import java.util.Collection;
 import java.util.List;
@@ -34,10 +34,10 @@ public abstract class BedrockArmorSet extends CustomAttributeItem implements IBr
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapperLegacy.DEFENSE, getDefense()),
-                new ScalarAttributeEntry(AttributeWrapperLegacy.MOVEMENT_SPEED, -.2),
-                new MultiplicativeAttributeEntry(AttributeWrapperLegacy.ATTACK_SPEED, -.25),
-                new ScalarAttributeEntry(AttributeWrapperLegacy.STRENGTH, .25)
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, getDefense()),
+                new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, -.2),
+                new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, -.25),
+                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .25)
         );
     }
 

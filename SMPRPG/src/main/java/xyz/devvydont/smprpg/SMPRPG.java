@@ -119,11 +119,8 @@ public final class SMPRPG extends JavaPlugin implements Listener {
 
         services = new ArrayList<>();
 
-        attributeService = new AttributeService();
-        registerService(attributeService);
-
-        entityDamageCalculatorService = new EntityDamageCalculatorService(this);
-        registerService(entityDamageCalculatorService);
+        enchantmentService = new EnchantmentService();
+        registerService(enchantmentService);
 
         economyService = new EconomyService(this);
         registerService(economyService);
@@ -131,11 +128,14 @@ public final class SMPRPG extends JavaPlugin implements Listener {
         chatService = new ChatService(this);
         registerService(chatService);
 
+        attributeService = new AttributeService();
+        registerService(attributeService);
+
+        entityDamageCalculatorService = new EntityDamageCalculatorService(this);
+        registerService(entityDamageCalculatorService);
+
         itemService = new ItemService(this);
         registerService(itemService);
-
-        enchantmentService = new EnchantmentService();
-        registerService(enchantmentService);
 
         entityService = new EntityService(this);
         registerService(entityService);

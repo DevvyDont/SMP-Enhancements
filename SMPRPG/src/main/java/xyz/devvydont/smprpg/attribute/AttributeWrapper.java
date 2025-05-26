@@ -41,8 +41,7 @@ public enum AttributeWrapper {
                     create(".")
             )),
 
-    DEFENSE(Attribute.ARMOR_TOUGHNESS,
-            "Defense",
+    DEFENSE("Defense",
             AttributeCategory.COMBAT,
             AttributeType.HELPFUL,
             merge(
@@ -371,6 +370,14 @@ public enum AttributeWrapper {
         } catch (IllegalArgumentException e) {
             return null;
         }
+    }
+
+    @Nullable
+    public static AttributeWrapper fromAttribute(Attribute attribute) {
+        for (AttributeWrapper attributeWrapper : AttributeWrapper.values())
+            if (attribute.equals(attributeWrapper.getWrappedAttribute()))
+                return attributeWrapper;
+        return null;
     }
     
     @Nullable

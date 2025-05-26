@@ -6,7 +6,6 @@ import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Material;
 import org.bukkit.Sound;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -24,7 +23,6 @@ import xyz.devvydont.smprpg.listeners.EntityDamageCalculatorService;
 import xyz.devvydont.smprpg.services.AttributeService;
 import xyz.devvydont.smprpg.services.EntityService;
 import xyz.devvydont.smprpg.skills.SkillInstance;
-import xyz.devvydont.smprpg.util.attributes.AttributeUtil;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.formatting.MinecraftStringUtils;
 import xyz.devvydont.smprpg.util.formatting.Symbols;
@@ -140,38 +138,40 @@ public class InterfaceStats extends MenuBase {
         lore.add(ComponentUtils.create("Power Rating: ", NamedTextColor.GOLD).append(ComponentUtils.create(Symbols.POWER + entity.getLevel(), NamedTextColor.YELLOW)));
         lore.add(ComponentUtils.EMPTY);
 
-        var hp = this.targetEntity.getAttribute(Attribute.MAX_HEALTH).getValue();
+        var hpAttr = AttributeService.getInstance().getAttribute(this.targetEntity, AttributeWrapper.HEALTH);
+        var hp = hpAttr != null ? hpAttr.getValue() : 0;
         var def = entity.getDefense();
         var ehp = EntityDamageCalculatorService.calculateEffectiveHealth(hp, def);
 
-        for (var attributeWrapper : AttributeWrapper.values()) {
+        for (var wrapper : AttributeWrapper.values()) {
 
             // We can skip attributes we don't have
-            var attribute = AttributeService.getInstance().getAttribute(this.targetEntity, attributeWrapper);
+            var attribute = AttributeService.getInstance().getAttribute(this.targetEntity, wrapper);
             if (attribute == null)
                 continue;
 
+            var attributeValue = attribute.getValue();
+
             NamedTextColor numberColor = NamedTextColor.DARK_GRAY;
-            double attributeValue = AttributeUtil.getAttributeValue(attributeWrapper, this.targetEntity);
             double baseAttributeValue = attribute.getBaseValue();
             if (attributeValue > baseAttributeValue)
                 numberColor = NamedTextColor.GREEN;
             if (attributeValue < baseAttributeValue)
                 numberColor = NamedTextColor.RED;
 
-            NamedTextColor attributeNameColor = NamedTextColor.GOLD;
-            if (attributeWrapper.Category.equals(AttributeCategory.SPECIAL))
+            var attributeNameColor = NamedTextColor.GOLD;
+            if (wrapper.Category.equals(AttributeCategory.SPECIAL))
                 attributeNameColor = NamedTextColor.LIGHT_PURPLE;
 
-            double deltaDiff = (baseAttributeValue - attributeValue) / baseAttributeValue * 100 * -1;
+            var deltaDiff = (baseAttributeValue - attributeValue) / baseAttributeValue * 100 * -1;
             Component deltaPercentComponent = ComponentUtils.create(String.format(" (%s%.2f%%)",deltaDiff > 0 ? "+" : "", deltaDiff), deltaDiff > 0 ? NamedTextColor.AQUA : NamedTextColor.DARK_RED);
             if (deltaDiff == 0 || Double.isNaN(deltaDiff) || Double.isInfinite(deltaDiff))
                 deltaPercentComponent = ComponentUtils.EMPTY;
 
-            lore.add(ComponentUtils.create(attributeWrapper.DisplayName + ": ", attributeNameColor).append(ComponentUtils.create(String.format("%.2f", attributeValue), numberColor)).append(deltaPercentComponent));
+            lore.add(ComponentUtils.create(wrapper.DisplayName + ": ", attributeNameColor).append(ComponentUtils.create(String.format("%.2f", attributeValue), numberColor)).append(deltaPercentComponent));
 
             // Append Defense/EHP if def stat
-            if (attributeWrapper.equals(AttributeWrapper.DEFENSE)) {
+            if (wrapper.equals(AttributeWrapper.DEFENSE)) {
                 lore.add(ComponentUtils.merge(
                     ComponentUtils.create("- Effective Health: ", NamedTextColor.YELLOW),
                     ComponentUtils.create(String.format("%d ", (int)ehp), NamedTextColor.GREEN),
@@ -202,8 +202,8 @@ public class InterfaceStats extends MenuBase {
         ));
         lore.add(ComponentUtils.EMPTY);
 
-        for (var attributeWrapperLegacy : AttributeWrapper.values())
-            lore.add(ComponentUtils.create(attributeWrapperLegacy.DisplayName, NamedTextColor.GOLD).append(ComponentUtils.create(" - ").append(attributeWrapperLegacy.Description != null ? attributeWrapperLegacy.Description : ComponentUtils.create("No description"))));
+        for (var wrapper : AttributeWrapper.values())
+            lore.add(ComponentUtils.create(wrapper.DisplayName, NamedTextColor.GOLD).append(ComponentUtils.create(" - ").append(wrapper.Description != null ? wrapper.Description : ComponentUtils.create("No description"))));
 
         meta.lore(ComponentUtils.cleanItalics(lore));
 
