@@ -21,9 +21,9 @@ repositories {
 }
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:1.21.5-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:1.21.7-R0.1-SNAPSHOT")
     compileOnly "com.github.MilkBowl:VaultAPI:1.7.1"
-    compileOnly group: "com.comphenix.protocol", name: "ProtocolLib", version: "4.8.0";
+    compileOnly group: "com.comphenix.protocol", name: "ProtocolLib", version: "5.3.0";
     implementation 'com.google.code.gson:gson:2.13.0'
 }
 
@@ -47,7 +47,7 @@ tasks.withType(JavaCompile).configureEach {
 
 tasks {
     runServer {
-        minecraftVersion("1.21.5")
+        minecraftVersion("1.21.6")
     }
 }
 

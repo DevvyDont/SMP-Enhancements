@@ -4,8 +4,8 @@ import io.papermc.paper.plugin.bootstrap.BootstrapContext;
 import io.papermc.paper.registry.RegistryKey;
 import io.papermc.paper.registry.TypedKey;
 import io.papermc.paper.registry.data.EnchantmentRegistryEntry;
+import io.papermc.paper.registry.event.RegistryComposeEvent;
 import io.papermc.paper.registry.event.RegistryEvents;
-import io.papermc.paper.registry.event.RegistryFreezeEvent;
 import io.papermc.paper.registry.set.RegistryKeySet;
 import io.papermc.paper.registry.set.RegistrySet;
 import io.papermc.paper.registry.tag.TagKey;
@@ -65,7 +65,7 @@ public abstract class CustomEnchantment implements Cloneable {
             throw new IllegalStateException("Enchantment " + getClass().getName() + " is already bootstrapped!");
 
         setTypedKey(TypedKey.create(RegistryKey.ENCHANTMENT, getKey()));
-        context.getLifecycleManager().registerEventHandler(RegistryEvents.ENCHANTMENT.freeze().newHandler(event -> {
+        context.getLifecycleManager().registerEventHandler(RegistryEvents.ENCHANTMENT.compose().newHandler(event -> {
             event.registry().register(
                     getTypedKey(),
                     b -> b.description(getDisplayName())
@@ -91,7 +91,7 @@ public abstract class CustomEnchantment implements Cloneable {
      * @return
      */
     @NotNull
-    public RegistryKeySet<Enchantment> getConflictingEnchantments() {
+    public RegistryKeySet<@NotNull Enchantment> getConflictingEnchantments() {
         return RegistrySet.keySet(RegistryKey.ENCHANTMENT);
     }
 
@@ -123,7 +123,7 @@ public abstract class CustomEnchantment implements Cloneable {
 
     public abstract @NotNull Component getDescription();
 
-    public @NotNull RegistryKeySet<ItemType> getSupportedItems(RegistryFreezeEvent<Enchantment, EnchantmentRegistryEntry.Builder> event) {
+    public @NotNull RegistryKeySet<@NotNull ItemType> getSupportedItems(RegistryComposeEvent<Enchantment, EnchantmentRegistryEntry.@NotNull Builder> event) {
         return event.getOrCreateTag(getItemTypeTag());
     }
 

@@ -7,7 +7,6 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.*;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
-import org.bukkit.persistence.PersistentDataHolder;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -372,8 +371,8 @@ public abstract class LeveledEntity<T extends Entity> implements LootSource {
             return;
         }
 
-        // Otherwise, do it the custom way.
-        if (!(_entity instanceof PersistentDataHolder target))
+        // Otherwise, do it the custom way. Only LivingEntity instances can have attributes.
+        if (!(_entity instanceof LivingEntity target))
             return;
 
         // Retrieve the attribute, set the value, and apply the changes.
