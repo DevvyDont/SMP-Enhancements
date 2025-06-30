@@ -23,10 +23,10 @@ public class MagicSkillRewards extends SkillRewardContainer {
         // Loop from 1-100 and add INT per level
         for (var i = 1; i <= 100; i++)
             addReward(i, new AttributeReward(
-                    AttributeWrapper.DEFENSE,
+                    AttributeWrapper.INTELLIGENCE,
                     SkillGlobals.DEFAULT_SKILL_OPERATION,
-                    SkillGlobals.getStatPerLevel(SkillGlobals.DEF_PER_LEVEL, i),
-                    SkillGlobals.getStatPerLevel(SkillGlobals.DEF_PER_LEVEL, i-1)
+                    SkillGlobals.getStatPerLevel(SkillGlobals.INT_PER_LEVEL, i),
+                    SkillGlobals.getStatPerLevel(SkillGlobals.INT_PER_LEVEL, i-1)
             ));
 
         // Loop every 5 levels and add LUCK

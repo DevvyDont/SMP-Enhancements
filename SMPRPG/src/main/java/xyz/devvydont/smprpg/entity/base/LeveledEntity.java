@@ -379,7 +379,7 @@ public abstract class LeveledEntity<T extends Entity> implements LootSource {
         // Retrieve the attribute, set the value, and apply the changes.
         var attrInstance = SMPRPG.getInstance().getAttributeService().getOrCreateAttribute(target, attribute);
         attrInstance.setBaseValue(value);
-        SMPRPG.getInstance().getAttributeService().setAttribute(target, attribute, attrInstance);
+        attrInstance.save(target, attribute);
     }
 
     /**

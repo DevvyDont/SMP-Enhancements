@@ -71,7 +71,7 @@ public class AttributeReward implements ISkillReward {
      * @return
      */
     public NamespacedKey getModifierKey(SkillType skill) {
-        return new NamespacedKey("smprpg", skill.getKey() + attribute.name().toLowerCase() + "-bonus");
+        return new NamespacedKey("smprpg", skill.getKey() + "_" +  attribute.name().toLowerCase() + "_bonus");
     }
 
     public void remove(Player player, SkillType skill) {
@@ -81,6 +81,7 @@ public class AttributeReward implements ISkillReward {
             return;
 
         attributeInstance.removeModifier(getModifierKey(skill));
+        attributeInstance.save(player, attribute);
     }
 
     /**
@@ -100,11 +101,9 @@ public class AttributeReward implements ISkillReward {
 
         remove(player, skill);
 
-        var attributeInstance = AttributeService.getInstance().getAttribute(player, attribute);
-        if (attributeInstance == null)
-            return;
-
-        AttributeModifier modifier = new AttributeModifier(getModifierKey(skill), adjustedAmount, operation, EquipmentSlotGroup.ANY);
+        var attributeInstance = AttributeService.getInstance().getOrCreateAttribute(player, attribute);
+        var modifier = new AttributeModifier(getModifierKey(skill), adjustedAmount, operation, EquipmentSlotGroup.ANY);
         attributeInstance.addModifier(modifier);
+        attributeInstance.save(player, attribute);
     }
 }

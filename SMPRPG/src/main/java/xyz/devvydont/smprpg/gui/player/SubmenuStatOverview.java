@@ -5,13 +5,16 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
 import org.bukkit.attribute.AttributeModifier;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.gui.base.MenuBase;
+import xyz.devvydont.smprpg.listeners.EntityDamageCalculatorService;
 import xyz.devvydont.smprpg.services.AttributeService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
@@ -20,8 +23,11 @@ import java.util.Collection;
 
 public class SubmenuStatOverview extends MenuBase {
 
-    public SubmenuStatOverview(@NotNull Player player, MenuBase parentMenu) {
+    private final LivingEntity target;
+
+    public SubmenuStatOverview(@NotNull Player player, LivingEntity target, MenuBase parentMenu) {
         super(player, 6, parentMenu);
+        this.target = target;
         render();
     }
 
@@ -42,7 +48,7 @@ public class SubmenuStatOverview extends MenuBase {
 
         var index = -1;
         for (var attribute : AttributeWrapper.values()) {
-            var attributeInstance = AttributeService.getInstance().getAttribute(this.player, attribute);
+            var attributeInstance = AttributeService.getInstance().getAttribute(this.target, attribute);
             if (attributeInstance == null)
                 continue;
 
@@ -57,7 +63,7 @@ public class SubmenuStatOverview extends MenuBase {
     private ItemStack generateItemDisplay(AttributeWrapper attribute) {
 
         var item = ItemStack.of(resolveAttributeDisplay(attribute));
-        var attributeInstance = AttributeService.getInstance().getAttribute(this.player, attribute);
+        var attributeInstance = AttributeService.getInstance().getAttribute(this.target, attribute);
 
         item.editMeta(meta -> {
             var displayName = ComponentUtils.merge(
@@ -86,6 +92,23 @@ public class SubmenuStatOverview extends MenuBase {
             }
             lore.add(ComponentUtils.EMPTY);
             lore.add(ComponentUtils.merge(ComponentUtils.create("Final: "), ComponentUtils.create("" + attributeInstance.getValue(), NamedTextColor.GREEN)));
+
+            // Append Defense/EHP if def stat
+            if (attribute.equals(AttributeWrapper.DEFENSE)) {
+
+                var hpAttr = AttributeService.getInstance().getAttribute(this.target, AttributeWrapper.HEALTH);
+                var hp = hpAttr != null ? hpAttr.getValue() : 0;
+                var def = SMPRPG.getInstance().getEntityService().getEntityInstance(this.target).getDefense();
+                var ehp = EntityDamageCalculatorService.calculateEffectiveHealth(hp, def);
+
+                lore.add(ComponentUtils.EMPTY);
+                lore.add(ComponentUtils.create("Effective Health: ", NamedTextColor.YELLOW));
+                lore.add(ComponentUtils.merge(
+                        ComponentUtils.create(String.format("%d ", (int)ehp), NamedTextColor.GREEN),
+                        ComponentUtils.create(String.format("EHP=%dHP/%.2fDEF%%", (int)hp, EntityDamageCalculatorService.calculateResistancePercentage(def)*100), NamedTextColor.DARK_GRAY)
+                ));
+            }
+
             meta.lore(ComponentUtils.cleanItalics(lore));
         });
 

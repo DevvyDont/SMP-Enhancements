@@ -92,7 +92,7 @@ public class InterfaceStats extends MenuBase {
                 new MenuInventoryPeek(this.player, this.getPlayer(), this).openMenu();
             });
 
-            this.setButton(SLOT_STATS, getStats(), e -> this.openSubMenu(new SubmenuStatOverview(this.player, this)));
+            this.setButton(SLOT_STATS, getStats(), e -> this.openSubMenu(new SubmenuStatOverview(this.player, this.targetEntity, this)));
         }
 
         this.setSlot(SLOT_STATS - 1, getHelp());

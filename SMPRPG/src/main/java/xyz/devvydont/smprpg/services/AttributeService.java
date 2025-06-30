@@ -2,14 +2,12 @@ package xyz.devvydont.smprpg.services;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
-import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attributable;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
-import org.bukkit.event.EventHandler;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -213,7 +211,7 @@ public class AttributeService implements IService, Listener {
      * @return An attribute instance that you can modify. Don't forget to call setAttribute() after making edits!
      */
     @NotNull
-    public CustomAttributeInstance getOrCreateAttribute(PersistentDataHolder target, AttributeWrapper wrapper) {
+    public CustomAttributeInstance getOrCreateAttribute(LivingEntity target, AttributeWrapper wrapper) {
 
         // Get the container.
         var container = getAttributeContainer(target);
@@ -244,39 +242,6 @@ public class AttributeService implements IService, Listener {
         // Now we can set the attribute instance.
         container.addAttribute(wrapper, instance);
         setAttributeContainer(target, container);
-    }
-
-    @EventHandler
-    private void __onBreakDirt(BlockBreakEvent event) {
-        if (!event.getBlock().getType().equals(Material.DIRT))
-            return;
-
-        var target = event.getPlayer();
-        this.registerAttribute(target, AttributeWrapper.INTELLIGENCE);
-        this.registerAttribute(target, AttributeWrapper.REGENERATION);
-
-        var container = getAttributeContainer(target);
-        var intelligence = container.getAttribute(AttributeWrapper.INTELLIGENCE);
-        if (intelligence == null) {
-            System.out.println("failed to get intelligence");
-            return;
-        }
-        intelligence.addModifier(new AttributeModifier(new NamespacedKey("smprpg", "temp_reason"), 15, AttributeModifier.Operation.ADD_NUMBER));
-        intelligence.addModifier(new AttributeModifier(new NamespacedKey("smprpg", "temp_reason2"), 1, AttributeModifier.Operation.MULTIPLY_SCALAR_1));
-        this.setAttribute(target, AttributeWrapper.INTELLIGENCE, intelligence);
-
-        var regeneration = container.getAttribute(AttributeWrapper.REGENERATION);
-        if (regeneration == null) {
-            System.out.println("failed to get regeneration");
-            return;
-        }
-
-        regeneration.setBaseValue(15.6);
-        regeneration.addModifier(new AttributeModifier(new NamespacedKey("smprpg", "yaas"), .5, AttributeModifier.Operation.MULTIPLY_SCALAR_1));
-        regeneration.addModifier(new AttributeModifier(new NamespacedKey("smprpg", "yaaaaaas"), .75, AttributeModifier.Operation.ADD_SCALAR));
-        this.setAttribute(target, AttributeWrapper.REGENERATION, regeneration);
-
-        System.out.println(getAttributeContainer(target));
     }
 
     /**
