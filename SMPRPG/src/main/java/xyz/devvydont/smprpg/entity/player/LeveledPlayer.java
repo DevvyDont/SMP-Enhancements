@@ -31,7 +31,7 @@ import java.util.List;
 
 public class LeveledPlayer extends LeveledEntity<Player> implements Listener {
 
-    public static int MANA_REGENERATE_FREQUENCY = 20;
+    public static int MANA_REGENERATE_FREQUENCY = 10;
 
     // Used as a shortcut for skill modification
     private final SkillInstance combatSkill;
@@ -64,7 +64,7 @@ public class LeveledPlayer extends LeveledEntity<Player> implements Listener {
 
     public void regenerateMana() {
         var max = getMaxMana();
-        this._mana += getMaxMana() / 50;
+        this._mana += getMaxMana() / 100;
         this._mana = Math.min(Math.max(0, _mana), max);
     }
 
