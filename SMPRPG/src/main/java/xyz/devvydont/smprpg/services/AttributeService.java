@@ -17,6 +17,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.attribute.*;
+import xyz.devvydont.smprpg.attribute.listeners.AttributeApplyListener;
 import xyz.devvydont.smprpg.events.CustomAttributeContainerUpdatedEvent;
 
 import java.util.ArrayList;
@@ -38,6 +39,11 @@ public class AttributeService implements IService, Listener {
     @Override
     public boolean setup() {
         SMPRPG.getInstance().getServer().getPluginManager().registerEvents(this, SMPRPG.getInstance());
+
+        // Register listeners related to attribute management.
+
+        // Listener to apply/remove custom attributes.
+        SMPRPG.getInstance().getServer().getPluginManager().registerEvents(new AttributeApplyListener(), SMPRPG.getInstance());
         return true;
     }
 
@@ -321,9 +327,16 @@ public class AttributeService implements IService, Listener {
         HashMultimap<AttributeWrapper, AttributeModifier> modifiers = HashMultimap.create();
 
         // Start with vanilla modifiers. This is pretty simple as we are just using vanilla behavior.
-        if (meta.getAttributeModifiers() != null)
-            for (var vanillaModifier : meta.getAttributeModifiers().entries())
-                modifiers.put(AttributeWrapper.fromAttribute(vanillaModifier.getKey()), vanillaModifier.getValue());
+        if (meta.getAttributeModifiers() != null) {
+            for (var vanillaModifier : meta.getAttributeModifiers().entries()) {
+                var attribute = AttributeWrapper.fromAttribute(vanillaModifier.getKey());
+                if (attribute == null) {
+                    SMPRPG.getInstance().getLogger().warning("Unknown attribute " + vanillaModifier.getKey() + ". Please add it to AttributeWrapper!");
+                    continue;
+                }
+                modifiers.put(attribute, vanillaModifier.getValue());
+            }
+        }
 
         // Now do custom. Retrieve the container of modifiers and add all the modifiers.
         var container = item.getPersistentDataContainer();
@@ -345,6 +358,29 @@ public class AttributeService implements IService, Listener {
 
         // Return all the collected modifiers.
         return modifiers.isEmpty() ? null : modifiers;
+    }
+
+    /**
+     * Does the exact same thing as getAttributeModifiers(), except ONLY returns attributes that are considered
+     * custom. This is useful if you need to only apply logic for items with custom attributes.
+     * @param item The item to query attributes for.
+     * @return A map that contains key value pairs for attributes and their modifiers.
+     */
+    @Nullable
+    public Multimap<AttributeWrapper, AttributeModifier> getCustomAttributeModifiers(ItemStack item) {
+
+        // Simply just get all the modifiers, then filter out ones that aren't custom.
+        var all = getAttributeModifiers(item);
+        if (all == null)
+            return null;
+
+        // Filtering process. Simply check if the attribute wrapper is custom.
+        Multimap<AttributeWrapper, AttributeModifier> filtered = HashMultimap.create();
+        for (var entry : all.entries())
+            if (entry != null && entry.getKey().isCustom())
+                filtered.put(entry.getKey(), entry.getValue());
+
+        return filtered;
     }
 
     /**

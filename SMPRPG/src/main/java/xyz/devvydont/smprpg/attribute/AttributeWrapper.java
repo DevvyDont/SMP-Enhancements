@@ -304,7 +304,7 @@ public enum AttributeWrapper {
                 create(" is ignored.")
             )),
 
-    STEP(Attribute.FLYING_SPEED,
+    STEP(Attribute.STEP_HEIGHT,
             "Step",
             AttributeCategory.SPECIAL,
             AttributeType.HELPFUL,
@@ -358,6 +358,13 @@ public enum AttributeWrapper {
             "Zombie Reinforcements",
             AttributeCategory.SPECIAL,
             AttributeType.SPECIAL),
+
+    // Attributes that exist for backwards compatibility. These attributes do nothing, and exist so the plugin doesn't
+    // spit tracebacks for old unconverted items.
+    LEGACY_DEFENSE(Attribute.ARMOR_TOUGHNESS,
+            "Defense (Legacy)",
+            AttributeCategory.COMBAT,
+            AttributeType.HELPFUL),
     ;
 
     @Nullable
@@ -454,7 +461,7 @@ public enum AttributeWrapper {
      * @param type The type of attribute, (helpful, harmful?)
      */
     AttributeWrapper(Attribute vanillaAttribute, String displayName, AttributeCategory category, AttributeType type) {
-        this(displayName, category, type, create("This attribute does not have a description."));
+        this(vanillaAttribute, displayName, category, type, create("This attribute does not have a description."));
     }
 
 
