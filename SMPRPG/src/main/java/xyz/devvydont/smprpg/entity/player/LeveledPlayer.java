@@ -77,6 +77,11 @@ public class LeveledPlayer extends LeveledEntity<Player> implements Listener {
         return mana.getValue();
     }
 
+    public void useMana(int cost) {
+        this._mana -= cost;
+        this._mana = Math.max(0, this._mana);
+    }
+
     public ProfileDifficulty getDifficulty() {
         return SMPRPG.getInstance().getDifficultyService().getDifficulty(getPlayer());
     }
@@ -347,5 +352,4 @@ public class LeveledPlayer extends LeveledEntity<Player> implements Listener {
 
         updateNametag();
     }
-
 }

@@ -20,4 +20,8 @@ public class AbilityUtil {
         return ComponentUtils.create("Usage cost: ").append(ComponentUtils.create(hp + Symbols.HEART, NamedTextColor.RED));
     }
 
+    public static Component getManaCostComponent(int mana) {
+        return ComponentUtils.create("Usage cost: ").append(ComponentUtils.create(mana + Symbols.MANA, NamedTextColor.AQUA));
+    }
+
 }

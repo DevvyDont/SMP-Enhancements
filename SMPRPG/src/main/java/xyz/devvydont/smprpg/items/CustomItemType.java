@@ -13,6 +13,7 @@ import xyz.devvydont.smprpg.items.blueprints.economy.CustomItemCoin;
 import xyz.devvydont.smprpg.items.blueprints.equipment.DesolatedStone;
 import xyz.devvydont.smprpg.items.blueprints.equipment.EnchantedMilkBucket;
 import xyz.devvydont.smprpg.items.blueprints.equipment.GrapplingHook;
+import xyz.devvydont.smprpg.items.blueprints.equipment.TransmissionWand;
 import xyz.devvydont.smprpg.items.blueprints.food.*;
 import xyz.devvydont.smprpg.items.blueprints.misc.DeathCertificate;
 import xyz.devvydont.smprpg.items.blueprints.potion.ExperienceBottle;
@@ -551,6 +552,7 @@ public enum CustomItemType {
     // DRAGON
     DRAGON_SCALES(   "Dragon Scales",    Material.PHANTOM_MEMBRANE, ItemRarity.RARE, true),
     DRACONIC_CRYSTAL("Draconic Crystal", ItemRarity.EPIC, DraconicCrystal.class),
+    TRANSMISSION_WAND("Transmission Wand", Material.PRISMARINE_SHARD, ItemRarity.EPIC, TransmissionWand.class),
 
     // PASSIVE MOBS
     PREMIUM_PORKCHOP("Premium Porkchop", Material.COOKED_PORKCHOP, ItemRarity.UNCOMMON, true, PorkchopFamilyBlueprint.class),
