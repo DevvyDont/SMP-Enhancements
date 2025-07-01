@@ -2,9 +2,12 @@ package xyz.devvydont.smprpg.commands.entity;
 
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import net.kyori.adventure.text.format.NamedTextColor;
+import org.bukkit.NamespacedKey;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.EquipmentSlotGroup;
 import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
@@ -15,6 +18,7 @@ import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 public class CommandAttribute extends CommandBase {
 
@@ -177,6 +181,62 @@ public class CommandAttribute extends CommandBase {
             attribute.save(context.target(), context.attribute());
             context.sender().sendMessage(ComponentUtils.success("Modifiers cleared!"));
             return;
+        }
+
+        // Handle logic for adding a new modifier. There is a lot going on here, so if something goes wrong make sure to give them proper usage.
+        // /attribute <attribute> <add> <amount> <operation> [slot=any] [uuid=random]
+        if (context.args()[2].equalsIgnoreCase("add")) {
+
+            // If no args were provided, they probably don't know how to use the command.
+            if (context.args().length < 4) {
+                context.sender().sendMessage(ComponentUtils.alert("/attribute <attribute> <amount> <operation> [slot default=any] [uuid default=random]"));
+                return;
+            }
+
+            var key = UUID.randomUUID().toString();
+            double amount;
+            try {
+                amount = Double.parseDouble(context.args()[3]);
+            } catch (NumberFormatException e) {
+                context.sender().sendMessage(ComponentUtils.error("Invalid amount provided! Must be a number!"));
+                return;
+            }
+            AttributeModifier.Operation operation;
+            try {
+                operation = AttributeModifier.Operation.valueOf(context.args()[4]);
+            } catch (IllegalArgumentException e) {
+                context.sender().sendMessage(ComponentUtils.error("Invalid operation! Operations are < ADD_NUMBER | ADD_SCALAR | MULTIPLY_SCALAR_1 >"));
+                return;
+            }
+            var slot = EquipmentSlotGroup.ANY;
+            if (context.args().length >= 6)
+                slot = EquipmentSlotGroup.getByName(context.args()[5].toUpperCase());
+            if (context.args().length >= 7)
+                key = context.args()[6];
+            if (slot == null) {
+                context.sender().sendMessage(ComponentUtils.error("Invalid slot provided. Slot types are < HAND | MAINHAND | OFFHAND | ARMOR | HELMET | ANY | etc... >"));
+                return;
+            }
+            attribute.addModifier(new AttributeModifier(
+                new NamespacedKey(SMPRPG.getInstance(), key),
+                amount,
+                operation,
+                slot
+            ));
+            context.sender().sendMessage(ComponentUtils.success("Modifier added! " + operation + " " + amount + " " + slot + " (" + key + ")"));
+            return;
+        }
+
+        // Handle the logic for removing a specific modifier.
+        if (context.args()[2].equalsIgnoreCase("remove")) {
+
+            // Extract the UUID to remove.
+            var uuid = context.args()[3];
+            var key = new NamespacedKey(SMPRPG.getInstance(), uuid);
+            attribute.removeModifier(key);
+
+            context.sender.sendMessage(ComponentUtils.success("Modifier with key " + key + " removed!"));
+
         }
 
         context.sender.sendMessage(ComponentUtils.error("Invalid argument provided! < add | remove | clear >"));
