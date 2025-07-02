@@ -219,6 +219,19 @@ public class AttributeService implements IService, Listener {
     @NotNull
     public CustomAttributeInstance getOrCreateAttribute(LivingEntity target, AttributeWrapper wrapper) {
 
+        // If this is vanilla, perform vanilla logic.
+        if (wrapper.isVanilla() && wrapper.getWrappedAttribute() != null) {
+            // Ensure the attribute is registered. We must do something on this step.
+            target.registerAttribute(wrapper.getWrappedAttribute());
+
+            // Now retrieve the attribute. We should be given a vanilla attribute instance that functions as expected.
+            var attrInstance = getAttribute(target, wrapper);
+            if (attrInstance == null)
+                throw new IllegalStateException("Illegal attribute added to " + target.getName() + ". They cannot have the " + wrapper.getWrappedAttribute() + " attribute!");
+
+            return attrInstance;
+        }
+
         // Get the container.
         var container = getAttributeContainer(target);
 
