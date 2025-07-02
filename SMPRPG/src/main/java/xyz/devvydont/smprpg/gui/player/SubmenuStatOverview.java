@@ -18,12 +18,14 @@ import xyz.devvydont.smprpg.listeners.EntityDamageCalculatorService;
 import xyz.devvydont.smprpg.services.AttributeService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 
 public class SubmenuStatOverview extends MenuBase {
 
     private final LivingEntity target;
+    private final DecimalFormat df = new DecimalFormat("#.##");
 
     public SubmenuStatOverview(@NotNull Player player, LivingEntity target, MenuBase parentMenu) {
         super(player, 6, parentMenu);
@@ -76,7 +78,7 @@ public class SubmenuStatOverview extends MenuBase {
                 return;
 
             var lore = new ArrayList<Component>();
-            lore.add(ComponentUtils.merge(ComponentUtils.create("Base: "), ComponentUtils.create("" + attributeInstance.getBaseValue(), NamedTextColor.GREEN)));
+            lore.add(ComponentUtils.merge(ComponentUtils.create("Base: "), ComponentUtils.create(df.format(attributeInstance.getBaseValue()), NamedTextColor.GREEN)));
 
             if (!attributeInstance.getModifiers().isEmpty()) {
                 lore.add(ComponentUtils.EMPTY);
@@ -91,7 +93,7 @@ public class SubmenuStatOverview extends MenuBase {
                 ));
             }
             lore.add(ComponentUtils.EMPTY);
-            lore.add(ComponentUtils.merge(ComponentUtils.create("Final: "), ComponentUtils.create("" + attributeInstance.getValue(), NamedTextColor.GREEN)));
+            lore.add(ComponentUtils.merge(ComponentUtils.create("Final: "), ComponentUtils.create(df.format(attributeInstance.getValue()), NamedTextColor.GREEN)));
 
             // Append Defense/EHP if def stat
             if (attribute.equals(AttributeWrapper.DEFENSE)) {
@@ -174,9 +176,9 @@ public class SubmenuStatOverview extends MenuBase {
 
     private Component resolveOperation(AttributeModifier.Operation operation, double amount) {
         return switch (operation) {
-            case ADD_NUMBER -> ComponentUtils.create("+" + amount, NamedTextColor.GREEN);
-            case ADD_SCALAR -> ComponentUtils.create("+" + amount + "%", NamedTextColor.GREEN);
-            case MULTIPLY_SCALAR_1 -> ComponentUtils.create("x" + (amount+1), NamedTextColor.GREEN);
+            case ADD_NUMBER -> ComponentUtils.create(String.format("%s%s", amount >= 0 ? "+" : "-", df.format(amount)), amount >= 0 ? NamedTextColor.GREEN : NamedTextColor.RED);
+            case ADD_SCALAR -> ComponentUtils.create(String.format("%s%s%%", amount >= 0 ? "+" : "-", df.format(amount*100)), amount >= 0 ? NamedTextColor.GREEN : NamedTextColor.RED);
+            case MULTIPLY_SCALAR_1 -> ComponentUtils.create(String.format("x%s", df.format(amount+1)), amount >= 0 ? NamedTextColor.GREEN : NamedTextColor.RED);
         };
     }
 
