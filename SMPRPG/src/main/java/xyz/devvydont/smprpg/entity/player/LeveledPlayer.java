@@ -54,6 +54,8 @@ public class LeveledPlayer extends LeveledEntity<Player> implements Listener {
         this.farmingSkill = plugin.getSkillService().getNewSkillInstance(entity, SkillType.FARMING);
         this.woodcuttingSkill = plugin.getSkillService().getNewSkillInstance(entity, SkillType.WOODCUTTING);
         this.magicSkill = plugin.getSkillService().getNewSkillInstance(entity, SkillType.MAGIC);
+
+        this._config = EntityConfiguration.PLAYER;
     }
 
     @Override
@@ -240,11 +242,9 @@ public class LeveledPlayer extends LeveledEntity<Player> implements Listener {
         if (percent > .01)
             setHealthPercentage(percent);
 
-        // Set mic default base attributes that players should have
+        // Set misc default base attributes that players should have
+        updateBaseAttribute(AttributeWrapper.REGENERATION, 100);
         updateBaseAttribute(AttributeWrapper.STRENGTH, this._config.getBaseDamage());
-        updateBaseAttribute(AttributeWrapper.KNOCKBACK_RESISTANCE, .05);
-        updateBaseAttribute(AttributeWrapper.EXPLOSION_KNOCKBACK_RESISTANCE, .05);
-        updateBaseAttribute(AttributeWrapper.SWEEPING, .05);
         updateBaseAttribute(AttributeWrapper.INTELLIGENCE, getDifficulty() == ProfileDifficulty.HARD ? 50 : 100);
         updateBaseAttribute(AttributeWrapper.DEFENSE, 0);
 

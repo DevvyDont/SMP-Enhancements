@@ -33,6 +33,11 @@ public interface EntityConfiguration {
     EntityConfiguration DEFAULT = builder().withLevel(1).withHealth(100).withDamage(10).build();
 
     /**
+     * The configuration to use for players.
+     */
+    EntityConfiguration PLAYER = builder().withHealth(100).withDamage(5).build();
+
+    /**
      * There may be a time when an entity spawns at a level that is different from their base configuration.
      * When this happens, we should scale the stats of the entity to reflect the new level.
      * This function will create a new EntityConfiguration instance that will have adjusted attributes

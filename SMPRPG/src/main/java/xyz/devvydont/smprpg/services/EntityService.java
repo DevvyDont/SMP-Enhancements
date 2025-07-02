@@ -261,6 +261,15 @@ public class EntityService implements IService, Listener {
         return leveled;
     }
 
+    /**
+     * Check if an entity is being tracked by this service.
+     * @param entity The entity you want to check.
+     * @return True if the entity is being tracked, otherwise False.
+     */
+    public boolean isTracking(Entity entity) {
+        return this.entityInstances.containsKey(entity.getUniqueId());
+    }
+
     private void trackEntity(LeveledEntity<?> entity) {
         removeEntity(entity.getEntity().getUniqueId());
         entityInstances.put(entity.getEntity().getUniqueId(), entity);

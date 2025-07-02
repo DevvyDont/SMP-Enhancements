@@ -221,11 +221,16 @@ public class AttributeService implements IService, Listener {
 
         // If this is vanilla, perform vanilla logic.
         if (wrapper.isVanilla() && wrapper.getWrappedAttribute() != null) {
-            // Ensure the attribute is registered. We must do something on this step.
-            target.registerAttribute(wrapper.getWrappedAttribute());
-
             // Now retrieve the attribute. We should be given a vanilla attribute instance that functions as expected.
             var attrInstance = getAttribute(target, wrapper);
+
+            // If the attribute was null attempt to register and re-get it. NOTE: registering an attribute in vanilla mc reverts it to default behavior.
+            if (attrInstance == null) {
+                target.registerAttribute(wrapper.getWrappedAttribute());
+                attrInstance = getAttribute(target, wrapper);
+            }
+
+            // If the attribute is STILL null, the developer attempted to apply an illegal attribute. Force an exception.
             if (attrInstance == null)
                 throw new IllegalStateException("Illegal attribute added to " + target.getName() + ". They cannot have the " + wrapper.getWrappedAttribute() + " attribute!");
 

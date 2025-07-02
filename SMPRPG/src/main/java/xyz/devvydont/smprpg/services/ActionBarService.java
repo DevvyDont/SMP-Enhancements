@@ -121,6 +121,11 @@ public class ActionBarService implements IService, Listener {
 
     private void display(Player player) {
 
+        // Do not attempt to display leveled info about the player if the entity service is not tracking them.
+        // Since this task is async, we don't want to force entity setup mechanisms.
+        if (!plugin.getEntityService().isTracking(player))
+            return;
+
         // The component Will always have their health
         Component message = getPowerComponent(player).append(ComponentUtils.create(" ")).append(getHealthComponent(player));
 
