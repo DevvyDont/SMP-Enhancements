@@ -342,9 +342,9 @@ public enum CustomItemType {
     EVORI_DREAMWINGS("Evori Dreamwings", Material.ELYTRA, ItemRarity.EPIC, EvoriDreamwings.class),
 
     // CHARMS
-    SPEED_CHARM("Speed Charm",       Material.TOTEM_OF_UNDYING, ItemRarity.EPIC,      SpeedCharm.class),
-    STRENGTH_CHARM("Strength Charm", Material.TOTEM_OF_UNDYING, ItemRarity.EPIC,      StrengthCharm.class),
-    LUCKY_CHARM("Lucky Charm",       Material.TOTEM_OF_UNDYING, ItemRarity.EPIC,      LuckyCharm.class),
+    SPEED_CHARM("Speed Charm",       Material.PRISMARINE_CRYSTALS, ItemRarity.EPIC,      SpeedCharm.class),
+    STRENGTH_CHARM("Strength Charm", Material.PRISMARINE_CRYSTALS, ItemRarity.EPIC,      StrengthCharm.class),
+    LUCKY_CHARM("Lucky Charm",       Material.PRISMARINE_CRYSTALS, ItemRarity.EPIC,      LuckyCharm.class),
 
     // BOWS
     NETHERITE_BOW("Netherite Bow", Material.BOW, ItemRarity.EPIC,        NetheriteBow.class),
