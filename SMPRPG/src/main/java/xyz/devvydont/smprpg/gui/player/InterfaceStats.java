@@ -235,7 +235,7 @@ public class InterfaceStats extends MenuBase {
         // If multiple days are present, don't include minutes.
         if (includeDays && days > 0)
             return String.format("%dd%dh", days, hours % 24);
-        
+
         // If we only care about hours, return 12h34m.
         if (hours > 0)
             return String.format("%dh%dm", hours, onlyMinutes);

@@ -223,6 +223,7 @@ public class CommandAttribute extends CommandBase {
                 operation,
                 slot
             ));
+            attribute.save(context.target(), context.attribute());
             context.sender().sendMessage(ComponentUtils.success("Modifier added! " + operation + " " + amount + " " + slot + " (" + key + ")"));
             return;
         }
@@ -234,6 +235,7 @@ public class CommandAttribute extends CommandBase {
             var uuid = context.args()[3];
             var key = new NamespacedKey(SMPRPG.getInstance(), uuid);
             attribute.removeModifier(key);
+            attribute.save(context.target(), context.attribute());
 
             context.sender.sendMessage(ComponentUtils.success("Modifier with key " + key + " removed!"));
 
