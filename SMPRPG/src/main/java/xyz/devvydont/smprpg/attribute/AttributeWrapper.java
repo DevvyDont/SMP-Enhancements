@@ -24,7 +24,7 @@ public enum AttributeWrapper {
     // Keep in mind, if an attribute has vanilla support, it should be used over a custom one.
     HEALTH(Attribute.MAX_HEALTH,
             "Health",
-            AttributeCategory.COMBAT,
+            AttributeCategory.SURVIVABILITY,
             AttributeType.HELPFUL,
             merge(
                 create("The amount of "),
@@ -33,7 +33,7 @@ public enum AttributeWrapper {
             )),
 
     REGENERATION("Regeneration",
-            AttributeCategory.COMBAT,
+            AttributeCategory.SURVIVABILITY,
             AttributeType.HELPFUL,
             merge(
                     create("The effectiveness of"),
@@ -42,7 +42,7 @@ public enum AttributeWrapper {
             )),
 
     DEFENSE("Defense",
-            AttributeCategory.COMBAT,
+            AttributeCategory.SURVIVABILITY,
             AttributeType.HELPFUL,
             merge(
                 create("Amount of general "),
@@ -86,7 +86,7 @@ public enum AttributeWrapper {
 
     MOVEMENT_SPEED(Attribute.MOVEMENT_SPEED,
             "Speed",
-            AttributeCategory.COMBAT,
+            AttributeCategory.MOVEMENT,
             AttributeType.HELPFUL,
             merge(
                     create("Generic "),
@@ -96,7 +96,7 @@ public enum AttributeWrapper {
 
     ARMOR(Attribute.ARMOR,
             "Armor",
-            AttributeCategory.COMBAT,
+            AttributeCategory.SURVIVABILITY,
             AttributeType.HELPFUL,
             merge(
                 create("The delay before "),
@@ -107,7 +107,7 @@ public enum AttributeWrapper {
 
     ABSORPTION(Attribute.MAX_ABSORPTION,
             "Absorption Retention",
-            AttributeCategory.COMBAT,
+            AttributeCategory.SURVIVABILITY,
             AttributeType.HELPFUL,
             merge(
                 create("Amount of "),
@@ -119,7 +119,7 @@ public enum AttributeWrapper {
 
     KNOCKBACK_RESISTANCE(Attribute.KNOCKBACK_RESISTANCE,
             "Knockback Resistance",
-            AttributeCategory.COMBAT,
+            AttributeCategory.SURVIVABILITY,
             AttributeType.HELPFUL,
             merge(
                 create("Reduces "),
@@ -129,7 +129,7 @@ public enum AttributeWrapper {
 
     EXPLOSION_KNOCKBACK_RESISTANCE(Attribute.EXPLOSION_KNOCKBACK_RESISTANCE,
             "Explosion Knockback Resistance",
-            AttributeCategory.COMBAT,
+            AttributeCategory.SURVIVABILITY,
             AttributeType.HELPFUL,
             merge(
                 create("Reduces "),
@@ -139,7 +139,7 @@ public enum AttributeWrapper {
 
     BURNING_TIME(Attribute.BURNING_TIME,
             "Burn Time",
-            AttributeCategory.COMBAT,
+            AttributeCategory.SURVIVABILITY,
             AttributeType.PUNISHING,
             merge(
                 create("Amount of time "),
@@ -204,7 +204,7 @@ public enum AttributeWrapper {
 
     SNEAKING_SPEED(Attribute.SNEAKING_SPEED,
             "Sneak Speed",
-            AttributeCategory.SPECIAL,
+            AttributeCategory.MOVEMENT,
             AttributeType.HELPFUL,
             merge(
                 create("The effectiveness of "),
@@ -214,7 +214,7 @@ public enum AttributeWrapper {
 
     MOVEMENT_EFFICIENCY(Attribute.MOVEMENT_EFFICIENCY,
             "Movement Efficiency",
-            AttributeCategory.SPECIAL,
+            AttributeCategory.MOVEMENT,
             AttributeType.HELPFUL,
             merge(
                 create("The effectiveness of "),
@@ -224,7 +224,7 @@ public enum AttributeWrapper {
 
     OXYGEN_BONUS(Attribute.OXYGEN_BONUS,
             "Lung Capacity",
-            AttributeCategory.SPECIAL,
+            AttributeCategory.SURVIVABILITY,
             AttributeType.HELPFUL,
             merge(
                 create("Grants "),
@@ -234,7 +234,7 @@ public enum AttributeWrapper {
 
     WATER_MOVEMENT(Attribute.WATER_MOVEMENT_EFFICIENCY,
             "Water Speed",
-            AttributeCategory.SPECIAL,
+            AttributeCategory.MOVEMENT,
             AttributeType.HELPFUL,
             merge(
                 create("Generic "),
@@ -269,7 +269,7 @@ public enum AttributeWrapper {
 
     FLYING_SPEED(Attribute.FLYING_SPEED,
             "Flying Speed",
-            AttributeCategory.SPECIAL,
+            AttributeCategory.MOVEMENT,
             AttributeType.HELPFUL,
             merge(
                 create("The "),
@@ -280,7 +280,7 @@ public enum AttributeWrapper {
 
     FALL_DAMAGE_MULTIPLIER(Attribute.FALL_DAMAGE_MULTIPLIER,
             "Fall Damage",
-            AttributeCategory.SPECIAL,
+            AttributeCategory.MOVEMENT,
             AttributeType.PUNISHING,
             merge(
                 create("The multiplier of incoming damage due to "),
@@ -290,7 +290,7 @@ public enum AttributeWrapper {
 
     SAFE_FALL(Attribute.SAFE_FALL_DISTANCE,
             "Safe Fall",
-            AttributeCategory.SPECIAL,
+            AttributeCategory.MOVEMENT,
             AttributeType.HELPFUL,
             merge(
                 create("The maximum height at which "),
@@ -300,7 +300,7 @@ public enum AttributeWrapper {
 
     STEP(Attribute.STEP_HEIGHT,
             "Step",
-            AttributeCategory.SPECIAL,
+            AttributeCategory.MOVEMENT,
             AttributeType.HELPFUL,
             merge(
                 create("Affects the "),
@@ -320,7 +320,7 @@ public enum AttributeWrapper {
 
     JUMP_HEIGHT(Attribute.JUMP_STRENGTH,
             "Jump Strength",
-            AttributeCategory.SPECIAL,
+            AttributeCategory.MOVEMENT,
             AttributeType.SPECIAL,
             merge(
                 create("Affects "),
@@ -358,7 +358,7 @@ public enum AttributeWrapper {
     // spit tracebacks for old unconverted items.
     LEGACY_DEFENSE(Attribute.ARMOR_TOUGHNESS,
             "Defense (Legacy)",
-            AttributeCategory.COMBAT,
+            AttributeCategory.SURVIVABILITY,
             AttributeType.HELPFUL,
             merge(
                 create("Vanilla Minecraft's 'armor toughness'. Completely ineffective in this plugin.")
