@@ -18,11 +18,15 @@ import xyz.devvydont.smprpg.gui.base.MenuBase;
 import xyz.devvydont.smprpg.listeners.EntityDamageCalculatorService;
 import xyz.devvydont.smprpg.services.AttributeService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
+import xyz.devvydont.smprpg.util.formatting.Symbols;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+import static net.kyori.adventure.text.format.NamedTextColor.*;
+import static xyz.devvydont.smprpg.util.formatting.ComponentUtils.*;
 
 public class SubmenuStatOverview extends MenuBase {
 
@@ -72,9 +76,9 @@ public class SubmenuStatOverview extends MenuBase {
         var attributeInstance = AttributeService.getInstance().getAttribute(this.target, attribute);
 
         item.editMeta(meta -> {
-            var displayName = ComponentUtils.merge(
-                    ComponentUtils.create(attribute.DisplayName, NamedTextColor.GOLD), ComponentUtils.SPACE,
-                    ComponentUtils.create("(" + attribute.Category.DisplayName + ")", NamedTextColor.DARK_GRAY)
+            var displayName = merge(
+                    create(attribute.DisplayName, GOLD), ComponentUtils.SPACE,
+                    create("(" + attribute.Category.DisplayName + ")", NamedTextColor.DARK_GRAY)
             );
             meta.displayName(displayName.decoration(TextDecoration.ITALIC, false));
 
@@ -85,22 +89,22 @@ public class SubmenuStatOverview extends MenuBase {
             lore.add(ComponentUtils.EMPTY);
             lore.add(attribute.Description);
             lore.add(ComponentUtils.EMPTY);
-            lore.add(ComponentUtils.merge(ComponentUtils.create("Base: "), ComponentUtils.create(df.format(attributeInstance.getBaseValue()), NamedTextColor.GREEN)));
+            lore.add(merge(create("Base: "), create(df.format(attributeInstance.getBaseValue()), NamedTextColor.GREEN)));
 
             if (!attributeInstance.getModifiers().isEmpty()) {
                 lore.add(ComponentUtils.EMPTY);
-                lore.add(ComponentUtils.create("Active Modifiers:", NamedTextColor.YELLOW));
+                lore.add(create("Active Modifiers:", NamedTextColor.YELLOW));
             }
             var modifiers = sortModifiers(attributeInstance.getModifiers());
             for (var modifier : modifiers) {
-                lore.add(ComponentUtils.merge(
-                        ComponentUtils.create(modifier.getName(), NamedTextColor.WHITE), ComponentUtils.SPACE,
+                lore.add(merge(
+                        create(modifier.getName(), NamedTextColor.WHITE), ComponentUtils.SPACE,
                         resolveOperation(modifier.getOperation(), modifier.getAmount()), ComponentUtils.SPACE,
-                        ComponentUtils.create("(" + modifier.getSlotGroup().toString().toLowerCase() + ")", NamedTextColor.DARK_GRAY)
+                        create("(" + modifier.getSlotGroup().toString().toLowerCase() + ")", NamedTextColor.DARK_GRAY)
                 ));
             }
             lore.add(ComponentUtils.EMPTY);
-            lore.add(ComponentUtils.merge(ComponentUtils.create("Final: "), ComponentUtils.create(df.format(attributeInstance.getValue()), NamedTextColor.GREEN)));
+            lore.add(merge(create("Final: "), create(df.format(attributeInstance.getValue()), NamedTextColor.GREEN)));
 
             // Append Defense/EHP if def stat
             if (attribute.equals(AttributeWrapper.DEFENSE)) {
@@ -111,10 +115,10 @@ public class SubmenuStatOverview extends MenuBase {
                 var ehp = EntityDamageCalculatorService.calculateEffectiveHealth(hp, def);
 
                 lore.add(ComponentUtils.EMPTY);
-                lore.add(ComponentUtils.create("Effective Health: ", NamedTextColor.YELLOW));
-                lore.add(ComponentUtils.merge(
-                        ComponentUtils.create(String.format("%d ", (int)ehp), NamedTextColor.GREEN),
-                        ComponentUtils.create(String.format("EHP=%dHP/%.2fDEF%%", (int)hp, EntityDamageCalculatorService.calculateResistancePercentage(def)*100), NamedTextColor.DARK_GRAY)
+                lore.add(create("Effective Health: ", NamedTextColor.YELLOW));
+                lore.add(merge(
+                        create(String.format("%d ", (int)ehp), NamedTextColor.GREEN),
+                        create(String.format("EHP=%dHP/%.2fDEF%%", (int)hp, EntityDamageCalculatorService.calculateResistancePercentage(def)*100), NamedTextColor.DARK_GRAY)
                 ));
             }
 
@@ -128,20 +132,41 @@ public class SubmenuStatOverview extends MenuBase {
         ItemStack paper = new ItemStack(Material.PAPER);
         ItemMeta meta = paper.getItemMeta();
 
-        meta.displayName(ComponentUtils.create("Statistic Guide", NamedTextColor.AQUA).decoration(TextDecoration.ITALIC, false));
+        meta.displayName(create("Attribute Guide", NamedTextColor.AQUA).decoration(TextDecoration.ITALIC, false));
         List<Component> lore = new ArrayList<>();
         lore.add(ComponentUtils.EMPTY);
 
-        lore.add(ComponentUtils.merge(
-                ComponentUtils.create("Power Rating ", NamedTextColor.GOLD),
-                ComponentUtils.create("- An estimation of "),
-                ComponentUtils.create("general combat effectiveness", NamedTextColor.YELLOW),
-                ComponentUtils.create(" using currently equipped gear and stats.")
-        ));
-        lore.add(ComponentUtils.EMPTY);
+        lore.addAll(List.of(
+                merge(create("Attributes", GOLD), create(" are the foundation of your")),
+                merge(create("character's "), create(Symbols.POWER + "power", NamedTextColor.YELLOW), create(". You can modify your")),
+                merge(create("attributes", GOLD), create(" in many ways, including but not limited to:")),
+                merge(create(Symbols.POINT + " Equipping "), create("armor", WHITE)),
+                merge(create(Symbols.POINT + " Holding "), create("tools/equipment", BLUE)),
+                merge(create(Symbols.POINT + " Leveling up "), create("skills", AQUA)),
+                merge(create(Symbols.POINT + " utilizing equipment "), create("reforges", GOLD)),
+                merge(create(Symbols.POINT + " augmenting equipment with "), create("enchantments", LIGHT_PURPLE)),
+                merge(create(Symbols.POINT + " Summoning "), create("pets", GREEN)),
+                EMPTY,
+                merge(create("The individual effects that "), create("attributes", GOLD), create(" provide can")),
+                merge(create("be found when hovering over items in your inventory.")),
+                merge(create("The way that attribute "), create("modifiers", AQUA), create(" display and apply")),
+                merge(create("can appear misleading and/or confusing due to the nature of how "), create("modifiers", AQUA)),
+                merge(create("work. "), create("There are 3 types of modifiers that are applied in the following order:")),
+                merge(create(Symbols.RIGHT_ARROW + " Additive:", GREEN), create(" adds to your "), create("base value", BLUE), create(" (ex. +15)", DARK_GRAY)),
+                merge(create(Symbols.RIGHT_ARROW + " Scalar:", GREEN), create(" applies a single additive multiplier to base value + additive modifiers"), create(" (ex. +25%)", DARK_GRAY)),
+                merge(create(Symbols.RIGHT_ARROW + " Multiplicative:", GREEN), create(" multiplies the final value after all other modifiers"), create(" (ex. x2)", DARK_GRAY)),
+                EMPTY,
+                merge(create("The most important distinction is that "), create("scalar modifiers", GREEN), create(" stack "), create("additively", GREEN)),
+                merge(create("while "), create("multiplicative modifiers", GREEN), create(" stack "), create("multiplicatively!", LIGHT_PURPLE)),
+                EMPTY,
+                create("For example, if all 4 of your armor pieces have '+25% scalar modifiers'", DARK_GRAY),
+                create("then you will have a net +100% (or x2) of that specific attribute!", DARK_GRAY),
+                create("If they were instead '+25% multiplicative modifiers', you would then", DARK_GRAY),
+                create("net an increase by about +144% (or ~2.44x) instead.", DARK_GRAY),
+                create("The mathematical difference is due to the nature of what results from:", DARK_GRAY),
+                create("value * (1 + .25 + .25 + ...)) vs. (value * 1.25 * 1.25 * ...)", DARK_GRAY)
 
-        for (var wrapper : AttributeWrapper.values())
-            lore.add(ComponentUtils.create(wrapper.DisplayName, NamedTextColor.GOLD).append(ComponentUtils.create(" - ").append(wrapper.Description != null ? wrapper.Description : ComponentUtils.create("No description"))));
+        ));
 
         meta.lore(ComponentUtils.cleanItalics(lore));
 
@@ -155,9 +180,9 @@ public class SubmenuStatOverview extends MenuBase {
 
     @Override
     protected void handleInventoryOpened(InventoryOpenEvent event) {
-        event.titleOverride(ComponentUtils.merge(
-                ComponentUtils.create("Stat Overview"),
-                ComponentUtils.create(" WORK IN PROGRESS", NamedTextColor.RED, TextDecoration.BOLD)
+        event.titleOverride(merge(
+                create("Stat Overview"),
+                create(" WORK IN PROGRESS", NamedTextColor.RED, TextDecoration.BOLD)
         ));
     }
 
@@ -208,9 +233,9 @@ public class SubmenuStatOverview extends MenuBase {
 
     private Component resolveOperation(AttributeModifier.Operation operation, double amount) {
         return switch (operation) {
-            case ADD_NUMBER -> ComponentUtils.create(String.format("%s%s", amount >= 0 ? "+" : "-", df.format(amount)), amount >= 0 ? NamedTextColor.GREEN : NamedTextColor.RED);
-            case ADD_SCALAR -> ComponentUtils.create(String.format("%s%s%%", amount >= 0 ? "+" : "-", df.format(amount*100)), amount >= 0 ? NamedTextColor.GREEN : NamedTextColor.RED);
-            case MULTIPLY_SCALAR_1 -> ComponentUtils.create(String.format("x%s", df.format(amount+1)), amount >= 0 ? NamedTextColor.GREEN : NamedTextColor.RED);
+            case ADD_NUMBER -> create(String.format("%s%s", amount >= 0 ? "+" : "-", df.format(amount)), amount >= 0 ? NamedTextColor.GREEN : NamedTextColor.RED);
+            case ADD_SCALAR -> create(String.format("%s%s%%", amount >= 0 ? "+" : "-", df.format(amount*100)), amount >= 0 ? NamedTextColor.GREEN : NamedTextColor.RED);
+            case MULTIPLY_SCALAR_1 -> create(String.format("x%s", df.format(amount+1)), amount >= 0 ? NamedTextColor.GREEN : NamedTextColor.RED);
         };
     }
 
