@@ -38,6 +38,7 @@ import xyz.devvydont.smprpg.events.LeveledEntitySpawnEvent;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.formatting.DamagePopupUtil;
 import xyz.devvydont.smprpg.util.formatting.Symbols;
+import xyz.devvydont.smprpg.util.tasks.PlaytimeTracker;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
@@ -81,6 +82,9 @@ public class EntityService implements IService, Listener {
     @Override
     public boolean setup() {
         plugin.getLogger().info("Setting up Entity Service");
+
+        // Start tracking playtime.
+        PlaytimeTracker.start();
 
         for (CustomEntityType customEntityType : CustomEntityType.values())
             entityResolver.put(customEntityType.key(), customEntityType);
@@ -344,6 +348,9 @@ public class EntityService implements IService, Listener {
         for (var item : event.getPlayer().getInventory().getContents())
             if (item != null && !item.getType().equals(Material.AIR))
                 plugin.getItemService().ensureItemStackUpdated(item);
+
+        // Store first joined. No checking necessary.
+        PlaytimeTracker.setFirstSeenIfNotPresent(event.getPlayer());
     }
 
     @EventHandler(priority = EventPriority.MONITOR)

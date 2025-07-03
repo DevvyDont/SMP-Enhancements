@@ -176,7 +176,7 @@ public class TransmissionWand extends CustomAttributeItem implements IHeaderDesc
         }
 
         if (!foundSpot){
-            player.sendMessage(ComponentUtils.alert("No free spot ahead of you!"));
+            player.sendMessage(ComponentUtils.error("No free spot ahead of you!"));
             return false;
         }
 

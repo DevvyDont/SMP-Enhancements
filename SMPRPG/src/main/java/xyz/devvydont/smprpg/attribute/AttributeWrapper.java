@@ -36,8 +36,8 @@ public enum AttributeWrapper {
             AttributeCategory.COMBAT,
             AttributeType.HELPFUL,
             merge(
-                    create("Affects the amount of health received from passive"),
-                    create(" health regeneration", RED),
+                    create("The effectiveness of"),
+                    create(" passive health regeneration", GREEN),
                     create(".")
             )),
 
@@ -54,11 +54,11 @@ public enum AttributeWrapper {
             AttributeCategory.COMBAT,
             AttributeType.HELPFUL,
             merge(
-                    create("Affects the "),
+                    create("The "),
                     create("maximum mana", BLUE),
-                    create(" available and the effectiveness of"),
+                    create(" available and effectiveness of"),
                     create(" magic", LIGHT_PURPLE),
-                    create(" and "),
+                    create("/"),
                     create("abilities", GOLD),
                     create(".")
             )),
@@ -74,13 +74,14 @@ public enum AttributeWrapper {
             )),
 
     ATTACK_SPEED(Attribute.ATTACK_SPEED,
-            "Recovery",
+            "Attack Recovery",
             AttributeCategory.COMBAT,
             AttributeType.HELPFUL,
             merge(
                     create("How fast you "),
                     create("recover", YELLOW),
-                    create(" from the attack cooldown.")
+                    create(" from the attack cooldown."),
+                    create(" (full attacks per second)", DARK_GRAY)
             )),
 
     MOVEMENT_SPEED(Attribute.MOVEMENT_SPEED,
@@ -88,9 +89,9 @@ public enum AttributeWrapper {
             AttributeCategory.COMBAT,
             AttributeType.HELPFUL,
             merge(
-                    create("How quickly you "),
-                    create("traverse the world", WHITE),
-                    create(" on foot.")
+                    create("Generic "),
+                    create("movement speed ", WHITE),
+                    create("while on foot.")
             )),
 
     ARMOR(Attribute.ARMOR,
@@ -98,31 +99,32 @@ public enum AttributeWrapper {
             AttributeCategory.COMBAT,
             AttributeType.HELPFUL,
             merge(
-                create("Amount of "),
-                create("'invincibility frames'", YELLOW),
-                create(" you receive before you can take damage again.")
+                create("The delay before "),
+                create("damage can be received again", RED),
+                create("."),
+                create(" (aka 'invincibility frames')", DARK_GRAY)
             )),
 
     ABSORPTION(Attribute.MAX_ABSORPTION,
-            "Absorption",
+            "Absorption Retention",
             AttributeCategory.COMBAT,
             AttributeType.HELPFUL,
             merge(
                 create("Amount of "),
                 create("overflow absorption health", YELLOW),
-                create("is retained with the "),
+                create(" that is retained when the "),
                 create("absorption", YELLOW),
-                create(" potion effect.")
+                create(" potion effect runs out.")
             )),
 
     KNOCKBACK_RESISTANCE(Attribute.KNOCKBACK_RESISTANCE,
-            "Sturdiness",
+            "Knockback Resistance",
             AttributeCategory.COMBAT,
             AttributeType.HELPFUL,
             merge(
                 create("Reduces "),
-                create("knockback", GOLD),
-                create(" inflicted from incoming damage.")
+                create("knockback", RED),
+                create(" inflicted from taking damage from certain sources.")
             )),
 
     EXPLOSION_KNOCKBACK_RESISTANCE(Attribute.EXPLOSION_KNOCKBACK_RESISTANCE,
@@ -131,7 +133,7 @@ public enum AttributeWrapper {
             AttributeType.HELPFUL,
             merge(
                 create("Reduces "),
-                create("knockback", GOLD),
+                create("knockback", RED),
                 create(" inflicted from explosions.")
             )),
 
@@ -145,18 +147,16 @@ public enum AttributeWrapper {
                 create(" last when ignited.")
             )),
 
-
-
     SWEEPING(Attribute.SWEEPING_DAMAGE_RATIO,
-            "Sweep Damage",
+            "Sweeping Efficiency",
             AttributeCategory.COMBAT,
             AttributeType.HELPFUL,
             merge(
-                create("How much "),
-                create("base damage", RED),
-                create(" is dealt when attacking with a "),
-                create("sweeping edge", GOLD),
-                create(" attack.")
+                create("The effectiveness of "),
+                create("sweeping damage", RED),
+                create(" relative to the base damage of "),
+                create("sweeping edge", DARK_RED),
+                create(" attacks.")
             )),
 
     ATTACK_KNOCKBACK(Attribute.ATTACK_KNOCKBACK,
@@ -164,13 +164,10 @@ public enum AttributeWrapper {
             AttributeCategory.COMBAT,
             AttributeType.HELPFUL,
             merge(
-                create("How much "),
-                create("outgoing knockback", GOLD),
-                create(" is applied when dealing damage.")
+                create("The amount of "),
+                create("extra outgoing knockback", YELLOW),
+                create(" to apply when dealing damage.")
             )),
-
-
-
 
     MINING_SPEED(Attribute.BLOCK_BREAK_SPEED,
             "Mining Speed",
@@ -178,7 +175,7 @@ public enum AttributeWrapper {
             AttributeType.HELPFUL,
             merge(
                 create("The speed at which "),
-                create("blocks", AQUA),
+                create("any blocks", AQUA),
                 create(" can be broken.")
             )),
 
@@ -188,7 +185,7 @@ public enum AttributeWrapper {
             AttributeType.HELPFUL,
             merge(
                 create("The speed at which "),
-                create("blocks", AQUA),
+                create("certain blocks", AQUA),
                 create(" can be mined when using the"),
                 create(" correct tool.", GOLD)
             )),
@@ -199,21 +196,19 @@ public enum AttributeWrapper {
             AttributeType.HELPFUL,
             merge(
                 create("The speed at which "),
-                create("blocks", AQUA),
+                create("any blocks", AQUA),
                 create(" can be broken while"),
-                create(" underwater.", BLUE)
+                create(" submerged", BLUE),
+                create(".")
             )),
-
-
 
     SNEAKING_SPEED(Attribute.SNEAKING_SPEED,
             "Sneak Speed",
             AttributeCategory.SPECIAL,
             AttributeType.HELPFUL,
             merge(
-                create("How quickly you "),
-                create("traverse the world", WHITE),
-                create(" while sneaking", GOLD),
+                create("The effectiveness of "),
+                create("sneaking movement speed", WHITE),
                 create(".")
             )),
 
@@ -222,9 +217,9 @@ public enum AttributeWrapper {
             AttributeCategory.SPECIAL,
             AttributeType.HELPFUL,
             merge(
-                create("Decreases "),
-                create("movement penalty", RED),
-                create(" when walking on certain surfaces.")
+                create("The effectiveness of "),
+                create("movement speed when penalized", RED),
+                create(" by walking on certain surfaces.")
             )),
 
     OXYGEN_BONUS(Attribute.OXYGEN_BONUS,
@@ -232,19 +227,18 @@ public enum AttributeWrapper {
             AttributeCategory.SPECIAL,
             AttributeType.HELPFUL,
             merge(
-                create("Amount of time "),
-                create("breath can be held", AQUA),
-                create(" while underwater.")
+                create("Grants "),
+                create("extra oxygen time", AQUA),
+                create(" while holding breath underwater.")
             )),
-
 
     WATER_MOVEMENT(Attribute.WATER_MOVEMENT_EFFICIENCY,
             "Water Speed",
             AttributeCategory.SPECIAL,
             AttributeType.HELPFUL,
             merge(
-                create("The speed of "),
-                create("traversal", WHITE),
+                create("Generic "),
+                create("movement speed", WHITE),
                 create(" while underwater.")
             )),
 
@@ -254,8 +248,8 @@ public enum AttributeWrapper {
             AttributeType.HELPFUL,
             merge(
                 create("The distance at which "),
-                create("blocks", BLUE),
-                create(" can be mined.")
+                create("any blocks", AQUA),
+                create(" can be mined/interacted with.")
             )),
 
     COMBAT_REACH(Attribute.ENTITY_INTERACTION_RANGE,
@@ -264,8 +258,8 @@ public enum AttributeWrapper {
             AttributeType.HELPFUL,
             merge(
                 create("The distance at which "),
-                create("entities", BLUE),
-                create(" can be attacked.")
+                create("any entities", AQUA),
+                create(" can be attacked/interacted with.")
             )),
 
     FOLLOW_RANGE(Attribute.FOLLOW_RANGE,
@@ -299,7 +293,7 @@ public enum AttributeWrapper {
             AttributeCategory.SPECIAL,
             AttributeType.HELPFUL,
             merge(
-                create("Affects the height at which "),
+                create("The maximum height at which "),
                 create("fall damage", RED),
                 create(" is ignored.")
             )),
@@ -311,7 +305,7 @@ public enum AttributeWrapper {
             merge(
                 create("Affects the "),
                 create("step height", LIGHT_PURPLE),
-                create(" for climbing higher without jumping.")
+                create(" for climbing blocks without jumping.")
             )),
 
     GRAVITY(Attribute.GRAVITY,
@@ -329,9 +323,9 @@ public enum AttributeWrapper {
             AttributeCategory.SPECIAL,
             AttributeType.SPECIAL,
             merge(
-                create("How high "),
-                create("jumping", LIGHT_PURPLE),
-                create(" is.")
+                create("Affects "),
+                create("jump height", LIGHT_PURPLE),
+                create(".")
             )),
 
     LUCK(Attribute.LUCK,
@@ -339,9 +333,10 @@ public enum AttributeWrapper {
             AttributeCategory.SPECIAL,
             AttributeType.HELPFUL,
             merge(
-                create("Rate at which "),
+                create("The effectiveness of "),
                 create("rare items", LIGHT_PURPLE),
-                create(" are dropped/generated.")
+                create(" dropping."),
+                create(" (in most contexts!)", DARK_GRAY)
             )),
 
     SCALE(Attribute.SCALE,
@@ -364,7 +359,10 @@ public enum AttributeWrapper {
     LEGACY_DEFENSE(Attribute.ARMOR_TOUGHNESS,
             "Defense (Legacy)",
             AttributeCategory.COMBAT,
-            AttributeType.HELPFUL),
+            AttributeType.HELPFUL,
+            merge(
+                create("Vanilla Minecraft's 'armor toughness'. Completely ineffective in this plugin.")
+            )),
     ;
 
     @Nullable

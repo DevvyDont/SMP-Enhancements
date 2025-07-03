@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.attribute.AttributeWrapper;
@@ -21,6 +22,7 @@ import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 public class SubmenuStatOverview extends MenuBase {
 
@@ -60,6 +62,8 @@ public class SubmenuStatOverview extends MenuBase {
 
             this.setButton(index, generateItemDisplay(attribute), e -> handleClick(attribute));
         }
+
+        this.setSlot(45, getHelp());
     }
 
     private ItemStack generateItemDisplay(AttributeWrapper attribute) {
@@ -78,6 +82,9 @@ public class SubmenuStatOverview extends MenuBase {
                 return;
 
             var lore = new ArrayList<Component>();
+            lore.add(ComponentUtils.EMPTY);
+            lore.add(attribute.Description);
+            lore.add(ComponentUtils.EMPTY);
             lore.add(ComponentUtils.merge(ComponentUtils.create("Base: "), ComponentUtils.create(df.format(attributeInstance.getBaseValue()), NamedTextColor.GREEN)));
 
             if (!attributeInstance.getModifiers().isEmpty()) {
@@ -115,6 +122,31 @@ public class SubmenuStatOverview extends MenuBase {
         });
 
         return item;
+    }
+
+    private ItemStack getHelp() {
+        ItemStack paper = new ItemStack(Material.PAPER);
+        ItemMeta meta = paper.getItemMeta();
+
+        meta.displayName(ComponentUtils.create("Statistic Guide", NamedTextColor.AQUA).decoration(TextDecoration.ITALIC, false));
+        List<Component> lore = new ArrayList<>();
+        lore.add(ComponentUtils.EMPTY);
+
+        lore.add(ComponentUtils.merge(
+                ComponentUtils.create("Power Rating ", NamedTextColor.GOLD),
+                ComponentUtils.create("- An estimation of "),
+                ComponentUtils.create("general combat effectiveness", NamedTextColor.YELLOW),
+                ComponentUtils.create(" using currently equipped gear and stats.")
+        ));
+        lore.add(ComponentUtils.EMPTY);
+
+        for (var wrapper : AttributeWrapper.values())
+            lore.add(ComponentUtils.create(wrapper.DisplayName, NamedTextColor.GOLD).append(ComponentUtils.create(" - ").append(wrapper.Description != null ? wrapper.Description : ComponentUtils.create("No description"))));
+
+        meta.lore(ComponentUtils.cleanItalics(lore));
+
+        paper.setItemMeta(meta);
+        return paper;
     }
 
     private void handleClick(AttributeWrapper attribute) {

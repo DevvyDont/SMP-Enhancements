@@ -10,6 +10,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
@@ -26,9 +27,13 @@ import xyz.devvydont.smprpg.skills.SkillInstance;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.formatting.MinecraftStringUtils;
 import xyz.devvydont.smprpg.util.formatting.Symbols;
+import xyz.devvydont.smprpg.util.tasks.PlaytimeTracker;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+
+import static xyz.devvydont.smprpg.util.formatting.ComponentUtils.*;
 
 public class InterfaceStats extends MenuBase {
     private static final int SLOT_HELMET = 14;
@@ -40,6 +45,16 @@ public class InterfaceStats extends MenuBase {
     private static final int SLOT_STATS = 20;
     private static final int SLOT_INVENTORY = 11;
     private static final int SLOT_MISC_INFO = 29;
+
+    private static final Set<AttributeWrapper> ATTRIBUTES_TO_SHOW = Set.of(
+            AttributeWrapper.HEALTH,
+            AttributeWrapper.DEFENSE,
+            AttributeWrapper.STRENGTH,
+            AttributeWrapper.ATTACK_SPEED,
+            AttributeWrapper.INTELLIGENCE,
+            AttributeWrapper.MOVEMENT_SPEED,
+            AttributeWrapper.LUCK
+    );
 
     private final LivingEntity targetEntity;
     private final EntityService entityService;
@@ -58,10 +73,10 @@ public class InterfaceStats extends MenuBase {
                 SMPRPG.getInstance().getChatService().getPlayerDisplay(castedPlayer) :
                 LegacyComponentSerializer.legacyAmpersand().deserialize(targetEntity.getName());
 
-        event.titleOverride(ComponentUtils.merge(
-                ComponentUtils.create("Statistics Viewer (", NamedTextColor.BLACK),
+        event.titleOverride(merge(
+                create("Statistics Viewer (", NamedTextColor.BLACK),
                 name,
-                ComponentUtils.create(")", NamedTextColor.BLACK)
+                create(")", NamedTextColor.BLACK)
         ));
 
         // Render the UI
@@ -95,7 +110,8 @@ public class InterfaceStats extends MenuBase {
             this.setButton(SLOT_STATS, getStats(), e -> this.openSubMenu(new SubmenuStatOverview(this.player, this.targetEntity, this)));
         }
 
-        this.setSlot(SLOT_STATS - 1, getHelp());
+        if (this.isPlayer())
+            this.setSlot(SLOT_STATS - 1, getInfo());
     }
 
     @Override
@@ -130,12 +146,12 @@ public class InterfaceStats extends MenuBase {
         ItemMeta meta = skull.getItemMeta();
         var entity = this.entityService.getEntityInstance(this.targetEntity);
 
-        meta.displayName(this.targetEntity.name().color(NamedTextColor.AQUA).append(ComponentUtils.create("'s stats")).decoration(TextDecoration.ITALIC, false));
+        meta.displayName(this.targetEntity.name().color(NamedTextColor.AQUA).append(create("'s stats")).decoration(TextDecoration.ITALIC, false));
         List<Component> lore = new ArrayList<>();
         lore.add(ComponentUtils.EMPTY);
 
         // Add the power rating
-        lore.add(ComponentUtils.create("Power Rating: ", NamedTextColor.GOLD).append(ComponentUtils.create(Symbols.POWER + entity.getLevel(), NamedTextColor.YELLOW)));
+        lore.add(create("Power Rating: ", NamedTextColor.GOLD).append(create(Symbols.POWER + entity.getLevel(), NamedTextColor.YELLOW)));
         lore.add(ComponentUtils.EMPTY);
 
         var hpAttr = AttributeService.getInstance().getAttribute(this.targetEntity, AttributeWrapper.HEALTH);
@@ -148,6 +164,10 @@ public class InterfaceStats extends MenuBase {
             // We can skip attributes we don't have
             var attribute = AttributeService.getInstance().getAttribute(this.targetEntity, wrapper);
             if (attribute == null)
+                continue;
+
+            // Skip an attribute if it isn't whitelisted to show up
+            if (!ATTRIBUTES_TO_SHOW.contains(wrapper))
                 continue;
 
             var attributeValue = attribute.getValue();
@@ -164,85 +184,102 @@ public class InterfaceStats extends MenuBase {
                 attributeNameColor = NamedTextColor.LIGHT_PURPLE;
 
             var deltaDiff = (baseAttributeValue - attributeValue) / baseAttributeValue * 100 * -1;
-            Component deltaPercentComponent = ComponentUtils.create(String.format(" (%s%.2f%%)",deltaDiff > 0 ? "+" : "", deltaDiff), deltaDiff > 0 ? NamedTextColor.AQUA : NamedTextColor.DARK_RED);
+            Component deltaPercentComponent = create(String.format(" (%s%.2f%%)",deltaDiff > 0 ? "+" : "", deltaDiff), deltaDiff > 0 ? NamedTextColor.AQUA : NamedTextColor.DARK_RED);
             if (deltaDiff == 0 || Double.isNaN(deltaDiff) || Double.isInfinite(deltaDiff))
                 deltaPercentComponent = ComponentUtils.EMPTY;
 
-            lore.add(ComponentUtils.create(wrapper.DisplayName + ": ", attributeNameColor).append(ComponentUtils.create(String.format("%.2f", attributeValue), numberColor)).append(deltaPercentComponent));
+            lore.add(create(wrapper.DisplayName + ": ", attributeNameColor).append(create(String.format("%.2f", attributeValue), numberColor)).append(deltaPercentComponent));
 
             // Append Defense/EHP if def stat
             if (wrapper.equals(AttributeWrapper.DEFENSE)) {
-                lore.add(ComponentUtils.merge(
-                    ComponentUtils.create("- Effective Health: ", NamedTextColor.YELLOW),
-                    ComponentUtils.create(String.format("%d ", (int)ehp), NamedTextColor.GREEN),
-                    ComponentUtils.create(String.format("EHP=%dHP/%.2fDEF%%", (int)hp, EntityDamageCalculatorService.calculateResistancePercentage(def)*100), NamedTextColor.DARK_GRAY)
+                lore.add(merge(
+                    create("- Effective Health: ", NamedTextColor.YELLOW),
+                    create(String.format("%d ", (int)ehp), NamedTextColor.GREEN),
+                    create(String.format("EHP=%dHP/%.2fDEF%%", (int)hp, EntityDamageCalculatorService.calculateResistancePercentage(def)*100), NamedTextColor.DARK_GRAY)
                 ));
             }
 
         }
 
+        lore.add(EMPTY);
+        lore.add(create("Click to get a more detailed breakdown!", NamedTextColor.YELLOW));
         meta.lore(ComponentUtils.cleanItalics(lore));
         skull.setItemMeta(meta);
         return skull;
     }
 
-    private ItemStack getHelp() {
-        ItemStack paper = new ItemStack(Material.PAPER);
-        ItemMeta meta = paper.getItemMeta();
-
-        meta.displayName(ComponentUtils.create("Statistic Guide", NamedTextColor.AQUA).decoration(TextDecoration.ITALIC, false));
-        List<Component> lore = new ArrayList<>();
-        lore.add(ComponentUtils.EMPTY);
-
-        lore.add(ComponentUtils.merge(
-            ComponentUtils.create("Power Rating ", NamedTextColor.GOLD),
-            ComponentUtils.create("- An estimation of "),
-            ComponentUtils.create("general combat effectiveness", NamedTextColor.YELLOW),
-            ComponentUtils.create(" using currently equipped gear and stats.")
-        ));
-        lore.add(ComponentUtils.EMPTY);
-
-        for (var wrapper : AttributeWrapper.values())
-            lore.add(ComponentUtils.create(wrapper.DisplayName, NamedTextColor.GOLD).append(ComponentUtils.create(" - ").append(wrapper.Description != null ? wrapper.Description : ComponentUtils.create("No description"))));
-
-        meta.lore(ComponentUtils.cleanItalics(lore));
-
-        paper.setItemMeta(meta);
-        return paper;
-    }
-
     private List<Component> getSkillDisplay(LeveledPlayer player) {
         List<Component> display = new ArrayList<>();
-        display.add(ComponentUtils.EMPTY);
         for (SkillInstance skill : player.getSkills())
             display.add(ComponentUtils.merge(
-                    ComponentUtils.create(skill.getType().getDisplayName() + " " + skill.getLevel(), NamedTextColor.AQUA),
+                    ComponentUtils.create(skill.getType().getDisplayName() + " " + skill.getLevel(), NamedTextColor.GOLD),
                     ComponentUtils.create(" - "),
                     ComponentUtils.create(MinecraftStringUtils.formatNumber(skill.getExperienceProgress()), NamedTextColor.GREEN),
                     ComponentUtils.create("/"),
-                    ComponentUtils.create(MinecraftStringUtils.formatNumber(skill.getNextExperienceThreshold()), NamedTextColor.GOLD),
+                    ComponentUtils.create(MinecraftStringUtils.formatNumber(skill.getNextExperienceThreshold()), NamedTextColor.GRAY),
                     ComponentUtils.create(" ("),
                     ComponentUtils.create(MinecraftStringUtils.formatNumber(skill.getExperience()) + "XP", NamedTextColor.DARK_GRAY),
                     ComponentUtils.create(")")
             ));
         display.add(ComponentUtils.EMPTY);
-        display.add(ComponentUtils.create("Skill Average: ").append(ComponentUtils.create(String.format("%.2f", player.getAverageSkillLevel()), NamedTextColor.GOLD)));
+        display.add(create("Skill Average: ", NamedTextColor.GOLD).append(create(String.format("%.2f", player.getAverageSkillLevel()), NamedTextColor.GREEN)));
         return display;
+    }
+
+    private String formatTime(long minutes, boolean includeDays) {
+
+        var hours = minutes / 60;
+        var onlyMinutes = minutes % 60;
+        var days = hours / 24;
+
+        // If multiple days are present, don't include minutes.
+        if (includeDays && days > 0)
+            return String.format("%dd%dh", days, hours % 24);
+        
+        // If we only care about hours, return 12h34m.
+        if (hours > 0)
+            return String.format("%dh%dm", hours, onlyMinutes);
+
+        // Otherwise, just minutes.
+        return String.format("%d minutes", onlyMinutes);
+    }
+
+    private ItemStack getInfo() {
+        ItemStack paper = new ItemStack(Material.PAPER);
+        var player = SMPRPG.getInstance().getEntityService().getPlayerInstance(this.getPlayer());
+        var timePlayed = formatTime(PlaytimeTracker.getPlaytime(player.getPlayer()), false);
+        // Calculate how old this player is. Take the ms difference and convert it to minutes.
+        var ageMs = System.currentTimeMillis() - PlaytimeTracker.getFirstSeen(player.getPlayer());
+        var age = formatTime(ageMs / 1000 / 60, true);
+
+        paper.editMeta(meta -> {
+            meta.displayName(this.targetEntity.name().color(NamedTextColor.AQUA).append(create("'s Information")).decoration(TextDecoration.ITALIC, false));
+            meta.lore(ComponentUtils.cleanItalics(List.of(
+                    EMPTY,
+                    merge(create("Profile type: "), create(player.getDifficulty().Display, player.getDifficulty().Color)),
+                    EMPTY,
+                    merge(create("Playtime: "), create(timePlayed, NamedTextColor.GREEN)),
+                    merge(create("First Seen: "), create(age + " ago", NamedTextColor.GREEN))
+            )));
+        });
+
+        return paper;
     }
 
     private ItemStack getSkills() {
         ItemStack paper = new ItemStack(Material.IRON_PICKAXE);
         ItemMeta meta = paper.getItemMeta();
 
-        meta.displayName(this.targetEntity.name().color(NamedTextColor.AQUA).append(ComponentUtils.create("'s Skills")).decoration(TextDecoration.ITALIC, false));
+        meta.displayName(this.targetEntity.name().color(NamedTextColor.AQUA).append(create("'s Skills")).decoration(TextDecoration.ITALIC, false));
         List<Component> lore = new ArrayList<>();
         lore.add(ComponentUtils.EMPTY);
 
         if (this.isPlayer())
             lore.addAll(getSkillDisplay(this.entityService.getPlayerInstance(this.getPlayer())));
         else
-            lore.add(ComponentUtils.create("Only players have skills!", NamedTextColor.RED));
+            lore.add(create("Only players have skills!", NamedTextColor.RED));
         meta.lore(ComponentUtils.cleanItalics(lore));
+        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         paper.setItemMeta(meta);
         return paper;
     }
@@ -251,10 +288,10 @@ public class InterfaceStats extends MenuBase {
         ItemStack chest = new ItemStack(Material.CHEST);
         ItemMeta meta = chest.getItemMeta();
 
-        meta.displayName(this.targetEntity.name().color(NamedTextColor.AQUA).append(ComponentUtils.create("'s Full Inventory", NamedTextColor.GOLD)).decoration(TextDecoration.ITALIC, false));
+        meta.displayName(this.targetEntity.name().color(NamedTextColor.AQUA).append(create("'s Full Inventory")).decoration(TextDecoration.ITALIC, false));
         List<Component> lore = List.of(
                 ComponentUtils.EMPTY,
-                ComponentUtils.create("Click to view their entire inventory and Ender Chest!")
+                merge(create("Click to view their "), create("inventory", NamedTextColor.GOLD), create(" and "), create("ender chest", NamedTextColor.LIGHT_PURPLE), create("!"))
         );
         meta.lore(ComponentUtils.cleanItalics(lore));
         chest.setItemMeta(meta);
@@ -282,14 +319,14 @@ public class InterfaceStats extends MenuBase {
     private Component getMissingComponent(int slot) {
         Component name = this.targetEntity.name();
         return switch (slot) {
-            case SLOT_HELMET -> name.append(ComponentUtils.create(" is not wearing a helmet", NamedTextColor.RED));
-            case SLOT_CHESTPLATE -> name.append(ComponentUtils.create(" is not wearing a chestplate", NamedTextColor.RED));
-            case SLOT_LEGGINGS -> name.append(ComponentUtils.create(" is not wearing leggings", NamedTextColor.RED));
-            case SLOT_BOOTS -> name.append(ComponentUtils.create(" is not wearing boots", NamedTextColor.RED));
-            case SLOT_MAIN_HAND -> name.append(ComponentUtils.create(" is not holding anything", NamedTextColor.RED));
-            case SLOT_OFF_HAND -> name.append(ComponentUtils.create(" is not holding anything in their off hand", NamedTextColor.RED));
-            case SLOT_STATS -> name.append(ComponentUtils.create(" does not have stats", NamedTextColor.RED));
-            case SLOT_MISC_INFO -> name.append(ComponentUtils.create(" does not have information", NamedTextColor.RED));
+            case SLOT_HELMET -> name.append(create(" is not wearing a helmet", NamedTextColor.RED));
+            case SLOT_CHESTPLATE -> name.append(create(" is not wearing a chestplate", NamedTextColor.RED));
+            case SLOT_LEGGINGS -> name.append(create(" is not wearing leggings", NamedTextColor.RED));
+            case SLOT_BOOTS -> name.append(create(" is not wearing boots", NamedTextColor.RED));
+            case SLOT_MAIN_HAND -> name.append(create(" is not holding anything", NamedTextColor.RED));
+            case SLOT_OFF_HAND -> name.append(create(" is not holding anything in their off hand", NamedTextColor.RED));
+            case SLOT_STATS -> name.append(create(" does not have stats", NamedTextColor.RED));
+            case SLOT_MISC_INFO -> name.append(create(" does not have information", NamedTextColor.RED));
             default -> ComponentUtils.EMPTY;
         };
     }
