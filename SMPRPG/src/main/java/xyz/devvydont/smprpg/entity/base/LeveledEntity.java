@@ -16,6 +16,7 @@ import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.entity.EntityGlobals;
 import xyz.devvydont.smprpg.entity.components.EntityConfiguration;
 import xyz.devvydont.smprpg.listeners.EntityDamageCalculatorService;
+import xyz.devvydont.smprpg.services.AttributeService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.formatting.MinecraftStringUtils;
 import xyz.devvydont.smprpg.util.formatting.Symbols;
@@ -297,7 +298,22 @@ public abstract class LeveledEntity<T extends Entity> implements LootSource {
      * @return How much health should be regenerated
      */
     public double getRegenerationAmount(EntityRegainHealthEvent.RegainReason reason) {
-        return getHalfHeartValue();
+
+        // Regeneration is almost always based on their half heart value as a base.
+        var amount = this.getHalfHeartValue();
+
+        // Only living entities can do an attribute check.
+        if (!(this._entity instanceof LivingEntity living))
+            return amount;
+
+        // Check if they have the regeneration attribute. If they don't, no biggie, just assume half heart.
+        var regeneration = AttributeService.getInstance().getAttribute(living, AttributeWrapper.REGENERATION);
+        if (regeneration == null)
+            return amount;
+
+        // Regeneration is a number representing the percentage of efficiency of regeneration. 100 = no change. 200 = double. 0 = nothing, etc.
+        var multiplier = regeneration.getValue() / 100.0;
+        return amount * multiplier;
     }
 
     /**
