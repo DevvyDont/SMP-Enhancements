@@ -243,8 +243,8 @@ public class LeveledPlayer extends LeveledEntity<Player> implements Listener {
             setHealthPercentage(percent);
 
         // Set misc default base attributes that players should have
-        updateBaseAttribute(AttributeWrapper.REGENERATION, 100);
         updateBaseAttribute(AttributeWrapper.STRENGTH, this._config.getBaseDamage());
+        updateBaseAttribute(AttributeWrapper.REGENERATION, getDifficulty() == ProfileDifficulty.HARD ? 50 : 100);
         updateBaseAttribute(AttributeWrapper.INTELLIGENCE, getDifficulty() == ProfileDifficulty.HARD ? 50 : 100);
         updateBaseAttribute(AttributeWrapper.LUCK, 100);
         updateBaseAttribute(AttributeWrapper.DEFENSE, 0);

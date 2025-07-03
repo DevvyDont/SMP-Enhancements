@@ -54,9 +54,9 @@ public class DifficultyService implements IService, Listener {
      */
     public static float getDropRateChanceMultiplier(ProfileDifficulty difficulty) {
         return switch (difficulty) {
-            case EASY -> .5f;
-            case HARD -> 2f;
-            default -> 1.0f;
+            case EASY -> -.5f;
+            case HARD -> 1f;
+            default -> 0f;
         };
     }
 
@@ -130,6 +130,11 @@ public class DifficultyService implements IService, Listener {
         // As of now, the only global difficulty modifier is luck. First remove it.
         var luck = AttributeService.getInstance().getOrCreateAttribute(player, AttributeWrapper.LUCK);
         luck.removeModifier(DIFFICULTY_MODIFIER_KEY);
+
+        // If we don't have a multiplier to give, no reason to add a modifier.
+        var multiplier = getDropRateChanceMultiplier(difficulty);
+        if (multiplier == 0)
+            return;
 
         // Apply a luck modifier based on the difficulty.
         luck.addModifier(new AttributeModifier(DIFFICULTY_MODIFIER_KEY, getDropRateChanceMultiplier(difficulty), AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlotGroup.ANY));
