@@ -246,6 +246,7 @@ public class LeveledPlayer extends LeveledEntity<Player> implements Listener {
         updateBaseAttribute(AttributeWrapper.REGENERATION, 100);
         updateBaseAttribute(AttributeWrapper.STRENGTH, this._config.getBaseDamage());
         updateBaseAttribute(AttributeWrapper.INTELLIGENCE, getDifficulty() == ProfileDifficulty.HARD ? 50 : 100);
+        updateBaseAttribute(AttributeWrapper.LUCK, 100);
         updateBaseAttribute(AttributeWrapper.DEFENSE, 0);
 
         // Make sure we aren't overloading their UI with hearts
