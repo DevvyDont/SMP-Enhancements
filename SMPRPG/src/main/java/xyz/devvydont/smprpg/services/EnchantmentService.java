@@ -4,6 +4,7 @@ import io.papermc.paper.registry.RegistryAccess;
 import io.papermc.paper.registry.RegistryKey;
 import io.papermc.paper.registry.TypedKey;
 import io.papermc.paper.registry.keys.EnchantmentKeys;
+import org.bukkit.GameMode;
 import org.bukkit.Registry;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentOffer;
@@ -299,7 +300,7 @@ public class EnchantmentService implements IService, Listener {
      * @param event
      */
     @EventHandler
-    public void onOpenEnchantInterface(InventoryOpenEvent event) {
+    private void __onOpenEnchantInterface(InventoryOpenEvent event) {
 
         if (!(event.getInventory() instanceof EnchantingInventory inventory))
             return;
@@ -313,7 +314,7 @@ public class EnchantmentService implements IService, Listener {
      * @param event
      */
     @EventHandler
-    public void onCloseEnchantInterface(InventoryCloseEvent event) {
+    private void __onCloseEnchantInterface(InventoryCloseEvent event) {
 
         if (!(event.getInventory() instanceof EnchantingInventory inventory))
             return;
@@ -327,7 +328,7 @@ public class EnchantmentService implements IService, Listener {
      * @param event
      */
     @EventHandler
-    public void onClickLapisEnchantInterface(InventoryClickEvent event) {
+    private void __onClickLapisEnchantInterface(InventoryClickEvent event) {
 
         if (event.getClickedInventory() == null || !event.getClickedInventory().getType().equals(InventoryType.ENCHANTING))
             return;
@@ -339,7 +340,7 @@ public class EnchantmentService implements IService, Listener {
     }
 
     @EventHandler
-    public void onEnchantPrepare(PrepareItemEnchantEvent event) {
+    private void __onEnchantPrepare(PrepareItemEnchantEvent event) {
 
         LeveledPlayer player = SMPRPG.getInstance().getEntityService().getPlayerInstance(event.getEnchanter());
         EnchantmentCalculator calculator = getCalculator(event.getItem(), event.getEnchantmentBonus(), player.getMagicSkill().getLevel());
@@ -353,7 +354,7 @@ public class EnchantmentService implements IService, Listener {
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
-    public void onEnchant(EnchantItemEvent event) {
+    private void __onEnchant(EnchantItemEvent event) {
 
         Map<EnchantmentCalculator.EnchantmentSlot, List<EnchantmentOffer>> allOffers = calculatorCache.get(event.getEnchanter().getUniqueId());
         if (allOffers == null)
@@ -365,9 +366,14 @@ public class EnchantmentService implements IService, Listener {
             event.getEnchantsToAdd().put(offer.getEnchantment(), offer.getEnchantmentLevel());
 
         // Hack to make it "seem" like we are taking all the experience
-        final int newLevel = event.getEnchanter().getLevel() - event.getExpLevelCost();
+        var newLevel = event.getEnchanter().getLevel() - event.getExpLevelCost();
+
+        // Creative mode players can enchant freely.
+        if (event.getEnchanter().getGameMode() == GameMode.CREATIVE)
+            newLevel = event.getEnchanter().getLevel();
 
         BukkitScheduler scheduler = SMPRPG.getInstance().getServer().getScheduler();
+        int finalNewLevel = newLevel;
         scheduler.runTaskLater(SMPRPG.getInstance(), () -> {
            InventoryView view = event.getEnchanter().getOpenInventory();
            if (!(view.getTopInventory() instanceof EnchantingInventory inv))
@@ -376,7 +382,7 @@ public class EnchantmentService implements IService, Listener {
            ItemStack result = inv.getItem();
            SMPRPG.getInstance().getItemService().ensureItemStackUpdated(result);
            inv.setItem(result);
-           event.getEnchanter().setLevel(newLevel);
+           event.getEnchanter().setLevel(finalNewLevel);
         }, 0L);
     }
 
