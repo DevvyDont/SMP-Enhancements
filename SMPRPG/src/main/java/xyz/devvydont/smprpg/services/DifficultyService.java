@@ -3,19 +3,23 @@ package xyz.devvydont.smprpg.services;
 import com.destroystokyo.paper.event.player.PlayerPickupExperienceEvent;
 import org.bukkit.NamespacedKey;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.inventory.EquipmentSlotGroup;
 import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.SMPRPG;
+import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.entity.player.ProfileDifficulty;
-import xyz.devvydont.smprpg.events.CustomItemDropRollEvent;
 import xyz.devvydont.smprpg.events.skills.SkillExperienceGainEvent;
 import xyz.devvydont.smprpg.gui.player.MenuDifficultyChooser;
 
 public class DifficultyService implements IService, Listener {
+
+    public final static NamespacedKey DIFFICULTY_MODIFIER_KEY = new NamespacedKey(SMPRPG.getInstance(), "difficulty_modifier");
 
     /**
      * Given a difficulty, determine the skill experience multiplier.
@@ -111,8 +115,25 @@ public class DifficultyService implements IService, Listener {
 
         // Set the state of the player necessary for this difficulty.
         // For now, we just have to make sure their stats are sanity checked, as everything else is dynamically handled.
+        applyDifficultyModifiers(player, difficulty);
         SMPRPG.getInstance().getSkillService().syncSkillAttributes(playerWrapper);
         playerWrapper.setConfiguration(playerWrapper.getDefaultConfiguration());
+    }
+
+    /**
+     * Removes all difficulty related attribute modifiers, and adds new ones based on the difficulty they are on.
+     * @param player The player to tweak attributes of.
+     * @param difficulty The difficulty they want modifiers for.
+     */
+    public void applyDifficultyModifiers(Player player, ProfileDifficulty difficulty) {
+
+        // As of now, the only global difficulty modifier is luck. First remove it.
+        var luck = AttributeService.getInstance().getOrCreateAttribute(player, AttributeWrapper.LUCK);
+        luck.removeModifier(DIFFICULTY_MODIFIER_KEY);
+
+        // Apply a luck modifier based on the difficulty.
+        luck.addModifier(new AttributeModifier(DIFFICULTY_MODIFIER_KEY, getDropRateChanceMultiplier(difficulty), AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlotGroup.ANY));
+        luck.save(player, AttributeWrapper.LUCK);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -120,8 +141,10 @@ public class DifficultyService implements IService, Listener {
 
         // When a player joins, we need to make sure they have a difficulty selected so they can play.
         var difficulty = getDifficulty(event.getPlayer());
-        if (!difficulty.equals(ProfileDifficulty.NOT_CHOSEN))
+        if (!difficulty.equals(ProfileDifficulty.NOT_CHOSEN)) {
+            applyDifficultyModifiers(event.getPlayer(), difficulty);
             return;
+        }
         
         // They haven't chosen! Open the interface.
         var gui = new MenuDifficultyChooser(event.getPlayer());
@@ -144,11 +167,5 @@ public class DifficultyService implements IService, Listener {
     private void __onPlayerEarnMinecraftExperience(PlayerPickupExperienceEvent event) {
         if (getDifficulty(event.getPlayer()).equals(ProfileDifficulty.HARD))
             event.getExperienceOrb().setExperience((int) (event.getExperienceOrb().getExperience() * 1.5));
-    }
-
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void __onPlayerRollForItem(CustomItemDropRollEvent event) {
-        var multiplier = getDropRateChanceMultiplier(getDifficulty(event.getPlayer()));
-        event.setChance(event.getChance() * multiplier);
     }
 }
