@@ -30,7 +30,6 @@ import xyz.devvydont.smprpg.enchantments.definitions.*;
 import xyz.devvydont.smprpg.enchantments.definitions.vanilla.UnknownEnchantment;
 import xyz.devvydont.smprpg.enchantments.definitions.vanilla.overrides.*;
 import xyz.devvydont.smprpg.enchantments.definitions.vanilla.unchanged.*;
-import xyz.devvydont.smprpg.entity.player.LeveledPlayer;
 
 import java.util.*;
 
@@ -342,14 +341,14 @@ public class EnchantmentService implements IService, Listener {
     @EventHandler
     private void __onEnchantPrepare(PrepareItemEnchantEvent event) {
 
-        LeveledPlayer player = SMPRPG.getInstance().getEntityService().getPlayerInstance(event.getEnchanter());
-        EnchantmentCalculator calculator = getCalculator(event.getItem(), event.getEnchantmentBonus(), player.getMagicSkill().getLevel());
+        var player = SMPRPG.getInstance().getEntityService().getPlayerInstance(event.getEnchanter());
+        var calculator = getCalculator(event.getItem(), event.getEnchantmentBonus(), player.getMagicSkill().getLevel());
 
         // Calculate enchantments to give and update costs and previews
-        Map<EnchantmentCalculator.EnchantmentSlot, List<EnchantmentOffer>> offers = calculator.calculate();
+        var offers = calculator.calculate();
         calculatorCache.put(event.getEnchanter().getUniqueId(), offers);
 
-        for (Map.Entry<EnchantmentCalculator.EnchantmentSlot, List<EnchantmentOffer>> entry : offers.entrySet())
+        for (var entry : offers.entrySet())
             event.getOffers()[entry.getKey().ordinal()] = !entry.getValue().isEmpty() ? entry.getValue().getFirst() : null;
     }
 

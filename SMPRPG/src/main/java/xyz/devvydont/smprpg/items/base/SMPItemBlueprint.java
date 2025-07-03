@@ -287,7 +287,10 @@ public abstract class SMPItemBlueprint {
 
         // This is a hack to allow any item as far as vanilla is concerned to be enchanted.
         // Our plugin decides what enchants get rolled and what items can be enchanted in the first place.
-        itemStack.setData(DataComponentTypes.ENCHANTABLE, Enchantable.enchantable(10));
+        if (this.getItemClassification().isEnchantable())
+            itemStack.setData(DataComponentTypes.ENCHANTABLE, Enchantable.enchantable(10));
+        else
+            itemStack.unsetData(DataComponentTypes.ENCHANTABLE);
 
         // Apply custom model data.
         itemStack.setData(DataComponentTypes.CUSTOM_MODEL_DATA, CustomModelData.customModelData()
