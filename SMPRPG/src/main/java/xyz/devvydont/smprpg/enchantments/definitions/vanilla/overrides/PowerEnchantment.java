@@ -5,11 +5,11 @@ import io.papermc.paper.registry.keys.tags.ItemTypeTagKeys;
 import io.papermc.paper.registry.tag.TagKey;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemType;
 import org.jetbrains.annotations.NotNull;
+import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.enchantments.EnchantmentRarity;
 import xyz.devvydont.smprpg.enchantments.base.AttributeEnchantment;
 import xyz.devvydont.smprpg.enchantments.definitions.vanilla.VanillaEnchantment;
@@ -39,7 +39,7 @@ public class PowerEnchantment extends VanillaEnchantment implements AttributeEnc
     @Override
     public Collection<AttributeEntry> getHeldAttributes() {
         return List.of(
-                new AdditiveAttributeEntry(Attribute.ATTACK_DAMAGE, getDamageIncrease(getLevel()))
+                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, getDamageIncrease(getLevel()))
         );
     }
 

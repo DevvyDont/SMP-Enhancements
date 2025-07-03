@@ -2,21 +2,21 @@ package xyz.devvydont.smprpg.items.blueprints.sets.diamond;
 
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.inventory.CraftingRecipe;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
 import xyz.devvydont.smprpg.SMPRPG;
+import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomAttributeItem;
 import xyz.devvydont.smprpg.items.blueprints.vanilla.ItemSword;
-import xyz.devvydont.smprpg.items.interfaces.ICraftable;
 import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
+import xyz.devvydont.smprpg.items.interfaces.ICraftable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.items.ToolsUtil;
 
@@ -33,7 +33,7 @@ public class DiamondBow extends CustomAttributeItem implements ICraftable, IBrea
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(Attribute.ATTACK_DAMAGE, ItemSword.getSwordDamage(Material.DIAMOND_SWORD)-5)
+                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, ItemSword.getSwordDamage(Material.DIAMOND_SWORD)-5)
         );
     }
 

@@ -15,7 +15,7 @@ import xyz.devvydont.smprpg.items.interfaces.IEquippableOverride;
 import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
 import xyz.devvydont.smprpg.items.interfaces.ICraftable;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
+import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.util.crafting.builders.HelmetRecipe;
 
 import java.util.Collection;

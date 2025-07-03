@@ -11,13 +11,10 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitScheduler;
 import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.player.ProfileDifficulty;
 import xyz.devvydont.smprpg.gui.base.MenuBase;
-import xyz.devvydont.smprpg.util.crafting.ItemUtil;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.ArrayList;
@@ -63,11 +60,23 @@ public class MenuDifficultyChooser extends MenuBase {
 
     private void handleChoice(ProfileDifficulty difficulty) {
 
+        // If this is an invalid difficulty, don't do anything.
+        if (!isAllowedToSwitchTo(difficulty)) {
+            this.playInvalidAnimation();
+            return;
+        }
+
         if (locked)
             unlock();
 
-        SMPRPG.getInstance().getDifficultyService().setDifficulty(this.player, difficulty);
+        this.closeMenu();
 
+        if (difficulty == SMPRPG.getInstance().getDifficultyService().getDifficulty(this.player)) {
+            player.sendMessage(ComponentUtils.alert("Already playing on that difficulty. Nothing changed."));
+            return;
+        }
+
+        SMPRPG.getInstance().getDifficultyService().setDifficulty(this.player, difficulty);
         Bukkit.broadcast(
                 ComponentUtils.alert(
                         ComponentUtils.create("!", NamedTextColor.GOLD),
@@ -79,13 +88,15 @@ public class MenuDifficultyChooser extends MenuBase {
                         )
                 )
         );
-
-        this.closeMenu();
     }
 
     private ItemStack generateDifficultyButton(ProfileDifficulty difficulty) {
 
-        var item = new ItemStack(matchMaterialToDifficulty(difficulty));
+        var material = matchMaterialToDifficulty(difficulty);
+        if (!isAllowedToSwitchTo(difficulty))
+            material = Material.RED_DYE;
+
+        var item = new ItemStack(material);
         var lore = new ArrayList<Component>();
 
         item.addItemFlags(ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ATTRIBUTES);
@@ -93,6 +104,16 @@ public class MenuDifficultyChooser extends MenuBase {
         item.editMeta(meta -> meta.setEnchantmentGlintOverride(true));
 
         lore.add(ComponentUtils.EMPTY);
+        if (!isAllowedToSwitchTo(difficulty)) {
+            lore.add(ComponentUtils.create("You cannot switch to this difficulty since you already chose an easier one!", NamedTextColor.RED));
+            lore.add(ComponentUtils.EMPTY);
+        }
+
+        if (SMPRPG.getInstance().getDifficultyService().getDifficulty(this.player) == difficulty) {
+            lore.add(ComponentUtils.create("You are playing on this difficulty!", NamedTextColor.GOLD));
+            lore.add(ComponentUtils.EMPTY);
+        }
+
         lore.addAll(matchSummaryToDifficulty(difficulty));
         lore.add(ComponentUtils.EMPTY);
         lore.addAll(matchModifiersToDifficulty(difficulty));
@@ -106,8 +127,33 @@ public class MenuDifficultyChooser extends MenuBase {
         lore.add(ComponentUtils.EMPTY);
         lore.add(ComponentUtils.create("Once chosen, you may only lower your difficulty!", NamedTextColor.RED)
                 .decoration(TextDecoration.BOLD, true));
+        if (this.isAllowedToFreelyChange())
+            lore.add(ComponentUtils.create("**You have permission to freely change your difficulty!", NamedTextColor.GREEN));
         item.lore(ComponentUtils.cleanItalics(lore));
         return item;
+    }
+
+    /**
+     * Checks if the viewer is allowed to freely change difficulties with no restrictions. This is considered an
+     * admin action since it could be abused for drop rate manipulation.
+     * @return
+     */
+    private boolean isAllowedToFreelyChange() {
+        return this.player.isOp() || this.player.permissionValue("smprpg.difficulty.ignorerestrictions").toBooleanOrElse(false);
+    }
+
+    private boolean isAllowedToSwitchTo(ProfileDifficulty difficulty) {
+
+        // Permission override
+        if (isAllowedToFreelyChange())
+            return true;
+
+        var current = SMPRPG.getInstance().getDifficultyService().getDifficulty(this.player);
+        // Hasn't chosen yet
+        if (current.equals(ProfileDifficulty.NOT_CHOSEN))
+            return true;
+
+        return difficulty.ordinal() <= current.ordinal();
     }
 
     private Collection<Component> matchSummaryToDifficulty(ProfileDifficulty difficulty) {

@@ -2,7 +2,6 @@ package xyz.devvydont.smprpg.items.base;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import xyz.devvydont.smprpg.items.attribute.AttributeModifierType;
 import xyz.devvydont.smprpg.items.interfaces.IAttributeItem;
 import xyz.devvydont.smprpg.items.interfaces.ISellable;
@@ -27,8 +26,7 @@ public abstract class VanillaAttributeItem extends VanillaItemBlueprint implemen
     }
 
     @Override
-    public AttributeModifierType.AttributeSession getAttributeSession(AttributeModifierType type, ItemMeta meta) {
-        return type.session(material, meta);
+    public String getUniqueModifierKey() {
+        return this.material.name().toLowerCase();
     }
-
 }

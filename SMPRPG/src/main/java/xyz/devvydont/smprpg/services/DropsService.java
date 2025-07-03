@@ -8,8 +8,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
 import org.bukkit.World;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.damage.DamageType;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Item;
@@ -27,6 +25,7 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
+import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.entity.base.LeveledEntity;
 import xyz.devvydont.smprpg.entity.interfaces.IDamageTrackable;
 import xyz.devvydont.smprpg.entity.player.LeveledPlayer;
@@ -46,7 +45,7 @@ import java.util.*;
  * - When a player dies, their items need to be protected and can only be picked up by them
  * - When an entity drops items, they drop items for whoever helped kill it so everyone gets items
  */
-public class DropsService implements BaseService, Listener {
+public class DropsService implements IService, Listener {
 
     public enum DropFlag {
         NULL,
@@ -306,15 +305,15 @@ public class DropsService implements BaseService, Listener {
      * @param event
      */
     @EventHandler
-    public void onConsiderLuckRollForGear(CustomItemDropRollEvent event) {
+    private void __onConsiderLuckRollForGear(CustomItemDropRollEvent event) {
 
-        double multiplier = 1.0;
-        AttributeInstance luck = event.getPlayer().getAttribute(Attribute.LUCK);
+        var luck = AttributeService.getInstance().getAttribute(event.getPlayer(), AttributeWrapper.LUCK);
 
         if (luck == null)
             return;
 
-        multiplier += luck.getValue() / 100.0;
+        // Divide the luck in such a way that 100 luck means there's no effect.
+        var multiplier = luck.getValue() / 100.0;
         event.setChance(event.getChance() * multiplier);
     }
 
@@ -324,7 +323,7 @@ public class DropsService implements BaseService, Listener {
      * @param event
      */
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-    public void onPlayerDeath(PlayerDeathEvent event) {
+    private void __onPlayerDeath(PlayerDeathEvent event) {
 
         // Go through all the drops on the player and tag it as being owned
         for (ItemStack drop : event.getDrops()) {
@@ -345,7 +344,7 @@ public class DropsService implements BaseService, Listener {
      * @param event
      */
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
-    public void onItemSpawn(ItemSpawnEvent event) {
+    private void __onItemSpawn(ItemSpawnEvent event) {
 
         // Set the rarity glow of the item
         event.getEntity().setGlowing(true);
@@ -386,7 +385,7 @@ public class DropsService implements BaseService, Listener {
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
-    public void onFireworkDamageFromDrop(EntityDamageEvent event) {
+    private void __onFireworkDamageFromDrop(EntityDamageEvent event) {
 
         // We only care about fireworks
         if (!event.getDamageSource().getDamageType().equals(DamageType.FIREWORKS))
@@ -405,7 +404,7 @@ public class DropsService implements BaseService, Listener {
     }
 
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
-    public void onEntityHasDrops(EntityDeathEvent event) {
+    private void __onEntityHasDrops(EntityDeathEvent event) {
 
         LeveledEntity<?> entity = plugin.getEntityService().getEntityInstance(event.getEntity());
 
@@ -488,7 +487,7 @@ public class DropsService implements BaseService, Listener {
      * When a player breaks a block and causes items to drop, mark it as loot for the player so they own it.
      */
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
-    public void onBlockDroppedItemEvent(BlockDropItemEvent event) {
+    private void __onBlockDroppedItemEvent(BlockDropItemEvent event) {
 
         // Tag all the drops as loot drops
         for (Item itemEntity : event.getItems()) {
@@ -506,7 +505,7 @@ public class DropsService implements BaseService, Listener {
     }
 
     @EventHandler
-    public void onRareDropObtained(CustomChancedItemDropSuccessEvent event) {
+    private void __onRareDropObtained(CustomChancedItemDropSuccessEvent event) {
 
         SMPItemBlueprint blueprint = plugin.getItemService().getBlueprint(event.getItem());
         ItemRarity rarityOfDrop = blueprint.getRarity(event.getItem());

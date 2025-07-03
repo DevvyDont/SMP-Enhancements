@@ -1,11 +1,11 @@
 package xyz.devvydont.smprpg.entity.creatures;
 
 import org.bukkit.Material;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
+import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.entity.CustomEntityType;
 import xyz.devvydont.smprpg.entity.base.CustomEntityInstance;
 import xyz.devvydont.smprpg.util.items.ChancedItemDrop;
@@ -39,8 +39,8 @@ public class WitheredSeraph<T extends LivingEntity> extends CustomEntityInstance
     @Override
     public void updateAttributes() {
         super.updateAttributes();
-        this.updateBaseAttribute(Attribute.SCALE, 1.2);
-        this.updateBaseAttribute(Attribute.MOVEMENT_SPEED, .25);
+        this.updateBaseAttribute(AttributeWrapper.SCALE, 1.2);
+        this.updateBaseAttribute(AttributeWrapper.MOVEMENT_SPEED, .25);
     }
 
 

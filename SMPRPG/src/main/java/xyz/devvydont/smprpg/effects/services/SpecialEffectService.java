@@ -6,14 +6,14 @@ import org.bukkit.event.Listener;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.effects.listeners.ShroudedEffectListener;
 import xyz.devvydont.smprpg.effects.tasks.SpecialEffectTask;
-import xyz.devvydont.smprpg.services.BaseService;
+import xyz.devvydont.smprpg.services.IService;
 
 import java.util.*;
 
 /*
  * Used across the plugin to give/remove/interact with special effects to apply on players.
  */
-public class SpecialEffectService implements BaseService {
+public class SpecialEffectService implements IService {
 
 
     private final Map<UUID, SpecialEffectTask> currentTasks = new HashMap<>();

@@ -5,16 +5,15 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.trim.TrimMaterial;
 import xyz.devvydont.smprpg.SMPRPG;
+import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
-import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomAttributeItem;
 import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
 import xyz.devvydont.smprpg.items.interfaces.ICraftable;
 import xyz.devvydont.smprpg.items.interfaces.ITrimmable;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
 
 import java.util.Collection;
 import java.util.List;
@@ -30,7 +29,7 @@ public abstract class AmethystArmorSet extends CustomAttributeItem implements IT
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 5),
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, getHealth()),
-                new ScalarAttributeEntry(AttributeWrapper.LUCK, .2)
+                new AdditiveAttributeEntry(AttributeWrapper.INTELLIGENCE, 50)
         );
     }
 

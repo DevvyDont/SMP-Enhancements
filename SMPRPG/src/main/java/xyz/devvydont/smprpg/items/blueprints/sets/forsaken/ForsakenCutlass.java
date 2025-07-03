@@ -30,7 +30,7 @@ import xyz.devvydont.smprpg.items.interfaces.ICraftable;
 import xyz.devvydont.smprpg.items.interfaces.IHeaderDescribable;
 import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
+import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.items.AbilityUtil;
 

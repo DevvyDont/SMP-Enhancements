@@ -1,16 +1,15 @@
 package xyz.devvydont.smprpg.items.blueprints.vanilla;
 
 import org.bukkit.Material;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemStack;
+import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.items.base.VanillaAttributeItem;
 import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
 import xyz.devvydont.smprpg.util.items.ToolsUtil;
 
 import java.util.ArrayList;
@@ -211,22 +210,22 @@ public class ItemArmor extends VanillaAttributeItem implements IBreakableEquipme
         // If we have true defense...
         double trueDef = getArmorFromMaterial(material);
         if (trueDef > 0)
-            modifiers.add(new AdditiveAttributeEntry(Attribute.ARMOR, getArmorFromMaterial(material)));
+            modifiers.add(new AdditiveAttributeEntry(AttributeWrapper.ARMOR, getArmorFromMaterial(material)));
 
         // If we have health...
         double health = getHealthFromMaterial(material);
         if (health > 0)
-            modifiers.add(new AdditiveAttributeEntry(Attribute.MAX_HEALTH, health));
+            modifiers.add(new AdditiveAttributeEntry(AttributeWrapper.HEALTH, health));
 
         // If we have defense...
         double defense = getDefenseFromMaterial(material);
         if (defense > 0)
-            modifiers.add(new AdditiveAttributeEntry(Attribute.ARMOR_TOUGHNESS, defense));
+            modifiers.add(new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, defense));
 
         // If we have knockback resist...
         double kbResist = getKnockbackResistanceFromMaterial(material);
         if (kbResist > 0)
-            modifiers.add(new AdditiveAttributeEntry(Attribute.KNOCKBACK_RESISTANCE, kbResist));
+            modifiers.add(new AdditiveAttributeEntry(AttributeWrapper.KNOCKBACK_RESISTANCE, kbResist));
 
         // If we have damage...
         double dmg = getDamageFromMaterial(material);
@@ -236,7 +235,7 @@ public class ItemArmor extends VanillaAttributeItem implements IBreakableEquipme
         // If we have no modifiers, we need to have something to get rid of the vanilla stats
         // Crappy armor won't have any attributes since defense isn't an attribute
         if (modifiers.isEmpty())
-            modifiers.add(new AdditiveAttributeEntry(Attribute.ARMOR, 0));
+            modifiers.add(new AdditiveAttributeEntry(AttributeWrapper.ARMOR, 0));
 
         return modifiers;
     }

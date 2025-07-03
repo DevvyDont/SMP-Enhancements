@@ -21,6 +21,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
+import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.effects.tasks.OverheatingEffect;
 import xyz.devvydont.smprpg.effects.tasks.TetheredEffect;
 import xyz.devvydont.smprpg.entity.CustomEntityType;
@@ -139,7 +140,7 @@ public class BlazeBoss extends CustomBossInstance<Blaze> implements Listener {
             _entity.setInvulnerable(true);
             getEntity().setAI(false);
             setHealthPercentage(Math.min(chargeProgress, 1.0));
-            updateBaseAttribute(Attribute.SCALE, chargeProgress * GOAL_SCALE);
+            updateBaseAttribute(AttributeWrapper.SCALE, chargeProgress * GOAL_SCALE);
 
             // Are we done charging?
             if (chargeProgress >= 1.0) {
@@ -176,7 +177,7 @@ public class BlazeBoss extends CustomBossInstance<Blaze> implements Listener {
     @Override
     public void updateAttributes() {
         super.updateAttributes();
-        updateBaseAttribute(Attribute.KNOCKBACK_RESISTANCE, 1);
+        updateBaseAttribute(AttributeWrapper.KNOCKBACK_RESISTANCE, 1);
     }
 
     @Override

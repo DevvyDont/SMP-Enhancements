@@ -1,6 +1,5 @@
 package xyz.devvydont.smprpg.services;
 
-import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
@@ -16,7 +15,7 @@ import java.text.DecimalFormat;
 /**
  * Acts as a middleman between performing transactions for player currency
  */
-public class EconomyService implements BaseService {
+public class EconomyService implements IService {
 
     private SMPRPG plugin;
 

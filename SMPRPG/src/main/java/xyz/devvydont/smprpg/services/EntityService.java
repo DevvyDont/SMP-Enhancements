@@ -38,11 +38,12 @@ import xyz.devvydont.smprpg.events.LeveledEntitySpawnEvent;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.formatting.DamagePopupUtil;
 import xyz.devvydont.smprpg.util.formatting.Symbols;
+import xyz.devvydont.smprpg.util.tasks.PlaytimeTracker;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
-public class EntityService implements BaseService, Listener {
+public class EntityService implements IService, Listener {
 
     public static final String ENTITY_CLASS_KEY = "entity-class";
     public static final String LEVEL_KEY_STRING = "level";
@@ -81,6 +82,9 @@ public class EntityService implements BaseService, Listener {
     @Override
     public boolean setup() {
         plugin.getLogger().info("Setting up Entity Service");
+
+        // Start tracking playtime.
+        PlaytimeTracker.start();
 
         for (CustomEntityType customEntityType : CustomEntityType.values())
             entityResolver.put(customEntityType.key(), customEntityType);
@@ -261,6 +265,15 @@ public class EntityService implements BaseService, Listener {
         return leveled;
     }
 
+    /**
+     * Check if an entity is being tracked by this service.
+     * @param entity The entity you want to check.
+     * @return True if the entity is being tracked, otherwise False.
+     */
+    public boolean isTracking(Entity entity) {
+        return this.entityInstances.containsKey(entity.getUniqueId());
+    }
+
     private void trackEntity(LeveledEntity<?> entity) {
         removeEntity(entity.getEntity().getUniqueId());
         entityInstances.put(entity.getEntity().getUniqueId(), entity);
@@ -335,6 +348,9 @@ public class EntityService implements BaseService, Listener {
         for (var item : event.getPlayer().getInventory().getContents())
             if (item != null && !item.getType().equals(Material.AIR))
                 plugin.getItemService().ensureItemStackUpdated(item);
+
+        // Store first joined. No checking necessary.
+        PlaytimeTracker.setFirstSeenIfNotPresent(event.getPlayer());
     }
 
     @EventHandler(priority = EventPriority.MONITOR)

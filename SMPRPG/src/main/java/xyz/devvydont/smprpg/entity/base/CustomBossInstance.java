@@ -1,11 +1,11 @@
 package xyz.devvydont.smprpg.entity.base;
 
 import net.kyori.adventure.bossbar.BossBar;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.jetbrains.annotations.Nullable;
+import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.entity.CustomEntityType;
 import xyz.devvydont.smprpg.entity.components.EntityConfiguration;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
@@ -46,8 +46,8 @@ public class CustomBossInstance<T extends LivingEntity> extends BossInstance<T> 
 
     @Override
     public void updateAttributes() {
-        updateBaseAttribute(Attribute.MAX_HEALTH, this._config.getBaseHealth());
-        updateBaseAttribute(Attribute.ATTACK_DAMAGE, this._config.getBaseDamage());
+        updateBaseAttribute(AttributeWrapper.HEALTH, this._config.getBaseHealth());
+        updateBaseAttribute(AttributeWrapper.STRENGTH, this._config.getBaseDamage());
         heal();
     }
 

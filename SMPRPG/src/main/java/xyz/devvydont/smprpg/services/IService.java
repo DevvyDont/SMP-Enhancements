@@ -1,6 +1,6 @@
 package xyz.devvydont.smprpg.services;
 
-public interface BaseService {
+public interface IService {
 
     boolean setup();
     void cleanup();

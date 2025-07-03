@@ -3,16 +3,15 @@ package xyz.devvydont.smprpg.items.blueprints.equipment;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.attribute.AttributeModifier;
+import xyz.devvydont.smprpg.attribute.AttributeType;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.ItemRarity;
-import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomItemBlueprint;
 import xyz.devvydont.smprpg.items.interfaces.ReforgeApplicator;
 import xyz.devvydont.smprpg.reforge.ReforgeBase;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.attributes.AttributeUtil;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.formatting.MinecraftStringUtils;
 
@@ -51,7 +50,7 @@ public abstract class ReforgeStone extends CustomItemBlueprint implements Reforg
         // Sample of statistics that get altered for a certain rarity
         // Is this attribute present on this item? If not skip it
         lines.add(ComponentUtils.create("Stat Modifiers", NamedTextColor.BLUE));
-        for (AttributeEntry entry : reforge.getAttributeModifiersWithRarity(DISPLAY_RARITY)){
+        for (var entry : reforge.getAttributeModifiersWithRarity(DISPLAY_RARITY)){
 
             // There are three components to the string portion of the attribute number. The +/-, the amount, and percent.
             // The sign is a + if the amount is above 0. Otherwise, empty since the negative is put there for us.
@@ -63,11 +62,11 @@ public abstract class ReforgeStone extends CustomItemBlueprint implements Reforg
             String percent = entry.getOperation().equals(AttributeModifier.Operation.ADD_NUMBER) && !forcePercent ? "" : "%";
             String numberSection = String.format("%s%d%s", sign, number, percent);
 
-            AttributeWrapper wrapper = AttributeWrapper.ofAttribute(entry.getAttribute());
-            NamedTextColor numberColor = wrapper.getAttributeType().equals(AttributeWrapper.AttributeType.SPECIAL) ? NamedTextColor.LIGHT_PURPLE :
-                    wrapper.getAttributeType().equals(AttributeWrapper.AttributeType.POSITIVE) && number > 0 ? NamedTextColor.GREEN : NamedTextColor.RED;
+            var wrapper = entry.getAttribute();
+            var numberColor = wrapper.Type.equals(AttributeType.SPECIAL) ? NamedTextColor.LIGHT_PURPLE :
+                    wrapper.Type.equals(AttributeType.HELPFUL) && number > 0 ? NamedTextColor.GREEN : NamedTextColor.RED;
             Component numberComponent = ComponentUtils.create(numberSection, numberColor);
-            lines.add(ComponentUtils.create(AttributeWrapper.ofAttribute(entry.getAttribute()).getCleanName() + ": ").append(numberComponent));
+            lines.add(ComponentUtils.create(wrapper.DisplayName + ": ").append(numberComponent));
         }
         lines.add(ComponentUtils.create("Example bonuses for " + DISPLAY_RARITY.name() +" item are shown.", NamedTextColor.DARK_GRAY));
         lines.add(ComponentUtils.create("Results vary based on item rarity!", NamedTextColor.DARK_GRAY));

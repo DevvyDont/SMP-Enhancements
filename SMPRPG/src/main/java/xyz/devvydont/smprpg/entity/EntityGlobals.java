@@ -170,6 +170,9 @@ public class EntityGlobals {
             case MULE -> 10;
             case PANDA -> 10;
 
+            case CREAKING -> 15;
+            case HAPPY_GHAST -> 30;
+
             default -> 1;
         };
     }

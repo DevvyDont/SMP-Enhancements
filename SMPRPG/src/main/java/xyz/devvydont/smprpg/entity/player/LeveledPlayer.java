@@ -5,7 +5,6 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,9 +12,11 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 import xyz.devvydont.smprpg.SMPRPG;
+import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.entity.base.LeveledEntity;
 import xyz.devvydont.smprpg.entity.components.EntityConfiguration;
 import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
@@ -30,6 +31,8 @@ import java.util.List;
 
 public class LeveledPlayer extends LeveledEntity<Player> implements Listener {
 
+    public static int MANA_REGENERATE_FREQUENCY = 10;
+
     // Used as a shortcut for skill modification
     private final SkillInstance combatSkill;
     private final SkillInstance miningSkill;
@@ -37,6 +40,9 @@ public class LeveledPlayer extends LeveledEntity<Player> implements Listener {
     private final SkillInstance farmingSkill;
     private final SkillInstance woodcuttingSkill;
     private final SkillInstance magicSkill;
+
+    private BukkitTask _manaRegenerateTask;
+    private double _mana = 0;
 
     public LeveledPlayer(SMPRPG plugin, Player entity) {
         super(entity);
@@ -48,6 +54,34 @@ public class LeveledPlayer extends LeveledEntity<Player> implements Listener {
         this.farmingSkill = plugin.getSkillService().getNewSkillInstance(entity, SkillType.FARMING);
         this.woodcuttingSkill = plugin.getSkillService().getNewSkillInstance(entity, SkillType.WOODCUTTING);
         this.magicSkill = plugin.getSkillService().getNewSkillInstance(entity, SkillType.MAGIC);
+
+        this._config = EntityConfiguration.PLAYER;
+    }
+
+    @Override
+    public void setup() {
+        super.setup();
+        startManaTask();
+    }
+
+    public void regenerateMana() {
+        var max = getMaxMana();
+        this._mana += getMaxMana() / 100;
+        this._mana = Math.min(Math.max(0, _mana), max);
+    }
+
+    public double getMana() {
+        return _mana;
+    }
+
+    public double getMaxMana() {
+        var mana = SMPRPG.getInstance().getAttributeService().getOrCreateAttribute(_entity, AttributeWrapper.INTELLIGENCE);
+        return mana.getValue();
+    }
+
+    public void useMana(int cost) {
+        this._mana -= cost;
+        this._mana = Math.max(0, this._mana);
     }
 
     public ProfileDifficulty getDifficulty() {
@@ -176,7 +210,7 @@ public class LeveledPlayer extends LeveledEntity<Player> implements Listener {
         if (hp < 100) {
             scale = Math.round(hp / 5f); // 20 at 100 HP
         } else if (hp < 1000) {
-            scale = 20 + Math.round((hp - 200) / 40f); // 40 at 1000 HP
+            scale = 20 + Math.round((hp - 100) / 40f); // 40 at 1000 HP
         } else {
             scale = 40 + Math.round((hp - 1000) / 75f); // 60 at 2500 HP
         }
@@ -203,20 +237,24 @@ public class LeveledPlayer extends LeveledEntity<Player> implements Listener {
 
         // Update max health to 100 while maintaining their current HP
         double percent = getHealthPercentage();
-        updateBaseAttribute(Attribute.MAX_HEALTH, this._config.getBaseHealth());
+        updateBaseAttribute(AttributeWrapper.HEALTH, this._config.getBaseHealth());
 
         if (percent > .01)
             setHealthPercentage(percent);
 
-        // Set mic default base attributes that players should have
-        updateBaseAttribute(Attribute.ATTACK_DAMAGE, this._config.getBaseDamage());
-        updateBaseAttribute(Attribute.KNOCKBACK_RESISTANCE, .05);
-        updateBaseAttribute(Attribute.EXPLOSION_KNOCKBACK_RESISTANCE, .05);
-        updateBaseAttribute(Attribute.SWEEPING_DAMAGE_RATIO, .05);
+        // Set misc default base attributes that players should have
+        updateBaseAttribute(AttributeWrapper.STRENGTH, this._config.getBaseDamage());
+        updateBaseAttribute(AttributeWrapper.REGENERATION, getDifficulty() == ProfileDifficulty.HARD ? 50 : 100);
+        updateBaseAttribute(AttributeWrapper.INTELLIGENCE, getDifficulty() == ProfileDifficulty.HARD ? 50 : 100);
+        updateBaseAttribute(AttributeWrapper.LUCK, 100);
+        updateBaseAttribute(AttributeWrapper.DEFENSE, 0);
 
         // Make sure we aren't overloading their UI with hearts
         getPlayer().setHealthScale(getHealthScale());
         getPlayer().setHealthScaled(true);
+
+        // Make them only start with a fraction of their mana, to prevent abusing mana restoration from re-logging.
+        this._mana = getMaxMana() / 5;
     }
 
     private Team getNametagTeam() {
@@ -246,6 +284,7 @@ public class LeveledPlayer extends LeveledEntity<Player> implements Listener {
     @Override
     public void cleanup() {
         super.cleanup();
+        killManaTask();
     }
 
     @Override
@@ -287,6 +326,17 @@ public class LeveledPlayer extends LeveledEntity<Player> implements Listener {
         return true;
     }
 
+    private void killManaTask() {
+        if (_manaRegenerateTask != null)
+            _manaRegenerateTask.cancel();
+        _manaRegenerateTask = null;
+    }
+
+    private void startManaTask() {
+        killManaTask();
+        _manaRegenerateTask = Bukkit.getScheduler().runTaskTimer(SMPRPG.getInstance(), this::regenerateMana, 0, MANA_REGENERATE_FREQUENCY);
+    }
+
     @EventHandler(priority = EventPriority.MONITOR)
     private void __onEntityAddToWorld(EntityAddToWorldEvent event) {
 
@@ -303,5 +353,4 @@ public class LeveledPlayer extends LeveledEntity<Player> implements Listener {
 
         updateNametag();
     }
-
 }

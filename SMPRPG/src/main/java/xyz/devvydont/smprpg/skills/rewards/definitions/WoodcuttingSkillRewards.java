@@ -1,9 +1,9 @@
 package xyz.devvydont.smprpg.skills.rewards.definitions;
 
+import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.skills.SkillGlobals;
 import xyz.devvydont.smprpg.skills.rewards.AttributeReward;
 import xyz.devvydont.smprpg.skills.rewards.SkillRewardContainer;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
 
 public class WoodcuttingSkillRewards extends SkillRewardContainer {
 

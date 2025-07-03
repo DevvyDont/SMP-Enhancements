@@ -13,7 +13,7 @@ import xyz.devvydont.smprpg.enchantments.base.AttributeEnchantment;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeModifierType;
 import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
+import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.Collection;

@@ -2,9 +2,7 @@ package xyz.devvydont.smprpg.items.interfaces;
 
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
-import xyz.devvydont.smprpg.items.attribute.IAttributeContainer;
 import xyz.devvydont.smprpg.items.attribute.AttributeModifierType;
 
 import java.util.Collection;
@@ -42,11 +40,10 @@ public interface IAttributeItem {
     EquipmentSlotGroup getActiveSlot();
 
     /**
-     * Generates a new attribute session for attribute modification
-     *
-     * @param type
-     * @return
+     * A unique key to use when applying modifiers. Needs to be unique enough to allow uniqueness when alongside other
+     * items of a different type. In most cases, this can just be the item name.
+     * @return The name to use for keys.
      */
-    AttributeModifierType.AttributeSession getAttributeSession(AttributeModifierType type, ItemMeta meta);
+    String getUniqueModifierKey();
 
 }

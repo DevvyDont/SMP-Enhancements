@@ -1,8 +1,8 @@
 package xyz.devvydont.smprpg.entity.base;
 
-import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.entity.EntityGlobals;
 import xyz.devvydont.smprpg.entity.components.DamageTracker;
 import xyz.devvydont.smprpg.entity.components.EntityConfiguration;
@@ -15,7 +15,6 @@ public class VanillaEntity<T extends Entity> extends LeveledEntity<T> implements
     public static final String VANILLA_CLASS_KEY = "vanilla";
 
     private final DamageTracker _tracker = new DamageTracker();
-
 
     public VanillaEntity(T entity) {
         super(entity);
@@ -53,8 +52,8 @@ public class VanillaEntity<T extends Entity> extends LeveledEntity<T> implements
 
     @Override
     public void updateAttributes() {
-        updateBaseAttribute(Attribute.MAX_HEALTH, this._config.getBaseHealth());
-        updateBaseAttribute(Attribute.ATTACK_DAMAGE, this._config.getBaseDamage());
+        updateBaseAttribute(AttributeWrapper.HEALTH, this._config.getBaseHealth());
+        updateBaseAttribute(AttributeWrapper.STRENGTH, this._config.getBaseDamage());
         heal();
     }
 
@@ -62,7 +61,7 @@ public class VanillaEntity<T extends Entity> extends LeveledEntity<T> implements
     public EntityConfiguration getDefaultConfiguration() {
         return EntityConfiguration.builder()
                 .withLevel(this.getLevel())
-                .withHealth(EntityGlobals.calculateExpectedEntityEhp(this.getLevel()))
+                .withHealth(EntityGlobals.softRoundHealth(EntityGlobals.calculateExpectedEntityEhp(this.getLevel())))
                 .withDamage(EntityGlobals.calculateExpectedEntityEhp(this.getLevel()) / EntityGlobals.ENTITY_HITS_TO_KILL_PLAYER)
                 .build();
     }

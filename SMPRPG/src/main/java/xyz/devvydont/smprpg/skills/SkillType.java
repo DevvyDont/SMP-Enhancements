@@ -29,7 +29,7 @@ public enum SkillType {
     }
 
     public String getKey() {
-        return "skill-" + this.name().toLowerCase();
+        return "skill_" + this.name().toLowerCase();
     }
 
     public NamespacedKey getNamespacedKey() {

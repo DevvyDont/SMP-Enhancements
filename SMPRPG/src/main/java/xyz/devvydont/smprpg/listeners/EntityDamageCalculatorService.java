@@ -20,13 +20,13 @@ import org.bukkit.potion.PotionEffectType;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.base.LeveledEntity;
 import xyz.devvydont.smprpg.events.CustomEntityDamageByEntityEvent;
-import xyz.devvydont.smprpg.services.BaseService;
+import xyz.devvydont.smprpg.services.IService;
 import xyz.devvydont.smprpg.services.DifficultyService;
 
 /**
  * Overrides all instances of vanilla damage that is desired to fit our new attribute logic
  */
-public class EntityDamageCalculatorService implements Listener, BaseService {
+public class EntityDamageCalculatorService implements Listener, IService {
 
     /*
      * STATIC CONSTANTS (SETTINGS)
@@ -41,7 +41,7 @@ public class EntityDamageCalculatorService implements Listener, BaseService {
     public static final int DEFENSE_FACTOR = 100;
 
     // What should be the attack cooldown threshold to use vanilla's logic?
-    public final static float COOLDOWN_FORGIVENESS_THRESHOLD = 0.6f;
+    public final static float COOLDOWN_FORGIVENESS_THRESHOLD = 0.9f;
 
     // Used to store the amount of damage an arrow entity should do.
     public final NamespacedKey PROJECTILE_DAMAGE_TAG;
@@ -529,7 +529,8 @@ public class EntityDamageCalculatorService implements Listener, BaseService {
         if (cooldown >= COOLDOWN_FORGIVENESS_THRESHOLD)
             return;
 
-        double newDamage = Math.sqrt(event.getDamage());
+        double multiplier = 0.1 + (1.0 - 0.1) * Math.pow(cooldown, 2);
+        double newDamage = event.getDamage() * multiplier;
 
         // This player was well below the threshold for us to consider dealing full damage, apply some math to reduce it.
         event.setDamage(EntityDamageEvent.DamageModifier.BASE, newDamage);

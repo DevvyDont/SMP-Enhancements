@@ -12,11 +12,11 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
+import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.entity.EntityGlobals;
 import xyz.devvydont.smprpg.entity.components.EntityConfiguration;
 import xyz.devvydont.smprpg.listeners.EntityDamageCalculatorService;
-import xyz.devvydont.smprpg.util.attributes.AttributeUtil;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
+import xyz.devvydont.smprpg.services.AttributeService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.formatting.MinecraftStringUtils;
 import xyz.devvydont.smprpg.util.formatting.Symbols;
@@ -298,7 +298,22 @@ public abstract class LeveledEntity<T extends Entity> implements LootSource {
      * @return How much health should be regenerated
      */
     public double getRegenerationAmount(EntityRegainHealthEvent.RegainReason reason) {
-        return getHalfHeartValue();
+
+        // Regeneration is almost always based on their half heart value as a base.
+        var amount = this.getHalfHeartValue();
+
+        // Only living entities can do an attribute check.
+        if (!(this._entity instanceof LivingEntity living))
+            return amount;
+
+        // Check if they have the regeneration attribute. If they don't, no biggie, just assume half heart.
+        var regeneration = AttributeService.getInstance().getAttribute(living, AttributeWrapper.REGENERATION);
+        if (regeneration == null)
+            return amount;
+
+        // Regeneration is a number representing the percentage of efficiency of regeneration. 100 = no change. 200 = double. 0 = nothing, etc.
+        var multiplier = regeneration.getValue() / 100.0;
+        return amount * multiplier;
     }
 
     /**
@@ -342,7 +357,7 @@ public abstract class LeveledEntity<T extends Entity> implements LootSource {
      * @param attribute The attribute to modify
      * @param value The value to set the base value of the attribute to
      */
-    protected void updateBaseAttribute(Attribute attribute, double value) {
+    private void updateBaseAttribute(Attribute attribute, double value) {
 
         if (!(_entity instanceof LivingEntity living))
             return;
@@ -356,6 +371,30 @@ public abstract class LeveledEntity<T extends Entity> implements LootSource {
 
         if (attrInstance != null)
             attrInstance.setBaseValue(value);
+    }
+
+    /**
+     * Helper method to make it quicker to set the value of an attribute on an entity.
+     * Also ensures that the entity will have the attribute registered to them if it is not already
+     * @param attribute The attribute to modify
+     * @param value The value to set the base value of the attribute to
+     */
+    protected void updateBaseAttribute(AttributeWrapper attribute, double value) {
+
+        // If this is a vanilla attribute, do it the vanilla way.
+        if (attribute.isVanilla() && attribute.getWrappedAttribute() != null) {
+            updateBaseAttribute(attribute.getWrappedAttribute(), value);
+            return;
+        }
+
+        // Otherwise, do it the custom way. Only LivingEntity instances can have attributes.
+        if (!(_entity instanceof LivingEntity target))
+            return;
+
+        // Retrieve the attribute, set the value, and apply the changes.
+        var attrInstance = SMPRPG.getInstance().getAttributeService().getOrCreateAttribute(target, attribute);
+        attrInstance.setBaseValue(value);
+        attrInstance.save(target, attribute);
     }
 
     /**
@@ -394,12 +433,16 @@ public abstract class LeveledEntity<T extends Entity> implements LootSource {
      *
      * @return an integer representing how much defense they have.
      */
-    public int getBaseDefense() {
+    public double getBaseDefense() {
 
         if (!(getEntity() instanceof LivingEntity living))
             return 0;
 
-        return (int) AttributeUtil.getAttributeValue(AttributeWrapper.DEFENSE.getAttribute(), living);
+        var defense = SMPRPG.getInstance().getAttributeService().getAttribute(living, AttributeWrapper.DEFENSE);
+        if (defense == null)
+            return 0;
+
+        return defense.getValue();
     }
 
     /**
@@ -407,7 +450,7 @@ public abstract class LeveledEntity<T extends Entity> implements LootSource {
      * @return an integer representing defense.
      */
     public int getDefense() {
-        return getBaseDefense() + getDefenseFromEffects();
+        return Math.toIntExact(Math.round(getBaseDefense() + getDefenseFromEffects()));
     }
 
     public double getHealthPercentage() {

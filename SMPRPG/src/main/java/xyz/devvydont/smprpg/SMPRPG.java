@@ -30,6 +30,7 @@ public final class SMPRPG extends JavaPlugin implements Listener {
         return INSTANCE;
     }
 
+    AttributeService attributeService;
     EntityDamageCalculatorService entityDamageCalculatorService;
     EconomyService economyService;
     ChatService chatService;
@@ -44,13 +45,17 @@ public final class SMPRPG extends JavaPlugin implements Listener {
     UnstableListenersService unstableListenersService;
     AnimationService animationService;
 
-    List<BaseService> services;
+    List<IService> services;
 
     public static void broadcastToOperators(TextComponent alert) {
         Bukkit.getLogger().warning(alert.content());
         for (var player : Bukkit.getOnlinePlayers())
-            if (player.isOp())
+            if (player.isOp() || player.permissionValue("smprpg.receiveopmessages").toBooleanOrElse(false))
                 player.sendMessage(ComponentUtils.alert(ComponentUtils.create("OP MSG", NamedTextColor.DARK_RED), alert));
+    }
+
+    public AttributeService getAttributeService() {
+        return attributeService;
     }
 
     public EntityDamageCalculatorService getEntityDamageCalculatorService() {
@@ -114,8 +119,8 @@ public final class SMPRPG extends JavaPlugin implements Listener {
 
         services = new ArrayList<>();
 
-        entityDamageCalculatorService = new EntityDamageCalculatorService(this);
-        registerService(entityDamageCalculatorService);
+        enchantmentService = new EnchantmentService();
+        registerService(enchantmentService);
 
         economyService = new EconomyService(this);
         registerService(economyService);
@@ -123,11 +128,14 @@ public final class SMPRPG extends JavaPlugin implements Listener {
         chatService = new ChatService(this);
         registerService(chatService);
 
+        attributeService = new AttributeService();
+        registerService(attributeService);
+
+        entityDamageCalculatorService = new EntityDamageCalculatorService(this);
+        registerService(entityDamageCalculatorService);
+
         itemService = new ItemService(this);
         registerService(itemService);
-
-        enchantmentService = new EnchantmentService();
-        registerService(enchantmentService);
 
         entityService = new EntityService(this);
         registerService(entityService);
@@ -166,7 +174,7 @@ public final class SMPRPG extends JavaPlugin implements Listener {
         new LootListener(this);
     }
 
-    public void registerService(BaseService service) {
+    public void registerService(IService service) {
         boolean success = service.setup();
 
         // Did this service fail to start and the plugin requires it?
@@ -179,7 +187,7 @@ public final class SMPRPG extends JavaPlugin implements Listener {
     @Override
     public void onDisable() {
 
-        for (BaseService service : services)
+        for (IService service : services)
             service.cleanup();
 
     }

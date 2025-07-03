@@ -2,6 +2,7 @@ package xyz.devvydont.smprpg.items.base;
 
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.CustomModelData;
+import io.papermc.paper.datacomponent.item.Enchantable;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -190,7 +191,7 @@ public abstract class SMPItemBlueprint {
         lines.add(ComponentUtils.EMPTY);
         for (CustomEnchantment enchantment : SMPRPG.getInstance().getEnchantmentService().getCustomEnchantments(meta)) {
             Component name = enchantment.getEnchantment().displayName(enchantment.getLevel()).color(enchantment.getEnchantColor());
-            name = ComponentUtils.create(Symbols.ENCHANTMENT + " ", NamedTextColor.LIGHT_PURPLE).append(name);
+            name = ComponentUtils.create(Symbols.SPARKLES + " ", NamedTextColor.LIGHT_PURPLE).append(name);
             lines.add(name);
             if (meta.getEnchants().size() <= 9)
                 lines.add(enchantment.getDescription());
@@ -283,6 +284,13 @@ public abstract class SMPItemBlueprint {
         // If this is a vanilla item, we need to hack the vanilla food component back on the item.
         if (!isCustom())
             updateVanillaFoodComponent(itemStack);
+
+        // This is a hack to allow any item as far as vanilla is concerned to be enchanted.
+        // Our plugin decides what enchants get rolled and what items can be enchanted in the first place.
+        if (this.getItemClassification().isEnchantable())
+            itemStack.setData(DataComponentTypes.ENCHANTABLE, Enchantable.enchantable(10));
+        else
+            itemStack.unsetData(DataComponentTypes.ENCHANTABLE);
 
         // Apply custom model data.
         itemStack.setData(DataComponentTypes.CUSTOM_MODEL_DATA, CustomModelData.customModelData()

@@ -7,9 +7,10 @@ import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import xyz.devvydont.smprpg.SMPRPG;
+import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.entity.player.ProfileDifficulty;
+import xyz.devvydont.smprpg.services.AttributeService;
 import xyz.devvydont.smprpg.skills.SkillType;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 public class AttributeReward implements ISkillReward {
@@ -58,7 +59,7 @@ public class AttributeReward implements ISkillReward {
         String old = "+" + formatNumber(_rawOld) + perc;
         String _new = "+" + formatNumber(_rawNew) + perc;
         return ComponentUtils.merge(
-                ComponentUtils.create(attribute.getCleanName() + " "),
+                ComponentUtils.create(attribute.DisplayName + " "),
                 ComponentUtils.upgrade(old, _new, NamedTextColor.GREEN)
         );
     }
@@ -70,16 +71,17 @@ public class AttributeReward implements ISkillReward {
      * @return
      */
     public NamespacedKey getModifierKey(SkillType skill) {
-        return new NamespacedKey("smprpg", skill.getKey() + attribute.name().toLowerCase() + "-bonus");
+        return new NamespacedKey("smprpg", skill.getKey() + "_" +  attribute.name().toLowerCase() + "_bonus");
     }
 
     public void remove(Player player, SkillType skill) {
 
-        var attributeInstance = player.getAttribute(attribute.getAttribute());
+        var attributeInstance = AttributeService.getInstance().getAttribute(player, attribute);
         if (attributeInstance == null)
             return;
 
         attributeInstance.removeModifier(getModifierKey(skill));
+        attributeInstance.save(player, attribute);
     }
 
     /**
@@ -99,11 +101,9 @@ public class AttributeReward implements ISkillReward {
 
         remove(player, skill);
 
-        var attributeInstance = player.getAttribute(attribute.getAttribute());
-        if (attributeInstance == null)
-            return;
-
-        AttributeModifier modifier = new AttributeModifier(getModifierKey(skill), adjustedAmount, operation, EquipmentSlotGroup.ANY);
+        var attributeInstance = AttributeService.getInstance().getOrCreateAttribute(player, attribute);
+        var modifier = new AttributeModifier(getModifierKey(skill), adjustedAmount, operation, EquipmentSlotGroup.ANY);
         attributeInstance.addModifier(modifier);
+        attributeInstance.save(player, attribute);
     }
 }

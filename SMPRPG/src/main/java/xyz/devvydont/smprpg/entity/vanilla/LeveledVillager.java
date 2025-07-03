@@ -1,8 +1,8 @@
 package xyz.devvydont.smprpg.entity.vanilla;
 
 import org.bukkit.entity.Villager;
+import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.entity.base.VanillaEntity;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
 import xyz.devvydont.smprpg.util.formatting.MinecraftStringUtils;
 
 public class LeveledVillager extends VanillaEntity<Villager> {
@@ -14,7 +14,7 @@ public class LeveledVillager extends VanillaEntity<Villager> {
     @Override
     public void updateAttributes() {
         super.updateAttributes();
-        updateBaseAttribute(AttributeWrapper.DEFENSE.getAttribute(), 100);
+        updateBaseAttribute(AttributeWrapper.DEFENSE, 100);
     }
 
     @Override

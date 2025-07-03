@@ -59,7 +59,7 @@ import xyz.devvydont.smprpg.util.formatting.Symbols;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
-public class ItemService implements BaseService, Listener {
+public class ItemService implements IService, Listener {
 
     // Integer to tag items with whenever we update them to prevent unnecessary work
     public static final int VERSION = 1;
@@ -761,7 +761,7 @@ public class ItemService implements BaseService, Listener {
             int power = attributeable.getPowerRating() + AttributeUtil.getPowerBonus(meta);
             lore.add(ComponentUtils.create("Power Rating: ").append(ComponentUtils.create(Symbols.POWER + power, NamedTextColor.YELLOW)));
             lore.add(ComponentUtils.EMPTY);
-            lore.addAll(AttributeUtil.getAttributeLore(attributeable, meta));
+            lore.addAll(AttributeUtil.getAttributeLore(blueprint, itemStack));
             lore.add(ComponentUtils.create("Slot: " + attributeable.getActiveSlot().toString().toLowerCase(), NamedTextColor.DARK_GRAY));
         }
 

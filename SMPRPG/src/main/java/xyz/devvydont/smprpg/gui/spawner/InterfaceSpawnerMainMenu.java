@@ -26,12 +26,18 @@ public class InterfaceSpawnerMainMenu extends MenuBase {
         render();
     }
 
+    private boolean canUse() {
+        return this.player.isOp() || this.player.permissionValue("smprpg.items.spawneditor.modify").toBooleanOrElse(false);
+    }
+
     public void render() {
         this.setBorderFull();
         this.setBackButton(49);
 
         // Create the button to delete this spawner.
         this.setButton(43, createDeleteButtonItem(), (event -> {
+            if (!canUse())
+                return;
             this.getSpawner().getEntity().remove();
             this.playSound(Sound.BLOCK_ANVIL_BREAK, 1, 1.5f);
             player.closeInventory();
@@ -40,12 +46,17 @@ public class InterfaceSpawnerMainMenu extends MenuBase {
 
         // Create the button to open the submenu to add/remove entities to this spawner.
         this.setButton(31, createEntriesButtonItem(), (event -> {
+            if (!canUse())
+                return;
             this.playSound(Sound.BLOCK_ENCHANTMENT_TABLE_USE);
             this.openSubMenu(new InterfaceSpawnerEntitySubmenu(this.player, this));
         }));
 
         // Create the button to tweak the spawn limits of this spawner.
         this.setButton(15, createLimitButtonItem(), (event -> {
+
+            if (!canUse())
+                return;
 
             int delta = event.getClick().isShiftClick() ? 5 : 1;
             if (event.getClick().isRightClick())
@@ -62,6 +73,9 @@ public class InterfaceSpawnerMainMenu extends MenuBase {
 
         this.setButton(11, createLevelButtonItem(), (event -> {
 
+            if (!canUse())
+                return;
+
             int delta = event.getClick().isShiftClick() ? 5 : 1;
             if (event.getClick().isRightClick())
                 delta *= -1;
@@ -76,6 +90,10 @@ public class InterfaceSpawnerMainMenu extends MenuBase {
         }));
 
         this.setButton(13, createRangeButtonItem(), (event -> {
+
+            if (!canUse())
+                return;
+
 
             int delta = event.getClick().isShiftClick() ? 5 : 1;
             if (event.getClick().isRightClick())

@@ -6,7 +6,7 @@ import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.reforge.ReforgeBase;
 import xyz.devvydont.smprpg.reforge.ReforgeType;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
+import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.Collection;

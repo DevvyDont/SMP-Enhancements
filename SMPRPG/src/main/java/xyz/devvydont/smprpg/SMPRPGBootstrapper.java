@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.commands.CommandBase;
 import xyz.devvydont.smprpg.commands.economy.*;
 import xyz.devvydont.smprpg.commands.enchantments.CommandEnchantments;
+import xyz.devvydont.smprpg.commands.entity.CommandAttribute;
 import xyz.devvydont.smprpg.commands.entity.CommandSummon;
 import xyz.devvydont.smprpg.commands.inventory.CommandPeek;
 import xyz.devvydont.smprpg.commands.items.CommandGiveItem;
@@ -19,6 +20,7 @@ public class SMPRPGBootstrapper implements PluginBootstrap {
 
     private void bootstrapCommands(BootstrapContext context) {
         CommandBase[] commandsToRegister = new CommandBase[] {
+                new CommandAttribute("attribute"),
                 new CommandEcoAdmin("eco"),
                 new CommandBalance("balance"),
                 new CommandBalanceTop("balancetop"),

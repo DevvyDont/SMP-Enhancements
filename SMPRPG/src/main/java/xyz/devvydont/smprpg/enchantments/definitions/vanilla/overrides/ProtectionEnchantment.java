@@ -19,7 +19,7 @@ import xyz.devvydont.smprpg.enchantments.definitions.vanilla.VanillaEnchantment;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeModifierType;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
+import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.Collection;
@@ -99,7 +99,7 @@ public class ProtectionEnchantment extends VanillaEnchantment implements Attribu
     @Override
     public Collection<AttributeEntry> getHeldAttributes() {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE.getAttribute(), getProtection(getLevel()))
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, getProtection(getLevel()))
         );
     }
 

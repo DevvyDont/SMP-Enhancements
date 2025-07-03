@@ -1,9 +1,9 @@
 package xyz.devvydont.smprpg.items.blueprints.vanilla;
 
 import org.bukkit.Material;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemStack;
+import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
@@ -57,8 +57,8 @@ public class ItemAxe extends VanillaAttributeItem implements IBreakableEquipment
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(Attribute.ATTACK_DAMAGE, getAxeDamage(material)),
-                new MultiplicativeAttributeEntry(Attribute.ATTACK_SPEED, AXE_ATTACK_SPEED_DEBUFF)
+                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, getAxeDamage(material)),
+                new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, AXE_ATTACK_SPEED_DEBUFF)
         );
     }
 

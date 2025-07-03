@@ -117,4 +117,17 @@ public enum ItemClassification {
             default -> false;
         };
     }
+
+    /**
+     * Checks if this item is allowed to be enchanted.
+     * @return True if it can have enchants applied, otherwise false.
+     */
+    public boolean isEnchantable() {
+
+        // todo, we can prob figure this out dynamically using item type tags but worried for rapid checks performance wise since it's a intersection operation
+        return switch (this) {
+            case SWORD, TRIDENT, BOW, CROSSBOW, SHORTBOW, HELMET, CHESTPLATE, LEGGINGS, BOOTS, WEAPON, MACE, AXE, TOOL, FISHING_ROD, CHARM, EQUIPMENT -> true;
+            default -> false;
+        };
+    }
 }

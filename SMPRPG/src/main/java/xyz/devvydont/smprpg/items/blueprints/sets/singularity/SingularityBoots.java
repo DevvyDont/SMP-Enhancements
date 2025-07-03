@@ -14,7 +14,7 @@ import xyz.devvydont.smprpg.items.base.CustomAttributeItem;
 import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
 import xyz.devvydont.smprpg.items.interfaces.ITrimmable;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
+import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 
 import java.util.Collection;
 import java.util.List;
@@ -47,7 +47,7 @@ public class SingularityBoots extends CustomAttributeItem implements IBreakableE
                 new AdditiveAttributeEntry(AttributeWrapper.ARMOR, 6),
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 460),
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 230),
-                new ScalarAttributeEntry(Attribute.KNOCKBACK_RESISTANCE, .2),
+                new ScalarAttributeEntry(AttributeWrapper.KNOCKBACK_RESISTANCE, .2),
                 new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, .25)
         );
     }

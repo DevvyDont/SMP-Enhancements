@@ -1,9 +1,9 @@
 package xyz.devvydont.smprpg.skills.rewards.definitions;
 
+import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.skills.SkillGlobals;
 import xyz.devvydont.smprpg.skills.rewards.AttributeReward;
 import xyz.devvydont.smprpg.skills.rewards.SkillRewardContainer;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
 
 public class FarmingSkillRewards extends SkillRewardContainer {
 
@@ -21,13 +21,13 @@ public class FarmingSkillRewards extends SkillRewardContainer {
                     SkillGlobals.getStatPerLevel(SkillGlobals.HP_PER_LEVEL, i-1)
             ));
 
-        // Loop every 5 levels and add STR
+        // Loop every 5 levels and add REGEN
         for (var i = SECONDARY_STAT_LEVEL_DIFF; i <= 100; i += SECONDARY_STAT_LEVEL_DIFF)
             addReward(i, new AttributeReward(
-                    AttributeWrapper.STRENGTH,
-                    SkillGlobals.STRENGTH_SKILL_OPERATION,
-                    SkillGlobals.getStatPerXLevel(SkillGlobals.STR_PER_5_LEVELS, SECONDARY_STAT_LEVEL_DIFF, i),
-                    SkillGlobals.getStatPerXLevel(SkillGlobals.STR_PER_5_LEVELS, SECONDARY_STAT_LEVEL_DIFF, i-SECONDARY_STAT_LEVEL_DIFF)
+                    AttributeWrapper.REGENERATION,
+                    SkillGlobals.REGENERATION_SKILL_OPERATION,
+                    SkillGlobals.getStatPerXLevel(SkillGlobals.REGEN_PER_5_LEVELS, SECONDARY_STAT_LEVEL_DIFF, i),
+                    SkillGlobals.getStatPerXLevel(SkillGlobals.REGEN_PER_5_LEVELS, SECONDARY_STAT_LEVEL_DIFF, i-SECONDARY_STAT_LEVEL_DIFF)
             ));
     }
 

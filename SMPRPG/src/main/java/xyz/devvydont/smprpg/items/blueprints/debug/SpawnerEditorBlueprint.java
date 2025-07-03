@@ -2,6 +2,7 @@ package xyz.devvydont.smprpg.items.blueprints.debug;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -42,6 +43,10 @@ public class SpawnerEditorBlueprint extends CustomItemBlueprint implements Liste
         return ItemClassification.ITEM;
     }
 
+    private boolean canUse(Player player) {
+        return player.isOp() || player.permissionValue("smprpg.items.spawneditor.view").toBooleanOrElse(false);
+    }
+
     @EventHandler(priority = EventPriority.HIGH)
     public void onInteractWhileHoldingEditor(PlayerInteractEvent event) {
 
@@ -51,8 +56,8 @@ public class SpawnerEditorBlueprint extends CustomItemBlueprint implements Liste
 
         event.setCancelled(true);
 
-        if (!event.getPlayer().isOp()){
-            event.getPlayer().sendMessage(ComponentUtils.error("You must be a server operator to utilize this item as it is a dangerous admin item!"));
+        if (!canUse(event.getPlayer())){
+            event.getPlayer().sendMessage(ComponentUtils.error("You lack permissions to use this item!"));
             return;
         }
 

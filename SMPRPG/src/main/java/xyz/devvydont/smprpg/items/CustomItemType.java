@@ -13,6 +13,7 @@ import xyz.devvydont.smprpg.items.blueprints.economy.CustomItemCoin;
 import xyz.devvydont.smprpg.items.blueprints.equipment.DesolatedStone;
 import xyz.devvydont.smprpg.items.blueprints.equipment.EnchantedMilkBucket;
 import xyz.devvydont.smprpg.items.blueprints.equipment.GrapplingHook;
+import xyz.devvydont.smprpg.items.blueprints.equipment.TransmissionWand;
 import xyz.devvydont.smprpg.items.blueprints.food.*;
 import xyz.devvydont.smprpg.items.blueprints.misc.DeathCertificate;
 import xyz.devvydont.smprpg.items.blueprints.potion.ExperienceBottle;
@@ -240,7 +241,7 @@ public enum CustomItemType {
     EMERALD_BOOTS(     "Emerald Boots",          Material.DIAMOND_BOOTS,      ItemRarity.EPIC, EmeraldBoots.class),
 
     // ARAXYS SET
-    ARAXYS_HELMET("Araxys Helmet",         Material.SPAWNER,              ItemRarity.EPIC, AraxysHelmet.class),
+    ARAXYS_HELMET("Araxys Helmet",         Material.SPAWNER,     ItemRarity.EPIC, AraxysHelmet.class),
     ARAXYS_CHESTPLATE("Araxys Chestplate", Material.CHAINMAIL_CHESTPLATE, ItemRarity.EPIC, AraxysChestplate.class),
     ARAXYS_LEGGINGS("Araxys Leggings",     Material.CHAINMAIL_LEGGINGS,   ItemRarity.EPIC, AraxysLeggings.class),
     ARAXYS_BOOTS("Araxys Boots",           Material.CHAINMAIL_BOOTS,      ItemRarity.EPIC, AraxysBoots.class),
@@ -341,9 +342,9 @@ public enum CustomItemType {
     EVORI_DREAMWINGS("Evori Dreamwings", Material.ELYTRA, ItemRarity.EPIC, EvoriDreamwings.class),
 
     // CHARMS
-    SPEED_CHARM("Speed Charm",       Material.TOTEM_OF_UNDYING, ItemRarity.EPIC,      SpeedCharm.class),
-    STRENGTH_CHARM("Strength Charm", Material.TOTEM_OF_UNDYING, ItemRarity.EPIC,      StrengthCharm.class),
-    LUCKY_CHARM("Lucky Charm",       Material.TOTEM_OF_UNDYING, ItemRarity.EPIC,      LuckyCharm.class),
+    SPEED_CHARM("Speed Charm",       Material.PRISMARINE_CRYSTALS, ItemRarity.EPIC,      SpeedCharm.class),
+    STRENGTH_CHARM("Strength Charm", Material.PRISMARINE_CRYSTALS, ItemRarity.EPIC,      StrengthCharm.class),
+    LUCKY_CHARM("Lucky Charm",       Material.PRISMARINE_CRYSTALS, ItemRarity.EPIC,      LuckyCharm.class),
 
     // BOWS
     NETHERITE_BOW("Netherite Bow", Material.BOW, ItemRarity.EPIC,        NetheriteBow.class),
@@ -551,6 +552,7 @@ public enum CustomItemType {
     // DRAGON
     DRAGON_SCALES(   "Dragon Scales",    Material.PHANTOM_MEMBRANE, ItemRarity.RARE, true),
     DRACONIC_CRYSTAL("Draconic Crystal", ItemRarity.EPIC, DraconicCrystal.class),
+    TRANSMISSION_WAND("Transmission Wand", Material.PRISMARINE_SHARD, ItemRarity.EPIC, TransmissionWand.class),
 
     // PASSIVE MOBS
     PREMIUM_PORKCHOP("Premium Porkchop", Material.COOKED_PORKCHOP, ItemRarity.UNCOMMON, true, PorkchopFamilyBlueprint.class),

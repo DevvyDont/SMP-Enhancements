@@ -17,7 +17,7 @@ import xyz.devvydont.smprpg.items.blueprints.vanilla.ItemHoe;
 import xyz.devvydont.smprpg.items.interfaces.ICraftable;
 import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
+import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.util.crafting.builders.HoeRecipe;
 import xyz.devvydont.smprpg.util.items.ToolsUtil;
 
@@ -34,7 +34,7 @@ public class CopperHoe extends CustomAttributeItem implements ICraftable, IBreak
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, 4),
-                new MultiplicativeAttributeEntry(Attribute.ATTACK_SPEED, ItemHoe.getHoeAttackSpeedDebuff(Material.IRON_HOE))
+                new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, ItemHoe.getHoeAttackSpeedDebuff(Material.IRON_HOE))
         );
     }
 

@@ -20,7 +20,7 @@ import xyz.devvydont.smprpg.util.chat.CustomChatRenderer;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.formatting.PlayerChatInformation;
 
-public class ChatService implements BaseService, Listener {
+public class ChatService implements IService, Listener {
 
 
     public static final ChatRenderer CHAT_RENDERER = new CustomChatRenderer();
@@ -74,7 +74,7 @@ public class ChatService implements BaseService, Listener {
     public Component getPlayerDisplay(OfflinePlayer player) {
         var info = getPlayerInfo(player);
         return ComponentUtils.merge(
-                Component.text(info.prefix()),
+                Component.text(info.prefix(), NamedTextColor.WHITE),
                 ComponentUtils.create(player.getName(), info.nameColor())
         );
     }

@@ -92,6 +92,7 @@ public class SkillGlobals {
      */
     public static AttributeModifier.Operation STRENGTH_GEAR_OPERATION = AttributeModifier.Operation.ADD_SCALAR;
     public static AttributeModifier.Operation STRENGTH_SKILL_OPERATION = AttributeModifier.Operation.MULTIPLY_SCALAR_1;
+    public static AttributeModifier.Operation REGENERATION_SKILL_OPERATION = AttributeModifier.Operation.ADD_SCALAR;
     public static AttributeModifier.Operation DEFAULT_SKILL_OPERATION = AttributeModifier.Operation.ADD_NUMBER;
 
     // For skills that award HP per level, how much should we start at? This will scale as levels get higher as well.
@@ -99,6 +100,18 @@ public class SkillGlobals {
 
     // For skills that award HP per 5 levels, how much should we start at? This will scale as levels get higher as well.
     public static double HP_PER_5_LEVELS = 5;
+
+    // For skills that award REGEN per level, how much should we start at? This will scale as levels get higher as well.
+    public static double REGEN_PER_LEVEL = 2;
+
+    // For skills that award REGEN per 5 levels, how much should we start at? This will scale as levels get higher as well.
+    public static double REGEN_PER_5_LEVELS = 2;
+
+    // For skills that award INT per level, how much should we start at? This will scale as levels get higher as well.
+    public static double INT_PER_LEVEL = 2;
+
+    // For skills that award INT per 5 levels, how much should we start at? This will scale as levels get higher as well.
+    public static double INT_PER_5_LEVELS = 5;
 
     // For skills that award DEF per level, how much should we start at? This will scale as levels get higher as well.
     public static double DEF_PER_LEVEL = 1;

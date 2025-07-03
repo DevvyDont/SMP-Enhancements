@@ -1,51 +1,30 @@
 package xyz.devvydont.smprpg.util.attributes;
 
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.attribute.AttributeModifier;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import xyz.devvydont.smprpg.SMPRPG;
+import xyz.devvydont.smprpg.attribute.AttributeType;
+import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.enchantments.CustomEnchantment;
 import xyz.devvydont.smprpg.enchantments.base.AttributeEnchantment;
 import xyz.devvydont.smprpg.items.ItemRarity;
-import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeModifierType;
+import xyz.devvydont.smprpg.items.attribute.IAttributeContainer;
 import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
 import xyz.devvydont.smprpg.items.interfaces.IAttributeItem;
 import xyz.devvydont.smprpg.reforge.ReforgeBase;
+import xyz.devvydont.smprpg.services.AttributeService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.*;
 
 public class AttributeUtil {
-
-    /**
-     * Used to properly retrieve the value of an attribute of an entity. Some attributes are weird and require us
-     * to manually check for them because of limitations in the base game
-     *
-     * @param entity
-     * @return
-     */
-    public static double getAttributeValue(Attribute attribute, LivingEntity entity) {
-
-        // Otherwise just return the normal value
-        AttributeInstance instance = entity.getAttribute(attribute);
-        if (instance == null)
-            return 0;
-
-        // Armor toughness is capped at 20, so we need to actually manually check for it by analyzing armor
-        if (attribute.equals(Attribute.ARMOR_TOUGHNESS) && instance.getValue() > 1)
-            return calculateAttributeBonus(instance.getModifiers(), 0).getTotal();
-
-        return instance.getValue();
-    }
-
 
     /**
      * Returns a component to display the number portion of an attribute
@@ -57,16 +36,16 @@ public class AttributeUtil {
 
         TextColor color = NamedTextColor.GREEN;
 
-        if (wrapper.getAttributeType().equals(AttributeWrapper.AttributeType.POSITIVE)) {
+        if (wrapper.Type.equals(AttributeType.HELPFUL)) {
             if (result.total() < 0 || (result.percentage() && result.getTotal() < 1))
                 color = NamedTextColor.RED;
-        } else if (wrapper.getAttributeType().equals(AttributeWrapper.AttributeType.NEGATIVE)) {
+        } else if (wrapper.Type.equals(AttributeType.PUNISHING)) {
             color = NamedTextColor.RED;
             if (result.total() < 0 || (result.percentage() && result.getTotal() < 1))
                 color = NamedTextColor.GREEN;
         }
 
-        if (wrapper.getAttributeType().equals(AttributeWrapper.AttributeType.SPECIAL))
+        if (wrapper.Type.equals(AttributeType.SPECIAL))
             color = NamedTextColor.LIGHT_PURPLE;
 
         // Some attributes are weird and are always percents
@@ -75,7 +54,7 @@ public class AttributeUtil {
 
     public static Component formatAttribute(AttributeWrapper wrapper, AttributeUtil.AttributeCalculationResult result, boolean forcePercent) {
 
-        return ComponentUtils.create(wrapper.getCleanName() + ": ")
+        return ComponentUtils.create(wrapper.DisplayName + ": ")
                 .append(getAttributeNumber(wrapper, result, forcePercent));
     }
 
@@ -88,63 +67,128 @@ public class AttributeUtil {
      * is fall damage multiplier.
      */
     public static boolean forceAttributePercentage(AttributeWrapper wrapper) {
-        return forceAttributePercentage(wrapper.getAttribute());
+        return wrapper.equals(AttributeWrapper.KNOCKBACK_RESISTANCE) || wrapper.equals(AttributeWrapper.EXPLOSION_KNOCKBACK_RESISTANCE) || wrapper.equals(AttributeWrapper.SWEEPING) || wrapper.equals(AttributeWrapper.MINING_EFFICIENCY) || wrapper.equals(AttributeWrapper.UNDERWATER_MINING);
     }
 
-    /*
-     * Some attributes should force display as percents since that is how minecraft treats them. An example of this
-     * is fall damage multiplier.
+    /**
+     * Analyzes an item, its blueprint, and its associated data to determine what modifiers it SHOULD have. Note, that
+     * it is possible that the item may have modifiers that don't reflect the result of this method, but ideally we
+     * apply modifiers to the item ONLY using this method.
+     * @param blueprint The blueprint of the item.
+     * @param item The item.
+     * @return The modifiers it should have.
      */
-    public static boolean forceAttributePercentage(Attribute attribute) {
-        return attribute.equals(Attribute.KNOCKBACK_RESISTANCE) || attribute.equals(Attribute.EXPLOSION_KNOCKBACK_RESISTANCE) || attribute.equals(Attribute.SWEEPING_DAMAGE_RATIO) || attribute.equals(Attribute.MINING_EFFICIENCY) || attribute.equals(Attribute.SUBMERGED_MINING_SPEED);
+    public static Multimap<AttributeWrapper, SourcedAttributeModifier> queryExpectedAttributeModifiers(SMPItemBlueprint blueprint, ItemStack item) {
+
+        // This doesn't actually check what's ON the item already, but instead calculates what we SHOULD put on the item.
+        // We do this by analyzing the item's state alongside the blueprint it represents.
+        Multimap<AttributeWrapper, SourcedAttributeModifier> modifiers = HashMultimap.create();
+
+        if (!(blueprint instanceof IAttributeItem attributeItem))
+            return modifiers;
+
+        var nameKey = attributeItem.getUniqueModifierKey();
+
+        // Query base attributes...
+        for (var baseAttribute : attributeItem.getAttributeModifiers(item)) {
+            var key = AttributeModifierType.BASE.keyForItem(nameKey);
+            modifiers.put(
+                    baseAttribute.getAttribute(),
+                    new SourcedAttributeModifier(baseAttribute.asModifier(key, attributeItem.getActiveSlot()), AttributeModifierType.BASE)
+            );
+        }
+
+        // Query reforge attributes...
+        var reforge = SMPRPG.getInstance().getItemService().getReforge(item);
+        ItemRarity rarity = blueprint.getRarity(item);
+        if (reforge != null)
+            for (var reforgeAttribute : reforge.getAttributeModifiersWithRarity(rarity))
+                modifiers.put(
+                        reforgeAttribute.getAttribute(),
+                        new SourcedAttributeModifier(reforgeAttribute.asModifier(AttributeModifierType.REFORGE.keyForItem(nameKey), attributeItem.getActiveSlot()), AttributeModifierType.REFORGE)
+                );
+
+        // Then enchantments.
+        for (var enchantment : SMPRPG.getInstance().getEnchantmentService().getCustomEnchantments(item.getItemMeta())) {
+
+            // Filter out non attribute enchantments. They don't apply modifiers.
+            if (!(enchantment instanceof IAttributeContainer attributeContainer))
+                continue;
+
+            // Add the modifiers.
+            for (var enchantmentAttribute : attributeContainer.getHeldAttributes())
+                modifiers.put(
+                        enchantmentAttribute.getAttribute(),
+                        new SourcedAttributeModifier(enchantmentAttribute.asModifier(AttributeModifierType.ENCHANTMENT.keyForItem(nameKey), attributeItem.getActiveSlot()), AttributeModifierType.ENCHANTMENT)
+                );
+        }
+
+        return modifiers;
+    }
+
+    public static void applyModifiers(SMPItemBlueprint blueprint, ItemStack item) {
+
+        // Remove all modifiers off of the item.
+        AttributeService.getInstance().clearAttributeModifiers(item);
+
+        // Find out what modifiers should be on this item.
+        var modifiers = queryExpectedAttributeModifiers(blueprint, item);
+
+        // Apply them all.
+        for (var modifier : modifiers.entries())
+            AttributeService.getInstance().addAttributeModifier(item, modifier.getKey(), modifier.getValue());
     }
 
     /**
      * Returns a component section to display in the lore of the item.
      * This section will contain the data that displays item stats based on the attributes that are applied to the item.
-     *
-     * @return
+     * @return The attribute component section for an item.
      */
-    public static List<Component> getAttributeLore(IAttributeItem blueprint, ItemMeta meta) {
+    public static List<Component> getAttributeLore(SMPItemBlueprint blueprint, ItemStack item) {
 
+        var modifiers = queryExpectedAttributeModifiers(blueprint, item);
+        if (modifiers.isEmpty())
+            return Collections.emptyList();
+
+        // Now we can actually construct the attributes we are going to display.
         ArrayList<Component> lines = new ArrayList<>();
-        if (meta == null || !meta.hasAttributeModifiers() || meta.getAttributeModifiers() == null)
-            return lines;
 
-        // Since we are displaying attributes ourselves, hide the vanilla mc one
-        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        // Loop through all the attributes in the order we want to display them.
+        for (var attribute : AttributeWrapper.values()) {
 
-        // Loop through every single attribute modifier stored on this item in the order that we defined them
-        for (AttributeWrapper wrapper : AttributeWrapper.values()) {
-
-            // Is this attribute present on this item? If not skip it
-            Collection<AttributeModifier> modifers = meta.getAttributeModifiers(wrapper.getAttribute());
-            if (modifers == null)
+            // Filter out the modifiers for this attribute only.
+            if (!modifiers.containsKey(attribute))
                 continue;
 
-            // Perform a total calculation to display on the stat
+            var modifiersForAttribute = modifiers.get(attribute);
+            if (modifiersForAttribute.isEmpty())
+                continue;
+
+            // The item no matter what is going to display the FINAL total of the attribute. Calculate that now.
             int base = 1;
             // If there are no additive bonuses in the pool, use a base of 1.
-            for (AttributeModifier modifier : modifers)
+            for (var modifier : modifiersForAttribute)
                 if (modifier.getOperation().equals(AttributeModifier.Operation.ADD_NUMBER))
                     base = 0;
 
-            AttributeUtil.AttributeCalculationResult result = AttributeUtil.calculateAttributeBonus(modifers, base);
-            boolean forcePercent = forceAttributePercentage(wrapper);
-            Component line = AttributeUtil.formatAttribute(wrapper, result, forcePercent);
+            // Run the math for what we are going to display.
+            var result = AttributeUtil.calculateAttributeBonus(modifiersForAttribute, base);
+            boolean forcePercent = forceAttributePercentage(attribute);
+            var line = AttributeUtil.formatAttribute(attribute, result, forcePercent);
 
-            // Perform a calculation on only reforge attribute modifiers
-            AttributeModifierType.AttributeSession reforge = blueprint.getAttributeSession(AttributeModifierType.REFORGE, meta);
-            AttributeCalculationResult reforgeResult = AttributeUtil.calculateAttributeBonus(reforge.getAttributeModifiers(wrapper.getAttribute()), 0);
+            // Now filter out reforge only...
+            var modifiersForReforge = modifiersForAttribute.stream().filter(m -> m.getSource().equals(AttributeModifierType.REFORGE)).toList();
+            var reforgeResult = calculateAttributeBonus(modifiersForReforge, 0);
             if (!reforgeResult.empty())
                 line = line.append(formatBonus(NamedTextColor.BLUE, reforgeResult, forcePercent));
 
-            // Perform a calculation on only enchantment attribute modifiers
-            AttributeModifierType.AttributeSession enchants = blueprint.getAttributeSession(AttributeModifierType.ENCHANTMENT, meta);
-            AttributeCalculationResult enchantResult = AttributeUtil.calculateAttributeBonus(enchants.getAttributeModifiers(wrapper.getAttribute()), 0);
+            // Enchantment only...
+            var modifiersForEnchant = modifiersForAttribute.stream().filter(m -> m.getSource().equals(AttributeModifierType.ENCHANTMENT)).toList();
+            var enchantResult = calculateAttributeBonus(modifiersForEnchant, 0);
             if (!enchantResult.empty())
                 line = line.append(formatBonus(NamedTextColor.LIGHT_PURPLE, enchantResult, forcePercent));
 
+            // Done! Add the line :)
             lines.add(line);
         }
 
@@ -222,12 +266,12 @@ public class AttributeUtil {
     /**
      * Attempt to guess what bonus an attribute is going to have based on a collection of modifiers.
      * Uses the following logic:
-     * https://minecraft.fandom.com/wiki/Attribute#:~:text=add%20(amount%20%2B%2F-),)%3A%20Saved%20as%20operation%201.
+     * <a href="https://minecraft.fandom.com/wiki/Attribute">...</a>.
      *
-     * @param modifiers
-     * @return
+     * @param modifiers The collection of modifiers to calculate a modified final value for given a base value.
+     * @return A result of what the final value should be.
      */
-    public static AttributeCalculationResult calculateAttributeBonus(Collection<AttributeModifier> modifiers, double base) {
+    public static AttributeCalculationResult calculateAttributeBonus(Collection<? extends AttributeModifier> modifiers, double base) {
 
         double sum = base;
 
@@ -260,41 +304,6 @@ public class AttributeUtil {
         return new AttributeCalculationResult(base, sum - base, sum, operationToModifier.keySet());
     }
 
-    public static void applyModifiers(SMPItemBlueprint blueprint, ItemStack item) {
-
-        if (!(blueprint instanceof IAttributeItem attributeable))
-            return;
-
-        ItemMeta meta = item.getItemMeta();
-        ItemRarity rarity = blueprint.getRarity(item);
-
-        // First base modifiers...
-        AttributeModifierType.AttributeSession baseAttributes = attributeable.getAttributeSession(attributeable.getAttributeModifierType(), meta);
-        baseAttributes.removeAttributeModifiers();
-        for (AttributeEntry entry : attributeable.getAttributeModifiers(item))
-            baseAttributes.addAttributeModifier(entry, attributeable.getActiveSlot());
-
-        // reforge....
-        AttributeModifierType.AttributeSession reforgeAttributes = attributeable.getAttributeSession(AttributeModifierType.REFORGE, meta);
-        reforgeAttributes.removeAttributeModifiers();
-        ReforgeBase reforge = SMPRPG.getInstance().getItemService().getReforge(meta);
-        if (reforge != null)
-            for (AttributeEntry entry : reforge.getAttributeModifiersWithRarity(rarity))
-                reforgeAttributes.addAttributeModifier(entry, attributeable.getActiveSlot());
-
-        AttributeModifierType.AttributeSession enchantAttributes = attributeable.getAttributeSession(AttributeModifierType.ENCHANTMENT, meta);
-        enchantAttributes.removeAttributeModifiers();
-
-        if (SMPRPG.getInstance().getEnchantmentService() != null)  // Need to null check here sigh....
-            for (CustomEnchantment enchantment : SMPRPG.getInstance().getEnchantmentService().getCustomEnchantments(meta))
-                if (enchantment instanceof AttributeEnchantment attributeEnchantment)
-                    for (AttributeEntry entry : attributeEnchantment.getHeldAttributes())
-                        enchantAttributes.addAttributeModifier(entry, attributeable.getActiveSlot());
-
-        // Apply the modifiers.
-        item.setItemMeta(meta);
-    }
-
     /**
      * Given item meta, determine how much of a power bonus there is from enchantments and reforging
      *
@@ -325,10 +334,6 @@ public class AttributeUtil {
         int rarityMultiplier = (int) Math.pow(rarity.ordinal()+1, 2);
         int powerMultiplier = (int) Math.pow(power, 2);
         return powerMultiplier * rarityMultiplier / (isCraftable ? 8 : 1);
-    }
-
-    public static int calculateValue(int power, ItemRarity rarity, ItemMeta meta, boolean isCraftable) {
-        return calculateValue(power, rarity, isCraftable);
     }
 
 }

@@ -21,7 +21,7 @@ import xyz.devvydont.smprpg.items.interfaces.ICraftable;
 import xyz.devvydont.smprpg.items.interfaces.IDyeable;
 import xyz.devvydont.smprpg.items.interfaces.ITrimmable;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.util.attributes.AttributeWrapper;
+import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.util.crafting.builders.ChestplateRecipe;
 
 import java.util.Collection;
