@@ -50,7 +50,7 @@ public final class SMPRPG extends JavaPlugin implements Listener {
     public static void broadcastToOperators(TextComponent alert) {
         Bukkit.getLogger().warning(alert.content());
         for (var player : Bukkit.getOnlinePlayers())
-            if (player.isOp())
+            if (player.isOp() || player.permissionValue("smprpg.receiveopmessages").toBooleanOrElse(false))
                 player.sendMessage(ComponentUtils.alert(ComponentUtils.create("OP MSG", NamedTextColor.DARK_RED), alert));
     }
 
