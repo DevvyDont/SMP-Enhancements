@@ -59,9 +59,15 @@ public class AttributeReward implements ISkillReward {
         String old = "+" + formatNumber(_rawOld) + perc;
         String _new = "+" + formatNumber(_rawNew) + perc;
         return ComponentUtils.merge(
-                ComponentUtils.create(attribute.DisplayName + " "),
+                ComponentUtils.create(attribute.DisplayName + " ", NamedTextColor.AQUA),
                 ComponentUtils.upgrade(old, _new, NamedTextColor.GREEN)
-        );
+        ).hoverEvent(ComponentUtils.merge(
+                ComponentUtils.create("Your "),
+                ComponentUtils.create(attribute.DisplayName, NamedTextColor.AQUA),
+                ComponentUtils.create(" attribute bonus from this skill is now "),
+                ComponentUtils.create(_new, NamedTextColor.GREEN),
+                ComponentUtils.create("!")
+        ));
     }
 
     /**
