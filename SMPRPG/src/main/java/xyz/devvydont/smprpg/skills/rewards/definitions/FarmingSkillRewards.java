@@ -3,6 +3,7 @@ package xyz.devvydont.smprpg.skills.rewards.definitions;
 import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.skills.SkillGlobals;
 import xyz.devvydont.smprpg.skills.rewards.AttributeReward;
+import xyz.devvydont.smprpg.skills.rewards.CoinReward;
 import xyz.devvydont.smprpg.skills.rewards.SkillRewardContainer;
 
 public class FarmingSkillRewards extends SkillRewardContainer {
@@ -29,6 +30,10 @@ public class FarmingSkillRewards extends SkillRewardContainer {
                     SkillGlobals.getStatPerXLevel(SkillGlobals.REGEN_PER_5_LEVELS, SECONDARY_STAT_LEVEL_DIFF, i),
                     SkillGlobals.getStatPerXLevel(SkillGlobals.REGEN_PER_5_LEVELS, SECONDARY_STAT_LEVEL_DIFF, i-SECONDARY_STAT_LEVEL_DIFF)
             ));
+
+        // Give coins for every level.
+        for (var i = 1; i <= SkillGlobals.getMaxSkillLevel(); i++)
+            addReward(i, new CoinReward(SkillGlobals.getCoinRewardForLevel(i)));
     }
 
 

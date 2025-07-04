@@ -4,6 +4,7 @@ import org.bukkit.attribute.AttributeModifier;
 import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.skills.SkillGlobals;
 import xyz.devvydont.smprpg.skills.rewards.AttributeReward;
+import xyz.devvydont.smprpg.skills.rewards.CoinReward;
 import xyz.devvydont.smprpg.skills.rewards.SkillRewardContainer;
 
 public class MiningSkillRewards extends SkillRewardContainer {
@@ -31,6 +32,10 @@ public class MiningSkillRewards extends SkillRewardContainer {
                     SkillGlobals.getStatPerXLevel(SkillGlobals.MINING_EFF_PER_4_LEVELS, SECONDARY_LEVEL_DIFFERENCE, i),
                     SkillGlobals.getStatPerXLevel(SkillGlobals.MINING_EFF_PER_4_LEVELS, SECONDARY_LEVEL_DIFFERENCE, i- SECONDARY_LEVEL_DIFFERENCE)
             ));
+
+        // Give coins for every level.
+        for (var i = 1; i <= SkillGlobals.getMaxSkillLevel(); i++)
+            addReward(i, new CoinReward(SkillGlobals.getCoinRewardForLevel(i)));
     }
 
 }

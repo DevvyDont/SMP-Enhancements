@@ -70,6 +70,21 @@ public class SkillGlobals {
     }
 
     /**
+     * Calculates how many coins we should give for a certain level.
+     * Overall, this right here probably defines our goal for how we want the economy to look since there are only
+     * two main ways to introduce money into the economy.
+     * - Skill level ups
+     * - Selling items
+     * We should define a total target of what we want a maxed player to obtain by maxing all skills, and distribute
+     * the coins accordingly. We can also tie the amount of coins to experience for something more realistic.
+     * @param level The skill level to award coins for.
+     * @return How many coins should be awarded.
+     */
+    public static int getCoinRewardForLevel(int level) {
+        return getExperienceForLevel(level) / 2;
+    }
+
+    /**
      * Strength/attack damage is a very strange attribute for us to handle.
      *
      * Weapons will use the additive modifiers for base attack damage, which makes sense.

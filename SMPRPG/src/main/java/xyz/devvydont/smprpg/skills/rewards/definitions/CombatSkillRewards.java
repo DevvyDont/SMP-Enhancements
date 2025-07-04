@@ -3,6 +3,7 @@ package xyz.devvydont.smprpg.skills.rewards.definitions;
 import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.skills.SkillGlobals;
 import xyz.devvydont.smprpg.skills.rewards.AttributeReward;
+import xyz.devvydont.smprpg.skills.rewards.CoinReward;
 import xyz.devvydont.smprpg.skills.rewards.SkillRewardContainer;
 
 public class CombatSkillRewards extends SkillRewardContainer {
@@ -29,6 +30,10 @@ public class CombatSkillRewards extends SkillRewardContainer {
                     SkillGlobals.getStatPerXLevel(SkillGlobals.HP_PER_5_LEVELS, SECONDARY_LEVEL_DIFFERENCE, i),
                     SkillGlobals.getStatPerXLevel(SkillGlobals.HP_PER_5_LEVELS, SECONDARY_LEVEL_DIFFERENCE, i-SECONDARY_LEVEL_DIFFERENCE)
             ));
+
+        // Give coins for every level.
+        for (var i = 1; i <= SkillGlobals.getMaxSkillLevel(); i++)
+            addReward(i, new CoinReward(SkillGlobals.getCoinRewardForLevel(i)));
     }
 
 }
