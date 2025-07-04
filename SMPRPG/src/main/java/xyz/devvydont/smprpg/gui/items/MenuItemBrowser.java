@@ -1,18 +1,20 @@
 package xyz.devvydont.smprpg.gui.items;
 
 import net.kyori.adventure.text.format.NamedTextColor;
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
+import org.bukkit.inventory.CraftingRecipe;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.gui.base.MenuBase;
 import xyz.devvydont.smprpg.items.CustomItemType;
-import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
+import xyz.devvydont.smprpg.items.base.VanillaItemBlueprint;
 import xyz.devvydont.smprpg.items.interfaces.ICraftable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
@@ -25,9 +27,11 @@ import java.util.List;
  */
 public class MenuItemBrowser extends MenuBase {
 
+    private final static List<ItemStack> ITEM_CACHE = new ArrayList<>();
+
     public static final int ROWS = 6;
 
-    private String query;
+    private final String query;
     private final List<ItemStack> queriedItems;
     private int page = 0;
 
@@ -51,6 +55,15 @@ public class MenuItemBrowser extends MenuBase {
         super(player, ROWS);
         this.query = query;
         this.queriedItems = new ArrayList<>();
+
+        // If the item cache hasn't initialized yet, go ahead and do that.
+        if (ITEM_CACHE.isEmpty()) {
+            for (var type : CustomItemType.values())
+                ITEM_CACHE.add(ItemService.generate(type));
+            for (var material : Material.values())
+                if (!material.isLegacy() && material.isItem())
+                    ITEM_CACHE.add(ItemService.generate(material));
+        }
     }
 
     @Override
@@ -101,9 +114,9 @@ public class MenuItemBrowser extends MenuBase {
 
         // Do we not have a query and just want to show everything? If that is the case we can return one of everything.
         if (!hasQuery()) {
-            for (CustomItemType type : CustomItemType.values())
-                this.queriedItems.add(ItemService.generate(type));
-            return queriedItems;
+            for (var item : ITEM_CACHE)
+                this.queriedItems.add(item.clone());
+            return this.queriedItems;
         }
 
         // When querying for items, we want to make the process as painless as possible, ignore spaces underscores etc.
@@ -114,14 +127,28 @@ public class MenuItemBrowser extends MenuBase {
         for (CustomItemType itemType : CustomItemType.values()) {
 
             String simpleName = itemType.ItemName.toLowerCase();
-            ItemStack item = ItemService.generate(itemType);
 
             // Blacklisting process, does this item's name not contain any similar character patterns as the query?
             if (!simpleName.contains(simpleQuery))
                 continue;
 
             // Valid!
-            this.queriedItems.add(item);
+            this.queriedItems.add(ItemService.generate(itemType));
+        }
+
+        // Do vanilla items too.
+        for (var material : Material.values()) {
+            if (material.isLegacy() || !material.isItem())
+                continue;
+
+            var simpleName = material.name().toLowerCase().replace(" ", "").replace("_", "").replace("-", "");
+
+            // Blacklisting process, does this item's name not contain any similar character patterns as the query?
+            if (!simpleName.contains(simpleQuery))
+                continue;
+
+            // Valid!
+            this.queriedItems.add(ItemService.generate(material));
         }
 
         return queriedItems;
@@ -146,9 +173,20 @@ public class MenuItemBrowser extends MenuBase {
             return;
         }
 
+        var blueprint = SMPRPG.getInstance().getItemService().getBlueprint(itemStack);
+
+        // This is a hack for vanilla items. This probably won't work clearly for items with multiple recipes tbh.
+        if (blueprint instanceof VanillaItemBlueprint vanilla) {
+             var recipes = Bukkit.getRecipesFor(ItemStack.of(vanilla.getMaterial()));
+             for (var recipe : recipes)
+                 if (recipe instanceof CraftingRecipe crafting) {
+                     this.openSubMenu(new MenuRecipeViewer(player, this, ICraftable.withOnlyRecipe(crafting), itemStack));
+                     return;
+                 }
+        }
+
         // Currently, we don't do anything unless the item is craftable, but that is subject to change.
         // When it does change, that logic goes here.
-        SMPItemBlueprint blueprint = SMPRPG.getInstance().getItemService().getBlueprint(itemStack);
         if (!(blueprint instanceof ICraftable craftable)) {
             this.playInvalidAnimation();
             return;

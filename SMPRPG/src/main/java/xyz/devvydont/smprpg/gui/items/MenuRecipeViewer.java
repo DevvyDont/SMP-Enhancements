@@ -6,10 +6,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
-import org.bukkit.inventory.CraftingRecipe;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.RecipeChoice;
-import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.inventory.*;
 import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.gui.base.MenuBase;
@@ -88,33 +85,64 @@ public class MenuRecipeViewer extends MenuBase {
 
         // Depending on the type of recipe we have, go ahead and attempt to render the recipe procedure.
         // todo, this should be abstracted to allow different types of recipes, not just shaped ones.
-        if (recipe instanceof ShapedRecipe shaped) {
+        if (recipe instanceof ShapedRecipe shaped)
+            renderShapedRecipe(shaped);
+        else if (recipe instanceof ShapelessRecipe shapeless)
+            renderShapelessRecipe(shapeless);
+        else
+            SMPRPG.broadcastToOperatorsCausedBy(this.player, ComponentUtils.create("No recipe browser handler for recipe type: " + recipe.getClass().getSimpleName(), NamedTextColor.RED));
 
-            int x = 0;
-            int y = 0;
-            for (String row : shaped.getShape()) {
-                for (char ingredient : row.toCharArray()) {
-                    RecipeChoice choice = shaped.getChoiceMap().get(ingredient);
-                    ItemStack item;
-                    if (choice instanceof RecipeChoice.ExactChoice exact)
-                        item = exact.getItemStack();
-                    else if (choice instanceof RecipeChoice.MaterialChoice materialChoice)
-                        item = materialChoice.getItemStack();
-                    else
-                        item = new ItemStack(Material.AIR);
+    }
 
-                    // If this ingredient can be crafted, insert the craftable tooltip.
-                    if (SMPRPG.getInstance().getItemService().getBlueprint(item) instanceof ICraftable)
-                        item.editMeta(meta -> meta.lore(ComponentUtils.cleanItalics(ComponentUtils.insertComponents(meta.lore(), ComponentUtils.EMPTY, ComponentUtils.create("Click to view recipe!", NamedTextColor.YELLOW)))));
+    private void renderShapelessRecipe(ShapelessRecipe shapeless) {
+        int x = 0;
+        int y = 0;
 
-                    this.setButton(y*9+x+CORNER, item, event -> handleIngredientClick(item));
-                    x+= 1;
-                }
-                y += 1;
+        // Loop through all the choices. These are essentially just the ingredients.
+        for (var choice : shapeless.getChoiceList()) {
+
+            var item = resolveRecipeChoice(choice);
+            this.setButton(y*9+x+CORNER, item, event -> handleIngredientClick(item));
+
+            x += 1;
+            // If we are out of bounds, go to the next row.
+            if (x >= 3) {
                 x = 0;
+                y += 1;
             }
-        }
 
+        }
+    }
+
+    private void renderShapedRecipe(ShapedRecipe shaped) {
+        int x = 0;
+        int y = 0;
+        for (String row : shaped.getShape()) {
+            for (char ingredient : row.toCharArray()) {
+                var choice = shaped.getChoiceMap().get(ingredient);
+                var item = resolveRecipeChoice(choice);
+
+                // If this ingredient can be crafted, insert the craftable tooltip.
+                if (SMPRPG.getInstance().getItemService().getBlueprint(item) instanceof ICraftable)
+                    item.editMeta(meta -> meta.lore(ComponentUtils.cleanItalics(ComponentUtils.insertComponents(meta.lore(), ComponentUtils.EMPTY, ComponentUtils.create("Click to view recipe!", NamedTextColor.YELLOW)))));
+
+                this.setButton(y*9+x+CORNER, item, event -> handleIngredientClick(item));
+                x+= 1;
+            }
+            y += 1;
+            x = 0;
+        }
+    }
+
+    private ItemStack resolveRecipeChoice(RecipeChoice choice) {
+        ItemStack item;
+        if (choice instanceof RecipeChoice.ExactChoice exact)
+            item = exact.getItemStack();
+        else if (choice instanceof RecipeChoice.MaterialChoice materialChoice)
+            item = materialChoice.getItemStack();
+        else
+            item = new ItemStack(Material.AIR);
+        return item;
     }
 
     /**

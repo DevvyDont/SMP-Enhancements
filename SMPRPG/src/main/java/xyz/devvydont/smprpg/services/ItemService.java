@@ -748,10 +748,9 @@ public class ItemService implements IService, Listener {
      */
     public List<Component> renderItemStackLore(ItemStack itemStack) {
 
-
         // First, we need to extract the blueprint of this item so we know how to display it.
         SMPItemBlueprint blueprint = getBlueprint(itemStack);
-        ItemMeta meta = itemStack.getItemMeta();
+        @Nullable var meta = itemStack.getItemMeta();
 
         // The lore that we are going to return at the end.
         List<Component> lore = new ArrayList<>();
@@ -857,7 +856,7 @@ public class ItemService implements IService, Listener {
         }
 
         // Damage resistant?
-        if (meta.hasDamageResistant()) {
+        if (meta != null && meta.hasDamageResistant()) {
             var resistance = meta.getDamageResistant();
             if (resistance != null)
                 lore.add(ComponentUtils.create(Symbols.FIRE + resistance.getKey().asMinimalString(), NamedTextColor.GOLD));

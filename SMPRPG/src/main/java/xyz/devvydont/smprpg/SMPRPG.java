@@ -3,6 +3,7 @@ package xyz.devvydont.smprpg;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import xyz.devvydont.smprpg.config.ConfigManager;
@@ -52,6 +53,14 @@ public final class SMPRPG extends JavaPlugin implements Listener {
         for (var player : Bukkit.getOnlinePlayers())
             if (player.isOp() || player.permissionValue("smprpg.receiveopmessages").toBooleanOrElse(false))
                 player.sendMessage(ComponentUtils.alert(ComponentUtils.create("OP MSG", NamedTextColor.DARK_RED), alert));
+    }
+
+    public static void broadcastToOperatorsCausedBy(Player player, TextComponent alert) {
+        Bukkit.getLogger().warning(alert.content());
+        for (var op : Bukkit.getOnlinePlayers())
+            if (op.isOp() || op.permissionValue("smprpg.receiveopmessages").toBooleanOrElse(false)) {
+                op.sendMessage(ComponentUtils.alert(ComponentUtils.create("OP MSG", NamedTextColor.DARK_RED), ComponentUtils.create("(Caused by " + player.getName() +  ") ", NamedTextColor.RED).append(alert)));
+            }
     }
 
     public AttributeService getAttributeService() {
