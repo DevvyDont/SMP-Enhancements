@@ -14,7 +14,7 @@ import java.util.List;
 
 public final class ComponentUtils {
     // Colors
-    public static final TextColor TEXT_DEFAULT = NamedTextColor.GRAY;
+    public static final TextColor TEXT_DEFAULT = NamedTextColor.WHITE;
 
     // Presets
     public static final TextComponent SPACE = create(" ");
