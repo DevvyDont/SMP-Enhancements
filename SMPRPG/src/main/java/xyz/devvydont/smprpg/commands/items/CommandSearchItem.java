@@ -51,4 +51,9 @@ public class CommandSearchItem extends PlayerCommandBase {
         return validArgs;
 
     }
+
+    @Override
+    public Collection<String> getAliases() {
+        return List.of("recipe", "recipes");
+    }
 }
