@@ -29,6 +29,7 @@ public class CustomEntityDamageByEntityEvent extends Event implements Cancellabl
     private final Entity damaged;
     private final Entity dealer;
     private final Projectile projectile;
+    private boolean critical;
 
     private final Audience audience;
 
@@ -70,6 +71,14 @@ public class CustomEntityDamageByEntityEvent extends Event implements Cancellabl
 
     public boolean isProjectile() {
         return projectile != null;
+    }
+
+    public boolean isCritical() {
+        return critical;
+    }
+
+    public void setCritical(boolean critical) {
+        this.critical = critical;
     }
 
     public double getOriginalDamage() {

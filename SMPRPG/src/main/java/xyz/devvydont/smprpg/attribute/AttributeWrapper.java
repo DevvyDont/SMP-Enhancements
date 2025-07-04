@@ -73,6 +73,29 @@ public enum AttributeWrapper {
                     create(" is dealt when attacking.")
             )),
 
+    CRITICAL_DAMAGE("Critical Rating",
+            AttributeCategory.COMBAT,
+            AttributeType.HELPFUL,
+            merge(
+                    create("The "),
+                    create("critical damage", BLUE),
+                    create(" multiplier when performing "),
+                    create("critical", BLUE),
+                    create(" hits.")
+            )),
+
+    CRITICAL_CHANCE("Critical Chance",
+            AttributeCategory.COMBAT,
+            AttributeType.HELPFUL,
+            merge(
+                    create("The percentage to "),
+                    create("automatically", LIGHT_PURPLE),
+                    create(" perform "),
+                    create("critical", BLUE),
+                    create(" hits. "),
+                    create("(You can still crit by jumping/fully charging bows!)", DARK_GRAY)
+            )),
+    
     ATTACK_SPEED(Attribute.ATTACK_SPEED,
             "Attack Recovery",
             AttributeCategory.COMBAT,

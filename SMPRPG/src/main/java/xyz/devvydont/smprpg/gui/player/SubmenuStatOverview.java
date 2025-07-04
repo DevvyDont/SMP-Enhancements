@@ -227,6 +227,8 @@ public class SubmenuStatOverview extends MenuBase {
             case ATTACK_KNOCKBACK -> Material.STICK;
             case ZOMBIE_REINFORCEMENTS -> Material.ZOMBIE_HEAD;
             case KNOCKBACK_RESISTANCE -> Material.SHIELD;
+            case CRITICAL_CHANCE -> Material.GOLDEN_AXE;
+            case CRITICAL_DAMAGE -> Material.DIAMOND_AXE;
             default -> Material.BARRIER;
         };
     }

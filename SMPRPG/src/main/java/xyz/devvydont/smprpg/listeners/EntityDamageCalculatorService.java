@@ -20,8 +20,9 @@ import org.bukkit.potion.PotionEffectType;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.base.LeveledEntity;
 import xyz.devvydont.smprpg.events.CustomEntityDamageByEntityEvent;
-import xyz.devvydont.smprpg.services.IService;
+import xyz.devvydont.smprpg.listeners.damage.CriticalDamageListener;
 import xyz.devvydont.smprpg.services.DifficultyService;
+import xyz.devvydont.smprpg.services.IService;
 
 /**
  * Overrides all instances of vanilla damage that is desired to fit our new attribute logic
@@ -34,7 +35,7 @@ public class EntityDamageCalculatorService implements Listener, IService {
 
     // How much to decrease damage by depending on the difficulty.
     public static final float EASY_DAMAGE_MULTIPLIER = .5f;
-    public static final float NORMAL_DAMAGE_MULITPLIER = .75f;
+    public static final float NORMAL_DAMAGE_MULTIPLIER = .75f;
     public static final float HARD_DAMAGE_MULTIPLIER = 1f;
 
     // How effective defense is. The lower the number, the better damage reduction from defense is.
@@ -44,8 +45,8 @@ public class EntityDamageCalculatorService implements Listener, IService {
     public final static float COOLDOWN_FORGIVENESS_THRESHOLD = 0.9f;
 
     // Used to store the amount of damage an arrow entity should do.
-    public final NamespacedKey PROJECTILE_DAMAGE_TAG;
-    // The base damage of an arrow if it was not assigned one when it is launched. This could happen in the event
+    public static final NamespacedKey PROJECTILE_DAMAGE_TAG = new NamespacedKey("smprpg", "projectile_damage");
+    // The base damage to an arrow if it was not assigned one when it is launched. This could happen in the event
     // that we do not set a damage value on an arrow entity when it is fired from any source.
     public final static double BASE_ARROW_DAMAGE = 5;
     // The force factor to apply to an arrow's force to decide if this arrow was a fully charged
@@ -55,14 +56,13 @@ public class EntityDamageCalculatorService implements Listener, IService {
     // that players do, so we can make one up here. They also typically do not shoot as forceful as players.
     public final static double AI_BOW_FORCE_FACTOR = 1.75;
     // The velocity an arrow needs to be travelling to deal "maximum" damage. Arrows traveling this fast
-    // will deal exactly the amount of damage of the attack damage stat that was applied to it when it was shot.
+    // will deal exactly the amount of damage to the attack damage stat that was applied to it when it was shot.
     public final static double MAX_ARROW_DAMAGE_VELOCITY = 60.0;
 
     // How much percentage of damage to increase per level of strength an entity has.
     public final static double DAMAGE_PERCENT_PER_LEVEL_STRENGTH_EFFECT = 20;
     // How much defense per level of resistance is applied when an entity has the resistance effect.
     // This will actually end up being implemented in LeveledEntity#getDefense() for convenience.
-    // todo temporarily set to 0 until i can figure out how to override vanilla logic
     public final static int DEFENSE_PERCENT_PER_LEVEL_RESISTANCE_EFFECT = 20;
 
     /*
@@ -74,8 +74,8 @@ public class EntityDamageCalculatorService implements Listener, IService {
      * For example, if we have 100 defense, we should only take 10% of the damage
      * If we have 10 defense, we should take only 50% of the damage, etc.
      *
-     * @param defense
-     * @return
+     * @param defense The defense to calculate with.
+     * @return The multiplier to use.
      */
     public static double calculateDefenseDamageMultiplier(double defense) {
         return (double)DEFENSE_FACTOR / (Math.max(defense, 0) + DEFENSE_FACTOR);
@@ -84,8 +84,8 @@ public class EntityDamageCalculatorService implements Listener, IService {
     /**
      * Given a defense attribute value, return the percentage of damage to negate.
      *
-     * @param defense
-     * @return
+     * @param defense The defense to calculate with.
+     * @return The multiplier to use.
      */
     public static double calculateResistancePercentage(double defense) {
 
@@ -97,9 +97,9 @@ public class EntityDamageCalculatorService implements Listener, IService {
      * Given a health and defense value, calculate the effective health of an entity.
      * Effective health can be calculated as HP/DEF% where DEF% is the percentage of damage something takes due to DEF.
      *
-     * @param health
-     * @param defense
-     * @return
+     * @param health The health to calculate with.
+     * @param defense The defense to calculate with.
+     * @return The EHP of the HP and DEF combination.
      */
     public static double calculateEffectiveHealth(double health, double defense) {
         return health / calculateDefenseDamageMultiplier(defense);
@@ -107,9 +107,13 @@ public class EntityDamageCalculatorService implements Listener, IService {
 
     SMPRPG plugin;
 
+    private final CriticalDamageListener criticalDamageListener;
+
     public EntityDamageCalculatorService(SMPRPG plugin) {
         this.plugin = plugin;
-        PROJECTILE_DAMAGE_TAG = new NamespacedKey(plugin, "arrow-damage");
+
+        // Instantiate event handlers.
+        criticalDamageListener = new CriticalDamageListener();
     }
 
     /*
@@ -119,12 +123,18 @@ public class EntityDamageCalculatorService implements Listener, IService {
     @Override
     public boolean setup() {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
+
+        // Start event handlers.
+        criticalDamageListener.start();
         return true;
     }
 
     @Override
     public void cleanup() {
         HandlerList.unregisterAll(this);
+
+        // Stop event handlers.
+        criticalDamageListener.stop();
     }
 
     @Override
@@ -147,7 +157,7 @@ public class EntityDamageCalculatorService implements Listener, IService {
         return switch (world.getDifficulty()) {
             case PEACEFUL -> EASY_DAMAGE_MULTIPLIER * damage * .5;
             case EASY -> EASY_DAMAGE_MULTIPLIER * damage;
-            case NORMAL -> NORMAL_DAMAGE_MULITPLIER * damage;
+            case NORMAL -> NORMAL_DAMAGE_MULTIPLIER * damage;
             case HARD -> HARD_DAMAGE_MULTIPLIER * damage;
         };
     }
@@ -222,18 +232,6 @@ public class EntityDamageCalculatorService implements Listener, IService {
 
         // Set the damage
         event.setDamage(EntityDamageEvent.DamageModifier.BASE, attack.getValue());
-    }
-
-    /*
-     * Handle criticals. Critical attacks have a 50% damage boost.
-     */
-    @EventHandler(priority = EventPriority.LOW)
-    private void __onCriticalDamageDealt(EntityDamageByEntityEvent event) {
-
-        if (!event.isCritical())
-            return;
-
-        event.setDamage(EntityDamageEvent.DamageModifier.BASE, event.getDamage() * 1.5);
     }
 
     /*
@@ -338,12 +336,12 @@ public class EntityDamageCalculatorService implements Listener, IService {
         if (attack == null)
             return;
 
-        // This projectile should do the damage of the attack stat.
+        // This projectile should do the damage to the attack stat.
         setBaseProjectileDamage(event.getEntity(), attack.getValue());
     }
 
     /*
-     * Used to listen for when a damage tagged projectile is dealing damage to an entity.
+     * Used to listen for when damage tagged projectile is dealing damage to an entity.
      * This method ignores arrows as that is handled somewhere else.
      */
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
@@ -529,7 +527,7 @@ public class EntityDamageCalculatorService implements Listener, IService {
         if (cooldown >= COOLDOWN_FORGIVENESS_THRESHOLD)
             return;
 
-        double multiplier = 0.1 + (1.0 - 0.1) * Math.pow(cooldown, 2);
+        double multiplier = 0.05 + (1.0 - 0.05) * Math.pow(cooldown, 2);
         double newDamage = event.getDamage() * multiplier;
 
         // This player was well below the threshold for us to consider dealing full damage, apply some math to reduce it.

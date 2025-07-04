@@ -93,6 +93,7 @@ public class EnchantmentService implements IService, Listener {
     public final static CustomEnchantment PROFICIENT = new ProficientEnchantment("proficient");
     public final static CustomEnchantment CLIMBING = new ClimbingEnchantment("climbing");
     public final static CustomEnchantment SERRATED = new SerratedEnchantment("serrated");
+    public final static CustomEnchantment OPPORTUNIST = new OpportunistEnchantment("opportunist");
     public final static CustomEnchantment SNIPE = new SnipeEnchantment("snipe");
     public final static CustomEnchantment VELOCITY = new VelocityEnchantment("velocity");
     public final static CustomEnchantment FIRST_STRIKE = new FirstStrikeEnchantment("first_strike");
@@ -125,6 +126,7 @@ public class EnchantmentService implements IService, Listener {
             STABILIZED,
 
             SERRATED,
+            OPPORTUNIST,
             EFFICIENCY,
             FIRST_STRIKE,
             DOUBLE_TAP,

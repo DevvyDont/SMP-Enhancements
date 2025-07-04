@@ -19,38 +19,35 @@ import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import java.util.Collection;
 import java.util.List;
 
-public class SerratedEnchantment extends CustomEnchantment implements AttributeEnchantment {
+public class OpportunistEnchantment extends CustomEnchantment implements AttributeEnchantment {
 
     public static int getAdditionalPercentageIncrease(int level) {
         return switch (level) {
             case 0 -> 0;
-            case 1 -> 10;
-            case 2 -> 20;
-            case 3 -> 30;
-            case 4 -> 45;
-            case 5 -> 60;
-            case 6 -> 75;
-            case 7 -> 100;
-            default -> getAdditionalPercentageIncrease(5) + 25 * (level-7);
+            case 1 -> 15;
+            case 2 -> 30;
+            case 3 -> 50;
+            case 4 -> 70;
+            default -> 100;
         };
     }
 
-    public SerratedEnchantment(String id) {
+    public OpportunistEnchantment(String id) {
         super(id);
     }
 
     @Override
     public @NotNull Component getDisplayName() {
-        return ComponentUtils.create("Serrated");
+        return ComponentUtils.create("Opportunist");
     }
 
     @Override
     public @NotNull Component getDescription() {
         return ComponentUtils.merge(
-            ComponentUtils.create("Increases "),
-            ComponentUtils.create("Critical Rating", NamedTextColor.BLUE),
-            ComponentUtils.create(" by "),
-            ComponentUtils.create("+" + getAdditionalPercentageIncrease(getLevel()), NamedTextColor.GREEN)
+                ComponentUtils.create("Increases "),
+                ComponentUtils.create("Critical Chance", NamedTextColor.AQUA),
+                ComponentUtils.create(" by "),
+                ComponentUtils.create("+" + getAdditionalPercentageIncrease(getLevel()), NamedTextColor.GREEN)
         );
     }
 
@@ -66,7 +63,7 @@ public class SerratedEnchantment extends CustomEnchantment implements AttributeE
 
     @Override
     public int getMaxLevel() {
-        return 7;
+        return 5;
     }
 
     @Override
@@ -81,7 +78,7 @@ public class SerratedEnchantment extends CustomEnchantment implements AttributeE
 
     @Override
     public int getSkillRequirement() {
-        return 11;
+        return 42;
     }
 
     @Override
@@ -92,7 +89,7 @@ public class SerratedEnchantment extends CustomEnchantment implements AttributeE
     @Override
     public Collection<AttributeEntry> getHeldAttributes() {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.CRITICAL_DAMAGE, getAdditionalPercentageIncrease(this.getLevel()))
+                new AdditiveAttributeEntry(AttributeWrapper.CRITICAL_CHANCE, getAdditionalPercentageIncrease(this.getLevel()))
         );
     }
 
