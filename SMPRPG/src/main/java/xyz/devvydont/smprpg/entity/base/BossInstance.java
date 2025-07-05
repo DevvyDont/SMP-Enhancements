@@ -387,6 +387,7 @@ public abstract class BossInstance<T extends LivingEntity> extends LeveledEntity
         cleanupBrainTickTask();
         entityBrainTask = Bukkit.getScheduler().runTaskTimer(_plugin, this::tick, 1, 1);
         _entity.setPersistent(true);
+        _entity.setRemoveWhenFarAway(false);
     }
 
     @Override
