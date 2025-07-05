@@ -44,12 +44,12 @@ public class AbsorptionDamageFix implements Listener {
         if (cracked)
             crackEntityArmor(living);
 
-        // Make the original damage event do no damage.
-        event.setDamage(EntityDamageEvent.DamageModifier.BASE, 0.01);
-
-        // Announce.
+        // Announce. Do this right before we set the damage so the event will make sense to whoever decides to interact with it.
         var absorbDmgEvent = new AbsorptionDamageDealtEvent(living, event.getDamage(), cracked);
         absorbDmgEvent.callEvent();
+
+        // Make the original damage event do no damage.
+        event.setDamage(EntityDamageEvent.DamageModifier.BASE, 0.01);
     }
 
 }
