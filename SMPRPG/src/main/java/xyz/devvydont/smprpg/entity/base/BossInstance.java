@@ -480,12 +480,15 @@ public abstract class BossInstance<T extends LivingEntity> extends LeveledEntity
         if (bossBar != null)
             bossBar.removeViewer(event.getPlayer());
 
+        // If this is the last player that was involved, we need to wipe.
+        if (activelyInvolvedPlayers.isEmpty())
+            wipe();
+
         if (scoreboard == null)
             return;
 
         if (scoreboard.showing(event.getPlayer()))
             scoreboard.hide(event.getPlayer());
-
     }
 
     /*
