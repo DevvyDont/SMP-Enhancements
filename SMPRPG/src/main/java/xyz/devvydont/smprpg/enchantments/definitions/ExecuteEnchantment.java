@@ -75,7 +75,7 @@ public class ExecuteEnchantment extends CustomEnchantment implements Listener {
     }
 
     @EventHandler
-    public void onDealDamageWithExecute(CustomEntityDamageByEntityEvent event) {
+    private void __onDealDamageWithExecute(CustomEntityDamageByEntityEvent event) {
 
         if (!(event.getDealer() instanceof LivingEntity living) || living.getEquipment() == null)
             return;

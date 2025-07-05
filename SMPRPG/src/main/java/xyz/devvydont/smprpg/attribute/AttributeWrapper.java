@@ -95,7 +95,7 @@ public enum AttributeWrapper {
                     create(" hits. "),
                     create("(You can still crit by jumping/fully charging bows!)", DARK_GRAY)
             )),
-    
+
     ATTACK_SPEED(Attribute.ATTACK_SPEED,
             "Attack Recovery",
             AttributeCategory.COMBAT,

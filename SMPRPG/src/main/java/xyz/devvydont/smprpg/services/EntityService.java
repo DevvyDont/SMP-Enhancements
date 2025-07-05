@@ -19,7 +19,6 @@ import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.persistence.PersistentDataType;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scoreboard.Criteria;
@@ -36,7 +35,6 @@ import xyz.devvydont.smprpg.entity.player.LeveledPlayer;
 import xyz.devvydont.smprpg.entity.vanilla.*;
 import xyz.devvydont.smprpg.events.LeveledEntitySpawnEvent;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
-import xyz.devvydont.smprpg.util.formatting.DamagePopupUtil;
 import xyz.devvydont.smprpg.util.formatting.Symbols;
 import xyz.devvydont.smprpg.util.tasks.PlaytimeTracker;
 
@@ -375,9 +373,6 @@ public class EntityService implements IService, Listener {
         if (!(event.getEntity() instanceof LivingEntity))
             return;
 
-        // Construct the damage popup
-        DamagePopupUtil.spawnTextPopup(((LivingEntity) event.getEntity()).getEyeLocation(), (int)Math.round(event.getDamage()), DamagePopupUtil.PopupType.DAMAGE);
-
         // Update the entity's nametag
         var leveled = getEntityInstance(event.getEntity());
         new BukkitRunnable() {
@@ -397,9 +392,6 @@ public class EntityService implements IService, Listener {
 
         if (!(event.getEntity() instanceof LivingEntity))
             return;
-
-        // Construct the heal popup
-        DamagePopupUtil.spawnTextPopup(((LivingEntity) event.getEntity()).getEyeLocation(), (int)Math.round(event.getAmount()), DamagePopupUtil.PopupType.HEAL);
 
         // Update the entity's nametag
         var leveled = getEntityInstance(event.getEntity());
@@ -423,9 +415,6 @@ public class EntityService implements IService, Listener {
             return;
 
         var leveled = getEntityInstance((LivingEntity) event.getEntity());
-
-        if (event.getNewEffect() != null && event.getNewEffect().getType().equals(PotionEffectType.ABSORPTION))
-            DamagePopupUtil.spawnTextPopup(((LivingEntity) event.getEntity()).getEyeLocation(), (int) ((event.getNewEffect().getAmplifier()+1.0) * leveled.getMaxHp() * .05 * 4), DamagePopupUtil.PopupType.GAIN_ARMOR);
 
         new BukkitRunnable() {
             @Override

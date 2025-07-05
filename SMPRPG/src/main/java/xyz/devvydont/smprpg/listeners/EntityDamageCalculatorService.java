@@ -18,11 +18,12 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import xyz.devvydont.smprpg.SMPRPG;
-import xyz.devvydont.smprpg.entity.base.LeveledEntity;
 import xyz.devvydont.smprpg.events.CustomEntityDamageByEntityEvent;
 import xyz.devvydont.smprpg.listeners.damage.CriticalDamageListener;
+import xyz.devvydont.smprpg.listeners.damage.DamagePopupListener;
 import xyz.devvydont.smprpg.services.DifficultyService;
 import xyz.devvydont.smprpg.services.IService;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 /**
  * Overrides all instances of vanilla damage that is desired to fit our new attribute logic
@@ -108,12 +109,14 @@ public class EntityDamageCalculatorService implements Listener, IService {
     SMPRPG plugin;
 
     private final CriticalDamageListener criticalDamageListener;
+    private final DamagePopupListener popupListener;
 
     public EntityDamageCalculatorService(SMPRPG plugin) {
         this.plugin = plugin;
 
         // Instantiate event handlers.
         criticalDamageListener = new CriticalDamageListener();
+        popupListener = new DamagePopupListener();
     }
 
     /*
@@ -124,8 +127,9 @@ public class EntityDamageCalculatorService implements Listener, IService {
     public boolean setup() {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
 
-        // Start event handlers.
-        criticalDamageListener.start();
+        // Start event handlers. You can comment these out to disable game features.
+        criticalDamageListener.start();  // Handles the critical damage calculation mechanic.
+        popupListener.start();  // Handles popups in the world for health related events.
         return true;
     }
 
@@ -135,6 +139,7 @@ public class EntityDamageCalculatorService implements Listener, IService {
 
         // Stop event handlers.
         criticalDamageListener.stop();
+        popupListener.stop();
     }
 
     @Override
@@ -148,10 +153,9 @@ public class EntityDamageCalculatorService implements Listener, IService {
 
     /**
      * The difficulty of the world affects the damage multiplier in some cases, we should account for that
-     *
-     * @param world
-     * @param damage
-     * @return
+     * @param world The world to extract difficulty from.
+     * @param damage The final damage to multiply.
+     * @return A multiplied damage value.
      */
     private double getDifficultyAdjustedDamage(World world, double damage) {
         return switch (world.getDifficulty()) {
@@ -164,9 +168,8 @@ public class EntityDamageCalculatorService implements Listener, IService {
 
     /**
      * Given an arrow entity, return its tagged modified damage. Returns 5 by default if this arrow is not tagged.
-     *
-     * @param projectile
-     * @return
+     * @param projectile The projectile to query.
+     * @return The intended base projectile damage.
      */
     public double getBaseProjectileDamage(Projectile projectile) {
         return projectile.getPersistentDataContainer().getOrDefault(PROJECTILE_DAMAGE_TAG, PersistentDataType.DOUBLE, BASE_ARROW_DAMAGE);
@@ -174,9 +177,8 @@ public class EntityDamageCalculatorService implements Listener, IService {
 
     /**
      * Given an arrow and a damage value, set the arrow's base damage to deal upon impact.
-     *
-     * @param projectile
-     * @param damage
+     * @param projectile The projectile to set damage to.
+     * @param damage The damage to set.
      */
     public void setBaseProjectileDamage(Entity projectile, double damage) {
         projectile.getPersistentDataContainer().set(PROJECTILE_DAMAGE_TAG, PersistentDataType.DOUBLE, damage);
@@ -186,45 +188,53 @@ public class EntityDamageCalculatorService implements Listener, IService {
      * Helper method that determines if a certain damage cause should use the entity's strength stat as a base
      * damage point. We do this so that we can properly override vanilla minecraft's mechanics such as resistance,
      * armor plating, strength, and vanilla enchantments so we can define those attributes ourselves.
-     *
      * @param cause The damage cause of an EntityDamageEvent
      * @return true if we should use strength, false if we should use vanilla's logic or handle it somewhere else.
      */
-    private boolean useStrengthAttribute(EntityDamageEvent.DamageCause cause) {
+    private boolean doesntUseStrengthAttribute(EntityDamageEvent.DamageCause cause) {
 
         // If this is environmental damage, we don't need to worry about the case
         if (EnvironmentalDamageListener.getEnvironmentalDamagePercentage(cause) > 0)
-            return false;
+            return true;
 
         // Used as a whitelist for certain cases where two entities are damaging each other
-        return switch (cause) {
-            case DRAGON_BREATH, ENTITY_SWEEP_ATTACK, ENTITY_EXPLOSION, ENTITY_ATTACK, SONIC_BOOM -> true;
+        return !switch (cause) {
+            case ENTITY_SWEEP_ATTACK, ENTITY_EXPLOSION, ENTITY_ATTACK, SONIC_BOOM -> true;
             default -> false;
         };
 
     }
 
     /*
-     * GENERAL DAMAGE
+     * GENERAL DAMAGE EVENTS
+     * The order of events *should* somewhat match the expected order of execution of events, to make this feel less
+     * like spaghetti. The general flow of events should be something like this:
+     * - EntityDamageEvent/EntityDamageByEntityEvent LOWEST -> HIGHEST (Keep in mind, EntityDamageEvent handlers will ALSO receive EntityDamageByEntityEvent instances!)
+     * - CustomEntityDamageByEntityEvent LOWEST -> MONITOR
+     * - EntityDamageEvent/EntityDamageByEntityEvent -> MONITOR
+     * As you can see, the CustomEntityDamageByEntity executes before the normal Bukkit even is done.
+     * This is because our event is fired *during* the Bukkit one, preferably during HIGHEST priority.
+     * This is crucial as if we have a "monitor" handler in our custom event, and any modifications were made in
+     * a high priority standard event that happened after our custom one, our results will seem mixed.
      */
 
     /*
      * The very first entry point into our damage calculations. If an entity is dealing damage to another one, set the
-     * damage of the attack to the strength stat of the entity.
+     * damage to the attack to the strength stat of the entity.
      */
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     private void __onEntityDealDamageToAnotherEntity(EntityDamageByEntityEvent event) {
 
         // Depending on the cause of the damage, determine whether we should use strength or not
-        if (!useStrengthAttribute(event.getCause()))
+        if (doesntUseStrengthAttribute(event.getCause()))
             return;
 
         // If the entity that dealt this damage is not an entity that could potentially have a damage stat, we cannot
-        // set the very base damage of the attack.
+        // set the very base damage to the attack.
         if (!(event.getDamageSource().getCausingEntity() instanceof LivingEntity dealer))
             return;
 
-        AttributeInstance attack = dealer.getAttribute(Attribute.ATTACK_DAMAGE);
+        var attack = dealer.getAttribute(Attribute.ATTACK_DAMAGE);
 
         // Do they have an attack damage stat? If they don't, we cannot determine an attack to set.
         if (attack == null)
@@ -235,12 +245,31 @@ public class EntityDamageCalculatorService implements Listener, IService {
     }
 
     /*
-     * Handle damage boosting effects. For now, this is just the strength potion effect.
+     * It is annoying that baby enemies deal the same damage as normal ones since they are annoying to hit.
+     * Apply an -80% damage reduction if an entity is a baby.
      */
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
+    private void __onBabyEntityDealtDamage(EntityDamageByEntityEvent event) {
+
+        // Only look for entities that can be a baby
+        if (!(event.getDamager() instanceof Ageable ageable))
+            return;
+
+        // Only look for babies
+        if (ageable.isAdult())
+            return;
+
+        // Apply damage debuff
+        event.setDamage(EntityDamageEvent.DamageModifier.BASE, event.getDamage() * .2);
+    }
+
+    /*
+     * Handle simple damage boosting effects. For now, this is just the strength potion effect.
+     */
+    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     private void __onDamageDealtWithStrength(CustomEntityDamageByEntityEvent event) {
 
-        if (!useStrengthAttribute(event.getVanillaCause()))
+        if (doesntUseStrengthAttribute(event.getVanillaCause()))
             return;
 
         if (!(event.getDealer() instanceof LivingEntity living))
@@ -255,13 +284,69 @@ public class EntityDamageCalculatorService implements Listener, IService {
     }
 
     /*
+     * Currently, bows have a strength stat that can work as a melee stat which is not intended due
+     * to the constraints of minecraft's attribute system. If an entity is holding a bow and does melee damage,
+     * they should be severely nerfed.
+     */
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+    private void __onMeleeDamageHoldingBow(EntityDamageByEntityEvent event) {
+
+        if (!(event.getDamager() instanceof LivingEntity living))
+            return;
+
+        if (living.getEquipment() == null)
+            return;
+
+        // If two entities did direct damage to each other and one is holding a bow, we need to apply a penalty
+        boolean holdingBow = false;
+
+        ItemStack mainHand = living.getEquipment().getItemInMainHand();
+        ItemStack offHand = living.getEquipment().getItemInOffHand();
+        if (!mainHand.getType().equals(Material.AIR) && plugin.getItemService().getBlueprint(mainHand).getItemClassification().isBow())
+            holdingBow = true;
+        if (!offHand.getType().equals(Material.AIR) && plugin.getItemService().getBlueprint(offHand).getItemClassification().isBow())
+            holdingBow = true;
+
+        // 95% damage reduction
+        if (holdingBow) {
+            event.setDamage(EntityDamageEvent.DamageModifier.BASE, event.getDamage() * .05);
+            living.sendMessage(ComponentUtils.error("You seem to be struggling trying to deal damage like that with a bow..."));
+        }
+
+    }
+
+    /**
+     * Handle the "armor" mechanic. Currently, you just get a small i-frame bonus when you have armor.
+     * @param event The {@link EntityDamageByEntityEvent} event that provides us with relevant context.
+     */
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    private void __onEntityDamagedEntityWithArmor(EntityDamageByEntityEvent event) {
+
+        if (!(event.getEntity() instanceof LivingEntity living))
+            return;
+
+        var leveled = plugin.getEntityService().getEntityInstance(living);
+
+        var armor = living.getAttribute(Attribute.ARMOR);
+        int iframeTicks = 0;
+
+        // Armor changes how much iframes we get for this attack
+        if (armor != null)
+            iframeTicks = (int) armor.getValue();
+
+        final int noDamageTicks = leveled.getInvincibilityTicks() + iframeTicks;
+
+        living.setNoDamageTicks(noDamageTicks);
+        Bukkit.getScheduler().runTaskLater(plugin, () -> living.setNoDamageTicks(noDamageTicks), 0);
+    }
+
+    /*
      * PROJECTILE/BOW RELATED DAMAGE EVENTS
      */
 
     /**
      * Used to tag arrows with the proper damage value based on the attack damage stat of the shooter.
-     *
-     * @param event
+     * @param event The {@link EntityShootBowEvent} event that provides us with relevant context.
      */
     @EventHandler(priority = EventPriority.LOWEST)
     private void __onEntityShootBow(EntityShootBowEvent event) {
@@ -271,7 +356,7 @@ public class EntityDamageCalculatorService implements Listener, IService {
         if (attackDamage == null)
             return;
 
-        // Using the attack damage of the entity, set a base damage value to use.
+        // Using the attack of the entity, set a base damage value to use.
         double arrowDamage = attackDamage.getValue();
 
         // If this was a player, consider bow force.
@@ -290,8 +375,7 @@ public class EntityDamageCalculatorService implements Listener, IService {
      * As soon as we possibly can, intercept events where an arrow is damaging an entity.
      * We need to set the base damage of this event to the arrow's base damage and apply
      * a multiplier on it based on arrow velocity.
-     *
-     * @param event
+     * @param event The {@link EntityDamageByEntityEvent} event that provides us with relevant context.
      */
     @EventHandler(priority = EventPriority.LOWEST)
     private void __onArrowDamageReceived(EntityDamageByEntityEvent event) {
@@ -375,10 +459,11 @@ public class EntityDamageCalculatorService implements Listener, IService {
      * the entity dealing damage is instead set to the entity that *caused* the damage to occur.
      * This makes it much easier to intercept events such as a player shooting a zombie with
      * a bow, as it does the work of backtracking a projectile shooter back to the player.
-     *
-     * @param event
+     * This should also go last, so that events can modify vanilla interactions first if needed.
+     * Our plugin should ideally rely on the custom event to prevent mismatches.
+     * @param event The {@link EntityDamageByEntityEvent} event that provides us with relevant context.
      */
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     private void __onVanillaDamageEntityVsEntity(EntityDamageByEntityEvent event) {
 
         // Handle the case where the source is a projectile. If it is, there is potential that
@@ -410,10 +495,8 @@ public class EntityDamageCalculatorService implements Listener, IService {
      * Handle the effectiveness of defense while wearing armor.
      * Analyze the total defense of the entity who is taking damage, multiply the damage
      * by their resistance multiplier.
-     *
      * Since this is a multiplicative operation, this should run almost last.
-     *
-     * @param event
+     * @param event The {@link CustomEntityDamageByEntityEvent} event that provides us with relevant context.
      */
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     private void __onEntityDamageEntityWithDefense(CustomEntityDamageByEntityEvent event) {
@@ -421,18 +504,41 @@ public class EntityDamageCalculatorService implements Listener, IService {
         // Using the defense of the receiver, reduce the damage
         if (event.getDamaged() instanceof Attributable) {
             // Apply the entity's defense attribute
-            LeveledEntity leveledEntity = plugin.getEntityService().getEntityInstance(event.getDamaged());
+            var leveledEntity = plugin.getEntityService().getEntityInstance(event.getDamaged());
             event.multiplyDamage(calculateDefenseDamageMultiplier(leveledEntity.getDefense()));
         }
 
+    }
+
+    /*
+     * When players deal melee damage, we need to more aggressively decrease their damage output since Minecraft's
+     * vanilla formula is not good enough for inflated damage numbers. The reasoning for this is to reward well-timed
+     * hits and to prevent spam clicking DPS abuse on bosses since they don't have i-frames.
+     */
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+    private void __onPlayerAttackWhileOnCooldown(CustomEntityDamageByEntityEvent event) {
+
+        // Is the entity dealing damage a player? We only care about players.
+        if (!(event.getDealer() instanceof Player player))
+            return;
+
+        float cooldown = player.getAttackCooldown();
+
+        // Is the player on cooldown? Don't do anything if they are dealing a full damage hit.
+        // If the player was *close enough* then allow vanilla Minecraft's damage rules for damage reduction.
+        if (cooldown >= COOLDOWN_FORGIVENESS_THRESHOLD)
+            return;
+
+        // Apply the multiplier.
+        double multiplier = 0.05 + (1.0 - 0.05) * Math.pow(cooldown, 2);
+        event.multiplyDamage(multiplier);
     }
 
     /**
      * Handle the incoming damage multiplier due to being on a different difficulty for players.
      * Only the entity receiving damage will be affected if they are a player and on a difficulty that isn't
      * standard.
-     *
-     * @param event
+     * @param event The {@link CustomEntityDamageByEntityEvent} event that provides us with relevant context.
      */
     @EventHandler(priority = EventPriority.HIGHEST)
     private void __onEntityDamageEntityOnSpecialDifficulty(CustomEntityDamageByEntityEvent event) {
@@ -448,113 +554,6 @@ public class EntityDamageCalculatorService implements Listener, IService {
         // Multiply their difficulty damage multiplier.
         var multiplier = DifficultyService.getDamageMultiplier(SMPRPG.getInstance().getDifficultyService().getDifficulty(player));
         event.multiplyDamage(multiplier);
-    }
-
-    /*
-     * Entities with the "armor" attribute should take off some damage additively at the very end of all damage calculations.
-     */
-    @EventHandler(ignoreCancelled = true)
-    private void __onEntityDamagedEntityWithArmor(EntityDamageByEntityEvent event) {
-
-        if (!(event.getEntity() instanceof LivingEntity living))
-            return;
-
-        LeveledEntity leveled = plugin.getEntityService().getEntityInstance(living);
-
-        AttributeInstance armor = living.getAttribute(Attribute.ARMOR);
-        int iframeTicks = 0;
-
-        // Armor changes how much iframes we get for this attack
-        if (armor != null)
-            iframeTicks = (int) armor.getValue();
-
-        final int noDamageTicks = leveled.getInvincibilityTicks() + iframeTicks;
-        
-        living.setNoDamageTicks(noDamageTicks);
-        Bukkit.getScheduler().runTaskLater(plugin, () -> living.setNoDamageTicks(noDamageTicks), 0);
-    }
-
-    /*
-     * DAMAGE "FIXES" (Bow stacking exploit, attacking on cooldowns, etc.)
-     */
-
-    /*
-     * Currently, bows have a strength stat that can work as a melee stat which is not intended due
-     * to the constraints of minecraft's attribute system. If an entity is holding a bow and does melee damage,
-     * they should be severely nerfed.
-     */
-    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-    private void __onMeleeDamageHoldingBow(EntityDamageByEntityEvent event) {
-
-        if (!(event.getDamager() instanceof LivingEntity living))
-            return;
-
-        if (living.getEquipment() == null)
-            return;
-
-        // If two entities did direct damage to each other and one is holding a bow, we need to apply a penalty
-        boolean holdingBow = false;
-
-        ItemStack mainHand = living.getEquipment().getItemInMainHand();
-        ItemStack offHand = living.getEquipment().getItemInOffHand();
-        if (!mainHand.getType().equals(Material.AIR) && plugin.getItemService().getBlueprint(mainHand).getItemClassification().isBow())
-            holdingBow = true;
-        if (!offHand.getType().equals(Material.AIR) && plugin.getItemService().getBlueprint(offHand).getItemClassification().isBow())
-            holdingBow = true;
-
-        // 95% damage reduction
-        if (holdingBow)
-            event.setDamage(EntityDamageEvent.DamageModifier.BASE, event.getDamage() * .05);
-
-    }
-
-    /*
-     * When players deal melee damage, we need to more aggressively decrease their damage output since Minecraft's
-     * vanilla formula is not good enough for inflated damage numbers. The reasoning for this is to reward well-timed
-     * hits and to prevent spam clicking DPS abuse on bosses since they don't have i-frames.
-     */
-    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
-    private void __onPlayerAttackWhileOnCooldown(EntityDamageByEntityEvent event) {
-
-        // Is the entity dealing damage a player? We only care about players.
-        if (!(event.getDamager() instanceof Player player))
-            return;
-
-        float cooldown = player.getAttackCooldown();
-
-        // Is the player on cooldown? Don't do anything if they are dealing a full damage hit.
-        // If the player was *close enough* then allow vanilla Minecraft's damage rules for damage reduction.
-        if (cooldown >= COOLDOWN_FORGIVENESS_THRESHOLD)
-            return;
-
-        double multiplier = 0.05 + (1.0 - 0.05) * Math.pow(cooldown, 2);
-        double newDamage = event.getDamage() * multiplier;
-
-        // This player was well below the threshold for us to consider dealing full damage, apply some math to reduce it.
-        event.setDamage(EntityDamageEvent.DamageModifier.BASE, newDamage);
-    }
-
-    /*
-     * ENTITY STATE DAMAGE FACTORS (an entity being a baby = deal less damage)
-     */
-
-    /*
-     * It is annoying that baby enemies deal the same damage as normal ones since they are annoying to hit.
-     * Apply an -80% damage reduction if an entity is a baby.
-     */
-    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-    private void __onBabyEntityDealtDamage(EntityDamageByEntityEvent event) {
-
-        // Only look for entities that can be a baby
-        if (!(event.getDamager() instanceof Ageable ageable))
-            return;
-
-        // Only look for babies
-        if (ageable.isAdult())
-            return;
-
-        // Apply damage debuff
-        event.setDamage(EntityDamageEvent.DamageModifier.BASE, event.getDamage() * .2);
     }
 
 }

@@ -8,8 +8,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import xyz.devvydont.smprpg.SMPRPG;
-import xyz.devvydont.smprpg.entity.base.LeveledEntity;
-import xyz.devvydont.smprpg.util.formatting.DamagePopupUtil;
+import xyz.devvydont.smprpg.events.damage.AbsorptionDamageDealtEvent;
 
 public class AbsorptionDamageFix implements Listener {
 
@@ -28,21 +27,29 @@ public class AbsorptionDamageFix implements Listener {
     @EventHandler(priority = EventPriority.HIGH)
     public void onEntityDamage(EntityDamageEvent event) {
 
-        if (!(event.getEntity() instanceof LivingEntity))
+        if (!(event.getEntity() instanceof LivingEntity living))
             return;
 
-        LivingEntity living = (LivingEntity) event.getEntity();
-        LeveledEntity entity = plugin.getEntityService().getEntityInstance(event.getEntity());
+        var entity = plugin.getEntityService().getEntityInstance(event.getEntity());
 
         // If they don't have absorption don't do anything
         if (entity.getAbsorptionHealth() <= 0)
             return;
 
-        DamagePopupUtil.spawnTextPopup(living.getEyeLocation(), (int) event.getDamage(), DamagePopupUtil.PopupType.DAMAGE_ARMOR);
+        // Subtract absorption.
         entity.addAbsorptionHealth(-event.getDamage());
-        if (entity.getAbsorptionHealth() <= 0)
+
+        // Check if they ran out.
+        var cracked = entity.getAbsorptionHealth() <= 0;
+        if (cracked)
             crackEntityArmor(living);
+
+        // Make the original damage event do no damage.
         event.setDamage(EntityDamageEvent.DamageModifier.BASE, 0.01);
+
+        // Announce.
+        var absorbDmgEvent = new AbsorptionDamageDealtEvent(living, event.getDamage(), cracked);
+        absorbDmgEvent.callEvent();
     }
 
 }

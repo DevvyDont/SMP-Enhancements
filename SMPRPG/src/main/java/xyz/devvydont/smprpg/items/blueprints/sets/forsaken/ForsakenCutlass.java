@@ -19,6 +19,7 @@ import org.bukkit.inventory.recipe.CraftingBookCategory;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import xyz.devvydont.smprpg.SMPRPG;
+import xyz.devvydont.smprpg.events.CustomEntityDamageByEntityEvent;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
@@ -109,15 +110,15 @@ public class ForsakenCutlass extends CustomAttributeItem implements Listener, IH
         return ForsakenArmorSet.DURABILITY;
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
-    private void __onAttackWithCutlass(EntityDamageByEntityEvent event) {
+    @EventHandler(priority = EventPriority.HIGH)
+    private void __onAttackWithCutlass(CustomEntityDamageByEntityEvent event) {
 
         // Can the attacked entity have potion effects?
-        if (!(event.getEntity() instanceof LivingEntity attacked))
+        if (!(event.getDamaged() instanceof LivingEntity attacked))
             return;
 
         // Did the attacker use the cutlass?
-        if (!(event.getDamager() instanceof LivingEntity living))
+        if (!(event.getDealer() instanceof LivingEntity living))
             return;
 
         if (living.getEquipment() == null)

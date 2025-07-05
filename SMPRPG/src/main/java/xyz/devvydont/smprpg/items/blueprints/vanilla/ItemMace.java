@@ -10,6 +10,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemStack;
+import xyz.devvydont.smprpg.events.CustomEntityDamageByEntityEvent;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.ItemRarity;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
@@ -75,11 +76,11 @@ public class ItemMace extends VanillaAttributeItem implements IBreakableEquipmen
      * Maces have the special property of dealing increased damage based on how fast the person is falling.
      * @param event
      */
-    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-    private void __onMaceDamage(EntityDamageByEntityEvent event) {
+    @EventHandler(ignoreCancelled = true)
+    private void __onMaceDamage(CustomEntityDamageByEntityEvent event) {
 
         // Can the damaging entity hold equipment?
-        if (!(event.getDamager() instanceof LivingEntity livingEntity))
+        if (!(event.getDealer() instanceof LivingEntity livingEntity))
             return;
 
         var equipment = livingEntity.getEquipment();

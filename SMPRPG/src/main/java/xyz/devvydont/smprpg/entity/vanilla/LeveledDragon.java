@@ -74,23 +74,4 @@ public class LeveledDragon extends BossInstance<EnderDragon> {
         );
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
-    public void onDragonBreathDamage(EntityDamageByEntityEvent e) {
-
-        // Dragon breath damage is treated as a normal attack
-        if (!e.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_ATTACK))
-            return;
-
-        // Check for area of effect damage
-        if (!(e.getDamager() instanceof AreaEffectCloud cloud))
-            return;
-
-        // Check if the owner of the cloud matches this dragon
-        if (!_entity.getUniqueId().equals(cloud.getOwnerUniqueId()))
-            return;
-
-        // Set the damage
-        e.setDamage(this._config.getBaseDamage());
-    }
-
 }
