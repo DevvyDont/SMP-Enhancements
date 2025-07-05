@@ -6,6 +6,7 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.Style;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -44,6 +45,18 @@ public final class ComponentUtils {
      */
     public static TextComponent create(String message, TextColor color, TextDecoration... decorations) {
         return Component.text(message, Style.style(color, decorations));
+    }
+
+    /**
+     * Creates a text component that is a gradient from one color to another using the MiniMessage library.
+     *
+     * @param message The message to apply a gradient to.
+     * @param startColor The starting color (left).
+     * @param endColor The ending color (right).
+     * @return A component with gradient applied from left to right.
+     */
+    public static Component gradient(String message, TextColor startColor, TextColor endColor) {
+        return MiniMessage.miniMessage().deserialize(String.format("<gradient:%s:%s>%s</gradient>", startColor.asHexString(), endColor.asHexString(), message));
     }
 
     // -----------

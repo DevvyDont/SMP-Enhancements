@@ -1,9 +1,7 @@
 package xyz.devvydont.smprpg.listeners.damage;
 
-import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
-import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.entity.Display;
@@ -19,7 +17,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.events.CustomEntityDamageByEntityEvent;
 import xyz.devvydont.smprpg.events.damage.AbsorptionDamageDealtEvent;
-import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
+import xyz.devvydont.smprpg.util.formatting.ComponentDecorator;
 import xyz.devvydont.smprpg.util.formatting.Symbols;
 import xyz.devvydont.smprpg.util.listeners.ToggleableListener;
 import xyz.devvydont.smprpg.util.time.TickTime;
@@ -39,16 +37,16 @@ public class DamagePopupListener extends ToggleableListener {
      * The sole purpose of the popup type is to assign behavior to specific popups.
      */
     public enum PopupType {
-        DAMAGE_ARMOR(NamedTextColor.GOLD),
-        GENERIC(NamedTextColor.GRAY),
-        DAMAGE(TextColor.color(180, 100, 100)),
-        CRITICAL(NamedTextColor.RED),
-        GAIN_ARMOR(NamedTextColor.YELLOW),
-        HEAL(NamedTextColor.GREEN);
+        DAMAGE_ARMOR(ComponentDecorator.color(NamedTextColor.GOLD)),
+        GENERIC(ComponentDecorator.color(NamedTextColor.GRAY)),
+        DAMAGE(ComponentDecorator.color(TextColor.color(180, 100, 100))),
+        CRITICAL(ComponentDecorator.symbolizedGradient(Symbols.POWER, TextColor.color(255, 0, 60), TextColor.color(255, 138, 0))),
+        GAIN_ARMOR(ComponentDecorator.color(NamedTextColor.YELLOW)),
+        HEAL(ComponentDecorator.color(NamedTextColor.GREEN));
 
-        public final TextColor Color;
-        PopupType(TextColor color) {
-            this.Color = color;
+        public final ComponentDecorator Decorator;
+        PopupType(ComponentDecorator decorator) {
+            this.Decorator = decorator;
         }
     }
 
@@ -69,14 +67,8 @@ public class DamagePopupListener extends ToggleableListener {
         double finalAmount = Math.max(1, rounded);
         var text = NUMBER_FORMATTER.format(finalAmount);
 
-        // For crits, put symbols on the side and apply a gradient to it to make it really stand out.
-        if (type.equals(PopupType.CRITICAL))
-            text = Symbols.POWER + text + Symbols.POWER;
-        Component component;
-        if (type == PopupType.CRITICAL)
-            component = MiniMessage.miniMessage().deserialize(String.format("<gradient:#FF003C:#FF8A00>%s</gradient>", text));
-        else
-            component = ComponentUtils.create(text, type.Color);
+        // Retrieve the component based on the popup type.
+        var component = type.Decorator.decorate(text);
 
         // Now actually spawn the text display entity.
         var spawnLoc = location.add(Math.random()-.5, Math.random()+.3, Math.random()-.5);
