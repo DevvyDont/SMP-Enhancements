@@ -2,7 +2,6 @@ package xyz.devvydont.smprpg.items.blueprints.misc;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.World;
@@ -30,7 +29,6 @@ public class DeathCertificate extends CustomItemBlueprint implements Listener, I
     private NamespacedKey locationKey = new NamespacedKey("smprpg", "location");
     private NamespacedKey playerKey = new NamespacedKey("smprpg", "player");
     private NamespacedKey timestampKey = new NamespacedKey("smprpg", "timestamp");
-    private NamespacedKey reasonKey = new NamespacedKey("smprpg", "reason");
 
     public DeathCertificate(ItemService itemService, CustomItemType type) {
         super(itemService, type);
@@ -72,10 +70,6 @@ public class DeathCertificate extends CustomItemBlueprint implements Listener, I
         return meta.getPersistentDataContainer().getOrDefault(timestampKey, PersistentDataType.LONG, System.currentTimeMillis());
     }
 
-    public String getReason(ItemMeta meta) {
-        return meta.getPersistentDataContainer().getOrDefault(reasonKey, PersistentDataType.STRING, "Unknown");
-    }
-
     public void setData(ItemStack item, Player player) {
 
         if (player.getLastDeathLocation() == null)
@@ -85,7 +79,6 @@ public class DeathCertificate extends CustomItemBlueprint implements Listener, I
             meta.getPersistentDataContainer().set(locationKey, PersistentDataType.INTEGER_ARRAY, getPrimitiveLocation(player.getLastDeathLocation()));
             meta.getPersistentDataContainer().set(playerKey, PersistentDataType.STRING, player.getName());
             meta.getPersistentDataContainer().set(timestampKey, PersistentDataType.LONG, System.currentTimeMillis());
-            meta.getPersistentDataContainer().set(reasonKey, PersistentDataType.STRING, PlainTextComponentSerializer.plainText().serialize(player.getCombatTracker().getDeathMessage()));
         });
     }
 
@@ -109,7 +102,6 @@ public class DeathCertificate extends CustomItemBlueprint implements Listener, I
                 ComponentUtils.create(playerName, NamedTextColor.AQUA).append(ComponentUtils.create(" died in ")).append(getEnvironmentComponent(environment)),
                 ComponentUtils.create("Coordinates: ").append(getCoordinatesComponent(location)),
                 ComponentUtils.EMPTY,
-                ComponentUtils.merge(ComponentUtils.create("Reason: "), ComponentUtils.create(getReason(meta), NamedTextColor.YELLOW)),
                 ComponentUtils.create("Death occurred at: " + dateString + "EST", NamedTextColor.DARK_GRAY)
         );
     }
