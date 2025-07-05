@@ -61,11 +61,12 @@ public class DamagePopupListener extends ToggleableListener {
     public static void spawnTextPopup(Location location, double amount, PopupType type) {
 
         // It's pointless to display nothing...
-        if (amount == 0)
+        var rounded = Math.round(amount);
+        if (rounded == 0)
             return;
 
         // Format the amount. We want to make sure we are at least displaying 1. We also want to make this more readable.
-        double finalAmount = Math.max(1, amount);
+        double finalAmount = Math.max(1, rounded);
         var text = NUMBER_FORMATTER.format(finalAmount);
 
         // For crits, put symbols on the side and apply a gradient to it to make it really stand out.
