@@ -1,4 +1,4 @@
-package xyz.devvydont.smprpg.entity.vanilla;
+package xyz.devvydont.smprpg.entity.bosses;
 
 import net.kyori.adventure.bossbar.BossBar;
 import org.bukkit.Material;

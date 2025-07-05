@@ -1,4 +1,4 @@
-﻿package xyz.devvydont.smprpg.util.formatting;
+package xyz.devvydont.smprpg.util.formatting;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
