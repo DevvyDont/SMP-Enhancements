@@ -1,5 +1,7 @@
 package xyz.devvydont.smprpg.listeners;
 
+import io.papermc.paper.registry.RegistryAccess;
+import io.papermc.paper.registry.RegistryKey;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Location;
@@ -36,8 +38,8 @@ public class StructureEntitySpawnListener extends ToggleableListener {
         minimumStructureLevels.put(Structure.MANSION,         25);  // Pillagers are 15-25
         minimumStructureLevels.put(Structure.PILLAGER_OUTPOST,20);  // Pillagers are 15-25
         minimumStructureLevels.put(Structure.MONUMENT,        18);  // Midgame boss
-        minimumStructureLevels.put(Structure.MINESHAFT,       15);  // Early game structure
-        minimumStructureLevels.put(Structure.MINESHAFT_MESA,  15);  // Early game structure
+        minimumStructureLevels.put(Structure.MINESHAFT,       10);  // Early game structure
+        minimumStructureLevels.put(Structure.MINESHAFT_MESA,  10);  // Early game structure
         minimumStructureLevels.put(Structure.VILLAGE_DESERT,  15);  // Early game structure
         minimumStructureLevels.put(Structure.VILLAGE_PLAINS,  15);  // Early game structure
         minimumStructureLevels.put(Structure.VILLAGE_SAVANNA, 15);  // Early game structure
@@ -79,7 +81,10 @@ public class StructureEntitySpawnListener extends ToggleableListener {
 
     private Component getStructureComponent(Player player, GeneratedStructure structure, int power) {
 
-        var name = MinecraftStringUtils.getTitledString(structure.getStructure().getStructureType().key().asMinimalString());
+        var key = RegistryAccess.registryAccess().getRegistry(RegistryKey.STRUCTURE).getKey(structure.getStructure());
+        var name = "???";
+        if (key != null)
+            name = MinecraftStringUtils.getTitledString(key.asMinimalString());
 
         // Create the base message.
         Component send = ComponentUtils.merge(
