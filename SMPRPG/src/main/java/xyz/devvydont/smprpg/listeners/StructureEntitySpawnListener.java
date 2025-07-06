@@ -2,11 +2,9 @@ package xyz.devvydont.smprpg.listeners;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.generator.structure.GeneratedStructure;
 import org.bukkit.generator.structure.Structure;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -15,6 +13,7 @@ import xyz.devvydont.smprpg.events.LeveledEntitySpawnEvent;
 import xyz.devvydont.smprpg.services.ActionBarService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.formatting.MinecraftStringUtils;
+import xyz.devvydont.smprpg.util.listeners.ToggleableListener;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,19 +21,11 @@ import java.util.Map;
 /**
  * When entities are spawned inside of structures, we want to make them certain levels based on the structure.
  */
-public class StructureEntitySpawnListener implements Listener {
+public class StructureEntitySpawnListener extends ToggleableListener {
 
-    public static Map<Structure, Integer> minimumStructureLevels;
+    public static Map<Structure, Integer> minimumStructureLevels = new HashMap<>();
 
-    private final SMPRPG plugin;
-
-    public StructureEntitySpawnListener(SMPRPG plugin) {
-
-        this.plugin = plugin;
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
-
-        minimumStructureLevels = new HashMap<>();
-
+    static {
         minimumStructureLevels.put(Structure.ANCIENT_CITY,    100);  // Ancient cities are the hardest content in the game
         minimumStructureLevels.put(Structure.END_CITY,        55);  // The end
         minimumStructureLevels.put(Structure.STRONGHOLD,      45);  // The end
@@ -55,7 +46,15 @@ public class StructureEntitySpawnListener implements Listener {
         minimumStructureLevels.put(Structure.IGLOO,           10);  // Early game structure
         minimumStructureLevels.put(Structure.JUNGLE_PYRAMID,  10);  // Early game structure
         minimumStructureLevels.put(Structure.SWAMP_HUT,       10);  // Early game structure
+    }
 
+
+    @Override
+    public void start() {
+        super.start();
+
+        // Create a task that checks if any players are in a structure. If they are, alert them.
+        var plugin = SMPRPG.getInstance();
         new BukkitRunnable() {
 
             @Override
@@ -88,6 +87,7 @@ public class StructureEntitySpawnListener implements Listener {
                 ComponentUtils.powerLevelPrefix(power)
         );
 
+        var plugin = SMPRPG.getInstance();
         // If the player is underleveled, add a warning label.
         if (power > plugin.getEntityService().getPlayerInstance(player).getLevel())
             send = ComponentUtils.create("WARNING! ", NamedTextColor.RED).append(send);
@@ -98,13 +98,13 @@ public class StructureEntitySpawnListener implements Listener {
 
     private void doPlayerLocationCheck(Player player) {
 
-        Location location = player.getLocation();
-        Chunk chunk = location.getChunk();
+        var location = player.getLocation();
+        var chunk = location.getChunk();
 
         // Determine highest level structure we are in. If -1, that means we are not in one
         GeneratedStructure mostDangerousStructure = null;
         int highestLevel = -1;
-        for (GeneratedStructure structure : chunk.getStructures()) {
+        for (var structure : chunk.getStructures()) {
 
             // Skip structures we aren't actually in
             if (!structure.getBoundingBox().overlaps(player.getBoundingBox()))
@@ -120,6 +120,7 @@ public class StructureEntitySpawnListener implements Listener {
         if (mostDangerousStructure == null || highestLevel < 1)
             return;
 
+        var plugin = SMPRPG.getInstance();
         plugin.getActionBarService().addActionBarComponent(player, ActionBarService.ActionBarSource.STRUCTURE, getStructureComponent(player, mostDangerousStructure, highestLevel), 5);
     }
 

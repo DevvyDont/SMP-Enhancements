@@ -148,7 +148,7 @@ public class DimensionPortalLockingListener extends ToggleableListener {
         long minutes = duration.toMinutes() % 60;
         long seconds = duration.getSeconds() % 60;
 
-        StringBuilder sb = new StringBuilder();
+        var sb = new StringBuilder();
         if (days > 0)
             sb.append(days).append(" Days ");
 

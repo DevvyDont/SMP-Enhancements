@@ -7,38 +7,44 @@ import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.base.BossInstance;
-import xyz.devvydont.smprpg.entity.base.LeveledEntity;
+import xyz.devvydont.smprpg.util.listeners.ToggleableListener;
 
-public class EnvironmentalDamageListener implements Listener {
+/**
+ * This listener is in charge of scaling environmental damage to make more sense in contexts where entities have A LOT
+ * of health as compared to vanilla Minecraft. Things like fall damage, drowning, and suffocation etc. need to be
+ * health percentage based otherwise you would never die.
+ */
+public class EnvironmentalDamageListener extends ToggleableListener {
 
-    final SMPRPG plugin;
-
+    /**
+     * Check if a damage type should give i-frames no matter what. We cannot let entities take damage like suffocation
+     * every tick, otherwise they would instantly die in like a second.
+     * @param cause The damage cause.
+     * @return True if the type should give i-frames no matter what.
+     */
     public static boolean shouldGiveIFrames(EntityDamageEvent.DamageCause cause) {
-
         return switch (cause) {
-            case FIRE, LAVA, MELTING, DRAGON_BREATH, HOT_FLOOR, FIRE_TICK, CRAMMING, SUFFOCATION, CONTACT, CAMPFIRE, WORLD_BORDER, STARVATION, VOID, DRYOUT -> true;
+            case FIRE, LAVA, MELTING, HOT_FLOOR, FIRE_TICK, CRAMMING, SUFFOCATION, CONTACT, CAMPFIRE, WORLD_BORDER,
+                 STARVATION, VOID, DRYOUT, DROWNING, WITHER, FREEZE, POISON -> true;
             default -> false;
         };
-
     }
 
     /**
      * Environmental damage causes % damage to health since health can get out of control
      * This multiplier is a multiplier on top of the half heart percentage
-     *
-     * @param cause
-     * @return
+     * @param cause The damage cause.
+     * @return The amount of damage.
      */
     public static double getEnvironmentalDamagePercentage(EntityDamageEvent.DamageCause cause) {
 
         return switch (cause) {
 
             case FIRE, FIRE_TICK, DROWNING, CAMPFIRE, HOT_FLOOR, STARVATION, FREEZE -> 1.0;
-            case LAVA, DRAGON_BREATH -> 3.0;
+            case LAVA -> 3.0;
             case VOID -> 5.0;
             case POISON, WORLD_BORDER, SUFFOCATION, CRAMMING -> 2.0;
             case WITHER -> 2.5;
@@ -49,18 +55,12 @@ public class EnvironmentalDamageListener implements Listener {
     }
 
     /**
-     * Determines if a specific damage cause uses % of max HP instead of flat damage
-     *
-     * @param cause
-     * @return
+     * Determines if a specific damage cause uses % of max HP instead of flat damage.
+     * @param cause The damage cause.
+     * @return True if the cause should be percentage based.
      */
     public boolean causeIsPercentage(EntityDamageEvent.DamageCause cause) {
         return getEnvironmentalDamagePercentage(cause) > 0;
-    }
-
-    public EnvironmentalDamageListener(SMPRPG plugin) {
-        this.plugin = plugin;
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
     /**
@@ -70,7 +70,7 @@ public class EnvironmentalDamageListener implements Listener {
     public static void clearVanillaDamageModifiers(EntityDamageEvent event) {
 
         // Attempt to set the all vanilla modifications to 0, if this fails then the entity couldn't have had armor anyway
-        for (EntityDamageEvent.DamageModifier mod : EntityDamageEvent.DamageModifier.values()) {
+        for (var mod : EntityDamageEvent.DamageModifier.values()) {
 
             if (mod.equals(EntityDamageEvent.DamageModifier.BASE))
                 continue;
@@ -120,7 +120,7 @@ public class EnvironmentalDamageListener implements Listener {
         if (!causeIsPercentage(event.getCause()))
             return;
 
-        LeveledEntity entity = plugin.getEntityService().getEntityInstance(event.getEntity());
+        var entity = SMPRPG.getInstance().getEntityService().getEntityInstance(event.getEntity());
 
         // Bosses don't take env damage as long as it isn't explosive
         boolean isExplosive = event.getCause().equals(EntityDamageEvent.DamageCause.BLOCK_EXPLOSION) || event.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_EXPLOSION);
@@ -141,7 +141,7 @@ public class EnvironmentalDamageListener implements Listener {
             return;
 
         float distance = event.getEntity().getFallDistance();
-        LeveledEntity entity = plugin.getEntityService().getEntityInstance(event.getEntity());
+        var entity = SMPRPG.getInstance().getEntityService().getEntityInstance(event.getEntity());
 
         double safeFall = 3;
         if (entity.getEntity() instanceof Attributable attributable) {
@@ -184,10 +184,10 @@ public class EnvironmentalDamageListener implements Listener {
             return;
 
         // If this is a boss, don't do it
-        if (plugin.getEntityService().getEntityInstance(living) instanceof BossInstance)
+        if (SMPRPG.getInstance().getEntityService().getEntityInstance(living) instanceof BossInstance)
             return;
 
         if (shouldGiveIFrames(event.getCause()))
-            Bukkit.getScheduler().runTaskLater(plugin, () -> living.setNoDamageTicks(10), 0);
+            Bukkit.getScheduler().runTaskLater(SMPRPG.getInstance(), () -> living.setNoDamageTicks(10), 0);
     }
 }

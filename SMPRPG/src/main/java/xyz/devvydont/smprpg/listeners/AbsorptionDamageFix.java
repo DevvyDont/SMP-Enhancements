@@ -5,19 +5,17 @@ import org.bukkit.Sound;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.events.damage.AbsorptionDamageDealtEvent;
+import xyz.devvydont.smprpg.util.listeners.ToggleableListener;
 
-public class AbsorptionDamageFix implements Listener {
+/**
+ * Implements the "absorption" damage mechanic. This allows damage to scale correctly with absorption health, as
+ * it uses completely separate logic to normal health/health scaling.
+ */
+public class AbsorptionDamageFix extends ToggleableListener {
 
-    final SMPRPG plugin;
-
-    public AbsorptionDamageFix(SMPRPG plugin) {
-        this.plugin = plugin;
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
-    }
 
     public void crackEntityArmor(LivingEntity entity) {
         entity.getWorld().spawnParticle(Particle.TOTEM_OF_UNDYING, entity.getEyeLocation(), 20);
@@ -29,6 +27,8 @@ public class AbsorptionDamageFix implements Listener {
 
         if (!(event.getEntity() instanceof LivingEntity living))
             return;
+
+        var plugin = SMPRPG.getInstance();
 
         var entity = plugin.getEntityService().getEntityInstance(event.getEntity());
 

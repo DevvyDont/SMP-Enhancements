@@ -7,7 +7,6 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.PrepareAnvilEvent;
 import org.bukkit.inventory.AnvilInventory;
 import org.bukkit.inventory.ItemStack;
@@ -23,25 +22,22 @@ import xyz.devvydont.smprpg.items.interfaces.ReforgeApplicator;
 import xyz.devvydont.smprpg.reforge.ReforgeBase;
 import xyz.devvydont.smprpg.reforge.ReforgeType;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
+import xyz.devvydont.smprpg.util.listeners.ToggleableListener;
 
 import java.util.*;
 
-public class AnvilEnchantmentCombinationFixListener implements Listener {
-
-    private final SMPRPG plugin;
-
-    public AnvilEnchantmentCombinationFixListener(SMPRPG plugin) {
-        this.plugin = plugin;
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
-    }
+/**
+ * Fixes anvil logic to conform to our plugin's rules. When you combine two items in an anvil, we need to dynamically
+ * work out a result since there are many scenarios that can occur from an anvil combination.
+ */
+public class AnvilEnchantmentCombinationFixListener extends ToggleableListener {
 
     public record EnchantmentCombination(ItemStack result, int cost){}
 
     /**
      * Combines the enchantments of a 2nd item stack on to the first. Respects limits such as ItemRarity as well as
      * returns a cost to use if this was an anvil event.
-     *
-     * @return
+     * @return A combination result from two inputs.
      */
     public EnchantmentCombination combineEnchantments(@NotNull ItemStack input, @NotNull ItemStack combine) {
 
@@ -178,6 +174,8 @@ public class AnvilEnchantmentCombinationFixListener implements Listener {
         event.getView().setRepairCost(1);
         event.setResult(null);
 
+        var plugin = SMPRPG.getInstance();
+
         // We have to support books being supplied to us.
         SMPItemBlueprint firstBlueprint = plugin.getItemService().getBlueprint(firstItemStack);
         SMPItemBlueprint secondBlueprint = plugin.getItemService().getBlueprint(secondItemStack);
@@ -260,6 +258,8 @@ public class AnvilEnchantmentCombinationFixListener implements Listener {
         // Are both item slots filled?
         if (event.getInventory().getFirstItem() == null || event.getInventory().getSecondItem() == null)
             return;
+
+        var plugin = SMPRPG.getInstance();
 
         // Is the second slot a reforge stone?
         if (!(plugin.getItemService().getBlueprint(event.getInventory().getSecondItem()) instanceof ReforgeApplicator reforgeApplicator))

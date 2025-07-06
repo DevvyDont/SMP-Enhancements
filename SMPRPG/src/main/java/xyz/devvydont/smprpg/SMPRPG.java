@@ -4,7 +4,6 @@ import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.config.ConfigManager;
@@ -25,7 +24,7 @@ import java.util.List;
  * - Fix issue with bow damage stacking for normal melee damage/dual wielding bows
  */
 
-public final class SMPRPG extends JavaPlugin implements Listener {
+public final class SMPRPG extends JavaPlugin {
 
     public static SMPRPG INSTANCE;
 
@@ -191,19 +190,16 @@ public final class SMPRPG extends JavaPlugin implements Listener {
 
         animationService =  new AnimationService(this);
 
-        getServer().getPluginManager().registerEvents(this, this);
-
-        new EnvironmentalDamageListener(this);
-        new AbsorptionDamageFix(this);
-        new HealthRegenerationListener(this);
-        new HealthScaleListener(this);
-        new AnvilEnchantmentCombinationFixListener(this);
-        new PvPListener();
-        new StructureEntitySpawnListener(this);
-        new LootListener(this);
-
         // Initialize the general listeners that aren't core enough to be considered services.
-        generalListeners.add(new DimensionPortalLockingListener());
+        generalListeners.add(new EnvironmentalDamageListener());  // Scales environmental damage to be percentage based.
+        generalListeners.add(new HealthScaleListener());  // Makes health scale update correctly.
+        generalListeners.add(new HealthRegenerationListener());  // Scales HP regeneration based on max HP.
+        generalListeners.add(new AbsorptionDamageFix());  // Makes absorption work correctly.
+        generalListeners.add(new DimensionPortalLockingListener());  // Implements dimension requirements.
+        generalListeners.add(new AnvilEnchantmentCombinationFixListener());  // Makes anvil combinations work.
+        generalListeners.add(new PvPListener());  // Disables PVP in certain contexts.
+        generalListeners.add(new StructureEntitySpawnListener());  // Allows entities to spawn as the level of the structure they're in.
+        generalListeners.add(new LootListener());  // Overrides vanilla loot tables by injecting our items into it.
 
         // Start all of them.
         for (var listener : generalListeners)

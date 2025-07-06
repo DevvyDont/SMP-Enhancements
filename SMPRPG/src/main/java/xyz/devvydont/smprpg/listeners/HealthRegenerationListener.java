@@ -2,19 +2,16 @@ package xyz.devvydont.smprpg.listeners;
 
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
 import xyz.devvydont.smprpg.SMPRPG;
-import xyz.devvydont.smprpg.entity.base.LeveledEntity;
+import xyz.devvydont.smprpg.util.listeners.ToggleableListener;
 
-public class HealthRegenerationListener implements Listener {
-
-    final SMPRPG plugin;
-
-    public HealthRegenerationListener(SMPRPG plugin) {
-        this.plugin = plugin;
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
-    }
+/**
+ * Makes health regeneration work correctly. In normal minecraft, HP regen is usually always 1 hp. We need regeneration
+ * to scale based on how much health someone has. As a bonus, we also utilize a new "regeneration" attribute to
+ * determine its effectiveness.
+ */
+public class HealthRegenerationListener extends ToggleableListener {
 
     public boolean isNaturalRegeneration(EntityRegainHealthEvent.RegainReason regainReason) {
         return switch (regainReason) {
@@ -32,7 +29,7 @@ public class HealthRegenerationListener implements Listener {
         if (!(event.getEntity() instanceof LivingEntity))
             return;
 
-        LeveledEntity entity = plugin.getEntityService().getEntityInstance((LivingEntity) event.getEntity());
+        var entity = SMPRPG.getInstance().getEntityService().getEntityInstance(event.getEntity());
         event.setAmount(entity.getRegenerationAmount(event.getRegainReason()));
     }
 }

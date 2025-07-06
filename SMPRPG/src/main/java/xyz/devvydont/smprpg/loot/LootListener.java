@@ -6,14 +6,14 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.EnchantmentOffer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.world.LootGenerateEvent;
 import org.bukkit.generator.structure.GeneratedStructure;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.loot.LootTables;
-import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.enchantments.calculator.EnchantmentCalculator;
 import xyz.devvydont.smprpg.items.CustomItemType;
+import xyz.devvydont.smprpg.services.ItemService;
+import xyz.devvydont.smprpg.util.listeners.ToggleableListener;
 
 import java.util.*;
 
@@ -22,43 +22,40 @@ import static xyz.devvydont.smprpg.listeners.StructureEntitySpawnListener.getMin
 /**
  * Class responsible for hooking into chest loot generation events and populating them with overrides if desired
  */
-public class LootListener implements Listener {
-
-    private final SMPRPG plugin;
+public class LootListener extends ToggleableListener {
+    
 
     // Our plugin injects custom loot tables into existing ones for extra items
     private final Map<NamespacedKey, CustomLootTable> lootTableAdditions = new HashMap<>();
 
-    public LootListener(SMPRPG plugin) {
-        this.plugin = plugin;
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
+    public LootListener() {
 
         lootTableAdditions.put(LootTables.ABANDONED_MINESHAFT.getKey(), new CustomLootTable(
-                new LootTableMember(plugin.getItemService().getCustomItem(CustomItemType.COPPER_HELMET)).withChance(.1f).withEnchants(true, 20),
-                new LootTableMember(plugin.getItemService().getCustomItem(CustomItemType.COPPER_CHESTPLATE)).withChance(.1f).withEnchants(true, 20),
-                new LootTableMember(plugin.getItemService().getCustomItem(CustomItemType.COPPER_LEGGINGS)).withChance(.1f).withEnchants(true, 20),
-                new LootTableMember(plugin.getItemService().getCustomItem(CustomItemType.COPPER_BOOTS)).withChance(.1f).withEnchants(true, 20),
-                new LootTableMember(plugin.getItemService().getCustomItem(CustomItemType.GRAPPLING_HOOK)).withChance(.005f),
-                new LootTableMember(plugin.getItemService().getCustomItem(CustomItemType.SILVER_COIN)).withChance(.2f).withMax(5)
+                new LootTableMember(ItemService.generate(CustomItemType.COPPER_HELMET)).withChance(.1f).withEnchants(true, 20),
+                new LootTableMember(ItemService.generate(CustomItemType.COPPER_CHESTPLATE)).withChance(.1f).withEnchants(true, 20),
+                new LootTableMember(ItemService.generate(CustomItemType.COPPER_LEGGINGS)).withChance(.1f).withEnchants(true, 20),
+                new LootTableMember(ItemService.generate(CustomItemType.COPPER_BOOTS)).withChance(.1f).withEnchants(true, 20),
+                new LootTableMember(ItemService.generate(CustomItemType.GRAPPLING_HOOK)).withChance(.005f),
+                new LootTableMember(ItemService.generate(CustomItemType.SILVER_COIN)).withChance(.2f).withMax(5)
         ));
 
         lootTableAdditions.put(LootTables.SIMPLE_DUNGEON.getKey(), new CustomLootTable(
-                new LootTableMember(plugin.getItemService().getCustomItem(CustomItemType.GRAPPLING_HOOK)).withChance(.005f),
-                new LootTableMember(plugin.getItemService().getCustomItem(CustomItemType.SILVER_COIN)).withChance(.2f).withMax(5)
+                new LootTableMember(ItemService.generate(CustomItemType.GRAPPLING_HOOK)).withChance(.005f),
+                new LootTableMember(ItemService.generate(CustomItemType.SILVER_COIN)).withChance(.2f).withMax(5)
         ));
 
         lootTableAdditions.put(LootTables.END_CITY_TREASURE.getKey(), new CustomLootTable(
-                new LootTableMember(plugin.getItemService().getCustomItem(Material.NETHERITE_HELMET)).withChance(.04f).withEnchants(true, 70),
-                new LootTableMember(plugin.getItemService().getCustomItem(Material.NETHERITE_CHESTPLATE)).withChance(.04f).withEnchants(true, 70),
-                new LootTableMember(plugin.getItemService().getCustomItem(Material.NETHERITE_LEGGINGS)).withChance(.04f).withEnchants(true, 70),
-                new LootTableMember(plugin.getItemService().getCustomItem(Material.NETHERITE_BOOTS)).withChance(.04f).withEnchants(true, 70),
-                new LootTableMember(plugin.getItemService().getCustomItem(Material.NETHERITE_SWORD)).withChance(.04f).withEnchants(true, 70),
-                new LootTableMember(plugin.getItemService().getCustomItem(Material.NETHERITE_PICKAXE)).withChance(.04f).withEnchants(true, 70),
-                new LootTableMember(plugin.getItemService().getCustomItem(Material.NETHERITE_SHOVEL)).withChance(.04f).withEnchants(true, 70),
-                new LootTableMember(plugin.getItemService().getCustomItem(Material.NETHERITE_AXE)).withChance(.04f).withEnchants(true, 70),
-                new LootTableMember(plugin.getItemService().getCustomItem(CustomItemType.ENCHANTED_DIAMOND)).withChance(.01f),
-                new LootTableMember(plugin.getItemService().getCustomItem(CustomItemType.PREMIUM_SHULKER_SHELL)).withChance(.05f).withMax(2),
-                new LootTableMember(plugin.getItemService().getCustomItem(CustomItemType.PLATINUM_COIN)).withChance(.3f).withMax(5)
+                new LootTableMember(ItemService.generate(Material.NETHERITE_HELMET)).withChance(.04f).withEnchants(true, 70),
+                new LootTableMember(ItemService.generate(Material.NETHERITE_CHESTPLATE)).withChance(.04f).withEnchants(true, 70),
+                new LootTableMember(ItemService.generate(Material.NETHERITE_LEGGINGS)).withChance(.04f).withEnchants(true, 70),
+                new LootTableMember(ItemService.generate(Material.NETHERITE_BOOTS)).withChance(.04f).withEnchants(true, 70),
+                new LootTableMember(ItemService.generate(Material.NETHERITE_SWORD)).withChance(.04f).withEnchants(true, 70),
+                new LootTableMember(ItemService.generate(Material.NETHERITE_PICKAXE)).withChance(.04f).withEnchants(true, 70),
+                new LootTableMember(ItemService.generate(Material.NETHERITE_SHOVEL)).withChance(.04f).withEnchants(true, 70),
+                new LootTableMember(ItemService.generate(Material.NETHERITE_AXE)).withChance(.04f).withEnchants(true, 70),
+                new LootTableMember(ItemService.generate(CustomItemType.ENCHANTED_DIAMOND)).withChance(.01f),
+                new LootTableMember(ItemService.generate(CustomItemType.PREMIUM_SHULKER_SHELL)).withChance(.05f).withMax(2),
+                new LootTableMember(ItemService.generate(CustomItemType.PLATINUM_COIN)).withChance(.3f).withMax(5)
         ));
     }
 
@@ -67,7 +64,7 @@ public class LootListener implements Listener {
      * Enchants are then re-rolled to match the level of the structure, and custom loot tables are then
      * injected on top of the loot from the vanilla loot table.
      *
-     * @param event
+     * @param event The {@link LootGenerateEvent} event that provides us with relevant context.
      */
     @EventHandler
     public void onLootChestGenerate(LootGenerateEvent event) {

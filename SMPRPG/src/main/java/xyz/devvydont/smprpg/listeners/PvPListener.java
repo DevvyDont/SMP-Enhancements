@@ -4,20 +4,15 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 import org.bukkit.generator.structure.GeneratedStructure;
-import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.events.CustomEntityDamageByEntityEvent;
+import xyz.devvydont.smprpg.util.listeners.ToggleableListener;
 
 /*
  * Listener in charge of managing PVP events. Since this is mostly a PVE plugin, we should restrict PVP in certain
  * scenarios.
  */
-public class PvPListener implements Listener {
-
-    public PvPListener() {
-        SMPRPG.getInstance().getServer().getPluginManager().registerEvents(this, SMPRPG.getInstance());
-    }
+public class PvPListener extends ToggleableListener {
 
     /**
      * Checks the structures in an entity's chunk and checks if any of them are overlapping with the entity.
