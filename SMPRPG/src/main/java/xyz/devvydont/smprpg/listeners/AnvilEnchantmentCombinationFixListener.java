@@ -21,6 +21,9 @@ import xyz.devvydont.smprpg.items.blueprints.vanilla.ItemEnchantedBook;
 import xyz.devvydont.smprpg.items.interfaces.ReforgeApplicator;
 import xyz.devvydont.smprpg.reforge.ReforgeBase;
 import xyz.devvydont.smprpg.reforge.ReforgeType;
+import xyz.devvydont.smprpg.services.EnchantmentService;
+import xyz.devvydont.smprpg.services.EntityService;
+import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.listeners.ToggleableListener;
 
@@ -42,8 +45,8 @@ public class AnvilEnchantmentCombinationFixListener extends ToggleableListener {
     public EnchantmentCombination combineEnchantments(@NotNull ItemStack input, @NotNull ItemStack combine) {
 
         // Retrieve the blueprints of both items
-        SMPItemBlueprint inputBlueprint = SMPRPG.getInstance().getItemService().getBlueprint(input);
-        SMPItemBlueprint combineBlueprint = SMPRPG.getInstance().getItemService().getBlueprint(combine);
+        SMPItemBlueprint inputBlueprint = SMPRPG.getService(ItemService.class).getBlueprint(input);
+        SMPItemBlueprint combineBlueprint = SMPRPG.getService(ItemService.class).getBlueprint(combine);
 
         // Edge case, do we have two different types of enchanted books? We can't do this
         if (inputBlueprint instanceof ItemEnchantedBook inputBook && combineBlueprint instanceof ItemEnchantedBook combineBook) {
@@ -65,7 +68,7 @@ public class AnvilEnchantmentCombinationFixListener extends ToggleableListener {
 
         // Transform vanilla enchants to our enchant wrapper
         for (Map.Entry<Enchantment, Integer> entry : combineEnchantMap.entrySet())
-            toApply.add(SMPRPG.getInstance().getEnchantmentService().getEnchantment(entry.getKey()).build(entry.getValue()));
+            toApply.add(SMPRPG.getService(EnchantmentService.class).getEnchantment(entry.getKey()).build(entry.getValue()));
 
         // Now we actually do the enchantment application. First, we need to figure out how many new enchants
         // this item is allowed to have so it doesn't go over its limit.
@@ -138,7 +141,7 @@ public class AnvilEnchantmentCombinationFixListener extends ToggleableListener {
         if (result.getItemMeta() instanceof Repairable repairable)
             cost += repairable.getRepairCost();
 
-        SMPItemBlueprint resultBlueprint = SMPRPG.getInstance().getItemService().getBlueprint(result);
+        SMPItemBlueprint resultBlueprint = SMPRPG.getService(ItemService.class).getBlueprint(result);
         resultBlueprint.updateItemData(result);
         return new EnchantmentCombination(result, cost);
     }
@@ -177,8 +180,8 @@ public class AnvilEnchantmentCombinationFixListener extends ToggleableListener {
         var plugin = SMPRPG.getInstance();
 
         // We have to support books being supplied to us.
-        SMPItemBlueprint firstBlueprint = plugin.getItemService().getBlueprint(firstItemStack);
-        SMPItemBlueprint secondBlueprint = plugin.getItemService().getBlueprint(secondItemStack);
+        SMPItemBlueprint firstBlueprint = SMPRPG.getService(ItemService.class).getBlueprint(firstItemStack);
+        SMPItemBlueprint secondBlueprint = SMPRPG.getService(ItemService.class).getBlueprint(secondItemStack);
         boolean inputIsBook = EnchantmentCalculator.isEnchantedBook(firstBlueprint, firstItemStack);
         boolean combineItemIsBook = EnchantmentCalculator.isEnchantedBook(secondBlueprint, secondItemStack);
 
@@ -203,13 +206,13 @@ public class AnvilEnchantmentCombinationFixListener extends ToggleableListener {
         List<Component> information = new ArrayList<>();
         information.add(ComponentUtils.EMPTY);
         boolean allowed = true;
-        int magicLevel = plugin.getEntityService().getPlayerInstance((Player)event.getView().getPlayer()).getMagicSkill().getLevel();
+        int magicLevel = SMPRPG.getService(EntityService.class).getPlayerInstance((Player)event.getView().getPlayer()).getMagicSkill().getLevel();
 
-        Set<Map.Entry<Enchantment, Integer>> enchantmentsToAnalyze = plugin.getItemService().getBlueprint(combination.result()) instanceof ItemEnchantedBook ? ((EnchantmentStorageMeta)combination.result().getItemMeta()).getStoredEnchants().entrySet() : combination.result().getEnchantments().entrySet();
+        Set<Map.Entry<Enchantment, Integer>> enchantmentsToAnalyze = SMPRPG.getService(ItemService.class).getBlueprint(combination.result()) instanceof ItemEnchantedBook ? ((EnchantmentStorageMeta)combination.result().getItemMeta()).getStoredEnchants().entrySet() : combination.result().getEnchantments().entrySet();
         for (Map.Entry<Enchantment, Integer> entries : enchantmentsToAnalyze) {
 
             // Magic skill req met?
-            CustomEnchantment enchantment = plugin.getEnchantmentService().getEnchantment(entries.getKey());
+            var enchantment = SMPRPG.getService(EnchantmentService.class).getEnchantment(entries.getKey());
             int requirement = enchantment.getSkillRequirement();
             if (requirement > magicLevel) {
                 information.add(ComponentUtils.create("- Need Magic " + requirement + " to apply locked enchantment ", NamedTextColor.RED).append(enchantment.getDisplayName().color(enchantment.getEnchantColor())));
@@ -262,16 +265,16 @@ public class AnvilEnchantmentCombinationFixListener extends ToggleableListener {
         var plugin = SMPRPG.getInstance();
 
         // Is the second slot a reforge stone?
-        if (!(plugin.getItemService().getBlueprint(event.getInventory().getSecondItem()) instanceof ReforgeApplicator reforgeApplicator))
+        if (!(SMPRPG.getService(ItemService.class).getBlueprint(event.getInventory().getSecondItem()) instanceof ReforgeApplicator reforgeApplicator))
             return;
 
         // Can the first item have the reforge applied to it? And is the reforge actually valid?
         ReforgeType reforgeType = reforgeApplicator.getReforgeType();
-        ReforgeBase reforge = plugin.getItemService().getReforge(reforgeType);
+        ReforgeBase reforge = SMPRPG.getService(ItemService.class).getReforge(reforgeType);
         if (reforge == null)
             return;
 
-        SMPItemBlueprint input = plugin.getItemService().getBlueprint(event.getInventory().getFirstItem());
+        SMPItemBlueprint input = SMPRPG.getService(ItemService.class).getBlueprint(event.getInventory().getFirstItem());
         // Can this reforge type be applied to this type of item?
         if (!reforgeType.isAllowed(input.getItemClassification()))
             return;

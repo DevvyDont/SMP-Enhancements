@@ -10,6 +10,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityDamageEvent;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.base.BossInstance;
+import xyz.devvydont.smprpg.services.EntityService;
 import xyz.devvydont.smprpg.util.listeners.ToggleableListener;
 
 /**
@@ -120,7 +121,7 @@ public class EnvironmentalDamageListener extends ToggleableListener {
         if (!causeIsPercentage(event.getCause()))
             return;
 
-        var entity = SMPRPG.getInstance().getEntityService().getEntityInstance(event.getEntity());
+        var entity = SMPRPG.getService(EntityService.class).getEntityInstance(event.getEntity());
 
         // Bosses don't take env damage as long as it isn't explosive
         boolean isExplosive = event.getCause().equals(EntityDamageEvent.DamageCause.BLOCK_EXPLOSION) || event.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_EXPLOSION);
@@ -141,7 +142,7 @@ public class EnvironmentalDamageListener extends ToggleableListener {
             return;
 
         float distance = event.getEntity().getFallDistance();
-        var entity = SMPRPG.getInstance().getEntityService().getEntityInstance(event.getEntity());
+        var entity = SMPRPG.getService(EntityService.class).getEntityInstance(event.getEntity());
 
         double safeFall = 3;
         if (entity.getEntity() instanceof Attributable attributable) {
@@ -184,7 +185,7 @@ public class EnvironmentalDamageListener extends ToggleableListener {
             return;
 
         // If this is a boss, don't do it
-        if (SMPRPG.getInstance().getEntityService().getEntityInstance(living) instanceof BossInstance)
+        if (SMPRPG.getService(EntityService.class).getEntityInstance(living) instanceof BossInstance)
             return;
 
         if (shouldGiveIFrames(event.getCause()))

@@ -11,6 +11,7 @@ import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.commands.CommandBase;
 import xyz.devvydont.smprpg.items.base.CustomItemBlueprint;
 import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
+import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.ArrayList;
@@ -47,13 +48,13 @@ public class CommandGiveItem extends CommandBase {
 
         // Players are allowed to provide "all" to get one of every item.
         if (strings[0].equalsIgnoreCase("all")) {
-            for (SMPItemBlueprint blueprint : SMPRPG.getInstance().getItemService().getCustomBlueprints())
+            for (SMPItemBlueprint blueprint : SMPRPG.getService(ItemService.class).getCustomBlueprints())
                 player.getInventory().addItem(blueprint.generate());
             commandSender.sendMessage(ComponentUtils.success("Gave you one of everything!"));
             return;
         }
 
-        ItemStack item = SMPRPG.getInstance().getItemService().getCustomItem(strings[0].replace("smprpg:", ""));
+        ItemStack item = SMPRPG.getService(ItemService.class).getCustomItem(strings[0].replace("smprpg:", ""));
         if (item == null) {
 
             Material vanillaMaterial = Material.matchMaterial(strings[0].replace("minecraft:", "").toLowerCase());
@@ -61,7 +62,7 @@ public class CommandGiveItem extends CommandBase {
                 commandSender.sendMessage(ComponentUtils.error("Unknown item with key: " + strings[0]));
                 return;
             }
-            item = SMPRPG.getInstance().getItemService().getCustomItem(vanillaMaterial);
+            item = SMPRPG.getService(ItemService.class).getCustomItem(vanillaMaterial);
 
         }
 
@@ -85,7 +86,7 @@ public class CommandGiveItem extends CommandBase {
 
         List<String> keys = new ArrayList<>();
         keys.add("all");
-        for (SMPItemBlueprint blueprint : SMPRPG.getInstance().getItemService().getCustomBlueprints())
+        for (SMPItemBlueprint blueprint : SMPRPG.getService(ItemService.class).getCustomBlueprints())
             if (blueprint instanceof CustomItemBlueprint)
                 keys.add("smprpg:" + ((CustomItemBlueprint) blueprint).getCustomItemType().getKey().toLowerCase());
 

@@ -37,6 +37,7 @@ import xyz.devvydont.smprpg.util.crafting.ItemUtil;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.items.DropFireworkTask;
 import xyz.devvydont.smprpg.util.persistence.UUIDPersistentDataType;
+import xyz.devvydont.smprpg.util.time.TickTime;
 
 import java.util.*;
 
@@ -81,8 +82,6 @@ public class DropsService implements IService, Listener {
         } * 1000L;
     }
 
-    private final SMPRPG plugin;
-
     // The owner tag for a drop, drops cannot be picked up by players unless they own it
     private final NamespacedKey OWNER_UUID_KEY;
     private final NamespacedKey OWNER_NAME_KEY;
@@ -98,9 +97,8 @@ public class DropsService implements IService, Listener {
 
     public static final Map<ItemRarity, Team> rarityToTeam = new HashMap<>();
 
-    public DropsService(SMPRPG plugin) {
-        this.plugin = plugin;
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
+    public DropsService() {
+        var plugin = SMPRPG.getInstance();
         this.OWNER_UUID_KEY = new NamespacedKey(plugin, "drop-owner-uuid");
         this.OWNER_NAME_KEY = new NamespacedKey(plugin, "drop-owner-name");
         this.DROP_FLAG_KEY = new NamespacedKey(plugin, "drop-flag");
@@ -249,7 +247,8 @@ public class DropsService implements IService, Listener {
     }
 
     @Override
-    public boolean setup() {
+    public void setup() throws RuntimeException {
+        var plugin = SMPRPG.getInstance();
         itemTimerTask = new BukkitRunnable() {
             @Override
             public void run() {
@@ -276,14 +275,13 @@ public class DropsService implements IService, Listener {
                         Component name = ComponentUtils.create(" (" + rawName + ")", NamedTextColor.DARK_GRAY);
                         String timeleft = stringifyTime((expiresAt - now) / 1000);
                         Component time = ComponentUtils.create(" (" + timeleft + ")", NamedTextColor.DARK_GRAY);
-                        Component itemName = plugin.getItemService().getBlueprint(item.getItemStack()).getNameComponent(item.getItemStack());
+                        Component itemName = SMPRPG.getService(ItemService.class).getBlueprint(item.getItemStack()).getNameComponent(item.getItemStack());
                         item.customName(time.append(itemName).append(name.decoration(TextDecoration.OBFUSCATED, false)));
                     }
                 }
             }
         };
-        itemTimerTask.runTaskTimer(plugin, 0, 20);
-        return true;
+        itemTimerTask.runTaskTimer(plugin, 0, TickTime.seconds(1));
     }
 
     @Override
@@ -292,11 +290,6 @@ public class DropsService implements IService, Listener {
             itemTimerTask.cancel();
 
         itemTimerTask = null;
-    }
-
-    @Override
-    public boolean required() {
-        return true;
     }
 
     /**
@@ -328,7 +321,7 @@ public class DropsService implements IService, Listener {
         // Go through all the drops on the player and tag it as being owned
         for (ItemStack drop : event.getDrops()) {
             drop.editMeta(meta -> {
-                ItemRarity rarity = plugin.getItemService().getBlueprint(drop).getRarity(drop);
+                ItemRarity rarity = SMPRPG.getService(ItemService.class).getBlueprint(drop).getRarity(drop);
                 setOwner(meta, event.getPlayer());
                 setFlag(meta, DropFlag.DEATH);
                 setExpiryTimestamp(meta, System.currentTimeMillis() + getMillisecondsUntilExpiry(rarity));
@@ -349,7 +342,7 @@ public class DropsService implements IService, Listener {
         // Set the rarity glow of the item
         event.getEntity().setGlowing(true);
         ItemStack item = event.getEntity().getItemStack();
-        ItemRarity rarity = plugin.getItemService().getBlueprint(item).getRarity(item);
+        ItemRarity rarity = SMPRPG.getService(ItemService.class).getBlueprint(item).getRarity(item);
         getTeam(rarity).addEntity(event.getEntity());
 
         // Set who owns the item based on previous tag setting
@@ -406,7 +399,7 @@ public class DropsService implements IService, Listener {
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     private void __onEntityHasDrops(EntityDeathEvent event) {
 
-        LeveledEntity<?> entity = plugin.getEntityService().getEntityInstance(event.getEntity());
+        LeveledEntity<?> entity = SMPRPG.getService(EntityService.class).getEntityInstance(event.getEntity());
 
         // Clear the drops from the vanilla roll if desired
         if (!entity.hasVanillaDrops())
@@ -448,7 +441,7 @@ public class DropsService implements IService, Listener {
             // Now test for coins
             // Some chance to add more money
             if (Math.random() < .2)
-                event.getDrops().addAll(ItemUtil.getOptimalCoinStacks(plugin.getItemService(), (int) (entity.getLevel() * (Math.random() * 3))));
+                event.getDrops().addAll(ItemUtil.getOptimalCoinStacks(SMPRPG.getService(ItemService.class), (int) (entity.getLevel() * (Math.random() * 3))));
 
             // Loop through all the droppable items from the entity
             for (var drop : entity.getItemDrops()) {
@@ -467,7 +460,7 @@ public class DropsService implements IService, Listener {
                 // Tag all the drops as loot drops
                 for (ItemStack item : allInvolvedPlayersDrops) {
                     item.editMeta(meta -> {
-                        ItemRarity rarity = plugin.getItemService().getBlueprint(item).getRarity(item);
+                        ItemRarity rarity = SMPRPG.getService(ItemService.class).getBlueprint(item).getRarity(item);
                         setOwner(meta, player);
                         setFlag(meta, DropFlag.LOOT);
                         setExpiryTimestamp(meta, System.currentTimeMillis() + getMillisecondsUntilExpiry(rarity));
@@ -492,9 +485,9 @@ public class DropsService implements IService, Listener {
         // Tag all the drops as loot drops
         for (Item itemEntity : event.getItems()) {
             ItemStack item = itemEntity.getItemStack();
-            plugin.getItemService().ensureItemStackUpdated(item);
+            SMPRPG.getService(ItemService.class).ensureItemStackUpdated(item);
             item.editMeta(meta -> {
-                ItemRarity rarity = plugin.getItemService().getBlueprint(item).getRarity(item);
+                ItemRarity rarity = SMPRPG.getService(ItemService.class).getBlueprint(item).getRarity(item);
                 setOwner(meta, event.getPlayer());
                 setFlag(meta, DropFlag.LOOT);
                 setExpiryTimestamp(meta, System.currentTimeMillis() + getMillisecondsUntilExpiry(rarity));
@@ -507,14 +500,14 @@ public class DropsService implements IService, Listener {
     @EventHandler
     private void __onRareDropObtained(CustomChancedItemDropSuccessEvent event) {
 
-        SMPItemBlueprint blueprint = plugin.getItemService().getBlueprint(event.getItem());
+        SMPItemBlueprint blueprint = SMPRPG.getService(ItemService.class).getBlueprint(event.getItem());
         ItemRarity rarityOfDrop = blueprint.getRarity(event.getItem());
         Component prefix = ComponentUtils.alert(
                 ComponentUtils.create(rarityOfDrop.name() + " DROP!!! ", rarityOfDrop.color, TextDecoration.BOLD),
                 NamedTextColor.YELLOW
         );
 
-        Component player = plugin.getChatService().getPlayerDisplay(event.getPlayer());
+        Component player = SMPRPG.getService(ChatService.class).getPlayerDisplay(event.getPlayer());
         Component item = event.getItem().displayName().hoverEvent(event.getItem().asHoverEvent());
         Component suffix = ComponentUtils.create(" found ").append(item).append(ComponentUtils.create(" from ")).append(event.getSource().getAsComponent()).append(ComponentUtils.create("!"));
         Component chance = ComponentUtils.create(" (" + event.getFormattedChance() + ")", NamedTextColor.DARK_GRAY);

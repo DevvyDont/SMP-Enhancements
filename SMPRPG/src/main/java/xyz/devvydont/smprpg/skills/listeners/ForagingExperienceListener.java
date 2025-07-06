@@ -7,6 +7,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import xyz.devvydont.smprpg.SMPRPG;
+import xyz.devvydont.smprpg.services.EntityService;
 import xyz.devvydont.smprpg.skills.SkillInstance;
 import xyz.devvydont.smprpg.util.world.ChunkUtil;
 
@@ -74,7 +75,7 @@ public class ForagingExperienceListener implements Listener {
         if (ChunkUtil.isBlockSkillInvalid(event.getBlock()))
             return;
 
-        SkillInstance skill = plugin.getEntityService().getPlayerInstance(event.getPlayer()).getWoodcuttingSkill();
+        SkillInstance skill = SMPRPG.getService(EntityService.class).getPlayerInstance(event.getPlayer()).getWoodcuttingSkill();
         skill.addExperience(getBaseExperienceForBlock(event.getBlock()));
         ChunkUtil.markBlockSkillValid(event.getBlock());
     }

@@ -60,7 +60,7 @@ public class EnchantedMilkBucket extends ChargedItemBlueprint implements IHeader
         event.getPlayer().getInventory().setItem(event.getHand(), milk);
         event.setCancelled(true);
         event.getPlayer().clearActivePotionEffects();
-        SMPRPG.getInstance().getActionBarService().addActionBarComponent(event.getPlayer(), ActionBarService.ActionBarSource.MISC, ComponentUtils.create("CLEANSED!", NamedTextColor.GREEN), 2);
+        SMPRPG.getService(ActionBarService.class).addActionBarComponent(event.getPlayer(), ActionBarService.ActionBarSource.MISC, ComponentUtils.create("CLEANSED!", NamedTextColor.GREEN), 2);
     }
 
     @Override

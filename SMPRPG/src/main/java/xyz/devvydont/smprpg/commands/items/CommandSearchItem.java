@@ -7,7 +7,7 @@ import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.commands.PlayerCommandBase;
 import xyz.devvydont.smprpg.gui.items.MenuItemBrowser;
 import xyz.devvydont.smprpg.items.base.CustomItemBlueprint;
-import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
+import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.ArrayList;
@@ -40,7 +40,7 @@ public class CommandSearchItem extends PlayerCommandBase {
 
         List<String> keys = new ArrayList<>();
         keys.add("all");
-        for (SMPItemBlueprint blueprint : SMPRPG.getInstance().getItemService().getCustomBlueprints())
+        for (var blueprint : SMPRPG.getService(ItemService.class).getCustomBlueprints())
             if (blueprint instanceof CustomItemBlueprint)
                 keys.add(((CustomItemBlueprint) blueprint).getCustomItemType().getKey().toLowerCase());
 

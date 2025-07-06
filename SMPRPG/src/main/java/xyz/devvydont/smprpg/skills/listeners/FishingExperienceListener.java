@@ -7,6 +7,7 @@ import org.bukkit.event.player.PlayerFishEvent;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.player.LeveledPlayer;
 import xyz.devvydont.smprpg.events.skills.SkillExperienceGainEvent;
+import xyz.devvydont.smprpg.services.EntityService;
 
 public class FishingExperienceListener implements Listener {
 
@@ -24,7 +25,7 @@ public class FishingExperienceListener implements Listener {
             return;
 
         // todo expand on this system some more
-        LeveledPlayer player = plugin.getEntityService().getPlayerInstance(event.getPlayer());
+        var player = SMPRPG.getService(EntityService.class).getPlayerInstance(event.getPlayer());
         player.getFishingSkill().addExperience(event.getExpToDrop() * 20, SkillExperienceGainEvent.ExperienceSource.FISH);
     }
 

@@ -29,6 +29,7 @@ import xyz.devvydont.smprpg.items.interfaces.IModelOverridden;
 import xyz.devvydont.smprpg.items.blueprints.vanilla.ItemAxe;
 import xyz.devvydont.smprpg.items.interfaces.ICraftable;
 import xyz.devvydont.smprpg.items.interfaces.IHeaderDescribable;
+import xyz.devvydont.smprpg.listeners.EntityDamageCalculatorService;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
@@ -128,7 +129,7 @@ public class InfernoSaber extends CustomAttributeItem implements IHeaderDescriba
 
     public void summonFireball(Player player) {
         Projectile projectile = player.launchProjectile(Fireball.class, player.getLocation().getDirection().normalize().multiply(2));
-        SMPRPG.getInstance().getEntityDamageCalculatorService().setBaseProjectileDamage(projectile, DAMAGE);
+        SMPRPG.getService(EntityDamageCalculatorService.class).setBaseProjectileDamage(projectile, DAMAGE);
         player.damage(COST, DamageSource.builder(DamageType.MAGIC).withCausingEntity(player).withDirectEntity(player).build());
         player.setCooldown(getCustomItemType().DisplayMaterial, COOLDOWN*20);
         setInfernoProjectile(projectile);

@@ -4,17 +4,17 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.events.CustomEntityDamageByEntityEvent;
 import xyz.devvydont.smprpg.items.interfaces.IShield;
 import xyz.devvydont.smprpg.services.ItemService;
+import xyz.devvydont.smprpg.util.listeners.ToggleableListener;
 
 /*
  * Responsible for implementing shield blocking mechanics.
  */
-public class ShieldBlockingListener implements Listener {
+public class ShieldBlockingListener extends ToggleableListener {
 
     @EventHandler
     public void onBlockDamageWithShield(CustomEntityDamageByEntityEvent event) {
@@ -36,7 +36,7 @@ public class ShieldBlockingListener implements Listener {
         int delay = 999_999;
         boolean isHoldingShield = false;
 
-        ItemService itemService = SMPRPG.getInstance().getItemService();
+        var itemService = SMPRPG.getService(ItemService.class);
         if (!main.getType().equals(Material.AIR) && itemService.getBlueprint(main) instanceof IShield shieldable) {
             damageReduction = Math.max(damageReduction, shieldable.getDamageBlockingPercent());
             delay = Math.min(delay, shieldable.getShieldDelay());

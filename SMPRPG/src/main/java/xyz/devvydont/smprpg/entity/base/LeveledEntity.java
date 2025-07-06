@@ -17,6 +17,7 @@ import xyz.devvydont.smprpg.entity.EntityGlobals;
 import xyz.devvydont.smprpg.entity.components.EntityConfiguration;
 import xyz.devvydont.smprpg.listeners.EntityDamageCalculatorService;
 import xyz.devvydont.smprpg.services.AttributeService;
+import xyz.devvydont.smprpg.services.EntityService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.formatting.MinecraftStringUtils;
 import xyz.devvydont.smprpg.util.formatting.Symbols;
@@ -142,7 +143,7 @@ public abstract class LeveledEntity<T extends Entity> implements LootSource {
      */
     public void applyPersistentEntityClassTag() {
         // Tag this entity with its class key so it can be found later
-        _entity.getPersistentDataContainer().set(_plugin.getEntityService().getClassNamespacedKey(), PersistentDataType.STRING, getClassKey());
+        _entity.getPersistentDataContainer().set(EntityService.getClassNamespacedKey(), PersistentDataType.STRING, getClassKey());
     }
 
     /**
@@ -324,10 +325,10 @@ public abstract class LeveledEntity<T extends Entity> implements LootSource {
     public int getLevel() {
 
         // If this entity doesn't have a level yet it must mean that we need to give them their default
-        if (!_entity.getPersistentDataContainer().has(_plugin.getEntityService().getLevelNamespacedKey()))
+        if (!_entity.getPersistentDataContainer().has(EntityService.getLevelNamespacedKey()))
             resetLevel();
 
-        return _entity.getPersistentDataContainer().getOrDefault(_plugin.getEntityService().getLevelNamespacedKey(), PersistentDataType.INTEGER, this._config.getBaseLevel());
+        return _entity.getPersistentDataContainer().getOrDefault(EntityService.getLevelNamespacedKey(), PersistentDataType.INTEGER, this._config.getBaseLevel());
     }
 
     /**
@@ -335,7 +336,7 @@ public abstract class LeveledEntity<T extends Entity> implements LootSource {
      * @param level The level to set the entity to
      */
     public void setLevel(int level) {
-        _entity.getPersistentDataContainer().set(_plugin.getEntityService().getLevelNamespacedKey(), PersistentDataType.INTEGER, level);
+        _entity.getPersistentDataContainer().set(EntityService.getLevelNamespacedKey(), PersistentDataType.INTEGER, level);
 
         // If the level changed, we should scale their stats to reflect it.
         if (_config.getBaseLevel() != level)
@@ -392,7 +393,7 @@ public abstract class LeveledEntity<T extends Entity> implements LootSource {
             return;
 
         // Retrieve the attribute, set the value, and apply the changes.
-        var attrInstance = SMPRPG.getInstance().getAttributeService().getOrCreateAttribute(target, attribute);
+        var attrInstance = SMPRPG.getService(AttributeService.class).getOrCreateAttribute(target, attribute);
         attrInstance.setBaseValue(value);
         attrInstance.save(target, attribute);
     }
@@ -438,7 +439,7 @@ public abstract class LeveledEntity<T extends Entity> implements LootSource {
         if (!(getEntity() instanceof LivingEntity living))
             return 0;
 
-        var defense = SMPRPG.getInstance().getAttributeService().getAttribute(living, AttributeWrapper.DEFENSE);
+        var defense = SMPRPG.getService(AttributeService.class).getAttribute(living, AttributeWrapper.DEFENSE);
         if (defense == null)
             return 0;
 

@@ -2,13 +2,13 @@ package xyz.devvydont.smprpg.items.listeners;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 import xyz.devvydont.smprpg.gui.items.MenuContainer;
 import xyz.devvydont.smprpg.items.interfaces.IItemContainer;
 import xyz.devvydont.smprpg.services.ItemService;
+import xyz.devvydont.smprpg.util.listeners.ToggleableListener;
 
-public class BackpackInteractionListener implements Listener {
+public class BackpackInteractionListener extends ToggleableListener {
 
     @EventHandler(priority = EventPriority.LOW)
     private void __onInteractWithBackpack(final PlayerInteractEvent event) {

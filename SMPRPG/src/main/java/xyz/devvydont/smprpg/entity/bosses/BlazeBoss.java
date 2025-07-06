@@ -22,12 +22,14 @@ import org.bukkit.util.Vector;
 import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.attribute.AttributeWrapper;
+import xyz.devvydont.smprpg.effects.services.SpecialEffectService;
 import xyz.devvydont.smprpg.effects.tasks.OverheatingEffect;
 import xyz.devvydont.smprpg.effects.tasks.TetheredEffect;
 import xyz.devvydont.smprpg.entity.CustomEntityType;
 import xyz.devvydont.smprpg.entity.base.CustomBossInstance;
 import xyz.devvydont.smprpg.entity.base.LeveledEntity;
 import xyz.devvydont.smprpg.items.CustomItemType;
+import xyz.devvydont.smprpg.services.EntityService;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.items.ChancedItemDrop;
@@ -196,9 +198,9 @@ public class BlazeBoss extends CustomBossInstance<Blaze> implements Listener {
                 new ChancedItemDrop(ItemService.generate(CustomItemType.IRON_SINGULARITY), 2000, this),
                 new ChancedItemDrop(ItemService.generate(CustomItemType.ENCHANTED_BLAZE_ROD), 25, this),
                 new ChancedItemDrop(ItemService.generate(CustomItemType.SCORCHING_STRING), 90, this),
-                new ChancedItemDrop(SMPRPG.getInstance().getItemService().getCustomItem(CustomItemType.BOILING_INGOT), 20, this),
-                new ChancedItemDrop(SMPRPG.getInstance().getItemService().getCustomItem(CustomItemType.INFERNO_REMNANT), 40, this),
-                new QuantityLootDrop(SMPRPG.getInstance().getItemService().getCustomItem(CustomItemType.INFERNO_RESIDUE), 1, 2, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.BOILING_INGOT), 20, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.INFERNO_REMNANT), 40, this),
+                new QuantityLootDrop(ItemService.generate(CustomItemType.INFERNO_RESIDUE), 1, 2, this),
 
                 // Gear drops
                 new ChancedItemDrop(ItemService.generate(CustomItemType.INFERNO_HELMET), 250, this),
@@ -218,7 +220,7 @@ public class BlazeBoss extends CustomBossInstance<Blaze> implements Listener {
     }
 
     private void spawnMinion(Location location) {
-        LeveledEntity mob = _plugin.getEntityService().spawnCustomEntity(CustomEntityType.PHOENIX, location);
+        LeveledEntity mob = SMPRPG.getService(EntityService.class).spawnCustomEntity(CustomEntityType.PHOENIX, location);
         if (mob == null || mob.getEntity() == null)
             return;
 
@@ -228,12 +230,12 @@ public class BlazeBoss extends CustomBossInstance<Blaze> implements Listener {
     private void handleFireballHitPlayer(Player player, boolean fromBoss) {
 
         // If this player already has an ailment, no need to do anything.
-        if (_plugin.getSpecialEffectsService().hasEffect(player))
+        if (SMPRPG.getService(SpecialEffectService.class).hasEffect(player))
             return;
 
         // If they have fire resistance, make them overheat.
         if (player.hasPotionEffect(PotionEffectType.FIRE_RESISTANCE)) {
-            var effect = new OverheatingEffect(_plugin.getSpecialEffectsService(), player, 10);
+            var effect = new OverheatingEffect(SMPRPG.getService(SpecialEffectService.class), player, 10);
             var msg = ComponentUtils.merge(
                     ComponentUtils.create("From "),
                     getNameComponent(), ComponentUtils.create(": "),
@@ -253,13 +255,13 @@ public class BlazeBoss extends CustomBossInstance<Blaze> implements Listener {
             )));
             player.sendMessage(msg);
             player.playSound(player.getLocation(), Sound.ENTITY_BLAZE_DEATH, 1, .5f);
-            _plugin.getSpecialEffectsService().giveEffect(player, effect);
+            SMPRPG.getService(SpecialEffectService.class).giveEffect(player, effect);
             return;
         }
 
         // If this is the boss, tether them.
         if (fromBoss) {
-            var effect = new TetheredEffect(_plugin.getSpecialEffectsService(), player, getEntity(), 5);
+            var effect = new TetheredEffect(SMPRPG.getService(SpecialEffectService.class), player, getEntity(), 5);
             var msg = ComponentUtils.merge(
                     ComponentUtils.create("From "),
                     getNameComponent(), ComponentUtils.create(": "),
@@ -276,7 +278,7 @@ public class BlazeBoss extends CustomBossInstance<Blaze> implements Listener {
                     ComponentUtils.create("!")
             )));
             player.sendMessage(msg);
-            _plugin.getSpecialEffectsService().giveEffect(player, effect);
+            SMPRPG.getService(SpecialEffectService.class).giveEffect(player, effect);
         }
 
     }
@@ -311,7 +313,7 @@ public class BlazeBoss extends CustomBossInstance<Blaze> implements Listener {
 
         // This fireball is from our blaze boss.
         Location spawn = event.getEntity().getLocation();
-        LeveledEntity mob = _plugin.getEntityService().spawnCustomEntity(CustomEntityType.PHOENIX, spawn);
+        LeveledEntity mob = SMPRPG.getService(EntityService.class).spawnCustomEntity(CustomEntityType.PHOENIX, spawn);
         if (mob == null || mob.getEntity() == null)
             return;
 

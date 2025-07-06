@@ -3,6 +3,7 @@ package xyz.devvydont.smprpg.gui.enchantments;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.enchantments.CustomEnchantment;
+import xyz.devvydont.smprpg.services.EnchantmentService;
 import xyz.devvydont.smprpg.util.formatting.MinecraftStringUtils;
 
 import java.util.ArrayList;
@@ -37,7 +38,7 @@ public enum EnchantmentSortMode {
     public List<CustomEnchantment> sort(List<CustomEnchantment> enchantments) {
         switch (this) {
             case DEFAULT:
-                return new ArrayList<>(SMPRPG.getInstance().getEnchantmentService().getCustomEnchantments());
+                return new ArrayList<>(SMPRPG.getService(EnchantmentService.class).getCustomEnchantments());
 
             case REQUIREMENT:
                 enchantments.sort((e1, e2) -> Comparator.comparingInt(CustomEnchantment::getSkillRequirement).compare(e1, e2));

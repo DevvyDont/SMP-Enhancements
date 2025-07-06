@@ -11,6 +11,7 @@ import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.player.LeveledPlayer;
 import xyz.devvydont.smprpg.entity.player.ProfileDifficulty;
+import xyz.devvydont.smprpg.services.EntityService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.listeners.ToggleableListener;
 
@@ -122,7 +123,7 @@ public class DimensionPortalLockingListener extends ToggleableListener {
             return;
 
         // If this player is playing on easy, we don't check their skill and allow them to go.
-        var wrapper = SMPRPG.getInstance().getEntityService().getPlayerInstance(player);
+        var wrapper = SMPRPG.getService(EntityService.class).getPlayerInstance(player);
         if (wrapper.getDifficulty() == ProfileDifficulty.EASY)
             return;
 

@@ -16,11 +16,8 @@ import xyz.devvydont.smprpg.skills.rewards.ISkillReward;
 
 public class SkillService implements IService, Listener {
 
-    private final SMPRPG plugin;
-
-    public SkillService(SMPRPG plugin) {
-        this.plugin = plugin;
-
+    public SkillService() {
+        var plugin = SMPRPG.getInstance();
         new CombatExperienceListener(plugin);
         new MiningExperienceListener(plugin);
         new ForagingExperienceListener(plugin);
@@ -32,28 +29,20 @@ public class SkillService implements IService, Listener {
     }
 
     @Override
-    public boolean setup() {
+    public void setup() throws RuntimeException {
 
+        var plugin = SMPRPG.getInstance();
         int sum = 0;
         for (int i = 1; i <= SkillGlobals.getMaxSkillLevel(); i++) {
             int xp = SkillGlobals.getExperienceForLevel(i);
             sum += xp;
             plugin.getLogger().fine("Skill Requirement for Level " + i + ": " + xp + " (" + sum + ")");
         }
-
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
-
-        return true;
     }
 
     @Override
     public void cleanup() {
 
-    }
-
-    @Override
-    public boolean required() {
-        return false;
     }
 
     public SkillInstance getNewSkillInstance(Player player, SkillType type) {
@@ -94,6 +83,6 @@ public class SkillService implements IService, Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     private void __onPlayerJoin(PlayerJoinEvent event) {
-        syncSkillAttributes(plugin.getEntityService().getPlayerInstance(event.getPlayer()));
+        syncSkillAttributes(SMPRPG.getService(EntityService.class).getPlayerInstance(event.getPlayer()));
     }
 }

@@ -13,6 +13,7 @@ import org.jspecify.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.commands.CommandBase;
+import xyz.devvydont.smprpg.services.AttributeService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.Arrays;
@@ -108,7 +109,7 @@ public class CommandAttribute extends CommandBase {
             return;
         }
 
-        var attribute = SMPRPG.getInstance().getAttributeService().getAttribute(context.target(), context.attribute());
+        var attribute = SMPRPG.getService(AttributeService.class).getAttribute(context.target(), context.attribute());
         if (attribute == null) {
             context.sender().sendMessage(ComponentUtils.error("Attribute is not registered to the target!"));
             return;
@@ -148,7 +149,7 @@ public class CommandAttribute extends CommandBase {
 
     private void executeGet(Context context) {
 
-        var attribute = SMPRPG.getInstance().getAttributeService().getAttribute(context.target(), context.attribute());
+        var attribute = SMPRPG.getService(AttributeService.class).getAttribute(context.target(), context.attribute());
         if (attribute == null) {
             context.sender.sendMessage(ComponentUtils.error("The attribute is not registered to your target."));
             return;
@@ -165,7 +166,7 @@ public class CommandAttribute extends CommandBase {
 
     private void executeModifier(Context context) {
 
-        var attribute = SMPRPG.getInstance().getAttributeService().getAttribute(context.target(), context.attribute());
+        var attribute = SMPRPG.getService(AttributeService.class).getAttribute(context.target(), context.attribute());
         if (attribute == null) {
             context.sender.sendMessage(ComponentUtils.error("The attribute is not registered to your target."));
             return;

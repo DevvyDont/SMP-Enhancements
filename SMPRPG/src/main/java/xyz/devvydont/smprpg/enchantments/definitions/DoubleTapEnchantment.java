@@ -20,6 +20,7 @@ import xyz.devvydont.smprpg.enchantments.EnchantmentRarity;
 import xyz.devvydont.smprpg.entity.interfaces.IDamageTrackable;
 import xyz.devvydont.smprpg.events.CustomEntityDamageByEntityEvent;
 import xyz.devvydont.smprpg.services.EnchantmentService;
+import xyz.devvydont.smprpg.services.EntityService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 public class DoubleTapEnchantment extends CustomEnchantment implements Listener {
@@ -96,7 +97,7 @@ public class DoubleTapEnchantment extends CustomEnchantment implements Listener 
             return;
 
         // Is this the first/second hit?
-        if (!(SMPRPG.getInstance().getEntityService().getEntityInstance(event.getDamaged()) instanceof IDamageTrackable trackable))
+        if (!(SMPRPG.getService(EntityService.class).getEntityInstance(event.getDamaged()) instanceof IDamageTrackable trackable))
             return;
 
         int numHits = trackable.getDamageTracker().getNumberOfHitsDealtByEntity(event.getDealer());

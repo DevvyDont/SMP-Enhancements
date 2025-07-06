@@ -5,6 +5,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.scheduler.BukkitRunnable;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.events.skills.SkillLevelUpEvent;
+import xyz.devvydont.smprpg.services.EntityService;
 import xyz.devvydont.smprpg.util.listeners.ToggleableListener;
 import xyz.devvydont.smprpg.util.time.TickTime;
 
@@ -17,7 +18,7 @@ public class HealthScaleListener extends ToggleableListener {
     @EventHandler
     public void onArmorChange(PlayerArmorChangeEvent event) {
         var plugin = SMPRPG.getInstance();
-        var player = plugin.getEntityService().getPlayerInstance(event.getPlayer());
+        var player = SMPRPG.getService(EntityService.class).getPlayerInstance(event.getPlayer());
         new BukkitRunnable() {
             public void run() {
                 event.getPlayer().setHealthScale(player.getHealthScale());
@@ -28,7 +29,7 @@ public class HealthScaleListener extends ToggleableListener {
     @EventHandler
     public void onSkillLevelUp(SkillLevelUpEvent event) {
         var plugin = SMPRPG.getInstance();
-        var player = plugin.getEntityService().getPlayerInstance(event.getPlayer());
+        var player = SMPRPG.getService(EntityService.class).getPlayerInstance(event.getPlayer());
         event.getPlayer().setHealthScale(player.getHealthScale());
     }
 

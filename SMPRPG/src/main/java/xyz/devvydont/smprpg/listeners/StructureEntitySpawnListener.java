@@ -11,6 +11,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.events.LeveledEntitySpawnEvent;
 import xyz.devvydont.smprpg.services.ActionBarService;
+import xyz.devvydont.smprpg.services.EntityService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.formatting.MinecraftStringUtils;
 import xyz.devvydont.smprpg.util.listeners.ToggleableListener;
@@ -89,7 +90,7 @@ public class StructureEntitySpawnListener extends ToggleableListener {
 
         var plugin = SMPRPG.getInstance();
         // If the player is underleveled, add a warning label.
-        if (power > plugin.getEntityService().getPlayerInstance(player).getLevel())
+        if (power > SMPRPG.getService(EntityService.class).getPlayerInstance(player).getLevel())
             send = ComponentUtils.create("WARNING! ", NamedTextColor.RED).append(send);
 
         return send;
@@ -121,7 +122,7 @@ public class StructureEntitySpawnListener extends ToggleableListener {
             return;
 
         var plugin = SMPRPG.getInstance();
-        plugin.getActionBarService().addActionBarComponent(player, ActionBarService.ActionBarSource.STRUCTURE, getStructureComponent(player, mostDangerousStructure, highestLevel), 5);
+        SMPRPG.getService(ActionBarService.class).addActionBarComponent(player, ActionBarService.ActionBarSource.STRUCTURE, getStructureComponent(player, mostDangerousStructure, highestLevel), 5);
     }
 
     @EventHandler

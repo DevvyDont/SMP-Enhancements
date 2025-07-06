@@ -20,6 +20,7 @@ import xyz.devvydont.smprpg.enchantments.CustomEnchantment;
 import xyz.devvydont.smprpg.enchantments.EnchantmentRarity;
 import xyz.devvydont.smprpg.enchantments.EnchantmentUtil;
 import xyz.devvydont.smprpg.entity.base.BossInstance;
+import xyz.devvydont.smprpg.services.EntityService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 public class BossTracingEnchantment extends CustomEnchantment implements Listener {
@@ -130,7 +131,7 @@ public class BossTracingEnchantment extends CustomEnchantment implements Listene
             for (LivingEntity entity : projectile.getWorld().getNearbyLivingEntities(projectile.getLocation(), getActivationDistance(aggression))) {
 
                 // If this isn't a boss then skip
-                if (!(SMPRPG.getInstance().getEntityService().getEntityInstance(entity) instanceof BossInstance boss))
+                if (!(SMPRPG.getService(EntityService.class).getEntityInstance(entity) instanceof BossInstance boss))
                     continue;
 
                 // If we don't have line of sight we can't use this entity

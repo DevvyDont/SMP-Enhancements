@@ -3,6 +3,7 @@ package xyz.devvydont.smprpg.util.animations;
 import org.bukkit.Bukkit;
 import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.SMPRPG;
+import xyz.devvydont.smprpg.services.IService;
 import xyz.devvydont.smprpg.util.animations.iterators.AnimationFrame;
 import xyz.devvydont.smprpg.util.animations.iterators.AnimationIterator;
 import xyz.devvydont.smprpg.util.animations.iterators.InfiniteIterator;
@@ -11,15 +12,24 @@ import xyz.devvydont.smprpg.util.animations.playback.AnimationHandle;
 import xyz.devvydont.smprpg.util.animations.playback.AnimationPlayer;
 import xyz.devvydont.smprpg.util.animations.playback.AnimationPlaybackState;
 import xyz.devvydont.smprpg.util.animations.utils.AnimationBuilder;
+import xyz.devvydont.smprpg.util.time.TickTime;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public final class AnimationService implements Runnable {
+public final class AnimationService implements Runnable, IService {
+    private int taskId;
     private final List<AnimationPlayer> activeAnimations = new ArrayList<>();
 
-    public AnimationService(SMPRPG plugin) {
-        Bukkit.getScheduler().runTaskTimer(plugin, this, 0, 1);
+    @Override
+    public void setup() throws RuntimeException {
+        var task = Bukkit.getScheduler().runTaskTimer(SMPRPG.getInstance(), this, TickTime.INSTANTANEOUSLY, TickTime.TICK);
+        taskId = task.getTaskId();
+    }
+
+    @Override
+    public void cleanup() {
+        Bukkit.getScheduler().cancelTask(taskId);
     }
 
     /**

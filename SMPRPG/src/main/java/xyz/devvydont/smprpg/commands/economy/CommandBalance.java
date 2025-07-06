@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.commands.CommandBase;
+import xyz.devvydont.smprpg.services.EconomyService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 public class CommandBalance extends CommandBase {
@@ -53,7 +54,7 @@ public class CommandBalance extends CommandBase {
         commandSourceStack.getSender().sendMessage(ComponentUtils.alert(ComponentUtils.merge(
             ComponentUtils.create(target.getName(), NamedTextColor.AQUA),
             ComponentUtils.create("'s balance is "),
-            ComponentUtils.create(SMPRPG.getInstance().getEconomyService().formatMoney(target), NamedTextColor.GOLD)
+            ComponentUtils.create(SMPRPG.getService(EconomyService.class).formatMoney(target), NamedTextColor.GOLD)
         )));
     }
 

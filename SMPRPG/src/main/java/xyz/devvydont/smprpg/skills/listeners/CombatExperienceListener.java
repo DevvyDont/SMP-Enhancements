@@ -6,6 +6,7 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.interfaces.IDamageTrackable;
 import xyz.devvydont.smprpg.events.skills.SkillExperienceGainEvent;
+import xyz.devvydont.smprpg.services.EntityService;
 
 public class CombatExperienceListener implements Listener {
 
@@ -26,7 +27,7 @@ public class CombatExperienceListener implements Listener {
         if (event.getEntity().getKiller() == null)
             return;
 
-        var dead = plugin.getEntityService().getEntityInstance(event.getEntity());
+        var dead = SMPRPG.getService(EntityService.class).getEntityInstance(event.getEntity());
         if (!(dead instanceof IDamageTrackable trackable))
             return;
 
@@ -43,7 +44,7 @@ public class CombatExperienceListener implements Listener {
             // Take that percentage and multiply it by 5 for generosity
             int experienceCut = (int) Math.min(experience, experience * percentage * 5);
 
-            var player = plugin.getEntityService().getPlayerInstance(entry.getKey());
+            var player = SMPRPG.getService(EntityService.class).getPlayerInstance(entry.getKey());
             player.getCombatSkill().addExperience(experienceCut, SkillExperienceGainEvent.ExperienceSource.KILL);
         }
 

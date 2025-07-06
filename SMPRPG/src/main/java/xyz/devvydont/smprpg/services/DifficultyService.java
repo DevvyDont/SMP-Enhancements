@@ -67,19 +67,12 @@ public class DifficultyService implements IService, Listener {
     }
 
     @Override
-    public boolean setup() {
-        SMPRPG.getInstance().getServer().getPluginManager().registerEvents(this, SMPRPG.getInstance());
-        return true;
+    public void setup() throws RuntimeException {
     }
 
     @Override
     public void cleanup() {
 
-    }
-
-    @Override
-    public boolean required() {
-        return true;
     }
 
     /**
@@ -111,12 +104,12 @@ public class DifficultyService implements IService, Listener {
 
         // Store the difficulty on the player.
         player.getPersistentDataContainer().set(difficultyKey, ProfileDifficulty.ADAPTER, difficulty);
-        var playerWrapper = SMPRPG.getInstance().getEntityService().getPlayerInstance(player);
+        var playerWrapper = SMPRPG.getService(EntityService.class).getPlayerInstance(player);
 
         // Set the state of the player necessary for this difficulty.
         // For now, we just have to make sure their stats are sanity checked, as everything else is dynamically handled.
         applyDifficultyModifiers(player, difficulty);
-        SMPRPG.getInstance().getSkillService().syncSkillAttributes(playerWrapper);
+        SMPRPG.getService(SkillService.class).syncSkillAttributes(playerWrapper);
         playerWrapper.setConfiguration(playerWrapper.getDefaultConfiguration());
     }
 

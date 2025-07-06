@@ -7,6 +7,7 @@ import net.kyori.adventure.key.Key;
 import org.bukkit.enchantments.Enchantment;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.enchantments.CustomEnchantment;
+import xyz.devvydont.smprpg.services.EnchantmentService;
 
 public abstract class VanillaEnchantment extends CustomEnchantment {
 
@@ -41,7 +42,7 @@ public abstract class VanillaEnchantment extends CustomEnchantment {
     }
 
     public Enchantment getVanillaEnchantment() {
-        return SMPRPG.getInstance().getEnchantmentService().getEnchantment(getTypedKey());
+        return SMPRPG.getService(EnchantmentService.class).getEnchantment(getTypedKey());
     }
 
     @Override

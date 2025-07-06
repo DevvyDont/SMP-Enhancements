@@ -10,6 +10,8 @@ import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.commands.CommandBase;
 import xyz.devvydont.smprpg.entity.player.LeveledPlayer;
 import xyz.devvydont.smprpg.events.skills.SkillExperienceGainEvent;
+import xyz.devvydont.smprpg.services.EntityService;
+import xyz.devvydont.smprpg.services.SkillService;
 import xyz.devvydont.smprpg.skills.SkillGlobals;
 import xyz.devvydont.smprpg.skills.SkillInstance;
 import xyz.devvydont.smprpg.skills.SkillType;
@@ -26,7 +28,7 @@ public class CommandSkill extends CommandBase {
     }
 
     private void setSkillExp(LeveledPlayer player, SkillType skill, int level) {
-        SkillInstance inst = SMPRPG.getInstance().getSkillService().getNewSkillInstance(player.getPlayer(), skill);
+        SkillInstance inst = SMPRPG.getService(SkillService.class).getNewSkillInstance(player.getPlayer(), skill);
         int targetExp = SkillGlobals.getCumulativeExperienceForLevel(level);
         if (targetExp > inst.getExperience())
             inst.addExperience(targetExp - inst.getExperience(), SkillExperienceGainEvent.ExperienceSource.COMMANDS);
@@ -63,7 +65,7 @@ public class CommandSkill extends CommandBase {
             return;
 
         boolean isAdmin = commandSourceStack.getSender().permissionValue("smprpg.command.skill.admin").equals(TriState.TRUE) || commandSourceStack.getSender().isOp();
-        LeveledPlayer player = SMPRPG.getInstance().getEntityService().getPlayerInstance(p);
+        var player = SMPRPG.getService(EntityService.class).getPlayerInstance(p);
 
         if (!isAdmin) {
             for (Component component : getSkillDisplay(player))
@@ -77,7 +79,7 @@ public class CommandSkill extends CommandBase {
                 for (SkillInstance skill : player.getSkills())
                     skill.setExperience(0);
                 player.getPlayer().sendMessage(ComponentUtils.success("Reset all of your skills!"));
-                SMPRPG.getInstance().getSkillService().syncSkillAttributes(player);
+                SMPRPG.getService(SkillService.class).syncSkillAttributes(player);
             }
         }
 
@@ -95,7 +97,7 @@ public class CommandSkill extends CommandBase {
                     setSkillExp(player, type, level);
                 }
 
-                SMPRPG.getInstance().getSkillService().syncSkillAttributes(player);
+                SMPRPG.getService(SkillService.class).syncSkillAttributes(player);
             } catch (NumberFormatException ignored) {
                 p.sendMessage(ComponentUtils.error("Invalid level provided. Please provide an actual number"));
                 return;

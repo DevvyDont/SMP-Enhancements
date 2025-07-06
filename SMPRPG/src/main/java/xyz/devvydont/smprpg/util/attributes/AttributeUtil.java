@@ -20,6 +20,8 @@ import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
 import xyz.devvydont.smprpg.items.interfaces.IAttributeItem;
 import xyz.devvydont.smprpg.reforge.ReforgeBase;
 import xyz.devvydont.smprpg.services.AttributeService;
+import xyz.devvydont.smprpg.services.EnchantmentService;
+import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.*;
@@ -99,7 +101,7 @@ public class AttributeUtil {
         }
 
         // Query reforge attributes...
-        var reforge = SMPRPG.getInstance().getItemService().getReforge(item);
+        var reforge = SMPRPG.getService(ItemService.class).getReforge(item);
         ItemRarity rarity = blueprint.getRarity(item);
         if (reforge != null)
             for (var reforgeAttribute : reforge.getAttributeModifiersWithRarity(rarity))
@@ -109,7 +111,7 @@ public class AttributeUtil {
                 );
 
         // Then enchantments.
-        for (var enchantment : SMPRPG.getInstance().getEnchantmentService().getCustomEnchantments(item.getItemMeta())) {
+        for (var enchantment : SMPRPG.getService(EnchantmentService.class).getCustomEnchantments(item.getItemMeta())) {
 
             // Filter out non attribute enchantments. They don't apply modifiers.
             if (!(enchantment instanceof IAttributeContainer attributeContainer))
@@ -314,16 +316,16 @@ public class AttributeUtil {
         int sum = 0;
 
         // This can happen when something tries to update too fast
-        if (SMPRPG.getInstance() == null || SMPRPG.getInstance().getEnchantmentService() == null)
+        if (SMPRPG.getInstance() == null || SMPRPG.getService(EnchantmentService.class) == null)
             return sum;
 
         // Get the reforge on the item and see if it has a power rating
-        ReforgeBase reforge = SMPRPG.getInstance().getItemService().getReforge(meta);
+        ReforgeBase reforge = SMPRPG.getService(ItemService.class).getReforge(meta);
         if (reforge != null)
             sum += reforge.getPowerRating();
 
         // Loop through all the enchantments on the item and determine if it has a power rating
-        for (CustomEnchantment enchantment : SMPRPG.getInstance().getEnchantmentService().getCustomEnchantments(meta))
+        for (CustomEnchantment enchantment : SMPRPG.getService(EnchantmentService.class).getCustomEnchantments(meta))
             if (enchantment instanceof AttributeEnchantment attribute)
                 sum += attribute.getPowerRating();
 

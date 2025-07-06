@@ -19,6 +19,7 @@ import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.CustomEntityType;
 import xyz.devvydont.smprpg.entity.base.CustomEntityInstance;
 import xyz.devvydont.smprpg.entity.base.LeveledEntity;
+import xyz.devvydont.smprpg.services.EntityService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.persistence.PersistentSpawnerOptionsDatatype;
 
@@ -279,7 +280,7 @@ public class EntitySpawner extends CustomEntityInstance<Entity> implements Liste
         if (!types.isEmpty())
             type = types.getFirst();
 
-        var instance = _plugin.getEntityService().spawnCustomEntity(type, location);
+        var instance = SMPRPG.getService(EntityService.class).spawnCustomEntity(type, location);
         if (instance == null)
             return;
 

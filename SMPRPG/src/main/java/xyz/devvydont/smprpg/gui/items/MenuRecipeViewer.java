@@ -12,6 +12,7 @@ import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.gui.base.MenuBase;
 import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
 import xyz.devvydont.smprpg.items.interfaces.ICraftable;
+import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.ArrayList;
@@ -67,7 +68,7 @@ public class MenuRecipeViewer extends MenuBase {
     private void handleIngredientClick(ItemStack itemStack) {
 
         // Retrieve the blueprint of this item. If it is craftable, enter another recipe layer
-        SMPItemBlueprint clickedBlueprint = SMPRPG.getInstance().getItemService().getBlueprint(itemStack);
+        SMPItemBlueprint clickedBlueprint = SMPRPG.getService(ItemService.class).getBlueprint(itemStack);
         if (!(clickedBlueprint instanceof ICraftable craftable)) {
             this.playInvalidAnimation();
             return;
@@ -123,7 +124,7 @@ public class MenuRecipeViewer extends MenuBase {
                 var item = resolveRecipeChoice(choice);
 
                 // If this ingredient can be crafted, insert the craftable tooltip.
-                if (SMPRPG.getInstance().getItemService().getBlueprint(item) instanceof ICraftable)
+                if (SMPRPG.getService(ItemService.class).getBlueprint(item) instanceof ICraftable)
                     item.editMeta(meta -> meta.lore(ComponentUtils.cleanItalics(ComponentUtils.insertComponents(meta.lore(), ComponentUtils.EMPTY, ComponentUtils.create("Click to view recipe!", NamedTextColor.YELLOW)))));
 
                 this.setButton(y*9+x+CORNER, item, event -> handleIngredientClick(item));
@@ -167,7 +168,7 @@ public class MenuRecipeViewer extends MenuBase {
             meta.lore(ComponentUtils.cleanItalics(lore));
             meta.setEnchantmentGlintOverride(true);
         });
-        SMPRPG.getInstance().getItemService().setIgnoreMetaUpdate(paper);
+        SMPRPG.getService(ItemService.class).setIgnoreMetaUpdate(paper);
         return paper;
     }
 

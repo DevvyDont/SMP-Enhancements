@@ -23,6 +23,8 @@ import xyz.devvydont.smprpg.items.interfaces.IAttributeItem;
 import xyz.devvydont.smprpg.reforge.ReforgeBase;
 import xyz.devvydont.smprpg.reforge.ReforgeType;
 import xyz.devvydont.smprpg.services.EconomyService;
+import xyz.devvydont.smprpg.services.EntityService;
+import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.ArrayList;
@@ -57,7 +59,7 @@ public class MenuReforge extends MenuBase {
      * @return The balance of the player
      */
     public int getBalance() {
-        return SMPRPG.getInstance().getEconomyService().getMoney(player);
+        return SMPRPG.getService(EconomyService.class).getMoney(player);
     }
 
     /**
@@ -81,7 +83,7 @@ public class MenuReforge extends MenuBase {
             return anvil;
         }
 
-        SMPItemBlueprint blueprint = SMPRPG.getInstance().getItemService().getBlueprint(input);
+        var blueprint = SMPRPG.getService(ItemService.class).getBlueprint(input);
 
         // Is this item not able to receive a reforge?
         if (getRandomReforge(blueprint.getItemClassification(), blueprint.getReforgeType(input)).getType().equals(ReforgeType.ERROR)) {
@@ -143,12 +145,12 @@ public class MenuReforge extends MenuBase {
                 continue;
 
             // Valid!
-            choices.add(SMPRPG.getInstance().getItemService().getReforge(type));
+            choices.add(SMPRPG.getService(ItemService.class).getReforge(type));
         }
 
         // If we found no valid reforges, default to the error reforge type. Error reforge type should be handled by caller
         if (choices.isEmpty())
-            return SMPRPG.getInstance().getItemService().getReforge(ReforgeType.ERROR);
+            return SMPRPG.getService(ItemService.class).getReforge(ReforgeType.ERROR);
 
         // Return a random choice
         return choices.get((int) (Math.random()*choices.size()));
@@ -167,7 +169,7 @@ public class MenuReforge extends MenuBase {
         }
 
         // Check if this item is able to store attributes. Reforges can't add attributes to attributeless items!
-        SMPItemBlueprint blueprint = SMPRPG.getInstance().getItemService().getBlueprint(item);
+        SMPItemBlueprint blueprint = SMPRPG.getService(ItemService.class).getBlueprint(item);
         if (!(blueprint instanceof IAttributeItem attributeable)) {
             playInvalidAnimation();
             return;
@@ -186,8 +188,8 @@ public class MenuReforge extends MenuBase {
         // Apply reforge and take their money if we had no issues
         if (success) {
             newReforge.apply(item);
-            SMPRPG.getInstance().getEconomyService().spendMoney(player, cost);
-            LeveledPlayer player = SMPRPG.getInstance().getEntityService().getPlayerInstance(this.player);
+            SMPRPG.getService(EconomyService.class).spendMoney(player, cost);
+            LeveledPlayer player = SMPRPG.getService(EntityService.class).getPlayerInstance(this.player);
             player.getMagicSkill().addExperience((blueprint.getRarity(item).ordinal()+1) * attributeable.getPowerRating() / 10);
         }
 

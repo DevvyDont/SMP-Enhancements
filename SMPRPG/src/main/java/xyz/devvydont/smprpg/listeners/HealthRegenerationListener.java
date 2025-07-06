@@ -4,6 +4,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
 import xyz.devvydont.smprpg.SMPRPG;
+import xyz.devvydont.smprpg.services.EntityService;
 import xyz.devvydont.smprpg.util.listeners.ToggleableListener;
 
 /**
@@ -29,7 +30,7 @@ public class HealthRegenerationListener extends ToggleableListener {
         if (!(event.getEntity() instanceof LivingEntity))
             return;
 
-        var entity = SMPRPG.getInstance().getEntityService().getEntityInstance(event.getEntity());
+        var entity = SMPRPG.getService(EntityService.class).getEntityInstance(event.getEntity());
         event.setAmount(entity.getRegenerationAmount(event.getRegainReason()));
     }
 }

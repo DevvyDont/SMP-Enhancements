@@ -12,6 +12,7 @@ import xyz.devvydont.smprpg.gui.base.MenuBase;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.blueprints.economy.CustomItemCoin;
 import xyz.devvydont.smprpg.services.EconomyService;
+import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 public final class MenuWithdraw extends MenuBase {
@@ -21,13 +22,13 @@ public final class MenuWithdraw extends MenuBase {
 
     public MenuWithdraw(SMPRPG plugin, Player owner) {
         super(owner, 3);
-        this.economyService = plugin.getEconomyService();
+        this.economyService = SMPRPG.getService(EconomyService.class);
         this.coins = new CustomItemCoin[] {
-            (CustomItemCoin) plugin.getItemService().getBlueprint(CustomItemType.COPPER_COIN),
-            (CustomItemCoin) plugin.getItemService().getBlueprint(CustomItemType.SILVER_COIN),
-            (CustomItemCoin) plugin.getItemService().getBlueprint(CustomItemType.GOLD_COIN),
-            (CustomItemCoin) plugin.getItemService().getBlueprint(CustomItemType.PLATINUM_COIN),
-            (CustomItemCoin) plugin.getItemService().getBlueprint(CustomItemType.ENCHANTED_COIN),
+            (CustomItemCoin) SMPRPG.getService(ItemService.class).getBlueprint(CustomItemType.COPPER_COIN),
+            (CustomItemCoin) SMPRPG.getService(ItemService.class).getBlueprint(CustomItemType.SILVER_COIN),
+            (CustomItemCoin) SMPRPG.getService(ItemService.class).getBlueprint(CustomItemType.GOLD_COIN),
+            (CustomItemCoin) SMPRPG.getService(ItemService.class).getBlueprint(CustomItemType.PLATINUM_COIN),
+            (CustomItemCoin) SMPRPG.getService(ItemService.class).getBlueprint(CustomItemType.ENCHANTED_COIN),
         };
     }
 

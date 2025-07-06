@@ -20,14 +20,15 @@ import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.inventory.ItemStack;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.CustomEntityType;
-import xyz.devvydont.smprpg.entity.base.LeveledEntity;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.ItemRarity;
 import xyz.devvydont.smprpg.items.base.CustomItemBlueprint;
 import xyz.devvydont.smprpg.items.interfaces.IHeaderDescribable;
 import xyz.devvydont.smprpg.items.interfaces.ISellable;
+import xyz.devvydont.smprpg.services.ChatService;
 import xyz.devvydont.smprpg.services.DropsService;
+import xyz.devvydont.smprpg.services.EntityService;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
@@ -143,11 +144,11 @@ public class InfernoArrow extends CustomItemBlueprint implements IHeaderDescriba
         ItemStack item = arrow.getItemStack();
         item.editMeta( meta -> {
             if (event.getEntity() instanceof Player player)
-                SMPRPG.getInstance().getDropsService().setOwner(meta, player);
-            SMPRPG.getInstance().getDropsService().setExpiryTimestamp(meta, System.currentTimeMillis() + DropsService.getMillisecondsUntilExpiry(getDefaultRarity()));
+                SMPRPG.getService(DropsService.class).setOwner(meta, player);
+            SMPRPG.getService(DropsService.class).setExpiryTimestamp(meta, System.currentTimeMillis() + DropsService.getMillisecondsUntilExpiry(getDefaultRarity()));
         });
         arrow.setItemStack(item);
-        SMPRPG.getInstance().getDropsService().getTeam(ItemRarity.LEGENDARY).addEntity(arrow);  // give it a glow :p
+        SMPRPG.getService(DropsService.class).getTeam(ItemRarity.LEGENDARY).addEntity(arrow);  // give it a glow :p
         arrow.setGlowing(true);
         arrow.setHitSound(Sound.BLOCK_AMETHYST_BLOCK_BREAK);
         arrow.setInvulnerable(true);
@@ -199,7 +200,7 @@ public class InfernoArrow extends CustomItemBlueprint implements IHeaderDescriba
         if (!(event.getEntity().getShooter() instanceof Player player))
             return;
 
-        LeveledEntity boss = SMPRPG.getInstance().getEntityService().spawnCustomEntity(CustomEntityType.INFERNAL_PHOENIX, arrow.getLocation());
+        var boss = SMPRPG.getService(EntityService.class).spawnCustomEntity(CustomEntityType.INFERNAL_PHOENIX, arrow.getLocation());
         if (boss == null || !boss.getEntity().isValid()) {
             player.sendMessage(ComponentUtils.error("Something went wrong and the boss was not spawned."));
             return;
@@ -209,7 +210,7 @@ public class InfernoArrow extends CustomItemBlueprint implements IHeaderDescriba
 
         // Summon the boss!
         player.getWorld().playSound(player.getLocation(), Sound.ENTITY_BLAZE_DEATH, 1, .3f);
-        var name = SMPRPG.getInstance().getChatService().getPlayerDisplay(player);
+        var name = SMPRPG.getService(ChatService.class).getPlayerDisplay(player);
 
         Bukkit.broadcast(ComponentUtils.merge(
                 name,

@@ -22,7 +22,9 @@ import xyz.devvydont.smprpg.events.CustomEntityDamageByEntityEvent;
 import xyz.devvydont.smprpg.listeners.damage.CriticalDamageListener;
 import xyz.devvydont.smprpg.listeners.damage.DamagePopupListener;
 import xyz.devvydont.smprpg.services.DifficultyService;
+import xyz.devvydont.smprpg.services.EntityService;
 import xyz.devvydont.smprpg.services.IService;
+import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 /**
@@ -111,9 +113,7 @@ public class EntityDamageCalculatorService implements Listener, IService {
     private final CriticalDamageListener criticalDamageListener;
     private final DamagePopupListener popupListener;
 
-    public EntityDamageCalculatorService(SMPRPG plugin) {
-        this.plugin = plugin;
-
+    public EntityDamageCalculatorService() {
         // Instantiate event handlers.
         criticalDamageListener = new CriticalDamageListener();
         popupListener = new DamagePopupListener();
@@ -124,13 +124,10 @@ public class EntityDamageCalculatorService implements Listener, IService {
      */
 
     @Override
-    public boolean setup() {
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
-
+    public void setup() throws RuntimeException {
         // Start event handlers. You can comment these out to disable game features.
         criticalDamageListener.start();  // Handles the critical damage calculation mechanic.
         popupListener.start();  // Handles popups in the world for health related events.
-        return true;
     }
 
     @Override
@@ -140,11 +137,6 @@ public class EntityDamageCalculatorService implements Listener, IService {
         // Stop event handlers.
         criticalDamageListener.stop();
         popupListener.stop();
-    }
-
-    @Override
-    public boolean required() {
-        return true;
     }
 
     /*
@@ -302,9 +294,9 @@ public class EntityDamageCalculatorService implements Listener, IService {
 
         ItemStack mainHand = living.getEquipment().getItemInMainHand();
         ItemStack offHand = living.getEquipment().getItemInOffHand();
-        if (!mainHand.getType().equals(Material.AIR) && plugin.getItemService().getBlueprint(mainHand).getItemClassification().isBow())
+        if (!mainHand.getType().equals(Material.AIR) && SMPRPG.getService(ItemService.class).getBlueprint(mainHand).getItemClassification().isBow())
             holdingBow = true;
-        if (!offHand.getType().equals(Material.AIR) && plugin.getItemService().getBlueprint(offHand).getItemClassification().isBow())
+        if (!offHand.getType().equals(Material.AIR) && SMPRPG.getService(ItemService.class).getBlueprint(offHand).getItemClassification().isBow())
             holdingBow = true;
 
         // 95% damage reduction
@@ -325,7 +317,7 @@ public class EntityDamageCalculatorService implements Listener, IService {
         if (!(event.getEntity() instanceof LivingEntity living))
             return;
 
-        var leveled = plugin.getEntityService().getEntityInstance(living);
+        var leveled = SMPRPG.getService(EntityService.class).getEntityInstance(living);
 
         var armor = living.getAttribute(Attribute.ARMOR);
         int iframeTicks = 0;
@@ -504,7 +496,7 @@ public class EntityDamageCalculatorService implements Listener, IService {
         // Using the defense of the receiver, reduce the damage
         if (event.getDamaged() instanceof Attributable) {
             // Apply the entity's defense attribute
-            var leveledEntity = plugin.getEntityService().getEntityInstance(event.getDamaged());
+            var leveledEntity = SMPRPG.getService(EntityService.class).getEntityInstance(event.getDamaged());
             event.multiplyDamage(calculateDefenseDamageMultiplier(leveledEntity.getDefense()));
         }
 
@@ -552,7 +544,7 @@ public class EntityDamageCalculatorService implements Listener, IService {
             return;
 
         // Multiply their difficulty damage multiplier.
-        var multiplier = DifficultyService.getDamageMultiplier(SMPRPG.getInstance().getDifficultyService().getDifficulty(player));
+        var multiplier = DifficultyService.getDamageMultiplier(SMPRPG.getService(DifficultyService.class).getDifficulty(player));
         event.multiplyDamage(multiplier);
     }
 

@@ -9,6 +9,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.events.skills.SkillExperienceGainEvent;
+import xyz.devvydont.smprpg.services.EntityService;
 import xyz.devvydont.smprpg.skills.SkillInstance;
 import xyz.devvydont.smprpg.util.world.ChunkUtil;
 
@@ -120,7 +121,7 @@ public class MiningExperienceListener implements Listener {
 
         ChunkUtil.markBlockSkillValid(event.getBlock());
 
-        SkillInstance skill = plugin.getEntityService().getPlayerInstance(event.getPlayer()).getMiningSkill();
+        SkillInstance skill = SMPRPG.getService(EntityService.class).getPlayerInstance(event.getPlayer()).getMiningSkill();
 
         int exp = 0;
         for (ItemStack drop : event.getBlock().getDrops(event.getPlayer().getInventory().getItemInMainHand(), event.getPlayer()))

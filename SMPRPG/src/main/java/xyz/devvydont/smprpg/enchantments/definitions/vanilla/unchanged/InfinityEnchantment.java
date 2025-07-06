@@ -23,6 +23,7 @@ import xyz.devvydont.smprpg.enchantments.EnchantmentRarity;
 import xyz.devvydont.smprpg.enchantments.EnchantmentUtil;
 import xyz.devvydont.smprpg.enchantments.definitions.vanilla.VanillaEnchantment;
 import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
+import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 public class InfinityEnchantment extends VanillaEnchantment implements Listener {
@@ -118,7 +119,7 @@ public class InfinityEnchantment extends VanillaEnchantment implements Listener 
         if (!event.shouldConsumeItem() || event.getConsumable() == null)
             return;
 
-        SMPItemBlueprint consumableBlueprint = SMPRPG.getInstance().getItemService().getBlueprint(event.getConsumable());
+        SMPItemBlueprint consumableBlueprint = SMPRPG.getService(ItemService.class).getBlueprint(event.getConsumable());
 
         // We shot a bow with infinity. Take away the consumable from the inventory.
         for (ItemStack item : player.getInventory().getContents()) {

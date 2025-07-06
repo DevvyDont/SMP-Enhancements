@@ -7,7 +7,6 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.ThrownExpBottle;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ExpBottleEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
@@ -15,11 +14,13 @@ import org.bukkit.persistence.PersistentDataType;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
 import xyz.devvydont.smprpg.items.interfaces.ExperienceThrowable;
+import xyz.devvydont.smprpg.services.ItemService;
+import xyz.devvydont.smprpg.util.listeners.ToggleableListener;
 
 /*
  * Class responsible for making custom experience bottles function.
  */
-public class ExperienceBottleListener implements Listener {
+public class ExperienceBottleListener extends ToggleableListener {
 
     private final NamespacedKey EXPERIENCE_KEY = new NamespacedKey(SMPRPG.getInstance(), "stored-experience");
 
@@ -38,7 +39,7 @@ public class ExperienceBottleListener implements Listener {
             return;
 
         // Is the item involved an experience bottle?
-        SMPItemBlueprint blueprint = SMPRPG.getInstance().getItemService().getBlueprint(item);
+        var blueprint = SMPRPG.getService(ItemService.class).getBlueprint(item);
         if (!(blueprint instanceof ExperienceThrowable experienceThrowable))
             return;
 

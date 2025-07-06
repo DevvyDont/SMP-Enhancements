@@ -22,52 +22,42 @@ import xyz.devvydont.smprpg.util.formatting.PlayerChatInformation;
 
 public class ChatService implements IService, Listener {
 
-
+    /**
+     * The chat formatter. Defines logic for how to display chat messages.
+     */
     public static final ChatRenderer CHAT_RENDERER = new CustomChatRenderer();
-
-    private final SMPRPG plugin;
 
     private Chat chat;
 
-    public ChatService(SMPRPG plugin) {
-        this.plugin = plugin;
-    }
-
     @Override
-    public boolean setup() {
+    public void setup() throws RuntimeException {
+        var plugin = SMPRPG.getInstance();
         plugin.getLogger().info("Setting up Chat service");
 
         // If vault isn't installed, we cannot function correctly.
         if (plugin.getServer().getPluginManager().getPlugin("Vault") == null) {
             plugin.getLogger().severe("Vault is not installed. Please install Vault");
-            return false;
+            throw new RuntimeException("Vault is not installed. Please install Vault");
         }
 
         // We need to make sure the economy class is valid
         RegisteredServiceProvider<Chat> provider = plugin.getServer().getServicesManager().getRegistration(Chat.class);
         if (provider == null) {
             plugin.getLogger().severe("Failed to detect Chat service, is Vault installed correctly?");
-            return false;
+            throw new RuntimeException("Failed to detect Chat service, is Vault installed correctly?");
         }
 
         this.chat = provider.getProvider();
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
         plugin.getLogger().info("Successfully hooked into Vault Chat service");
-        return true;
     }
 
     @Override
     public void cleanup() {
-        plugin.getLogger().info("Cleaning up ChatService");
-    }
-
-    @Override
-    public boolean required() {
-        return true;
+        SMPRPG.getInstance().getLogger().info("Cleaning up ChatService");
     }
 
     private TextColor determineNameColor(OfflinePlayer player) {
-        var difficulty = SMPRPG.getInstance().getDifficultyService().getDifficulty(player);
+        var difficulty = SMPRPG.getService(DifficultyService.class).getDifficulty(player);
         return difficulty.Color;
     }
 

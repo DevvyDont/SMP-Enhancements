@@ -132,6 +132,6 @@ public class MercyBlessing extends CustomEnchantment implements Listener {
         player.getWorld().spawnParticle(Particle.TOTEM_OF_UNDYING, player.getEyeLocation(), 25);
         player.getWorld().playSound(player.getLocation(), Sound.ITEM_TOTEM_USE, 1, 1);
         player.addPotionEffect(new PotionEffect(PotionEffectType.ABSORPTION, 20*30, 4, true));
-        SMPRPG.getInstance().getActionBarService().addActionBarComponent(player, ActionBarService.ActionBarSource.MISC, ComponentUtils.create("MERCY!", NamedTextColor.YELLOW), 3);
+        SMPRPG.getService(ActionBarService.class).addActionBarComponent(player, ActionBarService.ActionBarSource.MISC, ComponentUtils.create("MERCY!", NamedTextColor.YELLOW), 3);
     }
 }

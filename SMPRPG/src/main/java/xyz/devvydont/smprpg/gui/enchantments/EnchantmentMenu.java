@@ -14,6 +14,8 @@ import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.enchantments.CustomEnchantment;
 import xyz.devvydont.smprpg.gui.base.MenuBase;
+import xyz.devvydont.smprpg.services.EnchantmentService;
+import xyz.devvydont.smprpg.services.EntityService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.formatting.MinecraftStringUtils;
 
@@ -41,7 +43,7 @@ public class EnchantmentMenu extends MenuBase {
 
         // Set up the enchantments. These are just a copy of all the enchantments in a list.
         enchantments = new ArrayList<>();
-        enchantments.addAll(SMPRPG.getInstance().getEnchantmentService().getCustomEnchantments());
+        enchantments.addAll(SMPRPG.getService(EnchantmentService.class).getCustomEnchantments());
     }
 
     @Override
@@ -91,14 +93,14 @@ public class EnchantmentMenu extends MenuBase {
             enchantmentDescription.add(ComponentUtils.EMPTY);
             enchantmentDescription.add(ComponentUtils.create("Conflicting Enchantments: "));
             for (TypedKey<Enchantment> conflict : enchantment.getConflictingEnchantments().values()) {
-                Enchantment conflictEnchant = SMPRPG.getInstance().getEnchantmentService().getEnchantment(conflict);
-                CustomEnchantment conflictEnchantWrapper = SMPRPG.getInstance().getEnchantmentService().getEnchantment(conflictEnchant);
+                Enchantment conflictEnchant = SMPRPG.getService(EnchantmentService.class).getEnchantment(conflict);
+                CustomEnchantment conflictEnchantWrapper = SMPRPG.getService(EnchantmentService.class).getEnchantment(conflictEnchant);
                 enchantmentDescription.add(ComponentUtils.merge(ComponentUtils.create("- "), conflictEnchantWrapper.getDisplayName().color(conflictEnchantWrapper.getEnchantColor())));
             }
         }
 
         enchantmentDescription.add(ComponentUtils.EMPTY);
-        boolean isUnlocked = SMPRPG.getInstance().getEntityService().getPlayerInstance(player).getMagicSkill().getLevel() >= enchantment.getSkillRequirement();
+        boolean isUnlocked = SMPRPG.getService(EntityService.class).getPlayerInstance(player).getMagicSkill().getLevel() >= enchantment.getSkillRequirement();
         enchantmentDescription.add(ComponentUtils.merge(ComponentUtils.create("Magic Skill Level Requirement: ", isUnlocked ? NamedTextColor.GRAY : NamedTextColor.RED), ComponentUtils.create(String.valueOf(enchantment.getSkillRequirement()), isUnlocked ? NamedTextColor.LIGHT_PURPLE : NamedTextColor.DARK_RED)));
 
         book.editMeta(meta -> {

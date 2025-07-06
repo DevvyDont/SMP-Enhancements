@@ -17,6 +17,7 @@ import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.gui.base.MenuBase;
 import xyz.devvydont.smprpg.listeners.EntityDamageCalculatorService;
 import xyz.devvydont.smprpg.services.AttributeService;
+import xyz.devvydont.smprpg.services.EntityService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.formatting.Symbols;
 
@@ -111,7 +112,7 @@ public class SubmenuStatOverview extends MenuBase {
 
                 var hpAttr = AttributeService.getInstance().getAttribute(this.target, AttributeWrapper.HEALTH);
                 var hp = hpAttr != null ? hpAttr.getValue() : 0;
-                var def = SMPRPG.getInstance().getEntityService().getEntityInstance(this.target).getDefense();
+                var def = SMPRPG.getService(EntityService.class).getEntityInstance(this.target).getDefense();
                 var ehp = EntityDamageCalculatorService.calculateEffectiveHealth(hp, def);
 
                 lore.add(ComponentUtils.EMPTY);

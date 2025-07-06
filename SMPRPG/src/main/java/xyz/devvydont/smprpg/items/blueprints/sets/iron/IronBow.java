@@ -68,7 +68,7 @@ public class IronBow extends CustomAttributeItem implements ICraftable, IBreakab
     @Override
     public Collection<ItemStack> unlockedBy() {
         return List.of(
-                SMPRPG.getInstance().getItemService().getCustomItem(Material.IRON_INGOT)
+                ItemService.generate(Material.IRON_INGOT)
         );
     }
 

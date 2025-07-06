@@ -1,36 +1,20 @@
 package xyz.devvydont.smprpg.services;
 
-import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.unstable.listeners.DamageParticleRemover;
 
+/**
+ * If ProtocolLib is required for a listener, then it should be handled here.
+ * The job of this service is to instantiate ProtocolLib packet handlers, hence the name "Unstable".
+ */
 public class UnstableListenersService implements IService {
 
-    final SMPRPG plugin;
-
-    public UnstableListenersService(SMPRPG plugin) {
-        this.plugin = plugin;
-    }
-
     @Override
-    public boolean setup() {
-
-        try {
-            new DamageParticleRemover(plugin);
-        } catch (Exception e) {
-            plugin.getLogger().warning("Failed to instantiate damage particle remover. - " + e.getMessage());
-            e.printStackTrace();
-            return false;
-        }
-        return true;
+    public void setup() throws RuntimeException {
+        new DamageParticleRemover();
     }
 
     @Override
     public void cleanup() {
 
-    }
-
-    @Override
-    public boolean required() {
-        return false;
     }
 }

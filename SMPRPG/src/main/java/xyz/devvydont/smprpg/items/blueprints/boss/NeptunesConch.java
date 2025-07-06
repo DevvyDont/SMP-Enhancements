@@ -29,6 +29,7 @@ import xyz.devvydont.smprpg.items.interfaces.IConsumable;
 import xyz.devvydont.smprpg.items.interfaces.ICraftable;
 import xyz.devvydont.smprpg.items.interfaces.IHeaderDescribable;
 import xyz.devvydont.smprpg.items.interfaces.ISellable;
+import xyz.devvydont.smprpg.services.ChatService;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
@@ -135,7 +136,7 @@ public class NeptunesConch extends CustomItemBlueprint implements IHeaderDescrib
         // Summon the boss!
         event.getPlayer().getWorld().playSound(event.getPlayer().getLocation(), Sound.ENTITY_ELDER_GUARDIAN_CURSE, 1, 1);
         Bukkit.broadcast(
-                ComponentUtils.alert(SMPRPG.getInstance().getChatService().getPlayerDisplay(event.getPlayer())
+                ComponentUtils.alert(SMPRPG.getService(ChatService.class).getPlayerDisplay(event.getPlayer())
                         .append(ComponentUtils.create(" summoned an ")))
                         .append(ComponentUtils.create("Elder Guardian", NamedTextColor.DARK_PURPLE))
                         .append(ComponentUtils.create("!"))

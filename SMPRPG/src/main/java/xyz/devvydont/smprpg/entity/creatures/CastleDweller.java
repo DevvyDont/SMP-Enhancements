@@ -9,6 +9,7 @@ import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.entity.CustomEntityType;
 import xyz.devvydont.smprpg.entity.base.CustomEntityInstance;
 import xyz.devvydont.smprpg.items.CustomItemType;
+import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.items.ChancedItemDrop;
 import xyz.devvydont.smprpg.util.items.LootDrop;
 
@@ -54,13 +55,13 @@ public class CastleDweller extends CustomEntityInstance<ZombieVillager> {
     @Override
     public @Nullable Collection<LootDrop> getItemDrops() {
         return List.of(
-                new ChancedItemDrop(_plugin.getItemService().getCustomItem(CustomItemType.MYSTBLOOM_HELMET), 400, this),
-                new ChancedItemDrop(_plugin.getItemService().getCustomItem(CustomItemType.MYSTBLOOM_CHESTPLATE), 425, this),
-                new ChancedItemDrop(_plugin.getItemService().getCustomItem(CustomItemType.MYSTBLOOM_LEGGINGS), 400, this),
-                new ChancedItemDrop(_plugin.getItemService().getCustomItem(CustomItemType.MYSTBLOOM_BOOTS), 390, this),
-                new ChancedItemDrop(_plugin.getItemService().getCustomItem(CustomItemType.MYSTBLOOM_KUNAI), 430, this),
-                new ChancedItemDrop(_plugin.getItemService().getCustomItem(Material.ROTTEN_FLESH), 3, this),
-                new ChancedItemDrop(_plugin.getItemService().getCustomItem(CustomItemType.STALE_BREAD), 3, this)
+                new ChancedItemDrop(ItemService.generate(CustomItemType.MYSTBLOOM_HELMET), 400, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.MYSTBLOOM_CHESTPLATE), 425, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.MYSTBLOOM_LEGGINGS), 400, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.MYSTBLOOM_BOOTS), 390, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.MYSTBLOOM_KUNAI), 430, this),
+                new ChancedItemDrop(ItemService.generate(Material.ROTTEN_FLESH), 3, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.STALE_BREAD), 3, this)
         );
     }
 }

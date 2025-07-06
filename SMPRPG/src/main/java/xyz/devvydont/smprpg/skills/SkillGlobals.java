@@ -2,7 +2,6 @@ package xyz.devvydont.smprpg.skills;
 
 import org.bukkit.attribute.AttributeModifier;
 import xyz.devvydont.smprpg.SMPRPG;
-import xyz.devvydont.smprpg.config.ConfigManager;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -12,7 +11,7 @@ import java.util.Map;
 public class SkillGlobals {
 
     public static int getMaxSkillLevel() {
-        return SMPRPG.getInstance().getConfig().getInt(ConfigManager.OPTION_MAX_LEVEL, 100);
+        return SMPRPG.getInstance().getConfig().getInt("max-skill-level", 100);
     }
 
     /**

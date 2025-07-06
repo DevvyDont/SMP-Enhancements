@@ -10,6 +10,7 @@ import xyz.devvydont.smprpg.entity.base.BossInstance;
 import xyz.devvydont.smprpg.entity.base.VanillaEntity;
 import xyz.devvydont.smprpg.entity.components.EntityConfiguration;
 import xyz.devvydont.smprpg.items.CustomItemType;
+import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.items.ChancedItemDrop;
 import xyz.devvydont.smprpg.util.items.LootDrop;
@@ -58,38 +59,38 @@ public class LeveledElderGuardian extends BossInstance<ElderGuardian> {
         return List.of(
 
                 // Drop pool from the normal guardians
-                new QuantityLootDrop(SMPRPG.getInstance().getItemService().getCustomItem(CustomItemType.SOGGY_LETTUCE), 1, 3, this),
+                new QuantityLootDrop(ItemService.generate(CustomItemType.SOGGY_LETTUCE), 1, 3, this),
 
-                new QuantityLootDrop(_plugin.getItemService().getCustomItem(Material.PRISMARINE_SHARD), 1, 2, this),
-                new QuantityLootDrop(_plugin.getItemService().getCustomItem(Material.PRISMARINE_CRYSTALS), 1, 2, this),
-                new ChancedItemDrop(_plugin.getItemService().getCustomItem(Material.DIAMOND), 5, this),
+                new QuantityLootDrop(ItemService.generate(Material.PRISMARINE_SHARD), 1, 2, this),
+                new QuantityLootDrop(ItemService.generate(Material.PRISMARINE_CRYSTALS), 1, 2, this),
+                new ChancedItemDrop(ItemService.generate(Material.DIAMOND), 5, this),
 
-                new ChancedItemDrop(_plugin.getItemService().getCustomItem(CustomItemType.PREMIUM_PRISMARINE_SHARD), 7, this),
-                new ChancedItemDrop(_plugin.getItemService().getCustomItem(CustomItemType.PREMIUM_PRISMARINE_CRYSTAL), 7, this),
-                new ChancedItemDrop(_plugin.getItemService().getCustomItem(CustomItemType.ENCHANTED_DIAMOND), 200, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.PREMIUM_PRISMARINE_SHARD), 7, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.PREMIUM_PRISMARINE_CRYSTAL), 7, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.ENCHANTED_DIAMOND), 200, this),
 
-                new ChancedItemDrop(_plugin.getItemService().getCustomItem(CustomItemType.ENCHANTED_PRISMARINE_SHARD), 95, this),
-                new ChancedItemDrop(_plugin.getItemService().getCustomItem(CustomItemType.ENCHANTED_PRISMARINE_CRYSTAL), 95, this),
-                new ChancedItemDrop(_plugin.getItemService().getCustomItem(CustomItemType.ENCHANTED_DIAMOND_BLOCK), 10_000, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.ENCHANTED_PRISMARINE_SHARD), 95, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.ENCHANTED_PRISMARINE_CRYSTAL), 95, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.ENCHANTED_DIAMOND_BLOCK), 10_000, this),
 
                 // Gear drops
-                new ChancedItemDrop(SMPRPG.getInstance().getItemService().getCustomItem(CustomItemType.NEPTUNE_HELMET), 125, this),
-                new ChancedItemDrop(SMPRPG.getInstance().getItemService().getCustomItem(CustomItemType.NEPTUNE_CHESTPLATE), 135, this),
-                new ChancedItemDrop(SMPRPG.getInstance().getItemService().getCustomItem(CustomItemType.NEPTUNE_LEGGINGS), 130, this),
-                new ChancedItemDrop(SMPRPG.getInstance().getItemService().getCustomItem(CustomItemType.NEPTUNE_BOOTS), 125, this),
-                new ChancedItemDrop(SMPRPG.getInstance().getItemService().getCustomItem(CustomItemType.NEPTUNE_TRIDENT), 145, this),
-                new ChancedItemDrop(SMPRPG.getInstance().getItemService().getCustomItem(CustomItemType.NEPTUNE_BOW), 145, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.NEPTUNE_HELMET), 125, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.NEPTUNE_CHESTPLATE), 135, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.NEPTUNE_LEGGINGS), 130, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.NEPTUNE_BOOTS), 125, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.NEPTUNE_TRIDENT), 145, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.NEPTUNE_BOW), 145, this),
 
                 // Pity drops
                 // Crafts into Jupiter crystal, need 8 to get 1 crystal
                 // Armor components, 24 required for full set from pity alone.
-                new ChancedItemDrop(SMPRPG.getInstance().getItemService().getCustomItem(CustomItemType.JUPITERS_ARTIFACT), 30, this),
-                new QuantityLootDrop(SMPRPG.getInstance().getItemService().getCustomItem(CustomItemType.JUPITER_CRYSTAL), 1, 1, this),
-                new ChancedItemDrop(SMPRPG.getInstance().getItemService().getCustomItem(CustomItemType.PLUTO_FRAGMENT), 3, this),
-                new ChancedItemDrop(SMPRPG.getInstance().getItemService().getCustomItem(CustomItemType.PLUTOS_ARTIFACT), 100, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.JUPITERS_ARTIFACT), 30, this),
+                new QuantityLootDrop(ItemService.generate(CustomItemType.JUPITER_CRYSTAL), 1, 1, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.PLUTO_FRAGMENT), 3, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.PLUTOS_ARTIFACT), 100, this),
 
                 // Rare chance to be able to summon it again
-                new ChancedItemDrop(SMPRPG.getInstance().getItemService().getCustomItem(CustomItemType.NEPTUNES_CONCH), 25, this)
+                new ChancedItemDrop(ItemService.generate(CustomItemType.NEPTUNES_CONCH), 25, this)
         );
     }
 }

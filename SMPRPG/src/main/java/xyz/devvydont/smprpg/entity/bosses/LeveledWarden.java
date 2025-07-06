@@ -9,6 +9,7 @@ import xyz.devvydont.smprpg.entity.base.BossInstance;
 import xyz.devvydont.smprpg.entity.base.VanillaEntity;
 import xyz.devvydont.smprpg.entity.components.EntityConfiguration;
 import xyz.devvydont.smprpg.items.CustomItemType;
+import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.items.ChancedItemDrop;
 import xyz.devvydont.smprpg.util.items.LootDrop;
@@ -61,13 +62,13 @@ public class LeveledWarden extends BossInstance<Warden> {
     @Override
     public @Nullable Collection<LootDrop> getItemDrops() {
         return List.of(
-                new ChancedItemDrop(_plugin.getItemService().getCustomItem(CustomItemType.PRELUDE_HELMET), 1000, this),
-                new ChancedItemDrop(_plugin.getItemService().getCustomItem(CustomItemType.PRELUDE_CHESTPLATE), 1000, this),
-                new ChancedItemDrop(_plugin.getItemService().getCustomItem(CustomItemType.PRELUDE_LEGGINGS), 1000, this),
-                new ChancedItemDrop(_plugin.getItemService().getCustomItem(CustomItemType.PRELUDE_BOOTS), 1000, this),
-                new ChancedItemDrop(_plugin.getItemService().getCustomItem(CustomItemType.PREMIUM_ECHO_SHARD), 80, this),
-                new ChancedItemDrop(_plugin.getItemService().getCustomItem(CustomItemType.ENCHANTED_ECHO_SHARD), 500, this),
-                new QuantityLootDrop(_plugin.getItemService().getCustomItem(Material.ECHO_SHARD), 2, 7, this)
+                new ChancedItemDrop(ItemService.generate(CustomItemType.PRELUDE_HELMET), 1000, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.PRELUDE_CHESTPLATE), 1000, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.PRELUDE_LEGGINGS), 1000, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.PRELUDE_BOOTS), 1000, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.PREMIUM_ECHO_SHARD), 80, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.ENCHANTED_ECHO_SHARD), 500, this),
+                new QuantityLootDrop(ItemService.generate(Material.ECHO_SHARD), 2, 7, this)
         );
     }
 }

@@ -35,15 +35,8 @@ public class ActionBarService implements IService, Listener {
         MISC
     }
 
-    private final SMPRPG plugin;
-
     private BukkitRunnable sendAllActionBarTask = null;
     private final Map<UUID, Map<ActionBarSource, ActionBarComponent>> components = new HashMap<>();
-
-    public ActionBarService(SMPRPG plugin) {
-        this.plugin = plugin;
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
-    }
 
     private Map<ActionBarSource, ActionBarComponent> getPlayerComponents(Player player) {
         Map<ActionBarSource, ActionBarComponent> playersComponents = this.components.get(player.getUniqueId());
@@ -81,8 +74,7 @@ public class ActionBarService implements IService, Listener {
     }
 
     private Component getHealthComponent(final Player player) {
-
-        LeveledPlayer leveledPlayer = plugin.getEntityService().getPlayerInstance(player);
+        var leveledPlayer = SMPRPG.getService(EntityService.class).getPlayerInstance(player);
         int hp = (int) Math.ceil(leveledPlayer.getTotalHp());
         int maxHP = (int) Math.ceil(leveledPlayer.getMaxHp());
         TextColor color = EntityGlobals.getChatColorFromHealth(hp, maxHP);
@@ -95,14 +87,15 @@ public class ActionBarService implements IService, Listener {
     private Component getDefenseComponent(final Player player) {
 
         // We need to calculate defense since it is not storable on the player
-        int def = plugin.getEntityService().getPlayerInstance(player).getDefense();
+        int def = SMPRPG.getService(EntityService.class).getPlayerInstance(player).getDefense();
         return ComponentUtils.create(def + "", NamedTextColor.DARK_GREEN)
                 .append(ComponentUtils.create(Symbols.SHIELD, NamedTextColor.GRAY));
 
     }
 
     private Component getManaComponent(final Player player) {
-        var playerWrapper = plugin.getEntityService().getPlayerInstance(player);
+        var plugin = SMPRPG.getInstance();
+        var playerWrapper = SMPRPG.getService(EntityService.class).getPlayerInstance(player);
         var mana = (int) Math.ceil(playerWrapper.getMana());
         var max = (int) Math.ceil(playerWrapper.getMaxMana());
 
@@ -115,7 +108,8 @@ public class ActionBarService implements IService, Listener {
     }
 
     private Component getPowerComponent(final Player player) {
-        LeveledPlayer p = plugin.getEntityService().getPlayerInstance(player);
+        var plugin = SMPRPG.getInstance();
+        LeveledPlayer p = SMPRPG.getService(EntityService.class).getPlayerInstance(player);
         return ComponentUtils.powerLevelPrefix(p.getLevel());
     }
 
@@ -123,7 +117,8 @@ public class ActionBarService implements IService, Listener {
 
         // Do not attempt to display leveled info about the player if the entity service is not tracking them.
         // Since this task is async, we don't want to force entity setup mechanisms.
-        if (!plugin.getEntityService().isTracking(player))
+        var plugin = SMPRPG.getInstance();
+        if (!SMPRPG.getService(EntityService.class).isTracking(player))
             return;
 
         // The component Will always have their health
@@ -160,7 +155,9 @@ public class ActionBarService implements IService, Listener {
 
 
     @Override
-    public boolean setup() {
+    public void setup() throws RuntimeException {
+
+        var plugin = SMPRPG.getInstance();
 
         if (sendAllActionBarTask != null)
             sendAllActionBarTask.cancel();
@@ -175,18 +172,12 @@ public class ActionBarService implements IService, Listener {
             }
         };
         sendAllActionBarTask.runTaskTimerAsynchronously(plugin, 1, UPDATE_FREQUENCY);
-        return true;
     }
 
     @Override
     public void cleanup() {
         if (sendAllActionBarTask != null)
             sendAllActionBarTask.cancel();
-    }
-
-    @Override
-    public boolean required() {
-        return true;
     }
 
     /**

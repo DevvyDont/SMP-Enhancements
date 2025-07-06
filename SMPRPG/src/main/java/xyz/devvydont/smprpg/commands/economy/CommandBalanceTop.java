@@ -11,6 +11,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.commands.CommandBase;
+import xyz.devvydont.smprpg.services.ChatService;
 import xyz.devvydont.smprpg.services.EconomyService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
@@ -46,9 +47,9 @@ public class CommandBalanceTop extends CommandBase {
                 // Retrieve every player that has ever played on the server
                 Map<UUID, PlayerBalanceEntry> allPlayers = new HashMap<>();
                 for (OfflinePlayer p : Bukkit.getOfflinePlayers())
-                    allPlayers.put(p.getUniqueId(), new PlayerBalanceEntry(p, SMPRPG.getInstance().getEconomyService().getMoney(p)));
+                    allPlayers.put(p.getUniqueId(), new PlayerBalanceEntry(p, SMPRPG.getService(EconomyService.class).getMoney(p)));
                 for (Player p : Bukkit.getOnlinePlayers())
-                    allPlayers.put(p.getUniqueId(), new PlayerBalanceEntry(p, SMPRPG.getInstance().getEconomyService().getMoney(p)));
+                    allPlayers.put(p.getUniqueId(), new PlayerBalanceEntry(p, SMPRPG.getService(EconomyService.class).getMoney(p)));
 
                 // Construct a sortable list of entries containing player information including their current balance
                 List<PlayerBalanceEntry> listOfPlayerBalances = new ArrayList<>(allPlayers.values().stream().toList());
@@ -77,7 +78,7 @@ public class CommandBalanceTop extends CommandBase {
                     if (rank > 10)
                         break;
 
-                    var name = SMPRPG.getInstance().getChatService().getPlayerDisplay(entry.player);
+                    var name = SMPRPG.getService(ChatService.class).getPlayerDisplay(entry.player);
                     output = output.append(ComponentUtils.merge(
                             ComponentUtils.create(String.format("#%d: ", rank), NamedTextColor.AQUA, TextDecoration.ITALIC),
                             name,

@@ -25,6 +25,9 @@ import xyz.devvydont.smprpg.events.skills.SkillExperienceGainEvent;
 import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
 import xyz.devvydont.smprpg.items.blueprints.vanilla.ItemEnchantedBook;
 import xyz.devvydont.smprpg.items.interfaces.IAttributeItem;
+import xyz.devvydont.smprpg.services.EnchantmentService;
+import xyz.devvydont.smprpg.services.EntityService;
+import xyz.devvydont.smprpg.services.ItemService;
 
 public class MagicExperienceListener implements Listener {
 
@@ -140,16 +143,16 @@ public class MagicExperienceListener implements Listener {
         int exp = event.getExpLevelCost() + 20;
 
         // Loop through every enchant and see how much magic experience it gives.
-        for (CustomEnchantment enchantment : plugin.getEnchantmentService().getCustomEnchantments(event.getEnchantsToAdd()))
+        for (CustomEnchantment enchantment : SMPRPG.getService(EnchantmentService.class).getCustomEnchantments(event.getEnchantsToAdd()))
             exp += enchantment.getMagicExperience();
 
         // Magic multiplier if the item has a power rating
         double multiplier = 1.0;
-        SMPItemBlueprint blueprint = plugin.getItemService().getBlueprint(event.getItem());
+        SMPItemBlueprint blueprint = SMPRPG.getService(ItemService.class).getBlueprint(event.getItem());
         if (blueprint instanceof IAttributeItem attributeable)
             multiplier += attributeable.getPowerRating() / 15.0;
 
-        LeveledPlayer player = plugin.getEntityService().getPlayerInstance(event.getEnchanter());
+        var player = SMPRPG.getService(EntityService.class).getPlayerInstance(event.getEnchanter());
         player.getMagicSkill().addExperience((int) (exp*multiplier), SkillExperienceGainEvent.ExperienceSource.ENCHANT);
     }
 
@@ -185,7 +188,7 @@ public class MagicExperienceListener implements Listener {
             return;
 
         // Determine experience
-        LeveledPlayer player = plugin.getEntityService().getPlayerInstance((Player) event.getWhoClicked());
+        LeveledPlayer player = SMPRPG.getService(EntityService.class).getPlayerInstance((Player) event.getWhoClicked());
         awardExperience(player, extracted, SkillExperienceGainEvent.ExperienceSource.BREW);
     }
 
@@ -210,7 +213,7 @@ public class MagicExperienceListener implements Listener {
             return;
 
         // Determine experience
-        LeveledPlayer player = plugin.getEntityService().getPlayerInstance((Player) event.getWhoClicked());
+        LeveledPlayer player = SMPRPG.getService(EntityService.class).getPlayerInstance((Player) event.getWhoClicked());
         awardExperience(player, extracted, SkillExperienceGainEvent.ExperienceSource.FORGE);
     }
     /**
@@ -230,7 +233,7 @@ public class MagicExperienceListener implements Listener {
 
         ItemStack result = event.getResult();
 
-        SMPItemBlueprint blueprint = plugin.getItemService().getBlueprint(result);
+        SMPItemBlueprint blueprint = SMPRPG.getService(ItemService.class).getBlueprint(result);
         int multiplier = 1;
         if (blueprint instanceof IAttributeItem attributeable)
             multiplier = attributeable.getPowerRating();
@@ -253,7 +256,7 @@ public class MagicExperienceListener implements Listener {
         if (exp <= 0)
             return;
 
-        LeveledPlayer player = plugin.getEntityService().getPlayerInstance(event.getPlayer());
+        LeveledPlayer player = SMPRPG.getService(EntityService.class).getPlayerInstance(event.getPlayer());
         player.getMagicSkill().addExperience(exp, SkillExperienceGainEvent.ExperienceSource.XP);
     }
 

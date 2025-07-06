@@ -10,11 +10,14 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemStack;
+import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.entity.CustomEntityType;
 import xyz.devvydont.smprpg.entity.components.DamageTracker;
 import xyz.devvydont.smprpg.entity.components.EntityConfiguration;
 import xyz.devvydont.smprpg.entity.interfaces.IDamageTrackable;
+import xyz.devvydont.smprpg.services.EntityService;
+import xyz.devvydont.smprpg.services.ItemService;
 
 /**
  * Can be used for enemies that don't have any special functionality defined in CustomEntityType.
@@ -90,7 +93,7 @@ public class CustomEntityInstance<T extends Entity> extends LeveledEntity<T> imp
     }
 
     public boolean isEntityOfType(Entity entity) {
-        return getEntityType().isOfType(_plugin.getEntityService(), entity);
+        return getEntityType().isOfType(SMPRPG.getService(EntityService.class), entity);
     }
 
     public boolean isEntity(Entity entity) {
@@ -104,7 +107,7 @@ public class CustomEntityInstance<T extends Entity> extends LeveledEntity<T> imp
             meta.addAttributeModifier(Attribute.ARMOR, new AttributeModifier(new NamespacedKey("smprpg", "dummy-attribute"), 0, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlotGroup.ANY));
             meta.addAttributeModifier(Attribute.ATTACK_DAMAGE, new AttributeModifier(new NamespacedKey("smprpg", "dummy-attribute"), 0, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlotGroup.ANY));
         });
-        _plugin.getItemService().setIgnoreMetaUpdate(item);
+        SMPRPG.getService(ItemService.class).setIgnoreMetaUpdate(item);
         return item;
     }
 

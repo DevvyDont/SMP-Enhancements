@@ -8,6 +8,7 @@ import xyz.devvydont.smprpg.entity.base.BossInstance;
 import xyz.devvydont.smprpg.entity.base.VanillaEntity;
 import xyz.devvydont.smprpg.entity.components.EntityConfiguration;
 import xyz.devvydont.smprpg.items.CustomItemType;
+import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.items.ChancedItemDrop;
 import xyz.devvydont.smprpg.util.items.LootDrop;
 import xyz.devvydont.smprpg.util.items.QuantityLootDrop;
@@ -60,12 +61,12 @@ public class LeveledDragon extends BossInstance<EnderDragon> {
     @Override
     public @Nullable Collection<LootDrop> getItemDrops() {
         return List.of(
-                new ChancedItemDrop(_plugin.getItemService().getCustomItem(CustomItemType.ELDERFLAME_HELMET), 500, this),
-                new ChancedItemDrop(_plugin.getItemService().getCustomItem(CustomItemType.ELDERFLAME_CHESTPLATE), 500, this),
-                new ChancedItemDrop(_plugin.getItemService().getCustomItem(CustomItemType.ELDERFLAME_LEGGINGS), 500, this),
-                new ChancedItemDrop(_plugin.getItemService().getCustomItem(CustomItemType.ELDERFLAME_BOOTS), 500, this),
-                new ChancedItemDrop(_plugin.getItemService().getCustomItem(CustomItemType.DRACONIC_CRYSTAL), 20, this),
-                new QuantityLootDrop(_plugin.getItemService().getCustomItem(CustomItemType.DRAGON_SCALES), 2, 7, this)
+                new ChancedItemDrop(ItemService.generate(CustomItemType.ELDERFLAME_HELMET), 500, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.ELDERFLAME_CHESTPLATE), 500, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.ELDERFLAME_LEGGINGS), 500, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.ELDERFLAME_BOOTS), 500, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.DRACONIC_CRYSTAL), 20, this),
+                new QuantityLootDrop(ItemService.generate(CustomItemType.DRAGON_SCALES), 2, 7, this)
         );
     }
 

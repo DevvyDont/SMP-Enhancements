@@ -7,6 +7,7 @@ import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.entity.CustomEntityType;
 import xyz.devvydont.smprpg.entity.base.CustomEntityInstance;
 import xyz.devvydont.smprpg.items.CustomItemType;
+import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.items.ChancedItemDrop;
 import xyz.devvydont.smprpg.util.items.LootDrop;
 
@@ -42,14 +43,14 @@ public class UndeadArcher<T extends LivingEntity> extends CustomEntityInstance<T
     @Override
     public @Nullable Collection<LootDrop> getItemDrops() {
         return List.of(
-                new ChancedItemDrop(_plugin.getItemService().getCustomItem(CustomItemType.MYSTBLOOM_HELMET), 390, this),
-                new ChancedItemDrop(_plugin.getItemService().getCustomItem(CustomItemType.MYSTBLOOM_CHESTPLATE), 415, this),
-                new ChancedItemDrop(_plugin.getItemService().getCustomItem(CustomItemType.MYSTBLOOM_LEGGINGS), 390, this),
-                new ChancedItemDrop(_plugin.getItemService().getCustomItem(CustomItemType.MYSTBLOOM_BOOTS), 380, this),
-                new ChancedItemDrop(_plugin.getItemService().getCustomItem(CustomItemType.MYSTBLOOM_KUNAI), 420, this),
-                new ChancedItemDrop(_plugin.getItemService().getCustomItem(Material.BONE), 2, this),
-                new ChancedItemDrop(_plugin.getItemService().getCustomItem(Material.COOKIE), 2, this),
-                new ChancedItemDrop(_plugin.getItemService().getCustomItem(Material.ARROW), 2, this)
+                new ChancedItemDrop(ItemService.generate(CustomItemType.MYSTBLOOM_HELMET), 390, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.MYSTBLOOM_CHESTPLATE), 415, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.MYSTBLOOM_LEGGINGS), 390, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.MYSTBLOOM_BOOTS), 380, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.MYSTBLOOM_KUNAI), 420, this),
+                new ChancedItemDrop(ItemService.generate(Material.BONE), 2, this),
+                new ChancedItemDrop(ItemService.generate(Material.COOKIE), 2, this),
+                new ChancedItemDrop(ItemService.generate(Material.ARROW), 2, this)
         );
     }
 }

@@ -16,6 +16,7 @@ import org.bukkit.inventory.ItemStack;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.player.LeveledPlayer;
 import xyz.devvydont.smprpg.events.skills.SkillExperienceGainEvent;
+import xyz.devvydont.smprpg.services.EntityService;
 import xyz.devvydont.smprpg.skills.SkillInstance;
 import xyz.devvydont.smprpg.util.world.ChunkUtil;
 
@@ -98,7 +99,7 @@ public class FarmingExperienceListener implements Listener {
         for (ItemStack item : event.getItemsHarvested())
             exp += getExperienceValue(item);
 
-        LeveledPlayer player = plugin.getEntityService().getPlayerInstance(event.getPlayer());
+        LeveledPlayer player = SMPRPG.getService(EntityService.class).getPlayerInstance(event.getPlayer());
         player.getFarmingSkill().addExperience(exp, SkillExperienceGainEvent.ExperienceSource.HARVEST);
     }
 
@@ -143,7 +144,7 @@ public class FarmingExperienceListener implements Listener {
             if (ageable.getMaximumAge() != ageable.getAge())
                 return;
 
-        LeveledPlayer player = plugin.getEntityService().getPlayerInstance(event.getPlayer());
+        var player = SMPRPG.getService(EntityService.class).getPlayerInstance(event.getPlayer());
         player.getFarmingSkill().addExperience(exp, SkillExperienceGainEvent.ExperienceSource.HARVEST);
     }
 
@@ -185,7 +186,7 @@ public class FarmingExperienceListener implements Listener {
 
         // We are going to manually break all the blocks.
         event.setCancelled(true);
-        SkillInstance farming = plugin.getEntityService().getPlayerInstance(event.getPlayer()).getFarmingSkill();
+        SkillInstance farming = SMPRPG.getService(EntityService.class).getPlayerInstance(event.getPlayer()).getFarmingSkill();
         ItemStack tool = event.getPlayer().getInventory().getItemInMainHand();
 
         // Loop through every block above this and do the same a certain amount of ticks later

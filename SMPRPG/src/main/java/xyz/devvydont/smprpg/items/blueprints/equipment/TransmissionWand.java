@@ -23,6 +23,7 @@ import xyz.devvydont.smprpg.items.interfaces.ICraftable;
 import xyz.devvydont.smprpg.items.interfaces.IHeaderDescribable;
 import xyz.devvydont.smprpg.items.interfaces.IModelOverridden;
 import xyz.devvydont.smprpg.services.ActionBarService;
+import xyz.devvydont.smprpg.services.EntityService;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.formatting.Symbols;
@@ -197,9 +198,9 @@ public class TransmissionWand extends CustomAttributeItem implements IHeaderDesc
             return;
 
         // Enough mana?
-        var player = SMPRPG.getInstance().getEntityService().getPlayerInstance(event.getPlayer());
+        var player = SMPRPG.getService(EntityService.class).getPlayerInstance(event.getPlayer());
         if (player.getMana() < COST) {
-            SMPRPG.getInstance().getActionBarService().addActionBarComponent(event.getPlayer(), ActionBarService.ActionBarSource.MISC, ComponentUtils.create("NO MANA", NamedTextColor.RED), 1);
+            SMPRPG.getService(ActionBarService.class).addActionBarComponent(event.getPlayer(), ActionBarService.ActionBarSource.MISC, ComponentUtils.create("NO MANA", NamedTextColor.RED), 1);
             event.getPlayer().playSound(event.getPlayer().getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, .3f, .5f);
             return;
         }
@@ -214,7 +215,7 @@ public class TransmissionWand extends CustomAttributeItem implements IHeaderDesc
         if (!this.doPlayerTeleport(event.getPlayer()))
             return;
         player.useMana(COST);
-        SMPRPG.getInstance().getActionBarService().addActionBarComponent(event.getPlayer(),
+        SMPRPG.getService(ActionBarService.class).addActionBarComponent(event.getPlayer(),
                 ActionBarService.ActionBarSource.MISC,
                 ComponentUtils.merge(ComponentUtils.create("Instant Transmission!", NamedTextColor.GOLD), ComponentUtils.SPACE, ComponentUtils.create("-" + COST + Symbols.MANA, NamedTextColor.AQUA)),
                 1);

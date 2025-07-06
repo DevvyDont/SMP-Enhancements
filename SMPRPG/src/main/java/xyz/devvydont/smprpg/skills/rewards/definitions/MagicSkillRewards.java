@@ -3,6 +3,7 @@ package xyz.devvydont.smprpg.skills.rewards.definitions;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.enchantments.CustomEnchantment;
+import xyz.devvydont.smprpg.services.EnchantmentService;
 import xyz.devvydont.smprpg.skills.SkillGlobals;
 import xyz.devvydont.smprpg.skills.rewards.AttributeReward;
 import xyz.devvydont.smprpg.skills.rewards.CoinReward;
@@ -17,7 +18,7 @@ public class MagicSkillRewards extends SkillRewardContainer {
     public void initializeRewards() {
 
         // Loop through all the enchantments in the game. Add the enchantment unlock to the rewards
-        for (CustomEnchantment enchantment : SMPRPG.getInstance().getEnchantmentService().getCustomEnchantments())
+        for (CustomEnchantment enchantment : SMPRPG.getService(EnchantmentService.class).getCustomEnchantments())
             if (enchantment.getSkillRequirement() > 0)
                 addReward(enchantment.getSkillRequirement(), new EnchantmentSkillReward(enchantment));
 

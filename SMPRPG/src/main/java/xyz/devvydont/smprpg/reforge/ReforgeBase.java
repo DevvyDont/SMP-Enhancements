@@ -45,7 +45,7 @@ public abstract class ReforgeBase implements Keyed, IAttributeContainer {
     }
 
     protected ItemService getItemService() {
-        return SMPRPG.getInstance().getItemService();
+        return SMPRPG.getService(ItemService.class);
     }
 
     @Override
@@ -147,7 +147,7 @@ public abstract class ReforgeBase implements Keyed, IAttributeContainer {
      * @return true if the item has this reforge, false otherwise
      */
     public boolean hasReforge(ItemStack item) {
-        ReforgeBase applied = SMPRPG.getInstance().getItemService().getReforge(item);
+        ReforgeBase applied = SMPRPG.getService(ItemService.class).getReforge(item);
         if (applied == null)
             return false;
 

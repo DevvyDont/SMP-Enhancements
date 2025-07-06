@@ -37,23 +37,13 @@ public class AttributeService implements IService, Listener {
     public static final NamespacedKey ATTRIBUTE_MODIFIERS_KEY = new NamespacedKey("smprpg", "custom_modifiers");
 
     @Override
-    public boolean setup() {
-        SMPRPG.getInstance().getServer().getPluginManager().registerEvents(this, SMPRPG.getInstance());
-
-        // Register listeners related to attribute management.
-
+    public void setup() throws RuntimeException {
         // Listener to apply/remove custom attributes.
         SMPRPG.getInstance().getServer().getPluginManager().registerEvents(new AttributeApplyListener(), SMPRPG.getInstance());
-        return true;
     }
 
     @Override
     public void cleanup() {
-    }
-
-    @Override
-    public boolean required() {
-        return true;
     }
 
     /**
@@ -86,7 +76,7 @@ public class AttributeService implements IService, Listener {
      * @return The AttributeService singleton to be used as an API.
      */
     public static AttributeService getInstance() {
-        return SMPRPG.getInstance().getAttributeService();
+        return SMPRPG.getService(AttributeService.class);
     }
 
     /**

@@ -81,7 +81,7 @@ public class ExperienceGainNotifier implements Listener {
                 .append(ComponentUtils.create(" (+" + MinecraftStringUtils.formatNumber(event.getSkill().getCombo()) + ")", NamedTextColor.GOLD));
 
         // Send the player an action bar of their experience progress
-        plugin.getActionBarService().addActionBarComponent(event.getPlayer(), ActionBarService.ActionBarSource.SKILL, component, 5);
+        SMPRPG.getService(ActionBarService.class).addActionBarComponent(event.getPlayer(), ActionBarService.ActionBarSource.SKILL, component, 5);
         event.getPlayer().playSound(event.getPlayer().getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, .15f, 2);
     }
 

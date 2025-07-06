@@ -50,40 +50,28 @@ public class EntityService implements IService, Listener {
     public static final String ENTITY_CLASS_KEY = "entity-class";
     public static final String LEVEL_KEY_STRING = "level";
 
-    private final SMPRPG plugin;
-
     private final Map<UUID, LeveledEntity<?>> entityInstances;
     private final Map<String, CustomEntityType> entityResolver;
     private final Map<EntityType, Class<? extends LeveledEntity<?>>> vanillaEntityHandlers;
 
     private BukkitTask wellnessCheckTask = null;
 
-    public static NamespacedKey getClassNamespacedKey(SMPRPG plugin) {
-        return new NamespacedKey(plugin, ENTITY_CLASS_KEY);
+    public static NamespacedKey getClassNamespacedKey() {
+        return new NamespacedKey(SMPRPG.getInstance(), ENTITY_CLASS_KEY);
     }
 
-    public NamespacedKey getClassNamespacedKey() {
-        return getClassNamespacedKey(plugin);
+    public static NamespacedKey getLevelNamespacedKey() {
+        return new NamespacedKey(SMPRPG.getInstance(), LEVEL_KEY_STRING);
     }
 
-    public static NamespacedKey getLevelNamespacedKey(SMPRPG plugin) {
-        return new NamespacedKey(plugin, LEVEL_KEY_STRING);
-    }
-
-    public NamespacedKey getLevelNamespacedKey() {
-        return getLevelNamespacedKey(plugin);
-    }
-
-    public EntityService(SMPRPG plugin) {
-        this.plugin = plugin;
+    public EntityService() {
         this.entityInstances = new HashMap<>();
         this.entityResolver = new HashMap<>();
         this.vanillaEntityHandlers = new HashMap<>();
     }
 
     @Override
-    public boolean setup() {
-        plugin.getLogger().info("Setting up Entity Service");
+    public void setup() throws RuntimeException {
 
         // Start tracking playtime.
         PlaytimeTracker.start();
@@ -91,6 +79,7 @@ public class EntityService implements IService, Listener {
         for (CustomEntityType customEntityType : CustomEntityType.values())
             entityResolver.put(customEntityType.key(), customEntityType);
 
+        var plugin = SMPRPG.getInstance();
         plugin.getLogger().info(String.format("Registered %s custom entity types", entityResolver.size()));
 
         vanillaEntityHandlers.put(EntityType.ZOMBIE, LeveledZombie.class);
@@ -126,8 +115,6 @@ public class EntityService implements IService, Listener {
         hpObjective.setDisplaySlot(DisplaySlot.BELOW_NAME);
         hpObjective.setAutoUpdateDisplay(true);
 
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
-
         // Initialize entities that are already loaded
 
         for (var world : Bukkit.getWorlds())
@@ -155,8 +142,6 @@ public class EntityService implements IService, Listener {
                     entityInstances.remove(id);
             }
         }.runTaskTimer(plugin, 5*60*20, 5*60*20);
-
-        return true;
     }
 
 
@@ -166,11 +151,6 @@ public class EntityService implements IService, Listener {
             entity.cleanup();
         entityInstances.clear();
         wellnessCheckTask.cancel();
-    }
-
-    @Override
-    public boolean required() {
-        return false;
     }
 
     /**
@@ -201,7 +181,7 @@ public class EntityService implements IService, Listener {
             trackEntity(ret);
             return ret;
         } catch (InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException e) {
-            plugin.getLogger().severe(String.format("Failed to instantiate vanilla class handler %s for entity type %s. Ensure that a constructor exists using the %s class as a parameter.", handler.getName(), entity.getType(), entity.getType().getEntityClass()));
+            SMPRPG.getInstance().getLogger().severe(String.format("Failed to instantiate vanilla class handler %s for entity type %s. Ensure that a constructor exists using the %s class as a parameter.", handler.getName(), entity.getType(), entity.getType().getEntityClass()));
             ret =  new VanillaEntity<>(entity);
             ret.updateAttributes();
             trackEntity(ret);
@@ -226,7 +206,7 @@ public class EntityService implements IService, Listener {
 
         // Is this a player? We use a pretty barebones instance for players for least amount of interference possible
         if (entity instanceof Player player) {
-            LeveledPlayer leveledPlayer = new LeveledPlayer(plugin, player);
+            LeveledPlayer leveledPlayer = new LeveledPlayer(SMPRPG.getInstance(), player);
             trackEntity(leveledPlayer);
             return leveledPlayer;
         }
@@ -280,7 +260,7 @@ public class EntityService implements IService, Listener {
         removeEntity(entity.getEntity().getUniqueId());
         entityInstances.put(entity.getEntity().getUniqueId(), entity);
         if (entity instanceof Listener listener)
-            plugin.getServer().getPluginManager().registerEvents(listener, plugin);
+            SMPRPG.getInstance().getServer().getPluginManager().registerEvents(listener, SMPRPG.getInstance());
         entity.setup();
     }
 
@@ -312,14 +292,15 @@ public class EntityService implements IService, Listener {
 
         // If this entity is holding/wearing anything, we need to fix their items to have proper stats
         var equipment = event.getEntity().getEquipment();
+        var plugin = SMPRPG.getInstance();
         if (equipment != null) {
-            equipment.setHelmet(plugin.getItemService().ensureItemStackUpdated(equipment.getHelmet()));
-            equipment.setChestplate(plugin.getItemService().ensureItemStackUpdated(equipment.getChestplate()));
-            equipment.setLeggings(plugin.getItemService().ensureItemStackUpdated(equipment.getLeggings()));
-            equipment.setBoots(plugin.getItemService().ensureItemStackUpdated(equipment.getBoots()));
+            equipment.setHelmet(SMPRPG.getService(ItemService.class).ensureItemStackUpdated(equipment.getHelmet()));
+            equipment.setChestplate(SMPRPG.getService(ItemService.class).ensureItemStackUpdated(equipment.getChestplate()));
+            equipment.setLeggings(SMPRPG.getService(ItemService.class).ensureItemStackUpdated(equipment.getLeggings()));
+            equipment.setBoots(SMPRPG.getService(ItemService.class).ensureItemStackUpdated(equipment.getBoots()));
 
-            equipment.setItemInMainHand(plugin.getItemService().ensureItemStackUpdated(equipment.getItemInMainHand()));
-            equipment.setItemInOffHand(plugin.getItemService().ensureItemStackUpdated(equipment.getItemInOffHand()));
+            equipment.setItemInMainHand(SMPRPG.getService(ItemService.class).ensureItemStackUpdated(equipment.getItemInMainHand()));
+            equipment.setItemInOffHand(SMPRPG.getService(ItemService.class).ensureItemStackUpdated(equipment.getItemInOffHand()));
         }
     }
 
@@ -349,7 +330,7 @@ public class EntityService implements IService, Listener {
         // Fix every item in their inventory
         for (var item : event.getPlayer().getInventory().getContents())
             if (item != null && !item.getType().equals(Material.AIR))
-                plugin.getItemService().ensureItemStackUpdated(item);
+                SMPRPG.getService(ItemService.class).ensureItemStackUpdated(item);
 
         // Store first joined. No checking necessary.
         PlaytimeTracker.setFirstSeenIfNotPresent(event.getPlayer());
@@ -384,7 +365,7 @@ public class EntityService implements IService, Listener {
             public void run() {
                 leveled.updateNametag();
             }
-        }.runTaskLater(plugin, 1L);
+        }.runTaskLater(SMPRPG.getInstance(), 1L);
     }
 
     // Handle nametag updates and Damage popups for healing events
@@ -404,7 +385,7 @@ public class EntityService implements IService, Listener {
             public void run() {
                 leveled.updateNametag();
             }
-        }.runTaskLater(plugin, 1L);
+        }.runTaskLater(SMPRPG.getInstance(), 1L);
 
     }
 
@@ -425,7 +406,7 @@ public class EntityService implements IService, Listener {
             public void run() {
                 leveled.updateNametag();
             }
-        }.runTaskLater(plugin, 1L);
+        }.runTaskLater(SMPRPG.getInstance(), 1L);
     }
 
     // Handle nametag updates when we switch the item in our hand
@@ -437,7 +418,7 @@ public class EntityService implements IService, Listener {
             public void run() {
                 leveled.updateNametag();
             }
-        }.runTaskLater(plugin, 1L);
+        }.runTaskLater(SMPRPG.getInstance(), 1L);
     }
 
     // Handle nametag updates when we switch armor we are wearing
@@ -449,7 +430,7 @@ public class EntityService implements IService, Listener {
             public void run() {
                 leveled.updateNametag();
             }
-        }.runTaskLater(plugin, 1L);
+        }.runTaskLater(SMPRPG.getInstance(), 1L);
     }
 
     @EventHandler(priority = EventPriority.MONITOR)

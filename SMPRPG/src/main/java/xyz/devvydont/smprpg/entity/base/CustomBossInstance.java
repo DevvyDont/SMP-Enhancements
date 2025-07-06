@@ -5,9 +5,11 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.jetbrains.annotations.Nullable;
+import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.entity.CustomEntityType;
 import xyz.devvydont.smprpg.entity.components.EntityConfiguration;
+import xyz.devvydont.smprpg.services.EntityService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 public class CustomBossInstance<T extends LivingEntity> extends BossInstance<T> {
@@ -61,7 +63,7 @@ public class CustomBossInstance<T extends LivingEntity> extends BossInstance<T> 
     }
 
     public boolean isEntityOfType(Entity entity) {
-        return type.isOfType(_plugin.getEntityService(), entity);
+        return type.isOfType(SMPRPG.getService(EntityService.class), entity);
     }
 
     public boolean isEntity(Entity entity) {

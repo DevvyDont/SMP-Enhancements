@@ -87,7 +87,7 @@ public abstract class SpecialEffectTask extends BukkitRunnable {
     }
 
     public void sendActionBar(int seconds) {
-        SMPRPG.getInstance().getActionBarService().addActionBarComponent(_player, ActionBarService.ActionBarSource.AILMENT, generateComponent(seconds), 2);
+        SMPRPG.getService(ActionBarService.class).addActionBarComponent(_player, ActionBarService.ActionBarSource.AILMENT, generateComponent(seconds), 2);
     }
 
     @Override

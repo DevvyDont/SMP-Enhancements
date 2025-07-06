@@ -54,7 +54,7 @@ public class CommandEcoAdmin extends CommandBase {
             return;
         }
 
-        EconomyService economyService = SMPRPG.getInstance().getEconomyService();
+        var economyService = SMPRPG.getService(EconomyService.class);
         boolean success = false;
         if (subcommand.equalsIgnoreCase("add"))
             success = economyService.addMoney(target, amount);

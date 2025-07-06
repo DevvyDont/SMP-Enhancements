@@ -14,7 +14,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
@@ -40,7 +39,10 @@ import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.SMPItemQuery;
-import xyz.devvydont.smprpg.items.base.*;
+import xyz.devvydont.smprpg.items.base.ChargedItemBlueprint;
+import xyz.devvydont.smprpg.items.base.CustomItemBlueprint;
+import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
+import xyz.devvydont.smprpg.items.base.VanillaItemBlueprint;
 import xyz.devvydont.smprpg.items.blueprints.resources.VanillaResource;
 import xyz.devvydont.smprpg.items.blueprints.vanilla.*;
 import xyz.devvydont.smprpg.items.interfaces.*;
@@ -55,6 +57,7 @@ import xyz.devvydont.smprpg.util.crafting.MaterialWrapper;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.formatting.MinecraftStringUtils;
 import xyz.devvydont.smprpg.util.formatting.Symbols;
+import xyz.devvydont.smprpg.util.listeners.ToggleableListener;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
@@ -75,7 +78,7 @@ public class ItemService implements IService, Listener {
      * @return an ItemStack instance freshly generated of the type desired
      */
     public static ItemStack generate(CustomItemType type) {
-        return SMPRPG.getInstance().getItemService().getCustomItem(type);
+        return SMPRPG.getService(ItemService.class).getCustomItem(type);
     }
 
     /**
@@ -85,7 +88,7 @@ public class ItemService implements IService, Listener {
      * @return An ItemStack instance freshly generated of the vanilla material desired
      */
     public static ItemStack generate(Material material) {
-        return SMPRPG.getInstance().getItemService().getCustomItem(material);
+        return SMPRPG.getService(ItemService.class).getCustomItem(material);
     }
 
     /**
@@ -94,12 +97,11 @@ public class ItemService implements IService, Listener {
      * @return The blueprint.
      */
     public static SMPItemBlueprint blueprint(ItemStack item) {
-        return SMPRPG.getInstance().getItemService().getBlueprint(item);
+        return SMPRPG.getService(ItemService.class).getBlueprint(item);
     }
 
     // End shortcut static methods
 
-    SMPRPG plugin;
     public final NamespacedKey ITEM_VERSION_KEY;
     public final NamespacedKey ITEM_TYPE_KEY;
     public final NamespacedKey REFORGE_TYPE_KEY;
@@ -113,13 +115,14 @@ public class ItemService implements IService, Listener {
 
     private final List<Recipe> registeredRecipes;
 
-    private final List<Listener> listeners;
+    private final List<ToggleableListener> listeners;
 
     private final Map<Material, List<NamespacedKey>> materialToRecipeUnlocks = new HashMap<>();
     private final Map<CustomItemType, List<NamespacedKey>> customItemToRecipeUnlocks = new HashMap<>();
 
-    public ItemService(SMPRPG plugin) {
-        this.plugin = plugin;
+    public ItemService() {
+
+        var plugin = SMPRPG.getInstance();
         ITEM_VERSION_KEY = new NamespacedKey(plugin, "item-version");
         ITEM_TYPE_KEY = new NamespacedKey(plugin, "item-type");
         REFORGE_TYPE_KEY = new NamespacedKey(plugin, "reforge");
@@ -132,54 +135,16 @@ public class ItemService implements IService, Listener {
 
         registeredRecipes = new ArrayList<>();
 
-        registerListeners();
-    }
-
-    /*
-     * Registers listeners associated with custom items. This is for things such as abilities, shield blocking, etc.
-     */
-    private void registerListeners() {
-        cleanupListeners();
-
         listeners.add(new ShieldBlockingListener());
         listeners.add(new ExperienceBottleListener());
         listeners.add(new BackpackInteractionListener());
-
-        // Register all the listeners.
-        for (Listener listener : listeners)
-            plugin.getServer().getPluginManager().registerEvents(listener, plugin);
-    }
-
-    /*
-     * Tells all the listeners to stop functioning
-     */
-    private void cleanupListeners() {
-        for (Listener listener : listeners)
-            HandlerList.unregisterAll(listener);
-        listeners.clear();
-    }
-
-    /**
-     * Used to count recipes registered on the server, mostly used for logging when this service starts
-     *
-     * @return How many recipes are registered.
-     */
-    private int countRecipes() {
-        int n = 0;
-        Iterator<Recipe> recipeIterator = plugin.getServer().recipeIterator();
-        while (recipeIterator.hasNext()) {
-            n++;
-            recipeIterator.next();
-        }
-        return n;
     }
 
     @Override
-    public boolean setup() {
-        plugin.getLogger().info("Setting up Item Service");
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
-
+    public void setup() throws RuntimeException {
         registerReforges();
+
+        var plugin = SMPRPG.getInstance();
         plugin.getLogger().info(String.format("Successfully registered %d reforges", reforges.size()));
 
         int recipeCount = countRecipes();
@@ -195,12 +160,16 @@ public class ItemService implements IService, Listener {
         plugin.getLogger().info(String.format("Successfully registered %d compression recipes", postCompressionRecipeCount-preCompressionRecipeCount));
 
         Bukkit.updateRecipes();
-        return true;
+
+        // Make the listeners start working.
+        for (var listener : listeners)
+            listener.start();
     }
 
     @Override
     public void cleanup() {
 
+        var plugin = SMPRPG.getInstance();
         plugin.getLogger().info("Cleaning up ItemService");
 
         // Unregister all the custom recipes.
@@ -213,13 +182,25 @@ public class ItemService implements IService, Listener {
                     plugin.getServer().removeRecipe(key);
         }
 
-        // Tell all the listeners to stop doing things.
-        cleanupListeners();
+        // Make the listeners stop functioning.
+        for (var listener : listeners)
+            listener.stop();
     }
 
-    @Override
-    public boolean required() {
-        return false;
+    /**
+     * Used to count recipes registered on the server, mostly used for logging when this service starts
+     *
+     * @return How many recipes are registered.
+     */
+    private int countRecipes() {
+        var plugin = SMPRPG.getInstance();
+        int n = 0;
+        Iterator<Recipe> recipeIterator = plugin.getServer().recipeIterator();
+        while (recipeIterator.hasNext()) {
+            n++;
+            recipeIterator.next();
+        }
+        return n;
     }
 
     private void registerCustomItems() {
@@ -315,6 +296,7 @@ public class ItemService implements IService, Listener {
         for (Map.Entry<Material, Integer> entry : VanillaResource.getMaterialWorthMap().entrySet())
             registerVanillaMaterialResolver(entry.getKey(), VanillaResource.class);
 
+        var plugin = SMPRPG.getInstance();
         // Loop through all the custom items and use reflection to register a handler
         for (CustomItemType customItemType : CustomItemType.values()) {
 
@@ -387,6 +369,7 @@ public class ItemService implements IService, Listener {
     }
 
     private void registerReforges() {
+        var plugin = SMPRPG.getInstance();
         for (ReforgeType reforgeType : ReforgeType.values()) {
             ReforgeBase handler = reforgeType.createHandler();
             if (handler instanceof Listener)
@@ -396,6 +379,7 @@ public class ItemService implements IService, Listener {
     }
 
     private VanillaItemBlueprint registerVanillaMaterialResolver(Material material, Class<? extends VanillaItemBlueprint> wrapper) {
+        var plugin = SMPRPG.getInstance();
         plugin.getLogger().finest(String.format("Assigned vanilla material %s with wrapper class %s", material.name(), wrapper.getName()));
 
         if (vanillaBlueprintResolver.containsKey(material))
@@ -417,6 +401,7 @@ public class ItemService implements IService, Listener {
     }
 
     private void registerCustomItem(CustomItemBlueprint blueprint) {
+        var plugin = SMPRPG.getInstance();
         plugin.getLogger().finest(String.format("Registering custom item %s {key=%s}", blueprint.getCustomItemType().ItemName, blueprint.getCustomItemType().getKey()));
 
         blueprints.put(blueprint.getCustomItemType(), blueprint);
@@ -1125,7 +1110,7 @@ public class ItemService implements IService, Listener {
             public void run() {
                 ensureItemStackUpdated(e.getItem());
             }
-        }.runTaskLater(plugin, 0L);
+        }.runTaskLater(SMPRPG.getInstance(), 0L);
 
 
     }
@@ -1141,7 +1126,7 @@ public class ItemService implements IService, Listener {
                 ensureItemStackUpdated(event.getPlayer().getInventory().getItemInMainHand());
                 ensureItemStackUpdated(event.getPlayer().getInventory().getItemInOffHand());
             }
-        }.runTaskLater(plugin, 0L);
+        }.runTaskLater(SMPRPG.getInstance(), 0L);
     }
 
     /**
@@ -1157,7 +1142,7 @@ public class ItemService implements IService, Listener {
             public void run() {
                 ensureItemStackUpdated(event.getPlayer().getInventory().getItemInMainHand());
             }
-        }.runTaskLater(plugin, 0L);
+        }.runTaskLater(SMPRPG.getInstance(), 0L);
     }
 
     @EventHandler
@@ -1178,7 +1163,7 @@ public class ItemService implements IService, Listener {
                 for (ItemStack item : gear)
                     ensureItemStackUpdated(item);
             }
-        }.runTaskLater(plugin, 0L);
+        }.runTaskLater(SMPRPG.getInstance(), 0L);
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)

@@ -104,7 +104,7 @@ public class TelekinesisBlessing extends CustomEnchantment implements Listener {
     private boolean performTelekinesis(ItemStack item) {
 
         // Does this item have an owner?
-        UUID ownerID = SMPRPG.getInstance().getDropsService().getOwner(item);
+        UUID ownerID = SMPRPG.getService(DropsService.class).getOwner(item);
         if (ownerID == null)
             return false;
 
@@ -114,7 +114,7 @@ public class TelekinesisBlessing extends CustomEnchantment implements Listener {
             return false;
 
         // Is this item marked with the "loot" tag?
-        DropsService.DropFlag flag = SMPRPG.getInstance().getDropsService().getFlag(item);
+        DropsService.DropFlag flag = SMPRPG.getService(DropsService.class).getFlag(item);
         if (!flag.equals(DropsService.DropFlag.LOOT))
             return false;
 
@@ -128,14 +128,14 @@ public class TelekinesisBlessing extends CustomEnchantment implements Listener {
 
         // Do we have an empty spot in our inventory?
         if (owner.getInventory().firstEmpty() == -1) {
-            SMPRPG.getInstance().getActionBarService().addActionBarComponent(owner, ActionBarService.ActionBarSource.MISC, ComponentUtils.create("FULL INVENTORY!", NamedTextColor.RED), 2);
+            SMPRPG.getService(ActionBarService.class).addActionBarComponent(owner, ActionBarService.ActionBarSource.MISC, ComponentUtils.create("FULL INVENTORY!", NamedTextColor.RED), 2);
             owner.playSound(owner.getLocation(), Sound.BLOCK_CHEST_OPEN, .25f, 2f);
             return false;
         }
 
         // We have telekinesis and this drop belongs to us. Attempt to add it
         ItemStack drop = item.clone();
-        SMPRPG.getInstance().getDropsService().removeAllTags(drop);
+        SMPRPG.getService(DropsService.class).removeAllTags(drop);
         Map<Integer, ItemStack> overflow = owner.getInventory().addItem(drop);
         owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_ITEM_PICKUP, .25f, 1.75f);
 
@@ -146,7 +146,7 @@ public class TelekinesisBlessing extends CustomEnchantment implements Listener {
         // We have overflow items, go ahead and spawn the items back into the world but with an alternative tag so that
         // we ignore this item when it drops.
         for (Map.Entry<Integer, ItemStack> entry : overflow.entrySet()) {
-            entry.getValue().editMeta(meta -> SMPRPG.getInstance().getDropsService().setFlag(meta, DropsService.DropFlag.TELEKINESIS_FAIL));
+            entry.getValue().editMeta(meta -> SMPRPG.getService(DropsService.class).setFlag(meta, DropsService.DropFlag.TELEKINESIS_FAIL));
             owner.getWorld().dropItemNaturally(owner.getEyeLocation(), entry.getValue());
         }
 

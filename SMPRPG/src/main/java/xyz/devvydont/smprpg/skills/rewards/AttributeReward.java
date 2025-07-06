@@ -10,6 +10,7 @@ import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.entity.player.ProfileDifficulty;
 import xyz.devvydont.smprpg.services.AttributeService;
+import xyz.devvydont.smprpg.services.DifficultyService;
 import xyz.devvydont.smprpg.skills.SkillType;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
@@ -37,7 +38,7 @@ public class AttributeReward implements ISkillReward {
     }
 
     public double calculateRewardAmount(Player player, double amount) {
-        if (SMPRPG.getInstance().getDifficultyService().getDifficulty(player) == ProfileDifficulty.HARD)
+        if (SMPRPG.getService(DifficultyService.class).getDifficulty(player) == ProfileDifficulty.HARD)
             return amount / 2;
         return amount;
     }

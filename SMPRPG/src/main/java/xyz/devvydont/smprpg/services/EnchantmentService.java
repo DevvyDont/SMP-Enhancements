@@ -23,6 +23,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ItemType;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitScheduler;
+import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.enchantments.CustomEnchantment;
 import xyz.devvydont.smprpg.enchantments.calculator.EnchantmentCalculator;
@@ -189,18 +190,15 @@ public class EnchantmentService implements IService, Listener {
     public final Map<Enchantment, CustomEnchantment> enchantments = new HashMap<>();
 
     @Override
-    public boolean setup() {
-
-        SMPRPG.getInstance().getServer().getPluginManager().registerEvents(this, SMPRPG.getInstance());
+    public void setup() throws RuntimeException {
 
         for (CustomEnchantment enchantment : CUSTOM_ENCHANTMENTS) {
             enchantments.put(getEnchantment(enchantment), enchantment);
 
-            if (enchantment instanceof Listener)
-                SMPRPG.getInstance().getServer().getPluginManager().registerEvents((Listener) enchantment, SMPRPG.getInstance());
+            // If an enchantment wants to listen to events, register it.
+            if (enchantment instanceof Listener listener)
+                SMPRPG.getInstance().getServer().getPluginManager().registerEvents(listener, SMPRPG.getInstance());
         }
-
-        return true;
     }
 
     @Override
@@ -208,40 +206,32 @@ public class EnchantmentService implements IService, Listener {
 
     }
 
-    @Override
-    public boolean required() {
-        return true;
-    }
-
-    private Registry<Enchantment> getEnchantmentRegistry() {
+    private Registry<@NotNull Enchantment> getEnchantmentRegistry() {
         return RegistryAccess.registryAccess().getRegistry(RegistryKey.ENCHANTMENT);
     }
 
     /**
-     * Given an enchantment key, return the vanilla representation of the enchantment
-     *
-     * @param key
-     * @return
+     * Given a vanilla enchantment key, return the vanilla representation of the enchantment.
+     * @param key The enchantment key.
+     * @return A vanilla enchantment instance.
      */
     public Enchantment getEnchantment(TypedKey<Enchantment> key) {
         return getEnchantmentRegistry().getOrThrow(key);
     }
 
     /**
-     * Given a custom enchant wrapper, return the vanilla representation of the enchantment
-     *
-     * @param enchantment
-     * @return
+     * Given a custom enchant wrapper, return the vanilla representation of the enchantment.
+     * @param enchantment The custom enchantment that is meant to be vanilla.
+     * @return A vanilla enchantment instance.
      */
     public Enchantment getEnchantment(CustomEnchantment enchantment) {
         return getEnchantment(TypedKey.create(RegistryKey.ENCHANTMENT, enchantment.getKey()));
     }
 
     /**
-     * Given a vanilla enchantment, return the custom wrapped version of the enchant
-     *
-     * @param enchantment
-     * @return
+     * Given a vanilla enchantment, return the custom wrapped version of the enchantment.
+     * @param enchantment The vanilla enchantment instance.
+     * @return The custom wrapper over it.
      */
     public CustomEnchantment getEnchantment(Enchantment enchantment) {
         if (!enchantments.containsKey(enchantment))
@@ -250,19 +240,17 @@ public class EnchantmentService implements IService, Listener {
     }
 
     /**
-     * Returns all registered custom enchantments
-     *
-     * @return
+     * Returns all registered custom enchantments.
+     * @return All the enchantments registered.
      */
     public Collection<CustomEnchantment> getCustomEnchantments() {
         return enchantments.values();
     }
 
     /**
-     * Given an item, return a collection of custom enchantments stored on the item
-     *
-     * @param meta
-     * @return
+     * Given an item, return a collection of custom enchantments stored on the item.
+     * @param meta The ItemMeta to query.
+     * @return A sorted collection of enchantments.
      */
     public Collection<CustomEnchantment> getCustomEnchantments(ItemMeta meta) {
         return getCustomEnchantments(meta.getEnchants());
@@ -270,9 +258,8 @@ public class EnchantmentService implements IService, Listener {
 
     /**
      * Returns a collection of enchantments sorted by the order that they are defined above
-     *
-     * @param enchants
-     * @return
+     * @param enchants The enchants to sort.
+     * @return A sorted collection enchantments.
      */
     public Collection<CustomEnchantment> getCustomEnchantments(Map<Enchantment, Integer> enchants) {
 
@@ -297,8 +284,6 @@ public class EnchantmentService implements IService, Listener {
 
     /**
      * When opening an enchanting GUI, the lapis lazuli slot should always be filled.
-     *
-     * @param event
      */
     @EventHandler
     private void __onOpenEnchantInterface(InventoryOpenEvent event) {
@@ -311,8 +296,6 @@ public class EnchantmentService implements IService, Listener {
 
     /**
      * When closing an enchanting GUI, get rid of the lapis lazuli so we don't duplicate it
-     *
-     * @param event
      */
     @EventHandler
     private void __onCloseEnchantInterface(InventoryCloseEvent event) {
@@ -325,8 +308,6 @@ public class EnchantmentService implements IService, Listener {
 
     /**
      * When clicking the lapis in the enchant GUI, don't allow any interactions with it
-     *
-     * @param event
      */
     @EventHandler
     private void __onClickLapisEnchantInterface(InventoryClickEvent event) {
@@ -343,7 +324,7 @@ public class EnchantmentService implements IService, Listener {
     @EventHandler
     private void __onEnchantPrepare(PrepareItemEnchantEvent event) {
 
-        var player = SMPRPG.getInstance().getEntityService().getPlayerInstance(event.getEnchanter());
+        var player = SMPRPG.getService(EntityService.class).getPlayerInstance(event.getEnchanter());
         var calculator = getCalculator(event.getItem(), event.getEnchantmentBonus(), player.getMagicSkill().getLevel());
 
         // Calculate enchantments to give and update costs and previews
@@ -381,7 +362,7 @@ public class EnchantmentService implements IService, Listener {
             return;
            inv.setSecondary(ItemType.LAPIS_LAZULI.createItemStack(64));
            ItemStack result = inv.getItem();
-           SMPRPG.getInstance().getItemService().ensureItemStackUpdated(result);
+            SMPRPG.getService(ItemService.class).ensureItemStackUpdated(result);
            inv.setItem(result);
            event.getEnchanter().setLevel(finalNewLevel);
         }, 0L);

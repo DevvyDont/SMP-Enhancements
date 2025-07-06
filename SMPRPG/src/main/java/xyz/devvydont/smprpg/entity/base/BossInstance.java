@@ -26,6 +26,7 @@ import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.entity.components.DamageTracker;
 import xyz.devvydont.smprpg.entity.interfaces.IDamageTrackable;
+import xyz.devvydont.smprpg.services.ChatService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.formatting.MinecraftStringUtils;
 import xyz.devvydont.smprpg.util.scoreboard.SimpleGlobalScoreboard;
@@ -255,7 +256,7 @@ public abstract class BossInstance<T extends LivingEntity> extends LeveledEntity
             Player player = entry.player();
             int damage = entry.damage();
             int place = i + 1;
-            var name = _plugin.getChatService().getPlayerDisplay(player);
+            var name = SMPRPG.getService(ChatService.class).getPlayerDisplay(player);
             rankings.add(ComponentUtils.merge(
                 ComponentUtils.create(place + getPlaceth(place) + ": ", getPlaceColor(place)),
                 name,
@@ -436,7 +437,7 @@ public abstract class BossInstance<T extends LivingEntity> extends LeveledEntity
         Bukkit.broadcast(ComponentUtils.create("-----------------------------"));
         Bukkit.broadcast(getPowerComponent().append(getNameComponent()).append(ComponentUtils.create(" Defeated!", getNameColor())));
         Bukkit.broadcast(ComponentUtils.EMPTY);
-        var winnerChatInfo = SMPRPG.getInstance().getChatService().getPlayerInfo(player);
+        var winnerChatInfo = SMPRPG.getService(ChatService.class).getPlayerInfo(player);
         Bukkit.broadcast(ComponentUtils.create(winnerChatInfo.prefix(), NamedTextColor.WHITE).append(ComponentUtils.create(player.getName(), winnerChatInfo.nameColor())).append(ComponentUtils.create(" dealt the final blow!")));
         Bukkit.broadcast(ComponentUtils.EMPTY);
         for (Component component : getRankingsComponents())

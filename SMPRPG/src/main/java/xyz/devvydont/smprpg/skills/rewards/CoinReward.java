@@ -35,11 +35,11 @@ public class CoinReward implements ISkillReward {
      */
     @Override
     public void remove(Player player, SkillType skill) {
-        SMPRPG.getInstance().getEconomyService().takeMoney(player, this.amount);
+        SMPRPG.getService(EconomyService.class).takeMoney(player, this.amount);
     }
 
     @Override
     public void apply(Player player, SkillType skill) {
-        SMPRPG.getInstance().getEconomyService().addMoney(player, this.amount);
+        SMPRPG.getService(EconomyService.class).addMoney(player, this.amount);
     }
 }

@@ -18,8 +18,8 @@ public final class MenuDeposit extends MenuBase {
 
     public MenuDeposit(SMPRPG plugin, Player owner) {
         super(owner, 5);
-        this.itemService = plugin.getItemService();
-        this.economyService = plugin.getEconomyService();
+        this.itemService = SMPRPG.getService(ItemService.class);
+        this.economyService = SMPRPG.getService(EconomyService.class);
     }
 
     @Override

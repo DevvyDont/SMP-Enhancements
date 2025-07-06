@@ -19,12 +19,11 @@ import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.entity.base.LeveledEntity;
 import xyz.devvydont.smprpg.entity.components.EntityConfiguration;
-import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
 import xyz.devvydont.smprpg.items.interfaces.IAttributeItem;
+import xyz.devvydont.smprpg.services.*;
 import xyz.devvydont.smprpg.skills.SkillInstance;
 import xyz.devvydont.smprpg.skills.SkillType;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
-import xyz.devvydont.smprpg.util.formatting.PlayerChatInformation;
 
 import java.util.Collection;
 import java.util.List;
@@ -47,13 +46,14 @@ public class LeveledPlayer extends LeveledEntity<Player> implements Listener {
     public LeveledPlayer(SMPRPG plugin, Player entity) {
         super(entity);
 
+        var skillService = SMPRPG.getService(SkillService.class);
         // Skill shortcuts
-        this.combatSkill = plugin.getSkillService().getNewSkillInstance(entity, SkillType.COMBAT);
-        this.miningSkill = plugin.getSkillService().getNewSkillInstance(entity, SkillType.MINING);
-        this.fishingSkill = plugin.getSkillService().getNewSkillInstance(entity, SkillType.FISHING);
-        this.farmingSkill = plugin.getSkillService().getNewSkillInstance(entity, SkillType.FARMING);
-        this.woodcuttingSkill = plugin.getSkillService().getNewSkillInstance(entity, SkillType.WOODCUTTING);
-        this.magicSkill = plugin.getSkillService().getNewSkillInstance(entity, SkillType.MAGIC);
+        this.combatSkill = skillService.getNewSkillInstance(entity, SkillType.COMBAT);
+        this.miningSkill = skillService.getNewSkillInstance(entity, SkillType.MINING);
+        this.fishingSkill = skillService.getNewSkillInstance(entity, SkillType.FISHING);
+        this.farmingSkill = skillService.getNewSkillInstance(entity, SkillType.FARMING);
+        this.woodcuttingSkill = skillService.getNewSkillInstance(entity, SkillType.WOODCUTTING);
+        this.magicSkill = skillService.getNewSkillInstance(entity, SkillType.MAGIC);
 
         this._config = EntityConfiguration.PLAYER;
     }
@@ -75,7 +75,7 @@ public class LeveledPlayer extends LeveledEntity<Player> implements Listener {
     }
 
     public double getMaxMana() {
-        var mana = SMPRPG.getInstance().getAttributeService().getOrCreateAttribute(_entity, AttributeWrapper.INTELLIGENCE);
+        var mana = SMPRPG.getService(AttributeService.class).getOrCreateAttribute(_entity, AttributeWrapper.INTELLIGENCE);
         return mana.getValue();
     }
 
@@ -85,7 +85,7 @@ public class LeveledPlayer extends LeveledEntity<Player> implements Listener {
     }
 
     public ProfileDifficulty getDifficulty() {
-        return SMPRPG.getInstance().getDifficultyService().getDifficulty(getPlayer());
+        return SMPRPG.getService(DifficultyService.class).getDifficulty(getPlayer());
     }
 
     public SkillInstance getCombatSkill() {
@@ -177,7 +177,7 @@ public class LeveledPlayer extends LeveledEntity<Player> implements Listener {
             if (item == null || item.getType().equals(Material.AIR))
                 continue;
 
-            SMPItemBlueprint blueprint = _plugin.getItemService().getBlueprint(item);
+            var blueprint = SMPRPG.getService(ItemService.class).getBlueprint(item);
             if (!(blueprint instanceof IAttributeItem attributable))
                 continue;
 
@@ -273,7 +273,7 @@ public class LeveledPlayer extends LeveledEntity<Player> implements Listener {
     @Override
     public void updateNametag() {
         Team team = getNametagTeam();
-        PlayerChatInformation chatInformation = _plugin.getChatService().getPlayerInfo(getPlayer());
+        var chatInformation = SMPRPG.getService(ChatService.class).getPlayerInfo(getPlayer());
         Component newPrefix = ComponentUtils.powerLevelPrefix(getLevel()).append(ComponentUtils.SPACE);
         team.prefix(newPrefix);
         if (!chatInformation.prefix().isEmpty())

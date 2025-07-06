@@ -8,6 +8,8 @@ import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.enchantments.CustomEnchantment;
 import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
 import xyz.devvydont.smprpg.items.base.VanillaItemBlueprint;
+import xyz.devvydont.smprpg.services.EnchantmentService;
+import xyz.devvydont.smprpg.services.ItemService;
 
 import java.util.*;
 
@@ -91,7 +93,7 @@ public class EnchantmentCalculator {
         if (getMagicLevel() >= enchantment.getSkillRequirementToAvoid())
             return false;
 
-        SMPItemBlueprint blueprint = SMPRPG.getInstance().getItemService().getBlueprint(item);
+        SMPItemBlueprint blueprint = SMPRPG.getService(ItemService.class).getBlueprint(item);
 
         // Do we have a book? Any enchantment is allowed...
         if (isBook(blueprint, item))
@@ -120,7 +122,7 @@ public class EnchantmentCalculator {
      */
     public List<CustomEnchantment> getAllowedEnchantments() {
         List<CustomEnchantment> enchantments = new ArrayList<>();
-        for (CustomEnchantment enchantment : SMPRPG.getInstance().getEnchantmentService().getCustomEnchantments())
+        for (CustomEnchantment enchantment : SMPRPG.getService(EnchantmentService.class).getCustomEnchantments())
             if (enchantmentIsAllowed(enchantment))
                 enchantments.add(enchantment.build(1));
 
@@ -197,7 +199,7 @@ public class EnchantmentCalculator {
                 pool.add(enchantment.build(calculateSuitableEnchantmentLevel(enchantment, slot)));
 
         int cost = calculateSlotCost(slot);
-        SMPItemBlueprint blueprint = SMPRPG.getInstance().getItemService().getBlueprint(item);
+        SMPItemBlueprint blueprint = SMPRPG.getService(ItemService.class).getBlueprint(item);
         int numEnchantsWanted = Math.min(blueprint.getMaxAllowedEnchantments(item), cost / 6 + 1);
 
         // While we have enchants to give, add to the item

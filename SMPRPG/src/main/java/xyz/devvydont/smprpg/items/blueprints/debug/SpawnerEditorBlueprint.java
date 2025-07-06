@@ -16,6 +16,7 @@ import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.base.CustomItemBlueprint;
 import xyz.devvydont.smprpg.items.interfaces.IFooterDescribable;
+import xyz.devvydont.smprpg.services.EntityService;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
@@ -64,7 +65,7 @@ public class SpawnerEditorBlueprint extends CustomItemBlueprint implements Liste
         Collection<Entity> nearbyDisplays = event.getPlayer().getWorld().getNearbyEntitiesByType(CustomEntityType.SPAWNER.Type.getEntityClass(), event.getPlayer().getEyeLocation(), 2.5);
         List<EntitySpawner> nearbySpawners = new ArrayList<>();
         for (Entity display : nearbyDisplays)
-            if (SMPRPG.getInstance().getEntityService().getEntityInstance(display) instanceof EntitySpawner spawner)
+            if (SMPRPG.getService(EntityService.class).getEntityInstance(display) instanceof EntitySpawner spawner)
                 nearbySpawners.add(spawner);
 
         if (nearbySpawners.isEmpty()) {

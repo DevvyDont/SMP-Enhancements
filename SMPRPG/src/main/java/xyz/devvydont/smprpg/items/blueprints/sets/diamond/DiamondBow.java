@@ -69,7 +69,7 @@ public class DiamondBow extends CustomAttributeItem implements ICraftable, IBrea
     @Override
     public Collection<ItemStack> unlockedBy() {
         return List.of(
-                SMPRPG.getInstance().getItemService().getCustomItem(Material.DIAMOND)
+                SMPRPG.getService(ItemService.class).getCustomItem(Material.DIAMOND)
         );
     }
 

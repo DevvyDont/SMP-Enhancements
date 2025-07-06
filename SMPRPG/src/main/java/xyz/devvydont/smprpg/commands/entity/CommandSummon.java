@@ -10,6 +10,7 @@ import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.commands.CommandBase;
 import xyz.devvydont.smprpg.entity.CustomEntityType;
+import xyz.devvydont.smprpg.services.EntityService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.ArrayList;
@@ -48,7 +49,7 @@ public class CommandSummon extends CommandBase {
         // First look for a custom mob
         for (CustomEntityType type : CustomEntityType.values()) {
             if (type.name().equalsIgnoreCase(toSpawn)) {
-                var entity = SMPRPG.getInstance().getEntityService().spawnCustomEntity(type, commandSourceStack.getLocation());
+                var entity = SMPRPG.getService(EntityService.class).spawnCustomEntity(type, commandSourceStack.getLocation());
                 if (entity == null) {
                     executor.sendMessage(ComponentUtils.error("Failed to spawn a " + toSpawn + ". Check console for details"));
                     return;
@@ -66,7 +67,7 @@ public class CommandSummon extends CommandBase {
             if (type.name().equalsIgnoreCase(toSpawn)) {
                 Entity entity = commandSourceStack.getLocation().getWorld().spawnEntity(commandSourceStack.getLocation(), type, CreatureSpawnEvent.SpawnReason.CUSTOM);
                 if (level >= 0 && entity instanceof LivingEntity living) {
-                    var leveled = SMPRPG.getInstance().getEntityService().getEntityInstance(living);
+                    var leveled = SMPRPG.getService(EntityService.class).getEntityInstance(living);
                     leveled.setup();
                     leveled.setLevel(level);
                 }

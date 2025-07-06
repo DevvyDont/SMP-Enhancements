@@ -8,6 +8,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityDamageEvent;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.events.damage.AbsorptionDamageDealtEvent;
+import xyz.devvydont.smprpg.services.EntityService;
 import xyz.devvydont.smprpg.util.listeners.ToggleableListener;
 
 /**
@@ -30,7 +31,7 @@ public class AbsorptionDamageFix extends ToggleableListener {
 
         var plugin = SMPRPG.getInstance();
 
-        var entity = plugin.getEntityService().getEntityInstance(event.getEntity());
+        var entity = SMPRPG.getService(EntityService.class).getEntityInstance(event.getEntity());
 
         // If they don't have absorption don't do anything
         if (entity.getAbsorptionHealth() <= 0)

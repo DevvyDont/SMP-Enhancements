@@ -18,6 +18,8 @@ import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemType;
 import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.SMPRPG;
+import xyz.devvydont.smprpg.services.EnchantmentService;
+import xyz.devvydont.smprpg.services.EntityService;
 
 public abstract class CustomEnchantment implements Cloneable {
 
@@ -170,7 +172,7 @@ public abstract class CustomEnchantment implements Cloneable {
     }
 
     public Enchantment getEnchantment() {
-        return SMPRPG.getInstance().getEnchantmentService().getEnchantment(getTypedKey());
+        return SMPRPG.getService(EnchantmentService.class).getEnchantment(getTypedKey());
     }
 
     public int getMagicExperience() {

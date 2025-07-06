@@ -168,12 +168,12 @@ public class MenuItemBrowser extends MenuBase {
         if (this.player.getGameMode() == GameMode.CREATIVE && event.isShiftClick()) {
             this.playSound(Sound.ENTITY_ITEM_PICKUP, 1, .5f);
             var item = itemStack.clone();
-            SMPRPG.getInstance().getItemService().ensureItemStackUpdated(item);
+            SMPRPG.getService(ItemService.class).ensureItemStackUpdated(item);
             this.player.getInventory().addItem(item);
             return;
         }
 
-        var blueprint = SMPRPG.getInstance().getItemService().getBlueprint(itemStack);
+        var blueprint = SMPRPG.getService(ItemService.class).getBlueprint(itemStack);
 
         // This is a hack for vanilla items. This probably won't work clearly for items with multiple recipes tbh.
         if (blueprint instanceof VanillaItemBlueprint vanilla) {
@@ -234,8 +234,8 @@ public class MenuItemBrowser extends MenuBase {
             ItemStack item = queriedItems.get(itemIndexOffset);
 
             // Re-render the lore on the item. This needs to be done so we don't duplicate injected lore.
-            var blueprint = SMPRPG.getInstance().getItemService().getBlueprint(item);
-            var lore = SMPRPG.getInstance().getItemService().renderItemStackLore(item);
+            var blueprint = SMPRPG.getService(ItemService.class).getBlueprint(item);
+            var lore = SMPRPG.getService(ItemService.class).renderItemStackLore(item);
             lore.addFirst(ComponentUtils.EMPTY);
             lore.addFirst(ComponentUtils.create("Click to view recipe!", NamedTextColor.YELLOW));
             lore.addFirst(ComponentUtils.EMPTY);

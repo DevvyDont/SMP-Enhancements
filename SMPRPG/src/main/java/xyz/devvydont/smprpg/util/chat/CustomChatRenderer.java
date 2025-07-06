@@ -7,6 +7,8 @@ import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.SMPRPG;
+import xyz.devvydont.smprpg.services.ChatService;
+import xyz.devvydont.smprpg.services.EntityService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 public class CustomChatRenderer implements ChatRenderer {
@@ -15,9 +17,9 @@ public class CustomChatRenderer implements ChatRenderer {
     public @NotNull Component render(@NotNull Player source, Component sourceDisplayName, @NotNull Component message, @NotNull Audience viewer) {
 
         // Retrieve data about the player.
-        var playerWrapper = SMPRPG.getInstance().getEntityService().getPlayerInstance(source);
+        var playerWrapper = SMPRPG.getService(EntityService.class).getPlayerInstance(source);
         int level = playerWrapper.getLevel();
-        var information = SMPRPG.getInstance().getChatService().getPlayerInfo(source);
+        var information = SMPRPG.getService(ChatService.class).getPlayerInfo(source);
         var prefix = information.prefix().isEmpty() ? ComponentUtils.EMPTY : LegacyComponentSerializer.legacyAmpersand().deserialize(information.prefix());
         var suffix = information.suffix().isEmpty() ? ComponentUtils.EMPTY : LegacyComponentSerializer.legacyAmpersand().deserialize(information.suffix());
         var color = playerWrapper.getDifficulty().Color;

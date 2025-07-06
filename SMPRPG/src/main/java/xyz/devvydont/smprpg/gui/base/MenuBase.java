@@ -19,6 +19,7 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
+import xyz.devvydont.smprpg.util.animations.AnimationService;
 import xyz.devvydont.smprpg.util.animations.blockers.WaitFor;
 import xyz.devvydont.smprpg.util.animations.playback.AnimationHandle;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
@@ -458,7 +459,7 @@ public abstract class MenuBase implements Listener {
     protected final void playSuccessAnimation(boolean playSound) {
         stopAnimation();
         var successBorder = createNamedItem(Material.LIME_STAINED_GLASS_PANE, Component.text(""));
-        this.activeAnimation = SMPRPG.getInstance().getAnimationService().playOnce(
+        this.activeAnimation = SMPRPG.getService(AnimationService.class).playOnce(
             () -> {
                 if (playSound)
                     this.sounds.playActionConfirm();
@@ -487,7 +488,7 @@ public abstract class MenuBase implements Listener {
     protected final void playInvalidAnimation(boolean playSound) {
         stopAnimation();
         var errorBorder = createNamedItem(Material.RED_STAINED_GLASS_PANE, Component.text(""));
-        this.activeAnimation = SMPRPG.getInstance().getAnimationService().playOnce(
+        this.activeAnimation = SMPRPG.getService(AnimationService.class).playOnce(
             () -> {
                 if (playSound)
                     this.sounds.playActionError();

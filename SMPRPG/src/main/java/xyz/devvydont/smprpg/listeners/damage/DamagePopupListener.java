@@ -17,6 +17,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.events.CustomEntityDamageByEntityEvent;
 import xyz.devvydont.smprpg.events.damage.AbsorptionDamageDealtEvent;
+import xyz.devvydont.smprpg.services.EntityService;
 import xyz.devvydont.smprpg.util.formatting.ComponentDecorator;
 import xyz.devvydont.smprpg.util.formatting.Symbols;
 import xyz.devvydont.smprpg.util.listeners.ToggleableListener;
@@ -175,7 +176,7 @@ public class DamagePopupListener extends ToggleableListener {
             return;
 
         // Retrieve the wrapper so we can easily extract health information.
-        var leveled = SMPRPG.getInstance().getEntityService().getEntityInstance(living);
+        var leveled = SMPRPG.getService(EntityService.class).getEntityInstance(living);
 
         // We need to calculate how much absorption health they gained. This may need to be standardized later...
         // The idea is that their absorption hearts are equal in health as their normal hearts.

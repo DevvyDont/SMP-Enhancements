@@ -26,6 +26,7 @@ import xyz.devvydont.smprpg.items.ItemRarity;
 import xyz.devvydont.smprpg.items.interfaces.*;
 import xyz.devvydont.smprpg.reforge.ReforgeBase;
 import xyz.devvydont.smprpg.reforge.ReforgeType;
+import xyz.devvydont.smprpg.services.EnchantmentService;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.attributes.AttributeUtil;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
@@ -189,7 +190,7 @@ public abstract class SMPItemBlueprint {
         var meta = item.getItemMeta();
         List<Component> lines = new ArrayList<>();
         lines.add(ComponentUtils.EMPTY);
-        for (CustomEnchantment enchantment : SMPRPG.getInstance().getEnchantmentService().getCustomEnchantments(meta)) {
+        for (CustomEnchantment enchantment : SMPRPG.getService(EnchantmentService.class).getCustomEnchantments(meta)) {
             Component name = enchantment.getEnchantment().displayName(enchantment.getLevel()).color(enchantment.getEnchantColor());
             name = ComponentUtils.create(Symbols.SPARKLES + " ", NamedTextColor.LIGHT_PURPLE).append(name);
             lines.add(name);

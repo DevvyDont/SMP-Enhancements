@@ -11,6 +11,7 @@ import xyz.devvydont.smprpg.commands.CommandBase;
 import xyz.devvydont.smprpg.gui.items.MenuReforge;
 import xyz.devvydont.smprpg.reforge.ReforgeBase;
 import xyz.devvydont.smprpg.reforge.ReforgeType;
+import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.ArrayList;
@@ -45,7 +46,7 @@ public class CommandReforge extends CommandBase {
                 return;
             }
 
-            ReforgeBase reforge = SMPRPG.getInstance().getItemService().getReforge(type);
+            ReforgeBase reforge = SMPRPG.getService(ItemService.class).getReforge(type);
             reforge.apply(item);
             player.sendMessage(ComponentUtils.success("Applied the " + type.name() + " reforge!"));
             return;

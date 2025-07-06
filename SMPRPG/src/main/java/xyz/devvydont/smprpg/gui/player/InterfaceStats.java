@@ -22,6 +22,7 @@ import xyz.devvydont.smprpg.entity.player.LeveledPlayer;
 import xyz.devvydont.smprpg.gui.base.MenuBase;
 import xyz.devvydont.smprpg.listeners.EntityDamageCalculatorService;
 import xyz.devvydont.smprpg.services.AttributeService;
+import xyz.devvydont.smprpg.services.ChatService;
 import xyz.devvydont.smprpg.services.EntityService;
 import xyz.devvydont.smprpg.skills.SkillInstance;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
@@ -62,7 +63,7 @@ public class InterfaceStats extends MenuBase {
     public InterfaceStats(SMPRPG plugin, Player owner, LivingEntity targetPlayer) {
         super(owner, 6);
         this.targetEntity = targetPlayer;
-        this.entityService = plugin.getEntityService();
+        this.entityService = SMPRPG.getService(EntityService.class);
     }
 
     @Override
@@ -70,7 +71,7 @@ public class InterfaceStats extends MenuBase {
         // Prepare the inventory
 
         var name = this.targetEntity instanceof Player castedPlayer ?
-                SMPRPG.getInstance().getChatService().getPlayerDisplay(castedPlayer) :
+                SMPRPG.getService(ChatService.class).getPlayerDisplay(castedPlayer) :
                 LegacyComponentSerializer.legacyAmpersand().deserialize(targetEntity.getName());
 
         event.titleOverride(merge(
@@ -246,7 +247,7 @@ public class InterfaceStats extends MenuBase {
 
     private ItemStack getInfo() {
         ItemStack paper = new ItemStack(Material.PAPER);
-        var player = SMPRPG.getInstance().getEntityService().getPlayerInstance(this.getPlayer());
+        var player = SMPRPG.getService(EntityService.class).getPlayerInstance(this.getPlayer());
         var timePlayed = formatTime(PlaytimeTracker.getPlaytime(player.getPlayer()), false);
         // Calculate how old this player is. Take the ms difference and convert it to minutes.
         var ageMs = System.currentTimeMillis() - PlaytimeTracker.getFirstSeen(player.getPlayer());

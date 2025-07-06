@@ -4,9 +4,10 @@ import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import xyz.devvydont.smprpg.config.ConfigManager;
 import xyz.devvydont.smprpg.effects.services.SpecialEffectService;
 import xyz.devvydont.smprpg.listeners.*;
 import xyz.devvydont.smprpg.loot.LootListener;
@@ -16,6 +17,7 @@ import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.listeners.ToggleableListener;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -32,21 +34,6 @@ public final class SMPRPG extends JavaPlugin {
         return INSTANCE;
     }
 
-    AttributeService attributeService;
-    EntityDamageCalculatorService entityDamageCalculatorService;
-    EconomyService economyService;
-    ChatService chatService;
-    ItemService itemService;
-    EnchantmentService enchantmentService;
-    EntityService entityService;
-    DifficultyService difficultyService;
-    SpecialEffectService specialEffectsService;
-    SkillService skillService;
-    DropsService dropsService;
-    ActionBarService actionBarService;
-    UnstableListenersService unstableListenersService;
-    AnimationService animationService;
-
     /**
      * A list of listeners that provide basic game mechanics that can be toggled on and off.
      */
@@ -55,8 +42,12 @@ public final class SMPRPG extends JavaPlugin {
     /**
      * A list of services that are meant to provide core plugin functionality between other services.
      */
-    List<IService> services;
+    List<IService> services = new ArrayList<>();
 
+    /**
+     * Sends a message to all online operators. This can be used as an alert if something somewhat serious happens.
+     * @param alert The component to show to operators.
+     */
     public static void broadcastToOperators(TextComponent alert) {
         Bukkit.getLogger().warning(alert.content());
         for (var player : Bukkit.getOnlinePlayers())
@@ -64,6 +55,12 @@ public final class SMPRPG extends JavaPlugin {
                 player.sendMessage(ComponentUtils.alert(ComponentUtils.create("OP MSG", NamedTextColor.DARK_RED), alert));
     }
 
+    /**
+     * Sends a message to all online operators. This can be used as an alert if something somewhat serious happens.
+     * The player parameter is a way to provide additional context by supplying a player who "caused" this message.
+     * @param player The player that caused this interaction.
+     * @param alert The component to show to operators.
+     */
     public static void broadcastToOperatorsCausedBy(Player player, TextComponent alert) {
         Bukkit.getLogger().warning(alert.content());
         for (var op : Bukkit.getOnlinePlayers())
@@ -72,60 +69,21 @@ public final class SMPRPG extends JavaPlugin {
             }
     }
 
-    public AttributeService getAttributeService() {
-        return attributeService;
-    }
+    /**
+     * The core method for cross plugin module communication.
+     * Attempts to find a service that is of type clazz. They are programmatically guaranteed to exist.
+     * If a service does not exist, a runtime exception will throw as this is a critical level programmer
+     * error, as you should never reference services that don't exist.
+     * @param clazz The class of the service you want.
+     * @return The {@link IService} instance. If not found, an application exception throws.
+     */
+    public static @NotNull <T extends IService> T getService(Class<T> clazz) {
+        for (var service : INSTANCE.getServices())
+            if (clazz.isAssignableFrom(service.getClass()))
+                return clazz.cast(service);
 
-    public EntityDamageCalculatorService getEntityDamageCalculatorService() {
-        return entityDamageCalculatorService;
-    }
-
-    public EconomyService getEconomyService() {
-        return economyService;
-    }
-
-    public ChatService getChatService() {
-        return chatService;
-    }
-
-    public ItemService getItemService() {
-        return itemService;
-    }
-
-    public EnchantmentService getEnchantmentService() {
-        return enchantmentService;
-    }
-
-    public EntityService getEntityService() {
-        return entityService;
-    }
-
-    public DifficultyService getDifficultyService() {
-        return difficultyService;
-    }
-
-    public SpecialEffectService getSpecialEffectsService() {
-        return specialEffectsService;
-    }
-
-    public SkillService getSkillService() {
-        return skillService;
-    }
-
-    public DropsService getDropsService() {
-        return dropsService;
-    }
-
-    public ActionBarService getActionBarService() {
-        return actionBarService;
-    }
-
-    public UnstableListenersService getUnstableListenersService() {
-        return unstableListenersService;
-    }
-
-    public AnimationService getAnimationService() {
-        return animationService;
+        INSTANCE.getLogger().severe("Service " + clazz.getName() + " not instantiated. Did you forget to create it?");
+        throw new RuntimeException("Service " + clazz.getName() + " not instantiated?");
     }
 
     /**
@@ -133,11 +91,19 @@ public final class SMPRPG extends JavaPlugin {
      * @param clazz The class of the listener you want.
      * @return The {@link ToggleableListener} instance. If not found, returns null.
      */
-    public @Nullable <T extends ToggleableListener> T getListener(Class<T> clazz) {
-        for (var listener : generalListeners)
+    public static @Nullable <T extends ToggleableListener> T getListener(Class<T> clazz) {
+        for (var listener : INSTANCE.getListeners())
             if (clazz.isAssignableFrom(listener.getClass()))
                 return clazz.cast(listener);
         return null;
+    }
+
+    public Collection<IService> getServices() {
+        return services;
+    }
+
+    public Collection<ToggleableListener> getListeners() {
+        return generalListeners;
     }
 
     @Override
@@ -145,50 +111,41 @@ public final class SMPRPG extends JavaPlugin {
 
         INSTANCE = this;
 
-        ConfigManager.init();  // Enable config.yml defaults
+        // Instantiate services. As a programmer, if you create a service class in the codebase you should have it
+        // instantiated here no matter what to prevent runtime exceptions from nonexistent services.
+        // Services are meant to be singleton instances that ALWAYS exist.
+        services.add(new EconomyService());  // Allows transactions/money to work.
+        services.add(new ChatService());  // Provides plugin with player display names and chat formatting.
+        services.add(new EnchantmentService());  // Provides base enchantment functionality.
+        services.add(new AttributeService());  // Provides custom attribute functionality.
+        services.add(new EntityDamageCalculatorService());  // Logic for most damage calculations.
+        services.add(new ItemService());  // Provides custom items and handlers for them.
+        services.add(new EntityService());  // Provides just about anything entity related, attributes, stats, etc.
+        services.add(new DifficultyService());  // Allows players to tweak their profile experience.
+        services.add(new SpecialEffectService());  // Implements the "ailments" system.
+        services.add(new SkillService());  // Logic for skills/skill experience for players.
+        services.add(new DropsService());  // Implements the "drop protection" mechanic, as well as some other QoL.
+        services.add(new ActionBarService());  // Broadcasts player information to player action bars.
+        services.add(new UnstableListenersService());  // Implements some listeners that depend on ProtocolLib.
+        services.add(new AnimationService());  // Mainly provides GUIs with an easy-to-use animation API.
 
-        services = new ArrayList<>();
+        // Start all the services. Make sure nothing goes wrong.
+        for (var service : services) {
+            service.setup();
+            getLogger().info(service.getClass().getSimpleName() + " service successfully enabled!");
 
-        enchantmentService = new EnchantmentService();
-        registerService(enchantmentService);
-
-        economyService = new EconomyService(this);
-        registerService(economyService);
-
-        chatService = new ChatService(this);
-        registerService(chatService);
-
-        attributeService = new AttributeService();
-        registerService(attributeService);
-
-        entityDamageCalculatorService = new EntityDamageCalculatorService(this);
-        registerService(entityDamageCalculatorService);
-
-        itemService = new ItemService(this);
-        registerService(itemService);
-
-        entityService = new EntityService(this);
-        registerService(entityService);
-
-        difficultyService = new DifficultyService();
-        registerService(difficultyService);
-
-        specialEffectsService = new SpecialEffectService(this);
-        registerService(specialEffectsService);
-
-        skillService = new SkillService(this);
-        registerService(skillService);
-
-        dropsService = new DropsService(this);
-        registerService(dropsService);
-
-        actionBarService = new ActionBarService(this);
-        registerService(actionBarService);
-
-        unstableListenersService =  new UnstableListenersService(this);
-        registerService(unstableListenersService);
-
-        animationService =  new AnimationService(this);
+            // If this service wants to listen to events, register it.
+            // Keep in mind there's two cases here, one where a service wants to be toggleable and another where
+            // the events should *always* fire, unless we manually unregister it the intended bukkit way.
+            if (service instanceof ToggleableListener toggleableListener) {
+                toggleableListener.start();
+                getLogger().info(service.getClass().getSimpleName() + " is now listening to events and can be toggled on/off.");
+            }
+            else if (service instanceof Listener listener) {
+                getServer().getPluginManager().registerEvents(listener, INSTANCE);
+                getLogger().info(service.getClass().getSimpleName() + " is now listening to events.");
+            }
+        }
 
         // Initialize the general listeners that aren't core enough to be considered services.
         generalListeners.add(new EnvironmentalDamageListener());  // Scales environmental damage to be percentage based.
@@ -206,22 +163,12 @@ public final class SMPRPG extends JavaPlugin {
             listener.start();
     }
 
-    public void registerService(IService service) {
-        boolean success = service.setup();
-
-        // Did this service fail to start and the plugin requires it?
-        if (!success && service.required())
-            getServer().getPluginManager().disablePlugin(this);
-
-        services.add(service);
-    }
-
     @Override
     public void onDisable() {
-
-        for (IService service : services)
+        for (var service : services)
             service.cleanup();
-
+        for (var listener : generalListeners)
+            listener.stop();
     }
 
 }

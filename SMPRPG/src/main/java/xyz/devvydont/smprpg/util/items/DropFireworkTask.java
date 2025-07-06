@@ -11,6 +11,7 @@ import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.items.ItemRarity;
+import xyz.devvydont.smprpg.services.ItemService;
 
 public class DropFireworkTask extends BukkitRunnable {
 
@@ -29,7 +30,7 @@ public class DropFireworkTask extends BukkitRunnable {
         Firework firework = location.getWorld().spawn(location, Firework.class, CreatureSpawnEvent.SpawnReason.CUSTOM);
         FireworkMeta meta = firework.getFireworkMeta();
         ItemStack itemStack = item.getItemStack();
-        ItemRarity rarity = SMPRPG.getInstance().getItemService().getBlueprint(itemStack).getRarity(itemStack);
+        ItemRarity rarity = SMPRPG.getService(ItemService.class).getBlueprint(itemStack).getRarity(itemStack);
         meta.addEffect(
                 FireworkEffect.builder()
                         .with(FireworkEffect.Type.BALL)

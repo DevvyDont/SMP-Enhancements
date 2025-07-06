@@ -19,23 +19,17 @@ public class SpecialEffectService implements IService {
     private final Map<UUID, SpecialEffectTask> currentTasks = new HashMap<>();
     private final List<Listener> listeners = new ArrayList<>();
 
-    SMPRPG plugin;
-
-    public SpecialEffectService(SMPRPG plugin) {
-        this.plugin = plugin;
-    }
-
     private void registerListeners() {
         listeners.add(new ShroudedEffectListener(this));
 
+        var plugin = SMPRPG.getInstance();
         for (Listener listener : listeners)
             plugin.getServer().getPluginManager().registerEvents(listener, plugin);
     }
 
     @Override
-    public boolean setup() {
+    public void setup() throws RuntimeException {
         registerListeners();
-        return true;
     }
 
     @Override
@@ -44,11 +38,6 @@ public class SpecialEffectService implements IService {
             HandlerList.unregisterAll(listener);
 
         listeners.clear();
-    }
-
-    @Override
-    public boolean required() {
-        return true;
     }
 
     /**
@@ -78,6 +67,7 @@ public class SpecialEffectService implements IService {
         removeEffect(player);
 
         // Create a task and run it every second and store it
+        var plugin = SMPRPG.getInstance();
         if (effect instanceof Listener listener)
             plugin.getServer().getPluginManager().registerEvents(listener, plugin);
         effect.runTaskTimer(plugin, 0, SpecialEffectTask.PERIOD);

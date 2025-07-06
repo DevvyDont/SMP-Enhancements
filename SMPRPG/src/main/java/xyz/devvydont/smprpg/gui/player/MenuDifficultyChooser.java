@@ -15,6 +15,7 @@ import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.player.ProfileDifficulty;
 import xyz.devvydont.smprpg.gui.base.MenuBase;
+import xyz.devvydont.smprpg.services.DifficultyService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
 import java.util.ArrayList;
@@ -71,12 +72,12 @@ public class MenuDifficultyChooser extends MenuBase {
 
         this.closeMenu();
 
-        if (difficulty == SMPRPG.getInstance().getDifficultyService().getDifficulty(this.player)) {
+        if (difficulty == SMPRPG.getService(DifficultyService.class).getDifficulty(this.player)) {
             player.sendMessage(ComponentUtils.alert("Already playing on that difficulty. Nothing changed."));
             return;
         }
 
-        SMPRPG.getInstance().getDifficultyService().setDifficulty(this.player, difficulty);
+        SMPRPG.getService(DifficultyService.class).setDifficulty(this.player, difficulty);
         Bukkit.broadcast(
                 ComponentUtils.alert(
                         ComponentUtils.create("!", NamedTextColor.GOLD),
@@ -109,7 +110,7 @@ public class MenuDifficultyChooser extends MenuBase {
             lore.add(ComponentUtils.EMPTY);
         }
 
-        if (SMPRPG.getInstance().getDifficultyService().getDifficulty(this.player) == difficulty) {
+        if (SMPRPG.getService(DifficultyService.class).getDifficulty(this.player) == difficulty) {
             lore.add(ComponentUtils.create("You are playing on this difficulty!", NamedTextColor.GOLD));
             lore.add(ComponentUtils.EMPTY);
         }
@@ -148,7 +149,7 @@ public class MenuDifficultyChooser extends MenuBase {
         if (isAllowedToFreelyChange())
             return true;
 
-        var current = SMPRPG.getInstance().getDifficultyService().getDifficulty(this.player);
+        var current = SMPRPG.getService(DifficultyService.class).getDifficulty(this.player);
         // Hasn't chosen yet
         if (current.equals(ProfileDifficulty.NOT_CHOSEN))
             return true;
