@@ -6,6 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.config.ConfigManager;
 import xyz.devvydont.smprpg.effects.services.SpecialEffectService;
 import xyz.devvydont.smprpg.listeners.*;
@@ -13,6 +14,7 @@ import xyz.devvydont.smprpg.loot.LootListener;
 import xyz.devvydont.smprpg.services.*;
 import xyz.devvydont.smprpg.util.animations.AnimationService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
+import xyz.devvydont.smprpg.util.listeners.ToggleableListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +48,14 @@ public final class SMPRPG extends JavaPlugin implements Listener {
     UnstableListenersService unstableListenersService;
     AnimationService animationService;
 
+    /**
+     * A list of listeners that provide basic game mechanics that can be toggled on and off.
+     */
+    List<ToggleableListener> generalListeners = new ArrayList<>();
+
+    /**
+     * A list of services that are meant to provide core plugin functionality between other services.
+     */
     List<IService> services;
 
     public static void broadcastToOperators(TextComponent alert) {
@@ -119,6 +129,18 @@ public final class SMPRPG extends JavaPlugin implements Listener {
         return animationService;
     }
 
+    /**
+     * Attempts to find a listener that is of type clazz. They are not guaranteed to exist.
+     * @param clazz The class of the listener you want.
+     * @return The {@link ToggleableListener} instance. If not found, returns null.
+     */
+    public @Nullable <T extends ToggleableListener> T getListener(Class<T> clazz) {
+        for (var listener : generalListeners)
+            if (clazz.isAssignableFrom(listener.getClass()))
+                return clazz.cast(listener);
+        return null;
+    }
+
     @Override
     public void onEnable() {
 
@@ -176,11 +198,16 @@ public final class SMPRPG extends JavaPlugin implements Listener {
         new HealthRegenerationListener(this);
         new HealthScaleListener(this);
         new AnvilEnchantmentCombinationFixListener(this);
-        new DimensionPortalLockingListener(this);
         new PvPListener();
-
         new StructureEntitySpawnListener(this);
         new LootListener(this);
+
+        // Initialize the general listeners that aren't core enough to be considered services.
+        generalListeners.add(new DimensionPortalLockingListener());
+
+        // Start all of them.
+        for (var listener : generalListeners)
+            listener.start();
     }
 
     public void registerService(IService service) {

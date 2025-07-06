@@ -8,7 +8,7 @@ import xyz.devvydont.smprpg.SMPRPG;
  * A simple extendable class to use for listeners that provide a simple .start() and .stop() method that
  * enables/disables the listener behavior. This makes it much more obvious what your listener is doing at a glance.
  */
-public class ToggleableListener implements Listener {
+public abstract class ToggleableListener implements Listener {
 
     private boolean enabled;
 
