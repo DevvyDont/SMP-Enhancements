@@ -88,6 +88,12 @@ public abstract class LeveledEntity<T extends Entity> implements LootSource {
         this.setConfiguration(this.getDefaultConfiguration());
         _initialLevel = getLevel();
 
+        // A minimum level was set, but depending on the spawn location of this entity, it can be modified.
+        var locationModifiedLevel = EntityGlobals.determineLocationLevel(_entity.getLocation());
+        // If it should be higher, scale their stats.
+        if (locationModifiedLevel > _initialLevel)
+            this.setConfiguration(EntityConfiguration.scale(this.getConfiguration(), locationModifiedLevel));
+
         // Update the nametag.
         this.dimNametag();
         this.updateNametag();

@@ -59,10 +59,11 @@ public class VanillaEntity<T extends Entity> extends LeveledEntity<T> implements
 
     @Override
     public EntityConfiguration getDefaultConfiguration() {
+        var lvl = EntityGlobals.getMinimumLevel(_entity.getType());
         return EntityConfiguration.builder()
-                .withLevel(this.getLevel())
-                .withHealth(EntityGlobals.softRoundHealth(EntityGlobals.calculateExpectedEntityEhp(this.getLevel())))
-                .withDamage(EntityGlobals.calculateExpectedEntityEhp(this.getLevel()) / EntityGlobals.ENTITY_HITS_TO_KILL_PLAYER)
+                .withLevel(lvl)  // Always use the default level as a default config.
+                .withHealth(EntityGlobals.softRoundHealth(EntityGlobals.calculateExpectedEntityEhp(lvl)))
+                .withDamage(EntityGlobals.calculateExpectedEntityEhp(lvl) / EntityGlobals.ENTITY_HITS_TO_KILL_PLAYER)
                 .build();
     }
 
