@@ -1,4 +1,4 @@
-﻿package xyz.devvydont.smprpg.entity.vanilla;
+package xyz.devvydont.smprpg.entity.vanilla;
 
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.AttributeModifier;

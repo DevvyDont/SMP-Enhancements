@@ -45,8 +45,13 @@ public class VanillaAttributeInstanceWrapper extends CustomAttributeInstance {
 
     @Override
     public void addModifier(AttributeModifier modifier) {
+
+        // If the entity doesn't have the attribute, don't add it.
         if (wrapped == null)
             return;
+
+        // If the modifier is already present, remove it before applying it.
+        wrapped.removeModifier(modifier.key());
         wrapped.addModifier(modifier);
     }
 
