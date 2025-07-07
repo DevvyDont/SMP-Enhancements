@@ -152,7 +152,6 @@ public class StructureEntitySpawnListener extends ToggleableListener {
 
         // After resolving the highest level based on current entity level and structures the entity was in, set it.
         event.getEntity().setLevel(structureLevel);
-        event.getEntity().updateAttributes();
     }
 
 

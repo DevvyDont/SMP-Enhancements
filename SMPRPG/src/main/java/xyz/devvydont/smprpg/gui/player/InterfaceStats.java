@@ -3,7 +3,6 @@ package xyz.devvydont.smprpg.gui.player;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.LivingEntity;
@@ -72,7 +71,7 @@ public class InterfaceStats extends MenuBase {
 
         var name = this.targetEntity instanceof Player castedPlayer ?
                 SMPRPG.getService(ChatService.class).getPlayerDisplay(castedPlayer) :
-                LegacyComponentSerializer.legacyAmpersand().deserialize(targetEntity.getName());
+                targetEntity.name();
 
         event.titleOverride(merge(
                 create("Statistics Viewer (", NamedTextColor.BLACK),

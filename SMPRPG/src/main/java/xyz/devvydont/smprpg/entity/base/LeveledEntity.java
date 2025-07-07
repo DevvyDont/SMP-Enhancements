@@ -88,12 +88,6 @@ public abstract class LeveledEntity<T extends Entity> implements LootSource {
         this.setConfiguration(this.getDefaultConfiguration());
         _initialLevel = getLevel();
 
-        // A minimum level was set, but depending on the spawn location of this entity, it can be modified.
-        var locationModifiedLevel = EntityGlobals.determineLocationLevel(_entity.getLocation());
-        // If it should be higher, scale their stats.
-        if (locationModifiedLevel > _initialLevel)
-            this.setConfiguration(EntityConfiguration.scale(this.getConfiguration(), locationModifiedLevel));
-
         // Update the nametag.
         this.dimNametag();
         this.updateNametag();
@@ -325,20 +319,15 @@ public abstract class LeveledEntity<T extends Entity> implements LootSource {
 
     /**
      * Returns the level set to this entity. If not present, default to whatever the set default is.
-     *
      * @return an integer representing the current level of this entity
      */
     public int getLevel() {
-
-        // If this entity doesn't have a level yet it must mean that we need to give them their default
-        if (!_entity.getPersistentDataContainer().has(EntityService.getLevelNamespacedKey()))
-            resetLevel();
-
         return _entity.getPersistentDataContainer().getOrDefault(EntityService.getLevelNamespacedKey(), PersistentDataType.INTEGER, this._config.getBaseLevel());
     }
 
     /**
-     * Sets the level stored on this entity.
+     * Sets the level stored on this entity. The level you set will be persistent so that it will successfully
+     * restore itself to its proper state on reloads.
      * @param level The level to set the entity to
      */
     public void setLevel(int level) {
