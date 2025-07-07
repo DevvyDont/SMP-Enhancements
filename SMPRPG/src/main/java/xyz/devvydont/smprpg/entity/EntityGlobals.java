@@ -84,8 +84,24 @@ public class EntityGlobals {
         if (hp < 5000)
             return (int) Math.round(hp / 100) * 100;
 
-        // 5000 and great round by 250
-        return (int) Math.round(hp / 500) * 500;
+        // If the hp is less than 10,000, round the number to be divisible by 500
+        if (hp < 10_000)
+            return (int) Math.round(hp / 500) * 500;
+
+        // If the hp is less than 50,000, round the number to be divisible by 1,000
+        if (hp < 50_000)
+            return (int) Math.round(hp / 1_000) * 1_000;
+
+        // If the hp is less than 100k, round the number to be divisible by 5,000
+        if (hp < 100_000)
+            return (int) Math.round(hp / 5_000) * 5_000;
+
+        // If the hp is less than 1M, round the number to be divisible by 50,000
+        if (hp < 1_000_000)
+            return (int) Math.round(hp / 50_000) * 50_000;
+
+        // Otherwise, we just want 500k
+        return (int) Math.round(hp / 500_000) * 500_000;
     }
 
     /**
