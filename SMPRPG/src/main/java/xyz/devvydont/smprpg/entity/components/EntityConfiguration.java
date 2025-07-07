@@ -19,13 +19,13 @@ public interface EntityConfiguration {
      * The base health for this entity when the entity is at the level defined by getBaseLevel().
      * @return The base health of the entity.
      */
-    int getBaseHealth();
+    long getBaseHealth();
 
     /**
      * The base attack damage for this entity when the entity is at the level defined by getBaseLevel().
      * @return The base attack damage of the entity.
      */
-    int getBaseDamage();
+    long getBaseDamage();
 
     /**
      * The default entity configuration. If an entity doesn't specify a configuration to use, default to this one.
@@ -74,8 +74,8 @@ public interface EntityConfiguration {
     class EntityConfigurationBuilder {
 
         private int _level;
-        private int _health;
-        private int _damage;
+        private long _health;
+        private long _damage;
 
         private EntityConfigurationBuilder() {
             this._level = 1;
@@ -88,12 +88,12 @@ public interface EntityConfiguration {
             return this;
         }
 
-        public EntityConfigurationBuilder withHealth(int health) {
+        public EntityConfigurationBuilder withHealth(long health) {
             this._health = health;
             return this;
         }
 
-        public EntityConfigurationBuilder withDamage(int damage) {
+        public EntityConfigurationBuilder withDamage(long damage) {
             this._damage = damage;
             return this;
         }
@@ -106,12 +106,12 @@ public interface EntityConfiguration {
                 }
 
                 @Override
-                public int getBaseHealth() {
+                public long getBaseHealth() {
                     return _health;
                 }
 
                 @Override
-                public int getBaseDamage() {
+                public long getBaseDamage() {
                     return _damage;
                 }
             };

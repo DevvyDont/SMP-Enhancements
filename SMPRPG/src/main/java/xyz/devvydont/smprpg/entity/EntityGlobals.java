@@ -66,42 +66,42 @@ public class EntityGlobals {
      * @param hp The hp to prettify.
      * @return A more clean amount of health.
      */
-    public static int softRoundHealth(double hp) {
+    public static long softRoundHealth(double hp) {
 
         // If the HP is less than 20 leave it be
         if (hp < 20)
-            return (int) Math.round(hp);
+            return Math.round(hp);
 
         // If the HP is less than 500, round the number to be divisible by 5
         if (hp < 500)
-            return (int) Math.round(hp / 5) * 5;
+            return Math.round(hp / 5) * 5;
 
         // If the HP is less than 1000, round the number to be divisible by 10
         if (hp < 1000)
-            return (int) Math.round(hp / 10) * 10;
+            return Math.round(hp / 10) * 10;
 
         // If the HP is less than 5000, round the number to be divisible by 100
         if (hp < 5000)
-            return (int) Math.round(hp / 100) * 100;
+            return Math.round(hp / 100) * 100;
 
         // If the hp is less than 10,000, round the number to be divisible by 500
         if (hp < 10_000)
-            return (int) Math.round(hp / 500) * 500;
+            return Math.round(hp / 500) * 500;
 
         // If the hp is less than 50,000, round the number to be divisible by 1,000
         if (hp < 50_000)
-            return (int) Math.round(hp / 1_000) * 1_000;
+            return Math.round(hp / 1_000) * 1_000;
 
         // If the hp is less than 100k, round the number to be divisible by 5,000
         if (hp < 100_000)
-            return (int) Math.round(hp / 5_000) * 5_000;
+            return Math.round(hp / 5_000) * 5_000;
 
         // If the hp is less than 1M, round the number to be divisible by 50,000
         if (hp < 1_000_000)
-            return (int) Math.round(hp / 50_000) * 50_000;
+            return Math.round(hp / 50_000) * 50_000;
 
         // Otherwise, we just want 500k
-        return (int) Math.round(hp / 500_000) * 500_000;
+        return Math.round(hp / 500_000) * 500_000;
     }
 
     /**
