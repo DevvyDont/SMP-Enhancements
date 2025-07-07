@@ -84,6 +84,8 @@ public class EntityService implements IService, Listener {
 
         vanillaEntityHandlers.put(EntityType.ZOMBIE, LeveledZombie.class);
         vanillaEntityHandlers.put(EntityType.SKELETON, LeveledSkeleton.class);
+        vanillaEntityHandlers.put(EntityType.STRAY, LeveledStray.class);
+        vanillaEntityHandlers.put(EntityType.BOGGED, LeveledBogged.class);
         vanillaEntityHandlers.put(EntityType.SPIDER, LeveledSpider.class);
         vanillaEntityHandlers.put(EntityType.CAVE_SPIDER, LeveledSpider.class);
         vanillaEntityHandlers.put(EntityType.CREEPER, LeveledCreeper.class);
@@ -98,6 +100,7 @@ public class EntityService implements IService, Listener {
         vanillaEntityHandlers.put(EntityType.WITHER_SKELETON, LeveledWitherSkeleton.class);
 
         vanillaEntityHandlers.put(EntityType.VILLAGER, LeveledVillager.class);
+        vanillaEntityHandlers.put(EntityType.PILLAGER, LeveledPillager.class);
 
         vanillaEntityHandlers.put(EntityType.ARMOR_STAND, LeveledArmorStand.class);
 

@@ -1,16 +1,16 @@
-package xyz.devvydont.smprpg.entity.vanilla;
+﻿package xyz.devvydont.smprpg.entity.vanilla;
 
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.AttributeModifier;
-import org.bukkit.entity.Skeleton;
+import org.bukkit.entity.Bogged;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.entity.base.VanillaEntity;
 import xyz.devvydont.smprpg.services.AttributeService;
 
-public class LeveledSkeleton extends VanillaEntity<Skeleton> {
+public class LeveledBogged extends VanillaEntity<Bogged> {
 
-    public LeveledSkeleton(Skeleton entity) {
+    public LeveledBogged(Bogged entity) {
         super(entity);
     }
 
@@ -19,8 +19,8 @@ public class LeveledSkeleton extends VanillaEntity<Skeleton> {
         super.setup();
         var attr = SMPRPG.getService(AttributeService.class).getAttribute(_entity, AttributeWrapper.STRENGTH);
 
-        // Nerf the skeleton damage a bit. This is because skeleton base damage stacks on top of the damage from the bow.
+        // Nerf the bow damage a bit. This is because base damage stacks on top of the damage from the bow.
         if (attr != null)
-            attr.addModifier(new AttributeModifier(new NamespacedKey("smprpg", "skeleton_nerf"), -.3, AttributeModifier.Operation.MULTIPLY_SCALAR_1));
+            attr.addModifier(new AttributeModifier(new NamespacedKey("smprpg", "bogged_nerf"), -.3, AttributeModifier.Operation.MULTIPLY_SCALAR_1));
     }
 }

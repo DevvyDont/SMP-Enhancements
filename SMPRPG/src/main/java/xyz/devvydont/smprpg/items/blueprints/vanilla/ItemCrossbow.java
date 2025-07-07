@@ -22,19 +22,19 @@ public class ItemCrossbow extends VanillaAttributeItem implements IBreakableEqui
 
     @Override
     public ItemClassification getItemClassification() {
-        return ItemClassification.BOW;
+        return ItemClassification.CROSSBOW;
     }
 
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, ItemSword.getSwordDamage(Material.GOLDEN_SWORD))
+                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, ItemSword.getSwordDamage(Material.IRON_SWORD))
         );
     }
 
     @Override
     public int getPowerRating() {
-        return 15;
+        return ItemSword.getSwordRating(Material.IRON_SWORD);
     }
 
     @Override
