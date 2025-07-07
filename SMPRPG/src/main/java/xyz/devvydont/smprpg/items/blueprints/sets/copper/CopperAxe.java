@@ -2,11 +2,11 @@ package xyz.devvydont.smprpg.items.blueprints.sets.copper;
 
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.inventory.CraftingRecipe;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemStack;
 import xyz.devvydont.smprpg.SMPRPG;
+import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
@@ -14,10 +14,9 @@ import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomAttributeItem;
 import xyz.devvydont.smprpg.items.blueprints.vanilla.ItemAxe;
-import xyz.devvydont.smprpg.items.interfaces.ICraftable;
 import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
+import xyz.devvydont.smprpg.items.interfaces.ICraftable;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.util.crafting.builders.AxeRecipe;
 import xyz.devvydont.smprpg.util.items.ToolsUtil;
 
@@ -35,8 +34,9 @@ public class CopperAxe extends CustomAttributeItem implements ICraftable, IBreak
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, ItemAxe.getAxeDamage(Material.STONE_AXE)),
-                new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, AXE_ATTACK_SPEED_DEBUFF+.1)
+                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, ItemAxe.getAxeDamage(Material.WOODEN_AXE)),
+                new MultiplicativeAttributeEntry(AttributeWrapper.MINING_EFFICIENCY, .1),
+                new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, AXE_ATTACK_SPEED_DEBUFF+.25)
         );
     }
 

@@ -4,22 +4,22 @@ import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.Tool;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.inventory.CraftingRecipe;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.SMPRPG;
+import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomAttributeItem;
-import xyz.devvydont.smprpg.items.interfaces.ICraftable;
+import xyz.devvydont.smprpg.items.blueprints.vanilla.ItemPickaxe;
 import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
+import xyz.devvydont.smprpg.items.interfaces.ICraftable;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.util.crafting.builders.PickaxeRecipe;
 import xyz.devvydont.smprpg.util.items.ToolsUtil;
 
@@ -47,8 +47,9 @@ public class CopperPickaxe extends CustomAttributeItem implements IBreakableEqui
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, 6),
-                new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, PICKAXE_ATTACK_SPEED_DEBUFF)
+                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, ItemPickaxe.getPickaxeDamage(Material.WOODEN_PICKAXE)),
+                new MultiplicativeAttributeEntry(AttributeWrapper.MINING_EFFICIENCY, .1),
+                new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, PICKAXE_ATTACK_SPEED_DEBUFF / 2)
         );
     }
 
