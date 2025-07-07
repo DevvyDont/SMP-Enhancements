@@ -41,8 +41,8 @@ public class LeveledEnderman extends VanillaEntity<Enderman> implements Listener
         var level = determineLevel();
         return EntityConfiguration.builder()
                 .withLevel(level)
-                .withDamage(EntityGlobals.calculateExpectedEntityEhp(level) / 6)
-                .withHealth((int)(EntityGlobals.calculateExpectedEntityEhp(level) * 1.3))
+                .withDamage(EntityGlobals.calculateExpectedEntityEhp(level) / 5)
+                .withHealth(EntityGlobals.calculateExpectedEntityEhp(level) * 2)
                 .build();
     }
 
