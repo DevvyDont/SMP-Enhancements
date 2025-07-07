@@ -108,8 +108,6 @@ public class EntityDamageCalculatorService implements Listener, IService {
         return health / calculateDefenseDamageMultiplier(defense);
     }
 
-    SMPRPG plugin;
-
     private final CriticalDamageListener criticalDamageListener;
     private final DamagePopupListener popupListener;
 
@@ -329,7 +327,7 @@ public class EntityDamageCalculatorService implements Listener, IService {
         final int noDamageTicks = leveled.getInvincibilityTicks() + iframeTicks;
 
         living.setNoDamageTicks(noDamageTicks);
-        Bukkit.getScheduler().runTaskLater(plugin, () -> living.setNoDamageTicks(noDamageTicks), 0);
+        Bukkit.getScheduler().runTaskLater(SMPRPG.getInstance(), () -> living.setNoDamageTicks(noDamageTicks), 0);
     }
 
     /*
