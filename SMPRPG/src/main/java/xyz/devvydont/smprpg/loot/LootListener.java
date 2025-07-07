@@ -55,7 +55,7 @@ public class LootListener extends ToggleableListener {
                 new LootTableMember(ItemService.generate(Material.NETHERITE_AXE)).withChance(.04f).withEnchants(true, 70),
                 new LootTableMember(ItemService.generate(CustomItemType.ENCHANTED_DIAMOND)).withChance(.01f),
                 new LootTableMember(ItemService.generate(CustomItemType.PREMIUM_SHULKER_SHELL)).withChance(.05f).withMax(2),
-                new LootTableMember(ItemService.generate(CustomItemType.PLATINUM_COIN)).withChance(.3f).withMax(5)
+                new LootTableMember(ItemService.generate(CustomItemType.GOLD_COIN)).withChance(.3f).withMax(5)
         ));
     }
 
