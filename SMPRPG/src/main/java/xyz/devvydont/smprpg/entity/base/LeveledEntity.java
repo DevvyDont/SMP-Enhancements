@@ -318,6 +318,16 @@ public abstract class LeveledEntity<T extends Entity> implements LootSource {
     }
 
     /**
+     * Checks if this entity has a level set in their PDC. If a level is not set, then calls to getLevel() will result
+     * in the default level being returned. An entity with a persistent level set will be prevented from having their
+     * stats recalculated when they load in the world.
+     * @return true if this entity has a persistent level set.
+     */
+    protected boolean hasLevelSet() {
+        return _entity.getPersistentDataContainer().has(EntityService.getLevelNamespacedKey(), PersistentDataType.INTEGER);
+    }
+
+    /**
      * Returns the level set to this entity. If not present, default to whatever the set default is.
      * @return an integer representing the current level of this entity
      */
@@ -544,4 +554,5 @@ public abstract class LeveledEntity<T extends Entity> implements LootSource {
     public int getDamageRequirement() {
         return (int) (getMaxHp() * getDamageRatioRequirement());
     }
+
 }

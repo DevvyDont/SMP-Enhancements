@@ -38,11 +38,10 @@ public class LeveledEnderman extends VanillaEntity<Enderman> implements Listener
 
     @Override
     public EntityConfiguration getDefaultConfiguration() {
-        var level = determineLevel();
         return EntityConfiguration.builder()
-                .withLevel(level)
-                .withDamage(EntityGlobals.calculateExpectedEntityEhp(level) / 5)
-                .withHealth(EntityGlobals.calculateExpectedEntityEhp(level) * 2)
+                .withLevel(MINIMUM_LEVEL)
+                .withDamage(1000)
+                .withHealth(5000)
                 .build();
     }
 
@@ -67,6 +66,14 @@ public class LeveledEnderman extends VanillaEntity<Enderman> implements Listener
             drops.add(new ChancedItemDrop(ItemService.generate(Material.END_CRYSTAL), 50, this));
 
         return drops;
+    }
 
+    @Override
+    public void setup() {
+        super.setup();
+
+        // If this enderman hasn't had a level determined yet, calculate one.
+        if (!this.hasLevelSet())
+            this.setLevel(determineLevel());
     }
 }

@@ -106,9 +106,9 @@ public class InterfaceStats extends MenuBase {
                 this.playSound(Sound.BLOCK_CHEST_OPEN);
                 new MenuInventoryPeek(this.player, this.getPlayer(), this).openMenu();
             });
-
-            this.setButton(SLOT_STATS, getStats(), e -> this.openSubMenu(new SubmenuStatOverview(this.player, this.targetEntity, this)));
         }
+
+        this.setButton(SLOT_STATS, getStats(), e -> this.openSubMenu(new SubmenuStatOverview(this.player, this.targetEntity, this)));
 
         if (this.isPlayer())
             this.setSlot(SLOT_STATS - 1, getInfo());

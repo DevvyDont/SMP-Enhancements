@@ -50,6 +50,9 @@ public class CustomEntityInstance<T extends Entity> extends LeveledEntity<T> imp
     public void setup() {
         super.setup();
         setNoDropEquipment();
+
+        // Ensure the entity's level and stats are synced up!
+        setLevel(getLevel());
     }
 
     @Override
