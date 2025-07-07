@@ -82,6 +82,10 @@ public class DropsService implements IService, Listener {
         } * 1000L;
     }
 
+    // A list of drop announcements. We don't want to announce all drops at once.
+    private final List<Runnable> dropAnnouncementQueue = new ArrayList<>();
+    private BukkitRunnable dropAnnouncementTask;
+
     // The owner tag for a drop, drops cannot be picked up by players unless they own it
     private final NamespacedKey OWNER_UUID_KEY;
     private final NamespacedKey OWNER_NAME_KEY;
@@ -249,6 +253,24 @@ public class DropsService implements IService, Listener {
     @Override
     public void setup() throws RuntimeException {
         var plugin = SMPRPG.getInstance();
+
+        // Make a task that will gradually pop off drop announcements in the drop queue.
+        dropAnnouncementTask = new BukkitRunnable() {
+            @Override
+            public void run() {
+                // Is there an announcement in queue?
+                if (dropAnnouncementQueue.isEmpty())
+                    return;
+
+                // Pop off the next item and run it.
+                var task = dropAnnouncementQueue.getFirst();
+                task.run();
+                dropAnnouncementQueue.removeFirst();
+            }
+        };
+        dropAnnouncementTask.runTaskTimerAsynchronously(plugin, TickTime.INSTANTANEOUSLY, TickTime.HALF_SECOND);
+
+        // Make a task that will slowly decrement items on the ground so they despawn eventually.
         itemTimerTask = new BukkitRunnable() {
             @Override
             public void run() {
@@ -289,7 +311,11 @@ public class DropsService implements IService, Listener {
         if (itemTimerTask != null)
             itemTimerTask.cancel();
 
+        if (dropAnnouncementTask != null)
+            dropAnnouncementTask.cancel();
+
         itemTimerTask = null;
+        dropAnnouncementTask = null;
     }
 
     /**
@@ -500,17 +526,21 @@ public class DropsService implements IService, Listener {
     @EventHandler
     private void __onRareDropObtained(CustomChancedItemDropSuccessEvent event) {
 
+        // Find out information about the item.
         SMPItemBlueprint blueprint = SMPRPG.getService(ItemService.class).getBlueprint(event.getItem());
         ItemRarity rarityOfDrop = blueprint.getRarity(event.getItem());
+
+        // Start construction of the message.
         Component prefix = ComponentUtils.alert(
                 ComponentUtils.create(rarityOfDrop.name() + " DROP!!! ", rarityOfDrop.color, TextDecoration.BOLD),
                 NamedTextColor.YELLOW
         );
-
         Component player = SMPRPG.getService(ChatService.class).getPlayerDisplay(event.getPlayer());
         Component item = event.getItem().displayName().hoverEvent(event.getItem().asHoverEvent());
         Component suffix = ComponentUtils.create(" found ").append(item).append(ComponentUtils.create(" from ")).append(event.getSource().getAsComponent()).append(ComponentUtils.create("!"));
         Component chance = ComponentUtils.create(" (" + event.getFormattedChance() + ")", NamedTextColor.DARK_GRAY);
+
+        // Should we tell the entire server this drop happened?
         boolean broadcastServer = rarityOfDrop.ordinal() >= ItemRarity.LEGENDARY.ordinal();
         if (event.getChance() < rarityOfDrop.ordinal() * rarityOfDrop.ordinal() / 100.0)
             broadcastServer = true;
@@ -519,9 +549,13 @@ public class DropsService implements IService, Listener {
         // If the drop is worth broadcasting to the entire server...
         if (broadcastServer) {
             Component message = prefix.append(player).append(suffix).append(chance);
-            Bukkit.broadcast(message);
-            for (Player p : Bukkit.getOnlinePlayers())
-                p.playSound(p.getLocation(), Sound.ENTITY_CHICKEN_EGG, 1, 1);
+
+            // Queue the announcement.
+            dropAnnouncementQueue.add(() -> {
+                for (Player p : Bukkit.getOnlinePlayers())
+                    p.playSound(p.getLocation(), Sound.ENTITY_CHICKEN_EGG, 1, 1);
+                Bukkit.broadcast(message);
+            });
             return;
         }
 
@@ -532,10 +566,12 @@ public class DropsService implements IService, Listener {
         if (!tellPlayer)
             return;
 
-        // Just show the message to the player since it's not THAT crazy
+        // Just show the message to the player since it's not THAT crazy. We should do this a bit later tho...
         Component message = prefix.append(ComponentUtils.create("You")).append(suffix).append(chance);
-        event.getPlayer().sendMessage(message);
-        event.getPlayer().playSound(event.getPlayer().getLocation(), Sound.ENTITY_CHICKEN_EGG, 1, 1);
+        Bukkit.getScheduler().runTaskLater(SMPRPG.getInstance(), () -> {
+            event.getPlayer().sendMessage(message);
+            event.getPlayer().playSound(event.getPlayer().getLocation(), Sound.ENTITY_CHICKEN_EGG, 1, 1);
+        }, TickTime.TICK * 5);
     }
 
 }

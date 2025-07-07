@@ -5,7 +5,6 @@ import org.bukkit.Material;
 import org.bukkit.entity.ElderGuardian;
 import org.bukkit.entity.EntityType;
 import org.jetbrains.annotations.Nullable;
-import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.base.BossInstance;
 import xyz.devvydont.smprpg.entity.base.VanillaEntity;
 import xyz.devvydont.smprpg.entity.components.EntityConfiguration;
@@ -67,30 +66,30 @@ public class LeveledElderGuardian extends BossInstance<ElderGuardian> {
 
                 new ChancedItemDrop(ItemService.generate(CustomItemType.PREMIUM_PRISMARINE_SHARD), 7, this),
                 new ChancedItemDrop(ItemService.generate(CustomItemType.PREMIUM_PRISMARINE_CRYSTAL), 7, this),
-                new ChancedItemDrop(ItemService.generate(CustomItemType.ENCHANTED_DIAMOND), 200, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.ENCHANTED_DIAMOND), 1, this),
 
                 new ChancedItemDrop(ItemService.generate(CustomItemType.ENCHANTED_PRISMARINE_SHARD), 95, this),
                 new ChancedItemDrop(ItemService.generate(CustomItemType.ENCHANTED_PRISMARINE_CRYSTAL), 95, this),
-                new ChancedItemDrop(ItemService.generate(CustomItemType.ENCHANTED_DIAMOND_BLOCK), 10_000, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.ENCHANTED_DIAMOND_BLOCK), 1, this),
 
                 // Gear drops
-                new ChancedItemDrop(ItemService.generate(CustomItemType.NEPTUNE_HELMET), 125, this),
-                new ChancedItemDrop(ItemService.generate(CustomItemType.NEPTUNE_CHESTPLATE), 135, this),
-                new ChancedItemDrop(ItemService.generate(CustomItemType.NEPTUNE_LEGGINGS), 130, this),
-                new ChancedItemDrop(ItemService.generate(CustomItemType.NEPTUNE_BOOTS), 125, this),
-                new ChancedItemDrop(ItemService.generate(CustomItemType.NEPTUNE_TRIDENT), 145, this),
-                new ChancedItemDrop(ItemService.generate(CustomItemType.NEPTUNE_BOW), 145, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.NEPTUNE_HELMET), 1, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.NEPTUNE_CHESTPLATE), 1, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.NEPTUNE_LEGGINGS), 1, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.NEPTUNE_BOOTS), 1, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.NEPTUNE_TRIDENT), 1, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.NEPTUNE_BOW), 1, this),
 
                 // Pity drops
                 // Crafts into Jupiter crystal, need 8 to get 1 crystal
                 // Armor components, 24 required for full set from pity alone.
-                new ChancedItemDrop(ItemService.generate(CustomItemType.JUPITERS_ARTIFACT), 30, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.JUPITERS_ARTIFACT), 1, this),
                 new QuantityLootDrop(ItemService.generate(CustomItemType.JUPITER_CRYSTAL), 1, 1, this),
-                new ChancedItemDrop(ItemService.generate(CustomItemType.PLUTO_FRAGMENT), 3, this),
-                new ChancedItemDrop(ItemService.generate(CustomItemType.PLUTOS_ARTIFACT), 100, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.PLUTO_FRAGMENT), 1, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.PLUTOS_ARTIFACT), 1, this),
 
                 // Rare chance to be able to summon it again
-                new ChancedItemDrop(ItemService.generate(CustomItemType.NEPTUNES_CONCH), 25, this)
+                new ChancedItemDrop(ItemService.generate(CustomItemType.NEPTUNES_CONCH), 1, this)
         );
     }
 }
