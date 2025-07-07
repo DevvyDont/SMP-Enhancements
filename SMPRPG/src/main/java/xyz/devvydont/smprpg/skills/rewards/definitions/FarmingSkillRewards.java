@@ -1,39 +1,29 @@
 package xyz.devvydont.smprpg.skills.rewards.definitions;
 
+import org.bukkit.attribute.AttributeModifier;
 import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.skills.SkillGlobals;
-import xyz.devvydont.smprpg.skills.rewards.AttributeReward;
-import xyz.devvydont.smprpg.skills.rewards.CoinReward;
 import xyz.devvydont.smprpg.skills.rewards.SkillRewardContainer;
 
+/**
+ * The rewards received from leveling up farming. Farming related skills should be given, like farming fortune.
+ */
 public class FarmingSkillRewards extends SkillRewardContainer {
-
-    public static final int SECONDARY_STAT_LEVEL_DIFF = 5;
 
     @Override
     public void initializeRewards() {
 
-        // Loop from 1-100 and add HP per level
-        for (var i = 1; i <= 100; i++)
-            addReward(i, new AttributeReward(
-                    AttributeWrapper.HEALTH,
-                    SkillGlobals.DEFAULT_SKILL_OPERATION,
-                    SkillGlobals.getStatPerLevel(SkillGlobals.HP_PER_LEVEL, i),
-                    SkillGlobals.getStatPerLevel(SkillGlobals.HP_PER_LEVEL, i-1)
-            ));
+        // Add farming fortune every level
+        this.addAttributeRewardEveryLevel(AttributeWrapper.FARMING_FORTUNE, AttributeModifier.Operation.ADD_NUMBER, SkillGlobals.FORTUNE_PER_LEVEL);
 
-        // Loop every 5 levels and add REGEN
-        for (var i = SECONDARY_STAT_LEVEL_DIFF; i <= 100; i += SECONDARY_STAT_LEVEL_DIFF)
-            addReward(i, new AttributeReward(
-                    AttributeWrapper.REGENERATION,
-                    SkillGlobals.REGENERATION_SKILL_OPERATION,
-                    SkillGlobals.getStatPerXLevel(SkillGlobals.REGEN_PER_5_LEVELS, SECONDARY_STAT_LEVEL_DIFF, i),
-                    SkillGlobals.getStatPerXLevel(SkillGlobals.REGEN_PER_5_LEVELS, SECONDARY_STAT_LEVEL_DIFF, i-SECONDARY_STAT_LEVEL_DIFF)
-            ));
+        // Loop every 4 levels and add REGEN
+        this.addAttributeRewardEveryXLevels(AttributeWrapper.REGENERATION, AttributeModifier.Operation.ADD_NUMBER, SkillGlobals.REGENERATION_PER_2_LEVELS, SkillGlobals.REGENERATION_LEVEL_FREQUENCY);
+
+        // Typical HP every level
+        this.addAttributeRewardEveryXLevels(AttributeWrapper.HEALTH, AttributeModifier.Operation.ADD_NUMBER, SkillGlobals.HP_PER_5_LEVELS, SkillGlobals.HP_LEVEL_FREQUENCY);
 
         // Give coins for every level.
-        for (var i = 1; i <= SkillGlobals.getMaxSkillLevel(); i++)
-            addReward(i, new CoinReward(SkillGlobals.getCoinRewardForLevel(i)));
+        this.addCoinsEveryLevel();
     }
 
 

@@ -251,6 +251,16 @@ public class LeveledPlayer extends LeveledEntity<Player> implements Listener {
         updateBaseAttribute(AttributeWrapper.CRITICAL_CHANCE, 0);
         updateBaseAttribute(AttributeWrapper.CRITICAL_DAMAGE, getDifficulty() == ProfileDifficulty.HARD ? 25 : 50);
 
+        updateBaseAttribute(AttributeWrapper.MINING_FORTUNE, 0);
+        updateBaseAttribute(AttributeWrapper.FARMING_FORTUNE, 0);
+        updateBaseAttribute(AttributeWrapper.WOODCUTTING_FORTUNE, 0);
+
+        updateBaseAttribute(AttributeWrapper.FISHING_RATING, 0);
+        updateBaseAttribute(AttributeWrapper.FISHING_CREATURE_CHANCE, 0);
+        updateBaseAttribute(AttributeWrapper.FISHING_TREASURE_CHANCE, 0);
+
+
+
         // Make sure we aren't overloading their UI with hearts
         getPlayer().setHealthScale(getHealthScale());
         getPlayer().setHealthScaled(true);

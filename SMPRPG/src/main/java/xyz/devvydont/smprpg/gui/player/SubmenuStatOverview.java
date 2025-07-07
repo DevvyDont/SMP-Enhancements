@@ -216,6 +216,12 @@ public class SubmenuStatOverview extends MenuBase {
             case SWEEPING -> Material.NETHERITE_HOE;
             case COMBAT_REACH -> Material.SPYGLASS;
             case MINING_REACH -> Material.BRUSH;
+            case MINING_FORTUNE -> Material.DIAMOND;
+            case FARMING_FORTUNE -> Material.WHEAT;
+            case WOODCUTTING_FORTUNE -> Material.OAK_LOG;
+            case FISHING_RATING -> Material.FISHING_ROD;
+            case FISHING_CREATURE_CHANCE -> Material.DROWNED_SPAWN_EGG;
+            case FISHING_TREASURE_CHANCE -> Material.GOLD_BLOCK;
             case STEP -> Material.QUARTZ_SLAB;
             case UNDERWATER_MINING -> Material.TURTLE_HELMET;
             case WATER_MOVEMENT -> Material.LEATHER_BOOTS;

@@ -1,39 +1,30 @@
 package xyz.devvydont.smprpg.skills.rewards.definitions;
 
+import org.bukkit.attribute.AttributeModifier;
 import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.skills.SkillGlobals;
-import xyz.devvydont.smprpg.skills.rewards.AttributeReward;
-import xyz.devvydont.smprpg.skills.rewards.CoinReward;
 import xyz.devvydont.smprpg.skills.rewards.SkillRewardContainer;
 
+/**
+ * The rewards received from combat. Combat related stats should be given, like damage and criticals.
+ */
 public class CombatSkillRewards extends SkillRewardContainer {
-
-    public static final int SECONDARY_LEVEL_DIFFERENCE = 5;
 
     @Override
     public void initializeRewards() {
 
-        // Loop from 1-100 and add STR per level
-        for (var i = 1; i <= 100; i++)
-            addReward(i, new AttributeReward(
-                    AttributeWrapper.STRENGTH,
-                    SkillGlobals.STRENGTH_SKILL_OPERATION,
-                    SkillGlobals.getStatPerLevel(SkillGlobals.STR_PER_LEVEL, i),
-                    SkillGlobals.getStatPerLevel(SkillGlobals.STR_PER_LEVEL, i-1)
-            ));
+        // Combat should give strength and crit% every level.
+        this.addAttributeRewardEveryLevel(AttributeWrapper.STRENGTH, SkillGlobals.STRENGTH_SKILL_OPERATION, SkillGlobals.STR_PER_LEVEL);
+        this.addAttributeRewardEveryLevel(AttributeWrapper.CRITICAL_CHANCE, AttributeModifier.Operation.ADD_NUMBER, SkillGlobals.CRITICAL_CHANCE_PER_LEVEL);
 
-        // Loop every 5 levels and add HP
-        for (var i = SECONDARY_LEVEL_DIFFERENCE; i <= 100; i += SECONDARY_LEVEL_DIFFERENCE)
-            addReward(i, new AttributeReward(
-                    AttributeWrapper.HEALTH,
-                    SkillGlobals.DEFAULT_SKILL_OPERATION,
-                    SkillGlobals.getStatPerXLevel(SkillGlobals.HP_PER_5_LEVELS, SECONDARY_LEVEL_DIFFERENCE, i),
-                    SkillGlobals.getStatPerXLevel(SkillGlobals.HP_PER_5_LEVELS, SECONDARY_LEVEL_DIFFERENCE, i-SECONDARY_LEVEL_DIFFERENCE)
-            ));
+        // Also give some crit% every 4 levels.
+        this.addAttributeRewardEveryXLevels(AttributeWrapper.CRITICAL_DAMAGE, AttributeModifier.Operation.ADD_NUMBER, SkillGlobals.CRITICAL_RATING_PER_4_LEVELS, SkillGlobals.CRITICAL_RATING_LEVEL_FREQUENCY);
+
+        // Typical HP every level
+        this.addAttributeRewardEveryXLevels(AttributeWrapper.HEALTH, AttributeModifier.Operation.ADD_NUMBER, SkillGlobals.HP_PER_5_LEVELS, SkillGlobals.HP_LEVEL_FREQUENCY);
 
         // Give coins for every level.
-        for (var i = 1; i <= SkillGlobals.getMaxSkillLevel(); i++)
-            addReward(i, new CoinReward(SkillGlobals.getCoinRewardForLevel(i)));
+        this.addCoinsEveryLevel();
     }
 
 }

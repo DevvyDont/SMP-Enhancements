@@ -225,6 +225,64 @@ public enum AttributeWrapper {
                 create(".")
             )),
 
+    MINING_FORTUNE("Fortune",
+            AttributeCategory.FORAGING,
+            AttributeType.HELPFUL,
+            merge(
+                    create("Affects the amount of drops received from "),
+                    create("mining ores", DARK_PURPLE),
+                    create(".")
+            )),
+
+    FARMING_FORTUNE("Yield",
+            AttributeCategory.FORAGING,
+            AttributeType.HELPFUL,
+            merge(
+                    create("Affects the amount of drops received from "),
+                    create("farming crops", GOLD),
+                    create(".")
+            )),
+
+    WOODCUTTING_FORTUNE("Splintering",
+            AttributeCategory.FORAGING,
+            AttributeType.HELPFUL,
+            merge(
+                    create("Affects the amount of drops received from "),
+                    create("cutting trees", YELLOW),
+                    create(".")
+            )),
+
+    FISHING_RATING("Catch Quality",
+            AttributeCategory.FISHING,
+            AttributeType.HELPFUL,
+            merge(
+                    create("The quality of normal "),
+                    create("fishing", BLUE),
+                    create(" rewards.")
+            )),
+
+    FISHING_CREATURE_CHANCE("Sea Creature Chance",
+            AttributeCategory.FISHING,
+            AttributeType.HELPFUL,
+            merge(
+                    create("The chance to find a "),
+                    create("sea creature", RED),
+                    create(" when "),
+                    create("fishing", BLUE),
+                    create(".")
+            )),
+
+    FISHING_TREASURE_CHANCE("Treasure Chance",
+            AttributeCategory.FISHING,
+            AttributeType.HELPFUL,
+            merge(
+                    create("The chance to find a "),
+                    create("treasure", YELLOW),
+                    create(" when "),
+                    create("fishing", BLUE),
+                    create(".")
+            )),
+
     SNEAKING_SPEED(Attribute.SNEAKING_SPEED,
             "Sneak Speed",
             AttributeCategory.MOVEMENT,

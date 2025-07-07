@@ -48,8 +48,8 @@ public class AttributeReward implements ISkillReward {
         if (number - ((int) number) == 0)
             return String.valueOf((int)number);
 
-        // Otherwise only use 1 decimal.
-        return String.format("%.1f", number);
+        // Otherwise only use 2 decimals.
+        return String.format("%.2f", number);
     }
 
     @Override
