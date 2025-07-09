@@ -17,6 +17,7 @@ public class SkillExperienceGainEvent extends Event implements Cancellable {
         ORE,
         SMELT,
 
+        WOODCUTTING,
         HARVEST,
         TAME,
         FEED,

@@ -48,17 +48,17 @@ public class FarmingExperienceListener implements Listener {
 
             case BROWN_MUSHROOM_BLOCK, RED_MUSHROOM_BLOCK -> 21;
 
-            case SEA_PICKLE -> 5;
+            case SEA_PICKLE -> 3;
 
             case CRIMSON_FUNGUS, WARPED_FUNGUS -> 4;
 
             case WITHER_ROSE -> 6;
 
-            case MELON -> 6;
+            case MELON -> 5;
             case MELON_SLICE -> 1;
             case MELON_SEEDS -> 1;
 
-            case PUMPKIN -> 6;
+            case PUMPKIN -> 5;
             case PUMPKIN_SEEDS -> 1;
 
             case BEETROOT, BEETROOTS -> 3;
@@ -72,7 +72,7 @@ public class FarmingExperienceListener implements Listener {
 
             case CARROT, CARROTS, POTATO, POTATOES -> 3;
 
-            case NETHER_WART -> 6;
+            case NETHER_WART -> 5;
 
             case SUGAR_CANE -> 2;
             case CACTUS -> 5;

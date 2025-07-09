@@ -31,7 +31,7 @@ public class MiningExperienceListener implements Listener {
                     case PRISMARINE_BRICKS, DARK_PRISMARINE -> 2;
                     case WET_SPONGE -> 25;
 
-                    case BLUE_ICE -> 2;
+                    case BLUE_ICE -> 8;
 
                     case COAL_ORE, COAL -> 5;
                     case DEEPSLATE_COAL_ORE -> 7;
@@ -73,12 +73,12 @@ public class MiningExperienceListener implements Listener {
 
                     case MAGMA_BLOCK -> 2;
                     case GOLD_NUGGET -> 5;
-                    case NETHER_GOLD_ORE -> 30;
+                    case NETHER_GOLD_ORE -> 22;
                     case GLOWSTONE -> 15;
-                    case NETHER_QUARTZ_ORE -> 30;
+                    case NETHER_QUARTZ_ORE -> 25;
                     case QUARTZ -> 10;
                     case QUARTZ_BLOCK -> 15;
-                    case ANCIENT_DEBRIS -> 150;
+                    case ANCIENT_DEBRIS -> 200;
 
 
                     default -> 0;

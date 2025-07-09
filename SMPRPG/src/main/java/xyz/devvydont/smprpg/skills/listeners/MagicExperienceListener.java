@@ -140,7 +140,7 @@ public class MagicExperienceListener implements Listener {
             return;
 
         // Set a base experience earning for this enchant. At the start it is just the level of enchant we are performing.
-        int exp = event.getExpLevelCost() + 20;
+        int exp = event.getExpLevelCost() + 10;
 
         // Loop through every enchant and see how much magic experience it gives.
         for (CustomEnchantment enchantment : SMPRPG.getService(EnchantmentService.class).getCustomEnchantments(event.getEnchantsToAdd()))
@@ -150,7 +150,7 @@ public class MagicExperienceListener implements Listener {
         double multiplier = 1.0;
         SMPItemBlueprint blueprint = SMPRPG.getService(ItemService.class).getBlueprint(event.getItem());
         if (blueprint instanceof IAttributeItem attributeable)
-            multiplier += attributeable.getPowerRating() / 15.0;
+            multiplier += attributeable.getPowerRating() / 20.0;
 
         var player = SMPRPG.getService(EntityService.class).getPlayerInstance(event.getEnchanter());
         player.getMagicSkill().addExperience((int) (exp*multiplier), SkillExperienceGainEvent.ExperienceSource.ENCHANT);
@@ -252,10 +252,7 @@ public class MagicExperienceListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onPickupExperience(PlayerPickupExperienceEvent event) {
-        int exp = event.getExperienceOrb().getExperience() / 2;
-        if (exp <= 0)
-            return;
-
+        int exp = Math.max(1, event.getExperienceOrb().getExperience() / 10);
         LeveledPlayer player = SMPRPG.getService(EntityService.class).getPlayerInstance(event.getPlayer());
         player.getMagicSkill().addExperience(exp, SkillExperienceGainEvent.ExperienceSource.XP);
     }

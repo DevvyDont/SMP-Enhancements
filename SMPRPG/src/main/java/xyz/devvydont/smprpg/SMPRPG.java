@@ -10,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.effects.services.SpecialEffectService;
 import xyz.devvydont.smprpg.listeners.*;
+import xyz.devvydont.smprpg.listeners.debug.DebuggingListeners;
 import xyz.devvydont.smprpg.loot.LootListener;
 import xyz.devvydont.smprpg.services.*;
 import xyz.devvydont.smprpg.util.animations.AnimationService;
@@ -157,6 +158,9 @@ public final class SMPRPG extends JavaPlugin {
         generalListeners.add(new PvPListener());  // Disables PVP in certain contexts.
         generalListeners.add(new StructureEntitySpawnListener());  // Allows entities to spawn as the level of the structure they're in.
         generalListeners.add(new LootListener());  // Overrides vanilla loot tables by injecting our items into it.
+
+        // Uncomment this if you want some debugging events.
+        generalListeners.add(new DebuggingListeners());  // Enables some debugging functionality.
 
         // Start all of them.
         for (var listener : generalListeners)
