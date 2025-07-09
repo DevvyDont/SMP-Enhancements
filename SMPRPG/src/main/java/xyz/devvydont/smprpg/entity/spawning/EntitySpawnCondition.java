@@ -27,7 +27,7 @@ public interface EntitySpawnCondition {
 
         @Override
         public boolean test(Location location) {
-            return valid(location) && Math.random() * 100 < chance;
+            return valid(location) && Math.random() < chance;
         }
 
         public SpawnCondition withChance(float chance) {
