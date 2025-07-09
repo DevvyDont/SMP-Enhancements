@@ -354,7 +354,22 @@ public class EntityDamageCalculatorService implements Listener, IService {
         if (living.getEquipment() == null)
             return;
 
-        // 95% damage reduction for abusing bow attributes
+        // Is this a melee attack?
+        if (!event.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_ATTACK))
+            return;
+
+        // 95% damage reduction for direct damage with bows.
+        var hand = living.getEquipment().getItemInMainHand();
+        if (!hand.getType().equals(Material.AIR)) {
+            if (SMPRPG.getService(ItemService.class).getBlueprint(hand).getItemClassification().isBow()) {
+                event.setDamage(EntityDamageEvent.DamageModifier.BASE, event.getDamage() * .05);
+                living.sendMessage(ComponentUtils.error("That's not how you use this weapon..."));
+                living.getWorld().playSound(living.getLocation(), Sound.ENTITY_ENDERMAN_HURT, 1f, 1.25f);
+                return;
+            }
+        }
+
+        // 95% damage reduction for abusing bow attributes.
         if (isTryingToBowStackExploit(living)) {
             event.setDamage(EntityDamageEvent.DamageModifier.BASE, event.getDamage() * .05);
             living.sendMessage(ComponentUtils.error("You seem to be struggling trying to deal damage with the items you are holding..."));
