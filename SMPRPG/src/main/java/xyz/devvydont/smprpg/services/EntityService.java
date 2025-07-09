@@ -17,7 +17,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
@@ -434,20 +433,6 @@ public class EntityService implements IService, Listener {
                 leveled.updateNametag();
             }
         }.runTaskLater(SMPRPG.getInstance(), 1L);
-    }
-
-    @EventHandler(priority = EventPriority.MONITOR)
-    private void __onDiscoverNearbyEntity(PlayerMoveEvent event) {
-
-        // Only do this every chunk change
-        if (event.getFrom().getChunk().equals(event.getTo().getChunk()))
-            return;
-
-        event.getPlayer().getNearbyEntities(56, 6, 56).forEach(entity -> {
-            if (!(entity instanceof Player) && entity instanceof LivingEntity)
-                getEntityInstance(entity).brightenNametag();
-        });
-
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
