@@ -22,6 +22,7 @@ public class Symbols {
     public static final String POINT = "⏵";
 
     public static final String FIRE = "\uD83D\uDD25";
+    public static final String SNOWFLAKE = "❆";
 
     public static final String LOCK = "\uD83D\uDD12";
 

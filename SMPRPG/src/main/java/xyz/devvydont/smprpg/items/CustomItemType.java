@@ -10,10 +10,7 @@ import xyz.devvydont.smprpg.items.blueprints.charms.SpeedCharm;
 import xyz.devvydont.smprpg.items.blueprints.charms.StrengthCharm;
 import xyz.devvydont.smprpg.items.blueprints.debug.*;
 import xyz.devvydont.smprpg.items.blueprints.economy.CustomItemCoin;
-import xyz.devvydont.smprpg.items.blueprints.equipment.DesolatedStone;
-import xyz.devvydont.smprpg.items.blueprints.equipment.EnchantedMilkBucket;
-import xyz.devvydont.smprpg.items.blueprints.equipment.GrapplingHook;
-import xyz.devvydont.smprpg.items.blueprints.equipment.TransmissionWand;
+import xyz.devvydont.smprpg.items.blueprints.equipment.*;
 import xyz.devvydont.smprpg.items.blueprints.food.*;
 import xyz.devvydont.smprpg.items.blueprints.misc.DeathCertificate;
 import xyz.devvydont.smprpg.items.blueprints.potion.ExperienceBottle;
@@ -365,6 +362,8 @@ public enum CustomItemType {
     LARGE_BACKPACK("Large Backpack", Material.FIREWORK_STAR, ItemRarity.RARE, LargeBackpack.class),
     GIGANTIC_BACKPACK("Gigantic Backpack", Material.FIREWORK_STAR, ItemRarity.EPIC, GiganticBackpack.class),
     COLOSSAL_BACKPACK("Colossal Backpack", Material.FIREWORK_STAR, ItemRarity.LEGENDARY, ColossalBackpack.class),
+
+    THERMOMETER("Thermometer", Material.ECHO_SHARD, ItemRarity.RARE, ThermometerBlueprint.class),
 
     // FOOD
     STALE_BREAD("Stale Bread", Material.BREAD, ItemRarity.COMMON, StaleBread.class),
