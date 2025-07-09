@@ -26,7 +26,7 @@ public class JupiterArtifact extends CustomItemBlueprint implements ISellable, I
 
     @Override
     public String getTextureUrl() {
-        return "e19e936ae7b42d666eed981c8f44cc7f1872b45f5d3faac38e34fa226800f3ef";
+        return "4f4ff19c367e442bbba37b5159cce4f22596e6673c8e913a11659c4b723577ad";
     }
 
     @Override
