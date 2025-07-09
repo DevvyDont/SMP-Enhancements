@@ -9,10 +9,16 @@ import xyz.devvydont.smprpg.skills.rewards.ISkillReward;
 
 import java.util.Collection;
 
+/**
+ * Skill instances are helper instances to interface with skill modification on entities.
+ * They handle things such as skill experience combos, and provide useful helper methods for
+ * common experience calculations that can make recursive experience formulas easier to work with.
+ * In most instances, you only really have to call {@link SkillInstance#addExperience(int, SkillExperienceGainEvent.ExperienceSource)}
+ */
 public class SkillInstance {
 
-    private Player owner;
-    private SkillType type;
+    private final Player owner;
+    private final SkillType type;
 
     // Combo related things, certain effects could use these but mainly used as a display thing
     int combo = 0;
@@ -22,10 +28,6 @@ public class SkillInstance {
     public SkillInstance(Player owner, SkillType type) {
         this.owner = owner;
         this.type = type;
-    }
-
-    public void expireCombo() {
-        combo = 0;
     }
 
     public void checkValidCombo() {
@@ -55,14 +57,27 @@ public class SkillInstance {
         return type;
     }
 
+    /**
+     * Query how much total cumulative experience the owning player has.
+     * @return The amount of experience.
+     */
     public int getExperience() {
         return owner.getPersistentDataContainer().getOrDefault(type.getNamespacedKey(), PersistentDataType.INTEGER, 0);
     }
 
+    /**
+     * Set the total cumulative experience the owning player has.
+     * @param experience The amount of experience to set.
+     */
     public void setExperience(int experience) {
         owner.getPersistentDataContainer().set(type.getNamespacedKey(), PersistentDataType.INTEGER, experience);
     }
 
+    /**
+     * Add experience to the owning player. Automatically handles level up and event calling logic for you.
+     * @param experience The amount of experience to add.
+     * @param source The source of the experience.
+     */
     public void addExperience(int experience, SkillExperienceGainEvent.ExperienceSource source) {
 
         // Construct an experience gain event. This allows listeners to modify the experience we are gaining.
@@ -82,7 +97,7 @@ public class SkillInstance {
         checkValidCombo();
         increaseCombo(event.getExperienceEarned());
 
-        // Another event for post experience gains where no modifications can be made but we have real XP values
+        // Another event for post experience gains where no modifications can be made, but we have real XP values
         boolean leveledUp = oldLevel < newLevel;
         new SkillExperiencePostGainEvent(source, event.getExperienceEarned(), this, leveledUp).callEvent();
 
@@ -91,55 +106,69 @@ public class SkillInstance {
             new SkillLevelUpEvent(this, oldLevel).callEvent();
     }
 
+    /**
+     * Add experience to the owning player. Automatically handles level up and event calling logic for you.
+     * @param experience The amount of experience to add.
+     */
     public void addExperience(int experience) {
         addExperience(experience, SkillExperienceGainEvent.ExperienceSource.UNKNOWN);
     }
 
+    /**
+     * Check what skill level the owning player is for this skill.
+     * @return The skill level.
+     */
     public int getLevel() {
         return SkillGlobals.getLevelForExperience(getExperience());
     }
 
+    /**
+     * Check what skill level is next. This is effectively the same as {@link SkillInstance#getLevel()} + 1.
+     * @return The next level.
+     */
     public int getNextLevel() {
         return getLevel() + 1;
     }
 
     /**
-     * Gets the experience progress for this level. Ignores experience gained for prior levels
-     *
-     * @return
+     * Calculates the experience gained for ONLY the current level. Any cumulative experience gained
+     * from previous levels is ignored.
+     * @return The amount of experience gained only for the current level.
      */
     public int getExperienceProgress() {
         return getExperience() - SkillGlobals.getCumulativeExperienceForLevel(getLevel());
     }
 
     /**
-     * Use this to determine how much experience is needed to level up, but do not use the experience from prior levels
-     *
-     * @return
+     * Check the cumulative experience threshold to reach the next level. This is a total experience check.
+     * @return The amount of experience required (total!) to level up.
      */
     public int getNextExperienceThreshold() {
         return SkillGlobals.getExperienceForLevel(getNextLevel());
     }
 
     /**
-     * Returns the experience required to level up to the next level
-     *
-     * @return
+     * Returns the amount of experience necessary to cause a level up.
+     * @return An amount of experience.
      */
     public int getExperienceForNextLevel() {
         return SkillGlobals.getCumulativeExperienceForLevel(getNextLevel()) - getExperience();
     }
 
     /**
-     * Given an amount of experience, determine if this will be enough to level up
-     *
-     * @param experience
-     * @return
+     * Checks if a certain experience reward will trigger a level up.
+     * @param experience The experience to check.
+     * @return True if this player will level up from the experience.
      */
     public boolean willLevelUp(int experience) {
         return experience >= getExperienceForNextLevel();
     }
 
+    /**
+     * Retrieve the rewards that a certain skill level will grant.
+     * @param level The level to check rewards for.
+     * @return A collection of rewards.
+     */
     public Collection<ISkillReward> getRewards(int level) {
         return getType().getRewards().getRewardsForLevel(level);
     }
