@@ -130,4 +130,11 @@ public enum ItemClassification {
             default -> false;
         };
     }
+
+    public boolean isWeapon() {
+        return switch (this) {
+            case AXE, BOW, CROSSBOW, SHORTBOW, SWORD, TRIDENT, TOOL, WEAPON, MACE -> true;
+            default -> false;
+        };
+    }
 }

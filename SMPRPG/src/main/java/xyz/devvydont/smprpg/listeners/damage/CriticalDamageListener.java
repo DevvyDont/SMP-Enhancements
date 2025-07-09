@@ -3,6 +3,7 @@ package xyz.devvydont.smprpg.listeners.damage;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.AbstractArrow;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -10,6 +11,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.events.CustomEntityDamageByEntityEvent;
+import xyz.devvydont.smprpg.listeners.EntityDamageCalculatorService;
 import xyz.devvydont.smprpg.services.AttributeService;
 import xyz.devvydont.smprpg.util.listeners.ToggleableListener;
 
@@ -99,6 +101,10 @@ public class CriticalDamageListener extends ToggleableListener {
         if (event.getDealer().getVelocity().getY() >= 0)
             return;
 
+        // If this isn't a fully charged attack, it can't be a crit.
+        if (event.getDealer() instanceof HumanEntity player && player.getAttackCooldown() < EntityDamageCalculatorService.COOLDOWN_FORGIVENESS_THRESHOLD)
+            return;
+
         // We have met all the conditions for a crit.
         event.setCritical(true);
     }
@@ -113,6 +119,10 @@ public class CriticalDamageListener extends ToggleableListener {
 
         // Criticals can only occur for melee hits.
         if (!event.getVanillaCause().equals(EntityDamageEvent.DamageCause.ENTITY_ATTACK))
+            return;
+
+        // If this isn't a fully charged attack, it can't be a crit.
+        if (event.getDealer() instanceof HumanEntity player && player.getAttackCooldown() < EntityDamageCalculatorService.COOLDOWN_FORGIVENESS_THRESHOLD)
             return;
 
         // No point on continuing unless the dealer can have attributes.

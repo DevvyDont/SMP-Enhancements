@@ -13,7 +13,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
-import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -26,6 +26,10 @@ import xyz.devvydont.smprpg.services.EntityService;
 import xyz.devvydont.smprpg.services.IService;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
+import xyz.devvydont.smprpg.util.time.TickTime;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Overrides all instances of vanilla damage that is desired to fit our new attribute logic
@@ -52,11 +56,9 @@ public class EntityDamageCalculatorService implements Listener, IService {
     // The base damage to an arrow if it was not assigned one when it is launched. This could happen in the event
     // that we do not set a damage value on an arrow entity when it is fired from any source.
     public final static double BASE_ARROW_DAMAGE = 5;
-    // The force factor to apply to an arrow's force to decide if this arrow was a fully charged
-    // arrow shot. In vanilla minecraft, fully charged bow shots have a force of 3.0
-    public final static double BOW_FORCE_FACTOR = 3.0;
     // The force factor to assume for entities. Entities do not have "bow force" in the same way
-    // that players do, so we can make one up here. They also typically do not shoot as forceful as players.
+    // that players do, so we can make one up here. They struggle to shoot arrows at full velocity but still shoot
+    // them with a full bow force of 1.0. We should give them a little boost.
     public final static double AI_BOW_FORCE_FACTOR = 1.75;
     // The velocity an arrow needs to be travelling to deal "maximum" damage. Arrows traveling this fast
     // will deal exactly the amount of damage to the attack damage stat that was applied to it when it was shot.
@@ -71,6 +73,71 @@ public class EntityDamageCalculatorService implements Listener, IService {
     /*
      * STATIC HELPER METHODS
      */
+
+    /**
+     * Checks the state of this entity regarding holding bows. Returns a map for all hand related equipment slots and
+     * whether they are holding a bow.
+     * @param entity The entity in question.
+     * @return A map of equipment slot states regarding holding bows.
+     */
+    public static Map<EquipmentSlotGroup, Boolean> holdingBowInHand(LivingEntity entity) {
+
+        var map = new HashMap<>(Map.of(
+                EquipmentSlotGroup.MAINHAND, false,
+                EquipmentSlotGroup.OFFHAND, false,
+                EquipmentSlotGroup.HAND, false
+        ));
+
+        if (entity.getEquipment() == null)
+            return map;
+
+        // Analyze what's in both hands and update accordingly if a bow is present.
+        var mainHand = entity.getEquipment().getItemInMainHand();
+        var offHand = entity.getEquipment().getItemInOffHand();
+        if (!mainHand.getType().equals(Material.AIR) && SMPRPG.getService(ItemService.class).getBlueprint(mainHand).getItemClassification().isBow())
+            map.put(EquipmentSlotGroup.MAINHAND, true);
+        if (!offHand.getType().equals(Material.AIR) && SMPRPG.getService(ItemService.class).getBlueprint(offHand).getItemClassification().isBow())
+            map.put(EquipmentSlotGroup.OFFHAND, true);
+
+        if (map.get(EquipmentSlotGroup.MAINHAND) || map.get(EquipmentSlotGroup.OFFHAND))
+            map.put(EquipmentSlotGroup.HAND, true);
+
+        return map;
+    }
+
+    /**
+     * The vanilla minecraft attribute system has a significant flaw. Since bows can be offhanded, we need to make sure
+     * that the entity isn't dual wielding an attribute increasing weapon in their main hand if they are shooting
+     * using their offhand, or dual wielding bows.
+     * @param entity The entity that is being state checked.
+     * @return True if they satisfy the condition of bow stack exploiting, false if they seem to be clear.
+     */
+    public static boolean isTryingToBowStackExploit(LivingEntity entity) {
+
+        if (entity.getEquipment() == null)
+            return false;
+
+        // First check the easy condition, are they dual wielding bows?
+        var bowState = holdingBowInHand(entity);
+        if (bowState.getOrDefault(EquipmentSlotGroup.MAINHAND, false) && bowState.getOrDefault(EquipmentSlotGroup.OFFHAND, false))
+            return true;
+
+        // Now check if they are trying to shoot a bow in their offhand but hold a weapon in their man hand.
+        if (!bowState.getOrDefault(EquipmentSlotGroup.OFFHAND, false))
+            return false;
+
+        var main = entity.getEquipment().getItemInMainHand();
+        if (main.getType().equals(Material.AIR))
+            return false;
+
+        // At this point, we know we are off-handing a bow. Are we attempting to hold a stat increasing weapon in our main hand as well?
+        var blueprint = SMPRPG.getService(ItemService.class).getBlueprint(main);
+        if (blueprint.getItemClassification().isWeapon())
+            return true;
+
+        // We seem to be innocent...
+        return false;
+    }
 
     /**
      * Given a defense attribute value, return the multiplier of some damage to take.
@@ -287,20 +354,11 @@ public class EntityDamageCalculatorService implements Listener, IService {
         if (living.getEquipment() == null)
             return;
 
-        // If two entities did direct damage to each other and one is holding a bow, we need to apply a penalty
-        boolean holdingBow = false;
-
-        ItemStack mainHand = living.getEquipment().getItemInMainHand();
-        ItemStack offHand = living.getEquipment().getItemInOffHand();
-        if (!mainHand.getType().equals(Material.AIR) && SMPRPG.getService(ItemService.class).getBlueprint(mainHand).getItemClassification().isBow())
-            holdingBow = true;
-        if (!offHand.getType().equals(Material.AIR) && SMPRPG.getService(ItemService.class).getBlueprint(offHand).getItemClassification().isBow())
-            holdingBow = true;
-
-        // 95% damage reduction
-        if (holdingBow) {
+        // 95% damage reduction for abusing bow attributes
+        if (isTryingToBowStackExploit(living)) {
             event.setDamage(EntityDamageEvent.DamageModifier.BASE, event.getDamage() * .05);
-            living.sendMessage(ComponentUtils.error("You seem to be struggling trying to deal damage like that with a bow..."));
+            living.sendMessage(ComponentUtils.error("You seem to be struggling trying to deal damage with the items you are holding..."));
+            living.getWorld().playSound(living.getLocation(), Sound.ENTITY_ENDERMAN_HURT, 1f, 1.25f);
         }
 
     }
@@ -349,13 +407,19 @@ public class EntityDamageCalculatorService implements Listener, IService {
         // Using the attack of the entity, set a base damage value to use.
         double arrowDamage = attackDamage.getValue();
 
-        // If this was a player, consider bow force.
-        // Based on how charged the bow was, apply a percentage to the arrow's damage. (Fully charged = full damage)
-        if (event.getEntity() instanceof Player)
-            arrowDamage *= (event.getForce() / BOW_FORCE_FACTOR);
+        // Modify it by the force of the event.
+        arrowDamage *= event.getForce();
+
         // If this wasn't a player, consider difficulty and give the arrow a 2x boost to nullify velocity falloff since entities don't shoot arrows that travel at max speed
-        else
+        if (!(event.getEntity() instanceof Player))
             arrowDamage = getDifficultyAdjustedDamage(event.getEntity().getWorld(), arrowDamage) * AI_BOW_FORCE_FACTOR;
+
+        // Punish bow stacking.
+        if (isTryingToBowStackExploit(event.getEntity())) {
+            arrowDamage *= .05;
+            event.getEntity().sendMessage(ComponentUtils.error("You seem to be struggling shooting arrows correctly with the items you are holding..."));
+            event.getEntity().getWorld().playSound(event.getEntity().getLocation(), Sound.ENTITY_ENDERMAN_HURT, 1f, 1.25f);
+        }
 
         // Set the damage.
         setBaseProjectileDamage(event.getProjectile(), arrowDamage);
@@ -376,13 +440,13 @@ public class EntityDamageCalculatorService implements Listener, IService {
 
         // Send ding noise to player if it was a non PVP interaction
         if (event.getDamageSource().getCausingEntity() instanceof Player player && !(event.getEntity() instanceof Player))
-            player.playSound(player.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1, .8f);
+            player.playSound(player.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, .75f, .8f);
 
         // Retrieve the base damage of this arrow assuming this arrow is at max velocity.
         double baseArrowDamage = getBaseProjectileDamage(arrow);
 
         // Convert the velocity to m/s by using the tick rate of the server
-        double arrowVelocity = arrow.getVelocity().length() * 20;
+        double arrowVelocity = arrow.getVelocity().length() * TickTime.TPS;
         double arrowForce = arrowVelocity / MAX_ARROW_DAMAGE_VELOCITY;
         double newArrowDamage = baseArrowDamage * arrowForce;
 
@@ -510,6 +574,10 @@ public class EntityDamageCalculatorService implements Listener, IService {
 
         // Is the entity dealing damage a player? We only care about players.
         if (!(event.getDealer() instanceof Player player))
+            return;
+
+        // We only care about melee interactions. Events caused by other sources are not affected by cooldown.
+        if (!event.getOriginalEvent().getCause().equals(EntityDamageEvent.DamageCause.ENTITY_ATTACK))
             return;
 
         float cooldown = player.getAttackCooldown();

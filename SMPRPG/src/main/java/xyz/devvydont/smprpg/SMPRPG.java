@@ -170,5 +170,4 @@ public final class SMPRPG extends JavaPlugin {
         for (var listener : generalListeners)
             listener.stop();
     }
-
 }

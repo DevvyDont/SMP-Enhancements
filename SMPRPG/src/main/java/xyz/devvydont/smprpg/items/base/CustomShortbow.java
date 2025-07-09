@@ -1,6 +1,8 @@
 package xyz.devvydont.smprpg.items.base;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
@@ -16,10 +18,12 @@ import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemStack;
+import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.interfaces.IHeaderDescribable;
 import xyz.devvydont.smprpg.listeners.EntityDamageCalculatorService;
+import xyz.devvydont.smprpg.services.ActionBarService;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.items.AbilityUtil;
@@ -101,8 +105,20 @@ public abstract class CustomShortbow extends CustomAttributeItem implements IHea
 
         }
 
-        if (consumable == null)
+        // If the player is in creative mode, then we just use some fake arrow...
+        if (event.getPlayer().getGameMode() == GameMode.CREATIVE)
+            if (consumable != null)
+                consumable = consumable.clone();
+            else {
+                consumable = ItemService.generate(Material.ARROW);
+                arrowClass = Arrow.class;
+            }
+
+        if (consumable == null) {
+            event.getPlayer().playSound(event.getPlayer().getLocation(), Sound.ENTITY_VILLAGER_WORK_FLETCHER, 1.0f, 1.5f);
+            SMPRPG.getService(ActionBarService.class).addActionBarComponent(event.getPlayer(), ActionBarService.ActionBarSource.MISC, ComponentUtils.create("NO ARROWS!", NamedTextColor.RED), 2);
             return;
+        }
 
         // Now launch the arrow.
         event.setCancelled(true);
@@ -114,7 +130,7 @@ public abstract class CustomShortbow extends CustomAttributeItem implements IHea
 
         // We should be good to shoot an arrow. Manually call the shoot bow event so plugins can modify it.
         // This will also cause the damage listener to set the damage as intended on the arrow so we don't have to that
-        EntityShootBowEvent bowEvent = new EntityShootBowEvent(event.getPlayer(), item, consumable, arrow, event.getHand(), (float)EntityDamageCalculatorService.BOW_FORCE_FACTOR, shouldConsume);
+        EntityShootBowEvent bowEvent = new EntityShootBowEvent(event.getPlayer(), item, consumable, arrow, event.getHand(), 1.0f, shouldConsume);
         bowEvent.callEvent();
 
         // If something cancelled the event, remove the arrow and cancel the interaction
