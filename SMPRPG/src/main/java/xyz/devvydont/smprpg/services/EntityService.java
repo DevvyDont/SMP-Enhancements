@@ -223,8 +223,12 @@ public class EntityService implements IService, Listener {
         if (type == null)
             return getNewVanillaEntityInstance(entity);
 
+        // Custom entities must be LivingEntity.
+        if (!(entity instanceof LivingEntity living))
+            throw new IllegalStateException("Entity " + entity.getClass().getCanonicalName() + " is not an instance of LivingEntity. Only living entities are supported for custom entities.");
+
         // Create an instance of the handler and track it.
-        var leveled = type.create(entity);
+        var leveled = type.create(living);
         trackEntity(leveled);
         return leveled;
     }
@@ -242,8 +246,12 @@ public class EntityService implements IService, Listener {
             e.getPersistentDataContainer().set(getClassNamespacedKey(), PersistentDataType.STRING, type.key());
         });
 
+        // Custom entities must be LivingEntity.
+        if (!(entity instanceof LivingEntity living))
+            throw new IllegalStateException("Entity " + entity.getClass().getCanonicalName() + " is not an instance of LivingEntity. Only living entities are supported for custom entities.");
+
         // Create an instance of the handler and track it.
-        var leveled = type.create(entity);
+        var leveled = type.create(living);
         leveled.updateAttributes();
         trackEntity(leveled);
         return leveled;

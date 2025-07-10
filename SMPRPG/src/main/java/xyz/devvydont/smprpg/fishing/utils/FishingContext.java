@@ -1,12 +1,15 @@
-package xyz.devvydont.smprpg.fishing;
+package xyz.devvydont.smprpg.fishing.utils;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.inventory.EquipmentSlot;
+import xyz.devvydont.smprpg.SMPRPG;
+import xyz.devvydont.smprpg.attribute.AttributeWrapper;
+import xyz.devvydont.smprpg.services.AttributeService;
 
 /**
- * A simple class that provides basic context that the {@link FishingCalculator} would find relevant.
+ * A simple class that provides basic context for fishing loot generation.
  */
 public class FishingContext {
 
@@ -22,8 +25,6 @@ public class FishingContext {
         this.player = event.getPlayer();
         this.location = event.getHook().getLocation();
         this.hand = event.getHand();
-
-//        this.location.getBlock().gettem
     }
 
     /**
@@ -48,8 +49,31 @@ public class FishingContext {
      * fishing bobber. If you want the player's location, use {@link FishingContext#getPlayer()} instead.
      * @return The location of this fishing event.
      */
-    private Location getLocation() {
+    public Location getLocation() {
         return location;
     }
 
+    public TemperatureReading getTemperature() {
+        return TemperatureReading.fromValue(location.getBlock().getTemperature());
+    }
+
+    /**
+     * Checks the player's catch quality in this interaction. This is determined by their catch quality attribute.
+     * @return The player's catch quality.
+     */
+    public int getCatchQuality() {
+        var quality = SMPRPG.getService(AttributeService.class).getAttribute(player, AttributeWrapper.FISHING_RATING);
+        if (quality == null)
+            return 0;
+        return (int)quality.getValue();
+    }
+
+    @Override
+    public String toString() {
+        return "FishingContext{" +
+                "temp=" + getTemperature() +
+                ", biome=" + getLocation().getBlock().getBiome() +
+                ", location=" + location +
+                '}';
+    }
 }

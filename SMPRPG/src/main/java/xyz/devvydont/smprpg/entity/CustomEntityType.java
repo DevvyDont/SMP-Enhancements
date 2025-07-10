@@ -5,12 +5,16 @@ import org.bukkit.Material;
 import org.bukkit.block.Biome;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.generator.structure.Structure;
 import org.bukkit.persistence.PersistentDataType;
 import xyz.devvydont.smprpg.entity.base.CustomEntityInstance;
 import xyz.devvydont.smprpg.entity.base.LeveledEntity;
 import xyz.devvydont.smprpg.entity.bosses.BlazeBoss;
 import xyz.devvydont.smprpg.entity.creatures.*;
+import xyz.devvydont.smprpg.entity.fishing.Minnow;
+import xyz.devvydont.smprpg.entity.fishing.SeaBear;
+import xyz.devvydont.smprpg.entity.fishing.SnappingTurtle;
 import xyz.devvydont.smprpg.entity.npc.ReforgeNPC;
 import xyz.devvydont.smprpg.entity.spawning.EntitySpawnCondition;
 import xyz.devvydont.smprpg.entity.spawning.EntitySpawner;
@@ -77,6 +81,14 @@ public enum CustomEntityType {
             WitheredSeraph::new,
             EntitySpawnCondition.BiomeSpawnCondition.biome(Biome.THE_END).withChance(.1f)),
 
+    // Fishing creatures.
+    MINNOW(EntityType.SILVERFISH, "Minnow",
+            1, 50, 5, Minnow::new),
+    SNAPPING_TURTLE(EntityType.TURTLE, "Snapping Turtle",
+            5, 150, 15, SnappingTurtle::new),
+    SEA_BEAR(EntityType.POLAR_BEAR, "Sea Bear",
+            10, 250, 25, SeaBear::new),
+
     TEST_ZOMBIE(EntityType.ZOMBIE, "Test Zombie",
             5, 120, 15,
             TestZombie::new),
@@ -103,9 +115,9 @@ public enum CustomEntityType {
     public final int Damage;
     public final EntitySpawnCondition SpawnCondition;
 
-    private final BiFunction<Entity, CustomEntityType, LeveledEntity<?>> Factory;
+    private final BiFunction<LivingEntity, CustomEntityType, LeveledEntity<?>> Factory;
 
-    CustomEntityType(EntityType type, String name, int Level, int Hp, int Damage, BiFunction<Entity, CustomEntityType, LeveledEntity<?>> factory, EntitySpawnCondition condition) {
+    CustomEntityType(EntityType type, String name, int Level, int Hp, int Damage, BiFunction<LivingEntity, CustomEntityType, LeveledEntity<?>> factory, EntitySpawnCondition condition) {
         this.Type = type;
         this.Name = name;
         this.Level = Level;
@@ -115,7 +127,7 @@ public enum CustomEntityType {
         this.SpawnCondition = condition;
     }
 
-    CustomEntityType(EntityType type, String name, int Level, int Hp, int Damage, BiFunction<Entity, CustomEntityType, LeveledEntity<?>> factory) {
+    CustomEntityType(EntityType type, String name, int Level, int Hp, int Damage, BiFunction<LivingEntity, CustomEntityType, LeveledEntity<?>> factory) {
         this(type, name, Level, Hp, Damage, factory, EntitySpawnCondition.ImpossibleSpawnCondition.create());
     }
 
@@ -123,11 +135,11 @@ public enum CustomEntityType {
         this(Type, name, Level, Hp, Damage, CustomEntityInstance::new);
     }
 
-    CustomEntityType(EntityType Type, String name, BiFunction<Entity, CustomEntityType, LeveledEntity<?>> factory) {
+    CustomEntityType(EntityType Type, String name, BiFunction<LivingEntity, CustomEntityType, LeveledEntity<?>> factory) {
         this(Type, name, 0, 999_999_999, 0, factory, EntitySpawnCondition.ImpossibleSpawnCondition.create());
     }
 
-    public LeveledEntity<?> create(Entity entity) {
+    public LeveledEntity<?> create(LivingEntity entity) {
         return Factory.apply(entity, this);
     }
 
@@ -148,7 +160,7 @@ public enum CustomEntityType {
      * @return
      */
     public boolean isOfType(EntityService entityService, Entity entity) {
-        return entity.getPersistentDataContainer().getOrDefault(entityService.getClassNamespacedKey(), PersistentDataType.STRING, "").equals(key());
+        return entity.getPersistentDataContainer().getOrDefault(EntityService.getClassNamespacedKey(), PersistentDataType.STRING, "").equals(key());
     }
 
     public EntityType getType() {

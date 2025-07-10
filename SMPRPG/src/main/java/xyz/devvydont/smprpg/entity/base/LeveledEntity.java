@@ -18,6 +18,8 @@ import xyz.devvydont.smprpg.entity.components.EntityConfiguration;
 import xyz.devvydont.smprpg.listeners.EntityDamageCalculatorService;
 import xyz.devvydont.smprpg.services.AttributeService;
 import xyz.devvydont.smprpg.services.EntityService;
+import xyz.devvydont.smprpg.skills.SkillType;
+import xyz.devvydont.smprpg.skills.utils.SkillExperienceReward;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.formatting.MinecraftStringUtils;
 import xyz.devvydont.smprpg.util.formatting.Symbols;
@@ -472,11 +474,10 @@ public abstract class LeveledEntity<T extends Entity> implements LootSource {
     }
 
     /**
-     * How much should we multiply the combat experience for this enemy by?
-     *
-     * @return
+     * How much should we multiply the skill experience for this enemy by?
+     * @return A multiplier
      */
-    public double getCombatExperienceMultiplier() {
+    public double getSkillExperienceMultiplier() {
 
         if (_entity instanceof Boss)
             return 20;
@@ -491,12 +492,12 @@ public abstract class LeveledEntity<T extends Entity> implements LootSource {
     }
 
     /**
-     * How much combat experience should be awarded for killing this entity?
-     *
-     * @return
+     * Generate a mutable experience reward for killing this entity. This can safely be modified after calling without
+     * the worry of stacking multiplication or add calls.
+     * @return A fresh skill experience reward instance.
      */
-    public int getCombatExperienceDropped() {
-        return (int) (getLevel() * getCombatExperienceMultiplier());
+    public SkillExperienceReward generateSkillExperienceReward() {
+        return SkillExperienceReward.of(SkillType.COMBAT, (int) (getLevel() * getSkillExperienceMultiplier()));
     }
 
     /**

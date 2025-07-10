@@ -2,6 +2,7 @@ package xyz.devvydont.smprpg.entity.vanilla;
 
 import org.bukkit.entity.ArmorStand;
 import xyz.devvydont.smprpg.entity.base.VanillaEntity;
+import xyz.devvydont.smprpg.skills.utils.SkillExperienceReward;
 
 public class LeveledArmorStand extends VanillaEntity<ArmorStand> {
 
@@ -15,12 +16,12 @@ public class LeveledArmorStand extends VanillaEntity<ArmorStand> {
     }
 
     @Override
-    public int getCombatExperienceDropped() {
-        return 0;
+    public SkillExperienceReward generateSkillExperienceReward() {
+        return SkillExperienceReward.empty();
     }
 
     @Override
-    public double getCombatExperienceMultiplier() {
+    public double getSkillExperienceMultiplier() {
         return 0;
     }
 

@@ -46,8 +46,8 @@ public class VanillaEntity<T extends Entity> extends LeveledEntity<T> implements
     }
 
     @Override
-    public double getCombatExperienceMultiplier() {
-        return EntityGlobals.resolveVanillaEntityCombatExperienceMultiplier(_entity) * super.getCombatExperienceMultiplier();
+    public double getSkillExperienceMultiplier() {
+        return EntityGlobals.resolveVanillaEntityCombatExperienceMultiplier(_entity) * super.getSkillExperienceMultiplier();
     }
 
     @Override

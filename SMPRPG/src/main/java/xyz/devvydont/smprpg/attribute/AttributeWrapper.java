@@ -409,8 +409,7 @@ public enum AttributeWrapper {
                 create(".")
             )),
 
-    LUCK(Attribute.LUCK,
-            "Luckiness",
+    LUCK("Luckiness",
             AttributeCategory.SPECIAL,
             AttributeType.HELPFUL,
             merge(
@@ -443,6 +442,14 @@ public enum AttributeWrapper {
             AttributeType.HELPFUL,
             merge(
                 create("Vanilla Minecraft's 'armor toughness'. Completely ineffective in this plugin.")
+            )),
+
+    LEGACY_LUCK(Attribute.LUCK,
+            "Luck (Legacy)",
+            AttributeCategory.SPECIAL,
+            AttributeType.HELPFUL,
+            merge(
+                    create("Vanilla Minecraft's 'luck'. Completely ineffective in this plugin.")
             )),
     ;
 

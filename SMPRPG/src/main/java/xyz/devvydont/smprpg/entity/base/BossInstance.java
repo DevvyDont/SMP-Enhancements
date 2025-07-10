@@ -375,7 +375,7 @@ public abstract class BossInstance<T extends LivingEntity> extends LeveledEntity
     }
 
     @Override
-    public double getCombatExperienceMultiplier() {
+    public double getSkillExperienceMultiplier() {
         return 40;
     }
 

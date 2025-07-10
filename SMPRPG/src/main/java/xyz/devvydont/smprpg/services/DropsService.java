@@ -4,10 +4,7 @@ import io.papermc.paper.persistence.PersistentDataViewHolder;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import org.bukkit.Bukkit;
-import org.bukkit.NamespacedKey;
-import org.bukkit.Sound;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.damage.DamageType;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Item;
@@ -133,6 +130,23 @@ public class DropsService implements IService, Listener {
 
     public NamespacedKey getDropFlagKey() {
         return DROP_FLAG_KEY;
+    }
+
+    /**
+     * Adds the necessary flags to this item that makes it behave like standard loot, with delayed item deletion and
+     * loot drop owning.
+     * @param item The item to tag.
+     * @param owner The owner of the item.
+     */
+    public void addDefaultLootFlags(ItemStack item, Player owner) {
+        if (item == null || item.getType() == Material.AIR)
+            return;
+        var meta = item.getItemMeta();
+        var blueprint = SMPRPG.getService(ItemService.class).getBlueprint(item);
+        setOwner(meta, owner);
+        setFlag(meta, DropFlag.LOOT);
+        setExpiryTimestamp(meta, System.currentTimeMillis() + getMillisecondsUntilExpiry(blueprint.getRarity(item)));
+        item.setItemMeta(meta);
     }
 
     /**

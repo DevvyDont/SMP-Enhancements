@@ -1,6 +1,7 @@
 package xyz.devvydont.smprpg.services;
 
-import xyz.devvydont.smprpg.fishing.FishingBehaviorListeners;
+import xyz.devvydont.smprpg.fishing.listeners.FishingAnnouncementListeners;
+import xyz.devvydont.smprpg.fishing.listeners.FishingBehaviorListeners;
 import xyz.devvydont.smprpg.util.listeners.ToggleableListener;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ public class FishingService implements IService {
 
         // Start up listeners that cause fishing to work.
         listeners.add(new FishingBehaviorListeners());
+        listeners.add(new FishingAnnouncementListeners());
         for (var listener : listeners)
             listener.start();
 
