@@ -4,6 +4,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.inventory.EquipmentSlot;
+import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.services.AttributeService;
@@ -14,7 +15,7 @@ import xyz.devvydont.smprpg.services.AttributeService;
 public class FishingContext {
 
     private final Player player;
-    private final EquipmentSlot hand;
+    private final @Nullable EquipmentSlot hand;
     private final Location location;
 
     /**
@@ -22,9 +23,19 @@ public class FishingContext {
      * @param event The {@link PlayerFishEvent} providing relevant context.
      */
     public FishingContext(PlayerFishEvent event) {
-        this.player = event.getPlayer();
-        this.location = event.getHook().getLocation();
-        this.hand = event.getHand();
+        this(event.getPlayer(), event.getHand(), event.getHook().getLocation());
+    }
+
+    /**
+     * Construct the fishing context using various Bukkit objects.
+     * @param player The player that is fishing.
+     * @param hand The hand involved with this event. This can be null if the hand is not important.
+     * @param location The location to check. In a real fishing environment, this should be the hook's location.
+     */
+    public FishingContext(Player player, @Nullable EquipmentSlot hand, Location location) {
+        this.player = player;
+        this.hand = hand;
+        this.location = location;
     }
 
     /**
@@ -40,7 +51,7 @@ public class FishingContext {
      * to heavily nerf people who are trying to abuse dual wielding fishing rods to exploit attributes.
      * @return The slot used to initiate this event.
      */
-    public EquipmentSlot getHand() {
+    public @Nullable EquipmentSlot getHand() {
         return hand;
     }
 

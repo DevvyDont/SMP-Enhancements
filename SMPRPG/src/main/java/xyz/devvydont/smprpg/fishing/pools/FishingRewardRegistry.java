@@ -4,7 +4,6 @@ import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import org.bukkit.Material;
 import xyz.devvydont.smprpg.entity.CustomEntityType;
-import xyz.devvydont.smprpg.entity.fishing.Minnow;
 import xyz.devvydont.smprpg.entity.fishing.SeaBear;
 import xyz.devvydont.smprpg.entity.fishing.SnappingTurtle;
 import xyz.devvydont.smprpg.fishing.loot.FishingLootBase;
@@ -93,8 +92,6 @@ public class FishingRewardRegistry {
         builder.putAll(FishingLootType.CREATURE,
 
                 new SeaCreatureFishingLoot.Builder(CustomEntityType.MINNOW)
-                        .withRequirement(FishingLootRequirement.quality(Minnow.REQUIREMENT))
-                        .withRequirement(FishingLootRequirement.temperature(TemperatureReading.TEMPERATE))
                         .build(),
 
                 new SeaCreatureFishingLoot.Builder(CustomEntityType.SNAPPING_TURTLE)

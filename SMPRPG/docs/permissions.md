@@ -24,6 +24,8 @@ in the plugin.
 
 `smprpg.command.skill.admin` - Allows manually modifying skill level/experience values using `/skill`.
 
+`smprpg.command.simulatefishing` - Allows the ability to simulate fishing rolls. This is considered an admin command.
+
 ### GUIs
 
 `smprpg.difficulty.ignorerestrictions` - Allows difficulty to be changed with no restrictions.

@@ -11,6 +11,7 @@ import xyz.devvydont.smprpg.items.ItemRarity;
 import xyz.devvydont.smprpg.items.base.CustomItemBlueprint;
 import xyz.devvydont.smprpg.items.interfaces.IHeaderDescribable;
 import xyz.devvydont.smprpg.items.interfaces.IModelOverridden;
+import xyz.devvydont.smprpg.items.interfaces.ISellable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.formatting.Symbols;
 import xyz.devvydont.smprpg.util.persistence.PDCAdapters;
@@ -28,7 +29,7 @@ import static xyz.devvydont.smprpg.util.formatting.ComponentUtils.merge;
  * Represents a blueprint for a basic fish that you can fish up. Can come in any rarity from COMMON -> LEGENDARY.
  * Better quality fish have better benefits.
  */
-public class FishBlueprint extends CustomItemBlueprint implements IModelOverridden, IHeaderDescribable {
+public class FishBlueprint extends CustomItemBlueprint implements IModelOverridden, IHeaderDescribable, ISellable {
 
     /**
      * Randomly fished items are randomly assigned rarities.
@@ -97,6 +98,33 @@ public class FishBlueprint extends CustomItemBlueprint implements IModelOverridd
             case CLOWNFISH -> Material.TROPICAL_FISH;
             default -> this.getDisplayMaterial();
         };
+    }
+
+    /**
+     * Get the base worth of this fish before applying a rarity modifier on it.
+     * This essentially maps the COMMON worth of this item.
+     * @return The base worth.
+     */
+    public int getBaseWorth() {
+        return switch (this.getCustomItemType()) {
+            case SALMON -> 8;
+            case PUFFERFISH -> 20;
+            case CLOWNFISH -> 150;
+            default -> 5;
+        };
+    }
+
+    /**
+     * Fish worth is a bit more complex than a normal item due to the possibilities we have.
+     * Take into consideration the rarity and type of fish.
+     * @param item The item that can be sold.
+     * @return The worth.
+     */
+    @Override
+    public int getWorth(ItemStack item) {
+        var rarityFactor = (this.getRarity(item).ordinal() + 1);
+        var base = this.getBaseWorth();
+        return (int) (Math.pow(rarityFactor, rarityFactor) * base);
     }
 
     @Override

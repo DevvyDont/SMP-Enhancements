@@ -5,6 +5,7 @@ import io.papermc.paper.plugin.bootstrap.PluginBootstrap;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.commands.CommandBase;
+import xyz.devvydont.smprpg.commands.admin.CommandSimulateFishing;
 import xyz.devvydont.smprpg.commands.economy.*;
 import xyz.devvydont.smprpg.commands.enchantments.CommandEnchantments;
 import xyz.devvydont.smprpg.commands.entity.CommandAttribute;
@@ -26,6 +27,8 @@ public class SMPRPGBootstrapper implements PluginBootstrap {
                 new CommandBalanceTop("balancetop"),
                 new CommandDifficulty("difficulty"),
                 new CommandDeposit("deposit"),
+                new CommandFishing("fishing"),
+                new CommandSimulateFishing("simulatefishing"),
                 new CommandWithdrawal("withdrawal"),
                 new CommandGiveItem("give"),
                 new CommandSearchItem("search"),
