@@ -14,6 +14,7 @@ import xyz.devvydont.smprpg.fishing.events.FishingLootGenerateEvent;
 import xyz.devvydont.smprpg.fishing.loot.FishingLootType;
 import xyz.devvydont.smprpg.fishing.loot.SeaCreatureFishingLoot;
 import xyz.devvydont.smprpg.items.ItemRarity;
+import xyz.devvydont.smprpg.items.blueprints.fishing.FishBlueprint;
 import xyz.devvydont.smprpg.services.ChatService;
 import xyz.devvydont.smprpg.services.EntityService;
 import xyz.devvydont.smprpg.services.ItemService;
@@ -100,7 +101,13 @@ public class FishingAnnouncementListeners extends ToggleableListener {
 
         // Make the message.
         var itemComponent = blueprint.getNameComponent(itemStack).hoverEvent(itemStack.asHoverEvent());
-        var chance = create(String.format("(%.2f%%)", event.getCalculationResult().probability()*100), DARK_GRAY);
+
+        // Consider the rarity probability if it was a fish.
+        var rarityProbability = 1.0;
+        if (blueprint instanceof FishBlueprint)
+            rarityProbability *= FishBlueprint.probability(rarity);
+
+        var chance = create(String.format("(%.2f%%)", event.getCalculationResult().probability() * rarityProbability * 100), DARK_GRAY);
         var message = alert(merge(
                 prefixComponent,
                 SPACE,

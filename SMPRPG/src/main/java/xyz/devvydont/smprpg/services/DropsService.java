@@ -33,7 +33,7 @@ import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
 import xyz.devvydont.smprpg.util.crafting.ItemUtil;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.items.DropFireworkTask;
-import xyz.devvydont.smprpg.util.persistence.UUIDPersistentDataType;
+import xyz.devvydont.smprpg.util.persistence.PDCAdapters;
 import xyz.devvydont.smprpg.util.time.TickTime;
 
 import java.util.*;
@@ -157,7 +157,7 @@ public class DropsService implements IService, Listener {
      */
     public void setOwner(PersistentDataHolder holder, Player player) {
         holder.getPersistentDataContainer().set(OWNER_NAME_KEY, PersistentDataType.STRING, player.getName());
-        holder.getPersistentDataContainer().set(getItemOwnerKey(), UUIDPersistentDataType.INSTANCE, player.getUniqueId());
+        holder.getPersistentDataContainer().set(getItemOwnerKey(), PDCAdapters.UUID, player.getUniqueId());
     }
 
     /**
@@ -178,7 +178,7 @@ public class DropsService implements IService, Listener {
      */
     @Nullable
     public UUID getOwner(PersistentDataViewHolder holder) {
-        return holder.getPersistentDataContainer().get(getItemOwnerKey(), UUIDPersistentDataType.INSTANCE);
+        return holder.getPersistentDataContainer().get(getItemOwnerKey(), PDCAdapters.UUID);
     }
 
     /**

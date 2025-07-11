@@ -83,11 +83,11 @@ public enum CustomEntityType {
 
     // Fishing creatures.
     MINNOW(EntityType.SILVERFISH, "Minnow",
-            1, 50, 5, Minnow::new),
+            5, 120, 10, Minnow::new),
     SNAPPING_TURTLE(EntityType.TURTLE, "Snapping Turtle",
-            5, 150, 15, SnappingTurtle::new),
+            10, 200, 25, SnappingTurtle::new),
     SEA_BEAR(EntityType.POLAR_BEAR, "Sea Bear",
-            10, 250, 25, SeaBear::new),
+            20, 500, 45, SeaBear::new),
 
     TEST_ZOMBIE(EntityType.ZOMBIE, "Test Zombie",
             5, 120, 15,

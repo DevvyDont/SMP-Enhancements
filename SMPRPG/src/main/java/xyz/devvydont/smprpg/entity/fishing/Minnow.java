@@ -5,6 +5,8 @@ import xyz.devvydont.smprpg.entity.CustomEntityType;
 
 public class Minnow extends SeaCreature<LivingEntity> {
 
+    public static final int REQUIREMENT = 10;
+
     /**
      * An unsafe constructor to use to allow dynamic creation of custom entities.
      * This is specifically used as a casting hack for the CustomEntityType enum in order to dynamically create

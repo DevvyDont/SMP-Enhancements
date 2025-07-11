@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import org.bukkit.Material;
 import xyz.devvydont.smprpg.entity.CustomEntityType;
+import xyz.devvydont.smprpg.entity.fishing.Minnow;
 import xyz.devvydont.smprpg.entity.fishing.SeaBear;
 import xyz.devvydont.smprpg.entity.fishing.SnappingTurtle;
 import xyz.devvydont.smprpg.fishing.loot.FishingLootBase;
@@ -11,6 +12,8 @@ import xyz.devvydont.smprpg.fishing.loot.FishingLootType;
 import xyz.devvydont.smprpg.fishing.loot.ItemStackFishingLoot;
 import xyz.devvydont.smprpg.fishing.loot.SeaCreatureFishingLoot;
 import xyz.devvydont.smprpg.fishing.loot.requirements.FishingLootRequirement;
+import xyz.devvydont.smprpg.fishing.utils.TemperatureReading;
+import xyz.devvydont.smprpg.items.CustomItemType;
 
 import java.util.Collection;
 
@@ -32,51 +35,57 @@ public class FishingRewardRegistry {
         // Initialize the fish pool.
         builder.putAll(FishingLootType.FISH,
 
-                new ItemStackFishingLoot.Builder(Material.COD)
-                        .withWeight(1)
+                // Start with fish that can be fished up anywhere. Introduction to the system essentially.
+                new ItemStackFishingLoot.Builder(CustomItemType.COD)
+                        .withWeight(25)
+                        .withMinecraftExperience(1)
+                        .withSkillExperience(10)
                         .build(),
 
-                new ItemStackFishingLoot.Builder(Material.GOLD_INGOT)
-                        .withWeight(1)
+                new ItemStackFishingLoot.Builder(CustomItemType.SALMON)
+                        .withWeight(10)
+                        .withMinecraftExperience(5)
+                        .withSkillExperience(20)
+                        .withRequirement(FishingLootRequirement.quality(10))
                         .build(),
 
-                new ItemStackFishingLoot.Builder(Material.NETHERITE_INGOT)
-                        .withWeight(1)
+                new ItemStackFishingLoot.Builder(CustomItemType.PUFFERFISH)
+                        .withWeight(5)
+                        .withMinecraftExperience(10)
+                        .withSkillExperience(30)
+                        .withRequirement(FishingLootRequirement.quality(25))
                         .build(),
 
-                new ItemStackFishingLoot.Builder(Material.NETHER_STAR)
-                        .withWeight(1)
-                        .build(),
-
-                new ItemStackFishingLoot.Builder(Material.DRAGON_EGG)
+                new ItemStackFishingLoot.Builder(CustomItemType.CLOWNFISH)
+                        .withMinecraftExperience(20)
+                        .withSkillExperience(100)
+                        .withRequirement(FishingLootRequirement.quality(50))
                         .build()
-
-//                new ItemStackFishingLoot.Builder(Material.COD)
-//                        .withWeight(25)
-//                        .build(),
-//
-//                new ItemStackFishingLoot.Builder(Material.SALMON)
-//                        .withWeight(10)
-//                        .build(),
-//
-//                new ItemStackFishingLoot.Builder(Material.PUFFERFISH)
-//                        .withWeight(5)
-//                        .build(),
-//
-//                new ItemStackFishingLoot.Builder(Material.TROPICAL_FISH)
-//                        .build()
         );
 
         // Initialize the treasure pool.
         builder.putAll(FishingLootType.TREASURE,
 
                 new ItemStackFishingLoot.Builder(Material.SADDLE)
+                        .withMinecraftExperience(50)
+                        .withSkillExperience(100)
+                        .build(),
+
+                new ItemStackFishingLoot.Builder(Material.DIAMOND)
+                        .withMinecraftExperience(10)
+                        .withSkillExperience(250)
                         .build(),
 
                 new ItemStackFishingLoot.Builder(Material.NAUTILUS_SHELL)
+                        .withMinecraftExperience(50)
+                        .withSkillExperience(500)
+                        .withRequirement(FishingLootRequirement.quality(50))
                         .build(),
 
-                new ItemStackFishingLoot.Builder(Material.NAME_TAG)
+                new ItemStackFishingLoot.Builder(Material.HEART_OF_THE_SEA)
+                        .withRequirement(FishingLootRequirement.quality(100))
+                        .withMinecraftExperience(50)
+                        .withSkillExperience(750)
                         .build()
         );
 
@@ -84,14 +93,18 @@ public class FishingRewardRegistry {
         builder.putAll(FishingLootType.CREATURE,
 
                 new SeaCreatureFishingLoot.Builder(CustomEntityType.MINNOW)
+                        .withRequirement(FishingLootRequirement.quality(Minnow.REQUIREMENT))
+                        .withRequirement(FishingLootRequirement.temperature(TemperatureReading.TEMPERATE))
                         .build(),
 
                 new SeaCreatureFishingLoot.Builder(CustomEntityType.SNAPPING_TURTLE)
                         .withRequirement(FishingLootRequirement.quality(SnappingTurtle.REQUIREMENT))
+                        .withRequirement(FishingLootRequirement.temperature(TemperatureReading.TEMPERATE))
                         .build(),
 
                 new SeaCreatureFishingLoot.Builder(CustomEntityType.SEA_BEAR)
                         .withRequirement(FishingLootRequirement.quality(SeaBear.REQUIREMENT))
+                        .withRequirement(FishingLootRequirement.temperature(TemperatureReading.TEMPERATE))
                         .build()
         );
 
@@ -100,45 +113,68 @@ public class FishingRewardRegistry {
 
                 new ItemStackFishingLoot.Builder(Material.LILY_PAD)
                         .withWeight(15)
+                        .withMaximumAmount(5)
+                        .withMinecraftExperience(1)
+                        .withSkillExperience(10)
                         .build(),
 
                 new ItemStackFishingLoot.Builder(Material.BOWL)
                         .withWeight(10)
+                        .withMinecraftExperience(1)
+                        .withSkillExperience(10)
                         .build(),
 
                 new ItemStackFishingLoot.Builder(Material.LEATHER)
                         .withWeight(10)
+                        .withMinecraftExperience(1)
+                        .withSkillExperience(10)
                         .build(),
 
                 new ItemStackFishingLoot.Builder(Material.LEATHER_BOOTS)
                         .withWeight(10)
+                        .withMinecraftExperience(1)
+                        .withSkillExperience(10)
                         .build(),
 
                 new ItemStackFishingLoot.Builder(Material.ROTTEN_FLESH)
                         .withWeight(10)
+                        .withMinecraftExperience(1)
+                        .withSkillExperience(10)
                         .build(),
 
                 new ItemStackFishingLoot.Builder(Material.STICK)
                         .withWeight(5)
+                        .withMinecraftExperience(1)
+                        .withSkillExperience(10)
                         .build(),
 
                 new ItemStackFishingLoot.Builder(Material.STRING)
                         .withWeight(5)
+                        .withMinecraftExperience(1)
+                        .withSkillExperience(10)
                         .build(),
 
                 new ItemStackFishingLoot.Builder(Material.POTION)
                         .withWeight(10)
+                        .withMinecraftExperience(1)
+                        .withSkillExperience(10)
                         .build(),
 
                 new ItemStackFishingLoot.Builder(Material.BONE)
                         .withWeight(10)
+                        .withMinecraftExperience(1)
+                        .withSkillExperience(10)
                         .build(),
 
                 new ItemStackFishingLoot.Builder(Material.TRIPWIRE_HOOK)
                         .withWeight(10)
+                        .withMinecraftExperience(1)
+                        .withSkillExperience(10)
                         .build(),
 
                 new ItemStackFishingLoot.Builder(Material.INK_SAC)
+                        .withMinecraftExperience(1)
+                        .withSkillExperience(10)
                         .build()
         );
 

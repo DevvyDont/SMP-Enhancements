@@ -8,6 +8,7 @@ import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.fishing.utils.FishingContext;
 import xyz.devvydont.smprpg.fishing.loot.requirements.FishingLootRequirement;
 import xyz.devvydont.smprpg.items.CustomItemType;
+import xyz.devvydont.smprpg.items.blueprints.fishing.FishBlueprint;
 import xyz.devvydont.smprpg.services.DropsService;
 import xyz.devvydont.smprpg.services.ItemService;
 
@@ -37,6 +38,11 @@ public class ItemStackFishingLoot extends FishingLootBase {
 
         // Generate the item and flag it as owned by the player so drop protection applies to it.
         var reward = item.clone();
+
+        // Post-processing for fish items. It needs a rarity.
+        if (SMPRPG.getService(ItemService.class).getBlueprint(reward) instanceof FishBlueprint blueprint)
+            blueprint.setRarity(reward, blueprint.pickRandomRarity());
+
         reward.setAmount(RNG.nextInt(minAmount, maxAmount+1));
         SMPRPG.getService(DropsService.class).addDefaultLootFlags(reward, ctx.getPlayer());
 
@@ -95,7 +101,7 @@ public class ItemStackFishingLoot extends FishingLootBase {
 
         @Override
         public ItemStackFishingLoot build() {
-            if (min < max)
+            if (min > max)
                 throw new IllegalStateException("Minimum amount must be less than (or equal to) maximum amount");
             return new ItemStackFishingLoot(item, min, max, weight, experienceReward, minecraftExperience, requirements);
         }

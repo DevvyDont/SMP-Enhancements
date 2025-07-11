@@ -13,6 +13,7 @@ import java.util.Random;
  */
 public class WeightedSelector<T> {
 
+
     /**
      * Utility record that also contains the probability along with the element that was selected.
      * Can be used to probability calculations.
@@ -86,6 +87,14 @@ public class WeightedSelector<T> {
         return entries.size();
     }
 
+
+    /**
+     * Gets the total weight of this selector.
+     * @return The total weight of all the elements.
+     */
+    public double getTotalWeight() {
+        return totalWeight;
+    }
 
 
 }

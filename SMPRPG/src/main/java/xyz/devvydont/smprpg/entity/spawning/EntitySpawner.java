@@ -21,7 +21,7 @@ import xyz.devvydont.smprpg.entity.base.CustomEntityInstance;
 import xyz.devvydont.smprpg.entity.base.LeveledEntity;
 import xyz.devvydont.smprpg.services.EntityService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
-import xyz.devvydont.smprpg.util.persistence.PersistentSpawnerOptionsDatatype;
+import xyz.devvydont.smprpg.util.persistence.PDCAdapters;
 
 import java.util.*;
 
@@ -123,11 +123,11 @@ public class EntitySpawner extends CustomEntityInstance<Entity> implements Liste
         }
 
         public void save(PersistentDataHolder holder) {
-            holder.getPersistentDataContainer().set(key, PersistentSpawnerOptionsDatatype.INSTANCE, this);
+            holder.getPersistentDataContainer().set(key, PDCAdapters.SPAWNER_OPTIONS, this);
         }
 
         public static SpawnerOptions load(PersistentDataHolder holder) {
-            return holder.getPersistentDataContainer().getOrDefault(key, PersistentSpawnerOptionsDatatype.INSTANCE, new SpawnerOptions());
+            return holder.getPersistentDataContainer().getOrDefault(key, PDCAdapters.SPAWNER_OPTIONS, new SpawnerOptions());
         }
     }
 

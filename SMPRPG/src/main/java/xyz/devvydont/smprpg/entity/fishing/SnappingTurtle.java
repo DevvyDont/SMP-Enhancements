@@ -8,7 +8,7 @@ public class SnappingTurtle extends SeaCreature<LivingEntity> {
     /**
      * The catch quality requirement to catch this.
      */
-    public static final int REQUIREMENT = 10;
+    public static final int REQUIREMENT = 50;
 
     /**
      * An unsafe constructor to use to allow dynamic creation of custom entities.

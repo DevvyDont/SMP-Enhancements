@@ -1,4 +1,4 @@
-package xyz.devvydont.smprpg.util.persistence;
+package xyz.devvydont.smprpg.util.persistence.adapters;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -11,7 +11,7 @@ import xyz.devvydont.smprpg.entity.spawning.EntitySpawner;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PersistentSpawnerOptionsDatatype implements PersistentDataType<String, EntitySpawner.SpawnerOptions> {
+public class SpawnerOptionsAdapter implements PersistentDataType<String, EntitySpawner.SpawnerOptions> {
 
     private static class SpawnerGsonContainer {
         private long radius;
@@ -44,8 +44,6 @@ public class PersistentSpawnerOptionsDatatype implements PersistentDataType<Stri
             return entries;
         }
     }
-
-    public static final PersistentDataType<String, EntitySpawner.SpawnerOptions> INSTANCE = new PersistentSpawnerOptionsDatatype();
 
     @Override
     public @NotNull Class<String> getPrimitiveType() {

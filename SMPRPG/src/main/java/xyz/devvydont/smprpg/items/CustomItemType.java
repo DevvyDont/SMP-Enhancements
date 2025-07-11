@@ -11,6 +11,7 @@ import xyz.devvydont.smprpg.items.blueprints.charms.StrengthCharm;
 import xyz.devvydont.smprpg.items.blueprints.debug.*;
 import xyz.devvydont.smprpg.items.blueprints.economy.CustomItemCoin;
 import xyz.devvydont.smprpg.items.blueprints.equipment.*;
+import xyz.devvydont.smprpg.items.blueprints.fishing.FishBlueprint;
 import xyz.devvydont.smprpg.items.blueprints.food.*;
 import xyz.devvydont.smprpg.items.blueprints.misc.DeathCertificate;
 import xyz.devvydont.smprpg.items.blueprints.potion.ExperienceBottle;
@@ -364,6 +365,12 @@ public enum CustomItemType {
     COLOSSAL_BACKPACK("Colossal Backpack", Material.FIREWORK_STAR, ItemRarity.LEGENDARY, ColossalBackpack.class),
 
     THERMOMETER("Thermometer", Material.ECHO_SHARD, ItemRarity.RARE, ThermometerBlueprint.class),
+
+    // FISH (rarity doesn't matter, set by persistent data tag anyway.)
+    COD("Cod", Material.TROPICAL_FISH, FishBlueprint.class),
+    SALMON("Salmon", Material.TROPICAL_FISH, FishBlueprint.class),
+    PUFFERFISH("Pufferfish", Material.TROPICAL_FISH, FishBlueprint.class),
+    CLOWNFISH("Clownfish", Material.TROPICAL_FISH, FishBlueprint.class),
 
     // FOOD
     STALE_BREAD("Stale Bread", Material.BREAD, ItemRarity.COMMON, StaleBread.class),

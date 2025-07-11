@@ -1,4 +1,4 @@
-package xyz.devvydont.smprpg.util.persistence;
+package xyz.devvydont.smprpg.util.persistence.adapters;
 
 import org.bukkit.persistence.PersistentDataAdapterContext;
 import org.bukkit.persistence.PersistentDataType;
@@ -7,9 +7,10 @@ import org.jetbrains.annotations.NotNull;
 import java.nio.ByteBuffer;
 import java.util.UUID;
 
-public class UUIDPersistentDataType implements PersistentDataType<byte[], UUID>  {
-
-    public static final UUIDPersistentDataType INSTANCE = new UUIDPersistentDataType();
+/**
+ * Allows you to easily store UUIDs on PDCs.
+ */
+public class UUIDAdapter implements PersistentDataType<byte[], UUID>  {
 
     @Override
     public @NotNull Class<byte[]> getPrimitiveType() {

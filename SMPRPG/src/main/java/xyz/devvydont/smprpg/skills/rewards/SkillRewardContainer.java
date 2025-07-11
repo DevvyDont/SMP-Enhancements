@@ -62,7 +62,7 @@ public abstract class SkillRewardContainer {
                     attribute,
                     operation,
                     amountPerLevel * ((double) i /x),
-                    amountPerLevel * ((double) (i-1) /x)
+                    amountPerLevel * ((double) (i-x) /x)
             ));
     }
 
