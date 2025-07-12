@@ -55,7 +55,7 @@ public class BlazeBoss extends CustomBossInstance<Blaze> implements Listener {
      * A collection of minions spawned by the boss. Used so we don't spawn too many, to use in instances where we want
      * to track them for certain mechanics.
      */
-    private final Map<UUID, LeveledEntity<LivingEntity>> minions = new HashMap<>();
+    private final Map<UUID, LeveledEntity<?>> minions = new HashMap<>();
 
     // The current tick this boss has been alive for, used for certain aspects during the fight
     private int tick = 0;
@@ -91,7 +91,7 @@ public class BlazeBoss extends CustomBossInstance<Blaze> implements Listener {
                 continue;
             }
 
-            if (minion.getEntity().getHealth() <= 0) {
+            if (minion.getEntity() instanceof LivingEntity living && living.getHealth() <= 0) {
                 minions.remove(uuid);
                 continue;
             }
@@ -171,8 +171,8 @@ public class BlazeBoss extends CustomBossInstance<Blaze> implements Listener {
     public void cleanup() {
         super.cleanup();
         for (var leveledEntity : minions.values().stream().toList())
-            if (leveledEntity.getEntity().isValid())
-                leveledEntity.getEntity().damage(999_999_999);
+            if (leveledEntity.getEntity().isValid() && leveledEntity.getEntity() instanceof LivingEntity living)
+                living.damage(999_999_999);
         minions.clear();
     }
 
@@ -220,7 +220,7 @@ public class BlazeBoss extends CustomBossInstance<Blaze> implements Listener {
     }
 
     private void spawnMinion(Location location) {
-        LeveledEntity mob = SMPRPG.getService(EntityService.class).spawnCustomEntity(CustomEntityType.PHOENIX, location);
+        var mob = SMPRPG.getService(EntityService.class).spawnCustomEntity(CustomEntityType.PHOENIX, location);
         if (mob == null || mob.getEntity() == null)
             return;
 
@@ -313,7 +313,7 @@ public class BlazeBoss extends CustomBossInstance<Blaze> implements Listener {
 
         // This fireball is from our blaze boss.
         Location spawn = event.getEntity().getLocation();
-        LeveledEntity mob = SMPRPG.getService(EntityService.class).spawnCustomEntity(CustomEntityType.PHOENIX, spawn);
+        var mob = SMPRPG.getService(EntityService.class).spawnCustomEntity(CustomEntityType.PHOENIX, spawn);
         if (mob == null || mob.getEntity() == null)
             return;
 

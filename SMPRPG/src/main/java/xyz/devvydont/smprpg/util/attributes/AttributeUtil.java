@@ -24,9 +24,35 @@ import xyz.devvydont.smprpg.services.EnchantmentService;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 
+import java.text.DecimalFormat;
 import java.util.*;
 
 public class AttributeUtil {
+
+    public static final DecimalFormat NUMBER_FORMATTER = new DecimalFormat("#,###.##");
+
+    /**
+     * Some attributes are silly and need to be modified slightly to convey more useful information.
+     * An example of this is knockback resistance being a value from 0-1, which is more like 0-100%.
+     */
+    public enum AttributeFormattingOption {
+        DEFAULT,
+        PERCENTAGE,
+        SCALE_PERCENTAGE,
+        ;
+
+        public String format(double value) {
+            return switch (this) {
+                case PERCENTAGE -> String.format("%s%%", NUMBER_FORMATTER.format(value));
+                case SCALE_PERCENTAGE -> String.format("%s%%", NUMBER_FORMATTER.format(value*100));
+                default -> NUMBER_FORMATTER.format(value);
+            };
+        }
+
+        public boolean percentage() {
+            return this != DEFAULT;
+        }
+    }
 
     /**
      * Returns a component to display the number portion of an attribute
@@ -34,7 +60,7 @@ public class AttributeUtil {
      * @param result
      * @return
      */
-    public static Component getAttributeNumber(AttributeWrapper wrapper, AttributeUtil.AttributeCalculationResult result, boolean forcePercent) {
+    public static Component getAttributeNumber(AttributeWrapper wrapper, AttributeUtil.AttributeCalculationResult result, AttributeFormattingOption option) {
 
         TextColor color = NamedTextColor.GREEN;
 
@@ -51,25 +77,29 @@ public class AttributeUtil {
             color = NamedTextColor.LIGHT_PURPLE;
 
         // Some attributes are weird and are always percents
-        return ComponentUtils.create(result.formatTotal(forcePercent), color);
+        return ComponentUtils.create(result.formatTotal(option), color);
     }
 
-    public static Component formatAttribute(AttributeWrapper wrapper, AttributeUtil.AttributeCalculationResult result, boolean forcePercent) {
+    public static Component formatAttribute(AttributeWrapper wrapper, AttributeUtil.AttributeCalculationResult result, AttributeFormattingOption option) {
 
         return ComponentUtils.create(wrapper.DisplayName + ": ")
-                .append(getAttributeNumber(wrapper, result, forcePercent));
+                .append(getAttributeNumber(wrapper, result, option));
     }
 
-    public static Component formatBonus(NamedTextColor color, AttributeUtil.AttributeCalculationResult result, boolean forcePercent) {
-        return ComponentUtils.create(" (" + result.formatTotal(forcePercent) + ")", color);
+    public static Component formatBonus(NamedTextColor color, AttributeUtil.AttributeCalculationResult result, AttributeFormattingOption option) {
+        return ComponentUtils.create(" (" + result.formatTotal(option) + ")", color);
     }
 
     /*
      * Some attributes should force display as percents since that is how minecraft treats them. An example of this
      * is fall damage multiplier.
      */
-    public static boolean forceAttributePercentage(AttributeWrapper wrapper) {
-        return wrapper.equals(AttributeWrapper.KNOCKBACK_RESISTANCE) || wrapper.equals(AttributeWrapper.EXPLOSION_KNOCKBACK_RESISTANCE) || wrapper.equals(AttributeWrapper.SWEEPING) || wrapper.equals(AttributeWrapper.MINING_EFFICIENCY) || wrapper.equals(AttributeWrapper.UNDERWATER_MINING);
+    public static AttributeFormattingOption getAttributeFormat(AttributeWrapper wrapper) {
+        return switch (wrapper) {
+            case KNOCKBACK_RESISTANCE, EXPLOSION_KNOCKBACK_RESISTANCE, SWEEPING, UNDERWATER_MINING, FALL_DAMAGE_MULTIPLIER, BURNING_TIME -> AttributeFormattingOption.SCALE_PERCENTAGE;
+            case FISHING_CREATURE_CHANCE, FISHING_TREASURE_CHANCE -> AttributeFormattingOption.PERCENTAGE;
+            default -> AttributeFormattingOption.DEFAULT;
+        };
     }
 
     /**
@@ -175,20 +205,20 @@ public class AttributeUtil {
 
             // Run the math for what we are going to display.
             var result = AttributeUtil.calculateAttributeBonus(modifiersForAttribute, base);
-            boolean forcePercent = forceAttributePercentage(attribute);
-            var line = AttributeUtil.formatAttribute(attribute, result, forcePercent);
+            var displayOption = getAttributeFormat(attribute);
+            var line = AttributeUtil.formatAttribute(attribute, result, displayOption);
 
             // Now filter out reforge only...
             var modifiersForReforge = modifiersForAttribute.stream().filter(m -> m.getSource().equals(AttributeModifierType.REFORGE)).toList();
             var reforgeResult = calculateAttributeBonus(modifiersForReforge, 0);
             if (!reforgeResult.empty())
-                line = line.append(formatBonus(NamedTextColor.BLUE, reforgeResult, forcePercent));
+                line = line.append(formatBonus(NamedTextColor.BLUE, reforgeResult, displayOption));
 
             // Enchantment only...
             var modifiersForEnchant = modifiersForAttribute.stream().filter(m -> m.getSource().equals(AttributeModifierType.ENCHANTMENT)).toList();
             var enchantResult = calculateAttributeBonus(modifiersForEnchant, 0);
             if (!enchantResult.empty())
-                line = line.append(formatBonus(NamedTextColor.LIGHT_PURPLE, enchantResult, forcePercent));
+                line = line.append(formatBonus(NamedTextColor.LIGHT_PURPLE, enchantResult, displayOption));
 
             // Done! Add the line :)
             lines.add(line);
@@ -210,11 +240,6 @@ public class AttributeUtil {
             return operations.isEmpty();
         }
 
-        public String percent() {
-            long num = Math.round(total * 100);
-            return String.format("%d%%", num);
-        }
-
         /**
          * Performs multiplication on the total to make certain attributes display better.
          */
@@ -222,16 +247,16 @@ public class AttributeUtil {
             return new AttributeCalculationResult(base * factor, bonus * factor, total * factor, operations);
         }
 
-        public int getBase() {
-            return (int) base;
+        public double getBase() {
+            return base;
         }
 
-        public int getBonus() {
-            return (int) bonus;
+        public double getBonus() {
+            return bonus;
         }
 
-        public int getTotal() {
-            return (int) total;
+        public double getTotal() {
+            return total;
         }
 
         /**
@@ -249,27 +274,26 @@ public class AttributeUtil {
          *
          * @return
          */
-        public String formatTotal(boolean forcePercent) {
+        public String formatTotal(AttributeFormattingOption option) {
 
             // If normal addition operations occurred, This should just be a flat number.
-            if (!percentage() && forcePercent)
-                return (total > 0 ? "+" : "") + String.format("%d%%", Math.round(total*100));
             if (!percentage())
-                return (getTotal() > 0 ? "+" : "") + getTotal();
+                return (getTotal() > 0 ? "+" : "") + option.format(getTotal());
 
             // Only multiplication occurred, This is a percentage operation.
             // Due to this only being a percentage, we should subtract 1 for what we are actually displaying if bad
             double percentageDisplay = total < 1 ? 1 - total : total - 1;
-            return (total > 1 ? "+" : (total > 0 ? "-" : "")) + String.format("%d%%", Math.round(percentageDisplay*100));
+            return (total > 1 ? "+" : (total > 0 ? "-" : "")) + String.format("%s%%", NUMBER_FORMATTER.format(Math.round(percentageDisplay*100)));
         }
 
     }
 
     /**
      * Attempt to guess what bonus an attribute is going to have based on a collection of modifiers.
+     * It is important to note, that we actually can't provide an accurate representation of modifiers here.
+     * It sucks, but there's nothing we can do about it, unfortunately.
      * Uses the following logic:
      * <a href="https://minecraft.fandom.com/wiki/Attribute">...</a>.
-     *
      * @param modifiers The collection of modifiers to calculate a modified final value for given a base value.
      * @return A result of what the final value should be.
      */
@@ -316,7 +340,7 @@ public class AttributeUtil {
         int sum = 0;
 
         // This can happen when something tries to update too fast
-        if (SMPRPG.getInstance() == null || SMPRPG.getService(EnchantmentService.class) == null)
+        if (SMPRPG.getInstance() == null)
             return sum;
 
         // Get the reforge on the item and see if it has a power rating

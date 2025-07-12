@@ -56,15 +56,15 @@ public abstract class ReforgeStone extends CustomItemBlueprint implements Reforg
             // The sign is a + if the amount is above 0. Otherwise, empty since the negative is put there for us.
             String sign = entry.getAmount() > 0 ? "+" : "";
             // The number is unchanged if this is an additive operation. If it isn't, x100 to make it show as a percentage.
-            boolean forcePercent = AttributeUtil.forceAttributePercentage(entry.getAttribute());
-            int number = entry.getOperation().equals(AttributeModifier.Operation.ADD_NUMBER) && !forcePercent ? (int)entry.getAmount() : (int)(Math.round(entry.getAmount() * 100));
+            var option = AttributeUtil.getAttributeFormat(entry.getAttribute());
+            var number = entry.getOperation().equals(AttributeModifier.Operation.ADD_NUMBER) ? option.format(entry.getAmount()) : option.format(entry.getAmount()*100);
             // If this is a multiplicative operation, or we need to force the attribute to show as a percent, use percents.
-            String percent = entry.getOperation().equals(AttributeModifier.Operation.ADD_NUMBER) && !forcePercent ? "" : "%";
-            String numberSection = String.format("%s%d%s", sign, number, percent);
+            String percent = entry.getOperation().equals(AttributeModifier.Operation.ADD_NUMBER) && !option.percentage() ? "" : "%";
+            String numberSection = String.format("%s%s%s", sign, number, percent);
 
             var wrapper = entry.getAttribute();
             var numberColor = wrapper.Type.equals(AttributeType.SPECIAL) ? NamedTextColor.LIGHT_PURPLE :
-                    wrapper.Type.equals(AttributeType.HELPFUL) && number > 0 ? NamedTextColor.GREEN : NamedTextColor.RED;
+                    wrapper.Type.equals(AttributeType.HELPFUL) && entry.getAmount() > 0 ? NamedTextColor.GREEN : NamedTextColor.RED;
             Component numberComponent = ComponentUtils.create(numberSection, numberColor);
             lines.add(ComponentUtils.create(wrapper.DisplayName + ": ").append(numberComponent));
         }
