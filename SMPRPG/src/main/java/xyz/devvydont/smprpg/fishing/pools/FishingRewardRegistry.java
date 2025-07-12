@@ -91,6 +91,7 @@ public class FishingRewardRegistry {
         // Initialize the sea creature pool.
         builder.putAll(FishingLootType.CREATURE,
 
+                // The minnow can always be caught, no matter what. Can't leave a pool potentially empty.
                 new SeaCreatureFishingLoot.Builder(CustomEntityType.MINNOW)
                         .build(),
 
@@ -109,32 +110,26 @@ public class FishingRewardRegistry {
         builder.putAll(FishingLootType.JUNK,
 
                 new ItemStackFishingLoot.Builder(Material.LILY_PAD)
-                        .withWeight(15)
+                        .withWeight(10)
                         .withMaximumAmount(5)
                         .withMinecraftExperience(1)
                         .withSkillExperience(10)
                         .build(),
 
                 new ItemStackFishingLoot.Builder(Material.BOWL)
-                        .withWeight(10)
+                        .withWeight(5)
                         .withMinecraftExperience(1)
                         .withSkillExperience(10)
                         .build(),
 
                 new ItemStackFishingLoot.Builder(Material.LEATHER)
-                        .withWeight(10)
-                        .withMinecraftExperience(1)
-                        .withSkillExperience(10)
-                        .build(),
-
-                new ItemStackFishingLoot.Builder(Material.LEATHER_BOOTS)
-                        .withWeight(10)
+                        .withWeight(5)
                         .withMinecraftExperience(1)
                         .withSkillExperience(10)
                         .build(),
 
                 new ItemStackFishingLoot.Builder(Material.ROTTEN_FLESH)
-                        .withWeight(10)
+                        .withWeight(5)
                         .withMinecraftExperience(1)
                         .withSkillExperience(10)
                         .build(),
@@ -151,20 +146,14 @@ public class FishingRewardRegistry {
                         .withSkillExperience(10)
                         .build(),
 
-                new ItemStackFishingLoot.Builder(Material.POTION)
-                        .withWeight(10)
-                        .withMinecraftExperience(1)
-                        .withSkillExperience(10)
-                        .build(),
-
                 new ItemStackFishingLoot.Builder(Material.BONE)
-                        .withWeight(10)
+                        .withWeight(5)
                         .withMinecraftExperience(1)
                         .withSkillExperience(10)
                         .build(),
 
                 new ItemStackFishingLoot.Builder(Material.TRIPWIRE_HOOK)
-                        .withWeight(10)
+                        .withWeight(5)
                         .withMinecraftExperience(1)
                         .withSkillExperience(10)
                         .build(),
