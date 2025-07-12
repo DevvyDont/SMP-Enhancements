@@ -5,6 +5,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import xyz.devvydont.smprpg.entity.fishing.SeaCreature;
 
 import static net.kyori.adventure.text.format.NamedTextColor.*;
 import static xyz.devvydont.smprpg.util.formatting.ComponentUtils.create;
@@ -266,7 +267,7 @@ public enum AttributeWrapper {
             AttributeType.HELPFUL,
             merge(
                     create("The chance to find a "),
-                    create("sea creature", RED),
+                    create("sea creature", SeaCreature.NAME_COLOR),
                     create(" when "),
                     create("fishing", BLUE),
                     create(".")

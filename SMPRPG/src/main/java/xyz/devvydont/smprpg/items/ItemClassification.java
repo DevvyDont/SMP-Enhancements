@@ -27,7 +27,7 @@ public enum ItemClassification {
     LEGGINGS(ItemTypeTagKeys.ENCHANTABLE_LEG_ARMOR, ItemTypeTagKeys.ENCHANTABLE_ARMOR, ItemTypeTagKeys.ENCHANTABLE_DURABILITY, ItemTypeTagKeys.ENCHANTABLE_VANISHING),
     BOOTS(ItemTypeTagKeys.ENCHANTABLE_FOOT_ARMOR, ItemTypeTagKeys.ENCHANTABLE_DURABILITY, ItemTypeTagKeys.ENCHANTABLE_VANISHING, ItemTypeTagKeys.ENCHANTABLE_ARMOR),
     // Various fishing rods
-    FISHING_ROD(ItemTypeTagKeys.ENCHANTABLE_DURABILITY, ItemTypeTagKeys.ENCHANTABLE_FISHING, ItemTypeTagKeys.ENCHANTABLE_VANISHING),
+    ROD(ItemTypeTagKeys.ENCHANTABLE_DURABILITY, ItemTypeTagKeys.ENCHANTABLE_FISHING, ItemTypeTagKeys.ENCHANTABLE_VANISHING),
     // Pickaxes, Hoes, Shovels
     TOOL(ItemTypeTagKeys.ENCHANTABLE_DURABILITY, ItemTypeTagKeys.ENCHANTABLE_VANISHING, ItemTypeTagKeys.ENCHANTABLE_MINING, ItemTypeTagKeys.ENCHANTABLE_MINING_LOOT),
     // Misc stuff, shields, totems, things meant to be held and not worn
@@ -73,7 +73,7 @@ public enum ItemClassification {
             case DIAMOND_CHESTPLATE, CHAINMAIL_CHESTPLATE, NETHERITE_CHESTPLATE, GOLDEN_CHESTPLATE, IRON_CHESTPLATE, LEATHER_CHESTPLATE, ELYTRA -> CHESTPLATE;
             case LEATHER_LEGGINGS, NETHERITE_LEGGINGS, DIAMOND_LEGGINGS, CHAINMAIL_LEGGINGS, GOLDEN_LEGGINGS, IRON_LEGGINGS -> LEGGINGS;
             case NETHERITE_BOOTS, DIAMOND_BOOTS, CHAINMAIL_BOOTS, GOLDEN_BOOTS, IRON_BOOTS, LEATHER_BOOTS -> BOOTS;
-            case FISHING_ROD -> FISHING_ROD;
+            case FISHING_ROD -> ROD;
             case SHIELD -> EQUIPMENT;
             case TOTEM_OF_UNDYING -> CHARM;
             case DIAMOND_PICKAXE, GOLDEN_PICKAXE, IRON_PICKAXE, NETHERITE_PICKAXE, STONE_PICKAXE, WOODEN_PICKAXE,
@@ -126,14 +126,15 @@ public enum ItemClassification {
 
         // todo, we can prob figure this out dynamically using item type tags but worried for rapid checks performance wise since it's a intersection operation
         return switch (this) {
-            case SWORD, TRIDENT, BOW, CROSSBOW, SHORTBOW, HELMET, CHESTPLATE, LEGGINGS, BOOTS, WEAPON, MACE, AXE, TOOL, FISHING_ROD, CHARM, EQUIPMENT -> true;
+            case SWORD, TRIDENT, BOW, CROSSBOW, SHORTBOW, HELMET, CHESTPLATE, LEGGINGS, BOOTS, WEAPON, MACE, AXE, TOOL,
+                 ROD, CHARM, EQUIPMENT -> true;
             default -> false;
         };
     }
 
     public boolean isWeapon() {
         return switch (this) {
-            case AXE, BOW, CROSSBOW, SHORTBOW, SWORD, TRIDENT, TOOL, WEAPON, MACE -> true;
+            case AXE, BOW, CROSSBOW, SHORTBOW, SWORD, TRIDENT, TOOL, WEAPON, MACE, ROD -> true;
             default -> false;
         };
     }
