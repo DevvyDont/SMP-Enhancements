@@ -126,6 +126,7 @@ public final class SMPRPG extends JavaPlugin {
         services.add(new SkillService());  // Logic for skills/skill experience for players.
         services.add(new DropsService());  // Implements the "drop protection" mechanic, as well as some other QoL.
         services.add(new FishingService());  // Implements fishing rework.
+        services.add(new RecipeService());  // Implements custom recipes.
         services.add(new ActionBarService());  // Broadcasts player information to player action bars.
         services.add(new UnstableListenersService());  // Implements some listeners that depend on ProtocolLib.
         services.add(new AnimationService());  // Mainly provides GUIs with an easy-to-use animation API.

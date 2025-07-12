@@ -100,6 +100,39 @@ public class ItemService implements IService, Listener {
         return SMPRPG.getService(ItemService.class).getBlueprint(item);
     }
 
+    /**
+     * Given an item, retrieve a copy of it that is set to default behavior/data.
+     * @param item The item to get a clean copy of.
+     * @return The item.
+     */
+    public static ItemStack clean(ItemStack item) {
+        return SMPRPG.getService(ItemService.class).getBlueprint(item).generate(item.getAmount());
+    }
+
+    /**
+     * Given an item and an item type, change the underlying item class on the item without affecting any of its
+     * stored data, then update the item. This should effectively allow seamless item upgrades.
+     * Keep in mind, if you abuse this unexpected things will happen. Usage should only be limited to item upgrades
+     * of the same type.
+     * @param itemStack The item to transform.
+     * @param newBlueprint The new blueprint to make the item conform to.
+     * @return A new item stack copy with change applied.
+     */
+    public static ItemStack transmute(ItemStack itemStack, SMPItemBlueprint newBlueprint) {
+
+        // Clone the item.
+        var copy = itemStack.clone();
+        var service = SMPRPG.getService(ItemService.class);
+
+        // Remove the item class key from this item completely so it loses its reference to what it was.
+        copy.editPersistentDataContainer(pdc -> pdc.remove(service.ITEM_TYPE_KEY));
+
+        // Force the item to be updated against the new blueprints rules. If the blueprint is custom, the blueprint
+        // will inject the new desired item class key for us, as well as update required item components.
+        newBlueprint.updateItemData(copy);
+        return copy;
+    }
+
     // End shortcut static methods
 
     public final NamespacedKey ITEM_VERSION_KEY;
@@ -780,6 +813,14 @@ public class ItemService implements IService, Listener {
         if (!itemStack.getEnchantments().isEmpty())
             lore.addAll(blueprint.getEnchantsComponent(itemStack));
 
+        // If this is a fishing rod
+        if (blueprint instanceof IFishingRod rod) {
+            lore.add(ComponentUtils.EMPTY);
+            lore.add(ComponentUtils.create("This rod is capable of:"));
+            for (var flag : rod.getFishingFlags())
+                lore.add(ComponentUtils.merge(ComponentUtils.create("- "), ComponentUtils.create(flag.Display + " Fishing", flag.Color)));
+        }
+
         // If this item holds experience
         if (blueprint instanceof ExperienceThrowable holder) {
             lore.add(ComponentUtils.EMPTY);
@@ -854,7 +895,13 @@ public class ItemService implements IService, Listener {
             if (value > 0)
                 lore.add(ComponentUtils.create("Sell Value: ").append(ComponentUtils.create(EconomyService.formatMoney(value), NamedTextColor.GOLD)));
         }
-        lore.add(blueprint.getRarity(itemStack).applyDecoration(ComponentUtils.create(blueprint.getRarity(itemStack).name() + " " + blueprint.getItemClassification().name().replace("_", " "))).decoration(TextDecoration.BOLD, true).color(blueprint.getRarity(itemStack).color));
+
+        var itemCategory = blueprint.getItemClassification().name().replace("_", " ");
+        // Fishing rods have an extra prefix...
+        if (blueprint instanceof IFishingRod rod)
+            itemCategory = IFishingRod.FishingFlag.prefix(rod.getFishingFlags()).toUpperCase() + " " + itemCategory;
+
+        lore.add(blueprint.getRarity(itemStack).applyDecoration(ComponentUtils.create(blueprint.getRarity(itemStack).name() + " " + itemCategory)).decoration(TextDecoration.BOLD, true).color(blueprint.getRarity(itemStack).color));
         lore.add(ComponentUtils.create(blueprint.getCustomModelDataIdentifier(), NamedTextColor.DARK_GRAY));
         return ComponentUtils.cleanItalics(lore);
     }
