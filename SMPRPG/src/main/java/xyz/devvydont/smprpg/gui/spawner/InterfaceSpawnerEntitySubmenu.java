@@ -40,7 +40,7 @@ public class InterfaceSpawnerEntitySubmenu extends MenuBase {
                 break;
             }
 
-            ItemStack display = InterfaceUtil.getNamedItem(type.getInterfaceButton(), ComponentUtils.create("Set Weight: ", NamedTextColor.GOLD).append(ComponentUtils.create(type.getName(), NamedTextColor.RED)));
+            ItemStack display = InterfaceUtil.getNamedItem(type.getDisplayMaterial(), ComponentUtils.create("Set Weight: ", NamedTextColor.GOLD).append(ComponentUtils.create(type.getName(), NamedTextColor.RED)));
             display.editMeta(meta -> {
                 meta.lore(List.of(
                         ComponentUtils.EMPTY,

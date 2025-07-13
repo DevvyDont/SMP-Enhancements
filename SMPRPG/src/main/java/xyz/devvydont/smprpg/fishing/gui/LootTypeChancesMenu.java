@@ -99,7 +99,7 @@ public class LootTypeChancesMenu extends MenuBase {
                 EMPTY,
                 create("Click to dive deeper!", YELLOW)
         ), e -> {
-
+            new FishingPoolViewerMenu(this.player, this, FishingLootType.FISH).openMenu();
         });
 
         this.setButton(CREATURE, InterfaceUtil.getNamedItemWithDescription(
@@ -116,7 +116,7 @@ public class LootTypeChancesMenu extends MenuBase {
                 create("Click to dive deeper!", YELLOW)
 
                 ), e -> {
-
+            new FishingPoolViewerMenu(this.player, this, FishingLootType.CREATURE).openMenu();
         });
 
         this.setButton(TREASURE, InterfaceUtil.getNamedItemWithDescription(
@@ -133,7 +133,7 @@ public class LootTypeChancesMenu extends MenuBase {
                 create("Click to dive deeper!", YELLOW)
 
         ), e -> {
-
+            new FishingPoolViewerMenu(this.player, this, FishingLootType.TREASURE).openMenu();
         });
 
         this.setButton(JUNK, InterfaceUtil.getNamedItemWithDescription(
@@ -150,7 +150,7 @@ public class LootTypeChancesMenu extends MenuBase {
                 create("Click to dive deeper!", YELLOW)
 
         ), e -> {
-
+            new FishingPoolViewerMenu(this.player, this, FishingLootType.JUNK).openMenu();
         });
 
     }
@@ -171,7 +171,7 @@ public class LootTypeChancesMenu extends MenuBase {
      * @param odds The odds to check a color for.
      * @return The color to use.
      */
-    private TextColor chooseColorForOdds(double odds) {
+    public static TextColor chooseColorForOdds(double odds) {
 
         if (odds <= 0)
             return DARK_GRAY;
@@ -199,7 +199,7 @@ public class LootTypeChancesMenu extends MenuBase {
      * @param odds The odds of something occurring.
      * @return A formatted component of the percent chance.
      */
-    private Component formatOdds(double odds) {
+    public static Component formatOdds(double odds) {
         var str = String.format("%.2f%%", odds);
         return create(str, chooseColorForOdds(odds));
     }
@@ -209,7 +209,7 @@ public class LootTypeChancesMenu extends MenuBase {
      * @param itemRarity The rarity.
      * @return A chat component.
      */
-    private Component formatRarityOdds(ItemRarity itemRarity) {
+    public static Component formatRarityOdds(ItemRarity itemRarity) {
         return merge(
                 create("* "),
                 itemRarity.applyDecoration(create(itemRarity.name())),

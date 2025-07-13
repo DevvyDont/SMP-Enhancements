@@ -48,6 +48,19 @@ public final class ComponentUtils {
     }
 
     /**
+     * Creates a text component that's styled with the specified color and decorations.
+     * This variant of the method auto converts integers to strings for ease of use.
+     *
+     * @param message     The message to turn into a component.
+     * @param color       The color to apply to the component.
+     * @param decorations Additional decorations to apply to the component.
+     * @return The styled text component.
+     */
+    public static TextComponent create(int message, TextColor color, TextDecoration... decorations) {
+        return create(String.valueOf(message), color, decorations);
+    }
+
+    /**
      * Creates a text component that is a gradient from one color to another using the MiniMessage library.
      *
      * @param message The message to apply a gradient to.

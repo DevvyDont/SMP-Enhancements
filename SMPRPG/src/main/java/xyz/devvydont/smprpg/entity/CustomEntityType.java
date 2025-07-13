@@ -18,12 +18,13 @@ import xyz.devvydont.smprpg.entity.fishing.SnappingTurtle;
 import xyz.devvydont.smprpg.entity.npc.ReforgeNPC;
 import xyz.devvydont.smprpg.entity.spawning.EntitySpawnCondition;
 import xyz.devvydont.smprpg.entity.spawning.EntitySpawner;
+import xyz.devvydont.smprpg.gui.base.IMenuDisplayable;
 import xyz.devvydont.smprpg.services.EntityService;
 
 import java.util.function.BiFunction;
 
 // Enums to use for the retrieval, storage, and statistics of "custom" entities.
-public enum CustomEntityType {
+public enum CustomEntityType implements IMenuDisplayable {
 
     // Mobs that spawn in castles.
     CASTLE_DWELLER(EntityType.ZOMBIE_VILLAGER, "Castle Dweller",
@@ -199,7 +200,8 @@ public enum CustomEntityType {
         };
     }
 
-    public Material getInterfaceButton() {
+    @Override
+    public Material getDisplayMaterial() {
         return switch (this) {
             case REFORGE_NPC -> Material.ANVIL;
             case CASTLE_DWELLER -> Material.WOODEN_SHOVEL;
@@ -214,7 +216,12 @@ public enum CustomEntityType {
             case FIERY_SYLPH -> Material.BLAZE_ROD;
             case PALACE_THUG -> Material.DIAMOND_BLOCK;
             case INFERNAL_PHOENIX -> Material.BLAZE_POWDER;
+            case PHOENIX -> Material.FIRE_CHARGE;
+            case SNAPPING_TURTLE -> Material.TURTLE_SCUTE;
+            case SEA_BEAR -> Material.SALMON;
+            case MINNOW -> Material.COD;
             default -> Material.SKELETON_SKULL;
         };
     }
+
 }

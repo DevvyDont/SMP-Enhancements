@@ -56,4 +56,32 @@ public class FishingLootPool {
         // Get an option.
         return selector.roll();
     }
+
+    /**
+     * Given specific loot, return the probability that it can be rolled. This is context-sensitive, meaning
+     * requirements must be meant. Also, keep in mind this loot must represent an entry in the global loot
+     * registry in {@link FishingRewardRegistry} as explicit equals() checks are ran against them.
+     * @param loot The fishing loot to query.
+     */
+    public double getLootChance(FishingLootBase loot) {
+
+        // Find the weight of every item, and divide the weight by the total.
+        var pool = getPool();
+        var totalWeight = 0;
+        var present = false;
+        for (var entry : pool) {
+            if (loot.equals(entry))
+                present = true;
+            totalWeight += entry.getWeight();
+        }
+
+        // Make sure the loot is present and able to be caught.
+        if (!present)
+            return 0;
+
+        if (totalWeight <= 0)
+            return 0;
+
+        return (double) loot.getWeight() / totalWeight;
+    }
 }

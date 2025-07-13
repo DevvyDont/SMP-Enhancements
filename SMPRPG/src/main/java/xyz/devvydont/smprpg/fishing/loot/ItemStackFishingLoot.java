@@ -1,5 +1,6 @@
 package xyz.devvydont.smprpg.fishing.loot;
 
+import io.papermc.paper.datacomponent.DataComponentTypes;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.inventory.ItemStack;
@@ -60,6 +61,19 @@ public class ItemStackFishingLoot extends FishingLootBase {
 
     public int getMaxAmount() {
         return maxAmount;
+    }
+
+    @Override
+    public Material getDisplayMaterial() {
+
+        // Try and query multiple aspects of the item first, but use its raw material as a fallback always.
+        var key = this.item.getData(DataComponentTypes.ITEM_MODEL);
+        if (key == null)
+            return this.item.getType();
+        var match = Material.matchMaterial(key.asString());
+        if (match == null)
+            return this.item.getType();
+        return match;
     }
 
     /**

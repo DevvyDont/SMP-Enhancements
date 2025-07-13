@@ -27,4 +27,7 @@ public class Symbols {
     public static final String LOCK = "\uD83D\uDD12";
 
     public static final String SPARKLES = "✨";
+
+    public static final String CHECK = "✔";
+    public static final String X = "❌";
 }

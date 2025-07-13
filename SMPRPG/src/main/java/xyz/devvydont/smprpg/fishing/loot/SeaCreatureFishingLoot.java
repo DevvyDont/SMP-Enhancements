@@ -1,5 +1,6 @@
 package xyz.devvydont.smprpg.fishing.loot;
 
+import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
@@ -33,6 +34,15 @@ public class SeaCreatureFishingLoot extends FishingLootBase {
         }
 
         return entity.getEntity();
+    }
+
+    public CustomEntityType getCustomEntityType() {
+        return customEntityType;
+    }
+
+    @Override
+    public Material getDisplayMaterial() {
+        return customEntityType.getDisplayMaterial();
     }
 
     /**

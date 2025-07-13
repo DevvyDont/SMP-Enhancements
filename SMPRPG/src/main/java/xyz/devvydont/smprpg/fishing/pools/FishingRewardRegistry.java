@@ -36,20 +36,20 @@ public class FishingRewardRegistry {
 
                 // Start with fish that can be fished up anywhere. Introduction to the system essentially.
                 new ItemStackFishingLoot.Builder(CustomItemType.COD)
-                        .withWeight(25)
+                        .withWeight(10)
                         .withMinecraftExperience(1)
                         .withSkillExperience(10)
                         .build(),
 
                 new ItemStackFishingLoot.Builder(CustomItemType.SALMON)
-                        .withWeight(10)
+                        .withWeight(7)
                         .withMinecraftExperience(5)
                         .withSkillExperience(20)
                         .withRequirement(FishingLootRequirement.quality(10))
                         .build(),
 
                 new ItemStackFishingLoot.Builder(CustomItemType.PUFFERFISH)
-                        .withWeight(5)
+                        .withWeight(3)
                         .withMinecraftExperience(10)
                         .withSkillExperience(30)
                         .withRequirement(FishingLootRequirement.quality(25))
@@ -93,14 +93,20 @@ public class FishingRewardRegistry {
 
                 // The minnow can always be caught, no matter what. Can't leave a pool potentially empty.
                 new SeaCreatureFishingLoot.Builder(CustomEntityType.MINNOW)
+                        .withMinecraftExperience(10)
+                        .withSkillExperience(50)
                         .build(),
 
                 new SeaCreatureFishingLoot.Builder(CustomEntityType.SNAPPING_TURTLE)
+                        .withMinecraftExperience(25)
+                        .withSkillExperience(200)
                         .withRequirement(FishingLootRequirement.quality(SnappingTurtle.REQUIREMENT))
                         .withRequirement(FishingLootRequirement.temperature(TemperatureReading.TEMPERATE))
                         .build(),
 
                 new SeaCreatureFishingLoot.Builder(CustomEntityType.SEA_BEAR)
+                        .withMinecraftExperience(50)
+                        .withSkillExperience(500)
                         .withRequirement(FishingLootRequirement.quality(SeaBear.REQUIREMENT))
                         .withRequirement(FishingLootRequirement.temperature(TemperatureReading.TEMPERATE))
                         .build()
@@ -117,43 +123,43 @@ public class FishingRewardRegistry {
                         .build(),
 
                 new ItemStackFishingLoot.Builder(Material.BOWL)
-                        .withWeight(5)
+                        .withWeight(3)
                         .withMinecraftExperience(1)
                         .withSkillExperience(10)
                         .build(),
 
                 new ItemStackFishingLoot.Builder(Material.LEATHER)
-                        .withWeight(5)
+                        .withWeight(2)
                         .withMinecraftExperience(1)
                         .withSkillExperience(10)
                         .build(),
 
                 new ItemStackFishingLoot.Builder(Material.ROTTEN_FLESH)
-                        .withWeight(5)
+                        .withWeight(3)
                         .withMinecraftExperience(1)
                         .withSkillExperience(10)
                         .build(),
 
                 new ItemStackFishingLoot.Builder(Material.STICK)
-                        .withWeight(5)
+                        .withWeight(3)
                         .withMinecraftExperience(1)
                         .withSkillExperience(10)
                         .build(),
 
                 new ItemStackFishingLoot.Builder(Material.STRING)
-                        .withWeight(5)
+                        .withWeight(2)
                         .withMinecraftExperience(1)
                         .withSkillExperience(10)
                         .build(),
 
                 new ItemStackFishingLoot.Builder(Material.BONE)
-                        .withWeight(5)
+                        .withWeight(2)
                         .withMinecraftExperience(1)
                         .withSkillExperience(10)
                         .build(),
 
                 new ItemStackFishingLoot.Builder(Material.TRIPWIRE_HOOK)
-                        .withWeight(5)
+                        .withWeight(2)
                         .withMinecraftExperience(1)
                         .withSkillExperience(10)
                         .build(),

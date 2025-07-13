@@ -4,6 +4,7 @@ import org.bukkit.entity.Entity;
 import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.fishing.loot.requirements.FishingLootRequirement;
 import xyz.devvydont.smprpg.fishing.utils.FishingContext;
+import xyz.devvydont.smprpg.gui.base.IMenuDisplayable;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -13,7 +14,7 @@ import java.util.List;
  * Represents something that can be fished up. At a high level, this is essentially a wrapper over
  * an entity (creature/item).
  */
-public abstract class FishingLootBase {
+public abstract class FishingLootBase implements IMenuDisplayable {
 
     private final int weight;
     private final int fishingExperience;
