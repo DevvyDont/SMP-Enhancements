@@ -5,6 +5,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.events.crafting.PrepareItemCraftTransmuteEvent;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.listeners.ToggleableListener;
@@ -80,7 +81,9 @@ public class CraftingTransmuteUpgradeFix extends ToggleableListener {
         if (loc == null)
             return;
 
-        // Now, perform a recipe check against the clean grid.
+        // Now, perform a recipe check against the clean grid. This MUST be a 3x3 grid. If it's 2x2, convert it to 3x3.
+        if (cleanGrid.length == 4)
+            cleanGrid = new @Nullable ItemStack[]{cleanGrid[0], cleanGrid[1], null, cleanGrid[2], cleanGrid[3], null, null, null, null};
         var recipe = Bukkit.getCraftingRecipe(cleanGrid, loc.getWorld());
 
         // If null, then there's no recipe. We tried...
