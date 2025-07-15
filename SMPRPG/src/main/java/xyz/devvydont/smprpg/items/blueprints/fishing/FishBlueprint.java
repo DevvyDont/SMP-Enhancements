@@ -15,7 +15,7 @@ import xyz.devvydont.smprpg.items.interfaces.ISellable;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.formatting.Symbols;
 import xyz.devvydont.smprpg.util.persistence.PDCAdapters;
-import xyz.devvydont.smprpg.util.persistence.PDCKeystore;
+import xyz.devvydont.smprpg.util.persistence.KeyStore;
 import xyz.devvydont.smprpg.util.rng.WeightedSelector;
 
 import java.util.List;
@@ -141,7 +141,7 @@ public class FishBlueprint extends CustomItemBlueprint implements IModelOverridd
      */
     @Override
     public ItemRarity getRarity(ItemStack item) {
-        return item.getPersistentDataContainer().getOrDefault(PDCKeystore.ITEM_RARITY_OVERRIDE, PDCAdapters.RARITY, getDefaultRarity());
+        return item.getPersistentDataContainer().getOrDefault(KeyStore.ITEM_RARITY_OVERRIDE, PDCAdapters.RARITY, getDefaultRarity());
     }
 
     /**
@@ -151,7 +151,7 @@ public class FishBlueprint extends CustomItemBlueprint implements IModelOverridd
      */
     public void setRarity(ItemStack item, ItemRarity rarity) {
         // Update internal storage, then trigger an update.
-        item.editPersistentDataContainer(pdc -> pdc.set(PDCKeystore.ITEM_RARITY_OVERRIDE, PDCAdapters.RARITY, rarity));
+        item.editPersistentDataContainer(pdc -> pdc.set(KeyStore.ITEM_RARITY_OVERRIDE, PDCAdapters.RARITY, rarity));
         this.updateItemData(item);
     }
 

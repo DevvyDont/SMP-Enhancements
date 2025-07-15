@@ -7,7 +7,7 @@ import org.bukkit.NamespacedKey;
  * There is no general pattern to what keys can be stored here, if it feels right to be global then put it here.
  * Keep in mind that changing key namespaces and values will break some things that used the prior key.
  */
-public class PDCKeystore {
+public class KeyStore {
 
     /**
      * The namespace to use when generating keys. You should never change this or else you will break the plugin.
@@ -28,5 +28,10 @@ public class PDCKeystore {
      * Used for item rarity adjustments in item blueprints.
      */
     public static final NamespacedKey ITEM_RARITY_OVERRIDE = key("item_rarity_override");
+
+    /**
+     * Used for nerfing fishing attributes when dual wielding fishing rods.
+     */
+    public static final NamespacedKey FISHING_ATTRIBUTE_DUAL_WIELD_NERF = key("rod_dual_wield_nerf");
 
 }

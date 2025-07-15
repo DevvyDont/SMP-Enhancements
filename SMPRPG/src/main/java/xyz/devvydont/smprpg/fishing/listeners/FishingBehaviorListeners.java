@@ -2,18 +2,26 @@ package xyz.devvydont.smprpg.fishing.listeners;
 
 import com.destroystokyo.paper.event.entity.EntityRemoveFromWorldEvent;
 import org.bukkit.Material;
+import org.bukkit.Sound;
+import org.bukkit.attribute.AttributeModifier;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 import xyz.devvydont.smprpg.SMPRPG;
+import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.fishing.calculator.FishLootCalculator;
 import xyz.devvydont.smprpg.fishing.events.FishingLootGenerateEvent;
+import xyz.devvydont.smprpg.fishing.tasks.FishHookBehaviorTask;
 import xyz.devvydont.smprpg.fishing.utils.FishingContext;
 import xyz.devvydont.smprpg.items.interfaces.IFishingRod;
-import xyz.devvydont.smprpg.items.tasks.FishHookBehaviorTask;
+import xyz.devvydont.smprpg.services.AttributeService;
 import xyz.devvydont.smprpg.services.ItemService;
+import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.listeners.ToggleableListener;
+import xyz.devvydont.smprpg.util.persistence.KeyStore;
+import xyz.devvydont.smprpg.util.time.TickTime;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -79,8 +87,9 @@ public class FishingBehaviorListeners extends ToggleableListener {
         event.getHook().setHookedEntity(_new);
 
         // This is also very strange, but if this is a water rod, we need to pull the entity to simulate normal fish loot physics. No idea why.
-        if (ctx.getFlags().contains(IFishingRod.FishingFlag.NORMAL))
-            event.getHook().pullHookedEntity();
+//        if (ctx.getFlags().contains(IFishingRod.FishingFlag.NORMAL))
+//            event.getHook().pullHookedEntity();
+        event.getHook().pullHookedEntity();
     }
 
     /**
@@ -88,7 +97,7 @@ public class FishingBehaviorListeners extends ToggleableListener {
      * the fishhook that monitors its behavior every tick.
      * @param event The {@link PlayerFishEvent} that provides us with relevant context.
      */
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     private void __onStartFishWithSpecialRod(PlayerFishEvent event) {
 
         // If this hook is associated with a task already, offset the logic to the task. Not this.
@@ -135,11 +144,13 @@ public class FishingBehaviorListeners extends ToggleableListener {
 
         // Customize the hook's behavior to suit the fishing rod depending on the flags present.
         if (rodBlueprint.getFishingFlags().contains(IFishingRod.FishingFlag.LAVA) && rodBlueprint.getFishingFlags().contains(IFishingRod.FishingFlag.VOID))
-            hook.setPredicate(FishHookBehaviorTask.COMPLEX_PREDICATE);
+            hook.setOptions(FishHookBehaviorTask.COMPLEX_OPTIONS);
         else if (rodBlueprint.getFishingFlags().contains(IFishingRod.FishingFlag.LAVA))
-            hook.setPredicate(FishHookBehaviorTask.LAVA_PREDICATE);
+            hook.setOptions(FishHookBehaviorTask.LAVA_OPTIONS);
         else if (rodBlueprint.getFishingFlags().contains(IFishingRod.FishingFlag.VOID))
-            hook.setPredicate(FishHookBehaviorTask.VOID_PREDICATE);
+            hook.setOptions(FishHookBehaviorTask.VOID_OPTIONS);
+
+        hook.setLure(fishingRod.getEnchantmentLevel(Enchantment.LURE));
 
         tasks.put(event.getHook().getUniqueId(), hook);
     }
@@ -153,6 +164,31 @@ public class FishingBehaviorListeners extends ToggleableListener {
         var task = tasks.remove(event.getEntity().getUniqueId());
         if (task != null)
             task.cancel();
+    }
+
+    /**
+     * Once again, it's possible that people can abuse our attribute system by dual-wielding fishing rods.
+     * When someone casts a line while holding two fishing rods, we should obliterate their fishing catch chance.
+     * Honestly, we can just run this for every fishing event. This will ensure we have proper attribute application
+     * at any point in the fishing process.
+     * @param event The {@link PlayerFishEvent} event that gives us context.
+     */
+    @EventHandler(priority = EventPriority.LOW)
+    private void __onAttemptFishWithTwoFishingRods(PlayerFishEvent event) {
+        // Remove the nerf, apply it if they are breaking the rules, and punish them by making bite time long or cancelling the event.
+        var rating = AttributeService.getInstance().getOrCreateAttribute(event.getPlayer(), AttributeWrapper.FISHING_RATING);
+        rating.removeModifier(KeyStore.FISHING_ATTRIBUTE_DUAL_WIELD_NERF);
+        var main = event.getPlayer().getInventory().getItemInMainHand();
+        var off = event.getPlayer().getInventory().getItemInOffHand();
+        if (ItemService.blueprint(main) instanceof IFishingRod && ItemService.blueprint(off) instanceof IFishingRod) {
+            rating.addModifier(new AttributeModifier(KeyStore.FISHING_ATTRIBUTE_DUAL_WIELD_NERF, -.9, AttributeModifier.Operation.MULTIPLY_SCALAR_1));
+            event.getPlayer().sendMessage(ComponentUtils.error("You seem to be struggling handling two fishing rods at once... Are you sure you are gonna catch something like that??"));
+            event.getPlayer().playSound(event.getPlayer().getLocation(), Sound.ENTITY_ENDERMAN_HURT, .5f, 1.25f);
+            event.getHook().setWaitTime((int) TickTime.minutes(1), (int) TickTime.minutes(5));
+            if (event.getState().equals(PlayerFishEvent.State.CAUGHT_FISH))
+                event.setCancelled(true);
+        }
+        rating.save(event.getPlayer(), AttributeWrapper.FISHING_RATING);
     }
 
 }

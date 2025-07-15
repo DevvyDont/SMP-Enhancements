@@ -1,8 +1,7 @@
-package xyz.devvydont.smprpg.items.tasks;
+package xyz.devvydont.smprpg.fishing.tasks;
 
 import com.destroystokyo.paper.ParticleBuilder;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.title.Title;
 import org.bukkit.*;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.ArmorStand;
@@ -13,15 +12,16 @@ import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
+import xyz.devvydont.smprpg.enchantments.definitions.vanilla.unchanged.LureEnchantment;
+import xyz.devvydont.smprpg.fishing.utils.FishingPredicates;
+import xyz.devvydont.smprpg.fishing.utils.HookEffectOptions;
 import xyz.devvydont.smprpg.items.interfaces.IFishingRod;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
-import xyz.devvydont.smprpg.util.misc.ILocationPredicate;
 import xyz.devvydont.smprpg.util.time.TickTime;
 
-import java.time.Duration;
+import java.util.Random;
 
-import static net.kyori.adventure.text.format.NamedTextColor.GREEN;
-import static xyz.devvydont.smprpg.util.formatting.ComponentUtils.EMPTY;
+import static xyz.devvydont.smprpg.fishing.utils.FishingPredicates.*;
 
 /**
  * Monitors a fishhook every tick and causes it to behave like a vanilla hook in water. This task will do everything
@@ -76,6 +76,18 @@ public class FishHookBehaviorTask extends BukkitRunnable {
     private static final double FISH_APPROACH_VOLATILITY = 0.1;
 
     /**
+     * The maximum amount of time in ticks that we can spend waiting for a fish to enter the "lured" state.
+     * This is before the Lure enchantment is applied.
+     */
+    private static long MAX_FISH_WAIT_TIME = TickTime.seconds(30);
+
+    /**
+     * The minimum amount of time in ticks that we can spend waiting for a fish to enter the "lured" state.
+     * This is before the Lure enchantment is applied.
+     */
+    private static long MIN_FISH_WAIT_TIME = TickTime.seconds(5);
+
+    /**
      * Helps manage state for fishing behavior.
      */
     public enum HookBehaviorState {
@@ -87,37 +99,48 @@ public class FishHookBehaviorTask extends BukkitRunnable {
     }
 
     /**
-     * Allows the managing of the various particles that spawn during key fishing events.
-     * @param CatchParticle The particle that spawns when you hook a fish.
-     * @param IdleParticle The particle that spawns around the hook while waiting for a fish.
-     * @param FishParticle The particle that spawns to denote an approaching fish.
-     * @param SplashSound The sound to play when something is caught.
+     * Represents default hook options. This is mostly just a fallback.
      */
-    public record HookEffectOptions(Particle CatchParticle, Particle IdleParticle, Particle FishParticle, Sound SplashSound){}
+    public static final HookEffectOptions DEFAULT_OPTIONS = new HookEffectOptions(
+            IMPOSSIBLE_PREDICATE,
+            Particle.BUBBLE,
+            Particle.BUBBLE_POP,
+            Particle.DRIPPING_WATER,
+            Sound.ENTITY_GENERIC_SPLASH
+    );
 
     /**
-     * Meant to be used as a fallback if no suitable predicate exists. Will always fail, allowing for default behavior.
+     * Hook options for when we are lava fishing.
      */
-    public static final ILocationPredicate IMPOSSIBLE_PREDICATE = e -> false;
+    public static final HookEffectOptions LAVA_OPTIONS = new HookEffectOptions(
+            LAVA_PREDICATE,
+            Particle.LAVA,
+            Particle.SMOKE,
+            Particle.FLAME,
+            Sound.ENTITY_PLAYER_SPLASH_HIGH_SPEED
+    );
 
     /**
-     * The predicate that lava rods typically use. Checks if the current block is lava.
+     * Hook options for when we are void fishing.
      */
-    public static final ILocationPredicate LAVA_PREDICATE = e -> e.getBlock().getType().equals(Material.LAVA);
+    public static final HookEffectOptions VOID_OPTIONS = new HookEffectOptions(
+            VOID_PREDICATE,
+            Particle.SCULK_SOUL,
+            Particle.PORTAL,
+            Particle.DRAGON_BREATH,
+            Sound.BLOCK_RESPAWN_ANCHOR_DEPLETE
+    );
 
     /**
-     * The predicate that void rods typically use. Checks if the current block is in the void.
+     * Hook options for when we don't know what we are fishing.
      */
-    public static final ILocationPredicate VOID_PREDICATE = e -> e.getWorld().getEnvironment().equals(World.Environment.THE_END) && e.getBlock().getY() <= 0;
-
-    /**
-     * Complex predicate allows both lava and void fishing to work at the same time.
-     */
-    public static final ILocationPredicate COMPLEX_PREDICATE = e -> LAVA_PREDICATE.check(e) || VOID_PREDICATE.check(e);
-
-    public static final HookEffectOptions DEFAULT_PARTICLES = new HookEffectOptions(Particle.BUBBLE, Particle.BUBBLE_POP, Particle.DRIPPING_WATER, Sound.ENTITY_GENERIC_SPLASH);
-    public static final HookEffectOptions LAVA_PARTICLES = new HookEffectOptions(Particle.LAVA, Particle.SMOKE, Particle.FLAME, Sound.ENTITY_PLAYER_SPLASH_HIGH_SPEED);
-    public static final HookEffectOptions VOID_PARTICLES = new HookEffectOptions(Particle.SCULK_SOUL, Particle.PORTAL, Particle.DRAGON_BREATH, Sound.BLOCK_RESPAWN_ANCHOR_DEPLETE);
+    public static final HookEffectOptions COMPLEX_OPTIONS = new HookEffectOptions(
+            FishingPredicates.COMPLEX_PREDICATE,
+            Particle.SCULK_SOUL,
+            Particle.PORTAL,
+            Particle.DRAGON_BREATH,
+            Sound.BLOCK_RESPAWN_ANCHOR_DEPLETE
+    );
 
     /**
      * Creates a new instance, starts running the task every tick, and returns in back. This is essentially just
@@ -146,7 +169,7 @@ public class FishHookBehaviorTask extends BukkitRunnable {
     /**
      * The predicate that this task is going to abide by. This determines what are valid "fishing spots".
      */
-    private ILocationPredicate predicate;
+    private HookEffectOptions options = DEFAULT_OPTIONS;
 
     /**
      * The anchor represents the "anchor" point of the hook. When the hook finds a valid point to attach to,
@@ -189,9 +212,14 @@ public class FishHookBehaviorTask extends BukkitRunnable {
      */
     private long ticksAllowedToCatch = -1;
 
+    /**
+     * A modifier for how quickly to lure fish. This is directly tied to the "Lure" enchantment of the fishing rod
+     * that performed this cast. This should only be determined once and only once when we cast.
+     */
+    private int lureFactor = 0;
+
     public FishHookBehaviorTask(FishHook hook) {
         this.hook = hook;
-        this.predicate = IMPOSSIBLE_PREDICATE;
     }
 
     @Override
@@ -205,8 +233,17 @@ public class FishHookBehaviorTask extends BukkitRunnable {
         }
 
         // Handle the state that this task is currently in. Runs every tick.
-        sendTitle(EMPTY, Component.text(this.state.toString()));
         handleState();
+    }
+
+    /**
+     * Determines when to spawn in a fish. This is affected by Lure.
+     * @return How many ticks until the next fish spawns in.
+     */
+    public long decideNextFishTime() {
+        var ticks = new Random().nextLong(MIN_FISH_WAIT_TIME, MAX_FISH_WAIT_TIME+1);
+        ticks -= TickTime.seconds(LureEnchantment.getDecreaseTime(lureFactor));
+        return Math.clamp(ticks, TickTime.SECOND, MAX_FISH_WAIT_TIME);
     }
 
     /**
@@ -217,15 +254,9 @@ public class FishHookBehaviorTask extends BukkitRunnable {
 
         this.state = state;
         switch (this.state) {
-            case BOBBING -> {
-                this.ticksUntilFish = TickTime.seconds(5);
-            }
-            case BITE -> {
-                makeFishBite();
-            }
-            case FISH_APPROACHING -> {
-                spawnFish();
-            }
+            case BOBBING -> this.ticksUntilFish = decideNextFishTime();
+            case BITE -> makeFishBite();
+            case FISH_APPROACHING -> spawnFish();
             case SEARCHING -> {
                 this.ticksUntilBite = Integer.MAX_VALUE;
                 this.ticksUntilFish = Integer.MAX_VALUE;
@@ -242,13 +273,22 @@ public class FishHookBehaviorTask extends BukkitRunnable {
             }
         }
     }
+    
+    /**
+     * Sets the {@link HookEffectOptions} that this hook will abide by. This includes its location predicate and
+     * particle effect options.
+     * @param options The options to follow.
+     */
+    public void setOptions(HookEffectOptions options) {
+        this.options = options;
+    }
 
     /**
-     * Sets the {@link ILocationPredicate} that the fishing hook logic will follow.
-     * @param predicate The predicate that determines valid fishing hook locations.
+     * Sets the level of lure to use for this event. This should directly reflect the level of lure of the fishing rod.
+     * @param lure The level of lure to use.
      */
-    public void setPredicate(ILocationPredicate predicate) {
-        this.predicate = predicate;
+    public void setLure(int lure) {
+        this.lureFactor = lure;
     }
 
     /**
@@ -269,11 +309,11 @@ public class FishHookBehaviorTask extends BukkitRunnable {
      * @return The {@link xyz.devvydont.smprpg.items.interfaces.IFishingRod.FishingFlag} this task is operating on.
      */
     public IFishingRod.FishingFlag getFlagFromCurrentState() {
-        if (this.predicate == IMPOSSIBLE_PREDICATE)
+        if (this.options.Predicate() == IMPOSSIBLE_PREDICATE)
             return IFishingRod.FishingFlag.NORMAL;
-        if (this.predicate == LAVA_PREDICATE)
+        if (this.options.Predicate() == LAVA_PREDICATE)
             return IFishingRod.FishingFlag.LAVA;
-        if (this.predicate == VOID_PREDICATE)
+        if (this.options.Predicate() == VOID_PREDICATE)
             return IFishingRod.FishingFlag.VOID;
 
         // If we have the complex predicate, it is a bit annoying. We have to determine it from the block.
@@ -290,9 +330,9 @@ public class FishHookBehaviorTask extends BukkitRunnable {
      */
     public HookEffectOptions getOptionsFromCurrentState() {
         return switch (getFlagFromCurrentState()) {
-            case LAVA -> LAVA_PARTICLES;
-            case VOID -> VOID_PARTICLES;
-            default -> DEFAULT_PARTICLES;
+            case LAVA -> LAVA_OPTIONS;
+            case VOID -> VOID_OPTIONS;
+            default -> DEFAULT_OPTIONS;
         };
     }
 
@@ -311,8 +351,16 @@ public class FishHookBehaviorTask extends BukkitRunnable {
 
         // Simulates a catch!
         if (this.ticksAllowedToCatch >= 0) {
+            hook.setHookedEntity(null);
+            if (anchor != null)
+                hook.teleport(anchor);
+            var caughtEvent = new PlayerFishEvent(event.getPlayer(), null, event.getHook(), event.getHand(), PlayerFishEvent.State.CAUGHT_FISH).callEvent();
+            if (!caughtEvent) {
+                hook.setHookedEntity(hookMount);
+                this.setState(HookBehaviorState.BOBBING);
+                return;
+            }
             this.setState(HookBehaviorState.REELING);  // It's important we update the state before calling the event.
-            new PlayerFishEvent(event.getPlayer(), null, event.getHook(), event.getHand(), PlayerFishEvent.State.CAUGHT_FISH).callEvent();
         }
     }
 
@@ -358,10 +406,10 @@ public class FishHookBehaviorTask extends BukkitRunnable {
         loc.setX(hook.getX() + Math.cos(angle) * radius);
         loc.setZ(hook.getZ() + Math.sin(angle) * radius);
 
-        if (!this.predicate.check(loc.clone().subtract(0, 1, 0)))
+        if (!this.options.Predicate().check(loc.clone().subtract(0, 1, 0)))
             return;
 
-        new ParticleBuilder(getOptionsFromCurrentState().FishParticle)
+        new ParticleBuilder(getOptionsFromCurrentState().FishParticle())
                 .location(loc)
                 .receivers(25)
                 .extra(0)
@@ -377,7 +425,6 @@ public class FishHookBehaviorTask extends BukkitRunnable {
         var mount = getOrCreateMount();
         mount.teleport(mount.getLocation().add(0, (Math.random()-.5) * .2, 0));
         if (this.ticksAllowedToCatch <= 0) {
-            this.unanchor();
             this.setState(HookBehaviorState.SEARCHING);
             var owner = this.getOwner();
             if (owner != null)
@@ -450,11 +497,13 @@ public class FishHookBehaviorTask extends BukkitRunnable {
         if (!this.hook.hasMetadata(IFishingRod.FishingFlag.NORMAL.toString()) && this.hook.getLocation().getBlock().getType().equals(Material.WATER)) {
             this.hook.remove();
             this.hook.getWorld().playSound(this.hook.getLocation(), Sound.BLOCK_LAVA_EXTINGUISH, 1, 1.25f);
+            if (this.getOwner() != null)
+                this.getOwner().sendMessage(ComponentUtils.error("This rod does not work in water!"));
             return;
         }
 
         // Use our predicate to determine the validity of the location.
-        if (!this.predicate.check(hook.getLocation()))
+        if (!this.options.Predicate().check(hook.getLocation()))
             return;
 
         // Check if we are on the surface. If we aren't, we have to ascend a bit. The armor stand also needs to exist.
@@ -486,7 +535,7 @@ public class FishHookBehaviorTask extends BukkitRunnable {
         this.hookMount.teleport(this.anchor.clone().add(0, yOffset, 0));
 
         // Spawn in some random particles around us.
-        new ParticleBuilder(getOptionsFromCurrentState().IdleParticle)
+        new ParticleBuilder(getOptionsFromCurrentState().IdleParticle())
                 .location(hook.getLocation().add(0, .5, 0))
                 .receivers(25)
                 .offset(2, 0, 2)
@@ -499,24 +548,42 @@ public class FishHookBehaviorTask extends BukkitRunnable {
      * Spawns a fish. This is called when the ticks to spawn fish reaches 0.
      */
     private void spawnFish() {
+        var owner = this.getOwner();
+        if (owner == null)
+            return;
+
+        var event = new PlayerFishEvent(owner, null, hook, PlayerFishEvent.State.LURED).callEvent();
+        if (!event) {
+            setState(HookBehaviorState.BOBBING);
+            return;
+        }
+
         this.ticksUntilFish = -1;
         this.ticksUntilBite = (int)TickTime.seconds(3);
         this.approachAngle = Math.random() * 2 * Math.PI;
-        var owner = this.getOwner();
-        if (owner != null)
-            new PlayerFishEvent(owner, null, hook, PlayerFishEvent.State.LURED).callEvent();
     }
 
     /**
      * Makes a fish appear to bite. This will make the bobber get pulled down, make a noise, and spawn particles.
      */
     private void makeFishBite() {
+
+        var owner = this.getOwner();
+        if (owner == null)
+            return;
+
+        var event = new PlayerFishEvent(owner, null, hook, PlayerFishEvent.State.BITE).callEvent();
+        if (!event) {
+            setState(HookBehaviorState.BOBBING);
+            return;
+        }
+
         this.ticksAllowedToCatch = TickTime.seconds(2);
-        hook.getWorld().playSound(hook.getLocation(), getOptionsFromCurrentState().SplashSound, 1, 1);
+        hook.getWorld().playSound(hook.getLocation(), getOptionsFromCurrentState().SplashSound(), 1, 1);
         if (hookMount == null)
             return;
 
-        new ParticleBuilder(getOptionsFromCurrentState().CatchParticle)
+        new ParticleBuilder(getOptionsFromCurrentState().CatchParticle())
                 .location(hook.getLocation().add(0, .5, 0))
                 .receivers(25)
                 .offset(.25, 0, .25)
@@ -524,9 +591,6 @@ public class FishHookBehaviorTask extends BukkitRunnable {
                 .spawn();
 
         hookMount.teleport(hookMount.getLocation().add(0, -1.5, 0));
-        var owner = this.getOwner();
-        if (owner != null)
-            new PlayerFishEvent(owner, null, hook, PlayerFishEvent.State.BITE).callEvent();
     }
 
     /**
@@ -536,7 +600,7 @@ public class FishHookBehaviorTask extends BukkitRunnable {
      */
     public boolean isCurrentlySurfaced() {
         // We are surfaced if the block above us doesn't satisfy the predicate.
-        return !this.predicate.check(
+        return !this.options.Predicate().check(
                 hook.getLocation().getBlock().getRelative(BlockFace.UP).getLocation().toCenterLocation()
         );
     }
@@ -572,19 +636,6 @@ public class FishHookBehaviorTask extends BukkitRunnable {
 
         // Attach the armor stand to the hook.
         hook.setHookedEntity(hookMount);
-        sendTitle(EMPTY, ComponentUtils.create("ATTACH!", GREEN));
         return hookMount;
-    }
-
-    /**
-     * Shows a title to whoever threw the hook. Used for debugging, since title showing is a bit verbose.
-     * @param title The title of the title to send.
-     * @param subtitle The subtitle of the title to send.
-     */
-    private void sendTitle(Component title, Component subtitle) {
-        var d0 = Duration.ofSeconds(0);
-        var d1 = Duration.ofSeconds(1);
-        if (getOwner() != null)
-            getOwner().showTitle(Title.title(title, subtitle, Title.Times.times(d0, d1, d0)));
     }
 }
