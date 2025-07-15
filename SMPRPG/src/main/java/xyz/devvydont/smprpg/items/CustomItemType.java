@@ -393,6 +393,8 @@ public enum CustomItemType {
     SALMON("Salmon", Material.TROPICAL_FISH, FishBlueprint.class),
     PUFFERFISH("Pufferfish", Material.TROPICAL_FISH, FishBlueprint.class),
     CLOWNFISH("Clownfish", Material.TROPICAL_FISH, FishBlueprint.class),
+    BLISTERFISH("Blisterfish", Material.TROPICAL_FISH, FishBlueprint.class),
+    VOIDFIN("Voidfin", Material.TROPICAL_FISH, FishBlueprint.class),
 
     // FOOD
     STALE_BREAD("Stale Bread", Material.BREAD, ItemRarity.COMMON, StaleBread.class),

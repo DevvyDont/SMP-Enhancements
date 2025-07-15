@@ -12,9 +12,7 @@ import xyz.devvydont.smprpg.entity.base.CustomEntityInstance;
 import xyz.devvydont.smprpg.entity.base.LeveledEntity;
 import xyz.devvydont.smprpg.entity.bosses.BlazeBoss;
 import xyz.devvydont.smprpg.entity.creatures.*;
-import xyz.devvydont.smprpg.entity.fishing.Minnow;
-import xyz.devvydont.smprpg.entity.fishing.SeaBear;
-import xyz.devvydont.smprpg.entity.fishing.SnappingTurtle;
+import xyz.devvydont.smprpg.entity.fishing.*;
 import xyz.devvydont.smprpg.entity.npc.ReforgeNPC;
 import xyz.devvydont.smprpg.entity.spawning.EntitySpawnCondition;
 import xyz.devvydont.smprpg.entity.spawning.EntitySpawner;
@@ -89,6 +87,12 @@ public enum CustomEntityType implements IMenuDisplayable {
             10, 200, 25, SnappingTurtle::new),
     SEA_BEAR(EntityType.POLAR_BEAR, "Sea Bear",
             20, 500, 45, SeaBear::new),
+
+    CINDERLING(EntityType.MAGMA_CUBE, "Cinderling",
+            20, 650, 50, Cinderling::new),
+
+    ECHO_RAY(EntityType.PHANTOM, "Echo Ray",
+            40, 3_500, 450, EchoRay::new),
 
     TEST_ZOMBIE(EntityType.ZOMBIE, "Test Zombie",
             5, 120, 15,

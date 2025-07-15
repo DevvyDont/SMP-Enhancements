@@ -4,6 +4,7 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.block.Biome;
 import xyz.devvydont.smprpg.fishing.utils.FishingContext;
 import xyz.devvydont.smprpg.fishing.utils.TemperatureReading;
+import xyz.devvydont.smprpg.items.interfaces.IFishingRod;
 
 /**
  * Represents a condition that must be met given a fishing context.
@@ -29,6 +30,15 @@ public interface FishingLootRequirement {
      */
     static FishingLootRequirement temperature(TemperatureReading requirement) {
         return new TemperatureRequirement(requirement);
+    }
+
+    /**
+     * Returns a rod type requirement that passes if the given rod type is contained within the fishing flags.
+     * @param requirement The required {@link xyz.devvydont.smprpg.items.interfaces.IFishingRod.FishingFlag} to pass.
+     * @return The {@link FishingLootRequirement requirement.}
+     */
+    static FishingLootRequirement rod(IFishingRod.FishingFlag requirement) {
+        return new RodRequirement(requirement);
     }
 
     /**

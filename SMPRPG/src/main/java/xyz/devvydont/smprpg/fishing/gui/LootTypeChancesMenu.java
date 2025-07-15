@@ -49,7 +49,7 @@ public class LootTypeChancesMenu extends MenuBase {
      * @return A new context instance to help simulate fishing odds.
      */
     public FishingContext makeContext() {
-        return new FishingContext(this.player, null, this.player.getLocation());
+        return new FishingContext(this.player, null, this.player.getLocation(), null);
     }
 
     /**

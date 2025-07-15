@@ -1,5 +1,6 @@
 package xyz.devvydont.smprpg.fishing.calculator;
 
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
 import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.SMPRPG;
@@ -67,7 +68,7 @@ public class FishLootCalculator {
             return new CalculationResult(rolledType, loot);
 
         // Otherwise, send the fallback. Also, alert the plugin. Ideally we don't want fishing duds to occur.
-        SMPRPG.broadcastToOperatorsCausedBy(ctx.getPlayer(), ComponentUtils.create("Failed to generate fish loot. ctx: " + ctx));
+        SMPRPG.broadcastToOperatorsCausedBy(ctx.getPlayer(), ComponentUtils.create("Failed to generate " + rolledType.Element() + " fish loot. ctx: " + ctx, NamedTextColor.RED));
         return fallback();
     }
 

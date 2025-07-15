@@ -7,7 +7,6 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.SMPRPG;
@@ -132,7 +131,7 @@ public class FishingPoolViewerMenu extends MenuBase {
             name = create("???", RED);
 
         // Various calculator utilities that provide useful information.
-        var ctx = new FishingContext(this.player, EquipmentSlot.HAND, this.player.getLocation());
+        var ctx = new FishingContext(this.player, null, this.player.getLocation(), null);
         var lootPool = new FishingLootPool(ctx, this.getType());
         var selector = new FishingLootTypeSelector(ctx);
         var chance = lootPool.getLootChance(loot);

@@ -58,7 +58,7 @@ public class LavaRod extends CustomAttributeItem implements IBreakableEquipment,
 
     @Override
     public Set<FishingFlag> getFishingFlags() {
-        return Set.of(FishingFlag.VOID);
+        return Set.of(FishingFlag.LAVA);
     }
 
     private int getFishingRating() {

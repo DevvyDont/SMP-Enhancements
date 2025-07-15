@@ -35,11 +35,11 @@ public class FishBlueprint extends CustomItemBlueprint implements IModelOverridd
      * Randomly fished items are randomly assigned rarities.
      */
     public final static Map<ItemRarity, Integer> DEFAULT_RARITY_WEIGHTS = Map.of(
-            ItemRarity.COMMON,   64,
-            ItemRarity.UNCOMMON, 20,
-            ItemRarity.RARE,     10,
-            ItemRarity.EPIC,      5,
-            ItemRarity.LEGENDARY, 1
+            ItemRarity.COMMON,   45,
+            ItemRarity.UNCOMMON, 25,
+            ItemRarity.RARE,     15,
+            ItemRarity.EPIC,      10,
+            ItemRarity.LEGENDARY, 5
     );
 
     /**
@@ -93,8 +93,8 @@ public class FishBlueprint extends CustomItemBlueprint implements IModelOverridd
     public Material getDisplayMaterial() {
         return switch (this.getCustomItemType()) {
             case COD -> Material.COD;
-            case SALMON -> Material.SALMON;
-            case PUFFERFISH -> Material.PUFFERFISH;
+            case SALMON, BLISTERFISH -> Material.SALMON;
+            case PUFFERFISH, VOIDFIN -> Material.PUFFERFISH;
             case CLOWNFISH -> Material.TROPICAL_FISH;
             default -> this.getDisplayMaterial();
         };
@@ -110,6 +110,8 @@ public class FishBlueprint extends CustomItemBlueprint implements IModelOverridd
             case SALMON -> 8;
             case PUFFERFISH -> 20;
             case CLOWNFISH -> 150;
+            case BLISTERFISH -> 240;
+            case VOIDFIN -> 360;
             default -> 5;
         };
     }

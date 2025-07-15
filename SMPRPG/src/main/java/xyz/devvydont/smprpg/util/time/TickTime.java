@@ -11,6 +11,7 @@ public class TickTime {
 
     // Some useful sub second measurements that are commonly used in tasks.
     public static final long HALF_SECOND = 10;
+    public static final long SECOND = seconds(1);
     public static final long TENTH_SECOND = 2;
     public static final long TICK = 1;
 
@@ -31,7 +32,7 @@ public class TickTime {
      * @return The amount of server ticks equivalent to real life minutes.
      */
     public static long minutes(long minutes) {
-        return seconds(minutes) * 60;
+        return seconds(60) * minutes;
     }
 
 }

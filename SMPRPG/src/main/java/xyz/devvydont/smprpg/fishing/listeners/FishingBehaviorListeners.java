@@ -1,14 +1,41 @@
 package xyz.devvydont.smprpg.fishing.listeners;
 
+import com.destroystokyo.paper.event.entity.EntityRemoveFromWorldEvent;
+import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerFishEvent;
+import org.bukkit.metadata.FixedMetadataValue;
+import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.fishing.calculator.FishLootCalculator;
 import xyz.devvydont.smprpg.fishing.events.FishingLootGenerateEvent;
 import xyz.devvydont.smprpg.fishing.utils.FishingContext;
+import xyz.devvydont.smprpg.items.interfaces.IFishingRod;
+import xyz.devvydont.smprpg.items.tasks.FishHookBehaviorTask;
+import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.listeners.ToggleableListener;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
+
+/**
+ * Implements the logic and behavior override for fishing to make it functional.
+ * Not only do we need to fully override the loot pool by replacing item entities for loot, but we also need to
+ * implement the logic for lava and void fishing to work.
+ * The idea with lava fishing is when a bobber flies out into the world, we check it every tick and wait for it
+ * to become engulfed in lava. When that occurs, we can attach it to an invisible armor stand and make it appear
+ * like its bobbing, and simulate normal water fishing behavior by spawning particles, playing sounds and throwing
+ * {@link org.bukkit.event.player.PlayerFishEvent} events manually. Doing it this way will make sure our plugin
+ * (and any other ones in fact!) will react to fishing events as if vanilla Minecraft supported lava fishing.
+ */
 public class FishingBehaviorListeners extends ToggleableListener {
+
+    /**
+     * Maps fishing hook entity UUIDs to fishing hook behavior tasks. Used so we can track fishing hook events.
+     */
+    private final Map<UUID, FishHookBehaviorTask> tasks = new HashMap<>();
 
     /**
      * Handle for when a player hooks up something. We need to completely override the entity that is attached since
@@ -50,7 +77,82 @@ public class FishingBehaviorListeners extends ToggleableListener {
         }
 
         event.getHook().setHookedEntity(_new);
-        event.getHook().pullHookedEntity();  // Also, we need to manually pull the entity to simulate normal fishing physics...
+
+        // This is also very strange, but if this is a water rod, we need to pull the entity to simulate normal fish loot physics. No idea why.
+        if (ctx.getFlags().contains(IFishingRod.FishingFlag.NORMAL))
+            event.getHook().pullHookedEntity();
+    }
+
+    /**
+     * Only handle the case where we start a cast with a lava rod. When this happens, we can attach a task to
+     * the fishhook that monitors its behavior every tick.
+     * @param event The {@link PlayerFishEvent} that provides us with relevant context.
+     */
+    @EventHandler
+    private void __onStartFishWithSpecialRod(PlayerFishEvent event) {
+
+        // If this hook is associated with a task already, offset the logic to the task. Not this.
+        var hook = tasks.get(event.getHook().getUniqueId());
+        if (hook != null) {
+            hook.handleFishingEvent(event);
+            return;
+        }
+
+        // We know we don't have a task. If a normal fishing event fires, this is probably a safe time to
+        // force tag the fishing hook as a normal fishing hook so it doesn't catch lava/void fish in normal circumstances.
+        if (event.getState().equals(PlayerFishEvent.State.LURED)) {
+            for (var flag : IFishingRod.FishingFlag.values())
+                event.getHook().removeMetadata(flag.toString(), SMPRPG.getInstance());
+            event.getHook().setMetadata(IFishingRod.FishingFlag.NORMAL.toString(), new FixedMetadataValue(SMPRPG.getInstance(), true));
+        }
+
+        // Filter out events where we aren't casting a fishing line to start the process.
+        if (!event.getState().equals(PlayerFishEvent.State.FISHING))
+            return;
+
+        // Filter out events where the fishing rod is not a special rod. This has multiple steps.
+        if (event.getHand() == null)
+            return;
+
+        var fishingRod = event.getPlayer().getInventory().getItem(event.getHand());
+        if (fishingRod.getType().equals(Material.AIR))
+            return;
+
+        var blueprint = ItemService.blueprint(fishingRod);
+        if (!(blueprint instanceof IFishingRod rodBlueprint))
+            return;
+
+        // We have two jobs. Start a ticking behavior task to simulate fishing in contexts where fishing isn't supported,
+        // and tag the fishing hook with the flags that it's allowed to fish for.
+        for (var flag : rodBlueprint.getFishingFlags())
+            event.getHook().setMetadata(flag.name(), new FixedMetadataValue(SMPRPG.getInstance(), true));
+
+        // If this rod is nothing special, we can simply ignore it. It will act like a vanilla fishing rod.
+        if (rodBlueprint.getFishingFlags().contains(IFishingRod.FishingFlag.NORMAL) && rodBlueprint.getFishingFlags().size() == 1)
+            return;
+
+        hook = FishHookBehaviorTask.create(event.getHook());
+
+        // Customize the hook's behavior to suit the fishing rod depending on the flags present.
+        if (rodBlueprint.getFishingFlags().contains(IFishingRod.FishingFlag.LAVA) && rodBlueprint.getFishingFlags().contains(IFishingRod.FishingFlag.VOID))
+            hook.setPredicate(FishHookBehaviorTask.COMPLEX_PREDICATE);
+        else if (rodBlueprint.getFishingFlags().contains(IFishingRod.FishingFlag.LAVA))
+            hook.setPredicate(FishHookBehaviorTask.LAVA_PREDICATE);
+        else if (rodBlueprint.getFishingFlags().contains(IFishingRod.FishingFlag.VOID))
+            hook.setPredicate(FishHookBehaviorTask.VOID_PREDICATE);
+
+        tasks.put(event.getHook().getUniqueId(), hook);
+    }
+
+    /**
+     * Removes stale hooks from the world.
+     * @param event The {@link EntityRemoveFromWorldEvent} event that provides us with relevant context.
+     */
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    private void __onHookDeath(EntityRemoveFromWorldEvent event) {
+        var task = tasks.remove(event.getEntity().getUniqueId());
+        if (task != null)
+            task.cancel();
     }
 
 }
