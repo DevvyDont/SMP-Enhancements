@@ -49,14 +49,14 @@ public class FishingAnnouncementListeners extends ToggleableListener {
             event.setAnnounceMode(FishingLootGenerateEvent.AnnounceMode.PLAYER);
             event.setComponentOverride(alert(merge(
                     create("WHOA!!!", SeaCreature.NAME_COLOR).decoration(TextDecoration.BOLD, true),
-                    create(" You seemed to have fished up a "),
+                    create(" You fished up a "),
                     entity.getPowerComponent().append(SPACE).append(entity.getNameComponent()).hoverEvent(merge(
                             create("You had a "),
                             create(String.format("%.2f%%", event.getCalculationResult().probability()*100), LIGHT_PURPLE),
                             create(" chance of fishing this up!")
                     )),
                     create("!"),
-                    create(" Defeat it!", RED)
+                    create(" Defeat it!", RED).decoration(TextDecoration.BOLD, true)
             ), GOLD));
             return;
         }

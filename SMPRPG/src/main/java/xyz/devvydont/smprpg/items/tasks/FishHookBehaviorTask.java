@@ -66,6 +66,16 @@ public class FishHookBehaviorTask extends BukkitRunnable {
     private static final double ANCHOR_VERTICAL_OFFSET = -0.2;
 
     /**
+     * How fast the fish should approach the hook during the approach phase.
+     */
+    private static final double FISH_APPROACH_SPEED = 0.15;
+
+    /**
+     * How wildly random the fish should act while approaching the hook.
+     */
+    private static final double FISH_APPROACH_VOLATILITY = 0.1;
+
+    /**
      * Helps manage state for fishing behavior.
      */
     public enum HookBehaviorState {
@@ -75,6 +85,15 @@ public class FishHookBehaviorTask extends BukkitRunnable {
         BITE,  // Fish bite the hook, reel in.
         REELING  // We are successfully reeling in. This is moments before the lifecycle of this task ends.
     }
+
+    /**
+     * Allows the managing of the various particles that spawn during key fishing events.
+     * @param CatchParticle The particle that spawns when you hook a fish.
+     * @param IdleParticle The particle that spawns around the hook while waiting for a fish.
+     * @param FishParticle The particle that spawns to denote an approaching fish.
+     * @param SplashSound The sound to play when something is caught.
+     */
+    public record HookEffectOptions(Particle CatchParticle, Particle IdleParticle, Particle FishParticle, Sound SplashSound){}
 
     /**
      * Meant to be used as a fallback if no suitable predicate exists. Will always fail, allowing for default behavior.
@@ -95,6 +114,10 @@ public class FishHookBehaviorTask extends BukkitRunnable {
      * Complex predicate allows both lava and void fishing to work at the same time.
      */
     public static final ILocationPredicate COMPLEX_PREDICATE = e -> LAVA_PREDICATE.check(e) || VOID_PREDICATE.check(e);
+
+    public static final HookEffectOptions DEFAULT_PARTICLES = new HookEffectOptions(Particle.BUBBLE, Particle.BUBBLE_POP, Particle.DRIPPING_WATER, Sound.ENTITY_GENERIC_SPLASH);
+    public static final HookEffectOptions LAVA_PARTICLES = new HookEffectOptions(Particle.LAVA, Particle.SMOKE, Particle.FLAME, Sound.ENTITY_PLAYER_SPLASH_HIGH_SPEED);
+    public static final HookEffectOptions VOID_PARTICLES = new HookEffectOptions(Particle.SCULK_SOUL, Particle.PORTAL, Particle.DRAGON_BREATH, Sound.BLOCK_RESPAWN_ANCHOR_DEPLETE);
 
     /**
      * Creates a new instance, starts running the task every tick, and returns in back. This is essentially just
@@ -154,6 +177,12 @@ public class FishHookBehaviorTask extends BukkitRunnable {
      * How many ticks until the bobber is going to register a "bite".
      */
     private long ticksUntilBite = Integer.MAX_VALUE;
+
+    /**
+     * The angle at which the fish will approach. From there, it will be randomly adjusted to simulate sporadic
+     * swimming towards the hook.
+     */
+    private double approachAngle = 0;
 
     /**
      * How many ticks the player has to interact to trigger a fish catch. This is only positive when in the bite state.
@@ -256,10 +285,22 @@ public class FishHookBehaviorTask extends BukkitRunnable {
     }
 
     /**
+     * Get the "effect" options that this task should use. Dependent on the state of the cast.
+     * @return The hook effect options.
+     */
+    public HookEffectOptions getOptionsFromCurrentState() {
+        return switch (getFlagFromCurrentState()) {
+            case LAVA -> LAVA_PARTICLES;
+            case VOID -> VOID_PARTICLES;
+            default -> DEFAULT_PARTICLES;
+        };
+    }
+
+    /**
      * Called from the instance that started this task. Implements the logic for when a player caused a fishing
      * event where this particular {@link FishHook} is involved. No need to check.
      * This is a point of interception for the player to interact with this custom fishhook, i.e. reeling in.
-     * @param event
+     * @param event The {@link PlayerFishEvent} event.
      */
     public void handleFishingEvent(PlayerFishEvent event) {
 
@@ -305,6 +346,26 @@ public class FishHookBehaviorTask extends BukkitRunnable {
         this.doIdleBob();
         if (this.ticksUntilBite <= 0)
             this.setState(HookBehaviorState.BITE);
+
+        // Spawn a particle to make it seem like a fish is approaching.
+        if (this.ticksUntilBite % 2 == 0)
+            return;
+
+        var loc = hook.getLocation();
+        loc.setY(loc.getY() + 0.5);
+        var radius = this.ticksUntilBite * FISH_APPROACH_SPEED;
+        var angle = approachAngle + (Math.random() * FISH_APPROACH_VOLATILITY * 2 - FISH_APPROACH_VOLATILITY);
+        loc.setX(hook.getX() + Math.cos(angle) * radius);
+        loc.setZ(hook.getZ() + Math.sin(angle) * radius);
+
+        if (!this.predicate.check(loc.clone().subtract(0, 1, 0)))
+            return;
+
+        new ParticleBuilder(getOptionsFromCurrentState().FishParticle)
+                .location(loc)
+                .receivers(25)
+                .extra(0)
+                .spawn();
     }
 
     /**
@@ -407,7 +468,6 @@ public class FishHookBehaviorTask extends BukkitRunnable {
         this.anchor(hook.getLocation());
     }
 
-
     /**
      * Makes the hook appear as if it is bobbing.
      */
@@ -424,6 +484,15 @@ public class FishHookBehaviorTask extends BukkitRunnable {
         yOffset += (Math.random() - .5) * BOBBING_RANDOMNESS;
 
         this.hookMount.teleport(this.anchor.clone().add(0, yOffset, 0));
+
+        // Spawn in some random particles around us.
+        new ParticleBuilder(getOptionsFromCurrentState().IdleParticle)
+                .location(hook.getLocation().add(0, .5, 0))
+                .receivers(25)
+                .offset(2, 0, 2)
+                .extra(0)
+                .spawn();
+
     }
 
     /**
@@ -432,6 +501,7 @@ public class FishHookBehaviorTask extends BukkitRunnable {
     private void spawnFish() {
         this.ticksUntilFish = -1;
         this.ticksUntilBite = (int)TickTime.seconds(3);
+        this.approachAngle = Math.random() * 2 * Math.PI;
         var owner = this.getOwner();
         if (owner != null)
             new PlayerFishEvent(owner, null, hook, PlayerFishEvent.State.LURED).callEvent();
@@ -442,11 +512,11 @@ public class FishHookBehaviorTask extends BukkitRunnable {
      */
     private void makeFishBite() {
         this.ticksAllowedToCatch = TickTime.seconds(2);
-        hook.getWorld().playSound(hook.getLocation(), Sound.ENTITY_FISHING_BOBBER_SPLASH, 1, 1);
+        hook.getWorld().playSound(hook.getLocation(), getOptionsFromCurrentState().SplashSound, 1, 1);
         if (hookMount == null)
             return;
 
-        new ParticleBuilder(Particle.LAVA)
+        new ParticleBuilder(getOptionsFromCurrentState().CatchParticle)
                 .location(hook.getLocation().add(0, .5, 0))
                 .receivers(25)
                 .offset(.25, 0, .25)
