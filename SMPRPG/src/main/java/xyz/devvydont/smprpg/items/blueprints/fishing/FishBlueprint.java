@@ -107,12 +107,12 @@ public class FishBlueprint extends CustomItemBlueprint implements IModelOverridd
      */
     public int getBaseWorth() {
         return switch (this.getCustomItemType()) {
-            case SALMON -> 8;
-            case PUFFERFISH -> 20;
-            case CLOWNFISH -> 150;
-            case BLISTERFISH -> 240;
-            case VOIDFIN -> 360;
-            default -> 5;
+            case SALMON -> 15;
+            case PUFFERFISH -> 25;
+            case CLOWNFISH -> 100;
+            case BLISTERFISH -> 125;
+            case VOIDFIN -> 150;
+            default -> 10;
         };
     }
 

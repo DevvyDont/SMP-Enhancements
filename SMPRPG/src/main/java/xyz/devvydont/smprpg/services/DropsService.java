@@ -34,6 +34,7 @@ import xyz.devvydont.smprpg.util.crafting.ItemUtil;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.items.DropFireworkTask;
 import xyz.devvydont.smprpg.util.persistence.PDCAdapters;
+import xyz.devvydont.smprpg.util.tasks.VoidProtectionTask;
 import xyz.devvydont.smprpg.util.time.TickTime;
 
 import java.util.*;
@@ -318,6 +319,8 @@ public class DropsService implements IService, Listener {
             }
         };
         itemTimerTask.runTaskTimer(plugin, 0, TickTime.seconds(1));
+
+        new VoidProtectionTask().runTaskTimer(plugin, TickTime.INSTANTANEOUSLY, TickTime.TICK);
     }
 
     @Override
