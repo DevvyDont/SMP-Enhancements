@@ -1,13 +1,16 @@
 package xyz.devvydont.smprpg.fishing.listeners;
 
 import com.destroystokyo.paper.event.entity.EntityRemoveFromWorldEvent;
+import io.papermc.paper.event.entity.EntityEquipmentChangedEvent;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerFishEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.metadata.FixedMetadataValue;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.attribute.AttributeWrapper;
@@ -85,10 +88,6 @@ public class FishingBehaviorListeners extends ToggleableListener {
         }
 
         event.getHook().setHookedEntity(_new);
-
-        // This is also very strange, but if this is a water rod, we need to pull the entity to simulate normal fish loot physics. No idea why.
-//        if (ctx.getFlags().contains(IFishingRod.FishingFlag.NORMAL))
-//            event.getHook().pullHookedEntity();
         event.getHook().pullHookedEntity();
     }
 
@@ -189,6 +188,39 @@ public class FishingBehaviorListeners extends ToggleableListener {
                 event.setCancelled(true);
         }
         rating.save(event.getPlayer(), AttributeWrapper.FISHING_RATING);
+    }
+
+    /**
+     * Never allow a fishing hook to exist when a player causes a "fishing line" switch. This is caused when a player
+     * switches the fishing rod they are holding. The only time we allow this to happen, is if the player is performing
+     * an offhand slot switch IF AND ONLY IF the item that is replacing the main hand is NOT another fishing rod.
+     * The reason we need this is so that players can't "rod swap" and get fishing attribute effects for unintended
+     * fishing types. For example, a player getting void rod fishing stats by casting a normal rod then swapping to a
+     * void rod.
+     * @param event The {@link EntityEquipmentChangedEvent} event.
+     */
+    @EventHandler(priority = EventPriority.MONITOR)
+    private void __onSwitchFishingRod(EntityEquipmentChangedEvent event) {
+
+        // Only listen to players.
+        if (!(event.getEntity() instanceof Player player))
+            return;
+
+        // Only listen if they have an active hook.
+        if (player.getFishHook() == null)
+            return;
+
+        // If the new item in the main hand is a fishing rod, then we are for sure destroying the current fishhook.
+        // We can however, allow this if the old item in the offhand was the same fishing rod.
+        var newMainItem = event.getEquipmentChanges().get(EquipmentSlot.HAND);
+        var oldOffItem = event.getEquipmentChanges().get(EquipmentSlot.OFF_HAND);
+        var isSwappingFromOffhand = oldOffItem != null && oldOffItem.oldItem().equals(newMainItem.newItem());
+        if (!isSwappingFromOffhand && newMainItem != null && ItemService.blueprint(newMainItem.newItem()) instanceof IFishingRod) {
+            player.getFishHook().remove();
+            return;
+        }
+
+
     }
 
 }
