@@ -25,6 +25,11 @@ public class KeyStore {
     }
 
     /**
+     * Used for storing a "fishing tracker" PDC. Tracks the amount of times certain things were caught.
+     */
+    public static final NamespacedKey FISHING_GALLERY = key("fishing_gallery");
+
+    /**
      * Used for item rarity adjustments in item blueprints.
      */
     public static final NamespacedKey ITEM_RARITY_OVERRIDE = key("item_rarity_override");

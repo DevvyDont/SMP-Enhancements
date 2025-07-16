@@ -1,7 +1,9 @@
 package xyz.devvydont.smprpg.fishing.loot;
 
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Entity;
+import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.entity.CustomEntityType;
@@ -34,6 +36,18 @@ public class SeaCreatureFishingLoot extends FishingLootBase {
         }
 
         return entity.getEntity();
+    }
+
+
+    /**
+     * Gets the {@link NamespacedKey} that can be used to reference this loot for things
+     * like {@link PersistentDataContainer}s.
+     *
+     * @return A unique identifying key.
+     */
+    @Override
+    public NamespacedKey getKey() {
+        return new NamespacedKey(SMPRPG.getInstance(), customEntityType.key());
     }
 
     public CustomEntityType getCustomEntityType() {

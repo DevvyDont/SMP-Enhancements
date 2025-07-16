@@ -1,10 +1,12 @@
 package xyz.devvydont.smprpg.fishing.loot;
 
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Entity;
 import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.fishing.loot.requirements.FishingLootRequirement;
 import xyz.devvydont.smprpg.fishing.utils.FishingContext;
 import xyz.devvydont.smprpg.gui.base.IMenuDisplayable;
+import xyz.devvydont.smprpg.items.ItemRarity;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -34,6 +36,25 @@ public abstract class FishingLootBase implements IMenuDisplayable {
      * @return An entity that is able to attach to a fishing rod hook.
      */
     public abstract @Nullable Entity generate(FishingContext ctx);
+
+    /**
+     * Gets the {@link NamespacedKey} that can be used to reference this loot for things
+     * like {@link org.bukkit.persistence.PersistentDataContainer}s.
+     * @return A unique identifying key.
+     */
+    public abstract NamespacedKey getKey();
+
+    /**
+     * Gets the {@link NamespacedKey} that can be used to reference this loot for things
+     * like {@link org.bukkit.persistence.PersistentDataContainer}s.
+     * This variant also takes in a rarity if you need more specific tuning.
+     * @param rarity The rarity of the loot.
+     * @return A unique identifying key.
+     */
+    public NamespacedKey getKey(ItemRarity rarity) {
+        var original = getKey();
+        return new NamespacedKey(original.getNamespace(), original.getKey() + "." + rarity.name().toLowerCase());
+    }
 
     /**
      * Get the fishing skill experience to award for catching this.

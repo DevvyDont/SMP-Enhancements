@@ -15,11 +15,15 @@ import xyz.devvydont.smprpg.fishing.loot.*;
 import xyz.devvydont.smprpg.fishing.pools.FishingLootPool;
 import xyz.devvydont.smprpg.fishing.pools.FishingRewardRegistry;
 import xyz.devvydont.smprpg.fishing.utils.FishingContext;
+import xyz.devvydont.smprpg.fishing.utils.FishingGallery;
 import xyz.devvydont.smprpg.gui.InterfaceUtil;
 import xyz.devvydont.smprpg.gui.base.MenuBase;
+import xyz.devvydont.smprpg.items.ItemRarity;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.formatting.MinecraftStringUtils;
 import xyz.devvydont.smprpg.util.formatting.Symbols;
+import xyz.devvydont.smprpg.util.persistence.KeyStore;
+import xyz.devvydont.smprpg.util.persistence.PDCAdapters;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -140,6 +144,8 @@ public class FishingPoolViewerMenu extends MenuBase {
         var item = InterfaceUtil.getNamedItem(loot.getDisplayMaterial(), name);
         var lore = new ArrayList<Component>();
         lore.add(EMPTY);
+        lore.add(merge(create("Times Caught: ", GOLD), generateCaughtComponent(loot)));
+        lore.add(EMPTY);
         lore.add(create("Rewards", GOLD));
         lore.add(merge(create("* "), create(loot.getFishingExperience() + " Fishing skill experience", AQUA)));
         lore.add(merge(create("* "), create(loot.getMinecraftExperience() + " Minecraft experience", DARK_GREEN)));
@@ -159,6 +165,34 @@ public class FishingPoolViewerMenu extends MenuBase {
 
         item.lore(ComponentUtils.cleanItalics(lore));
         return item;
+    }
+
+    /**
+     * Generates a caught component. This appears next to the "Times Caught" section in the tooltip.
+     * The reason for a separate method is due to differentiation between fish/normal displays and complexity.
+     * @param loot The loot to query.
+     * @return A friendly displayable component to put next to "Times Caught".
+     */
+    private Component generateCaughtComponent(FishingLootBase loot) {
+
+        var gallery = this.player.getPersistentDataContainer().getOrDefault(KeyStore.FISHING_GALLERY, PDCAdapters.FISHING_GALLERY, new FishingGallery());
+
+        // Handle the simple case first. Normal item.
+        if (!type.equals(FishingLootType.FISH)) {
+            var times = gallery.get(loot);
+            return create(times, times > 0 ? GREEN : DARK_GRAY);
+        }
+
+        // Handle every single rarity, and separate them to make it more readable.
+        var sep = create(" | ", GRAY);
+        return merge(
+                create(gallery.get(loot, ItemRarity.COMMON), ItemRarity.COMMON.color), sep,
+                create(gallery.get(loot, ItemRarity.UNCOMMON), ItemRarity.UNCOMMON.color), sep,
+                create(gallery.get(loot, ItemRarity.RARE), ItemRarity.RARE.color), sep,
+                create(gallery.get(loot, ItemRarity.EPIC), ItemRarity.EPIC.color), sep,
+                create(gallery.get(loot, ItemRarity.LEGENDARY), ItemRarity.LEGENDARY.color),
+                create(String.format(" (%s)", gallery.total(loot)), DARK_GRAY)
+        );
     }
 
     /**

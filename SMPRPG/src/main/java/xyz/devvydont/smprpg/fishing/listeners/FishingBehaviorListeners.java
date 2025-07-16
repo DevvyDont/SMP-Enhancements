@@ -215,12 +215,8 @@ public class FishingBehaviorListeners extends ToggleableListener {
         var newMainItem = event.getEquipmentChanges().get(EquipmentSlot.HAND);
         var oldOffItem = event.getEquipmentChanges().get(EquipmentSlot.OFF_HAND);
         var isSwappingFromOffhand = oldOffItem != null && oldOffItem.oldItem().equals(newMainItem.newItem());
-        if (!isSwappingFromOffhand && newMainItem != null && ItemService.blueprint(newMainItem.newItem()) instanceof IFishingRod) {
+        if (!isSwappingFromOffhand && newMainItem != null && ItemService.blueprint(newMainItem.newItem()) instanceof IFishingRod)
             player.getFishHook().remove();
-            return;
-        }
-
-
     }
 
 }

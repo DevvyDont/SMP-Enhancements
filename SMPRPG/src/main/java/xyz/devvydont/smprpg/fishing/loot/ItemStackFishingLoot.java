@@ -2,13 +2,16 @@ package xyz.devvydont.smprpg.fishing.loot;
 
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Entity;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.fishing.utils.FishingContext;
 import xyz.devvydont.smprpg.fishing.loot.requirements.FishingLootRequirement;
 import xyz.devvydont.smprpg.items.CustomItemType;
+import xyz.devvydont.smprpg.items.base.CustomItemBlueprint;
 import xyz.devvydont.smprpg.items.blueprints.fishing.FishBlueprint;
 import xyz.devvydont.smprpg.services.DropsService;
 import xyz.devvydont.smprpg.services.ItemService;
@@ -27,11 +30,15 @@ public class ItemStackFishingLoot extends FishingLootBase {
     private final int minAmount;
     private final int maxAmount;
 
+    private final String key;
+
     public ItemStackFishingLoot(ItemStack reward, int min, int max, int weight, int fishingExperience, int minecraftExperience, Collection<FishingLootRequirement> requirements) {
         super(weight, fishingExperience, minecraftExperience, requirements);
         this.item = reward;
         this.minAmount = min;
         this.maxAmount = max;
+
+        key = ItemService.blueprint(reward) instanceof CustomItemBlueprint custom ? custom.getCustomItemType().getKey() : reward.getType().name().toLowerCase();
     }
 
     @Override
@@ -49,6 +56,17 @@ public class ItemStackFishingLoot extends FishingLootBase {
 
         // Spawn and return!
         return ctx.getLocation().getWorld().dropItem(ctx.getLocation(), reward);
+    }
+
+    /**
+     * Gets the {@link NamespacedKey} that can be used to reference this loot for things
+     * like {@link PersistentDataContainer}s.
+     *
+     * @return A unique identifying key.
+     */
+    @Override
+    public NamespacedKey getKey() {
+        return new NamespacedKey(SMPRPG.getInstance(), key);
     }
 
     public ItemStack getItem() {

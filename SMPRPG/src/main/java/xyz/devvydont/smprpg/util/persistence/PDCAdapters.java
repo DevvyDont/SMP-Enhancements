@@ -1,5 +1,6 @@
 package xyz.devvydont.smprpg.util.persistence;
 
+import xyz.devvydont.smprpg.util.persistence.adapters.FishingGalleryAdapter;
 import xyz.devvydont.smprpg.util.persistence.adapters.RarityAdapter;
 import xyz.devvydont.smprpg.util.persistence.adapters.SpawnerOptionsAdapter;
 import xyz.devvydont.smprpg.util.persistence.adapters.UUIDAdapter;
@@ -9,6 +10,7 @@ import xyz.devvydont.smprpg.util.persistence.adapters.UUIDAdapter;
  */
 public class PDCAdapters {
 
+    public static final FishingGalleryAdapter FISHING_GALLERY = new FishingGalleryAdapter();
     public static final UUIDAdapter UUID = new UUIDAdapter();
     public static final RarityAdapter RARITY = new RarityAdapter();
     public static final SpawnerOptionsAdapter SPAWNER_OPTIONS = new SpawnerOptionsAdapter();
