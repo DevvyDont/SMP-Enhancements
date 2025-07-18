@@ -37,7 +37,10 @@ public class SakuraChestplate extends SakuraArmorSet implements IDyeable, ITrimm
 
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
-        return List.of(new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 25));
+        return List.of(
+                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 30),
+                new AdditiveAttributeEntry(AttributeWrapper.REGENERATION, 20)
+        );
     }
 
     @Override

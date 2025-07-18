@@ -15,6 +15,7 @@ import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomAttributeItem;
 import xyz.devvydont.smprpg.items.base.SMPItemBlueprint;
+import xyz.devvydont.smprpg.items.blueprints.vanilla.ItemSword;
 import xyz.devvydont.smprpg.items.interfaces.IHeaderDescribable;
 import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
 import xyz.devvydont.smprpg.services.ItemService;
@@ -37,7 +38,6 @@ public class ReaverKnife extends CustomAttributeItem implements IBreakableEquipm
     @Override
     public List<Component> getHeader(ItemStack itemStack) {
         List<Component> components = new ArrayList<>();
-        components.add(ComponentUtils.EMPTY);
         components.add(AbilityUtil.getAbilityComponent("Decapitator (Passive)"));
         components.add(ComponentUtils.create("Wither Skeleton Skull drops are ").append(ComponentUtils.create(WITHER_SKULL_BOOST + "x", NamedTextColor.GREEN)).append(ComponentUtils.create(" more common")));
         components.add(ComponentUtils.create("when killing ").append(ComponentUtils.create("Wither", NamedTextColor.DARK_RED)).append(ComponentUtils.create(" type enemies with this weapon")));
@@ -47,7 +47,7 @@ public class ReaverKnife extends CustomAttributeItem implements IBreakableEquipm
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, 90),
+                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, ItemSword.getSwordDamage(Material.NETHERITE_SWORD)),
                 new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, -.4)
         );
     }

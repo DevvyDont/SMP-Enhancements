@@ -8,23 +8,27 @@ import xyz.devvydont.smprpg.util.crafting.builders.LeggingsRecipe;
 
 public class ForsakenLeggings extends ForsakenArmorSet {
 
+    public static final int DEFENSE = 140;
+    public static final int HEALTH = 20;
+    public static final double STRENGTH = .35;
+
     public ForsakenLeggings(ItemService itemService, CustomItemType type) {
         super(itemService, type);
     }
 
     @Override
     public int getDefense() {
-        return 65;
+        return DEFENSE;
     }
 
     @Override
     public int getHealth() {
-        return 15;
+        return HEALTH;
     }
 
     @Override
     public double getStrength() {
-        return .45;
+        return STRENGTH;
     }
 
     @Override

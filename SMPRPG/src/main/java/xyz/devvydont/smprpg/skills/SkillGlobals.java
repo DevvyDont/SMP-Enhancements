@@ -133,7 +133,7 @@ public class SkillGlobals {
 
     // Typically, we give HP for every skill, every certain amount of levels. Define that here.
     public static int HP_LEVEL_FREQUENCY = 5;
-    public static double HP_PER_5_LEVELS = 10;
+    public static double HP_PER_5_LEVELS = 2;
 
     // The combat skill improves some damage related attributes.
     public static double STR_PER_LEVEL = 5;

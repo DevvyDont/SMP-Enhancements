@@ -17,6 +17,11 @@ import java.util.List;
 
 public class ElderflameChestplate extends ElderflameArmorSet {
 
+    public static final int DEFENSE = 300;
+    public static final int HEALTH = 200;
+    public static final double STRENGTH = .75;
+    public static final int CRIT = 25;
+
     public ElderflameChestplate(ItemService itemService, CustomItemType type) {
         super(itemService, type);
     }
@@ -24,12 +29,12 @@ public class ElderflameChestplate extends ElderflameArmorSet {
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 300),
-                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 250),
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, DEFENSE),
+                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, HEALTH),
                 new AdditiveAttributeEntry(AttributeWrapper.ARMOR, 4),
-                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .5),
-                new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, .1),
-                new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, .2)
+                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, STRENGTH),
+                new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, .25),
+                new AdditiveAttributeEntry(AttributeWrapper.CRITICAL_DAMAGE, CRIT)
         );
     }
 

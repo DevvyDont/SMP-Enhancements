@@ -61,10 +61,12 @@ public class LeveledDragon extends BossInstance<EnderDragon> {
     @Override
     public @Nullable Collection<LootDrop> getItemDrops() {
         return List.of(
-                new ChancedItemDrop(ItemService.generate(CustomItemType.ELDERFLAME_HELMET), 500, this),
-                new ChancedItemDrop(ItemService.generate(CustomItemType.ELDERFLAME_CHESTPLATE), 500, this),
-                new ChancedItemDrop(ItemService.generate(CustomItemType.ELDERFLAME_LEGGINGS), 500, this),
-                new ChancedItemDrop(ItemService.generate(CustomItemType.ELDERFLAME_BOOTS), 500, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.ELDERFLAME_HELMET), 100, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.ELDERFLAME_CHESTPLATE), 125, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.ELDERFLAME_LEGGINGS), 110, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.ELDERFLAME_BOOTS), 100, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.ELDERFLAME_DAGGER), 125, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.TRANSMISSION_WAND), 125, this),
                 new ChancedItemDrop(ItemService.generate(CustomItemType.DRACONIC_CRYSTAL), 20, this),
                 new QuantityLootDrop(ItemService.generate(CustomItemType.DRAGON_SCALES), 2, 7, this)
         );

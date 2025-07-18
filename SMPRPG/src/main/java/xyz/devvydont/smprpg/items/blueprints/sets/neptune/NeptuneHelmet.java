@@ -1,6 +1,7 @@
 package xyz.devvydont.smprpg.items.blueprints.sets.neptune;
 
 import io.papermc.paper.datacomponent.item.Equippable;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.CraftingRecipe;
 import org.bukkit.inventory.EquipmentSlot;
@@ -11,6 +12,7 @@ import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
+import xyz.devvydont.smprpg.items.blueprints.vanilla.ItemArmor;
 import xyz.devvydont.smprpg.items.interfaces.IEquippableOverride;
 import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
 import xyz.devvydont.smprpg.items.interfaces.ICraftable;
@@ -37,12 +39,14 @@ public class NeptuneHelmet extends NeptuneArmorSet implements IBreakableEquipmen
         return false;
     }
 
+    @Override
     public int getDefense() {
-        return 40;
+        return ItemArmor.getDefenseFromMaterial(Material.NETHERITE_HELMET);
     }
 
+    @Override
     public int getHealth() {
-        return 10;
+        return (int) ItemArmor.getHealthFromMaterial(Material.NETHERITE_HELMET)+10;
     }
 
     public int getStrength() {

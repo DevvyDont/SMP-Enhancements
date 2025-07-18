@@ -25,7 +25,7 @@ public class QuartzChestplate extends QuartzArmorSet implements IDyeable {
 
     @Override
     public double getStrength() {
-        return ItemArmor.getDamageFromMaterial(Material.DIAMOND_CHESTPLATE) * 2;
+        return ItemArmor.getDamageFromMaterial(Material.NETHERITE_CHESTPLATE) * 2;
     }
 
     @Override

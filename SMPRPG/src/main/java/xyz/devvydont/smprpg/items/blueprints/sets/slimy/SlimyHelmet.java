@@ -26,7 +26,7 @@ public class SlimyHelmet extends SlimyArmorSet implements ICraftable, IBreakable
     }
 
     public int getHealth() {
-        return 15;
+        return 40;
     }
 
     @Override

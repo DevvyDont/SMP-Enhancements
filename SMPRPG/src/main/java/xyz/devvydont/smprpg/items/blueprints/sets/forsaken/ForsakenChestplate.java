@@ -10,23 +10,27 @@ import xyz.devvydont.smprpg.util.crafting.builders.ChestplateRecipe;
 
 public class ForsakenChestplate extends ForsakenArmorSet implements IDyeable {
 
+    public static final int DEFENSE = 170;
+    public static final int HEALTH = 20;
+    public static final double STRENGTH = .4;
+
     public ForsakenChestplate(ItemService itemService, CustomItemType type) {
         super(itemService, type);
     }
 
     @Override
     public int getDefense() {
-        return 75;
+        return DEFENSE;
     }
 
     @Override
     public int getHealth() {
-        return 20;
+        return HEALTH;
     }
 
     @Override
     public double getStrength() {
-        return .5;
+        return STRENGTH;
     }
 
     @Override

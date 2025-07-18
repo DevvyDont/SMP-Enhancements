@@ -190,7 +190,6 @@ public class EntitySpawner extends CustomEntityInstance<Entity> implements Liste
 
     public EntitySpawner(Entity entity, CustomEntityType entityType) {
         super(entity, entityType);
-
     }
 
     public void loadOptions() {

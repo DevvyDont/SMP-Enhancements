@@ -29,7 +29,6 @@ public class ItemEnchantedBook extends VanillaItemBlueprint implements IHeaderDe
     @Override
     public List<Component> getHeader(ItemStack itemStack) {
         var footer = new ArrayList<Component>();
-        footer.add(ComponentUtils.EMPTY);
         footer.add(ComponentUtils.create("Combine this with either"));
         footer.add(ComponentUtils.create("equipment or another"));
         footer.add(ComponentUtils.create("Enchanted Book", NamedTextColor.LIGHT_PURPLE).append(ComponentUtils.create(" of")));

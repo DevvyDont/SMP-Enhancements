@@ -20,10 +20,6 @@ public class LeveledSpider extends VanillaEntity<Spider> {
     @Override
     public @Nullable Collection<LootDrop> getItemDrops() {
         return List.of(
-                new ChancedItemDrop(ItemService.generate(CustomItemType.ARAXYS_HELMET), 25_000, this),
-                new ChancedItemDrop(ItemService.generate(CustomItemType.ARAXYS_CHESTPLATE), 25_000, this),
-                new ChancedItemDrop(ItemService.generate(CustomItemType.ARAXYS_LEGGINGS), 25_000, this),
-                new ChancedItemDrop(ItemService.generate(CustomItemType.ARAXYS_BOOTS), 25_000, this),
                 new ChancedItemDrop(ItemService.generate(CustomItemType.PREMIUM_STRING), 500, this),
                 new ChancedItemDrop(ItemService.generate(CustomItemType.ENCHANTED_STRING), 4_000, this)
         );

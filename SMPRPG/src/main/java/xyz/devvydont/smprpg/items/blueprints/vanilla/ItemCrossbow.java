@@ -10,6 +10,7 @@ import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.base.VanillaAttributeItem;
 import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
 import xyz.devvydont.smprpg.services.ItemService;
+import xyz.devvydont.smprpg.util.items.ToolsUtil;
 
 import java.util.Collection;
 import java.util.List;
@@ -44,6 +45,6 @@ public class ItemCrossbow extends VanillaAttributeItem implements IBreakableEqui
 
     @Override
     public int getMaxDurability() {
-        return 5000;
+        return ToolsUtil.IRON_TOOL_DURABILITY;
     }
 }

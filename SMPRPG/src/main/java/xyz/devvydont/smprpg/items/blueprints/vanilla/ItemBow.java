@@ -10,6 +10,7 @@ import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.base.VanillaAttributeItem;
 import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
 import xyz.devvydont.smprpg.services.ItemService;
+import xyz.devvydont.smprpg.util.items.ToolsUtil;
 
 import java.util.Collection;
 import java.util.List;
@@ -34,7 +35,7 @@ public class ItemBow extends VanillaAttributeItem implements IBreakableEquipment
 
     @Override
     public int getPowerRating() {
-        return 3;
+        return ItemSword.getSwordRating(Material.WOODEN_SWORD);
     }
 
 
@@ -45,6 +46,6 @@ public class ItemBow extends VanillaAttributeItem implements IBreakableEquipment
 
     @Override
     public int getMaxDurability() {
-        return 500;
+        return ToolsUtil.WOOD_TOOL_DURABILITY;
     }
 }

@@ -40,8 +40,8 @@ public class LeveledEnderman extends VanillaEntity<Enderman> implements Listener
     public EntityConfiguration getDefaultConfiguration() {
         return EntityConfiguration.builder()
                 .withLevel(MINIMUM_LEVEL)
-                .withDamage(1000)
-                .withHealth(5000)
+                .withDamage(350)
+                .withHealth(4000)
                 .build();
     }
 

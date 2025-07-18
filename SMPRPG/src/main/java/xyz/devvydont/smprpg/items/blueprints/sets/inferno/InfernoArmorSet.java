@@ -39,7 +39,8 @@ public abstract class InfernoArmorSet extends CustomAttributeItem implements IBr
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, getDefense()),
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, getHealth()),
-                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, getStrength())
+                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, getStrength()),
+                new AdditiveAttributeEntry(AttributeWrapper.CRITICAL_DAMAGE, 15)
         );
     }
 

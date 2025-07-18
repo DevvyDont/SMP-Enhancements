@@ -41,11 +41,11 @@ public class LeveledGuardian extends VanillaEntity<Guardian> {
 
                 // Extremely rare pity drops
                 new ChancedItemDrop(ItemService.generate(CustomItemType.NEPTUNE_HELMET), 200_000, this),
-                new ChancedItemDrop(ItemService.generate(CustomItemType.NEPTUNE_CHESTPLATE), 200_000, this),
-                new ChancedItemDrop(ItemService.generate(CustomItemType.NEPTUNE_LEGGINGS), 200_000, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.NEPTUNE_CHESTPLATE), 250_000, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.NEPTUNE_LEGGINGS), 225_000, this),
                 new ChancedItemDrop(ItemService.generate(CustomItemType.NEPTUNE_BOOTS), 200_000, this),
-                new ChancedItemDrop(ItemService.generate(CustomItemType.NEPTUNE_TRIDENT), 200_000, this),
-                new ChancedItemDrop(ItemService.generate(CustomItemType.NEPTUNE_BOW), 200_000, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.NEPTUNE_TRIDENT), 250_000, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.NEPTUNE_BOW), 250_000, this),
 
                 // Pity drops
                 // Crafts into Jupiter crystal, need 8 to get 1 crystal

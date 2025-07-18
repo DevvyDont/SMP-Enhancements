@@ -36,7 +36,7 @@ public class SlimyBoots extends SlimyArmorSet implements IDyeable, ITrimmable {
 
     @Override
     public int getHealth() {
-        return 5;
+        return 30;
     }
 
     @Override

@@ -29,7 +29,7 @@ public class MystbloomLeggings extends MystbloomArmorSet {
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, ItemArmor.getDefenseFromMaterial(Material.DIAMOND_LEGGINGS)),
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, ItemArmor.getDefenseFromMaterial(Material.DIAMOND_LEGGINGS)+5),
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, ItemArmor.getHealthFromMaterial(Material.DIAMOND_LEGGINGS)+5),
                 new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .1),
                 new MultiplicativeAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, .1)

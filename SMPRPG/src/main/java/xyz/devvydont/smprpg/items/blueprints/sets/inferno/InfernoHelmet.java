@@ -27,23 +27,24 @@ public class InfernoHelmet extends InfernoArmorSet {
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, getDefense()),
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, getHealth()),
                 new ScalarAttributeEntry(AttributeWrapper.STRENGTH, getStrength()),
-                new ScalarAttributeEntry(AttributeWrapper.LUCK, .3)
+                new ScalarAttributeEntry(AttributeWrapper.INTELLIGENCE, 50),
+                new AdditiveAttributeEntry(AttributeWrapper.CRITICAL_DAMAGE, 15)
         );
     }
 
     @Override
     public int getDefense() {
-        return 85;
+        return InfernoChestplate.DEFENSE / 2 + 40;
     }
 
     @Override
     public int getHealth() {
-        return 25;
+        return InfernoChestplate.HEALTH / 2 + 5;
     }
 
     @Override
     public double getStrength() {
-        return .6;
+        return InfernoChestplate.STRENGTH -.1;
     }
 
     @Override

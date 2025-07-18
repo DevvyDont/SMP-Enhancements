@@ -35,7 +35,10 @@ public class SakuraLeggings extends SakuraArmorSet implements ITrimmable {
 
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
-        return List.of(new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 20));
+        return List.of(
+                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 25),
+                new AdditiveAttributeEntry(AttributeWrapper.REGENERATION, 20)
+        );
     }
 
     @Override

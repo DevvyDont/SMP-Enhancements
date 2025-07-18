@@ -42,7 +42,6 @@ public abstract class CustomShortbow extends CustomAttributeItem implements IHea
     @Override
     public List<Component> getHeader(ItemStack itemStack) {
         return List.of(
-                ComponentUtils.EMPTY,
                 AbilityUtil.getAbilityComponent("Shortbow (Left/Right Click)"),
                 ComponentUtils.create("Instantly shoots arrows!")
         );

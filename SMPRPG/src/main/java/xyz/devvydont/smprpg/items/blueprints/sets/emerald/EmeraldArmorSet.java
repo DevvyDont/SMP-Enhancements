@@ -23,6 +23,7 @@ import java.util.List;
 
 public abstract class EmeraldArmorSet extends CustomAttributeItem implements IBreakableEquipment, ITrimmable, ICraftable {
 
+    public static int EMERALD_POWER = 20;
     public static Material INGREDIENT = Material.EMERALD_BLOCK;
 
 
@@ -40,15 +41,15 @@ public abstract class EmeraldArmorSet extends CustomAttributeItem implements IBr
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, getDefense()),
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, getHealth()),
-                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, getStrength()/100.0)
+                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, getStrength())
         );
     }
 
-    public abstract int getDefense();
+    public abstract double getDefense();
 
-    public abstract int getHealth();
+    public abstract double getHealth();
 
-    public abstract int getStrength();
+    public abstract double getStrength();
 
     @Override
     public NamespacedKey getRecipeKey() {
@@ -64,7 +65,7 @@ public abstract class EmeraldArmorSet extends CustomAttributeItem implements IBr
 
     @Override
     public int getPowerRating() {
-        return 25;
+        return EMERALD_POWER;
     }
 
     @Override

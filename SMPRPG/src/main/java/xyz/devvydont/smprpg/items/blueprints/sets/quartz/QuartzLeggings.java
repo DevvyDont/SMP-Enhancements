@@ -23,7 +23,7 @@ public class QuartzLeggings extends QuartzArmorSet {
 
     @Override
     public double getStrength() {
-        return ItemArmor.getDamageFromMaterial(Material.DIAMOND_LEGGINGS) * 2;
+        return ItemArmor.getDamageFromMaterial(Material.NETHERITE_LEGGINGS) * 2;
     }
 
     @Override

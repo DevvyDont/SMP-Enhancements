@@ -36,7 +36,8 @@ public abstract class ForsakenArmorSet extends ReaverArmorSet implements ICrafta
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, getDefense()),
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, getHealth()),
                 new ScalarAttributeEntry(AttributeWrapper.STRENGTH, getStrength()),
-                new AdditiveAttributeEntry(AttributeWrapper.KNOCKBACK_RESISTANCE, .25)
+                new AdditiveAttributeEntry(AttributeWrapper.KNOCKBACK_RESISTANCE, .25),
+                new AdditiveAttributeEntry(AttributeWrapper.CRITICAL_DAMAGE, 30)
         );
     }
 

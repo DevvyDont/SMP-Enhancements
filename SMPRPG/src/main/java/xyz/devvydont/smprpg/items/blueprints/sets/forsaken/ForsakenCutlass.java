@@ -10,7 +10,6 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.CraftingRecipe;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemStack;
@@ -19,6 +18,7 @@ import org.bukkit.inventory.recipe.CraftingBookCategory;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import xyz.devvydont.smprpg.SMPRPG;
+import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.events.CustomEntityDamageByEntityEvent;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
@@ -27,11 +27,10 @@ import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomAttributeItem;
 import xyz.devvydont.smprpg.items.blueprints.vanilla.ItemSword;
+import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
 import xyz.devvydont.smprpg.items.interfaces.ICraftable;
 import xyz.devvydont.smprpg.items.interfaces.IHeaderDescribable;
-import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.items.AbilityUtil;
 
@@ -51,7 +50,6 @@ public class ForsakenCutlass extends CustomAttributeItem implements Listener, IH
     @Override
     public List<Component> getHeader(ItemStack itemStack) {
         List<Component> components = new ArrayList<>();
-        components.add(ComponentUtils.EMPTY);
         components.add(AbilityUtil.getAbilityComponent("Necrotic (Passive)"));
         components.add(ComponentUtils.create("Attacks have a ").append(ComponentUtils.create(WITHER_APPLY_CHANCE + "%", NamedTextColor.GREEN)).append(ComponentUtils.create(" chance to")));
         components.add(ComponentUtils.create("apply the ").append(ComponentUtils.create("withered", NamedTextColor.DARK_RED)).append(ComponentUtils.create(" effect for ").append(ComponentUtils.create(WITHER_APPLY_SECONDS + "s", NamedTextColor.GREEN))));
@@ -62,7 +60,7 @@ public class ForsakenCutlass extends CustomAttributeItem implements Listener, IH
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, ItemSword.getSwordDamage(Material.NETHERITE_SWORD)-10),
+                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, ItemSword.getSwordDamage(Material.NETHERITE_SWORD)+15),
                 new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, -.3)
         );
     }
@@ -111,7 +109,7 @@ public class ForsakenCutlass extends CustomAttributeItem implements Listener, IH
     }
 
     @EventHandler(priority = EventPriority.HIGH)
-    private void __onAttackWithCutlass(CustomEntityDamageByEntityEvent event) {
+    public void __onAttackWithCutlass(CustomEntityDamageByEntityEvent event) {
 
         // Can the attacked entity have potion effects?
         if (!(event.getDamaged() instanceof LivingEntity attacked))

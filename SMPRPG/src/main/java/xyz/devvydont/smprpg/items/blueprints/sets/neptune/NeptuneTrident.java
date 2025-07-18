@@ -1,5 +1,6 @@
 package xyz.devvydont.smprpg.items.blueprints.sets.neptune;
 
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.CraftingRecipe;
 import org.bukkit.inventory.EquipmentSlotGroup;
@@ -35,8 +36,9 @@ public class NeptuneTrident extends CustomAttributeItem implements IBreakableEqu
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, 100),
-                new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, ItemSword.SWORD_ATTACK_SPEED_DEBUFF)
+                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, ItemSword.getSwordDamage(Material.NETHERITE_SWORD)-10),
+                new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, ItemSword.SWORD_ATTACK_SPEED_DEBUFF),
+                new AdditiveAttributeEntry(AttributeWrapper.CRITICAL_DAMAGE, 20)
         );
     }
 

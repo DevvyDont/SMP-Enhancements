@@ -61,7 +61,6 @@ public class BoilingPickaxe extends CustomAttributeItem implements Listener, IHe
     @Override
     public List<Component> getHeader(ItemStack itemStack) {
         List<Component> components = new ArrayList<>();
-        components.add(ComponentUtils.EMPTY);
         components.add(AbilityUtil.getAbilityComponent("Boiling Touch (Passive)"));
         components.add(ComponentUtils.create("Automatically ").append(ComponentUtils.create("smelts", NamedTextColor.RED)).append(ComponentUtils.create(" blocks broken")));
         return components;

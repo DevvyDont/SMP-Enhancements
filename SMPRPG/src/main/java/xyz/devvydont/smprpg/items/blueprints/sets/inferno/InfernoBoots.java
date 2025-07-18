@@ -27,23 +27,24 @@ public class InfernoBoots extends InfernoArmorSet {
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, getDefense()),
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, getHealth()),
                 new ScalarAttributeEntry(AttributeWrapper.STRENGTH, getStrength()),
-                new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, .25)
+                new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, .25),
+                new AdditiveAttributeEntry(AttributeWrapper.CRITICAL_DAMAGE, 15)
         );
     }
 
     @Override
     public int getDefense() {
-        return 80;
+        return InfernoChestplate.DEFENSE / 2;
     }
 
     @Override
     public int getHealth() {
-        return 20;
+        return InfernoChestplate.HEALTH / 2;
     }
 
     @Override
     public double getStrength() {
-        return .5;
+        return InfernoChestplate.STRENGTH -.1;
     }
 
     @Override

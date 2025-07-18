@@ -21,13 +21,11 @@ public class ItemSword extends VanillaAttributeItem implements IBreakableEquipme
 
     public static double getSwordDamage(Material material) {
         return switch (material) {
-            case NETHERITE_SWORD -> 125;
-            case TRIDENT -> 30;
-            case DIAMOND_SWORD -> 70;
-            case GOLDEN_SWORD -> 50;
-            case IRON_SWORD -> 40;
-            case STONE_SWORD -> 25;
-            case WOODEN_SWORD -> 20;
+            case NETHERITE_SWORD -> 80;
+            case DIAMOND_SWORD -> 50;
+            case TRIDENT, IRON_SWORD, GOLDEN_SWORD -> 30;
+            case STONE_SWORD -> 20;
+            case WOODEN_SWORD -> 15;
             default -> 0;
         };
     }
@@ -35,10 +33,9 @@ public class ItemSword extends VanillaAttributeItem implements IBreakableEquipme
     public static int getSwordRating(Material material) {
         return switch (material) {
             case NETHERITE_SWORD -> ToolsUtil.NETHERITE_TOOL_POWER;
-            case TRIDENT -> 10;
             case DIAMOND_SWORD -> ToolsUtil.DIAMOND_TOOL_POWER;
             case GOLDEN_SWORD -> ToolsUtil.GOLD_TOOL_POWER;
-            case IRON_SWORD -> ToolsUtil.IRON_TOOL_POWER;
+            case TRIDENT, IRON_SWORD -> ToolsUtil.IRON_TOOL_POWER;
             case STONE_SWORD -> ToolsUtil.STONE_TOOL_POWER;
             case WOODEN_SWORD -> ToolsUtil.WOOD_TOOL_POWER;
             default -> 1;

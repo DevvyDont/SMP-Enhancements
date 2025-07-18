@@ -18,6 +18,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
 import xyz.devvydont.smprpg.SMPRPG;
+import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
@@ -25,13 +26,11 @@ import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.items.base.CustomAttributeItem;
-import xyz.devvydont.smprpg.items.interfaces.IModelOverridden;
-import xyz.devvydont.smprpg.items.blueprints.vanilla.ItemAxe;
 import xyz.devvydont.smprpg.items.interfaces.ICraftable;
 import xyz.devvydont.smprpg.items.interfaces.IHeaderDescribable;
+import xyz.devvydont.smprpg.items.interfaces.IModelOverridden;
 import xyz.devvydont.smprpg.listeners.EntityDamageCalculatorService;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.util.formatting.ComponentUtils;
 import xyz.devvydont.smprpg.util.items.AbilityUtil;
 
@@ -68,8 +67,9 @@ public class InfernoSaber extends CustomAttributeItem implements IHeaderDescriba
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, ItemAxe.getAxeDamage(Material.NETHERITE_AXE)),
+                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, 200),
                 new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, -.6),
+                new AdditiveAttributeEntry(AttributeWrapper.CRITICAL_DAMAGE, 75),
                 new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, .25)
         );
     }
@@ -77,7 +77,6 @@ public class InfernoSaber extends CustomAttributeItem implements IHeaderDescriba
     @Override
     public List<Component> getHeader(ItemStack itemStack) {
         List<Component> lines = new ArrayList<>();
-        lines.add(ComponentUtils.EMPTY);
         lines.add(AbilityUtil.getAbilityComponent("Hot Shot (Right Click)"));
         lines.add(ComponentUtils.create("Shoot a ").append(ComponentUtils.create("fireball", NamedTextColor.GOLD)).append(ComponentUtils.create(" in the direction")));
         lines.add(ComponentUtils.create("you are looking that deals ").append(ComponentUtils.create(DAMAGE + "", NamedTextColor.RED)).append(ComponentUtils.create(" damage")));

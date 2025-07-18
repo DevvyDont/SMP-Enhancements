@@ -203,12 +203,12 @@ public class BlazeBoss extends CustomBossInstance<Blaze> implements Listener {
                 new QuantityLootDrop(ItemService.generate(CustomItemType.INFERNO_RESIDUE), 1, 2, this),
 
                 // Gear drops
-                new ChancedItemDrop(ItemService.generate(CustomItemType.INFERNO_HELMET), 250, this),
-                new ChancedItemDrop(ItemService.generate(CustomItemType.INFERNO_CHESTPLATE), 275, this),
-                new ChancedItemDrop(ItemService.generate(CustomItemType.INFERNO_LEGGINGS), 250, this),
-                new ChancedItemDrop(ItemService.generate(CustomItemType.INFERNO_BOOTS), 225, this),
-                new ChancedItemDrop(ItemService.generate(CustomItemType.INFERNO_SABER), 275, this),
-                new ChancedItemDrop(ItemService.generate(CustomItemType.INFERNO_SHORTBOW), 300, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.INFERNO_HELMET), 100, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.INFERNO_CHESTPLATE), 120, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.INFERNO_LEGGINGS), 110, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.INFERNO_BOOTS), 100, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.INFERNO_SABER), 120, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.INFERNO_SHORTBOW), 120, this),
 
                 // Chance to summon again
                 new ChancedItemDrop(ItemService.generate(CustomItemType.INFERNO_ARROW), 20, this)

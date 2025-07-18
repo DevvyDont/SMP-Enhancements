@@ -12,8 +12,8 @@ import xyz.devvydont.smprpg.services.ItemService;
 
 public abstract class AraxysArmorPiece extends CustomAttributeItem implements IBreakableEquipment, IDyeable, ITrimmable {
 
-    public static final int POWER = 25;
-    public static final int DURABILITY = 27_500;
+    public static final int POWER = 55;
+    public static final int DURABILITY = 50_000;
 
     public AraxysArmorPiece(ItemService itemService, CustomItemType type) {
         super(itemService, type);
@@ -23,7 +23,6 @@ public abstract class AraxysArmorPiece extends CustomAttributeItem implements IB
     public int getPowerRating() {
         return POWER;
     }
-
 
     @Override
     public Color getColor() {

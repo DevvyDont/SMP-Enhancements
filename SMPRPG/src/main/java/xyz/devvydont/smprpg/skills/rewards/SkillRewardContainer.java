@@ -95,7 +95,7 @@ public abstract class SkillRewardContainer {
                     attribute,
                     operation,
                     SkillGlobals.getScalingStatPerXLevel(amount, x, i),
-                    SkillGlobals.getScalingStatPerXLevel(amount, x, i-1)
+                    SkillGlobals.getScalingStatPerXLevel(amount, x, i-x)
             ));
     }
 

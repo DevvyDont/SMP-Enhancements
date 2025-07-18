@@ -29,9 +29,10 @@ public class MystbloomChestplate extends MystbloomArmorSet {
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, ItemArmor.getDefenseFromMaterial(Material.DIAMOND_CHESTPLATE)),
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, ItemArmor.getDefenseFromMaterial(Material.DIAMOND_CHESTPLATE)+5),
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, ItemArmor.getHealthFromMaterial(Material.DIAMOND_CHESTPLATE)+5),
-                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .15)
+                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .15),
+                new AdditiveAttributeEntry(AttributeWrapper.REGENERATION, 20)
         );
     }
 }

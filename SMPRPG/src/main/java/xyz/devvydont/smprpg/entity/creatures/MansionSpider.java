@@ -28,11 +28,6 @@ public class MansionSpider extends CustomEntityInstance<Spider> {
     public @Nullable Collection<LootDrop> getItemDrops() {
         return List.of(
                 new ChancedItemDrop(ItemService.generate(CustomItemType.COTTON_CANDY), 2, this),
-                new ChancedItemDrop(ItemService.generate(CustomItemType.ARAXYS_HELMET), 750, this),
-                new ChancedItemDrop(ItemService.generate(CustomItemType.ARAXYS_CHESTPLATE), 750, this),
-                new ChancedItemDrop(ItemService.generate(CustomItemType.ARAXYS_LEGGINGS), 750, this),
-                new ChancedItemDrop(ItemService.generate(CustomItemType.ARAXYS_BOOTS), 750, this),
-                new ChancedItemDrop(ItemService.generate(CustomItemType.ARAXYS_CLAW), 750, this),
                 new ChancedItemDrop(ItemService.generate(Material.STRING), 2, this),
                 new ChancedItemDrop(ItemService.generate(Material.SPIDER_EYE), 2, this),
                 new ChancedItemDrop(ItemService.generate(CustomItemType.PREMIUM_STRING), 110, this),

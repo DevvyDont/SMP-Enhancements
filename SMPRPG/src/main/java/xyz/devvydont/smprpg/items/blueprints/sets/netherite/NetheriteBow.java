@@ -26,6 +26,8 @@ import java.util.List;
 public class NetheriteBow extends CustomAttributeItem implements ICraftable, IBreakableEquipment {
 
 
+    public static final double DAMAGE = ItemSword.getSwordDamage(Material.NETHERITE_SWORD)-5;
+
     public NetheriteBow(ItemService itemService, CustomItemType type) {
         super(itemService, type);
     }

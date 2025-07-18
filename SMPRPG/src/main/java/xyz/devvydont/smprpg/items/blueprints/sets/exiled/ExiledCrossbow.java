@@ -25,7 +25,7 @@ public class ExiledCrossbow extends CustomAttributeItem implements IBreakableEqu
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, ItemAxe.getAxeDamage(Material.DIAMOND_AXE))
+                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, ItemAxe.getAxeDamage(Material.NETHERITE_AXE))
         );
     }
 

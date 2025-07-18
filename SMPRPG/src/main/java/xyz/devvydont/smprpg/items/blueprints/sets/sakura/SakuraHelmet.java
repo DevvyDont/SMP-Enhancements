@@ -29,7 +29,8 @@ public class SakuraHelmet extends SakuraArmorSet implements IBreakableEquipment,
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 15)
+                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 20),
+                new AdditiveAttributeEntry(AttributeWrapper.REGENERATION, 20)
         );
     }
 

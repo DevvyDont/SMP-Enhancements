@@ -22,7 +22,6 @@ public abstract class ElderflameArmorSet extends CustomAttributeItem implements 
         super(itemService, type);
     }
 
-
     @Override
     public EquipmentSlotGroup getActiveSlot() {
         return EquipmentSlotGroup.ARMOR;
@@ -30,12 +29,12 @@ public abstract class ElderflameArmorSet extends CustomAttributeItem implements 
 
     @Override
     public int getPowerRating() {
-        return 60;
+        return 50;
     }
 
     @Override
     public int getMaxDurability() {
-        return 70_000;
+        return 50_000;
     }
 
     @Override

@@ -1,8 +1,10 @@
 package xyz.devvydont.smprpg.items.blueprints.sets.emerald;
 
+import org.bukkit.Material;
 import org.bukkit.inventory.CraftingRecipe;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
+import xyz.devvydont.smprpg.items.blueprints.vanilla.ItemArmor;
 import xyz.devvydont.smprpg.services.ItemService;
 import xyz.devvydont.smprpg.util.crafting.builders.BootsRecipe;
 
@@ -23,17 +25,17 @@ public class EmeraldBoots extends EmeraldArmorSet {
     }
 
     @Override
-    public int getDefense() {
-        return 35;
+    public double getDefense() {
+        return ItemArmor.getDefenseFromMaterial(Material.DIAMOND_BOOTS)+5;
     }
 
     @Override
-    public int getHealth() {
-        return 10;
+    public double getHealth() {
+        return ItemArmor.getHealthFromMaterial(Material.DIAMOND_BOOTS)+5;
     }
 
     @Override
-    public int getStrength() {
-        return 15;
+    public double getStrength() {
+        return ItemArmor.getDamageFromMaterial(Material.NETHERITE_BOOTS);
     }
 }

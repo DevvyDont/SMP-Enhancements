@@ -28,7 +28,7 @@ public abstract class SlimyArmorSet extends CustomAttributeItem implements ICraf
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, getHealth()),
-                new ScalarAttributeEntry(AttributeWrapper.ATTACK_SPEED, .1)
+                new ScalarAttributeEntry(AttributeWrapper.ATTACK_SPEED, .25)
         );
     }
 

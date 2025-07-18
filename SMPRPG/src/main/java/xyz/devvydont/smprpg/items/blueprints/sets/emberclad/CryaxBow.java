@@ -25,7 +25,8 @@ public class CryaxBow extends CustomAttributeItem implements IBreakableEquipment
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, ItemAxe.getAxeDamage(Material.NETHERITE_AXE)-20)
+                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, ItemAxe.getAxeDamage(Material.NETHERITE_AXE)),
+                new AdditiveAttributeEntry(AttributeWrapper.CRITICAL_DAMAGE, 45)
         );
     }
 

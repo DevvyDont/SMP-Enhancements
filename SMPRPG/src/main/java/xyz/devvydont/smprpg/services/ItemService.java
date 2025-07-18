@@ -441,8 +441,8 @@ public class ItemService implements IService, Listener {
         keyMappings.put(blueprint.getCustomItemType().getKey(), blueprint.getCustomItemType());
 
         // If this blueprint needs to hook into events register them.
-        if (blueprint instanceof Listener)
-            plugin.getServer().getPluginManager().registerEvents((Listener) blueprint, plugin);
+        if (blueprint instanceof Listener listener)
+            plugin.getServer().getPluginManager().registerEvents(listener, plugin);
     }
 
     /**

@@ -20,12 +20,12 @@ public class ItemShovel extends VanillaAttributeItem implements IBreakableEquipm
 
     public static double getShovelDamage(Material material) {
         return switch (material) {
-            case NETHERITE_SHOVEL -> 40;
-            case DIAMOND_SHOVEL -> 20;
-            case GOLDEN_SHOVEL -> 10;
-            case IRON_SHOVEL -> 8;
-            case STONE_SHOVEL -> 5;
-            case WOODEN_SHOVEL -> 3;
+            case NETHERITE_SHOVEL -> 30;
+            case DIAMOND_SHOVEL -> 25;
+            case GOLDEN_SHOVEL -> 20;
+            case IRON_SHOVEL -> 15;
+            case STONE_SHOVEL -> 10;
+            case WOODEN_SHOVEL -> 5;
             default -> 0;
         };
     }

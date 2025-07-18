@@ -66,7 +66,7 @@ public class LeveledWither extends BossInstance<Wither> {
                 new QuantityLootDrop(ItemService.generate(Material.SOUL_SAND), 1, 2, this),
                 new QuantityLootDrop(ItemService.generate(Material.OBSIDIAN), 1, 3, this),
                 new QuantityLootDrop(ItemService.generate(Material.COAL), 1, 3, this),
-                new ChancedItemDrop(ItemService.generate(Material.WITHER_SKELETON_SKULL), 250, this),
+                new ChancedItemDrop(ItemService.generate(Material.WITHER_SKELETON_SKULL), 50, this),
 
                 new ChancedItemDrop(ItemService.generate(CustomItemType.COMPRESSED_OBSIDIAN), 14, this),
                 new ChancedItemDrop(ItemService.generate(CustomItemType.ENCHANTED_OBSIDIAN), 90, this),
@@ -75,11 +75,11 @@ public class LeveledWither extends BossInstance<Wither> {
                 new ChancedItemDrop(ItemService.generate(CustomItemType.PREMIUM_NETHER_STAR), 65, this),
                 new ChancedItemDrop(ItemService.generate(CustomItemType.ENCHANTED_NETHER_STAR), 900, this),
 
-                new ChancedItemDrop(ItemService.generate(CustomItemType.FORSAKEN_HELMET), 200, this),
-                new ChancedItemDrop(ItemService.generate(CustomItemType.FORSAKEN_CHESTPLATE), 210, this),
-                new ChancedItemDrop(ItemService.generate(CustomItemType.FORSAKEN_LEGGINGS), 200, this),
-                new ChancedItemDrop(ItemService.generate(CustomItemType.FORSAKEN_BOOTS), 200, this),
-                new ChancedItemDrop(ItemService.generate(CustomItemType.FORSAKEN_CUTLASS), 225, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.FORSAKEN_HELMET), 100, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.FORSAKEN_CHESTPLATE), 125, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.FORSAKEN_LEGGINGS), 110, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.FORSAKEN_BOOTS), 100, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.FORSAKEN_CUTLASS), 125, this),
 
                 new ChancedItemDrop(ItemService.generate(CustomItemType.DESOLATED_STONE), 100, this),
 

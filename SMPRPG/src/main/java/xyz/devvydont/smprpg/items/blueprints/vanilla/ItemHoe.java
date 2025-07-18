@@ -20,12 +20,12 @@ public class ItemHoe extends VanillaAttributeItem implements IBreakableEquipment
 
     public static double getHoeDamage(Material material) {
         return switch (material) {
-            case NETHERITE_HOE -> 30;
-            case DIAMOND_HOE -> 15;
-            case GOLDEN_HOE -> 8;
-            case IRON_HOE -> 5;
-            case STONE_HOE -> 3;
-            case WOODEN_HOE -> 2;
+            case NETHERITE_HOE -> 20;
+            case DIAMOND_HOE -> 16;
+            case GOLDEN_HOE -> 12;
+            case IRON_HOE -> 10;
+            case STONE_HOE -> 5;
+            case WOODEN_HOE -> 3;
             default -> 0;
         };
     }

@@ -1,6 +1,7 @@
 package xyz.devvydont.smprpg.items.blueprints.sets.neptune;
 
 import org.bukkit.Color;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.CraftingRecipe;
 import org.bukkit.inventory.ItemStack;
@@ -9,6 +10,7 @@ import org.bukkit.inventory.meta.trim.TrimPattern;
 import xyz.devvydont.smprpg.SMPRPG;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
+import xyz.devvydont.smprpg.items.blueprints.vanilla.ItemArmor;
 import xyz.devvydont.smprpg.items.interfaces.IDyeable;
 import xyz.devvydont.smprpg.items.interfaces.ITrimmable;
 import xyz.devvydont.smprpg.services.ItemService;
@@ -30,12 +32,12 @@ public class NeptuneBoots extends NeptuneArmorSet implements IDyeable, ITrimmabl
 
     @Override
     public int getDefense() {
-        return 40;
+        return ItemArmor.getDefenseFromMaterial(Material.NETHERITE_BOOTS);
     }
 
     @Override
     public int getHealth() {
-        return 10;
+        return (int) ItemArmor.getHealthFromMaterial(Material.NETHERITE_BOOTS) + 10;
     }
 
     @Override

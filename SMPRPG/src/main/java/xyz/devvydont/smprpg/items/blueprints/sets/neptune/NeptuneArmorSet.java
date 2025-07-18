@@ -42,7 +42,8 @@ public abstract class NeptuneArmorSet extends CustomAttributeItem implements IBr
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, getHealth()),
                 new ScalarAttributeEntry(AttributeWrapper.STRENGTH, getStrength()/100.0),
                 new AdditiveAttributeEntry(AttributeWrapper.OXYGEN_BONUS, OXYGEN_BONUS),
-                new ScalarAttributeEntry(AttributeWrapper.BURNING_TIME, -.1)
+                new ScalarAttributeEntry(AttributeWrapper.BURNING_TIME, -.1),
+                new AdditiveAttributeEntry(AttributeWrapper.CRITICAL_DAMAGE, 10)
         );
     }
 

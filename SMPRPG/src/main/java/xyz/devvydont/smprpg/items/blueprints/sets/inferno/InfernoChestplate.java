@@ -18,6 +18,10 @@ import java.util.List;
 
 public class InfernoChestplate extends InfernoArmorSet {
 
+    public static final int DEFENSE = 250;
+    public static final int HEALTH = 40;
+    public static final double STRENGTH = 0.5;
+
     public InfernoChestplate(ItemService itemService, CustomItemType type) {
         super(itemService, type);
     }
@@ -28,23 +32,24 @@ public class InfernoChestplate extends InfernoArmorSet {
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, getDefense()),
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, getHealth()),
                 new ScalarAttributeEntry(AttributeWrapper.STRENGTH, getStrength()),
-                new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, .25)
+                new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, .25),
+                new AdditiveAttributeEntry(AttributeWrapper.CRITICAL_DAMAGE, 15)
         );
     }
 
     @Override
     public int getDefense() {
-        return 100;
+        return DEFENSE;
     }
 
     @Override
     public int getHealth() {
-        return 30;
+        return HEALTH;
     }
 
     @Override
     public double getStrength() {
-        return .75;
+        return STRENGTH;
     }
 
     @Override

@@ -5,29 +5,29 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemStack;
+import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.events.CustomEntityDamageByEntityEvent;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.ItemRarity;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
-import xyz.devvydont.smprpg.items.interfaces.IMace;
 import xyz.devvydont.smprpg.items.base.VanillaAttributeItem;
 import xyz.devvydont.smprpg.items.interfaces.IBreakableEquipment;
+import xyz.devvydont.smprpg.items.interfaces.IMace;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 
 import java.util.Collection;
 import java.util.List;
 
 public class ItemMace extends VanillaAttributeItem implements IBreakableEquipment, IMace, Listener {
 
-    public static final int MACE_ATTACK_DAMAGE = 120;
+    public static final int MACE_POWER_RATING = 30;
+    public static final int MACE_DURABILITY = 10_000;
+    public static final int MACE_ATTACK_DAMAGE = 100;
     public static final double MACE_ATTACK_SPEED_DEBUFF = -0.85;
 
     public ItemMace(ItemService itemService, Material material) {
@@ -64,12 +64,12 @@ public class ItemMace extends VanillaAttributeItem implements IBreakableEquipmen
 
     @Override
     public int getPowerRating() {
-        return 30;
+        return MACE_POWER_RATING;
     }
 
     @Override
     public int getMaxDurability() {
-        return 70_000;
+        return MACE_DURABILITY;
     }
 
     /**

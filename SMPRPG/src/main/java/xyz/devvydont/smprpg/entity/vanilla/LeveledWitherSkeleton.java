@@ -21,11 +21,11 @@ public class LeveledWitherSkeleton extends VanillaEntity<WitherSkeleton> {
     @Override
     public @Nullable Collection<LootDrop> getItemDrops() {
         return List.of(
-                new ChancedItemDrop(ItemService.generate(CustomItemType.REAVER_HELMET), 2500, this),
-                new ChancedItemDrop(ItemService.generate(CustomItemType.REAVER_CHESTPLATE), 2500, this),
-                new ChancedItemDrop(ItemService.generate(CustomItemType.REAVER_LEGGINGS), 2500, this),
-                new ChancedItemDrop(ItemService.generate(CustomItemType.REAVER_BOOTS), 2500, this),
-                new ChancedItemDrop(ItemService.generate(CustomItemType.REAVER_KNIFE), 3000, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.REAVER_HELMET), 4500, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.REAVER_CHESTPLATE), 5000, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.REAVER_LEGGINGS), 4500, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.REAVER_BOOTS), 4500, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.REAVER_KNIFE), 5000, this),
 
                 new ChancedItemDrop(ItemService.generate(Material.COAL), 4, this),
                 new ChancedItemDrop(ItemService.generate(CustomItemType.ENCHANTED_COAL), 750, this),
@@ -42,7 +42,7 @@ public class LeveledWitherSkeleton extends VanillaEntity<WitherSkeleton> {
                 new ChancedItemDrop(ItemService.generate(CustomItemType.COMPRESSED_OBSIDIAN), 165, this),
                 new ChancedItemDrop(ItemService.generate(CustomItemType.ENCHANTED_OBSIDIAN), 1250, this),
 
-                new ChancedItemDrop(ItemService.generate(Material.WITHER_SKELETON_SKULL), 300, this)
+                new ChancedItemDrop(ItemService.generate(Material.WITHER_SKELETON_SKULL), 500, this)
         );
     }
 

@@ -107,6 +107,14 @@ public class FishingRewardRegistry {
                         .withRequirement(FishingLootRequirement.rod(IFishingRod.FishingFlag.NORMAL))
                         .build(),
 
+                new ItemStackFishingLoot.Builder(CustomItemType.CAVIAR)
+                        .withRequirement(FishingLootRequirement.quality(200))
+                        .withMinecraftExperience(75)
+                        .withSkillExperience(1000)
+                        .withRequirement(FishingLootRequirement.rod(IFishingRod.FishingFlag.NORMAL))
+                        .withRequirement(FishingLootRequirement.temperature(TemperatureReading.TEMPERATE))
+                        .build(),
+
                 new ItemStackFishingLoot.Builder(Material.NETHERITE_INGOT)
                         .withMinecraftExperience(50)
                         .withSkillExperience(200)

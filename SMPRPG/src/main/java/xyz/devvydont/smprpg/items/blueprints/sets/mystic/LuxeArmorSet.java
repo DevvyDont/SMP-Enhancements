@@ -23,6 +23,7 @@ import java.util.List;
 public abstract class LuxeArmorSet extends CustomAttributeItem implements ICraftable, ITrimmable, IBreakableEquipment {
 
     public static CustomItemType ingredient = CustomItemType.ENCHANTED_LAPIS;
+    public static final int INTELLIGENCE = 50;
 
     public LuxeArmorSet(ItemService itemService, CustomItemType type) {
         super(itemService, type);
@@ -31,9 +32,9 @@ public abstract class LuxeArmorSet extends CustomAttributeItem implements ICraft
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 5),
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, getDefense()),
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, getHealth()),
-                new AdditiveAttributeEntry(AttributeWrapper.INTELLIGENCE, 100)
+                new AdditiveAttributeEntry(AttributeWrapper.INTELLIGENCE, INTELLIGENCE)
         );
     }
 
@@ -43,6 +44,7 @@ public abstract class LuxeArmorSet extends CustomAttributeItem implements ICraft
     }
 
     public abstract int getHealth();
+    public abstract int getDefense();
 
     @Override
     public int getPowerRating() {

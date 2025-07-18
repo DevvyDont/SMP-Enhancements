@@ -8,6 +8,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.generator.structure.Structure;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.Nullable;
 import xyz.devvydont.smprpg.entity.base.CustomEntityInstance;
 import xyz.devvydont.smprpg.entity.base.LeveledEntity;
 import xyz.devvydont.smprpg.entity.bosses.BlazeBoss;
@@ -19,6 +20,7 @@ import xyz.devvydont.smprpg.entity.spawning.EntitySpawner;
 import xyz.devvydont.smprpg.gui.base.IMenuDisplayable;
 import xyz.devvydont.smprpg.services.EntityService;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.function.BiFunction;
 
 // Enums to use for the retrieval, storage, and statistics of "custom" entities.
@@ -76,9 +78,15 @@ public enum CustomEntityType implements IMenuDisplayable {
 
     // Wither skeletons that spawn on the end island
     WITHERED_SERAPH(EntityType.WITHER_SKELETON, "Withered Seraph",
-            45, 6_000, 1_000,
+            45, 6_000, 550,
             WitheredSeraph::new,
-            EntitySpawnCondition.BiomeSpawnCondition.biome(Biome.THE_END).withChance(.1f)),
+            EntitySpawnCondition.BiomeSpawnCondition.biome(Biome.THE_END).withChance(.15f)),
+
+    // Golems that spawn on the end island
+    PROTOCOL_SENTINEL(EntityType.IRON_GOLEM, "Protocol Sentinel",
+            45, 7_500, 400,
+            ProtocolSentinel::new,
+            EntitySpawnCondition.BiomeSpawnCondition.biome(Biome.THE_END).withChance(.15f)),
 
     // Fishing creatures.
     MINNOW(EntityType.SILVERFISH, "Minnow",
@@ -104,7 +112,7 @@ public enum CustomEntityType implements IMenuDisplayable {
     REFORGE_NPC(EntityType.VILLAGER, "Tool Reforger", ReforgeNPC::new),
 
     // Spawner
-    SPAWNER(EntityType.ITEM_DISPLAY, "Spawner", EntitySpawner::new)
+    SPAWNER(EntityType.ITEM_DISPLAY, "Spawner", EntitySpawner.class)
     ;
 
 
@@ -119,6 +127,9 @@ public enum CustomEntityType implements IMenuDisplayable {
     // The base damage this entity will do when their level is at its base level
     public final int Damage;
     public final EntitySpawnCondition SpawnCondition;
+
+    // More of a compatibility thing for weird entities like spawners. Most entities shouldn't have this property.
+    public  @Nullable Class<CustomEntityInstance<Entity>> rawClass = null;
 
     private final BiFunction<LivingEntity, CustomEntityType, LeveledEntity<?>> Factory;
 
@@ -144,8 +155,36 @@ public enum CustomEntityType implements IMenuDisplayable {
         this(Type, name, 0, 999_999_999, 0, factory, EntitySpawnCondition.ImpossibleSpawnCondition.create());
     }
 
+    CustomEntityType(EntityType entityType, String name, Class entitySpawnerClass) {
+        this.Type = entityType;
+        this.Name = name;
+        this.Level = 0;
+        this.Hp = 2_000_000_000;
+        this.Damage = 0;
+        this.Factory = null;
+        this.SpawnCondition = EntitySpawnCondition.ImpossibleSpawnCondition.create();
+        this.rawClass = entitySpawnerClass;
+    }
+
     public LeveledEntity<?> create(LivingEntity entity) {
         return Factory.apply(entity, this);
+    }
+
+    /**
+     * Creates an entity instance by using reflection since the LivingEntity factory is not available.
+     * This is considered a pretty unsafe operation, so it should be used sparingly.
+     * @param entity The entity to wrap over.
+     * @return A wrapper instance.
+     */
+    public LeveledEntity<?> create(Entity entity) {
+        if (this.rawClass == null)
+            throw new IllegalStateException("Entity " + entity + " has no CustomEntityInstance class association. Are you using the right CustomEntityType constructor?");
+        try {
+            var constructor = this.rawClass.getConstructor(Entity.class, CustomEntityType.class);
+            return constructor.newInstance(entity, this);
+        } catch (InvocationTargetException | NoSuchMethodException | InstantiationException | IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**

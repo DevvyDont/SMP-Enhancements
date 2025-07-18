@@ -20,7 +20,7 @@ public class WoodcuttingSkillRewards extends SkillRewardContainer {
         this.addAttributeRewardEveryXLevels(AttributeWrapper.DEFENSE, AttributeModifier.Operation.ADD_NUMBER, SkillGlobals.DEFENSE_PER_2_LEVELS, SkillGlobals.DEFENSE_LEVEL_FREQUENCY);
 
         // Typical HP every level
-        this.addAttributeRewardEveryXLevels(AttributeWrapper.HEALTH, AttributeModifier.Operation.ADD_NUMBER, SkillGlobals.HP_PER_5_LEVELS, SkillGlobals.HP_LEVEL_FREQUENCY);
+        this.addScalingAttributeRewardEveryXLevels(AttributeWrapper.HEALTH, AttributeModifier.Operation.ADD_NUMBER, SkillGlobals.HP_PER_5_LEVELS, SkillGlobals.HP_LEVEL_FREQUENCY);
 
         // Give coins for every level.
         this.addCoinsEveryLevel();

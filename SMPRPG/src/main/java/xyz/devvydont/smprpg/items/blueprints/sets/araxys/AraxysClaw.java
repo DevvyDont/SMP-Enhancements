@@ -26,7 +26,7 @@ public class AraxysClaw extends CustomAttributeItem implements IBreakableEquipme
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, ItemSword.getSwordDamage(Material.DIAMOND_SWORD)+30),
+                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, ItemSword.getSwordDamage(Material.NETHERITE_SWORD)*2),
                 new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, -.25)
         );
     }

@@ -36,7 +36,7 @@ import java.util.Set;
 public class TransmissionWand extends CustomAttributeItem implements IHeaderDescribable, Listener, ICraftable, IModelOverridden {
 
     // The mana cost to use this item.
-    public static final int COST = 100;
+    public static final int COST = 50;
 
     // Items that will force the teleportation event to not fire in favor of interacting with the block.
     // Not ideal, but Material#isInteractable() is deprecated >_<
@@ -136,14 +136,14 @@ public class TransmissionWand extends CustomAttributeItem implements IHeaderDesc
         var recipe = new ShapedRecipe(this.getRecipeKey(), generate());
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
         recipe.shape(" m ", " r ", " r ");
-        recipe.setIngredient('m', ItemService.generate(CustomItemType.ENCHANTED_ENDER_PEARL));
+        recipe.setIngredient('m', ItemService.generate(CustomItemType.WARP_CATALYST));
         recipe.setIngredient('r', ItemService.generate(CustomItemType.DRACONIC_CRYSTAL));
         return recipe;
     }
 
     @Override
     public Collection<ItemStack> unlockedBy() {
-        return List.of(ItemStack.of(Material.ENDER_PEARL));
+        return List.of(ItemService.generate(CustomItemType.DRACONIC_CRYSTAL));
     }
 
     @Override

@@ -35,7 +35,8 @@ public abstract class QuartzArmorSet extends CustomAttributeItem implements ITri
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, getDefense()),
-                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, getStrength())
+                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, getStrength()),
+                new AdditiveAttributeEntry(AttributeWrapper.CRITICAL_DAMAGE, 25)
         );
     }
 
@@ -45,12 +46,12 @@ public abstract class QuartzArmorSet extends CustomAttributeItem implements ITri
 
     @Override
     public int getPowerRating() {
-        return 22;
+        return 20;
     }
 
     @Override
     public int getMaxDurability() {
-        return 25_000;
+        return 12_500;
     }
 
     @Override
@@ -60,6 +61,6 @@ public abstract class QuartzArmorSet extends CustomAttributeItem implements ITri
 
     @Override
     public Collection<ItemStack> unlockedBy() {
-        return List.of(itemService.getCustomItem(Material.QUARTZ));
+        return List.of(itemService.getCustomItem(Material.QUARTZ_BLOCK));
     }
 }

@@ -28,10 +28,10 @@ public class MystbloomHelmet extends MystbloomArmorSet {
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, ItemArmor.getDefenseFromMaterial(Material.DIAMOND_HELMET)),
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, ItemArmor.getDefenseFromMaterial(Material.DIAMOND_HELMET)+5),
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, ItemArmor.getHealthFromMaterial(Material.DIAMOND_HELMET)+5),
                 new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .1),
-                new ScalarAttributeEntry(AttributeWrapper.LUCK, .2)
+                new AdditiveAttributeEntry(AttributeWrapper.INTELLIGENCE, 30)
         );
     }
 }

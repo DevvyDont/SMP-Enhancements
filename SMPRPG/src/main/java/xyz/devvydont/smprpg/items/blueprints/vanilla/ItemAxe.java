@@ -20,12 +20,12 @@ public class ItemAxe extends VanillaAttributeItem implements IBreakableEquipment
 
     public static double getAxeDamage(Material material) {
         return switch (material) {
-            case NETHERITE_AXE -> 150;
-            case DIAMOND_AXE -> 100;
-            case GOLDEN_AXE -> 65;
-            case IRON_AXE -> 50;
-            case STONE_AXE -> 35;
-            case WOODEN_AXE -> 30;
+            case NETHERITE_AXE -> 100;
+            case DIAMOND_AXE -> 65;
+            case GOLDEN_AXE -> 40;
+            case IRON_AXE -> 35;
+            case STONE_AXE -> 30;
+            case WOODEN_AXE -> 20;
 
             default -> 0;
         };

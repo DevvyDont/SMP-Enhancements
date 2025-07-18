@@ -2,14 +2,13 @@ package xyz.devvydont.smprpg.items.blueprints.sets.elderflame;
 
 import org.bukkit.inventory.CraftingRecipe;
 import org.bukkit.inventory.ItemStack;
+import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.items.CustomItemType;
 import xyz.devvydont.smprpg.items.ItemClassification;
 import xyz.devvydont.smprpg.items.attribute.AdditiveAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.AttributeEntry;
-import xyz.devvydont.smprpg.items.attribute.MultiplicativeAttributeEntry;
 import xyz.devvydont.smprpg.items.attribute.ScalarAttributeEntry;
 import xyz.devvydont.smprpg.services.ItemService;
-import xyz.devvydont.smprpg.attribute.AttributeWrapper;
 import xyz.devvydont.smprpg.util.crafting.builders.LeggingsRecipe;
 
 import java.util.Collection;
@@ -24,12 +23,12 @@ public class ElderflameLeggings extends ElderflameArmorSet {
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 315),
-                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 265),
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, ElderflameChestplate.DEFENSE-50),
+                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, ElderflameChestplate.HEALTH-50),
                 new AdditiveAttributeEntry(AttributeWrapper.ARMOR, 3),
-                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, .5),
+                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, ElderflameChestplate.STRENGTH),
                 new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, .2),
-                new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, .1)
+                new AdditiveAttributeEntry(AttributeWrapper.CRITICAL_DAMAGE, ElderflameChestplate.CRIT)
         );
     }
 

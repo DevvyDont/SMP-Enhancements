@@ -52,10 +52,7 @@ public class AttributeApplyListener implements Listener {
         // Now just remove and apply modifiers. Pretty simple.
         for (var entry : toRemove.asMap().entrySet()) {
 
-            var attrInstance = AttributeService.getInstance().getAttribute(event.getEntity(), entry.getKey());
-            if (attrInstance == null)
-                continue;
-
+            var attrInstance = AttributeService.getInstance().getOrCreateAttribute(event.getEntity(), entry.getKey());
             for (var modifier : entry.getValue())
                 attrInstance.removeModifier(modifier);
 
@@ -65,10 +62,7 @@ public class AttributeApplyListener implements Listener {
         // Do the same thing but for additions.
         for (var entry : toApply.asMap().entrySet()) {
 
-            var attrInstance = AttributeService.getInstance().getAttribute(event.getEntity(), entry.getKey());
-            if (attrInstance == null)
-                continue;
-
+            var attrInstance = AttributeService.getInstance().getOrCreateAttribute(event.getEntity(), entry.getKey());
             for (var modifier : entry.getValue())
                 attrInstance.addModifier(modifier);
 

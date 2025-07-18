@@ -20,7 +20,7 @@ public class MiningSkillRewards extends SkillRewardContainer {
         this.addAttributeRewardEveryXLevels(AttributeWrapper.MINING_EFFICIENCY, AttributeModifier.Operation.ADD_SCALAR, SkillGlobals.MINING_EFF_PER_4_LEVELS, SkillGlobals.MINING_EFF_LEVEL_FREQUENCY);
 
         // Typical HP every level
-        this.addAttributeRewardEveryXLevels(AttributeWrapper.HEALTH, AttributeModifier.Operation.ADD_NUMBER, SkillGlobals.HP_PER_5_LEVELS, SkillGlobals.HP_LEVEL_FREQUENCY);
+        this.addScalingAttributeRewardEveryXLevels(AttributeWrapper.HEALTH, AttributeModifier.Operation.ADD_NUMBER, SkillGlobals.HP_PER_5_LEVELS, SkillGlobals.HP_LEVEL_FREQUENCY);
 
         // Give coins for every level.
         this.addCoinsEveryLevel();

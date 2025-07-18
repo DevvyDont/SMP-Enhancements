@@ -38,10 +38,10 @@ public abstract class UnstableArmorSet extends CustomAttributeItem implements IT
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, (int)(randomInt(50, 500) * getStatMultiplier())),
-                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, (int)(randomInt(30, 400) * getStatMultiplier())),
-                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, randomFloat(.05f, .3f) * getStatMultiplier()),
-                new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, randomFloat(.02f, .3f) * getStatMultiplier())
+                new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, (int)(randomInt(-100, 500) * getStatMultiplier())),
+                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, (int)(randomInt(-100, 500) * getStatMultiplier())),
+                new ScalarAttributeEntry(AttributeWrapper.STRENGTH, randomFloat(-.1f, .75f) * getStatMultiplier()),
+                new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, randomFloat(-.2f, .3f) * getStatMultiplier())
         );
     }
 
@@ -55,7 +55,6 @@ public abstract class UnstableArmorSet extends CustomAttributeItem implements IT
     @Override
     public List<Component> getFooter(ItemStack item) {
         var footer = new ArrayList<Component>();
-        footer.add(ComponentUtils.EMPTY);
         Component lore = ComponentUtils.create("Stats ").append(ComponentUtils.create("randomly", NamedTextColor.LIGHT_PURPLE)).append(ComponentUtils.create(" shuffle!"));
         footer.add(lore);
         return footer;
@@ -63,13 +62,12 @@ public abstract class UnstableArmorSet extends CustomAttributeItem implements IT
 
     @Override
     public int getPowerRating() {
-        return 60;
+        return 40;
     }
-
 
     @Override
     public int getMaxDurability() {
-        return 56_000;
+        return randomInt(5_000, 30_000);
     }
 
     @Override

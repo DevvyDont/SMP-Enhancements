@@ -30,7 +30,7 @@ import java.util.List;
 public abstract class ReaverArmorSet extends CustomAttributeItem implements IHeaderDescribable, IBreakableEquipment, Listener {
 
     public static final int POWER = 25;
-    public static final int DURABILITY = 32_000;
+    public static final int DURABILITY = 25_000;
     public static final int WITHER_RESIST = 20;
 
     public ReaverArmorSet(ItemService itemService, CustomItemType type) {
@@ -49,7 +49,6 @@ public abstract class ReaverArmorSet extends CustomAttributeItem implements IHea
     @Override
     public List<Component> getHeader(ItemStack itemStack) {
         return List.of(
-                ComponentUtils.EMPTY,
                 AbilityUtil.getAbilityComponent("Necrotic (Passive)"),
                 ComponentUtils.create("Resists ").append(ComponentUtils.create("-" + getWitherResistance() + "%", NamedTextColor.GREEN)).append(ComponentUtils.create(" of wither damage")),
                 ComponentUtils.create("(stacks multiplicatively)", NamedTextColor.DARK_GRAY)
@@ -62,7 +61,8 @@ public abstract class ReaverArmorSet extends CustomAttributeItem implements IHea
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, getDefense()),
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, getHealth()),
                 new ScalarAttributeEntry(AttributeWrapper.STRENGTH, getStrength()),
-                new AdditiveAttributeEntry(AttributeWrapper.KNOCKBACK_RESISTANCE, .15)
+                new AdditiveAttributeEntry(AttributeWrapper.KNOCKBACK_RESISTANCE, .15),
+                new AdditiveAttributeEntry(AttributeWrapper.CRITICAL_DAMAGE, 20)
         );
     }
 
@@ -82,8 +82,8 @@ public abstract class ReaverArmorSet extends CustomAttributeItem implements IHea
         return DURABILITY;
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-    private void __onTakeWitherDamageWhileWearing(EntityDamageEvent event) {
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void __onTakeWitherDamageWhileWearing(EntityDamageEvent event) {
 
         var directEntityIsWitherType = event.getDamageSource().getCausingEntity() instanceof WitherSkeleton ||
                 event.getDamageSource().getCausingEntity() instanceof Wither;
@@ -99,7 +99,7 @@ public abstract class ReaverArmorSet extends CustomAttributeItem implements IHea
 
         // Loop through all armor pieces, if its either null, air, or not the type of this item we do not care
         boolean foundItem = false;
-        for (ItemStack item : player.getInventory().getArmorContents()) {
+        for (var item : player.getInventory().getArmorContents()) {
             if (item == null || item.getType().equals(Material.AIR))
                 continue;
 
@@ -113,6 +113,8 @@ public abstract class ReaverArmorSet extends CustomAttributeItem implements IHea
 
         // We are wearing the armor, decrease the damage
         double multiplier = 1 - (getWitherResistance()/100.0);
-        event.setDamage(EntityDamageEvent.DamageModifier.BASE, event.getDamage() * multiplier);
+        var old = event.getFinalDamage();
+        var _new = old * multiplier;
+        event.setDamage(_new);
     }
 }

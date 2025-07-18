@@ -10,23 +10,27 @@ import xyz.devvydont.smprpg.util.crafting.builders.BootsRecipe;
 
 public class ForsakenBoots extends ForsakenArmorSet implements IDyeable {
 
+    public static final int DEFENSE = 85;
+    public static final int HEALTH = 10;
+    public static final double STRENGTH = .3;
+
     public ForsakenBoots(ItemService itemService, CustomItemType type) {
         super(itemService, type);
     }
 
     @Override
     public int getDefense() {
-        return 60;
+        return DEFENSE;
     }
 
     @Override
     public int getHealth() {
-        return 15;
+        return HEALTH;
     }
 
     @Override
     public double getStrength() {
-        return .4;
+        return STRENGTH;
     }
 
     @Override

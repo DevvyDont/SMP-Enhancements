@@ -27,7 +27,7 @@ public class MystbloomKunai extends CustomAttributeItem implements IBreakableEqu
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
         return List.of(
-                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, ItemSword.getSwordDamage(Material.DIAMOND_SWORD)-10),
+                new AdditiveAttributeEntry(AttributeWrapper.STRENGTH, ItemSword.getSwordDamage(Material.DIAMOND_SWORD)),
                 new MultiplicativeAttributeEntry(AttributeWrapper.ATTACK_SPEED, -.3),
                 new ScalarAttributeEntry(AttributeWrapper.MOVEMENT_SPEED, .1)
         );

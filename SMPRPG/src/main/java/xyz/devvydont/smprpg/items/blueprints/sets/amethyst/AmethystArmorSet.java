@@ -29,7 +29,7 @@ public abstract class AmethystArmorSet extends CustomAttributeItem implements IT
         return List.of(
                 new AdditiveAttributeEntry(AttributeWrapper.DEFENSE, 5),
                 new AdditiveAttributeEntry(AttributeWrapper.HEALTH, getHealth()),
-                new AdditiveAttributeEntry(AttributeWrapper.INTELLIGENCE, 50)
+                new AdditiveAttributeEntry(AttributeWrapper.INTELLIGENCE, 30)
         );
     }
 
@@ -46,6 +46,7 @@ public abstract class AmethystArmorSet extends CustomAttributeItem implements IT
     }
 
     public abstract int getHealth();
+    public abstract int getDefense();
 
     @Override
     public int getPowerRating() {

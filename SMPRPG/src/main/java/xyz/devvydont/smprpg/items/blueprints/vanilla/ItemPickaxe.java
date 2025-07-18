@@ -20,7 +20,7 @@ public class ItemPickaxe extends VanillaAttributeItem implements IBreakableEquip
 
     public static double getPickaxeDamage(Material material) {
         return switch (material) {
-            case NETHERITE_PICKAXE -> 40;
+            case NETHERITE_PICKAXE -> 30;
             case DIAMOND_PICKAXE -> 20;
             case GOLDEN_PICKAXE -> 10;
             case IRON_PICKAXE -> 7;

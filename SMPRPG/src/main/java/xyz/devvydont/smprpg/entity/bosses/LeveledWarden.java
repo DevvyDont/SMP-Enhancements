@@ -62,10 +62,10 @@ public class LeveledWarden extends BossInstance<Warden> {
     @Override
     public @Nullable Collection<LootDrop> getItemDrops() {
         return List.of(
-                new ChancedItemDrop(ItemService.generate(CustomItemType.PRELUDE_HELMET), 1000, this),
-                new ChancedItemDrop(ItemService.generate(CustomItemType.PRELUDE_CHESTPLATE), 1000, this),
-                new ChancedItemDrop(ItemService.generate(CustomItemType.PRELUDE_LEGGINGS), 1000, this),
-                new ChancedItemDrop(ItemService.generate(CustomItemType.PRELUDE_BOOTS), 1000, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.PRELUDE_HELMET), 200, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.PRELUDE_CHESTPLATE), 240, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.PRELUDE_LEGGINGS), 220, this),
+                new ChancedItemDrop(ItemService.generate(CustomItemType.PRELUDE_BOOTS), 200, this),
                 new ChancedItemDrop(ItemService.generate(CustomItemType.PREMIUM_ECHO_SHARD), 80, this),
                 new ChancedItemDrop(ItemService.generate(CustomItemType.ENCHANTED_ECHO_SHARD), 500, this),
                 new QuantityLootDrop(ItemService.generate(Material.ECHO_SHARD), 2, 7, this)

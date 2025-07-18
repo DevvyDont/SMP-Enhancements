@@ -37,7 +37,10 @@ public class SakuraBoots extends SakuraArmorSet implements IDyeable, ITrimmable 
 
     @Override
     public Collection<AttributeEntry> getAttributeModifiers(ItemStack item) {
-        return List.of(new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 15));
+        return List.of(
+                new AdditiveAttributeEntry(AttributeWrapper.HEALTH, 15),
+                new AdditiveAttributeEntry(AttributeWrapper.REGENERATION, 20)
+        );
     }
 
     @Override
