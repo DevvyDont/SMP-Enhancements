@@ -65,6 +65,9 @@ As a bonus, a practice mode is available for players to practice the parkour map
 
 Adding new maps is currently hard-coded and requires source code access to add new maps.
 
+## SMPRPG
+Deprecated version of SMPRPG. It is now split into its [own repo.](https://github.com/DevvyDont/SMPRPG)
+
 ## Stimmys
 Adds an item to the game that is specifically used as a currency for a GUI shop using `/stimmy`. The shop lets
 players purchase items useful for an SMP server. 
